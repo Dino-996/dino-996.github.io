@@ -28,12 +28,17 @@ export default function(eleventyConfig) {
     collection.getFilteredByTag("posts").sort((a,b) => b.date - a.date)
   );
 
-  // Collection tags
+  // Collection tags (escludi "posts" dai tag)
   eleventyConfig.addCollection("tagsList", collection => {
     const tagsSet = new Set();
     collection.getAll().forEach(item => {
       if ("tags" in item.data) {
-        item.data.tags.forEach(tag => tagsSet.add(tag));
+        item.data.tags.forEach(tag => {
+          // Escludi "posts" dalla lista dei tag
+          if (tag !== "posts") {
+            tagsSet.add(tag);
+          }
+        });
       }
     });
     return [...tagsSet].sort();

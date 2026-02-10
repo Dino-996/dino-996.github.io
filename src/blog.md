@@ -33,7 +33,9 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
           <p class="mt-1">
             Tag:
             {% for tag in post.data.tags %}
-              <a href="/tags/{{ tag | slug }}/" class="badge bg-secondary">{{ tag }}</a>
+              {% unless tag == "posts" %}
+                <a href="/tags/{{ tag | slug }}/" class="badge bg-secondary">{{ tag }}</a>
+              {% endunless %}
             {% endfor %}
           </p>
         {% endif %}
@@ -43,16 +45,10 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
 </ul>
 
 <nav class="mt-5">
-  {% if post.data.tags %}
-  <p>
-    Tag:
-    {% for tag in post.data.tags %}
-      <a href="/tags/{{ tag | slug }}/" class="badge bg-secondary">{{ tag }}</a>
-    {% endfor %}
-  </p>
+  {% if pagination.previousPageHref %}
+    <a href="{{ pagination.previousPageHref }}" class="btn btn-outline-primary">← Precedente</a>
+  {% endif %}
+  {% if pagination.nextPageHref %}
+    <a href="{{ pagination.nextPageHref }}" class="btn btn-outline-primary float-end">Successivo →</a>
   {% endif %}
 </nav>
-
-{% for tag in collections.tagsList %}
-  {{ tag }} -> {{ tag | slug }}
-{% endfor %}

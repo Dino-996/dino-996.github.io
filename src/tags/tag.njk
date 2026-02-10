@@ -4,37 +4,55 @@ title: "Tag: {{ tag }}"
 permalink: "/tags/{{ tag | slug }}/index.html"
 eleventyExcludeFromCollections: true
 pagination:
-  data: collections.posts
-  size: 1000
-  alias: allPosts
+  data: collections.tagsList
+  size: 1
+  alias: tag
 ---
 
 <h1>Tag: {{ tag }}</h1>
 
-{% set posts = allPosts | selectattr("data.tags", "contains", tag) %}
+<ul class="list-unstyled border rounded p-2">
+{% set foundPosts = false %}
+{% for post in collections.posts %}
+  {% set hasTags = post.data.tags and post.data.tags.length > 0 %}
+  {% if hasTags %}
+    {% for postTag in post.data.tags %}
+      {% if postTag === tag %}
+        {% set foundPosts = true %}
+        <li class="mb-4">
+          <article>
+            <h2 class="h4 mb-1">
+              <a href="{{ post.url }}">{{ post.data.title }}</a>
+            </h2>
+            
+            <time class="text-muted small" datetime="{{ post.date | dateIso }}">
+              {{ post.date | dateHuman }}
+            </time>
 
-<ul class="list-unstyled">
-{% for post in posts %}
-  <li class="mb-3">
-    <article>
-      <h2 class="h5 mb-1"><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
-      <time class="text-muted small" datetime="{{ post.date | dateIso }}">
-        {{ post.date | dateHuman }}
-      </time>
+            <hr />
 
-      {% if post.data.description %}
-        <p>{{ post.data.description }}</p>
+            {% if post.data.description %}
+              <p class="mt-2 mb-0">{{ post.data.description }}</p>
+            {% endif %}
+
+            {% if post.data.tags %}
+              <p class="mt-1">
+                Tag:
+                {% for t in post.data.tags %}
+                  {% if t !== "posts" %}
+                    <a href="/tags/{{ t | slug }}/" class="badge bg-secondary">{{ t }}</a>
+                  {% endif %}
+                {% endfor %}
+              </p>
+            {% endif %}
+          </article>
+        </li>
       {% endif %}
-
-      {% if post.data.tags %}
-        <p>
-          Tag:
-          {% for t in post.data.tags %}
-            <a href="/tags/{{ t | slug }}/" class="badge bg-secondary">{{ t }}</a>
-          {% endfor %}
-        </p>
-      {% endif %}
-    </article>
-  </li>
+    {% endfor %}
+  {% endif %}
 {% endfor %}
+
+{% if not foundPosts %}
+  <li class="text-muted">Nessun articolo trovato per questo tag.</li>
+{% endif %}
 </ul>
