@@ -6,30 +6,42 @@
 </title>
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="{{ description or site.description }}" />
+<meta name="description" content="{{ description if description else site.description }}" />
 <meta name="author" content="{{ site.author }}" />
 <meta name="robots" content="index, follow" />
 
 <!-- Canonical URL -->
-<link rel="canonical" href="{{ page.url | url | prepend: site.url }}" />
+{% if site.url %}
+<link rel="canonical" href="{{ site.url }}{{ page.url }}" />
+{% else %}
+<link rel="canonical" href="{{ page.url }}" />
+{% endif %}
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="{% if layout == 'layouts/post.njk' %}article{% else %}website{% endif %}" />
-<meta property="og:url" content="{{ page.url | url | prepend: site.url }}" />
+{% if site.url %}
+<meta property="og:url" content="{{ site.url }}{{ page.url }}" />
+{% else %}
+<meta property="og:url" content="{{ page.url }}" />
+{% endif %}
 <meta property="og:title" content="{% if title %}{{ title }}{% else %}{{ site.title }}{% endif %}" />
-<meta property="og:description" content="{{ description or site.description }}" />
+<meta property="og:description" content="{{ description if description else site.description }}" />
 <meta property="og:site_name" content="{{ site.title }}" />
 {% if image %}
-<meta property="og:image" content="{{ image | prepend: site.url }}" />
+<meta property="og:image" content="{{ site.url }}{{ image }}" />
 {% endif %}
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:url" content="{{ page.url | url | prepend: site.url }}" />
+{% if site.url %}
+<meta name="twitter:url" content="{{ site.url }}{{ page.url }}" />
+{% else %}
+<meta name="twitter:url" content="{{ page.url }}" />
+{% endif %}
 <meta name="twitter:title" content="{% if title %}{{ title }}{% else %}{{ site.title }}{% endif %}" />
-<meta name="twitter:description" content="{{ description or site.description }}" />
+<meta name="twitter:description" content="{{ description if description else site.description }}" />
 {% if image %}
-<meta name="twitter:image" content="{{ image | prepend: site.url }}" />
+<meta name="twitter:image" content="{{ site.url }}{{ image }}" />
 {% endif %}
 
 <!-- Favicon -->
