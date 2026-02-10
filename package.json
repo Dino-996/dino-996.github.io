@@ -5,10 +5,7 @@
   "keywords": [
     "blog",
     "portfolio",
-    "information",
-    "science",
-    "and",
-    "technology"
+    "information-science-and-technology"
   ],
   "homepage": "https://github.com/Dino-996/dino-996.github.io#readme",
   "bugs": {
@@ -20,9 +17,13 @@
   },
   "license": "ISC",
   "author": "Davide Sabia",
-  "type": "commonjs",
+  "type": "module",
   "main": "index.js",
   "scripts": {
+    "start": "npx @11ty/eleventy",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^3.1.2"
   }
 }
