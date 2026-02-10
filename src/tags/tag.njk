@@ -1,0 +1,40 @@
+---
+layout: layouts/page.njk
+title: "Tag: {{ tag }}"
+permalink: "/tags/{{ tag | slug }}/index.html"
+eleventyExcludeFromCollections: true
+pagination:
+  data: collections.posts
+  size: 1000
+  alias: allPosts
+---
+
+<h1>Tag: {{ tag }}</h1>
+
+{% set posts = allPosts | selectattr("data.tags", "contains", tag) %}
+
+<ul class="list-unstyled">
+{% for post in posts %}
+  <li class="mb-3">
+    <article>
+      <h2 class="h5 mb-1"><a href="{{ post.url }}">{{ post.data.title }}</a></h2>
+      <time class="text-muted small" datetime="{{ post.date | dateIso }}">
+        {{ post.date | dateHuman }}
+      </time>
+
+      {% if post.data.description %}
+        <p>{{ post.data.description }}</p>
+      {% endif %}
+
+      {% if post.data.tags %}
+        <p>
+          Tag:
+          {% for t in post.data.tags %}
+            <a href="/tags/{{ t | slug }}/" class="badge bg-secondary">{{ t }}</a>
+          {% endfor %}
+        </p>
+      {% endif %}
+    </article>
+  </li>
+{% endfor %}
+</ul>

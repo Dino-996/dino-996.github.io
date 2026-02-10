@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>
-    Blog
+    Tag: {{ tag }}
      · 
     dino-996 blog
   </title>
 
-  <meta name="description" content="Articoli e appunti" />
+  <meta name="description" content="In this space I share everything that concerns my passions and interests!" />
   <meta name="author" content="dino-996" />
 
   <!-- Bootstrap CSS -->
@@ -35,51 +35,35 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Blog | Articoli e appunti</title>
-  <meta name="description" content="Articoli e appunti">
+  <title>Tag: {{ tag }}</title>
+  <meta name="description" content="Blog di appunti e articoli tecnici">
 
   <!-- Robots -->
   <meta name="robots" content="index, follow">
 
   <!-- Canonical -->
-  <link rel="canonical" href="/blog/">
+  <link rel="canonical" href="/tags/">
 
   <!-- Open Graph / Social -->
-  <meta property="og:title" content="Blog">
-  <meta property="og:description" content="Articoli e appunti">
-  <meta property="og:url" content="/blog/">
+  <meta property="og:title" content="Tag: {{ tag }}">
+  <meta property="og:description" content="">
+  <meta property="og:url" content="/tags/">
   <meta property="og:type" content="website">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Blog">
-  <meta name="twitter:description" content="Articoli e appunti">
+  <meta name="twitter:title" content="Tag: {{ tag }}">
+  <meta name="twitter:description" content="">
 </head>
 <body>
-  <h1>Blog</h1>
-<ul class="list-unstyled border rounded p-2">
-<p><li class="mb-4">
-<article>
-<h2 class="h4 mb-1">
-<a href="/blog/introduzione-a-java/">Introduzione a Java</a>
-</h2></p>
-<p><time class="text-muted small" datetime="2026-02-10T00:00:00.000Z">
-10 febbraio 2026
-</time></p>
-<p><hr /></p>
-<p><p class="mt-2 mb-0">Esploreremo le basi di Java in questo primo articolo</p></p>
-<p><p class="mt-1">
-Tag:</p>
-<p><a href="/tags/posts/" class="badge bg-secondary">posts</a></p>
-<p><a href="/tags/java/" class="badge bg-secondary">java</a></p>
-<p></p></p>
-<p></article>
-</li></p>
+  
+<h1>Tag: </h1>
+
+
+
+<ul class="list-unstyled">
+
 </ul>
-<nav class="mt-5">
-</nav>
-<p>java -&gt; java</p>
-<p>posts -&gt; posts</p>
 
 </body>
 </html>
