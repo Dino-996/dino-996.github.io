@@ -1,0 +1,28 @@
+{
+  "name": "dino-996",
+  "version": "1.0.0",
+  "description": "In this space I share everything that concerns my passions and interests, obviously, like all my projects, this static website was also developed persolamente with my hands",
+  "keywords": [
+    "blog",
+    "portfolio",
+    "information",
+    "science",
+    "and",
+    "technology"
+  ],
+  "homepage": "https://github.com/Dino-996/dino-996.github.io#readme",
+  "bugs": {
+    "url": "https://github.com/Dino-996/dino-996.github.io/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dino-996/dino-996.github.io.git"
+  },
+  "license": "ISC",
+  "author": "Davide Sabia",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
