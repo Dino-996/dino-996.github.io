@@ -3,4 +3,4 @@ layout: layouts/page.njk
 title: home
 ---
 
-<h1>{{ title }}</h1>
+<h1 class="ligth">{{ title }}</h1>

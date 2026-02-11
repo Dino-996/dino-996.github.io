@@ -1,25 +1,43 @@
 <!DOCTYPE html>
-<html lang="it">
-<head>
-  {% include "partials/head.njk" %}
-</head>
+<html lang="it" data-bs-theme="light">
+  <head>
+    {% include "partials/head.njk" %}
+  </head>
 
-<body class="d-flex flex-column min-vh-100">
+  <body class="d-flex flex-column min-vh-100">
 
-  {% include "partials/navbar.njk" %}
+    {% include "partials/navbar.njk" %}
 
-  <main class="container my-5 flex-grow-1">
-    {{ content | safe }}
-  </main>
+    <main class="container my-5 flex-grow-1">
+      {{ content | safe }}
+    </main>
 
-  {% include "partials/footer.njk" %}
+    {% include "partials/footer.njk" %}
 
-  <!-- Bootstrap JS -->
-  <script 
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-    crossorigin="anonymous"
-  ></script>
-  <script src="/assets/js/main.js"></script>
-</body>
+    <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Bootstrap toggle menu -->
+    <script>
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+        let theme = 'light'; // default
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <script src="/assets/js/main.js"></script>
+  </body>
 </html>
