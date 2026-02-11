@@ -7,6 +7,7 @@ date: 2026-02-10
 tags:
   - posts
   - java
+  - ciao
 
 excerpt: In questo articolo esploreremo le **variabili** e i **tipi di dato primitivi** in Java. Capire questi concetti fondamentali è essenziale per scrivere codice Java efficace.
 permalink: "/blog/{{ title | slug }}/"

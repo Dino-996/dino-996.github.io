@@ -1,15 +1,28 @@
 import slugify from "slugify";
+import markdownIt from "markdown-it";
 
-export default function(eleventyConfig) {
+export default function (eleventyConfig) {
   // Copia assets
   eleventyConfig.addPassthroughCopy("src/assets");
 
   // Copia il file .nojekyll
   eleventyConfig.addPassthroughCopy(".nojekyll");
 
+  // Istanza di markdown-it
+  const md = markdownIt({
+    html: true,
+    breaks: true,
+    linkify: true
+  });
+
+  // Filtro markdown
+  eleventyConfig.addFilter("markdown", (content) => {
+    return md.renderInline(content);
+  });
+
   // Filtri date
   eleventyConfig.addFilter("dateIso", date => new Date(date).toISOString());
-  eleventyConfig.addFilter("dateHuman", date => 
+  eleventyConfig.addFilter("dateHuman", date =>
     new Intl.DateTimeFormat("it-IT", { day: "2-digit", month: "long", year: "numeric" }).format(new Date(date))
   );
 
@@ -17,7 +30,7 @@ export default function(eleventyConfig) {
   eleventyConfig.addFilter("excerpt", post => {
     if (post.data.excerpt) return post.data.excerpt;
     const content = post.templateContent.replace(/(<([^>]+)>)/gi, "").trim();
-    return content.length > 160 ? content.slice(0,160) + "…" : content;
+    return content.length > 160 ? content.slice(0, 160) + "…" : content;
   });
 
   // Filtro slug sicuro
@@ -27,8 +40,8 @@ export default function(eleventyConfig) {
   });
 
   // Collection posts
-  eleventyConfig.addCollection("posts", collection => 
-    collection.getFilteredByTag("posts").sort((a,b) => b.date - a.date)
+  eleventyConfig.addCollection("posts", collection =>
+    collection.getFilteredByTag("posts").sort((a, b) => b.date - a.date)
   );
 
   // Collection tags (escludi "posts" dai tag)
