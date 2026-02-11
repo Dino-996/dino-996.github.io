@@ -4,6 +4,9 @@ export default function(eleventyConfig) {
   // Copia assets
   eleventyConfig.addPassthroughCopy("src/assets");
 
+  // Copia il file .nojekyll
+  eleventyConfig.addPassthroughCopy("src/.nojekyll");
+
   // Filtri date
   eleventyConfig.addFilter("dateIso", date => new Date(date).toISOString());
   eleventyConfig.addFilter("dateHuman", date => 
