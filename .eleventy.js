@@ -5,7 +5,7 @@ export default function(eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/assets");
 
   // Copia il file .nojekyll
-  eleventyConfig.addPassthroughCopy("src/.nojekyll");
+  eleventyConfig.addPassthroughCopy(".nojekyll");
 
   // Filtri date
   eleventyConfig.addFilter("dateIso", date => new Date(date).toISOString());
@@ -50,7 +50,7 @@ export default function(eleventyConfig) {
   return {
     dir: {
       input: "src",
-      output: "public",
+      output: "docs",
       includes: "_includes"
     }
   };
