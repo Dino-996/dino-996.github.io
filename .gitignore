@@ -1,5 +1,5 @@
 # ===================================
-# Node.js Dependencies
+# = Node.js Dependencies
 # ===================================
 node_modules/
 npm-debug.log*
@@ -10,22 +10,19 @@ pnpm-debug.log*
 .yarn-integrity
 
 # ===================================
-# Eleventy Build Output
+# = Eleventy Build Output
 # ===================================
-# Non ignorare public/ se fai deploy diretto da branch
-# public/
-
-# Se usi _site invece di public, decommenta:
-# _site/
+# Non ignorare docs/ serve per GitHub Pages deployment
+# docs/
 
 # ===================================
-# Eleventy Cache
+# = Eleventy Cache
 # ===================================
 .cache/
 .eleventy-cache/
 
 # ===================================
-# Environment Variables
+# = Environment Variables
 # ===================================
 .env
 .env.local
@@ -34,7 +31,7 @@ pnpm-debug.log*
 .env.production.local
 
 # ===================================
-# IDE / Editor
+# = IDE / Editor
 # ===================================
 # VSCode
 .vscode/
@@ -43,7 +40,7 @@ pnpm-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# JetBrains (WebStorm, IntelliJ, etc.)
+# JetBrains
 .idea/
 *.iml
 *.iws
@@ -59,7 +56,7 @@ pnpm-debug.log*
 *~
 
 # ===================================
-# Operating System Files
+# = Operating System Files
 # ===================================
 # macOS
 .DS_Store
@@ -87,13 +84,13 @@ $RECYCLE.BIN/
 .Trash-*
 
 # ===================================
-# Logs
+# = Logs
 # ===================================
 logs/
 *.log
 
 # ===================================
-# Temporary Files
+# = Temporary Files
 # ===================================
 *.tmp
 *.temp
@@ -101,7 +98,7 @@ logs/
 .temp/
 
 # ===================================
-# Package Manager Lock Files (optional)
+# = Package Manager Lock Files (optional)
 # ===================================
 # Decommenta se vuoi ignorare i lock files
 # package-lock.json
@@ -109,19 +106,19 @@ logs/
 # pnpm-lock.yaml
 
 # ===================================
-# Build & Distribution
+# = Build & Distribution
 # ===================================
 dist/
 build/
 
 # ===================================
-# Testing
+# = Testing
 # ===================================
 coverage/
 .nyc_output/
 
 # ===================================
-# Miscellaneous
+# = Miscellaneous
 # ===================================
 *.bak
 *.backup
