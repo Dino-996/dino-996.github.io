@@ -2,64 +2,87 @@ import slugify from "slugify";
 import markdownIt from "markdown-it";
 
 export default function (eleventyConfig) {
-  // Copia assets
+  // ============================================
+  // = PASSTHROUGH COPY
+  // ============================================
   eleventyConfig.addPassthroughCopy("src/assets");
-
-  // Copia il file .nojekyll
   eleventyConfig.addPassthroughCopy(".nojekyll");
 
-  // Istanza di markdown-it
+  // ============================================
+  // = MARKDOWN CONFIGURATION
+  // ============================================
   const md = markdownIt({
     html: true,
     breaks: true,
     linkify: true
   });
 
-  // Filtro markdown
+  // ============================================
+  // = FILTERS
+  // ============================================
+  
+  // Markdown inline rendering
   eleventyConfig.addFilter("markdown", (content) => {
     return md.renderInline(content);
   });
 
-  // Filtri date
-  eleventyConfig.addFilter("dateIso", date => new Date(date).toISOString());
-  eleventyConfig.addFilter("dateHuman", date =>
-    new Intl.DateTimeFormat("it-IT", { day: "2-digit", month: "long", year: "numeric" }).format(new Date(date))
-  );
+  // Date filters
+  eleventyConfig.addFilter("dateIso", (date) => {
+    return new Date(date).toISOString();
+  });
 
-  // Filtro excerpt
-  eleventyConfig.addFilter("excerpt", post => {
+  eleventyConfig.addFilter("dateHuman", (date) => {
+    return new Intl.DateTimeFormat("it-IT", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    }).format(new Date(date));
+  });
+
+  // Excerpt filter
+  eleventyConfig.addFilter("excerpt", (post) => {
     if (post.data.excerpt) return post.data.excerpt;
     const content = post.templateContent.replace(/(<([^>]+)>)/gi, "").trim();
     return content.length > 160 ? content.slice(0, 160) + "…" : content;
   });
 
-  // Filtro slug sicuro
-  eleventyConfig.addFilter("slug", str => {
+  // Safe slug filter
+  eleventyConfig.addFilter("slug", (str) => {
     if (!str) return "";
     return slugify(str, { lower: true, strict: true });
   });
 
-  // Collection posts
-  eleventyConfig.addCollection("posts", collection =>
-    collection.getFilteredByTag("posts").sort((a, b) => b.date - a.date)
-  );
+  // ============================================
+  // = COLLECTIONS
+  // ============================================
+  
+  // Posts collection (sorted by date, newest first)
+  eleventyConfig.addCollection("posts", (collection) => {
+    return collection
+      .getFilteredByTag("posts")
+      .sort((a, b) => b.date - a.date);
+  });
 
-  // Collection tags (escludi "posts" dai tag)
-  eleventyConfig.addCollection("tagsList", collection => {
+  // Tags collection (exclude "posts" tag)
+  eleventyConfig.addCollection("tagsList", (collection) => {
     const tagsSet = new Set();
-    collection.getAll().forEach(item => {
+    
+    collection.getAll().forEach((item) => {
       if ("tags" in item.data) {
-        item.data.tags.forEach(tag => {
-          // Escludi "posts" dalla lista dei tag
+        item.data.tags.forEach((tag) => {
           if (tag !== "posts") {
             tagsSet.add(tag);
           }
         });
       }
     });
+    
     return [...tagsSet].sort();
   });
 
+  // ============================================
+  // = CONFIGURATION
+  // ============================================
   return {
     dir: {
       input: "src",
@@ -67,4 +90,4 @@ export default function (eleventyConfig) {
       includes: "_includes"
     }
   };
-};
+}
