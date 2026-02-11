@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Introduzione a Java · dino-996 blog
+</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="In questo articolo esploreremo le **variabili** e i **tipi di dato primitivi** in Java. Capire questi concetti fondamentali è essenziale per scrivere codice Java efficace." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/introduzione-a-java/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/introduzione-a-java/" />
+
+<meta property="og:title" content="Introduzione a Java" />
+<meta property="og:description" content="In questo articolo esploreremo le **variabili** e i **tipi di dato primitivi** in Java. Capire questi concetti fondamentali è essenziale per scrivere codice Java efficace." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://images.unsplash.com/photo-1517694712202-14dd9538aa97" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/introduzione-a-java/" />
+
+<meta name="twitter:title" content="Introduzione a Java" />
+<meta name="twitter:description" content="In questo articolo esploreremo le **variabili** e i **tipi di dato primitivi** in Java. Capire questi concetti fondamentali è essenziale per scrivere codice Java efficace." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://images.unsplash.com/photo-1517694712202-14dd9538aa97" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/">
+      <span class="text-primary">dino</span>-996
+    </a>
+    
+    <button 
+      class="navbar-toggler" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav" 
+      aria-expanded="false" 
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">
+            Blog
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">
+            About
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+  <main class="container my-5 flex-grow-1">
+    
+<article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">Introduzione a Java</h1>
+
+    <time
+      class="text-muted"
+      datetime="2026-02-10T00:00:00.000Z"
+    >
+      10 febbraio 2026
+    </time>
+  </header>
+
+  
+    <div class="mb-4">
+      <img 
+        src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97" 
+        alt="Scrivania con computer e codice" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+      <figcaption class="text-muted small mt-2 text-center">Scrivania con computer e codice</figcaption>
+    
+  </div>
+  
+
+  <hr />
+
+  <section class="content">
+    <h2>Introduzione</h2>
+<p>In questo articolo esploreremo le <strong>variabili</strong> e i <strong>tipi di dato primitivi</strong> in Java. Capire questi concetti fondamentali è essenziale per scrivere codice Java efficace.</p>
+<h2>Cosa sono le Variabili?</h2>
+<p>Una variabile è un contenitore che memorizza un valore in memoria. In Java, ogni variabile deve avere:</p>
+<ul>
+<li>Un <strong>tipo</strong> (che determina il tipo di dato che può contenere)</li>
+<li>Un <strong>nome</strong> (identificatore univoco)</li>
+<li>Un <strong>valore</strong> (opzionale alla dichiarazione)</li>
+</ul>
+<h3>Sintassi di Dichiarazione</h3>
+<pre><code class="language-java">tipo nomeVariabile = valore;
+</code></pre>
+<p>Esempio:</p>
+<pre><code class="language-java">int età = 25;
+String nome = &quot;Mario&quot;;
+boolean isStudente = true;
+</code></pre>
+<h2>Tipi di Dato Primitivi</h2>
+<p>Java ha 8 tipi di dato primitivi:</p>
+<h3>1. Tipi Interi</h3>
+<h4>byte</h4>
+<ul>
+<li>Dimensione: 8 bit</li>
+<li>Range: -128 a 127</li>
+<li>Uso: ottimizzazione memoria</li>
+</ul>
+<pre><code class="language-java">byte numeroPiccolo = 100;
+</code></pre>
+<h4>short</h4>
+<ul>
+<li>Dimensione: 16 bit</li>
+<li>Range: -32,768 a 32,767</li>
+</ul>
+<pre><code class="language-java">short popolazione = 5000;
+</code></pre>
+<h4>int</h4>
+<ul>
+<li>Dimensione: 32 bit</li>
+<li>Range: -2³¹ a 2³¹-1</li>
+<li>Tipo più comune per numeri interi</li>
+</ul>
+<pre><code class="language-java">int contatore = 1000000;
+</code></pre>
+<h4>long</h4>
+<ul>
+<li>Dimensione: 64 bit</li>
+<li>Range: -2⁶³ a 2⁶³-1</li>
+<li>Usa suffisso <code>L</code></li>
+</ul>
+<pre><code class="language-java">long distanzaStelle = 9460730472580800L;
+</code></pre>
+<h3>2. Tipi Decimali</h3>
+<h4>float</h4>
+<ul>
+<li>Dimensione: 32 bit</li>
+<li>Precisione: ~6-7 cifre decimali</li>
+<li>Usa suffisso <code>f</code></li>
+</ul>
+<pre><code class="language-java">float prezzo = 19.99f;
+</code></pre>
+<h4>double</h4>
+<ul>
+<li>Dimensione: 64 bit</li>
+<li>Precisione: ~15 cifre decimali</li>
+<li>Default per numeri decimali</li>
+</ul>
+<pre><code class="language-java">double pi = 3.14159265359;
+</code></pre>
+<h3>3. Tipo Carattere</h3>
+<h4>char</h4>
+<ul>
+<li>Dimensione: 16 bit</li>
+<li>Memorizza un singolo carattere Unicode</li>
+<li>Usa apici singoli</li>
+</ul>
+<pre><code class="language-java">char iniziale = 'D';
+char simbolo = '€';
+</code></pre>
+<h3>4. Tipo Booleano</h3>
+<h4>boolean</h4>
+<ul>
+<li>Valori: <code>true</code> o <code>false</code></li>
+<li>Non ha dimensione specifica (dipende dalla JVM)</li>
+</ul>
+<pre><code class="language-java">boolean isAttivo = true;
+boolean hasErrors = false;
+</code></pre>
+<h2>Convenzioni di Naming</h2>
+<pre><code class="language-java">// ✅ Buone pratiche
+int contoTotale;
+String nomeCompleto;
+boolean isPagato;
+
+// ❌ Evitare
+int x;
+String s;
+boolean b1;
+</code></pre>
+<h3>Regole di Naming</h3>
+<ol>
+<li>Usa <strong>camelCase</strong> per variabili</li>
+<li>Inizia con lettera minuscola</li>
+<li>Nomi descrittivi e significativi</li>
+<li>Evita abbreviazioni criptiche</li>
+<li>Per costanti usa <code>UPPER_SNAKE_CASE</code></li>
+</ol>
+<pre><code class="language-java">final int MAX_STUDENTI = 30;
+final double PI_GRECO = 3.14159;
+</code></pre>
+<h2>Casting e Conversioni</h2>
+<h3>Casting Implicito (Widening)</h3>
+<pre><code class="language-java">int numeroIntero = 100;
+long numeroLong = numeroIntero;  // OK
+double numeroDouble = numeroIntero;  // OK
+</code></pre>
+<h3>Casting Esplicito (Narrowing)</h3>
+<pre><code class="language-java">double decimale = 9.78;
+int intero = (int) decimale;  // intero = 9 (perde la parte decimale)
+</code></pre>
+<h2>Scope delle Variabili</h2>
+<pre><code class="language-java">public class ScopeExample {
+    // Variabile di istanza (class scope)
+    private int instanceVar = 10;
+    
+    // Variabile di classe (static)
+    private static int classVar = 20;
+    
+    public void metodo() {
+        // Variabile locale (method scope)
+        int localVar = 30;
+        
+        if (true) {
+            // Variabile di blocco (block scope)
+            int blockVar = 40;
+            System.out.println(blockVar);  // OK
+        }
+        // System.out.println(blockVar);  // ERRORE: fuori scope
+    }
+}
+</code></pre>
+<h2>Best Practices</h2>
+<ol>
+<li><strong>Inizializza sempre le variabili</strong></li>
+</ol>
+<pre><code class="language-java">// ✅ Buona pratica
+int contatore = 0;
+
+// ❌ Evitare
+int contatore;
+// uso di contatore senza inizializzazione
+</code></pre>
+<ol start="2">
+<li><strong>Usa il tipo appropriato</strong></li>
+</ol>
+<pre><code class="language-java">// ✅ Efficiente
+byte età = 25;  // range 0-127 è sufficiente
+
+// ❌ Spreco di memoria
+long età = 25L;  // long è eccessivo
+</code></pre>
+<ol start="3">
+<li><strong>Costanti per valori fissi</strong></li>
+</ol>
+<pre><code class="language-java">final int GIORNI_SETTIMANA = 7;
+final String NOME_AZIENDA = &quot;TechCorp&quot;;
+</code></pre>
+<h2>Esercizi Pratici</h2>
+<h3>Esercizio 1: Dichiarazioni Base</h3>
+<pre><code class="language-java">public class VariabiliBase {
+    public static void main(String[] args) {
+        // Dichiara variabili per:
+        // - Nome (String)
+        // - Età (int)
+        // - Altezza in metri (double)
+        // - È maggiorenne (boolean)
+        
+        // Soluzione:
+        String nome = &quot;Mario Rossi&quot;;
+        int età = 25;
+        double altezza = 1.75;
+        boolean isMaggiorenne = età &gt;= 18;
+        
+        System.out.println(&quot;Nome: &quot; + nome);
+        System.out.println(&quot;Età: &quot; + età);
+        System.out.println(&quot;Altezza: &quot; + altezza + &quot;m&quot;);
+        System.out.println(&quot;Maggiorenne: &quot; + isMaggiorenne);
+    }
+}
+</code></pre>
+<h3>Esercizio 2: Casting</h3>
+<pre><code class="language-java">public class CastingExample {
+    public static void main(String[] args) {
+        // Converti un double in int
+        double prezzo = 19.99;
+        int prezzoIntero = (int) prezzo;
+        
+        System.out.println(&quot;Prezzo originale: &quot; + prezzo);
+        System.out.println(&quot;Prezzo intero: &quot; + prezzoIntero);
+        
+        // Attenzione alla perdita di precisione!
+        double valore = 123.456;
+        int valoreIntero = (int) valore;
+        System.out.println(&quot;Perdita decimali: &quot; + valore + &quot; -&gt; &quot; + valoreIntero);
+    }
+}
+</code></pre>
+<h2>Conclusioni</h2>
+<p>In questo articolo abbiamo imparato:</p>
+<ul>
+<li>✅ Cosa sono le variabili e come dichiararle</li>
+<li>✅ Gli 8 tipi primitivi in Java e quando usarli</li>
+<li>✅ Convenzioni di naming e best practices</li>
+<li>✅ Casting e conversioni tra tipi</li>
+<li>✅ Scope e visibilità delle variabili</li>
+</ul>
+<p>Nel prossimo articolo esploreremo gli <strong>operatori</strong> e le <strong>espressioni</strong> in Java.</p>
+<h2>Risorse Aggiuntive</h2>
+<ul>
+<li><a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/datatypes.html">Oracle Java Tutorials - Primitive Data Types</a></li>
+<li><a href="https://docs.oracle.com/javase/specs/">Java Language Specification</a></li>
+<li><a href="/blog/introduzione-java/">Articolo precedente: Introduzione a Java</a></li>
+</ul>
+
+  </section>
+  
+</article> 
+  </main>
+
+  <footer class="bg-light border-top mt-auto py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <h5 class="fw-bold mb-3">
+          <span class="text-primary">dino</span>-996
+        </h5>
+        <p class="text-muted small mb-2">
+          Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne.
+        </p>
+        <p class="text-muted small mb-0">
+          © <span class="current-year">2026</span> Davide Sabia. Tutti i diritti riservati.
+        </p>
+      </div>
+      
+      <div class="col-md-3 mb-3 mb-md-0">
+        <h6 class="fw-bold mb-3">Navigazione</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <a href="/" class="text-muted text-decoration-none small">Home</a>
+          </li>
+          <li class="mb-2">
+            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
+          </li>
+          <li class="mb-2">
+            <a href="/about/" class="text-muted text-decoration-none small">About</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="col-md-3">
+        <h6 class="fw-bold mb-3">Social</h6>
+        <div class="d-flex gap-3">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+              <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+            </svg>
+          </a>
+          <a href="mailto:davidesabia22@gmail.com" class="text-muted" aria-label="Email">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <hr class="my-4" />
+    
+    <div class="row">
+      <div class="col text-center">
+        <p class="text-muted small mb-0">
+          Realizzato con <span class="text-danger">❤</span> usando 
+          <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Eleventy</a> 
+          e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Bootstrap</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Bootstrap JS -->
+  <script 
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
+  <script src="/assets/js/main.js"></script>
+</body>
+</html>

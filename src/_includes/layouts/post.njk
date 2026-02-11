@@ -14,10 +14,24 @@ layout: layouts/base.njk
     </time>
   </header>
 
+  {% if image %}
+    <div class="mb-4">
+      <img 
+        src="{{ image }}" 
+        alt="{{ imageAlt | default('Immagine di copertina') }}" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      {% if imageAlt %}
+      <figcaption class="text-muted small mt-2 text-center">{{ imageAlt }}</figcaption>
+    {% endif %}
+  </div>
+  {% endif %}
+
   <hr />
 
   <section class="content">
     {{ content | safe }}
   </section>
   
-</article>
+</article> 
