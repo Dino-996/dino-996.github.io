@@ -112,7 +112,7 @@ article h4 a:hover {
    Code Blocks
    ======================================== */
 code {
-  background-color: #f6f8fa;
+  background-color: var(--bs-body-color);
   padding: 0.2rem 0.4rem;
   border-radius: 3px;
   font-size: 0.875em;
@@ -120,7 +120,7 @@ code {
 }
 
 pre {
-  background-color: #f6f8fa;
+  background-color: var(--bs-body-bg);;
   border: 1px solid var(--border-color);
   border-radius: 6px;
   padding: 1rem;
