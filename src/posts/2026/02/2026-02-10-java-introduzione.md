@@ -1,7 +1,7 @@
 ---
 layout: layouts/post.njk
 title: Introduzione a Java
-description: In questo articolo esploreremo le **variabili** e i **tipi di dato primitivi** in Java. Capire questi concetti fondamentali è essenziale per scrivere codice Java efficace.
+description: In questo articolo esploreremo le variabili e i tipi di dato primitivi in Java. Capire questi concetti fondamentali è essenziale per scrivere codice Java efficace.
 date: 2026-02-10
 
 tags:
