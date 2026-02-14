@@ -19,7 +19,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
     <article class="card h-100 overflow-hidden shadow-sm">
       <div class="row g-0 h-100">{% if post.data.image %}
         <div class="col-md-4 p-0">
-          <img src="{{ post.data.image }}" alt="{% if post.data.imageAlt %}{{ post.data.imageAlt }}{% else %}{{ post.data.title }}{% endif %}" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 250px;">
+          <img src="{{ post.data.image }}" alt="{% if post.data.imageAlt %}{{ post.data.imageAlt }}{% else %}{{ post.data.title }}{% endif %}" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 250px; max-height: 400px">
         </div>
       <div class="col-md-8">{% else %}
         <div class="col-12">{% endif %}

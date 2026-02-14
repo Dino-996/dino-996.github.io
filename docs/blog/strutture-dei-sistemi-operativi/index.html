@@ -27,7 +27,7 @@
 <meta property="og:description" content="Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel." />
 <meta property="og:site_name" content="dino-996 blog" />
 
-<meta property="og:image" content="https://dino-996.github.iohttps://images.unsplash.com/photo-1517694712202-14dd9538aa97" />
+<meta property="og:image" content="https://dino-996.github.io&#92;assets&#92;img&#92;png&#92;strutture-dei-sistemi-operativi.png" />
 
 
 <!-- Twitter Card -->
@@ -38,7 +38,7 @@
 <meta name="twitter:title" content="Strutture dei Sistemi Operativi" />
 <meta name="twitter:description" content="Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel." />
 
-<meta name="twitter:image" content="https://dino-996.github.iohttps://images.unsplash.com/photo-1517694712202-14dd9538aa97" />
+<meta name="twitter:image" content="https://dino-996.github.io&#92;assets&#92;img&#92;png&#92;strutture-dei-sistemi-operativi.png" />
 
 
 <!-- Favicon -->
@@ -143,13 +143,13 @@
   
     <div class="mb-4">
       <img 
-        src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97" 
-        alt="Scrivania con computer e codice" 
+        src="&#92;assets&#92;img&#92;png&#92;strutture-dei-sistemi-operativi.png" 
+        alt="Immagine generata con AI" 
         class="img-fluid rounded w-100"
         style="max-height: 400px; object-fit: cover;"
       >
       
-      <figcaption class="text-muted small mt-2 text-center">Scrivania con computer e codice</figcaption>
+      <figcaption class="text-muted small mt-2 text-center">Immagine generata con AI</figcaption>
     
   </div>
   
@@ -161,7 +161,7 @@
 <h2>Introduzione</h2>
 <p>In questo articolo vediamo l'architettura dei sistemi operativi, analizzando il modo in cui gestiscono le risorse hardware e interagiscono con l'utente.</p>
 <h2>Servizi e Interfacce del Sistema Operativo</h2>
-<p>Il sistema operativo (SO) fornisce un ambiente per l'esecuzione dei programmi, offrendo servizi essenziali quali l'<strong>esecuzione di programmi</strong>, operazioni di <strong>I/O</strong>, gestione del <strong>file system</strong>, comunicazioni, rilevamento di errori e allocazione delle risorse.</p>
+<p>Il sistema operativo (<strong>SO</strong>) fornisce un ambiente per l'esecuzione dei programmi, offrendo servizi essenziali quali l'<strong>esecuzione di programmi</strong>, operazioni di <strong>I/O</strong>, gestione del <strong>file system</strong>, comunicazioni, rilevamento di errori e allocazione delle risorse.</p>
 <p>L'interazione con l'utente avviene attraverso tre modalità principali:</p>
 <ul>
 <li><strong>Interfaccia a riga di comando (CLI):</strong> utilizza interpreti speciali chiamati <strong>shell</strong> (come Bash nei sistemi Unix/Linux). È preferita dagli amministratori per l'efficienza e la programmabilità.</li>
@@ -175,9 +175,8 @@ Spesso i programmatori non invocano direttamente le system call, ma utilizzano l
 <ul>
 <li>Attraverso i <strong>registri</strong> della CPU (metodo più veloce).</li>
 <li>In un <strong>blocco o tabella di memoria</strong>, passando l'indirizzo del blocco in un registro.</li>
-<li>Nello <strong>stack</strong>, dove i parametri vengono inseriti (push) e poi prelevati dal SO (pop).</li>
+<li>Nello <strong>stack</strong>, dove i parametri vengono inseriti (<strong>push</strong>) e poi prelevati dal SO (<strong>pop</strong>).</li>
 </ul>
-<hr>
 <h2>Sviluppo ed Esecuzione delle Applicazioni</h2>
 <p>Il processo che porta un codice sorgente alla sua esecuzione prevede due figure chiave:</p>
 <ul>
@@ -185,40 +184,45 @@ Spesso i programmatori non invocano direttamente le system call, ma utilizzano l
 <li><strong>Loader:</strong> carica il file eseguibile in memoria, assegnando gli indirizzi definitivi (<strong>relocation</strong>) per permettere l'esecuzione sul core della CPU.</li>
 </ul>
 <p>Le applicazioni sono generalmente dipendenti dal SO, poiché ogni sistema fornisce un insieme univoco di chiamate di sistema.</p>
-<h2>4. Strutture Architetturali del Kernel</h2>
-<p>Esistono diversi approcci alla progettazione di un sistema operativo:</p>
+<h2>Kernel</h2>
+<p>Il kernel è responsabile della gestione delle risorse hardware e dei servizi di base del sistema. Le sue attività principali includono:</p>
 <ul>
-<li>
-<p><strong>Struttura monolitica:</strong> il kernel risiede in un unico spazio di indirizzamento (es. Unix, Linux). Ha il vantaggio di un overhead ridotto e comunicazioni veloci, ma è difficile da estendere. Linux, pur essendo monolitico, utilizza moduli caricabili dinamicamente per maggiore flessibilità.</p>
-</li>
-<li>
-<p><strong>Approccio stratificato:</strong> il sistema è suddiviso in strati; lo strato 0 è l'hardware, mentre l'ultimo è l'interfaccia utente. Ogni strato usa solo i servizi di quelli inferiori.</p>
-</li>
-<li>
-<p><strong>Microkernel</strong> (es. Mach): fornisce solo le funzioni di comunicazione essenziali, spostando molti servizi nello spazio utente per aumentarne la modularità.</p>
-</li>
-<li>
-<p><strong>Sistemi ibridi/specifici:</strong></p>
+<li><strong>Inizializzazione dell'hardware:</strong> durante il processo di avvio (<strong>boot</strong>), il kernel viene caricato in memoria e prepara i componenti fisici del computer per l'uso.</li>
+<li><strong>Gestione dei processi e della CPU:</strong> si occupa dello <strong>scheduling</strong>, decidendo quali programmi devono essere eseguiti dal processore e per quanto tempo.</li>
+<li><strong>Gestione della memoria:</strong> controlla la memoria fisica, la <strong>memoria virtuale</strong> e la paginazione.</li>
+<li><strong>Gestione dei file e dei dispositivi:</strong> amministra il <strong>file system</strong> (montando il root file system all'avvio) e i driver necessari per interagire con periferiche, dischi e reti.</li>
+<li><strong>Interfaccia per le chiamate di sistema:</strong> fornisce un'interfaccia protetta tramite la quale le applicazioni possono richiedere servizi al sistema operativo usando le <strong>system call</strong>.</li>
+</ul>
+<h3>Modalità di Esecuzione</h3>
+<p>Il kernel opera in uno spazio di memoria protetto chiamato <strong>kernel space</strong> (o modalità kernel), distinto dallo spazio utente dove girano le normali applicazioni.<br>
+Questa separazione garantisce la stabilità del sistema: un errore critico all'interno del kernel provoca un <strong>crash di sistema</strong>, non un semplice bug applicativo.</p>
+<h3>Tipologie di Architettura del Kernel</h3>
+<p>Ci sono diversi approcci utilizzati per la progettazione di un kernel:</p>
 <ul>
-<li><strong>macOS e iOS:</strong> basati sull'ambiente kernel Darwin (che combina Mach e BSD) e strati applicativi come Cocoa.</li>
-<li><strong>Android:</strong> utilizza un kernel Linux ma astrae l'hardware tramite uno strato denominato HAL (Hardware Abstraction Layer).</li>
+<li><strong>Kernel Monolitico:</strong> tutte le funzioni del sistema risiedono in un <strong>unico spazio di indirizzamento</strong>. Questo approccio (usato da <strong>Unix</strong> e <strong>Linux</strong>) offre prestazioni elevate grazie alla comunicazione interna veloce, anche se può risultare più difficile da estendere. Molti kernel monolitici moderni sono comunque <strong>modulari</strong>, permettendo di caricare funzionalità aggiuntive dinamicamente.</li>
+<li><strong>Microkernel</strong> (es. <strong>Mach</strong>): fornisce solo le funzioni minime necessarie (come la comunicazione tra processi). La maggior parte dei servizi del sistema operativo viene spostata nello spazio utente per aumentare la modularità e la flessibilità.</li>
+<li><strong>Sistemi Ibridi:</strong> come <strong>Darwin</strong> (il cuore di macOS e iOS), che combina la struttura a microkernel di Mach con parti del kernel BSD Unix.</li>
 </ul>
-</li>
+<h2>Esempi Specifici</h2>
+<ul>
+<li><strong>Linux:</strong> un kernel monolitico ampiamente personalizzabile. Progetti come <em>Linux From Scratch</em> mostrano come compilare il proprio kernel partendo dal codice sorgente.</li>
+<li><strong>Android:</strong> utilizza un kernel Linux, ma aggiunge uno strato chiamato <strong>HAL</strong> (Hardware Abstraction Layer) per poter girare su una vasta gamma di dispositivi hardware diversi.</li>
+<li><strong>Darwin:</strong> il kernel alla base dei sistemi Apple, rilasciato come software open-source.</li>
 </ul>
-<h2>5. Generazione, Avvio e Debugging</h2>
+<h2>Generazione, Avvio e Debugging</h2>
 <p>La creazione di un sistema personalizzato (come nel progetto <em>Linux From Scratch</em>) richiede la configurazione del kernel (es. tramite <code>make menuconfig</code>), la compilazione del codice sorgente e l'installazione dei moduli.</p>
-<p>Il processo di avvio (boot) segue solitamente questi passaggi:</p>
+<p>Il processo di avvio (<strong>boot</strong>) segue solitamente questi passaggi:</p>
 <ol>
-<li>Un programma di bootstrap (nel firmware BIOS o UEFI) individua e carica il kernel.</li>
-<li>Un bootloader più evoluto, come GRUB, può gestire il caricamento di diversi kernel o parametri di avvio.</li>
+<li>Un <strong>programma di bootstrap</strong> (nel firmware BIOS o UEFI) individua e carica il kernel.</li>
+<li>Un bootloader più evoluto, come <strong>GRUB</strong>, può gestire il caricamento di diversi kernel o parametri di avvio.</li>
 <li>Il kernel inizializza l'hardware e monta il root file system.</li>
 </ol>
-<p>Il <strong>debugging</strong> è l'attività volta a risolvere i bug e ottimizzare le prestazioni.<br>
+<p>Il <strong>debugging</strong> è l'attività volta a risolvere i <strong>bug</strong> e ottimizzare le prestazioni.<br>
 I sistemi operativi facilitano questo compito tramite:</p>
 <ul>
-<li>file di log</li>
-<li>core dump (immagini della memoria dei processi falliti)</li>
-<li>strumenti di tracing e contatori per monitorare gli eventi e le chiamate di sistema</li>
+<li><strong>file di log</strong></li>
+<li><strong>core dump</strong> (immagini della memoria dei processi falliti)</li>
+<li>strumenti di <strong>tracing</strong> e <strong>contatori</strong> per monitorare gli eventi e le chiamate di sistema</li>
 </ul>
 
   </section>

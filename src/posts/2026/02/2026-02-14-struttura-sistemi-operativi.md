@@ -8,8 +8,8 @@ tags:
 date: 2026-02-14
 excerpt: In questo articolo vediamo l'architettura dei sistemi operativi, analizzando il modo in cui gestiscono le risorse hardware e interagiscono con l'utente.
 permalink: "/blog/{{ title | slug }}/"
-image: https://images.unsplash.com/photo-1517694712202-14dd9538aa97
-imageAlt: "Scrivania con computer e codice"
+image: \assets\img\png\strutture-dei-sistemi-operativi.png
+imageAlt: "Immagine generata con AI"
 ---
 
 # {{ title }}
@@ -20,7 +20,7 @@ imageAlt: "Scrivania con computer e codice"
 
 ## Servizi e Interfacce del Sistema Operativo
 
-Il sistema operativo (SO) fornisce un ambiente per l'esecuzione dei programmi, offrendo servizi essenziali quali l'**esecuzione di programmi**, operazioni di **I/O**, gestione del **file system**, comunicazioni, rilevamento di errori e allocazione delle risorse. 
+Il sistema operativo (**SO**) fornisce un ambiente per l'esecuzione dei programmi, offrendo servizi essenziali quali l'**esecuzione di programmi**, operazioni di **I/O**, gestione del **file system**, comunicazioni, rilevamento di errori e allocazione delle risorse. 
 
 L'interazione con l'utente avviene attraverso tre modalità principali:
 
@@ -37,7 +37,7 @@ Per passare i parametri al sistema operativo durante una chiamata, si utilizzano
 
 - Attraverso i **registri** della CPU (metodo più veloce).  
 - In un **blocco o tabella di memoria**, passando l'indirizzo del blocco in un registro.  
-- Nello **stack**, dove i parametri vengono inseriti (push) e poi prelevati dal SO (pop).
+- Nello **stack**, dove i parametri vengono inseriti (**push**) e poi prelevati dal SO (**pop**).
 
 ## Sviluppo ed Esecuzione delle Applicazioni
 
@@ -48,19 +48,31 @@ Il processo che porta un codice sorgente alla sua esecuzione prevede due figure 
 
 Le applicazioni sono generalmente dipendenti dal SO, poiché ogni sistema fornisce un insieme univoco di chiamate di sistema.
 
-## Strutture Architetturali del Kernel
+## Kernel
 
-Esistono diversi approcci alla progettazione di un sistema operativo:
+Il kernel è responsabile della gestione delle risorse hardware e dei servizi di base del sistema. Le sue attività principali includono:
 
-- **Struttura monolitica:** il kernel risiede in un unico spazio di indirizzamento (es. Unix, Linux). Ha il vantaggio di un overhead ridotto e comunicazioni veloci, ma è difficile da estendere. Linux, pur essendo monolitico, utilizza **moduli caricabili dinamicamente** per maggiore flessibilità.
+- **Inizializzazione dell'hardware:** durante il processo di avvio (**boot**), il kernel viene caricato in memoria e prepara i componenti fisici del computer per l'uso.
+- **Gestione dei processi e della CPU:** si occupa dello **scheduling**, decidendo quali programmi devono essere eseguiti dal processore e per quanto tempo.
+- **Gestione della memoria:** controlla la memoria fisica, la **memoria virtuale** e la paginazione.
+- **Gestione dei file e dei dispositivi:** amministra il **file system** (montando il root file system all'avvio) e i driver necessari per interagire con periferiche, dischi e reti.
+- **Interfaccia per le chiamate di sistema:** fornisce un'interfaccia protetta tramite la quale le applicazioni possono richiedere servizi al sistema operativo usando le **system call**.
 
-- **Approccio stratificato:** il sistema è suddiviso in strati; lo strato 0 è l'hardware, mentre l'ultimo è l'interfaccia utente. Ogni strato usa solo i servizi di quelli inferiori.
+### Modalità di Esecuzione
+Il kernel opera in uno spazio di memoria protetto chiamato **kernel space** (o modalità kernel), distinto dallo spazio utente dove girano le normali applicazioni.  
+Questa separazione garantisce la stabilità del sistema: un errore critico all'interno del kernel provoca un **crash di sistema**, non un semplice bug applicativo.
 
-- **Microkernel** (es. Mach): fornisce solo le funzioni di comunicazione essenziali, spostando molti servizi nello spazio utente per aumentarne la modularità.
+### Tipologie di Architettura del Kernel
+Ci sono diversi approcci utilizzati per la progettazione di un kernel:
 
-- **Sistemi ibridi/specifici:**
-  - **macOS e iOS:** basati sull'ambiente kernel **Darwin** (che combina Mach e BSD) e strati applicativi come Cocoa.
-  - **Android:** utilizza un kernel Linux ma astrae l'hardware tramite uno strato denominato **HAL (Hardware Abstraction Layer)**.
+- **Kernel Monolitico:** tutte le funzioni del sistema risiedono in un **unico spazio di indirizzamento**. Questo approccio (usato da **Unix** e **Linux**) offre prestazioni elevate grazie alla comunicazione interna veloce, anche se può risultare più difficile da estendere. Molti kernel monolitici moderni sono comunque **modulari**, permettendo di caricare funzionalità aggiuntive dinamicamente.
+- **Microkernel** (es. **Mach**): fornisce solo le funzioni minime necessarie (come la comunicazione tra processi). La maggior parte dei servizi del sistema operativo viene spostata nello spazio utente per aumentare la modularità e la flessibilità.
+- **Sistemi Ibridi:** come **Darwin** (il cuore di macOS e iOS), che combina la struttura a microkernel di Mach con parti del kernel BSD Unix.
+
+## Esempi Specifici
+- **Linux:** un kernel monolitico ampiamente personalizzabile. Progetti come *Linux From Scratch* mostrano come compilare il proprio kernel partendo dal codice sorgente.
+- **Android:** utilizza un kernel Linux, ma aggiunge uno strato chiamato **HAL** (Hardware Abstraction Layer) per poter girare su una vasta gamma di dispositivi hardware diversi.
+- **Darwin:** il kernel alla base dei sistemi Apple, rilasciato come software open-source.
 
 ## Generazione, Avvio e Debugging
 
