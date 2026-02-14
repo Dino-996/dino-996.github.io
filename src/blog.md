@@ -23,7 +23,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
           <div class="card-body d-flex flex-column h-100">
             <div>
               <h2 class="h4 card-title mb-2">
-                <a href="{{ post.url }}" class="text-decoration-none text-dark">{{ post.data.title }}</a>
+                <a href="{{ post.url }}" class="text-decoration-none">{{ post.data.title }}</a>
               </h2>
               <time class="text-muted text-truncate small d-block mb-2" datetime="{{ post.date | dateIso }}">
                 <i class="bi bi-calendar3 me-1"></i>{{ post.date | dateHuman }}
@@ -32,7 +32,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
               <p class="card-text">{{ post.data.description }}
               </p>{% endif %}{% if post.data.tags %}
               <div class="mb-3"><span class="fw-bold me-2">Tag:</span>{% for tag in post.data.tags %}{% unless tag == "posts" %}
-                <a href="/tags/{{ tag | slugify }}/" class="badge bg-light text-dark border text-decoration-none">{{ tag }}</a>{% endunless %}{% endfor %}
+                <a href="/tags/{{ tag | slugify }}/" class="badge bg-light text-body border text-decoration-none">{{ tag }}</a>{% endunless %}{% endfor %}
               </div>{% endif %}</div>
               <div class="text-end mt-auto mb-3">
                 <a href="{{ post.url }}" class="btn btn-outline-primary btn-sm">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
@@ -55,7 +55,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
     </div>
     
     <div class="text-muted small">
-      Pagina {{ pagination.pageNumber + 1 }} di {{ pagination.pages | length }}
+      Pagina {{ pagination.pageNumber | plus: 1 }} di {{ pagination.pages | size }}
     </div>
     
     <div>
