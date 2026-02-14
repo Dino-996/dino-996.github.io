@@ -16,7 +16,7 @@ title: Home
       <i class="bi bi-journal-text me-2"></i>Leggi il Blog
     </a>
     <a href="/about/" class="btn btn-outline-primary btn-lg">
-      <i class="bi bi-person me-2"></i>About Me
+      <i class="bi bi-person me-2"></i>About
     </a>
   </div>
 </div>
@@ -33,7 +33,7 @@ title: Home
 
   <div class="row g-4">
     <div class="col-12 col-md-6 col-lg-4">
-      <div class="card h-100 shadow-sm" style="transform: none; box-shadow: none">
+      <div class="card h-100 shadow-none" style="transform: none;">
         <div class="card-body d-flex flex-column">
           <div class="d-flex align-items-center mb-3">
             <i class="bi bi-github fs-3 text-primary me-2"></i>
@@ -61,7 +61,7 @@ title: Home
       </div>
     </div>
       <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100 shadow-sm" style="transform: none; box-shadow: none">
+        <div class="card h-100 shadow-none" style="transform: none;">
           <div class="card-body d-flex flex-column">
             <div class="d-flex align-items-center mb-3">
               <i class="bi bi-cloud-fill fs-3 text-primary me-2"></i>
@@ -88,7 +88,7 @@ title: Home
         </div>
       </div>
     <div class="col-12 col-md-6 col-lg-4">
-      <div class="card h-100 shadow-sm" style="transform: none; box-shadow: none">
+      <div class="card h-100 shadow-none" style="transform: none;">
         <div class="card-body d-flex flex-column">
           <div class="d-flex align-items-center mb-3">
             <i class="bi bi-lightbulb fs-3 text-warning me-2"></i>
@@ -131,7 +131,7 @@ title: Home
   
   <div class="row g-4">{% assign recentPosts=collections.posts | reverse %}{% for post in recentPosts limit: 3 %}
   <div class="col-md-6 col-lg-4">
-    <article class="card h-100 overflow-hidden shadow-sm">
+    <article class="card h-100 overflow-hidden shadow-none" style="transform: none">
       <div class="row g-0 h-100">{% if post.data.image %}
         <div class="col-12 p-0">
           <img 
