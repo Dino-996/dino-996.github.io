@@ -23,7 +23,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
           <div class="card-body d-flex flex-column h-100">
             <div>
               <h2 class="h4 card-title mb-2">
-                <a href="{{ post.url }}" class="text-decoration-none text-dark">{{ post.data.title }}</a>
+                <a href="{{ post.url }}" class="text-decoration-none">{{ post.data.title }}</a>
               </h2>
               <time class="text-muted text-truncate small d-block mb-2" datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: '%d %B %Y' }}</time>
               <hr>{% if post.data.description %}
