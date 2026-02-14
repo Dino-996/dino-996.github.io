@@ -38,7 +38,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
                 <a href="/tags/{{ tag | slugify }}/" class="badge bg-light text-body border text-decoration-none">{{ tag }}</a>{% endunless %}{% endfor %}
               </div>{% endif %}</div>
               <div class="text-end mt-auto mb-3">
-                <a href="{{ post.url }}" class="btn btn-outline-primary btn-sm">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
+                <a href="{{ post.url }}" class="btn btn-primary btn-sm">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
               </div>
             </div>
           </div>
