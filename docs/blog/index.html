@@ -80,15 +80,11 @@
     </a>
     
     <button 
-      class="navbar-toggler" 
+      class="navbar-toggler border-0 p-0" 
       type="button" 
       data-bs-toggle="collapse" 
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav" 
-      aria-expanded="false" 
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
+      data-bs-target="#navbarNav">
+      <i class="bi bi-grid-3x3-gap fs-4"></i>
     </button>
     
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -109,13 +105,13 @@
           </a>
         </li>
 
-        <li class="nav-item mode-switch">
-          <div class="d-inline-flex rounded-pill bg-body-tertiary p-1">
-            <button title="Dark mode" id="dark" class="btn btn-sm btn-default rounded-pill text-secondary p-2" style="transform: none; box-shadow: none">
+        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+          <div class="d-inline-flex rounded-4 bg-body-tertiary p-1">
+            <button title="Dark mode" id="dark" class="btn btn-sm btn-default rounded-4 text-secondary p-2" style="transform: none; box-shadow: none">
               <i class="bi bi-moon"></i>
             </button>
 
-            <button title="Light mode" id="light" class="btn btn-sm btn-default rounded-pill text-warning p-2" style="transform: none; box-shadow: none">
+            <button title="Light mode" id="light" class="btn btn-sm btn-default rounded-4 text-warning p-2" style="transform: none; box-shadow: none">
               <i class="bi bi-sun"></i>
             </button>
           </div>
@@ -154,8 +150,11 @@
   <meta name="twitter:title" content="Blog">
   <meta name="twitter:description" content="Articoli e appunti">
 </head>
-<body><h1>Blog</h1>
-<div class="row g-4">
+<body><h1>
+  <i class="text-primary bi bi-journal-text me-1"></i>
+  Blog
+</h1>
+<section class="row g-4">
   <div class="col-12">
     <article class="card h-100 overflow-hidden shadow-sm">
       <div class="row g-0 h-100">
@@ -212,7 +211,7 @@
         </div>
     </article>
   </div>
-</div>
+</section>
 <nav class="mt-5" aria-label="Navigazione pagine blog">
   <div class="d-flex justify-content-between align-items-center">
     <div>

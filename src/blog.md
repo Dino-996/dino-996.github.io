@@ -9,9 +9,12 @@ pagination:
 permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumber | plus: 1 }}/index.html{% else %}/blog/index.html{% endif %}"
 ---
 
-<h1>{{ title }}</h1>
+<h1>
+  <i class="text-primary bi bi-journal-text me-1"></i>
+  {{ title }}
+</h1>
 
-<div class="row g-4">{% for post in posts %}
+<section class="row g-4">{% for post in posts %}
   <div class="col-12">
     <article class="card h-100 overflow-hidden shadow-sm">
       <div class="row g-0 h-100">{% if post.data.image %}
@@ -42,7 +45,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
         </div>
     </article>
   </div>{% endfor %}
-</div>
+</section>
 
 <nav class="mt-5" aria-label="Navigazione pagine blog">
   <div class="d-flex justify-content-between align-items-center">

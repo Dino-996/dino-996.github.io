@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  About Me · dino-996 blog
+  About · dino-996 blog
 </title>
 
 <!-- SEO Meta Tags -->
@@ -23,7 +23,7 @@
 
 <meta property="og:url" content="https://dino-996.github.io/about/" />
 
-<meta property="og:title" content="About Me" />
+<meta property="og:title" content="About" />
 <meta property="og:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
 <meta property="og:site_name" content="dino-996 blog" />
 
@@ -33,7 +33,7 @@
 
 <meta name="twitter:url" content="https://dino-996.github.io/about/" />
 
-<meta name="twitter:title" content="About Me" />
+<meta name="twitter:title" content="About" />
 <meta name="twitter:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
 
 
@@ -80,15 +80,11 @@
     </a>
     
     <button 
-      class="navbar-toggler" 
+      class="navbar-toggler border-0 p-0" 
       type="button" 
       data-bs-toggle="collapse" 
-      data-bs-target="#navbarNav"
-      aria-controls="navbarNav" 
-      aria-expanded="false" 
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
+      data-bs-target="#navbarNav">
+      <i class="bi bi-grid-3x3-gap fs-4"></i>
     </button>
     
     <div class="collapse navbar-collapse" id="navbarNav">
@@ -109,13 +105,13 @@
           </a>
         </li>
 
-        <li class="nav-item mode-switch">
-          <div class="d-inline-flex rounded-pill bg-body-tertiary p-1">
-            <button title="Dark mode" id="dark" class="btn btn-sm btn-default rounded-pill text-secondary p-2" style="transform: none; box-shadow: none">
+        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+          <div class="d-inline-flex rounded-4 bg-body-tertiary p-1">
+            <button title="Dark mode" id="dark" class="btn btn-sm btn-default rounded-4 text-secondary p-2" style="transform: none; box-shadow: none">
               <i class="bi bi-moon"></i>
             </button>
 
-            <button title="Light mode" id="light" class="btn btn-sm btn-default rounded-pill text-warning p-2" style="transform: none; box-shadow: none">
+            <button title="Light mode" id="light" class="btn btn-sm btn-default rounded-4 text-warning p-2" style="transform: none; box-shadow: none">
               <i class="bi bi-sun"></i>
             </button>
           </div>
@@ -134,7 +130,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>About Me</title>
+  <title>About</title>
   <meta name="description" content="Blog di appunti e articoli tecnici">
 
   <!-- Robots -->
@@ -144,90 +140,85 @@
   <link rel="canonical" href="/about/">
 
   <!-- Open Graph / Social -->
-  <meta property="og:title" content="About Me">
+  <meta property="og:title" content="About">
   <meta property="og:description" content="">
   <meta property="og:url" content="/about/">
   <meta property="og:type" content="website">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="About Me">
+  <meta name="twitter:title" content="About">
   <meta name="twitter:description" content="">
 </head>
-<body><div class="container py-5" style="max-width: 900px;">
-  <!-- About Section -->
+<body>  <!-- Hero narrativo -->
   <section class="mb-5">
-    <div class="d-flex align-items-center mb-4">
-      <h2 class="h3 fw-bold mb-0">
-        <i class="bi bi-person text-primary me-2"></i>About
-      </h2>
-    </div>
-      <!-- Hero -->
-    <div class="row g-4">
-      <!-- Chi sono -->
-      <div class="col-12 col-md-6">
-        <div class="card h-100 shadow-none" style="transform: none;">
-          <div class="card-body">
-            <h3 class="h5 mb-3">Chi sono</h3>
-            <p class="text-muted mb-0">
-              Sono un informatico appassionato di programmazione e sicurezza informatica.
-              Mi interessa costruire applicazioni solide, leggibili e manutenibili,
-              con attenzione all’architettura e alla qualità del codice.
-            </p>
-          </div>
-        </div>
-      </div>
-      <!-- Stack -->
-      <div class="col-12 col-md-6">
-        <div class="card h-100 shadow-none" style="transform: none;">
-          <div class="card-body">
-            <h3 class="h5 mb-3">Stack</h3>
-            <p class="mb-2">
-              <strong>Backend</strong><br>
-              <span class="badge bg-light text-body border me-1 pe-none">Java</span>
-              <span class="badge bg-light text-body border me-1 pe-none">Spring Boot</span>
-              <span class="badge bg-light text-body border pe-none">PostgreSQL</span>
-            </p>
-            <p class="mb-0">
-              <strong>Frontend</strong><br>
-              <span class="badge bg-light text-body border me-1 pe-none">Angular</span>
-              <span class="badge bg-light text-body border me-1 pe-none">TypeScript</span>
-              <span class="badge bg-light text-body border pe-none">Bootstrap</span>
-            </p>
-          </div>
-        </div>
-      </div>
-      <!-- Blog -->
-      <div class="col-12 col-md-6">
-        <div class="card h-100 shadow-none" style="transform: none;">
-          <div class="card-body">
-            <h3 class="h5 mb-3">Il Blog</h3>
-            <p class="text-muted mb-0">
-              Uno spazio di studio pubblico dove condivido esperimenti,
-              appunti tecnici e riflessioni su sviluppo web e sicurezza.
-            </p>
-          </div>
-        </div>
-      </div>
-      <!-- Contatti -->
-      <div class="col-12 col-md-6">
-        <div class="card h-100 shadow-none" style="transform: none;">
-          <div class="card-body d-flex flex-column">
-            <h3 class="h5 mb-3">Contatti</h3>
-            <div class="mt-auto">
-              <a href="mailto:davidesabia22@gmail.com" class="btn btn-outline-primary btn-sm w-100 mb-2">
-                Email
-              </a>
-              <a href="https://github.com/Dino-996" target="_blank" class="btn btn-dark btn-sm w-100">
-                GitHub
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <h1 class="fw-bold mb-3">
+        <i class="text-primary bi bi-person me-1"></i>
+        About
+    </h1>
+    <p class="lead text-muted">
+      Sono un informatico orientato alla costruzione di software solido,
+      con interesse per architettura backend e sicurezza applicativa.
+    </p>
   </section>
-</div></body>
+  <div class="row g-4">
+    <!-- Stack -->
+    <div class="col-12 col-md-6">
+      <div class="card h-100 shadow-none border" style="transform: none">
+        <div class="card-body">
+          <h3 class="h5 mb-3">Stack</h3>
+          <p class="mb-2">
+            <strong>Backend</strong><br>
+            <span class="badge bg-light text-body border me-1">Java</span>
+            <span class="badge bg-light text-body border me-1">Spring Boot</span>
+            <span class="badge bg-light text-body border">PostgreSQL</span>
+          </p>
+          <p class="mb-0">
+            <strong>Frontend</strong><br>
+            <span class="badge bg-light text-body border me-1">Angular</span>
+            <span class="badge bg-light text-body border me-1">TypeScript</span>
+            <span class="badge bg-light text-body border">Bootstrap</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- Blog -->
+    <div class="col-12 col-md-6">
+      <div class="card h-100 shadow-none border" style="transform: none">
+        <div class="card-body d-flex flex-column">
+          <h3 class="h5 mb-3">Il Blog</h3>
+          <p class="text-muted mb-3">
+            Uno spazio di studio pubblico dove documento ciò che imparo,
+            con particolare attenzione a sviluppo web e sicurezza.
+          </p>
+          <div class="mt-auto">
+            <a href="https://github.com/Dino-996" target="_blank"
+               class="btn btn-dark btn-sm w-100">
+              <i class="bi bi-github me-1"></i>
+              GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Contatti full width -->
+    <div class="col-12">
+      <div class="card shadow-none border" style="transform: none">
+        <div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
+          <div>
+            <h3 class="h5 mb-1">Contatti</h3>
+            <p class="text-muted mb-0">Disponibile per collaborazioni e progetti.</p>
+          </div>
+          <a href="mailto:davidesabia22@gmail.com"
+             class="btn btn-outline-primary btn-sm">
+            <i class="bi bi-envelope-fill me-1"></i>
+            Email
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
 </html>
 
     </main>
