@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title>dino-996 blog</title>
+  <subtitle>Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne.</subtitle>
+  <link href="https://dino-996.github.io/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="https://dino-996.github.io" rel="alternate" type="text/html"/>
+  <id>https://dino-996.github.io/</id>
+  <updated>2020-02-14T00:00:00.000Z</updated>
+  <author>
+    <name>Davide Sabia</name>
+    <email>davidesabia22@gmail.com</email>
+    <uri>https://dino-996.github.io</uri>
+  </author>
+
+  
+    
+  <entry>
+    <title>Processi</title>
+    <link href="https://dino-996.github.io/blog/processi/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/processi/</id>
+    <published>2020-02-10T00:00:00.000Z</published>
+    <updated>2020-02-10T00:00:00.000Z</updated>
+    
+    <summary>Vengono esaminati i meccanismi di gestione della memoria, illustrando la differenza tra l&#39;allocazione dinamica nello heap e l&#39;utilizzo temporaneo dello stack per le chiamate di funzione. Process Control Block (PCB), una struttura dati fondamentale che memorizza lo stato, i registri e le informazioni di scheduling necessarie alla CPU.</summary>
+    
+    
+      
+        
+      
+        
+    <category term="sistemi operativi"/>
+        
+      
+        
+    <category term="processi"/>
+        
+      
+    
+  </entry>
+    
+  
+    
+  <entry>
+    <title>Strutture dei Sistemi Operativi</title>
+    <link href="https://dino-996.github.io/blog/strutture-dei-sistemi-operativi/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/strutture-dei-sistemi-operativi/</id>
+    <published>2020-02-14T00:00:00.000Z</published>
+    <updated>2020-02-14T00:00:00.000Z</updated>
+    
+    <summary>Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel.</summary>
+    
+    
+      
+        
+      
+        
+    <category term="sistemi operativi"/>
+        
+      
+        
+    <category term="struttura"/>
+        
+      
+    
+  </entry>
+    
+  
+
+</feed>

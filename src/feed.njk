@@ -1,0 +1,43 @@
+---
+layout: null
+permalink: "/feed.xml"
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title>{{ site.title }}</title>
+  <subtitle>{{ site.description }}</subtitle>
+  <link href="{{ site.url }}/feed.xml" rel="self" type="application/atom+xml"/>
+  <link href="{{ site.url }}" rel="alternate" type="text/html"/>
+  <id>{{ site.url }}/</id>
+  <updated>{{ collections.posts[0].date | dateIso }}</updated>
+  <author>
+    <name>{{ site.author }}</name>
+    <email>{{ site.email }}</email>
+    <uri>{{ site.url }}</uri>
+  </author>
+
+  {% for post in collections.posts | reverse %}
+    {% if loop.index <= 20 %}
+  <entry>
+    <title>{{ post.data.title }}</title>
+    <link href="{{ site.url }}{{ post.url }}" rel="alternate" type="text/html"/>
+    <id>{{ site.url }}{{ post.url }}</id>
+    <published>{{ post.date | dateIso }}</published>
+    <updated>{{ post.date | dateIso }}</updated>
+    {% if post.data.description %}
+    <summary>{{ post.data.description }}</summary>
+    {% endif %}
+    {% if post.data.tags %}
+      {% for tag in post.data.tags %}
+        {% if tag !== "posts" %}
+    <category term="{{ tag }}"/>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  </entry>
+    {% endif %}
+  {% endfor %}
+
+</feed>
