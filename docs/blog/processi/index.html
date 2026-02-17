@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="it" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Processi · dino-996 blog
+</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Vengono esaminati i meccanismi di gestione della memoria, illustrando la differenza tra l&#39;allocazione dinamica nello heap e l&#39;utilizzo temporaneo dello stack per le chiamate di funzione. Process Control Block (PCB), una struttura dati fondamentale che memorizza lo stato, i registri e le informazioni di scheduling necessarie alla CPU." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/processi/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/processi/" />
+
+<meta property="og:title" content="Processi" />
+<meta property="og:description" content="Vengono esaminati i meccanismi di gestione della memoria, illustrando la differenza tra l&#39;allocazione dinamica nello heap e l&#39;utilizzo temporaneo dello stack per le chiamate di funzione. Process Control Block (PCB), una struttura dati fondamentale che memorizza lo stato, i registri e le informazioni di scheduling necessarie alla CPU." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.io&#92;assets&#92;img&#92;webp&#92;thread.webp" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/processi/" />
+
+<meta name="twitter:title" content="Processi" />
+<meta name="twitter:description" content="Vengono esaminati i meccanismi di gestione della memoria, illustrando la differenza tra l&#39;allocazione dinamica nello heap e l&#39;utilizzo temporaneo dello stack per le chiamate di funzione. Process Control Block (PCB), una struttura dati fondamentale che memorizza lo stato, i registri e le informazioni di scheduling necessarie alla CPU." />
+
+<meta name="twitter:image" content="https://dino-996.github.io&#92;assets&#92;img&#92;webp&#92;thread.webp" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Bootstrap icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img 
+        src="https://github.com/Dino-996.png" 
+        alt="Davide Sabia" 
+        class="rounded-circle"
+        width="32"
+        height="32"
+        style="object-fit: cover;"
+      >
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+    
+    <button 
+      class="navbar-toggler border-0 p-0" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNav">
+      <i class="bi bi-grid-3x3-gap fs-4"></i>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">
+            Blog
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">
+            About
+          </a>
+        </li>
+
+        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+          <div class="d-inline-flex rounded-4 bg-body-tertiary p-1">
+            <button title="Dark mode" id="dark" class="btn btn-sm btn-default rounded-4 text-secondary p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-moon"></i>
+            </button>
+
+            <button title="Light mode" id="light" class="btn btn-sm btn-default rounded-4 text-warning p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-sun"></i>
+            </button>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <main class="container my-5 flex-grow-1">
+      
+<article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">Processi</h1>
+
+    <time
+      class="text-muted"
+      datetime="2020-02-10T00:00:00.000Z"
+    >
+      10 febbraio 2020
+    </time>
+  </header>
+
+  
+    <div class="mb-4">
+      <img 
+        src="&#92;assets&#92;img&#92;webp&#92;thread.webp" 
+        alt="Immagine generata con AI" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+      <figcaption class="text-muted small mt-2 text-center">Immagine generata con AI</figcaption>
+    
+  </div>
+  
+
+  <hr />
+
+  <section class="content">
+    <h2>Introduzione</h2>
+<p>In questo articolo approfondiamo l'architettura dei processi all'interno dei sistemi operativi, distinguendo tra il concetto di programma statico e quello di entità attiva in esecuzione.</p>
+<h2>Che cos'è un processo?</h2>
+<p>Un <strong>processo</strong> è definito come un <strong>programma in esecuzione</strong>: un’entità attiva dotata di un contatore di programma e di un insieme di risorse associate. Si distingue dal programma, che è invece un’entità passiva, ad esempio un file memorizzato su disco.</p>
+<p>In <strong>memoria</strong>, un processo è suddiviso in sezioni specifiche:</p>
+<ul>
+<li><strong>Testo (Text Segment)</strong>: contiene il codice eseguibile.</li>
+<li><strong>Dati (Data Segment)</strong>: contiene le variabili globali e statiche.</li>
+<li><strong>Heap</strong>: area di memoria allocata dinamicamente durante l’esecuzione.</li>
+<li><strong>Stack</strong>: memoria temporanea utilizzata per le chiamate di funzione e le variabili locali.</li>
+</ul>
+<p>Nei sistemi moderni il concetto si estende ai <strong>thread</strong>, che consentono a un singolo processo di avere più percorsi di esecuzione concorrenti, facilitando il parallelismo nei sistemi multicore.</p>
+<h2>Il core e il multicore</h2>
+<p>Un <strong>core</strong> è un’unità di calcolo fisica indipendente all’interno della CPU.</p>
+<p>Una CPU contiene tipicamente:</p>
+<ul>
+<li><strong>Registri</strong></li>
+<li><strong>ALU (Arithmetic Logic Unit)</strong></li>
+<li><strong>Logica di controllo</strong></li>
+<li>Capacità di eseguire un <strong>flusso di istruzioni indipendente</strong></li>
+</ul>
+<p>Fino ai primi anni 2000, le CPU disponevano generalmente di un solo core. Ciò significava che poteva essere eseguita una sola istruzione alla volta per ciascun ciclo di clock.</p>
+<p>Il sistema operativo utilizzava il <strong>time slicing</strong>, una tecnica che assegna a ciascun processo un intervallo di tempo limitato di utilizzo della CPU (time slice). Ad esempio:</p>
+<ul>
+<li>Processo A per 5 ms</li>
+<li>Processo B per 5 ms</li>
+<li>Processo C per 5 ms</li>
+<li>Ritorno al processo A</li>
+</ul>
+<p>Il cambio tra processi (context switch) avviene così rapidamente da risultare impercettibile all’utente. Tuttavia, il core esegue comunque una sola istruzione per volta: il parallelismo è simulato.</p>
+<p>In un sistema <strong>multicore</strong>, invece, esistono più core fisici. Di conseguenza:</p>
+<ul>
+<li>Il core 1 può eseguire il thread A</li>
+<li>Il core 2 può eseguire il thread B</li>
+<li>Il core 3 può eseguire il thread C</li>
+</ul>
+<p>Tutto nello stesso istante fisico. In questo caso il <strong>parallelismo è reale</strong>, non simulato.</p>
+<p>Un processo può avere più thread. Ogni thread:</p>
+<ul>
+<li>È un percorso di esecuzione indipendente</li>
+<li>Possiede un proprio program counter</li>
+<li>Ha un proprio stack</li>
+<li>Condivide l’heap e le risorse del processo con gli altri thread</li>
+</ul>
+<p>Ad esempio, con un processo composto da 4 thread e una CPU a 4 core, il sistema operativo può assegnare un thread a ciascun core, eseguendo il programma in parallelo su più unità fisiche.</p>
+<h2>Stato e controllo del processo</h2>
+<p>Ogni processo attraversa diversi stati durante il suo ciclo di vita: <strong>nuovo</strong>, <strong>pronto</strong>, <strong>esecuzione</strong>, <strong>attesa</strong> e <strong>terminato</strong>.</p>
+<p>Il sistema operativo rappresenta ogni processo tramite un <strong>PCB (Process Control Block)</strong>, che memorizza informazioni cruciali quali:</p>
+<ul>
+<li>Stato corrente</li>
+<li>PID (Process Identifier)</li>
+<li>Contatore di programma</li>
+<li>Registri della CPU</li>
+<li>Informazioni di memoria</li>
+</ul>
+<h2>Il ciclo di vita di un processo</h2>
+<p>Un processo può trovarsi nei seguenti stati:</p>
+<ul>
+<li><strong>Nuovo (New)</strong>: è stato creato ma non è ancora pronto per l’esecuzione.</li>
+<li><strong>Pronto (Ready)</strong>: è in memoria e attende l’assegnazione della CPU.</li>
+<li><strong>Esecuzione (Running)</strong>: sta utilizzando la CPU.</li>
+<li><strong>Attesa (Waiting/Blocked)</strong>: è in attesa di un evento esterno, tipicamente un’operazione di I/O.</li>
+<li><strong>Terminato (Terminated)</strong>: ha completato la propria esecuzione.</li>
+</ul>
+<p>Questi stati determinano in quale struttura dati del kernel il processo viene inserito e quali operazioni possono essere effettuate su di esso.</p>
+<h2>Code di scheduling</h2>
+<p>Il sistema operativo mantiene diverse code:</p>
+<ul>
+<li><strong>Ready Queue</strong>: contiene i processi pronti all’esecuzione.</li>
+<li><strong>Waiting Queue</strong>: contiene i processi in attesa di eventi.</li>
+<li><strong>Device Queue</strong>: una coda per ciascun dispositivo di I/O.</li>
+</ul>
+<p>Quando un processo richiede un’operazione di I/O:</p>
+<ol>
+<li>Viene spostato nella coda del dispositivo.</li>
+<li>Il kernel assegna la CPU a un altro processo pronto.</li>
+<li>Al termine dell’I/O (tramite interrupt), il processo torna nella ready queue.</li>
+</ol>
+<h2>Il Process Control Block (PCB)</h2>
+<p>Il <strong>PCB</strong> è la struttura dati con cui il kernel rappresenta un processo.</p>
+<p>Contiene:</p>
+<ul>
+<li>Stato del processo</li>
+<li>PID</li>
+<li>Program counter</li>
+<li>Registri della CPU</li>
+<li>Informazioni di scheduling (priorità, puntatori alle code)</li>
+<li>Informazioni di memoria (tabelle delle pagine, limiti)</li>
+<li>File aperti e risorse allocate</li>
+<li>Informazioni di accounting (tempo di CPU utilizzato)</li>
+</ul>
+<p>Il PCB risiede nello spazio kernel ed è accessibile esclusivamente al sistema operativo.</p>
+<h2>Context switch</h2>
+<p>Il <strong>context switch</strong> è il meccanismo con cui il sistema operativo interrompe un processo e ne attiva un altro.</p>
+<p>Le operazioni principali sono:</p>
+<ol>
+<li>Salvare registri e program counter nel PCB del processo corrente.</li>
+<li>Selezionare un processo dalla ready queue.</li>
+<li>Ripristinare lo stato del nuovo processo dal suo PCB.</li>
+</ol>
+<p>Il context switch rappresenta un overhead inevitabile del multitasking.</p>
+<h2>Scheduling e politiche decisionali</h2>
+<p>La scelta del processo successivo dipende dall’algoritmo di scheduling:</p>
+<ul>
+<li><strong>FCFS (First Come, First Served)</strong></li>
+<li><strong>SJF (Shortest Job First)</strong></li>
+<li><strong>Round Robin</strong></li>
+<li><strong>Priority Scheduling</strong></li>
+</ul>
+<p>Ogni algoritmo ottimizza metriche diverse:</p>
+<ul>
+<li>Tempo medio di attesa</li>
+<li>Tempo di risposta</li>
+<li>Throughput</li>
+<li>Equità</li>
+</ul>
+<p>Non esiste una soluzione universalmente ottimale: la scelta dipende dal contesto applicativo.</p>
+<h2>Stati estesi</h2>
+<p>Nei sistemi operativi moderni esistono stati aggiuntivi.</p>
+<h3>Suspended</h3>
+<p>Indica che il processo è temporaneamente escluso dalla competizione per la CPU.</p>
+<p>Può accadere per:</p>
+<ul>
+<li>Swapping su disco</li>
+<li>Sospensione amministrativa</li>
+<li>Politiche di gestione delle risorse</li>
+</ul>
+<p>Differenza fondamentale:</p>
+<ul>
+<li><strong>Waiting</strong>: attesa di un evento.</li>
+<li><strong>Suspended</strong>: esclusione per decisione del sistema o gestione della memoria.</li>
+</ul>
+<h3>Zombie</h3>
+<p>Un processo <strong>zombie</strong> ha terminato l’esecuzione ma il suo PCB non è ancora stato rimosso.</p>
+<p>Il processo:</p>
+<ol>
+<li>Rilascia le risorse.</li>
+<li>Conserva nel PCB il codice di uscita.</li>
+<li>Attende che il padre invochi <code>wait()</code>.</li>
+</ol>
+<p>Non consuma CPU, ma occupa una voce nella tabella dei processi.</p>
+<h3>Orphan</h3>
+<p>Un processo <strong>orfano</strong> è un processo il cui padre termina prima di lui.</p>
+<p>Nei sistemi Unix-like viene adottato dal processo <code>init</code> (PID 1) o da un suo equivalente, che si occuperà di raccoglierne lo stato finale.</p>
+<h2>Coordinamento nei sistemi multicore</h2>
+<p>Nei sistemi multicore:</p>
+<ul>
+<li>Più CPU eseguono in parallelo.</li>
+<li>Le strutture dati del kernel sono condivise.</li>
+<li>Le decisioni di scheduling possono avvenire simultaneamente.</li>
+</ul>
+<h3>Strutture condivise</h3>
+<ul>
+<li>Ready queue</li>
+<li>Tabelle dei processi (PCB)</li>
+<li>Tabelle delle pagine</li>
+</ul>
+<p>Accessi concorrenti possono causare condizioni di race.</p>
+<h3>Meccanismi di sincronizzazione</h3>
+<p>Il kernel utilizza:</p>
+<ul>
+<li>Spinlock</li>
+<li>Mutex</li>
+<li>Sezioni critiche</li>
+<li>Disabilitazione temporanea degli interrupt</li>
+</ul>
+<p>per garantire coerenza.</p>
+<h3>Affinità della CPU</h3>
+<p>La <strong>CPU affinity</strong> consente di associare preferenzialmente un processo a un core specifico per:</p>
+<ul>
+<li>Migliorare la località della cache</li>
+<li>Ridurre il costo di migrazione tra core</li>
+</ul>
+<p>La migrazione tra core comporta invalidazioni di cache e costi aggiuntivi.</p>
+<h2>Comunicazione tra processi (IPC)</h2>
+<p>I processi cooperanti utilizzano meccanismi di <strong>IPC (InterProcess Communication)</strong>.</p>
+<p>Due modelli principali:</p>
+<ul>
+<li><strong>Memoria condivisa</strong>: comunicazione tramite una regione di memoria comune; è veloce ma richiede sincronizzazione.</li>
+<li><strong>Scambio di messaggi</strong>: basato su primitive <code>send()</code> e <code>receive()</code>, può essere sincrono (bloccante) o asincrono (non bloccante).</li>
+</ul>
+<h2>Esempi di sistemi IPC e comunicazione client-server</h2>
+<ul>
+<li><strong>Pipe</strong>: canali di comunicazione, tipicamente tra processi correlati.</li>
+<li><strong>Socket</strong>: identificati da indirizzo IP e porta; fondamentali per la comunicazione in rete (TCP e UDP).</li>
+<li><strong>RPC (Remote Procedure Call)</strong>: permettono di invocare procedure remote come se fossero locali.</li>
+<li><strong>Sistemi specifici</strong>: Mach utilizza porte e messaggi; Windows impiega le <strong>ALPC (Advanced Local Procedure Call)</strong> per la comunicazione locale.</li>
+</ul>
+
+  </section>
+  
+</article> 
+    </main>
+
+    <footer class="border-top mt-auto py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <h5 class="fw-bold mb-3">
+          <span><span class="text-primary">dino</span>-996</span>
+        </h5>
+        <p class="text-muted small mb-2">
+          Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne.
+        </p>
+      </div>
+      
+      <div class="col-md-3 mb-3 mb-md-0">
+        <h6 class="fw-bold mb-3">Navigazione</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <a href="/" class="text-muted text-decoration-none small">Home</a>
+          </li>
+          <li class="mb-2">
+            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
+          </li>
+          <li class="mb-2">
+            <a href="/about/" class="text-muted text-decoration-none small">About</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="col-md-3">
+        <h6 class="fw-bold mb-3">Social</h6>
+        <div class="d-flex gap-3">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+              <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+            </svg>
+          </a>
+          <a href="mailto:davidesabia22@gmail.com" class="text-muted" aria-label="Email">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+              <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <hr class="my-4" />
+    
+    <div class="row">
+      <div class="col text-center">
+        <p class="text-muted small mb-0">
+          Realizzato con <span class="text-danger">❤</span> usando 
+          <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Eleventy</a> 
+          e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Bootstrap</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Bootstrap toggle menu -->
+    <script>
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+        let theme = 'light'; // default
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- Nomnoml (da fixare) -->
+    <script src="https://cdn.jsdelivr.net/npm/nomnoml@1.5.2/dist/nomnoml.js"></script>
+
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" integrity="sha384-+W9OcrYK2/bD7BmUAk+xeFAyKp0QjyRQUCxeU31dfyTt/FrPsUgaBTLLkVf33qWt" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+    <script src="/assets/js/main.js"></script>
+  </body>
+</html>

@@ -46,6 +46,7 @@ title: Home
             <span class="badge bg-light text-body border me-1 pe-none">Eleventy</span>
             <span class="badge bg-light text-body border me-1 pe-none">Bootstrap</span>
             <span class="badge bg-light text-body border pe-none">Nunjucks</span>
+            <span class="badge bg-light text-body border pe-none">Liquid</span>
           </div>
           <div class="mt-auto">
             <a href="https://github.com/Dino-996/dino-996.github.io" target="_blank" class="btn btn-primary btn-sm mb-2 w-100">

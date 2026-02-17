@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  Home · dino-996 blog
+  Tag: {{ tag }} · dino-996 blog
 </title>
 
 <!-- SEO Meta Tags -->
@@ -15,15 +15,15 @@
 
 <!-- Canonical URL -->
 
-<link rel="canonical" href="https://dino-996.github.io/" />
+<link rel="canonical" href="https://dino-996.github.io/tags/struttura/" />
 
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 
-<meta property="og:url" content="https://dino-996.github.io/" />
+<meta property="og:url" content="https://dino-996.github.io/tags/struttura/" />
 
-<meta property="og:title" content="Home" />
+<meta property="og:title" content="Tag: {{ tag }}" />
 <meta property="og:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
 <meta property="og:site_name" content="dino-996 blog" />
 
@@ -31,9 +31,9 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 
-<meta name="twitter:url" content="https://dino-996.github.io/" />
+<meta name="twitter:url" content="https://dino-996.github.io/tags/struttura/" />
 
-<meta name="twitter:title" content="Home" />
+<meta name="twitter:title" content="Tag: {{ tag }}" />
 <meta name="twitter:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
 
 
@@ -90,7 +90,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="/">
+          <a class="nav-link" href="/">
             Home
           </a>
         </li>
@@ -130,245 +130,102 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>Home</title>
+  <title>Tag: {{ tag }}</title>
   <meta name="description" content="Blog di appunti e articoli tecnici">
 
   <!-- Robots -->
   <meta name="robots" content="index, follow">
 
   <!-- Canonical -->
-  <link rel="canonical" href="/">
+  <link rel="canonical" href="/tags/struttura/">
 
   <!-- Open Graph / Social -->
-  <meta property="og:title" content="Home">
+  <meta property="og:title" content="Tag: {{ tag }}">
   <meta property="og:description" content="">
-  <meta property="og:url" content="/">
+  <meta property="og:url" content="/tags/struttura/">
   <meta property="og:type" content="website">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Home">
+  <meta name="twitter:title" content="Tag: {{ tag }}">
   <meta name="twitter:description" content="">
 </head>
-<body><div class="hero-section text-center py-5 mb-5">
-  <h1 class="display-4 fw-bold mb-3">
-    Ciao, sono <span class="text-primary">Davide</span> 👋
+<body>
+<div class="mb-4">
+  <h1>
+    <i class="bi bi-tag-fill text-primary me-2"></i>Tag: <span class="text-primary">struttura</span>
   </h1>
-  <p class="lead text-muted mb-4">
-    Informatico appassionato di tecnologie moderne.<br>
-    Condivido qui i miei progetti e articoli su programmazione e sicurezza informatica.
-  </p>
-  <div class="d-flex gap-3 justify-content-center">
-    <a href="/blog/" class="btn btn-primary btn-lg">
-      <i class="bi bi-journal-text me-2"></i>Blog
-    </a>
-    <a href="/about/" class="btn btn-outline-primary btn-lg">
-      <i class="bi bi-person me-2"></i>About
-    </a>
-  </div>
+  <p class="text-muted">Articoli con tag "struttura"</p>
 </div>
-<hr class="my-5" />
-<!-- Progetti recenti -->
-<section class="mb-5">
-  <div class="d-flex align-items-center justify-content-between mb-4">
-    <h2 class="h3 fw-bold mb-0">
-      <i class="bi bi-code-square text-primary me-2"></i>Progetti recenti
-    </h2>
-  </div>
-  <div class="row g-4">
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="card h-100 shadow-none" style="transform: none;">
-        <div class="card-body d-flex flex-column">
-          <div class="d-flex align-items-center mb-3">
-            <i class="bi bi-github fs-3 text-primary me-2"></i>
-            <h3 class="h5 card-title mb-0">Personal Blog</h3>
-          </div>
-          <p class="card-text text-muted">
-            Blog personale realizzato con Eleventy e Bootstrap. Include sistema di tag, pagination e dark mode.
-          </p>
-          <div class="mb-3">
-            <span class="badge bg-light text-body border me-1 pe-none">Eleventy</span>
-            <span class="badge bg-light text-body border me-1 pe-none">Bootstrap</span>
-            <span class="badge bg-light text-body border pe-none">Nunjucks</span>
-            <span class="badge bg-light text-body border pe-none">Liquid</span>
-          </div>
-          <div class="mt-auto">
-            <a href="https://github.com/Dino-996/dino-996.github.io" target="_blank" class="btn btn-primary btn-sm mb-2 w-100">
-              <i class="bi bi-github me-1"></i>Vedi su GitHub
-            </a>
-            <div class="text-start">
-              <span class="badge bg-success pe-none">
-                <i class="bi bi-check-circle me-1"></i>Completato
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100 shadow-none" style="transform: none;">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex align-items-center mb-3">
-              <i class="bi bi-cloud-fill fs-3 text-primary me-2"></i>
-              <h3 class="h5 card-title mb-0">Spring Boot API</h3>
-            </div>
-            <p class="card-text text-muted">
-              API REST completa sviluppata con Spring Boot per la gestione utenti, con supporto per database PostgreSQL e H2.
-            </p>
-            <div class="mb-3">
-              <span class="badge bg-light text-body border me-1 pe-none">Sping Boot</span>
-            <span class="badge bg-light text-body border me-1 pe-none">API REST</span>
-            </div>
-            <div class="mt-auto">
-              <a href="https://github.com/Dino-996/spring-boot-api" target="_blank" class="btn btn-primary btn-sm mb-2 w-100">
-                <i class="bi bi-github me-1"></i>Vedi su GitHub
-              </a>
-              <div class="text-start">
-                <span class="badge bg-success pe-none">
-                  <i class="bi bi-check-circle me-1"></i>Completato
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="card h-100 shadow-none" style="transform: none;">
-        <div class="card-body d-flex flex-column">
-          <div class="d-flex align-items-center mb-3">
-            <i class="bi bi-lightbulb fs-3 text-warning me-2"></i>
-            <h3 class="h5 card-title mb-0">Prossimamente</h3>
-          </div>
-          <p class="card-text text-muted">
-            Attualmente sto lavorando ad un progetto di cyber security. Torna a controllare tra qualche settimana!
-          </p>
-          <div class="mb-3">
-            <span class="badge bg-light text-body border me-1 pe-none">In sviluppo</span>
-          </div>
-          <div class="mt-auto">
-            <button class="btn btn-secondary btn-sm mb-2 w-100" disabled>
-              <i class="bi bi-hourglass-split me-1"></i>Coming Soon
-            </button>
-            <div class="text-start">
-              <span class="badge bg-warning text-dark pe-none">
-                <i class="bi bi-gear-fill me-1"></i>In corso
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<hr class="my-5" />
-<!-- Ultimi Articoli -->
-<section class="mb-5">
-  <div class="d-flex align-items-center justify-content-between mb-4">
-    <h2 class="h3 fw-bold mb-0">
-      <i class="bi bi-journal-text text-primary me-2"></i>Ultimi Articoli
-    </h2>
-    <a href="/blog/" class="btn btn-outline-primary btn-sm">
-      Vedi tutti <i class="bi bi-arrow-right ms-1"></i>
-    </a>
-  </div>
-  <div class="row g-4">
-  <div class="col-md-6 col-lg-4">
-    <article class="card h-100 overflow-hidden shadow-none" style="transform: none">
-      <div class="row g-0 h-100">
-        <div class="col-12 p-0">
-          <img 
-            src="\assets\img\webp\thread.webp" 
-            alt="Immagine generata con AI" 
-            class="img-fluid w-100" 
-            style="object-fit: cover; height: 200px;"
-          >
-        </div>
-        <div class="col-12">
-          <div class="card-body d-flex flex-column h-100">
-            <div>
-              <h2 class="h4 card-title mb-2">
-                <a href="/blog/processi/" class="text-decoration-none">Processi</a>
-              </h2>
-              <time class="text-muted text-truncate small d-block mb-2" datetime="2020-02-10T00:00:00.000Z">
-                <i class="bi bi-calendar3 me-1"></i>10 febbraio 2020
-              </time>
-              <hr>
-<p><p class="card-text">Vengono esaminati i meccanismi di gestione della memoria, illustrando la differenza tra l'allocazione dinamica nello heap e l'utilizzo te...</p></p>
-<p><div class="mb-3">
-<div class="d-flex flex-row gap-1">
-<strong class="me-2">Tag:</strong></p>
-<p><a href="/tags/sistemi-operativi/" class="badge bg-light text-body border text-decoration-none">sistemi operativi</a></p>
-<p><a href="/tags/processi/" class="badge bg-light text-body border text-decoration-none">processi</a></p>
-<p></div>
-</div></p>
-<p></div>
-<div class="text-end mt-auto mb-3">
-<a href="/blog/processi/" class="btn btn-primary btn-sm">
-Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
-</a>
-</div>
-</div>
-</div>
-</div>
-</article></p>
-  </div>
-  <div class="col-md-6 col-lg-4">
-    <article class="card h-100 overflow-hidden shadow-none" style="transform: none">
-      <div class="row g-0 h-100">
-        <div class="col-12 p-0">
-          <img 
-            src="\assets\img\webp\strutture-dei-sistemi-operativi.webp" 
-            alt="Immagine generata con AI" 
-            class="img-fluid w-100" 
-            style="object-fit: cover; height: 200px;"
-          >
-        </div>
-        <div class="col-12">
-          <div class="card-body d-flex flex-column h-100">
-            <div>
-              <h2 class="h4 card-title mb-2">
+
+<ul class="list-unstyled">
+
+
+  
+  
+    
+      
+    
+      
+    
+      
+        
+        <li class="mb-4">
+          <article class="card shadow-sm">
+            <div class="card-body">
+              <h2 class="h4 mb-2">
                 <a href="/blog/strutture-dei-sistemi-operativi/" class="text-decoration-none">Strutture dei Sistemi Operativi</a>
               </h2>
-              <time class="text-muted text-truncate small d-block mb-2" datetime="2020-02-14T00:00:00.000Z">
+              
+              <time class="text-muted small d-block mb-2" datetime="2020-02-14T00:00:00.000Z">
                 <i class="bi bi-calendar3 me-1"></i>14 febbraio 2020
               </time>
-              <hr>
-<p><p class="card-text">Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chia...</p></p>
-<p><div class="mb-3">
-<div class="d-flex flex-row gap-1">
-<strong class="me-2">Tag:</strong></p>
-<p><a href="/tags/sistemi-operativi/" class="badge bg-light text-body border text-decoration-none">sistemi operativi</a></p>
-<p><a href="/tags/struttura/" class="badge bg-light text-body border text-decoration-none">struttura</a></p>
-<p></div>
-</div></p>
-<p></div>
-<div class="text-end mt-auto mb-3">
-<a href="/blog/strutture-dei-sistemi-operativi/" class="btn btn-primary btn-sm">
-Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
-</a>
-</div>
-</div>
-</div>
-</div>
-</article></p>
-  </div>
-</div>
-</section>
-<!-- Call to Action -->
-<section class="text-center py-5 bg-light rounded">
-  <h2 class="h4 fw-bold mb-3">Vuoi rimanere aggiornato?</h2>
-  <p class="text-muted mb-4">
-    Seguimi sui social per non perdere i nuovi articoli e progetti
-  </p>
-  <div class="d-flex gap-3 justify-content-center">
-    <a href="https://github.com/Dino-996" target="_blank" class="btn btn-dark">
-      <i class="bi bi-github me-2"></i>GitHub
-    </a>
-    <a href="https://linkedin.com/in/davidesabia" target="_blank" class="btn btn-primary">
-      <i class="bi bi-linkedin me-2"></i>LinkedIn
-    </a>
-  </div>
-</section></body>
+
+              <hr />
+
+              
+                <p class="mt-2 mb-3">Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel.</p>
+              
+
+              
+                <div class="mb-3">
+                  <span class="fw-bold me-2">Altri tag:</span>
+                  
+                    
+                  
+                    
+                      <a href="/tags/sistemi-operativi/" class="badge bg-light text-body border text-decoration-none">sistemi operativi</a>
+                    
+                  
+                    
+                  
+                </div>
+              
+              
+              <a href="/blog/strutture-dei-sistemi-operativi/" class="btn btn-outline-primary btn-sm">
+                Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
+              </a>
+            </div>
+          </article>
+        </li>
+      
+    
+  
+
+  
+  
+    
+      
+    
+      
+    
+      
+    
+  
+
+
+
+</ul></body>
 </html>
 
     </main>

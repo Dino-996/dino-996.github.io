@@ -5,14 +5,13 @@ description: Si descrivono le diverse modalità di accesso, dalle interfacce tes
 tags:
   - posts
   - sistemi operativi
-date: 2026-02-14
+  - struttura
+date: 2020-02-14
 excerpt: In questo articolo vediamo l'architettura dei sistemi operativi, analizzando il modo in cui gestiscono le risorse hardware e interagiscono con l'utente.
 permalink: "/blog/{{ title | slug }}/"
-image: \assets\img\png\strutture-dei-sistemi-operativi.png
+image: \assets\img\webp\strutture-dei-sistemi-operativi.webp
 imageAlt: "Immagine generata con AI"
 ---
-
-# {{ title }}
 
 ## Introduzione
 
@@ -75,8 +74,6 @@ Ci sono diversi approcci utilizzati per la progettazione di un kernel:
 - **Darwin:** il kernel alla base dei sistemi Apple, rilasciato come software open-source.
 
 ## Generazione, Avvio e Debugging
-
-La creazione di un sistema personalizzato (come nel progetto *Linux From Scratch*) richiede la configurazione del kernel (es. tramite `make menuconfig`), la compilazione del codice sorgente e l'installazione dei moduli.
 
 Il processo di avvio (**boot**) segue solitamente questi passaggi:
 
