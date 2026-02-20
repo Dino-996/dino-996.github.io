@@ -18,8 +18,7 @@ eleventyExcludeFromCollections: true
     <uri>{{ site.url }}</uri>
   </author>
 
-  {% for post in collections.posts | reverse %}
-    {% if loop.index <= 20 %}
+  {% for post in collections.posts %}
   <entry>
     <title>{{ post.data.title }}</title>
     <link href="{{ site.url }}{{ post.url }}" rel="alternate" type="text/html"/>
@@ -29,15 +28,15 @@ eleventyExcludeFromCollections: true
     {% if post.data.description %}
     <summary>{{ post.data.description }}</summary>
     {% endif %}
-    {% if post.data.tags %}
-      {% for tag in post.data.tags %}
-        {% if tag !== "posts" %}
+    {% if post.templateContent %}
+    <content type="html"><![CDATA[{{ post.templateContent }}]]></content>
+    {% endif %}
+    {% for tag in post.data.tags %}
+      {% if tag != "posts" %}
     <category term="{{ tag }}"/>
-        {% endif %}
-      {% endfor %}
-    {% endif %}
+      {% endif %}
+    {% endfor %}
   </entry>
-    {% endif %}
   {% endfor %}
 
 </feed>
