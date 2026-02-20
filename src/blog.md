@@ -56,11 +56,9 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
         </a>
       {% endif %}
     </div>
-    
     <div class="text-muted small">
       Pagina {{ pagination.pageNumber | plus: 1 }} di {{ pagination.pages | size }}
     </div>
-    
     <div>
       {% if pagination.nextPageHref %}
         <a href="{{ pagination.nextPageHref }}" class="btn btn-outline-primary">
