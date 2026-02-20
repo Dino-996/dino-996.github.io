@@ -22,13 +22,13 @@
       crossorigin="anonymous">
     </script>
 
-    <!-- Bootstrap toggle menu -->
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
     <script>
       (function() {
         const userTheme = localStorage.getItem('bs-theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       
-        let theme = 'light'; // default
+        let theme = 'light';
         if (userTheme === 'dark' || userTheme === 'light') {
           theme = userTheme;
         } else {
@@ -39,14 +39,8 @@
       })();
     </script>
 
-    <!-- Nomnoml (da fixare) -->
-    <script src="https://cdn.jsdelivr.net/npm/nomnoml@1.5.2/dist/nomnoml.js"></script>
-
-
-    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <!-- KaTeX — deferred per non bloccare il rendering -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" integrity="sha384-+W9OcrYK2/bD7BmUAk+xeFAyKp0QjyRQUCxeU31dfyTt/FrPsUgaBTLLkVf33qWt" crossorigin="anonymous"></script>
-
-    <!-- To automatically render math in text elements, include the auto-render extension: -->
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" integrity="sha384-hCXGrW6PitJEwbkoStFjeJxv+fSOOQKOPbJxSfM6G5sWZjAyWhXiTIIAmQqnlLlh" crossorigin="anonymous"
         onload="renderMathInElement(document.body);"></script>
 
