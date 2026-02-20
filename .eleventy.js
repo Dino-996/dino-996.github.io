@@ -1,5 +1,7 @@
 import slugify from "slugify";
 import markdownIt from "markdown-it";
+import fs from "fs";
+import path from "path";
 
 export default function (eleventyConfig) {
   // ============================================
@@ -34,7 +36,6 @@ export default function (eleventyConfig) {
     linkify: true
   }).disable("image");
 
-  // Link esterni
   const defaultRender =
     md.renderer.rules.link_open ||
     function (tokens, idx, options, env, self) {
@@ -45,7 +46,7 @@ export default function (eleventyConfig) {
     const href = tokens[idx].attrGet("href");
     if (href && href.startsWith("http")) {
       tokens[idx].attrSet("target", "_blank");
-      tokens[idx].attrSet("rel", "noopener noreferrer"); // sicurezza
+      tokens[idx].attrSet("rel", "noopener noreferrer");
     }
     return defaultRender(tokens, idx, options, env, self);
   };
@@ -67,24 +68,17 @@ export default function (eleventyConfig) {
   // ============================================
   // = FILTERS
   // ============================================
-
-  // Markdown inline rendering
   eleventyConfig.addFilter("markdown", (content) => {
     return md.renderInline(content);
   });
 
-  // Date filters
   eleventyConfig.addFilter("dateIso", (date) => {
-    if (!date) {
-      return "";
-    }
+    if (!date) return "";
     return new Date(date).toISOString();
   });
 
   eleventyConfig.addFilter("dateHuman", (date) => {
-    if (!date) {
-      return "Data non disponibile.";
-    }
+    if (!date) return "Data non disponibile.";
     return new Intl.DateTimeFormat("it-IT", {
       day: "2-digit",
       month: "long",
@@ -92,60 +86,67 @@ export default function (eleventyConfig) {
     }).format(new Date(date));
   });
 
-  // Excerpt filter
   eleventyConfig.addFilter("excerpt", (post) => {
-
-    if (post.data?.excerpt) {
-      return post.data.excerpt;
-    }
-    if (!post) {
-      return "";
-    }
-    if (!post.templateContent) {
-      return "";
-    }
+    if (post.data?.excerpt) return post.data.excerpt;
+    if (!post?.templateContent) return "";
     const content = post.templateContent.replace(/(<([^>]+)>)/gi, "").trim();
     return content.length > 160 ? content.slice(0, 160) + "…" : content;
   });
 
-  // Safe slug filter
   eleventyConfig.addFilter("slug", (str) => {
     if (!str) return "";
     return slugify(str, {
       lower: true,
       strict: true,
-      locale: "it", // gestione accenti italiani
+      locale: "it",
       replacement: "-",
-      trim: true // rimuove trattini iniziali / finali
+      trim: true
     });
   });
 
   // ============================================
   // = COLLECTIONS
   // ============================================
-
-  // Posts collection (sorted by date, newest first)
   eleventyConfig.addCollection("posts", (collection) => {
     return collection
       .getFilteredByTag("posts")
       .sort((a, b) => b.date - a.date);
   });
 
-  // Tags collection (exclude "posts" tag)
   eleventyConfig.addCollection("tagsList", (collection) => {
     const tagsSet = new Set();
-
     collection.getAll().forEach((item) => {
       if ("tags" in item.data) {
         item.data.tags.forEach((tag) => {
-          if (tag !== "posts") {
-            tagsSet.add(tag);
-          }
+          if (tag !== "posts") tagsSet.add(tag);
         });
       }
     });
-
     return [...tagsSet].sort();
+  });
+
+  // ============================================
+  // = SEARCH INDEX
+  // ============================================
+  let searchIndexCache = [];
+
+  eleventyConfig.addCollection("searchIndex", (collection) => {
+    searchIndexCache = collection
+      .getFilteredByTag("posts")
+      .sort((a, b) => b.date - a.date)
+      .map((post) => ({
+        title: post.data.title ?? "",
+        url: post.url,
+        description: post.data.description ?? "",
+        date: post.date ? post.date.toISOString() : ""
+      }));
+    return searchIndexCache;
+  });
+
+  eleventyConfig.on("eleventy.after", () => {
+    const outPath = path.join("docs", "search.json");
+    fs.writeFileSync(outPath, JSON.stringify(searchIndexCache, null, 2), "utf-8");
+    console.log(`[search] Scritti ${searchIndexCache.length} post in ${outPath}`);
   });
 
   // ============================================

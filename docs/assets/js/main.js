@@ -46,6 +46,93 @@
   );
 
   // ===========================================
+  // = Blog search
+  // ===========================================
+  const searchInput = document.getElementById('search-input');
+  const searchButton = document.getElementById('search-button');
+  const searchResults = document.getElementById('search-results');
+  const postsList = document.getElementById('posts-list');
+  const paginationEl = document.getElementById('pagination');
+
+  if (searchInput && searchButton) {
+    let posts = [];
+
+    async function loadPosts() {
+      if (posts.length > 0) return;
+      try {
+        const res = await fetch('/search.json');
+        posts = await res.json();
+      } catch (err) {
+        console.error('Errore nel caricamento di search.json:', err);
+      }
+    }
+
+    function renderResults(query) {
+      const q = query.trim().toLowerCase();
+
+      if (!q) {
+        searchResults.hidden = true;
+        searchResults.innerHTML = '';
+        postsList.hidden = false;
+        if (paginationEl) paginationEl.hidden = false;
+        return;
+      }
+
+      const filtered = posts.filter(p =>
+        p.title.toLowerCase().includes(q)
+      );
+
+      postsList.hidden = true;
+      if (paginationEl) paginationEl.hidden = true;
+      searchResults.hidden = false;
+
+      if (filtered.length === 0) {
+        searchResults.innerHTML = `
+          <div class="text-center py-4 text-muted">
+            <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+            Nessun articolo trovato per "<strong>${query}</strong>"
+          </div>`;
+        return;
+      }
+
+      searchResults.innerHTML = `
+        <div class="row g-4">
+          ${filtered.map(p => `
+            <div class="col-12">
+              <article class="card shadow-sm">
+                <div class="card-body">
+                  <h2 class="h4 mb-1">
+                    <a href="${p.url}" class="text-decoration-none">${p.title}</a>
+                  </h2>
+                  ${p.description ? `<p class="text-muted mb-2 small">${p.description}</p>` : ''}
+                  <a href="${p.url}" class="btn btn-primary btn-sm">
+                    Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
+                  </a>
+                </div>
+              </article>
+            </div>`).join('')}
+        </div>`;
+    }
+
+    async function doSearch() {
+      await loadPosts();
+      renderResults(searchInput.value);
+    }
+
+    // Click sul bottone
+    searchButton.addEventListener('click', doSearch);
+
+    // Invio da tastiera
+    searchInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') doSearch();
+    });
+
+    // Svuota i risultati se l'input viene cancellato manualmente
+    searchInput.addEventListener('input', () => {
+      if (searchInput.value === '') renderResults('');
+    });
+  }
+
   // = Smooth scroll for anchor links
   // ===========================================
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -155,5 +242,5 @@
     });
   }
 
-  console.log('dino-996 blog loaded successfully!');
+  console.log('✨ dino-996 blog loaded successfully!');
 })();

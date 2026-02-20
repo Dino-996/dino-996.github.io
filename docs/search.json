@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Scheduling della CPU",
+    "url": "/blog/scheduling-della-cpu/",
+    "description": "Facciamo un'analisi approfondita dello scheduling della CPU, una funzione vitale dei sistemi operativi progettata per massimizzare l'efficienza attraverso la multiprogrammazione.",
+    "date": "2020-02-21T00:00:00.000Z"
+  },
+  {
+    "title": "Thread",
+    "url": "/blog/thread/",
+    "description": "Si descrivono i thread come le unità di base di utilizzo della CPU, evidenziando i vantaggi del multithreading come la condivisione delle risorse e la scalabilità. Approfondiamo il calcolo parallelo confrontando CPU e GPU, citando linguaggi come CUDA e OpenCL per elaborazioni ad alte prestazioni. Analizziamo inoltre l'uso di librerie standard (Pthreads, Windows API, Java Executor) e modelli come thread pool e fork-join, concludendo con le sfide della cancellazione dei task e le specificità di sistema come la funzione clone() in Linux.",
+    "date": "2020-02-18T00:00:00.000Z"
+  },
+  {
+    "title": "Struttura dei Sistemi Operativi",
+    "url": "/blog/struttura-dei-sistemi-operativi/",
+    "description": "Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel.",
+    "date": "2020-02-14T00:00:00.000Z"
+  },
+  {
+    "title": "Processi",
+    "url": "/blog/processi/",
+    "description": "Vengono esaminati i meccanismi di gestione della memoria, illustrando la differenza tra l'allocazione dinamica nello heap e l'utilizzo temporaneo dello stack per le chiamate di funzione. Process Control Block (PCB), una struttura dati fondamentale che memorizza lo stato, i registri e le informazioni di scheduling necessarie alla CPU.",
+    "date": "2020-02-10T00:00:00.000Z"
+  },
+  {
+    "title": "Sincronizzazione dei processi",
+    "url": "/blog/sincronizzazione-dei-processi/",
+    "description": "Viene esaminata la sincronizzazione dei processi nei sistemi operativi, focalizzandosi sulla gestione dell'accesso concorrente a dati condivisi per prevenire le race condition.",
+    "date": "2020-02-03T00:00:00.000Z"
+  }
+]

@@ -14,7 +14,27 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
   {{ title }}
 </h1>
 
-<section class="row g-4">{% for post in posts %}
+<div class="mb-4">
+  <div class="input-group">
+    <span class="input-group-text bg-body border-end-0">
+      <i class="bi bi-search text-muted"></i>
+    </span>
+    <input
+      type="search"
+      id="search-input"
+      class="form-control border-start-0 border-end-0 ps-0"
+      placeholder="Cerca un articolo per titolo..."
+      aria-label="Cerca articoli"
+      autocomplete="off"
+    >
+    <button id="search-button" class="btn btn-primary shadow-none" type="button" style="transform: none;">
+      Cerca
+    </button>
+  </div>
+  <div id="search-results" class="mt-3" hidden></div>
+</div>
+
+<section id="posts-list" class="row g-4">{% for post in posts %}
   <div class="col-12">
     <article class="card h-100 overflow-hidden shadow-sm">
       <div class="row g-0 h-100">{% if post.data.image %}
@@ -32,10 +52,9 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
                 <i class="bi bi-calendar3 me-1"></i>{{ post.date | dateHuman }}
               </time>
               <hr>{% if post.data.description %}
-              <p class="card-text">{{ post.data.description }}
-              </p>{% endif %}{% if post.data.tags %}
-              <div class="mb-3"><span class="fw-bold me-2">Tag:</span>{% for tag in post.data.tags %}{% unless tag == "posts" %}
-                <a href="/tags/{{ tag | slugify }}/" class="badge bg-light text-body border text-decoration-none">{{ tag }}</a>{% endunless %}{% endfor %}
+              <p class="card-text">{{ post.data.description }}</p>{% endif %}{% if post.data.tags %}
+              <div class="mb-3"><span class="fw-bold me-2">Tag:</span>{% for tag in post.data.tags %}{% if tag != "posts" %}
+                <a href="/tags/{{ tag | slug }}/" class="badge bg-light text-body border text-decoration-none">{{ tag }}</a>{% endif %}{% endfor %}
               </div>{% endif %}</div>
               <div class="text-end mt-auto mb-3">
                 <a href="{{ post.url }}" class="btn btn-primary btn-sm">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
@@ -47,7 +66,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
   </div>{% endfor %}
 </section>
 
-<nav class="mt-5" aria-label="Navigazione pagine blog">
+<nav id="pagination" class="mt-5" aria-label="Navigazione pagine blog">
   <div class="d-flex justify-content-between align-items-center">
     <div>
       {% if pagination.previousPageHref %}
