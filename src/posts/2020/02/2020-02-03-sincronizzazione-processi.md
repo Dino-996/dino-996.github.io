@@ -9,7 +9,7 @@ tags:
 date: 2020-02-03
 excerpt: In questo articolo esploriamo la sincronizzazione dei processi per garantire mutua esclusione, progresso e attesa limitata nella sezione critica. Vengono illustrati strumenti che spaziano dal supporto hardware (CAS) a mutex, semafori e monitor, analizzando criticità di liveness come stallo e inversione di priorità. La selezione della tecnica più efficiente viene infine valutata in base al livello di contesa del sistema.
 permalink: "/blog/{{ title | slug }}/"
-image: \assets\img\webp\sistemi-operativi.webp
+image: /assets/img/webp/sistemi-operativi.webp
 imageAlt: "Immagine generata con IA"
 ---
 

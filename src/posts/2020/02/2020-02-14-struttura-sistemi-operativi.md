@@ -9,7 +9,7 @@ tags:
 date: 2020-02-14
 excerpt: In questo articolo vediamo l'architettura dei sistemi operativi, analizzando il modo in cui gestiscono le risorse hardware e interagiscono con l'utente.
 permalink: "/blog/{{ title | slug }}/"
-image: \assets\img\webp\sistemi-operativi.webp
+image: /assets/img/webp/sistemi-operativi.webp
 imageAlt: "Immagine generata con IA"
 ---
 

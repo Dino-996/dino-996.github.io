@@ -9,7 +9,7 @@ tags:
 date: 2020-02-21
 excerpt: In questo articolo esploriamo lo scheduling della CPU, una funzione vitale dei sistemi operativi progettata per ottimizza throughput e tempi d’attesa attraverso algoritmi come FCFS, SJF e Round Robin. La gestione moderna si estende a thread hardware/software e sistemi multicore, privilegiando la processor affinity per l'efficienza della cache. Il supporto real-time (soft/hard) garantisce il rispetto di scadenze rigide.
 permalink: "/blog/{{ title | slug }}/"
-image: \assets\img\webp\sistemi-operativi.webp
+image: /assets/img/webp/sistemi-operativi.webp
 imageAlt: "Immagine generata con IA"
 ---
 
