@@ -17,59 +17,53 @@ pagination:
 </div>
 
 <ul class="list-unstyled">
-{% set foundPosts = false %}
-{% for post in collections.posts %}
-  {% set hasTags = post.data.tags and post.data.tags.length > 0 %}
-  {% if hasTags %}
-    {% for postTag in post.data.tags %}
-      {% if postTag === tag %}
-        {% set foundPosts = true %}
-        <li class="mb-4">
-          <article class="card shadow-sm">
-            <div class="card-body">
-              <h2 class="h4 mb-2">
-                <a href="{{ post.url }}" class="text-decoration-none">{{ post.data.title }}</a>
-              </h2>
-              
-              <time class="text-muted small d-block mb-2" datetime="{{ post.date | dateIso }}">
-                <i class="bi bi-calendar3 me-1"></i>{{ post.date | dateHuman }}
-              </time>
+  {% set taggedPosts = collections[tag] %}
 
-              <hr />
+  {% if taggedPosts and taggedPosts.length > 0 %}
+    {% for post in taggedPosts | reverse %}
+      <li class="mb-4">
+        <article class="card shadow-sm">
+          <div class="card-body">
+            <h2 class="h4 mb-2">
+              <a href="{{ post.url }}" class="text-decoration-none">{{ post.data.title }}</a>
+            </h2>
 
-              {% if post.data.description %}
-                <p class="mt-2 mb-3">{{ post.data.description }}</p>
-              {% endif %}
+            <time class="text-muted small d-block mb-2" datetime="{{ post.date | dateIso }}">
+              <i class="bi bi-calendar3 me-1"></i>{{ post.date | dateHuman }}
+            </time>
 
-              {% if post.data.tags %}
-                <div class="mb-3">
-                  <span class="fw-bold me-2">Altri tag:</span>
-                  {% for t in post.data.tags %}
-                    {% if t !== "posts" and t !== tag %}
-                      <a href="/tags/{{ t | slug }}/" class="badge bg-light text-body border text-decoration-none">{{ t }}</a>
-                    {% endif %}
-                  {% endfor %}
-                </div>
-              {% endif %}
-              
-              <a href="{{ post.url }}" class="btn btn-outline-primary btn-sm">
-                Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
-              </a>
-            </div>
-          </article>
-        </li>
-      {% endif %}
+            <hr />
+
+            {% if post.data.description %}
+              <p class="mt-2 mb-3">{{ post.data.description }}</p>
+            {% endif %}
+
+            {% if post.data.tags %}
+              <div class="mb-3">
+                <span class="fw-bold me-2">Altri tag:</span>
+                {% for t in post.data.tags %}
+                  {% if t != "posts" and t != tag %}
+                    <a href="/tags/{{ t | slug }}/" class="badge bg-light text-body border text-decoration-none">{{ t }}</a>
+                  {% endif %}
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <a href="{{ post.url }}" class="btn btn-outline-primary btn-sm">
+              Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </article>
+      </li>
     {% endfor %}
-  {% endif %}
-{% endfor %}
 
-{% if not foundPosts %}
-  <li class="text-center py-5">
-    <i class="bi bi-inbox fs-1 text-muted d-block mb-3"></i>
-    <p class="text-muted">Nessun articolo trovato per questo tag.</p>
-    <a href="/blog/" class="btn btn-outline-primary">
-      <i class="bi bi-arrow-left me-1"></i>Torna al blog
-    </a>
-  </li>
-{% endif %}
+  {% else %}
+    <li class="text-center py-5">
+      <i class="bi bi-inbox fs-1 text-muted d-block mb-3"></i>
+      <p class="text-muted">Nessun articolo trovato per questo tag.</p>
+      <a href="/blog/" class="btn btn-outline-primary">
+        <i class="bi bi-arrow-left me-1"></i>Torna al blog
+      </a>
+    </li>
+  {% endif %}
 </ul>
