@@ -27,7 +27,7 @@
 <meta property="og:description" content="Vengono esaminati i meccanismi di gestione della memoria, illustrando la differenza tra l&#39;allocazione dinamica nello heap e l&#39;utilizzo temporaneo dello stack per le chiamate di funzione. Process Control Block (PCB), una struttura dati fondamentale che memorizza lo stato, i registri e le informazioni di scheduling necessarie alla CPU." />
 <meta property="og:site_name" content="dino-996 blog" />
 
-<meta property="og:image" content="https://dino-996.github.io&#92;assets&#92;img&#92;webp&#92;thread.webp" />
+<meta property="og:image" content="https://dino-996.github.io&#92;assets&#92;img&#92;webp&#92;sistemi-operativi.webp" />
 
 
 <!-- Twitter Card -->
@@ -38,7 +38,7 @@
 <meta name="twitter:title" content="Processi" />
 <meta name="twitter:description" content="Vengono esaminati i meccanismi di gestione della memoria, illustrando la differenza tra l&#39;allocazione dinamica nello heap e l&#39;utilizzo temporaneo dello stack per le chiamate di funzione. Process Control Block (PCB), una struttura dati fondamentale che memorizza lo stato, i registri e le informazioni di scheduling necessarie alla CPU." />
 
-<meta name="twitter:image" content="https://dino-996.github.io&#92;assets&#92;img&#92;webp&#92;thread.webp" />
+<meta name="twitter:image" content="https://dino-996.github.io&#92;assets&#92;img&#92;webp&#92;sistemi-operativi.webp" />
 
 
 <!-- Favicon -->
@@ -143,13 +143,13 @@
   
     <div class="mb-4">
       <img 
-        src="&#92;assets&#92;img&#92;webp&#92;thread.webp" 
-        alt="Immagine generata con AI" 
+        src="&#92;assets&#92;img&#92;webp&#92;sistemi-operativi.webp" 
+        alt="Immagine generata con IA" 
         class="img-fluid rounded w-100"
         style="max-height: 400px; object-fit: cover;"
       >
       
-      <figcaption class="text-muted small mt-2 text-center">Immagine generata con AI</figcaption>
+      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
     
   </div>
   
@@ -157,7 +157,7 @@
   <hr />
 
   <section class="content">
-    <h2>Introduzione</h2>
+    <h1>Introduzione</h1>
 <p>In questo articolo approfondiamo l'architettura dei processi all'interno dei sistemi operativi, distinguendo tra il concetto di programma statico e quello di entità attiva in esecuzione.</p>
 <h2>Che cos'è un processo?</h2>
 <p>Un <strong>processo</strong> è definito come un <strong>programma in esecuzione</strong>: un’entità attiva dotata di un contatore di programma e di un insieme di risorse associate. Si distingue dal programma, che è invece un’entità passiva, ad esempio un file memorizzato su disco.</p>
@@ -168,7 +168,7 @@
 <li><strong>Heap</strong>: area di memoria allocata dinamicamente durante l’esecuzione.</li>
 <li><strong>Stack</strong>: memoria temporanea utilizzata per le chiamate di funzione e le variabili locali.</li>
 </ul>
-<p>Nei sistemi moderni il concetto si estende ai <strong>thread</strong>, che consentono a un singolo processo di avere più percorsi di esecuzione concorrenti, facilitando il parallelismo nei sistemi multicore.</p>
+<p>Nei sistemi moderni il concetto si estende ai <strong><a href="https://dino-996.github.io/blog/thread/">thread</a>.</strong>, che consentono a un singolo processo di avere più percorsi di esecuzione concorrenti, facilitando il parallelismo nei sistemi multicore.</p>
 <h2>Il core e il multicore</h2>
 <p>Un <strong>core</strong> è un’unità di calcolo fisica indipendente all’interno della CPU.</p>
 <p>Una CPU contiene tipicamente:</p>

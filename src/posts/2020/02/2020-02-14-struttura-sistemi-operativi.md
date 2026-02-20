@@ -1,6 +1,6 @@
 ---
 layout: layouts/post.njk
-title: Strutture dei Sistemi Operativi
+title: Struttura dei Sistemi Operativi
 description: Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel.
 tags:
   - posts
@@ -9,11 +9,11 @@ tags:
 date: 2020-02-14
 excerpt: In questo articolo vediamo l'architettura dei sistemi operativi, analizzando il modo in cui gestiscono le risorse hardware e interagiscono con l'utente.
 permalink: "/blog/{{ title | slug }}/"
-image: \assets\img\webp\strutture-dei-sistemi-operativi.webp
-imageAlt: "Immagine generata con AI"
+image: \assets\img\webp\sistemi-operativi.webp
+imageAlt: "Immagine generata con IA"
 ---
 
-## Introduzione
+# Introduzione
 
 {{ excerpt }}
 
@@ -27,7 +27,7 @@ L'interazione con l'utente avviene attraverso tre modalità principali:
 - **Interfaccia grafica (GUI):** basata sulla metafora del desktop, icone e puntatori.
 - **Interfaccia touch screen:** basata su gesti (gesture) direttamente sullo schermo.
 
-## Interfaccia di Programmazione: System Call e API
+## Interfaccia di Programmazione - System Call e API
 
 Le **chiamate di sistema (system call)** rappresentano l'interfaccia verso i servizi resi disponibili dal SO.  
 Spesso i programmatori non invocano direttamente le system call, ma utilizzano le **Application Programming Interface (API)**, come le API di Windows, POSIX (per Unix, Linux, macOS) o le API Java. Questo garantisce la **portabilità delle applicazioni**.
