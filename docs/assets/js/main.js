@@ -8,6 +8,22 @@
   // ===========================================
   // = Bootstrap toggle theme
   // ===========================================
+
+  /**
+   * Notifica Giscus del cambio tema tramite postMessage.
+   * L'iframe di Giscus ascolta questo evento e aggiorna il proprio tema
+   * senza ricaricare i commenti.
+   * @param {'light'|'dark'} theme
+   */
+  function syncGiscusTheme(theme) {
+    const iframe = document.querySelector('iframe.giscus-frame');
+    if (!iframe) return;
+    iframe.contentWindow.postMessage(
+      { giscus: { setConfig: { theme } } },
+      'https://giscus.app'
+    );
+  }
+
   document.querySelectorAll('.mode-switch .btn').forEach(btn =>
     btn.addEventListener('click', function () {
       const mode = this.id; // 'dark' o 'light'
@@ -23,6 +39,9 @@
         b.classList.remove('text-body')
       );
       this.classList.add('text-body');
+
+      // Sincronizza il tema di Giscus (solo nelle pagine post dove è presente)
+      syncGiscusTheme(mode);
     })
   );
 
@@ -136,5 +155,5 @@
     });
   }
 
-  console.log('✨ dino-996 blog loaded successfully!');
+  console.log('dino-996 blog loaded successfully!');
 })();
