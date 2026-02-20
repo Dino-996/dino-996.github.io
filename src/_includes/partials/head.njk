@@ -29,6 +29,8 @@
 <meta property="og:site_name" content="{{ site.title }}" />
 {% if image %}
 <meta property="og:image" content="{{ site.url }}{{ image }}" />
+{% else %}
+<meta property="og:image" content="{{ site.url }}/assets/img/webp/og-default.webp" />
 {% endif %}
 
 <!-- Twitter Card -->
