@@ -57,7 +57,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
                 <a href="/tags/{{ tag | slug }}/" class="badge bg-light text-body border text-decoration-none">{{ tag }}</a>{% endif %}{% endfor %}
               </div>{% endif %}</div>
               <div class="text-end mt-auto mb-3">
-                <a href="{{ post.url }}" class="btn btn-primary btn-sm">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
+                <a href="{{ post.url }}" class="btn btn-primary btn-sm rounded">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
               </div>
             </div>
           </div>
@@ -70,7 +70,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
   <div class="d-flex justify-content-between align-items-center">
     <div>
       {% if pagination.previousPageHref %}
-        <a href="{{ pagination.previousPageHref }}" class="btn btn-outline-primary">
+        <a href="{{ pagination.previousPageHref }}" class="btn btn-outline-primary rounded">
           <i class="bi bi-arrow-left me-1"></i>Precedente
         </a>
       {% endif %}
@@ -80,7 +80,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
     </div>
     <div>
       {% if pagination.nextPageHref %}
-        <a href="{{ pagination.nextPageHref }}" class="btn btn-outline-primary">
+        <a href="{{ pagination.nextPageHref }}" class="btn btn-outline-primary rounded">
           Successivo<i class="bi bi-arrow-right ms-1"></i>
         </a>
       {% endif %}

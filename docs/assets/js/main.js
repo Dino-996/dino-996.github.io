@@ -105,9 +105,11 @@
                     <a href="${p.url}" class="text-decoration-none">${p.title}</a>
                   </h2>
                   ${p.description ? `<p class="text-muted mb-2 small">${p.description}</p>` : ''}
-                  <a href="${p.url}" class="btn btn-primary btn-sm">
-                    Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
-                  </a>
+                    <div class="d-flex flex-row-reverse mt-3">
+                      <a href="${p.url}" class="btn btn-primary btn-sm w-25 rounded">
+                        Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
+                      </a>
+                    </div>
                 </div>
               </article>
             </div>`).join('')}
