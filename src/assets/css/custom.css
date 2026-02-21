@@ -147,7 +147,6 @@ code {
   padding: 0.2rem 0.4rem;
   border-radius: 3px;
   font-size: 0.875em;
-  color: #e83e8c;
 }
 
 [data-bs-theme="dark"] code {
@@ -168,10 +167,19 @@ pre {
   border-color: #4a5568;
 }
 
+:not(pre) > code {
+  background-color: #f8f9fa;
+  padding: 0.2rem 0.4rem;
+  border-radius: 3px;
+  font-size: 0.875em;
+  color: #e83e8c;
+}
+
 pre code {
   background-color: transparent;
   padding: 0;
   color: inherit;
+  font-size: 0.875em;
 }
 
 /* ========================================
