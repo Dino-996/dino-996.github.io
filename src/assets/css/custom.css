@@ -233,6 +233,10 @@ footer a:hover svg {
 /* ========================================
    Search bar
    ======================================== */
+#search-input {
+  padding-left: 0.75rem !important;
+}
+
 #search-input:focus {
   box-shadow: none;
 }
