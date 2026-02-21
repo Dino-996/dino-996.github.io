@@ -30,6 +30,12 @@
     "date": "2020-02-03T00:00:00.000Z"
   },
   {
+    "title": "Memoria centrale",
+    "url": "/blog/memoria-centrale/",
+    "description": "Presentiamo la memoria centrale nei sistemi operativi, con particolare focus sulla necessità di ospitare dati e programmi durante l'esecuzione.",
+    "date": "2020-02-02T00:00:00.000Z"
+  },
+  {
     "title": "Stallo dei processi",
     "url": "/blog/stallo-dei-processi/",
     "description": "Viene esaminato il fenomeno dello stallo dei processi (deadlock) nei sistemi operativi, analizzando come più thread competano per risorse limitate.",

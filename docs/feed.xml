@@ -688,6 +688,112 @@ counter &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span cla
   </entry>
   
   <entry>
+    <title>Memoria centrale</title>
+    <link href="https://dino-996.github.io/blog/memoria-centrale/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/memoria-centrale/</id>
+    <published>2020-02-02T00:00:00.000Z</published>
+    <updated>2020-02-02T00:00:00.000Z</updated>
+    
+    <summary>Presentiamo la memoria centrale nei sistemi operativi, con particolare focus sulla necessità di ospitare dati e programmi durante l&#39;esecuzione.</summary>
+    
+    
+    <content type="html"><![CDATA[&lt;h1&gt;Introduzione&lt;/h1&gt;
+&lt;p&gt;In questo articolo esploriamo le distinzioni tra memorie volatili e non volatili, oltre ai meccanismi hardware, come i registri base e limite, necessari per proteggere le aree riservate del sistema e dei singoli processi. Si illustra come gli indirizzi vengano trasformati da logici a fisici tramite l&#39;unità di gestione della memoria (MMU) e si descrive le diverse fasi di associazione degli indirizzi. Particolare attenzione è rivolta all&#39;allocazione contigua, confrontando strategie come first-fit, best-fit e worst-fit per l&#39;assegnazione dello spazio disponibile. Infine, si parla di criticità legate alla frammentazione interna ed esterna, proponendo soluzioni come la compattazione o la paginazione per ottimizzare l&#39;uso della RAM.&lt;/p&gt;
+&lt;h2&gt;Fondamenti della Memoria Centrale&lt;/h2&gt;
+&lt;p&gt;Per essere eseguiti, i programmi e i dati devono risiedere, almeno in parte, nella memoria centrale. Le principali tipologie di memoria includono:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;ROM (Read-Only Memory):&lt;/strong&gt; Memoria non volatile che mantiene i dati anche senza alimentazione.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RAM (Random-Access Memory):&lt;/strong&gt; Memoria volatile utilizzata per l’esecuzione dei programmi; i dati vengono persi allo spegnimento.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cache:&lt;/strong&gt; Memoria volatile molto più veloce della RAM, posta tra CPU e RAM per ottimizzare le prestazioni.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Best practice:&lt;/strong&gt; In applicazioni Python o Java, un uso attento delle strutture dati e della gestione della memoria heap può ridurre il carico sulla RAM e migliorare la scalabilità.&lt;/p&gt;
+&lt;h2&gt;Protezione della Memoria&lt;/h2&gt;
+&lt;p&gt;Il sistema operativo deve garantire che i processi utente siano isolati tra loro e protetti dagli accessi non autorizzati. La protezione avviene a &lt;strong&gt;livello hardware&lt;/strong&gt;, riducendo l’impatto sulle prestazioni. I meccanismi principali sono:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Registro Base:&lt;/strong&gt; Contiene l’indirizzo fisico più basso accessibile a un processo.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Registro Limite:&lt;/strong&gt; Definisce l’intervallo massimo di indirizzi utilizzabili.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Eccezioni/Trap:&lt;/strong&gt; Tentativi di accesso non autorizzato generano errori hardware che riportano il controllo al sistema operativo.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Associazione degli Indirizzi (Binding)&lt;/h2&gt;
+&lt;p&gt;Gli indirizzi di memoria di un programma evolvono lungo le fasi di esecuzione:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Indirizzi simbolici:&lt;/strong&gt; Nomi di variabili nel codice sorgente.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Indirizzi rilocabili:&lt;/strong&gt; Offset rispetto all’inizio di un modulo.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Codice assoluto:&lt;/strong&gt; Se la posizione è nota in fase di compilazione.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Associazione a runtime:&lt;/strong&gt; Necessaria quando un processo può essere spostato durante l’esecuzione.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Spazi di Indirizzamento e MMU&lt;/h2&gt;
+&lt;p&gt;Esiste una distinzione fondamentale tra &lt;strong&gt;indirizzo virtuale/logico&lt;/strong&gt; (generato dalla CPU) e &lt;strong&gt;indirizzo fisico&lt;/strong&gt; (usato dalla RAM). La &lt;strong&gt;MMU (Memory Management Unit)&lt;/strong&gt; effettua la traduzione dinamica degli indirizzi logici in fisici, spesso sommando un registro di rilocazione.&lt;/p&gt;
+&lt;div class=&quot;d-flex align-items-center gap-2 flex-wrap my-4&quot;&gt;
+  &lt;div class=&quot;border rounded px-3 py-2 bg-body text-center fw-bold&quot;&gt;
+    CPU
+  &lt;/div&gt;
+  &lt;div class=&quot;text-muted&quot;&gt;→&lt;/div&gt;
+  &lt;div class=&quot;border rounded px-3 py-2 bg-body text-center&quot;&gt;
+    &lt;small class=&quot;text-muted d-block&quot;&gt;Indirizzo Logico&lt;/small&gt;
+    &lt;span class=&quot;fw-bold&quot;&gt;(Virtuale)&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-muted&quot;&gt;→&lt;/div&gt;
+  &lt;div class=&quot;border rounded px-3 py-2 bg-primary text-white text-center fw-bold&quot;&gt;
+    MMU
+  &lt;/div&gt;
+  &lt;div class=&quot;text-muted&quot;&gt;→&lt;/div&gt;
+  &lt;div class=&quot;border rounded px-3 py-2 bg-body text-center&quot;&gt;
+    &lt;small class=&quot;text-muted d-block&quot;&gt;Indirizzo Fisico&lt;/small&gt;
+    &lt;span class=&quot;fw-bold&quot;&gt;RAM&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Nei sistemi moderni, la MMU supporta paginazione a più livelli e segmentazione, fondamentali per la gestione di grandi spazi di memoria in ambienti cloud.&lt;/p&gt;
+&lt;h2&gt;Allocazione Contigua della Memoria&lt;/h2&gt;
+&lt;p&gt;Nell’&lt;strong&gt;allocazione contigua&lt;/strong&gt;, ogni processo riceve un blocco unico e continuo di memoria fisica. Questo approccio è semplice e veloce, poiché il calcolo dell’indirizzo fisico è diretto (basta sommare un offset), ma può generare inefficienze se la memoria si frammenta nel tempo.&lt;/p&gt;
+&lt;p&gt;Gli algoritmi principali per scegliere quale porzione di memoria assegnare a un processo sono:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;First-fit:&lt;/strong&gt; Cerca il primo spazio libero sufficientemente grande. Vantaggio: velocità di allocazione. Svantaggio: può lasciare molti piccoli blocchi inutilizzabili all’inizio della memoria, aumentando la frammentazione esterna.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Best-fit:&lt;/strong&gt; Seleziona lo spazio più piccolo che soddisfa il requisito. Vantaggio: riduce lo spreco di memoria. Svantaggio: può creare numerosi piccoli buchi che non saranno mai utilizzabili.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Worst-fit:&lt;/strong&gt; Assegna lo spazio più grande disponibile. L’idea è che i blocchi residui possano ancora servire ad altri processi. Svantaggio: spesso spreca memoria e non è comune nei sistemi moderni.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Approfondimento pratico:&lt;/strong&gt; Nei linguaggi gestiti come Java, il garbage collector e lo heap gestiscono automaticamente l’allocazione contigua interna degli oggetti, riducendo la complessità per lo sviluppatore, ma la frammentazione può comunque influire sulle performance.&lt;/p&gt;
+&lt;h2&gt;Frammentazione della Memoria&lt;/h2&gt;
+&lt;p&gt;L’allocazione contigua può portare a due tipi principali di inefficienza:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Frammentazione esterna:&lt;/strong&gt; La memoria libera totale è sufficiente per un nuovo processo, ma è suddivisa in blocchi non contigui. Esempio: 100 MB liberi totali, ma divisi in 4 blocchi da 25 MB; un processo da 50 MB non può essere allocato. Nei sistemi tradizionali con first-fit si può perdere fino al 30–35% della memoria utile.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Frammentazione interna:&lt;/strong&gt; Si verifica quando la partizione assegnata a un processo è leggermente più grande del necessario, lasciando spazio inutilizzato all’interno della partizione stessa. Questo fenomeno è tipico delle allocazioni fisse e dei sistemi legacy.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Nota tecnica:&lt;/strong&gt; Nei sistemi moderni, la frammentazione interna può essere mitigata tramite &lt;strong&gt;heap dinamici&lt;/strong&gt;, &lt;strong&gt;pool di oggetti&lt;/strong&gt; o allocatori di memoria slab (come quelli usati in kernel Linux) che riducono gli sprechi nei blocchi di piccola dimensione.&lt;/p&gt;
+&lt;h2&gt;Soluzioni alla Frammentazione&lt;/h2&gt;
+&lt;p&gt;Per ridurre le inefficienze causate dalla frammentazione, i sistemi operativi adottano tecniche avanzate:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Compattazione:&lt;/strong&gt; Riordina la memoria spostando i processi attivi per consolidare i blocchi liberi in un’unica area contigua. Richiede supporto hardware per rilocazione dinamica e può essere costosa in termini di performance se eseguita frequentemente.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Paginazione:&lt;/strong&gt; Divide la memoria in pagine di dimensioni fisse (tipicamente 4 KB o multipli) e permette agli indirizzi logici di un processo di mappare pagine fisiche non contigue. Vantaggi: elimina la frammentazione esterna, semplifica la gestione della memoria virtuale e supporta funzionalità come &lt;strong&gt;swap&lt;/strong&gt; su disco. Svantaggi: frammentazione interna minima sulle ultime pagine.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Segmentazione:&lt;/strong&gt; Divide la memoria in segmenti logici (codice, dati, stack) di dimensioni variabili. Consente una gestione più semantica della memoria, ma può ancora soffrire di frammentazione esterna tra segmenti.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Esempio pratico:&lt;/strong&gt; Nei container Docker, la memoria può essere limitata tramite flag &lt;code&gt;--memory&lt;/code&gt; e monitorata da strumenti come cAdvisor, permettendo ai sistemi di orchestrazione di ribilanciare carichi e ridurre sprechi dovuti a frammentazione.&lt;/p&gt;
+]]></content>
+    
+    
+      
+    
+      
+    <category term="sistemi operativi"/>
+      
+    
+      
+    <category term="memoria centrale"/>
+      
+    
+  </entry>
+  
+  <entry>
     <title>Stallo dei processi</title>
     <link href="https://dino-996.github.io/blog/stallo-dei-processi/" rel="alternate" type="text/html"/>
     <id>https://dino-996.github.io/blog/stallo-dei-processi/</id>
