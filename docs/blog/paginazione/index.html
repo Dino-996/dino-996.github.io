@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="it" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Paginazione · dino-996 blog
+</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="La paginazione è una tecnica di gestione della memoria che permette di allocare i processi in modo non contiguo per eliminare la frammentazione esterna." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/paginazione/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/paginazione/" />
+
+<meta property="og:title" content="Paginazione" />
+<meta property="og:description" content="La paginazione è una tecnica di gestione della memoria che permette di allocare i processi in modo non contiguo per eliminare la frammentazione esterna." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/sistemi-operativi.webp" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/paginazione/" />
+
+<meta name="twitter:title" content="Paginazione" />
+<meta name="twitter:description" content="La paginazione è una tecnica di gestione della memoria che permette di allocare i processi in modo non contiguo per eliminare la frammentazione esterna." />
+
+<meta name="twitter:image" content="https://dino-996.github.io/assets/img/webp/sistemi-operativi.webp" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Bootstrap icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img 
+        src="https://github.com/Dino-996.png" 
+        alt="Davide Sabia" 
+        class="rounded-circle"
+        width="32"
+        height="32"
+        style="object-fit: cover;"
+      >
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+    
+    <button 
+      class="navbar-toggler border-0 p-0" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNav">
+      <i class="bi bi-grid-3x3-gap fs-4"></i>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">
+            Blog
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">
+            About
+          </a>
+        </li>
+
+        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+          <div class="d-inline-flex rounded-4 bg-body-tertiary p-1">
+            <button title="Dark mode" id="dark" class="btn btn-sm btn-default rounded-4 text-secondary p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-moon"></i>
+            </button>
+
+            <button title="Light mode" id="light" class="btn btn-sm btn-default rounded-4 text-warning p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-sun"></i>
+            </button>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <main class="container my-5 flex-grow-1">
+      
+<article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">Paginazione</h1>
+
+    <time
+      class="text-muted"
+      datetime="2020-02-04T00:00:00.000Z"
+    >
+      04 febbraio 2020
+    </time>
+  </header>
+
+  
+    <div class="mb-4">
+      <img 
+        src="/assets/img/webp/sistemi-operativi.webp" 
+        alt="Immagine generata con IA" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+    
+  </div>
+  
+
+  <hr>
+
+  <section class="content">
+    <h1>Introduzione</h1>
+<p>In questo articolo si descrive come la <strong>Memory Management Unit (MMU)</strong> converta gli indirizzi logici in fisici suddividendo la memoria in pagine e frame, supportata da strutture hardware come il <strong>TLB</strong> per accelerare le traduzioni. Vengono esaminate diverse configurazioni delle tabelle delle pagine, incluse quelle gerarchiche, invertite e basate su hash, insieme ai meccanismi di protezione e condivisione del codice. Approfondiamo inoltre il concetto di <strong>swapping</strong>, analizzando le differenze tra l'approccio standard e quello utilizzato nei sistemi mobili come <strong>iOS</strong> e <strong>Android</strong>, con esempi concreti di implementazione nelle architetture <strong>Intel IA-32</strong>, <strong>x86-64</strong> e <strong>ARMv8</strong>, evidenziandone le specifiche granularità e i livelli di traduzione.</p>
+<hr>
+<h2>Concetti Fondamentali e Meccanismo di Traduzione</h2>
+<p>L'architettura della paginazione suddivide la memoria in blocchi di dimensione fissa:</p>
+<ul>
+<li><strong>Pagine</strong>: blocchi di dimensione fissa nello spazio di indirizzamento <em>logico</em> del processo.</li>
+<li><strong>Frame</strong>: blocchi di pari dimensione nello spazio di indirizzamento <em>fisico</em> della RAM.</li>
+</ul>
+<p>Ogni indirizzo generato dalla CPU è composto da due parti:</p>
+<table class="table table-bordered table-hover ">
+  <thead class="table-dark">
+    <tr>
+      <th>Campo</th>
+      <th>Simbolo</th>
+      <th>Ruolo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Numero di pagina</td>
+      <td><code>p</code></td>
+      <td>Indice nella tabella delle pagine</td>
+    </tr>
+    <tr>
+      <td>Offset di pagina</td>
+      <td><code>d</code></td>
+      <td>Posizione all'interno del frame</td>
+    </tr>
+  </tbody>
+</table>
+<p>La MMU traduce un indirizzo logico <code>(p, d)</code> in un indirizzo fisico <code>(f, d)</code> estraendo
+il numero di frame <code>f</code> dalla tabella delle pagine e concatenandolo con l'offset.</p>
+<hr>
+<div class="d-flex align-items-center justify-content-center gap-2 flex-wrap my-4">
+  <!-- Indirizzo Logico -->
+  <div class="border rounded px-3 py-2 text-center">
+    <small class="text-muted d-block">Indirizzo Logico</small>
+    <span class="fw-bold font-monospace">p &nbsp;|&nbsp; d</span>
+  </div>
+  <div class="text-muted">→</div>
+  <!-- Tabella delle Pagine -->
+  <div class="border rounded px-3 py-2 bg-primary text-white text-center">
+    <small class="d-block" style="opacity:.75">lookup</small>
+    <span class="fw-bold">Page Table</span>
+  </div>
+  <div class="text-muted">→</div>
+  <!-- MMU -->
+  <div class="border rounded px-3 py-2 bg-secondary text-white text-center fw-bold">
+    MMU
+  </div>
+  <div class="text-muted">→</div>
+  <!-- Indirizzo Fisico -->
+  <div class="border rounded px-3 py-2 text-center">
+    <small class="text-muted d-block">Indirizzo Fisico</small>
+    <span class="fw-bold font-monospace">f &nbsp;|&nbsp; d</span>
+  </div>
+</div>
+<hr>
+<p>La dimensione delle pagine è definita dall'hardware e corrisponde sempre a una potenza
+di 2 (tipicamente tra <strong>4 KB e 1 GB</strong>), il che semplifica il calcolo degli indirizzi a
+operazioni di shift e mask sui bit.</p>
+<h2>Frammentazione e Condivisione del Codice</h2>
+<p>La paginazione <strong>elimina la frammentazione esterna</strong>: qualsiasi frame libero può essere
+assegnato a un processo indipendentemente dalla sua posizione fisica. Introduce però la
+<strong>frammentazione interna</strong>: se la memoria richiesta non è multiplo esatto della dimensione
+della pagina, l'ultimo frame assegnato risulta parzialmente inutilizzato.</p>
+<p>Un vantaggio significativo è la <strong>condivisione del codice</strong>: in ambienti multiprocesso è
+possibile mantenere in memoria una sola copia di librerie condivise (es. <code>libc</code>).
+Le tabelle delle pagine di processi distinti puntano agli stessi frame marcati come
+<em>read-only</em>, garantendo protezione e risparmio di memoria.</p>
+<h2>Supporto Hardware: il TLB</h2>
+<p>Poiché la tabella delle pagine risiede in memoria principale, senza ottimizzazioni ogni
+accesso ai dati richiederebbe <strong>due accessi in memoria</strong> (uno per la tabella, uno per il
+dato). Il <strong>TLB (Translation Lookaside Buffer)</strong> è una piccola cache hardware ad
+altissima velocità che risolve questo problema.</p>
+<hr>
+<div class="d-inline-flex flex-column gap-3">
+  <!-- CPU → TLB → Frame (hit) -->
+  <div class="d-flex align-items-center gap-2">
+    <div class="border rounded px-3 py-2 text-center fw-bold">CPU</div>
+    <div class="text-muted">→</div>
+    <div class="border rounded px-3 py-2 bg-primary text-white text-center fw-bold">TLB</div>
+    <div class="text-muted">→</div>
+    <div class="border rounded px-3 py-2 text-success text-center">
+      <small class="d-block text-muted">hit</small>
+      <span class="fw-bold">Frame</span>
+    </div>
+  </div>
+  <!-- freccia giù + label -->
+  <div class="d-flex align-items-center gap-2">
+    <div style="width: 106px;"></div> <!-- spacer allineato al TLB -->
+    <div class="text-muted d-flex flex-column align-items-center">
+      <small>miss</small>
+      <span>↓</span>
+    </div>
+  </div>
+  <!-- Page Table → Frame (miss) -->
+  <div class="d-flex align-items-center gap-2">
+    <div style="width: 106px;"></div> <!-- spacer allineato al TLB -->
+    <div class="border rounded px-3 py-2 bg-warning-subtle text-center">
+      <small class="text-muted d-block">miss</small>
+      <span class="fw-bold">Page Table</span>
+      <small class="text-muted d-block">in RAM</small>
+    </div>
+    <div class="text-muted">→</div>
+    <div class="border rounded px-3 py-2 text-center">
+      <small class="text-muted d-block">+ aggiornamento TLB</small>
+      <span class="fw-bold">Frame</span>
+    </div>
+  </div>
+</div>
+<hr>
+<ul>
+<li><strong>TLB hit</strong>: il numero di frame è immediatamente disponibile, nessun accesso extra.</li>
+<li><strong>TLB miss</strong>: si consulta la tabella in memoria, con penalità di latenza.</li>
+</ul>
+<h3>Calcolo del Tempo di Accesso Effettivo (EAT)</h3>
+<p>Dato un hit ratio $h$ e un tempo di accesso alla memoria $t$:</p>
+<p>$\text{EAT}=ht+(1-h)2t=t(2-h)$</p>
+<p>Con $h=0.99$ e $t = 100 \text{ns}$:</p>
+<p>$\text{EAT}=100(2-0.99)=101 \text{ns}$</p>
+<p>Alcuni TLB utilizzano gli <strong>ASID (Address-Space Identifiers)</strong> per taggare le entry per
+processo, evitando il flush completo della cache a ogni cambio di contesto e migliorando
+sensibilmente le prestazioni in sistemi multiprocesso.</p>
+<h2>Struttura delle Tabelle delle Pagine</h2>
+<p>Con spazi di indirizzamento a 64 bit, una tabella delle pagine piatta occuperebbe
+quantità di memoria proibitive. Si adottano quindi strutture alternative:</p>
+<h3>Paginazione Gerarchica</h3>
+<p>La tabella stessa viene paginata su più livelli (tipicamente 2–4). Su x86-64 si usano
+4 livelli: PML4 → PDPT → PD → PT. Il registro <strong>CR3</strong> punta alla tabella di livello
+superiore (PML4).</p>
+<h3>Tabelle Hash</h3>
+<p>Comuni per spazi di indirizzamento superiori a 32 bit. Ogni entry contiene una lista
+concatenata per gestire le collisioni. Variante comune: <strong>clustered page tables</strong>, che
+mappano più pagine per entry.</p>
+<h3>Tabella Invertita</h3>
+<p>Un'unica tabella di sistema con un'entry per ogni <strong>frame fisico</strong> (anziché per ogni
+pagina logica). Riduce drasticamente l'occupazione di memoria, ma complica la ricerca
+(spesso si affianca una hash table per accelerarla).</p>
+<h2>Huge Pages: un'Ottimizzazione per Sistemi Moderni</h2>
+<p>In scenari ad alte prestazioni (database, JVM, ambienti cloud-native), si utilizzano
+<strong>Huge Pages</strong> (2 MB o 1 GB su x86-64) per ridurre il numero di entry nella tabella
+delle pagine e aumentare l'hit rate del TLB.</p>
+<p>Su Linux è possibile abilitarle tramite:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Verifica disponibilità</span>
+<span class="token function">grep</span> <span class="token parameter variable">-i</span> hugepages /proc/meminfo
+
+<span class="token comment"># Allocazione di 512 huge pages da 2MB (= 1GB)</span>
+<span class="token builtin class-name">echo</span> <span class="token number">512</span> <span class="token operator">></span> /proc/sys/vm/nr_hugepages</code></pre>
+<p>Framework come <strong>Java HotSpot</strong> (<code>-XX:+UseHugePages</code>) e <strong>DPDK</strong> le sfruttano
+attivamente per ridurre la latenza.</p>
+<h2>Swapping e Memoria Ausiliaria</h2>
+<p>Lo swapping consente di spostare temporaneamente pagine o interi processi dalla RAM a
+una <strong>memoria ausiliaria (backing store)</strong>, estendendo virtualmente la memoria disponibile.</p>
+<h3>Desktop e Server (Linux/Windows)</h3>
+<p>Supportano lo swapping standard e lo <strong>swapping con paginazione</strong> (demand paging).
+Su Linux, strumenti moderni come <strong><code>zswap</code></strong> e <strong><code>zram</code></strong> comprimono le pagine prima
+di scriverle su disco, riducendo la latenza e l'usura degli SSD — particolarmente
+rilevante in ambienti containerizzati (Docker, Kubernetes).</p>
+<h3>Sistemi Mobili (iOS / Android)</h3>
+<p>Le memorie flash hanno cicli di scrittura limitati e latenze non trascurabili, quindi:</p>
+<ul>
+<li><strong>iOS</strong> non implementa swapping tradizionale: notifica alle app di liberare memoria
+volontariamente tramite i <em>memory pressure notifications</em>.</li>
+<li><strong>Android</strong> salva lo stato dell'app nello storage prima di terminarla (<em>killed process</em>),
+consentendo un riavvio rapido con ripristino dello stato.</li>
+</ul>
+<h2>Architetture Reali a Confronto</h2>
+<h3>Intel IA-32</h3>
+<p>Utilizza un sistema misto <strong>segmentazione + paginazione a due livelli</strong>. L'estensione
+<strong>PAE (Physical Address Extension)</strong> espande gli indirizzi fisici da 32 a <strong>36 bit</strong>,
+permettendo ai processori a 32 bit di indirizzare fino a <strong>64 GB</strong> di RAM fisica (pur
+mantenendo uno spazio virtuale per processo di 4 GB).</p>
+<h3>Intel x86-64</h3>
+<p>Adotta una struttura a <strong>4 livelli</strong> (estendibile a 5 con LA57), gestita dal registro
+<strong>CR3</strong>. Supporta pagine da 4 KB, 2 MB (Large Pages) e 1 GB (Huge Pages).</p>
+<h3>ARMv8 / AArch64</h3>
+<p>Supporta granularità di traduzione di <strong>4 KB, 16 KB e 64 KB</strong> con fino a <strong>4 livelli</strong>
+di paginazione. Il registro <strong>TTBR0</strong> punta alla tabella del processo utente, <strong>TTBR1</strong>
+a quella del kernel, separando nettamente i due spazi di indirizzamento.</p>
+<h2>Best Practice per gli Sviluppatori</h2>
+<p><strong>Perché un dev dovrebbe preoccuparsene?</strong> Le scelte di allocazione impattano direttamente le performance a causa dell'interazione con la paginazione.</p>
+<ul>
+<li><strong>Evita allocazioni frammentate</strong>: preferisci buffer contigui (array vs linked list)
+per massimizzare la locality e ridurre i TLB miss.</li>
+<li><strong>Valuta Huge Pages</strong> per applicazioni con working set &gt; 1 GB (JVM, Redis, PostgreSQL).</li>
+<li><strong>Attenzione ai memory-mapped file</strong> (<code>mmap</code>): sfruttano direttamente la paginazione
+e possono ridurre le copie di dati tra kernel e userspace.</li>
+<li><strong>Profila i TLB miss</strong> con <code>perf stat -e dTLB-load-misses ./myapp</code> su Linux prima
+di ottimizzare prematuramente.</li>
+</ul>
+
+  </section>
+
+  <hr class="mt-5">
+  
+  <section class="mt-5" aria-label="Commenti e reazioni">
+    <h2 class="h5 fw-bold mb-4">
+      <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
+    </h2>
+
+      <script>
+      (function () {
+        const saved = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', theme);
+        script.setAttribute('data-lang', 'it');
+        script.setAttribute('data-loading', 'lazy');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+
+        document.currentScript.replaceWith(script);
+      })();
+    </script>
+
+    <noscript>
+      <p class="text-muted small">
+        <i class="bi bi-info-circle me-1"></i>
+        Per visualizzare i commenti è necessario abilitare JavaScript.
+        Puoi leggere e partecipare alla discussione direttamente su
+        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
+      </p>
+    </noscript>
+  </section>
+
+</article>
+    </main>
+
+    <footer class="border-top mt-auto py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <h5 class="fw-bold mb-3">
+          <span><span class="text-primary">dino</span>-996</span>
+        </h5>
+        <p class="text-muted small mb-2">
+          Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne.
+        </p>
+        <a href="/feed.xml" class="text-muted" aria-label="Feed RSS" target="_blank">
+          <i class="bi bi-rss"></i>
+        </a>
+      </div>
+      
+      <div class="col-md-3 mb-3 mb-md-0">
+        <h6 class="fw-bold mb-3">Navigazione</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <a href="/" class="text-muted text-decoration-none small">Home</a>
+          </li>
+          <li class="mb-2">
+            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
+          </li>
+          <li class="mb-2">
+            <a href="/about/" class="text-muted text-decoration-none small">About</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="col-md-2">
+        <h6 class="fw-bold mb-3">Social</h6>
+        <div class="d-flex gap-3">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+              <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <hr class="my-4" />
+    
+    <div class="row">
+      <div class="col text-center">
+        <p class="text-muted small mb-0">
+          Realizzato con <span class="text-danger">❤</span> usando 
+          <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Eleventy</a> 
+          e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Bootstrap</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX — deferred per non bloccare il rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '\\[', right: '\\]', display: true}
+      ]
+    });
+  });
+</script>
+
+    <script src="/assets/js/main.js"></script>
+  </body>
+</html>

@@ -24,6 +24,12 @@
     "date": "2020-02-10T00:00:00.000Z"
   },
   {
+    "title": "Paginazione",
+    "url": "/blog/paginazione/",
+    "description": "La paginazione è una tecnica di gestione della memoria che permette di allocare i processi in modo non contiguo per eliminare la frammentazione esterna.",
+    "date": "2020-02-04T00:00:00.000Z"
+  },
+  {
     "title": "Sincronizzazione dei processi",
     "url": "/blog/sincronizzazione-dei-processi/",
     "description": "Viene esaminata la sincronizzazione dei processi nei sistemi operativi, focalizzandosi sulla gestione dell'accesso concorrente a dati condivisi per prevenire le race condition.",

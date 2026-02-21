@@ -5,26 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  Blog · dino-996 blog
+  Tag: {{ tag }} · dino-996 blog
 </title>
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="Articoli e appunti" />
+<meta name="description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
 <meta name="author" content="Davide Sabia" />
 <meta name="robots" content="index, follow" />
 
 <!-- Canonical URL -->
 
-<link rel="canonical" href="https://dino-996.github.io/blog/page/2/" />
+<link rel="canonical" href="https://dino-996.github.io/tags/paginazione/" />
 
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 
-<meta property="og:url" content="https://dino-996.github.io/blog/page/2/" />
+<meta property="og:url" content="https://dino-996.github.io/tags/paginazione/" />
 
-<meta property="og:title" content="Blog" />
-<meta property="og:description" content="Articoli e appunti" />
+<meta property="og:title" content="Tag: {{ tag }}" />
+<meta property="og:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
 <meta property="og:site_name" content="dino-996 blog" />
 
 <meta property="og:image" content="https://dino-996.github.io/assets/img/webp/og-default.webp" />
@@ -33,10 +33,10 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 
-<meta name="twitter:url" content="https://dino-996.github.io/blog/page/2/" />
+<meta name="twitter:url" content="https://dino-996.github.io/tags/paginazione/" />
 
-<meta name="twitter:title" content="Blog" />
-<meta name="twitter:description" content="Articoli e appunti" />
+<meta name="twitter:title" content="Tag: {{ tag }}" />
+<meta name="twitter:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
 
 
 <!-- Favicon -->
@@ -99,7 +99,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="/blog/">
+          <a class="nav-link" href="/blog/">
             Blog
           </a>
         </li>
@@ -128,132 +128,55 @@
 
     <main class="container my-5 flex-grow-1">
       
-<h1>
-  <i class="text-primary bi bi-journal-text me-1"></i>
-  Blog
-</h1>
+
 <div class="mb-4">
-  <div class="input-group">
-    <span class="input-group-text bg-body rounded-start-3">
-      <i class="bi bi-search text-muted"></i>
-    </span>
-    <input
-      type="search"
-      id="search-input"
-      class="form-control border-2 ps-0 ml-3"
-      placeholder="Cerca un articolo per titolo..."
-      aria-label="Cerca articoli"
-      autocomplete="off"
-    >
-    <button id="search-button" class="btn btn-primary shadow-none rounded-end-3" type="button" style="transform: none;">
-      Cerca
-    </button>
-  </div>
-  <div id="search-results" class="mt-3" hidden></div>
+  <h1>
+    <i class="bi bi-tag-fill text-primary me-2"></i>Tag: <span class="text-primary">paginazione</span>
+  </h1>
+  <p class="text-muted">Articoli con tag "paginazione"</p>
 </div>
-<section id="posts-list" class="row g-4">
-  <div class="col-12">
-    <article class="card h-100 overflow-hidden shadow-sm">
-      <div class="row g-0 h-100">
-        <div class="col-md-4 p-0">
-          <img src="/assets/img/webp/sistemi-operativi.webp" alt="Immagine generata con IA" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 250px; max-height: 400px">
-        </div>
-      <div class="col-md-8">
-          <div class="card-body d-flex flex-column h-100">
-            <div>
-              <h2 class="h4 card-title mb-2">
-                <a href="/blog/sincronizzazione-dei-processi/" class="text-decoration-none">Sincronizzazione dei processi</a>
-              </h2>
-              <time class="text-muted text-truncate small d-block mb-2" datetime="2020-02-03T00:00:00.000Z">
-                <i class="bi bi-calendar3 me-1"></i>03 febbraio 2020
-              </time>
-              <hr>
-              <p class="card-text">Viene esaminata la sincronizzazione dei processi nei sistemi operativi, focalizzandosi sulla gestione dell'accesso concorrente a dati condivisi per prevenire le race condition.</p>
-              <div class="mb-3"><span class="fw-bold me-2">Tag:</span>
-                <a href="/tags/sistemi-operativi/" class="badge bg-light text-body border text-decoration-none">sistemi operativi</a>
-                <a href="/tags/processi/" class="badge bg-light text-body border text-decoration-none">processi</a>
-              </div></div>
-              <div class="text-end mt-auto mb-3">
-                <a href="/blog/sincronizzazione-dei-processi/" class="btn btn-primary btn-sm rounded">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
+
+<ul>
+  
+  
+    
+      <li class="mb-4">
+        <article class="card shadows-sm">
+          <div class="card-body">
+            <h2 class="h4 mb-2">
+              <a href="/blog/paginazione/" class="text-decoration-none"> Paginazione <a/>
+            </h2>
+
+            <time>
+              <i class="bi bi-calendar3 me-1"></i>04 febbraio 2020
+            </time>
+
+            <hr />
+
+            
+              <p class="mt-2 mb-3">La paginazione è una tecnica di gestione della memoria che permette di allocare i processi in modo non contiguo per eliminare la frammentazione esterna.</p>
+            
+
+            
+              <div class="mb-3">
+                <span class="fw-bold me-2">Altri tag:</span>
+                
+                  
+                
+                  
+                    <a href="/tags/sistemi-operativi" class="badge bg-light text-body border text-decoration-none">sistemi operativi</a>
+                  
+                
+                  
+                
               </div>
-            </div>
+            
           </div>
-        </div>
-    </article>
-  </div>
-  <div class="col-12">
-    <article class="card h-100 overflow-hidden shadow-sm">
-      <div class="row g-0 h-100">
-        <div class="col-md-4 p-0">
-          <img src="/assets/img/webp/sistemi-operativi.webp" alt="Immagine generata con IA" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 250px; max-height: 400px">
-        </div>
-      <div class="col-md-8">
-          <div class="card-body d-flex flex-column h-100">
-            <div>
-              <h2 class="h4 card-title mb-2">
-                <a href="/blog/memoria-centrale/" class="text-decoration-none">Memoria centrale</a>
-              </h2>
-              <time class="text-muted text-truncate small d-block mb-2" datetime="2020-02-02T00:00:00.000Z">
-                <i class="bi bi-calendar3 me-1"></i>02 febbraio 2020
-              </time>
-              <hr>
-              <p class="card-text">Presentiamo la memoria centrale nei sistemi operativi, con particolare focus sulla necessità di ospitare dati e programmi durante l'esecuzione.</p>
-              <div class="mb-3"><span class="fw-bold me-2">Tag:</span>
-                <a href="/tags/sistemi-operativi/" class="badge bg-light text-body border text-decoration-none">sistemi operativi</a>
-                <a href="/tags/memoria-centrale/" class="badge bg-light text-body border text-decoration-none">memoria centrale</a>
-              </div></div>
-              <div class="text-end mt-auto mb-3">
-                <a href="/blog/memoria-centrale/" class="btn btn-primary btn-sm rounded">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-    </article>
-  </div>
-  <div class="col-12">
-    <article class="card h-100 overflow-hidden shadow-sm">
-      <div class="row g-0 h-100">
-        <div class="col-md-4 p-0">
-          <img src="/assets/img/webp/sistemi-operativi.webp" alt="Immagine generata con IA" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 250px; max-height: 400px">
-        </div>
-      <div class="col-md-8">
-          <div class="card-body d-flex flex-column h-100">
-            <div>
-              <h2 class="h4 card-title mb-2">
-                <a href="/blog/stallo-dei-processi/" class="text-decoration-none">Stallo dei processi</a>
-              </h2>
-              <time class="text-muted text-truncate small d-block mb-2" datetime="2020-02-01T00:00:00.000Z">
-                <i class="bi bi-calendar3 me-1"></i>01 febbraio 2020
-              </time>
-              <hr>
-              <p class="card-text">Viene esaminato il fenomeno dello stallo dei processi (deadlock) nei sistemi operativi, analizzando come più thread competano per risorse limitate.</p>
-              <div class="mb-3"><span class="fw-bold me-2">Tag:</span>
-                <a href="/tags/sistemi-operativi/" class="badge bg-light text-body border text-decoration-none">sistemi operativi</a>
-                <a href="/tags/processi/" class="badge bg-light text-body border text-decoration-none">processi</a>
-              </div></div>
-              <div class="text-end mt-auto mb-3">
-                <a href="/blog/stallo-dei-processi/" class="btn btn-primary btn-sm rounded">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-    </article>
-  </div>
-</section>
-<nav id="pagination" class="mt-5" aria-label="Navigazione pagine blog">
-  <div class="d-flex justify-content-between align-items-center">
-    <div>
-<p><a href="/blog/" class="btn btn-outline-primary rounded">
-<i class="bi bi-arrow-left me-1"></i>Precedente
-</a></p>
-<p></div>
-<div class="text-muted small">
-Pagina 2 di 2
-</div>
-<div></p>
-<p></div></p>
-  </div>
-</nav>
+        </article>
+      </li>
+    
+  
+</ul>
 
     </main>
 

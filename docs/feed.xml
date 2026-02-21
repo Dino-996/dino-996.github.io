@@ -525,6 +525,223 @@ I sistemi operativi facilitano questo compito tramite:&lt;/p&gt;
   </entry>
   
   <entry>
+    <title>Paginazione</title>
+    <link href="https://dino-996.github.io/blog/paginazione/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/paginazione/</id>
+    <published>2020-02-04T00:00:00.000Z</published>
+    <updated>2020-02-04T00:00:00.000Z</updated>
+    
+    <summary>La paginazione è una tecnica di gestione della memoria che permette di allocare i processi in modo non contiguo per eliminare la frammentazione esterna.</summary>
+    
+    
+    <content type="html"><![CDATA[&lt;h1&gt;Introduzione&lt;/h1&gt;
+&lt;p&gt;In questo articolo si descrive come la &lt;strong&gt;Memory Management Unit (MMU)&lt;/strong&gt; converta gli indirizzi logici in fisici suddividendo la memoria in pagine e frame, supportata da strutture hardware come il &lt;strong&gt;TLB&lt;/strong&gt; per accelerare le traduzioni. Vengono esaminate diverse configurazioni delle tabelle delle pagine, incluse quelle gerarchiche, invertite e basate su hash, insieme ai meccanismi di protezione e condivisione del codice. Approfondiamo inoltre il concetto di &lt;strong&gt;swapping&lt;/strong&gt;, analizzando le differenze tra l&#39;approccio standard e quello utilizzato nei sistemi mobili come &lt;strong&gt;iOS&lt;/strong&gt; e &lt;strong&gt;Android&lt;/strong&gt;, con esempi concreti di implementazione nelle architetture &lt;strong&gt;Intel IA-32&lt;/strong&gt;, &lt;strong&gt;x86-64&lt;/strong&gt; e &lt;strong&gt;ARMv8&lt;/strong&gt;, evidenziandone le specifiche granularità e i livelli di traduzione.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Concetti Fondamentali e Meccanismo di Traduzione&lt;/h2&gt;
+&lt;p&gt;L&#39;architettura della paginazione suddivide la memoria in blocchi di dimensione fissa:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Pagine&lt;/strong&gt;: blocchi di dimensione fissa nello spazio di indirizzamento &lt;em&gt;logico&lt;/em&gt; del processo.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Frame&lt;/strong&gt;: blocchi di pari dimensione nello spazio di indirizzamento &lt;em&gt;fisico&lt;/em&gt; della RAM.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ogni indirizzo generato dalla CPU è composto da due parti:&lt;/p&gt;
+&lt;table class=&quot;table table-bordered table-hover &quot;&gt;
+  &lt;thead class=&quot;table-dark&quot;&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Campo&lt;/th&gt;
+      &lt;th&gt;Simbolo&lt;/th&gt;
+      &lt;th&gt;Ruolo&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Numero di pagina&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;p&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Indice nella tabella delle pagine&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Offset di pagina&lt;/td&gt;
+      &lt;td&gt;&lt;code&gt;d&lt;/code&gt;&lt;/td&gt;
+      &lt;td&gt;Posizione all&#39;interno del frame&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;La MMU traduce un indirizzo logico &lt;code&gt;(p, d)&lt;/code&gt; in un indirizzo fisico &lt;code&gt;(f, d)&lt;/code&gt; estraendo
+il numero di frame &lt;code&gt;f&lt;/code&gt; dalla tabella delle pagine e concatenandolo con l&#39;offset.&lt;/p&gt;
+&lt;hr&gt;
+&lt;div class=&quot;d-flex align-items-center justify-content-center gap-2 flex-wrap my-4&quot;&gt;
+  &lt;!-- Indirizzo Logico --&gt;
+  &lt;div class=&quot;border rounded px-3 py-2 text-center&quot;&gt;
+    &lt;small class=&quot;text-muted d-block&quot;&gt;Indirizzo Logico&lt;/small&gt;
+    &lt;span class=&quot;fw-bold font-monospace&quot;&gt;p &amp;nbsp;|&amp;nbsp; d&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-muted&quot;&gt;→&lt;/div&gt;
+  &lt;!-- Tabella delle Pagine --&gt;
+  &lt;div class=&quot;border rounded px-3 py-2 bg-primary text-white text-center&quot;&gt;
+    &lt;small class=&quot;d-block&quot; style=&quot;opacity:.75&quot;&gt;lookup&lt;/small&gt;
+    &lt;span class=&quot;fw-bold&quot;&gt;Page Table&lt;/span&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;text-muted&quot;&gt;→&lt;/div&gt;
+  &lt;!-- MMU --&gt;
+  &lt;div class=&quot;border rounded px-3 py-2 bg-secondary text-white text-center fw-bold&quot;&gt;
+    MMU
+  &lt;/div&gt;
+  &lt;div class=&quot;text-muted&quot;&gt;→&lt;/div&gt;
+  &lt;!-- Indirizzo Fisico --&gt;
+  &lt;div class=&quot;border rounded px-3 py-2 text-center&quot;&gt;
+    &lt;small class=&quot;text-muted d-block&quot;&gt;Indirizzo Fisico&lt;/small&gt;
+    &lt;span class=&quot;fw-bold font-monospace&quot;&gt;f &amp;nbsp;|&amp;nbsp; d&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;p&gt;La dimensione delle pagine è definita dall&#39;hardware e corrisponde sempre a una potenza
+di 2 (tipicamente tra &lt;strong&gt;4 KB e 1 GB&lt;/strong&gt;), il che semplifica il calcolo degli indirizzi a
+operazioni di shift e mask sui bit.&lt;/p&gt;
+&lt;h2&gt;Frammentazione e Condivisione del Codice&lt;/h2&gt;
+&lt;p&gt;La paginazione &lt;strong&gt;elimina la frammentazione esterna&lt;/strong&gt;: qualsiasi frame libero può essere
+assegnato a un processo indipendentemente dalla sua posizione fisica. Introduce però la
+&lt;strong&gt;frammentazione interna&lt;/strong&gt;: se la memoria richiesta non è multiplo esatto della dimensione
+della pagina, l&#39;ultimo frame assegnato risulta parzialmente inutilizzato.&lt;/p&gt;
+&lt;p&gt;Un vantaggio significativo è la &lt;strong&gt;condivisione del codice&lt;/strong&gt;: in ambienti multiprocesso è
+possibile mantenere in memoria una sola copia di librerie condivise (es. &lt;code&gt;libc&lt;/code&gt;).
+Le tabelle delle pagine di processi distinti puntano agli stessi frame marcati come
+&lt;em&gt;read-only&lt;/em&gt;, garantendo protezione e risparmio di memoria.&lt;/p&gt;
+&lt;h2&gt;Supporto Hardware: il TLB&lt;/h2&gt;
+&lt;p&gt;Poiché la tabella delle pagine risiede in memoria principale, senza ottimizzazioni ogni
+accesso ai dati richiederebbe &lt;strong&gt;due accessi in memoria&lt;/strong&gt; (uno per la tabella, uno per il
+dato). Il &lt;strong&gt;TLB (Translation Lookaside Buffer)&lt;/strong&gt; è una piccola cache hardware ad
+altissima velocità che risolve questo problema.&lt;/p&gt;
+&lt;hr&gt;
+&lt;div class=&quot;d-inline-flex flex-column gap-3&quot;&gt;
+  &lt;!-- CPU → TLB → Frame (hit) --&gt;
+  &lt;div class=&quot;d-flex align-items-center gap-2&quot;&gt;
+    &lt;div class=&quot;border rounded px-3 py-2 text-center fw-bold&quot;&gt;CPU&lt;/div&gt;
+    &lt;div class=&quot;text-muted&quot;&gt;→&lt;/div&gt;
+    &lt;div class=&quot;border rounded px-3 py-2 bg-primary text-white text-center fw-bold&quot;&gt;TLB&lt;/div&gt;
+    &lt;div class=&quot;text-muted&quot;&gt;→&lt;/div&gt;
+    &lt;div class=&quot;border rounded px-3 py-2 text-success text-center&quot;&gt;
+      &lt;small class=&quot;d-block text-muted&quot;&gt;hit&lt;/small&gt;
+      &lt;span class=&quot;fw-bold&quot;&gt;Frame&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- freccia giù + label --&gt;
+  &lt;div class=&quot;d-flex align-items-center gap-2&quot;&gt;
+    &lt;div style=&quot;width: 106px;&quot;&gt;&lt;/div&gt; &lt;!-- spacer allineato al TLB --&gt;
+    &lt;div class=&quot;text-muted d-flex flex-column align-items-center&quot;&gt;
+      &lt;small&gt;miss&lt;/small&gt;
+      &lt;span&gt;↓&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;!-- Page Table → Frame (miss) --&gt;
+  &lt;div class=&quot;d-flex align-items-center gap-2&quot;&gt;
+    &lt;div style=&quot;width: 106px;&quot;&gt;&lt;/div&gt; &lt;!-- spacer allineato al TLB --&gt;
+    &lt;div class=&quot;border rounded px-3 py-2 bg-warning-subtle text-center&quot;&gt;
+      &lt;small class=&quot;text-muted d-block&quot;&gt;miss&lt;/small&gt;
+      &lt;span class=&quot;fw-bold&quot;&gt;Page Table&lt;/span&gt;
+      &lt;small class=&quot;text-muted d-block&quot;&gt;in RAM&lt;/small&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;text-muted&quot;&gt;→&lt;/div&gt;
+    &lt;div class=&quot;border rounded px-3 py-2 text-center&quot;&gt;
+      &lt;small class=&quot;text-muted d-block&quot;&gt;+ aggiornamento TLB&lt;/small&gt;
+      &lt;span class=&quot;fw-bold&quot;&gt;Frame&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;hr&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;TLB hit&lt;/strong&gt;: il numero di frame è immediatamente disponibile, nessun accesso extra.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;TLB miss&lt;/strong&gt;: si consulta la tabella in memoria, con penalità di latenza.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Calcolo del Tempo di Accesso Effettivo (EAT)&lt;/h3&gt;
+&lt;p&gt;Dato un hit ratio $h$ e un tempo di accesso alla memoria $t$:&lt;/p&gt;
+&lt;p&gt;$&#92;text{EAT}=ht+(1-h)2t=t(2-h)$&lt;/p&gt;
+&lt;p&gt;Con $h=0.99$ e $t = 100 &#92;text{ns}$:&lt;/p&gt;
+&lt;p&gt;$&#92;text{EAT}=100(2-0.99)=101 &#92;text{ns}$&lt;/p&gt;
+&lt;p&gt;Alcuni TLB utilizzano gli &lt;strong&gt;ASID (Address-Space Identifiers)&lt;/strong&gt; per taggare le entry per
+processo, evitando il flush completo della cache a ogni cambio di contesto e migliorando
+sensibilmente le prestazioni in sistemi multiprocesso.&lt;/p&gt;
+&lt;h2&gt;Struttura delle Tabelle delle Pagine&lt;/h2&gt;
+&lt;p&gt;Con spazi di indirizzamento a 64 bit, una tabella delle pagine piatta occuperebbe
+quantità di memoria proibitive. Si adottano quindi strutture alternative:&lt;/p&gt;
+&lt;h3&gt;Paginazione Gerarchica&lt;/h3&gt;
+&lt;p&gt;La tabella stessa viene paginata su più livelli (tipicamente 2–4). Su x86-64 si usano
+4 livelli: PML4 → PDPT → PD → PT. Il registro &lt;strong&gt;CR3&lt;/strong&gt; punta alla tabella di livello
+superiore (PML4).&lt;/p&gt;
+&lt;h3&gt;Tabelle Hash&lt;/h3&gt;
+&lt;p&gt;Comuni per spazi di indirizzamento superiori a 32 bit. Ogni entry contiene una lista
+concatenata per gestire le collisioni. Variante comune: &lt;strong&gt;clustered page tables&lt;/strong&gt;, che
+mappano più pagine per entry.&lt;/p&gt;
+&lt;h3&gt;Tabella Invertita&lt;/h3&gt;
+&lt;p&gt;Un&#39;unica tabella di sistema con un&#39;entry per ogni &lt;strong&gt;frame fisico&lt;/strong&gt; (anziché per ogni
+pagina logica). Riduce drasticamente l&#39;occupazione di memoria, ma complica la ricerca
+(spesso si affianca una hash table per accelerarla).&lt;/p&gt;
+&lt;h2&gt;Huge Pages: un&#39;Ottimizzazione per Sistemi Moderni&lt;/h2&gt;
+&lt;p&gt;In scenari ad alte prestazioni (database, JVM, ambienti cloud-native), si utilizzano
+&lt;strong&gt;Huge Pages&lt;/strong&gt; (2 MB o 1 GB su x86-64) per ridurre il numero di entry nella tabella
+delle pagine e aumentare l&#39;hit rate del TLB.&lt;/p&gt;
+&lt;p&gt;Su Linux è possibile abilitarle tramite:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Verifica disponibilità&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-i&lt;/span&gt; hugepages /proc/meminfo
+
+&lt;span class=&quot;token comment&quot;&gt;# Allocazione di 512 huge pages da 2MB (= 1GB)&lt;/span&gt;
+&lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;512&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; /proc/sys/vm/nr_hugepages&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Framework come &lt;strong&gt;Java HotSpot&lt;/strong&gt; (&lt;code&gt;-XX:+UseHugePages&lt;/code&gt;) e &lt;strong&gt;DPDK&lt;/strong&gt; le sfruttano
+attivamente per ridurre la latenza.&lt;/p&gt;
+&lt;h2&gt;Swapping e Memoria Ausiliaria&lt;/h2&gt;
+&lt;p&gt;Lo swapping consente di spostare temporaneamente pagine o interi processi dalla RAM a
+una &lt;strong&gt;memoria ausiliaria (backing store)&lt;/strong&gt;, estendendo virtualmente la memoria disponibile.&lt;/p&gt;
+&lt;h3&gt;Desktop e Server (Linux/Windows)&lt;/h3&gt;
+&lt;p&gt;Supportano lo swapping standard e lo &lt;strong&gt;swapping con paginazione&lt;/strong&gt; (demand paging).
+Su Linux, strumenti moderni come &lt;strong&gt;&lt;code&gt;zswap&lt;/code&gt;&lt;/strong&gt; e &lt;strong&gt;&lt;code&gt;zram&lt;/code&gt;&lt;/strong&gt; comprimono le pagine prima
+di scriverle su disco, riducendo la latenza e l&#39;usura degli SSD — particolarmente
+rilevante in ambienti containerizzati (Docker, Kubernetes).&lt;/p&gt;
+&lt;h3&gt;Sistemi Mobili (iOS / Android)&lt;/h3&gt;
+&lt;p&gt;Le memorie flash hanno cicli di scrittura limitati e latenze non trascurabili, quindi:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;iOS&lt;/strong&gt; non implementa swapping tradizionale: notifica alle app di liberare memoria
+volontariamente tramite i &lt;em&gt;memory pressure notifications&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Android&lt;/strong&gt; salva lo stato dell&#39;app nello storage prima di terminarla (&lt;em&gt;killed process&lt;/em&gt;),
+consentendo un riavvio rapido con ripristino dello stato.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Architetture Reali a Confronto&lt;/h2&gt;
+&lt;h3&gt;Intel IA-32&lt;/h3&gt;
+&lt;p&gt;Utilizza un sistema misto &lt;strong&gt;segmentazione + paginazione a due livelli&lt;/strong&gt;. L&#39;estensione
+&lt;strong&gt;PAE (Physical Address Extension)&lt;/strong&gt; espande gli indirizzi fisici da 32 a &lt;strong&gt;36 bit&lt;/strong&gt;,
+permettendo ai processori a 32 bit di indirizzare fino a &lt;strong&gt;64 GB&lt;/strong&gt; di RAM fisica (pur
+mantenendo uno spazio virtuale per processo di 4 GB).&lt;/p&gt;
+&lt;h3&gt;Intel x86-64&lt;/h3&gt;
+&lt;p&gt;Adotta una struttura a &lt;strong&gt;4 livelli&lt;/strong&gt; (estendibile a 5 con LA57), gestita dal registro
+&lt;strong&gt;CR3&lt;/strong&gt;. Supporta pagine da 4 KB, 2 MB (Large Pages) e 1 GB (Huge Pages).&lt;/p&gt;
+&lt;h3&gt;ARMv8 / AArch64&lt;/h3&gt;
+&lt;p&gt;Supporta granularità di traduzione di &lt;strong&gt;4 KB, 16 KB e 64 KB&lt;/strong&gt; con fino a &lt;strong&gt;4 livelli&lt;/strong&gt;
+di paginazione. Il registro &lt;strong&gt;TTBR0&lt;/strong&gt; punta alla tabella del processo utente, &lt;strong&gt;TTBR1&lt;/strong&gt;
+a quella del kernel, separando nettamente i due spazi di indirizzamento.&lt;/p&gt;
+&lt;h2&gt;Best Practice per gli Sviluppatori&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Perché un dev dovrebbe preoccuparsene?&lt;/strong&gt; Le scelte di allocazione impattano direttamente le performance a causa dell&#39;interazione con la paginazione.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Evita allocazioni frammentate&lt;/strong&gt;: preferisci buffer contigui (array vs linked list)
+per massimizzare la locality e ridurre i TLB miss.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Valuta Huge Pages&lt;/strong&gt; per applicazioni con working set &amp;gt; 1 GB (JVM, Redis, PostgreSQL).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Attenzione ai memory-mapped file&lt;/strong&gt; (&lt;code&gt;mmap&lt;/code&gt;): sfruttano direttamente la paginazione
+e possono ridurre le copie di dati tra kernel e userspace.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Profila i TLB miss&lt;/strong&gt; con &lt;code&gt;perf stat -e dTLB-load-misses ./myapp&lt;/code&gt; su Linux prima
+di ottimizzare prematuramente.&lt;/li&gt;
+&lt;/ul&gt;
+]]></content>
+    
+    
+      
+    
+      
+    <category term="sistemi operativi"/>
+      
+    
+      
+    <category term="paginazione"/>
+      
+    
+  </entry>
+  
+  <entry>
     <title>Sincronizzazione dei processi</title>
     <link href="https://dino-996.github.io/blog/sincronizzazione-dei-processi/" rel="alternate" type="text/html"/>
     <id>https://dino-996.github.io/blog/sincronizzazione-dei-processi/</id>
