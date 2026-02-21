@@ -689,5 +689,256 @@ public void increment() {
     
   </entry>
   
+  <entry>
+    <title>Stallo dei processi</title>
+    <link href="https://dino-996.github.io/blog/stallo-dei-processi/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/stallo-dei-processi/</id>
+    <published>2020-02-01T00:00:00.000Z</published>
+    <updated>2020-02-01T00:00:00.000Z</updated>
+    
+    <summary>Viene esaminato il fenomeno dello stallo dei processi (deadlock) nei sistemi operativi, analizzando come più thread competano per risorse limitate.</summary>
+    
+    
+    <content type="html"><![CDATA[&lt;h1&gt;Introduzione&lt;/h1&gt;
+&lt;p&gt;In questo articolo approfondiamo le quattro condizioni necessarie affinché si verifichi un blocco totale, distinguendo tra il classico deadlock e il livelock, o stallo attivo. Vengono illustrati diversi strumenti diagnostici, come il grafo di assegnazione delle risorse, e algoritmi complessi come quello del banchiere per garantire uno stato di esecuzione sicuro. Infine, vengono descritte le tecniche di ripristino, che includono la terminazione forzata dei processi o la prelazione delle risorse per interrompere i cicli di attesa circolare.&lt;/p&gt;
+&lt;h2&gt;Deadlock&lt;/h2&gt;
+&lt;p&gt;Lo &lt;strong&gt;stallo (deadlock)&lt;/strong&gt; è una condizione in cui un insieme di thread o processi rimane bloccato perché ciascuno attende una risorsa detenuta da un altro elemento del gruppo.&lt;/p&gt;
+&lt;p&gt;In un sistema con multiprogrammazione, le entità concorrenti competono per un numero finito di &lt;strong&gt;risorse&lt;/strong&gt; (CPU, memoria, file, socket, lock, connessioni database). Una risorsa viene:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Richiesta&lt;/li&gt;
+&lt;li&gt;Assegnata&lt;/li&gt;
+&lt;li&gt;Utilizzata&lt;/li&gt;
+&lt;li&gt;Rilasciata&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Se una risorsa è già assegnata, il richiedente entra in stato di attesa. In determinate condizioni, questa attesa può diventare permanente.&lt;/p&gt;
+&lt;h2&gt;Le quattro condizioni necessarie allo stallo&lt;/h2&gt;
+&lt;p&gt;Affinché si verifichi un deadlock, devono coesistere simultaneamente quattro condizioni (Coffman conditions):&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Mutua esclusione&lt;/strong&gt;
+Almeno una risorsa deve essere non condivisibile (es. un lock esclusivo).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Possesso e attesa (Hold and Wait)&lt;/strong&gt;
+Un thread detiene almeno una risorsa e ne attende altre.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Assenza di prelazione (No Preemption)&lt;/strong&gt;
+Le risorse non possono essere sottratte forzatamente; devono essere rilasciate volontariamente.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Attesa circolare (Circular Wait)&lt;/strong&gt;
+Esiste una catena chiusa di attese tra thread/processi.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Rimuovere anche solo una di queste condizioni impedisce il verificarsi dello stallo.&lt;/p&gt;
+&lt;h2&gt;Deadlock, Livelock e Starvation&lt;/h2&gt;
+&lt;p&gt;È essenziale distinguere tre fenomeni diversi:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Deadlock&lt;/strong&gt;: blocco permanente.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Livelock&lt;/strong&gt;: i thread sono attivi ma non progrediscono (ad esempio, rilasciano e riacquisiscono risorse continuamente).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Starvation&lt;/strong&gt;: un thread non ottiene mai una risorsa a causa di politiche di scheduling sbilanciate.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In sistemi ad alta concorrenza, la starvation è spesso più subdola del deadlock.&lt;/p&gt;
+&lt;h2&gt;Grafo di Assegnazione delle Risorse (RAG)&lt;/h2&gt;
+&lt;p&gt;Le situazioni di stallo possono essere modellate tramite un &lt;strong&gt;Resource Allocation Graph&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Nodi circolari → thread/processi&lt;/li&gt;
+&lt;li&gt;Nodi rettangolari → risorse&lt;/li&gt;
+&lt;li&gt;Arco da thread a risorsa → richiesta&lt;/li&gt;
+&lt;li&gt;Arco da risorsa a thread → assegnazione&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Proprietà fondamentali&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Nessun ciclo → nessun deadlock&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ciclo con una sola istanza per risorsa → deadlock certo&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ciclo con più istanze → condizione necessaria ma non sufficiente&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Nel caso di risorse con singola istanza, si utilizza spesso il &lt;strong&gt;grafo di attesa&lt;/strong&gt;, più semplice da analizzare.&lt;/p&gt;
+&lt;h2&gt;Strategie di Gestione dello Stallo&lt;/h2&gt;
+&lt;h3&gt;Ignorare il problema (Approccio “Ostrich”)&lt;/h3&gt;
+&lt;p&gt;Sistemi come Microsoft Windows e Linux non implementano meccanismi generali di prevenzione del deadlock a livello kernel per tutte le risorse applicative.&lt;/p&gt;
+&lt;p&gt;La responsabilità è delegata allo sviluppatore. È una scelta pragmatica: prevenzione ed evitamento hanno costi computazionali elevati.&lt;/p&gt;
+&lt;h3&gt;Prevenzione&lt;/h3&gt;
+&lt;p&gt;Consiste nell’eliminare una delle quattro condizioni necessarie. Un esempio pratico può essere quello di prevenire l’attesa circolare imponendo un &lt;strong&gt;ordinamento globale dei lock&lt;/strong&gt;. Se ogni thread acquisisce sempre le risorse nello stesso ordine, il ciclo non può formarsi.&lt;/p&gt;
+&lt;h3&gt;Evitamento&lt;/h3&gt;
+&lt;p&gt;Richiede conoscenza preventiva delle richieste massime di risorse. L’&lt;strong&gt;algoritmo del banchiere&lt;/strong&gt; verifica che ogni assegnazione mantenga il sistema in uno &lt;strong&gt;stato sicuro&lt;/strong&gt;, ossia uno stato da cui esiste almeno una sequenza di completamento per tutti i processi. È elegante dal punto di vista teorico, ma raramente applicato nei sistemi general-purpose moderni a causa dell’overhead e della necessità di informazioni complete.&lt;/p&gt;
+&lt;h4&gt;Algoritmo del banchiere&lt;/h4&gt;
+&lt;p&gt;La complessità di questo algoritmo è $O(n^2 m)$, dove $n$ è il numero di processi e $m$ il numero di tipi di risorse.&lt;/p&gt;
+&lt;p&gt;Supponiamo:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;3 processi: $P_0, P_1, P_2$&lt;/li&gt;
+&lt;li&gt;3 tipi di risorse: $A, B, C$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Risorse totali disponibili: $&#92;text{Avaible} = [3,3,2]$&lt;/p&gt;
+&lt;h5&gt;Matrice delle richieste massime:&lt;/h5&gt;
+&lt;div class=&quot;mb-2&quot;&gt;
+$
+&#92;text{Max}=
+&#92;begin{bmatrix}
+7 &amp; 5 &amp; 3 &#92;&#92;
+3 &amp; 2 &amp; 2 &#92;&#92;
+9 &amp; 0 &amp; 2
+&#92;end{bmatrix}
+$
+&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;indica il &lt;strong&gt;massimo&lt;/strong&gt; che ogni processo potrebbe richiedere per ciascuna risorsa. Ad esempio, $P_0$ potrebbe richiedere al massimo 7 unità di $A$, 5 di $B$ e 3 di $C$.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5&gt;Risorse già assegnate:&lt;/h5&gt;
+&lt;div class=&quot;mb-2&quot;&gt;
+$
+&#92;text{Allocation}=
+&#92;begin{bmatrix}
+0 &amp; 1 &amp; 0 &#92;&#92;
+2 &amp; 0 &amp; 0 &#92;&#92;
+3 &amp; 0 &amp; 2
+&#92;end{bmatrix}
+$
+&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;indica quante risorse sono &lt;strong&gt;già state date&lt;/strong&gt; a ciascun processo. Ad esempio, $P_1$ ha già ricevuto 2 unità di $A$, 0 di $B$ e 0 di $C$.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5&gt;Calcolo delle risorse ancora necessarie:&lt;/h5&gt;
+&lt;div class=&quot;mb-2&quot;&gt;
+$
+&#92;text{Need}=&#92;text{Max - Allocation}=
+&#92;begin{bmatrix}
+7 &amp; 4 &amp; 3 &#92;&#92;
+1 &amp; 2 &amp; 2 &#92;&#92;
+6 &amp; 0 &amp; 0
+&#92;end{bmatrix}
+$
+&lt;/div&gt;
+&lt;ul&gt;
+&lt;li&gt;Si ottiene sottraendo riga per riga: ad esempio per $P_0$, $&#92;text{Need}[0] = [7,5,3] - [0,1,0] = [7,4,3]$. Rappresenta quante risorse mancano ancora a ciascun processo per completare la propria esecuzione.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h5&gt;Verifica dello stato sicuro&lt;/h5&gt;
+&lt;p&gt;L&#39;algoritmo cerca iterativamente un processo $P_i$ che soddisfi la condizione $&#92;text{Need}[i] &#92;leq &#92;text{Avaible}$, ovvero un processo che possa essere eseguito con le risorse attualmente disponibili. Se lo trova, simula la sua esecuzione: le risorse che gli erano state assegnate vengono &amp;quot;liberate&amp;quot; e aggiunte ad $&#92;text{Avaible}$. Si ripete finché tutti i processi sono stati eseguiti (stato sicuro) oppure non si trova più nessun processo eseguibile (stato non sicuro).&lt;/p&gt;
+&lt;p&gt;Partendo da $P_0$ con $&#92;text{Avaible} = [3,3,2]$:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$P_0 &#92;text{: } &#92;text{Need[0]} = [7,4,3] &#92;to &#92;text{Non soddisfa le condizioni: } 7 &amp;gt; 3 &#92;text{ già alla prima risorsa.}$&lt;/li&gt;
+&lt;li&gt;$P_1 &#92;text{: } &#92;text{Need[1]} = [1,2,2] &#92;to &#92;text{Soddisfa le condizioni: } 1 &#92;leq 3, 2 &#92;leq 3, 2 &#92;leq 2. $&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;$P_1$ viene eseguito e le risorse vengono rilasciate. $&#92;text{Avaible}$ si aggiorna sommando $&#92;text{Allocation}[1] = [2,0,0]$:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$&#92;text{Avaible} = [3,3,2] + [2,0,0] = [5,3,2]$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ripartiamo da $P_0$ con $&#92;text{Avaible} = [5,3,2]$:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$P_0 &#92;text{: } &#92;text{Need[0]} = [7,4,3] &#92;to &#92;text{Non soddisfa le condizioni: } 7 &amp;gt; 5 &#92;text{ già alla prima risorsa.}$&lt;/li&gt;
+&lt;li&gt;$P_2 &#92;text{: } &#92;text{Need[2]} = [6,0,0] &#92;to &#92;text{Non soddisfa le condizioni: } 6 &amp;gt; 5 &#92;text{ già alla prima risorsa.}$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Nessun processo è eseguibile: non è possibile trovare una sequenza sicura. &lt;strong&gt;Lo stato è non sicuro&lt;/strong&gt;, il che significa che il sistema non può garantire che tutti i processi riescano a completarsi. L&#39;algoritmo del banchiere avrebbe quindi rifiutato l&#39;allocazione che ha portato a questo stato.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Conclusione&lt;/strong&gt;: se provassimo a dare subito le risorse disponibili senza priorità andremmo in contro a uno stato non sicuro.&lt;/p&gt;
+&lt;p&gt;Se inizialmente avremmo avuto $&#92;text{Avaible}=[10,5,7]$:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$P_0 &#92;text{: } &#92;text{Need[0]} = [7,4,3] &#92;to &#92;text{Soddisfa le condizioni: } 7 &#92;leq 12, 4 &#92;leq 5, 3 &#92;leq 7. &#92;quad &#92;text{Avaible} = [12,5,7] + [0,1,0] = [12,6,7]$&lt;/li&gt;
+&lt;li&gt;$P_1 &#92;text{: } &#92;text{Need[1]} = [1,2,2] &#92;to &#92;text{Soddisfa le condizioni: } 1 &#92;leq 10, 2 &#92;leq 5, 2 &#92;leq 7. &#92;quad &#92;text{Avaible} = [10,5,7] + [2,0,0] = [12,5,7]$&lt;/li&gt;
+&lt;li&gt;$P_2 &#92;text{: } &#92;text{Need[2]} = [6,0,0] &#92;to &#92;text{Soddisfa le condizioni: } 6 &#92;leq 12, 0 &#92;leq 6, 0 &#92;leq 7. &#92;quad &#92;text{Avaible} = [12,6,7] + [3,0,2] = [15,6,9]$&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Sequenza sicura&lt;/strong&gt;: $P_0 &#92;to P_1 &#92;to P_2$&lt;/p&gt;
+&lt;h3&gt;Rilevamento e Ripristino&lt;/h3&gt;
+&lt;p&gt;Utilizzato soprattutto nei database e nei sistemi transazionali.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Rilevamento periodico tramite analisi del grafo di attesa.&lt;/li&gt;
+&lt;li&gt;Ripristino tramite:
+&lt;ul&gt;
+&lt;li&gt;Terminazione di processi&lt;/li&gt;
+&lt;li&gt;Prelazione con rollback&lt;/li&gt;
+&lt;li&gt;Selezione di una “vittima” secondo criteri di costo&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h1&gt;Deadlock nella pratica: esempi concreti&lt;/h1&gt;
+&lt;h2&gt;Esempio in Python&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;import threading
+import time
+
+lock1 = threading.Lock()
+lock2 = threading.Lock()
+
+def thread1():
+    with lock1:
+        time.sleep(1)
+        with lock2:
+            print(&amp;quot;Thread 1 acquisito lock2&amp;quot;)
+
+def thread2():
+    with lock2:
+        time.sleep(1)
+        with lock1:
+            print(&amp;quot;Thread 2 acquisito lock1&amp;quot;)
+
+t1 = threading.Thread(target=thread1)
+t2 = threading.Thread(target=thread2)
+
+t1.start()
+t2.start()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Qui:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Thread 1 acquisisce &lt;code&gt;lock1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Thread 2 acquisisce &lt;code&gt;lock2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Entrambi attendono il lock detenuto dall’altro&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Deadlock perfetto.&lt;/p&gt;
+&lt;h3&gt;Soluzione&lt;/h3&gt;
+&lt;p&gt;Imporre un ordine globale di acquisizione dei lock.&lt;/p&gt;
+&lt;h2&gt;Esempio in Java&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;public class DeadlockExample {
+
+    private static final Object lock1 = new Object();
+    private static final Object lock2 = new Object();
+
+    public static void main(String[] args) {
+
+        Thread t1 = new Thread(() -&amp;gt; {
+            synchronized (lock1) {
+                try { 
+                    Thread.sleep(100); 
+                } catch (InterruptedException e) {}
+                synchronized (lock2) {}
+            }
+        });
+
+        Thread t2 = new Thread(() -&amp;gt; {
+            synchronized (lock2) {
+                try { 
+                    Thread.sleep(100); 
+                } catch (InterruptedException e) {}
+                synchronized (lock1) {}
+            }
+        });
+
+        t1.start();
+        t2.start();
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In ambienti enterprise basati su Java, questo errore può compromettere interi application server.&lt;/p&gt;
+&lt;h1&gt;Deadlock e Cloud Native&lt;/h1&gt;
+&lt;p&gt;Nel paradigma &lt;strong&gt;Cloud Native&lt;/strong&gt;, il deadlock non riguarda solo thread locali.&lt;/p&gt;
+&lt;p&gt;Può emergere tra:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Microservizi che attendono risposte reciproche&lt;/li&gt;
+&lt;li&gt;Pool di connessioni database saturi&lt;/li&gt;
+&lt;li&gt;Lock distribuiti&lt;/li&gt;
+&lt;li&gt;Transazioni distribuite&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Un pool di connessioni esaurito può generare un deadlock applicativo che si traduce in:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Saturazione CPU&lt;/li&gt;
+&lt;li&gt;Timeout a cascata&lt;/li&gt;
+&lt;li&gt;Riduzione della disponibilità (effetto simile a un DoS logico)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Qui il problema diventa anche di &lt;strong&gt;sicurezza e resilienza operativa&lt;/strong&gt;.&lt;/p&gt;
+]]></content>
+    
+    
+      
+    
+      
+    <category term="sistemi operativi"/>
+      
+    
+      
+    <category term="processi"/>
+      
+    
+  </entry>
+  
 
 </feed>

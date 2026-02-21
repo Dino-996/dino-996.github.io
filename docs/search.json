@@ -28,5 +28,11 @@
     "url": "/blog/sincronizzazione-dei-processi/",
     "description": "Viene esaminata la sincronizzazione dei processi nei sistemi operativi, focalizzandosi sulla gestione dell'accesso concorrente a dati condivisi per prevenire le race condition.",
     "date": "2020-02-03T00:00:00.000Z"
+  },
+  {
+    "title": "Stallo dei processi",
+    "url": "/blog/stallo-dei-processi/",
+    "description": "Viene esaminato il fenomeno dello stallo dei processi (deadlock) nei sistemi operativi, analizzando come più thread competano per risorse limitate.",
+    "date": "2020-02-01T00:00:00.000Z"
   }
 ]
