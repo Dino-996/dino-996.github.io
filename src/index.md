@@ -88,7 +88,7 @@ title: Home
           </div>
         </div>
       </div>
-    <div class="col-12 col-md-6 col-lg-4">
+    <div class="col-12 col-md-12 col-lg-4">
       <div class="card h-100 shadow-none" style="transform: none;">
         <div class="card-body d-flex flex-column">
           <div class="d-flex align-items-center mb-3">
@@ -131,7 +131,7 @@ title: Home
   </div>
   
   <div class="row g-4">{% assign recentPosts=collections.posts | reverse %}{% for post in recentPosts limit: 3 %}
-  <div class="col-md-6 col-lg-4">
+  <div class="col-12 col-md-{% if forloop.last %}12{% else %}6{% endif %} col-lg-4">
     <article class="card h-100 overflow-hidden shadow-none" style="transform: none">
       <div class="row g-0 h-100">{% if post.data.image %}
         <div class="col-12 p-0">
