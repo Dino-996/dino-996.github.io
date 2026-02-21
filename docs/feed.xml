@@ -132,7 +132,7 @@
     <published>2020-02-18T00:00:00.000Z</published>
     <updated>2020-02-18T00:00:00.000Z</updated>
     
-    <summary>Si descrivono i thread come le unità di base di utilizzo della CPU, evidenziando i vantaggi del multithreading come la condivisione delle risorse e la scalabilità. Approfondiamo il calcolo parallelo confrontando CPU e GPU, citando linguaggi come CUDA e OpenCL per elaborazioni ad alte prestazioni. Analizziamo inoltre l&#39;uso di librerie standard (Pthreads, Windows API, Java Executor) e modelli come thread pool e fork-join, concludendo con le sfide della cancellazione dei task e le specificità di sistema come la funzione clone() in Linux.</summary>
+    <summary>Si descrivono i thread come le unità di base di utilizzo della CPU, evidenziando i vantaggi del multithreading come la condivisione delle risorse e la scalabilità, concludendo con le sfide della cancellazione dei task e le specificità di sistema come la funzione clone() in Linux.</summary>
     
     
     <content type="html"><![CDATA[&lt;h1&gt;Introduzione&lt;/h1&gt;
