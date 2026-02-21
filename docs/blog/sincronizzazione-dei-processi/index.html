@@ -64,6 +64,8 @@
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
   </head>
 
@@ -232,27 +234,25 @@
 <p>Garantiscono mutua esclusione automatica.</p>
 <h2>Esempi in Python e Java</h2>
 <h3>Python (threading)</h3>
-<pre><code class="language-python">import threading
+<pre class="language-python"><code class="language-python"><span class="token keyword">import</span> threading
 
-lock = threading.Lock()
-counter = 0
+lock <span class="token operator">=</span> threading<span class="token punctuation">.</span>Lock<span class="token punctuation">(</span><span class="token punctuation">)</span>
+counter <span class="token operator">=</span> <span class="token number">0</span>
 
-def increment():
-    global counter
-    with lock:
-        counter += 1
-</code></pre>
+<span class="token keyword">def</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">global</span> counter
+    <span class="token keyword">with</span> lock<span class="token punctuation">:</span>
+        counter <span class="token operator">+=</span> <span class="token number">1</span></code></pre>
 <p>Nota: a causa del <strong>GIL (Global Interpreter Lock)</strong>, il threading in CPython non è realmente parallelo su CPU-bound tasks.</p>
 <hr>
 <h3>Java</h3>
-<pre><code class="language-java">import java.util.concurrent.atomic.AtomicInteger;
+<pre class="language-java"><code class="language-java"><span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span>atomic<span class="token punctuation">.</span></span><span class="token class-name">AtomicInteger</span></span><span class="token punctuation">;</span>
 
-AtomicInteger counter = new AtomicInteger(0);
+<span class="token class-name">AtomicInteger</span> counter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AtomicInteger</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-public void increment() {
-    counter.incrementAndGet();
-}
-</code></pre>
+<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    counter<span class="token punctuation">.</span><span class="token function">incrementAndGet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
 <p>Java fornisce:</p>
 <ul>
 <li><code>synchronized</code></li>

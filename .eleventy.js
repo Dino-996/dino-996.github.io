@@ -1,3 +1,5 @@
+import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
+import matter from "gray-matter";
 import slugify from "slugify";
 import markdownIt from "markdown-it";
 import fs from "fs";
@@ -52,18 +54,26 @@ export default function (eleventyConfig) {
   };
 
   // ============================================
+  // = PLUGIN
+  // ============================================
+  eleventyConfig.addPlugin(syntaxHighlight);
+
+  // ============================================
   // = LINTER
   // ============================================
-  eleventyConfig.addLinter("valida-post", function (_content, inputPath) {
-    if (!inputPath.includes("/posts/")) return;
+eleventyConfig.addLinter("valida-post", function (_content, inputPath) {
+  if (!inputPath.includes("/posts/")) return;
 
-    const campiObbligatori = ["title", "description", "date"];
-    campiObbligatori.forEach((campo) => {
-      if (!this.page?.[campo] && !this.data?.[campo]) {
-        console.warn(`⚠️  "${campo}" mancante in ${inputPath}`);
-      }
-    });
+  const fileContent = fs.readFileSync(inputPath, "utf-8");
+  const { data } = matter(fileContent);
+
+  const campiObbligatori = ["title", "description", "date"];
+  campiObbligatori.forEach((campo) => {
+    if (!data[campo]) {
+      console.warn(`⚠️  "${campo}" mancante in ${inputPath}`);
+    }
   });
+});
 
   // ============================================
   // = FILTERS
