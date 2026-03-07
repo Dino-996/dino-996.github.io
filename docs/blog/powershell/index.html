@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="it" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  PowerShell · dino-996 blog
+</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/powershell/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/powershell/" />
+
+<meta property="og:title" content="PowerShell" />
+<meta property="og:description" content="Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/sistemi-operativi.webp" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/powershell/" />
+
+<meta name="twitter:title" content="PowerShell" />
+<meta name="twitter:description" content="Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido." />
+
+<meta name="twitter:image" content="https://dino-996.github.io/assets/img/webp/sistemi-operativi.webp" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Bootstrap icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img 
+        src="https://github.com/Dino-996.png" 
+        alt="Davide Sabia" 
+        class="rounded-circle"
+        width="32"
+        height="32"
+        style="object-fit: cover;"
+      >
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+    
+    <button 
+      class="navbar-toggler border-0 p-0" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNav">
+      <i class="bi bi-grid-3x3-gap fs-4"></i>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">
+            Blog
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">
+            About
+          </a>
+        </li>
+
+        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+          <div class="d-inline-flex rounded-4 bg-body-tertiary p-1">
+            <button title="Dark mode" id="dark" class="btn btn-sm btn-default rounded-4 text-secondary p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-moon"></i>
+            </button>
+
+            <button title="Light mode" id="light" class="btn btn-sm btn-default rounded-4 text-warning p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-sun"></i>
+            </button>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <main class="container my-5 flex-grow-1">
+      
+<article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">PowerShell</h1>
+
+    <time
+      class="text-muted"
+      datetime="2026-01-01T00:00:00.000Z"
+    >
+      01 gennaio 2026
+    </time>
+  </header>
+
+  
+    <div class="mb-4">
+      <img 
+        src="/assets/img/webp/sistemi-operativi.webp" 
+        alt="Immagine generata con IA" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+    
+  </div>
+  
+
+  <hr>
+
+  <section class="content">
+    <h1>Introduzione</h1>
+<p>In questo guida per tutti troverete spiegazioni chiare, esempi pratici e suggerimenti per l'autoapprendimento.</p>
+<h2>Che cos'è PowerShell?</h2>
+<p>​PowerShell è una​ <strong>​shell di scripting</strong>​ ​e un ​​<strong>linguaggio ​​di scripting</strong> ​​sviluppato da Microsoft. A​ ​differenza delle tradizionali shell a riga di comando che si basano sul testo PowerShell è​ <strong>​orientato agli oggetti</strong>​. Ciò significa che i comandi​​ (chiamati <strong>​​cmdlet</strong>​) manipolano <strong>​​oggetti​ ​strutturati</strong>, non solo stringhe di testo. Questa caratteristica lo rende estremamente potente​ per l'automazione, la gestione di sistemi e la configurazione.​</p>
+<h3>Windows PowerShell vs PowerShell 7+</h3>
+<blockquote>
+<p>Distinzione fondamentale che molti ignorano.</p>
+</blockquote>
+<div class="container mb-3">
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-striped table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Caratteristica</th>
+          <th>Windows PowerShell 5.1</th>
+          <th>
+              PowerShell 7+
+            </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fw-semibold">Stato</td>
+          <td>
+            <span class="badge text-bg-warning">Legacy</span>
+          </td>
+          <td>
+            <span class="badge text-bg-success">Attivo</span>
+          </td>
+          </tr>
+        <tr>
+        <td class="fw-semibold">Open Source</td>
+          <td><span class="text-danger fw-bold">✕</span></td>
+          <td>GitHub
+        </td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Cross-platform</td>
+          <td>Solo Windows</td>
+          <td>Windows · Linux · macOS</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Eseguibile</td>
+          <td><code>powershell.exe</code></td>     <td><code>pwsh</code></td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Runtime</td>
+          <td>.NET Framework</td>
+          <td>.NET 6 / 7 / 8</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Incluso in Windows</td>
+          <td>Win 10 / 11</td>
+          <td>Da installare separatamente</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<p><strong>Raccomandazione:</strong> Usa sempre <strong>PowerShell 7+</strong> (<code>pwsh</code>) per i nuovi progetti.</p>
+<h3>Perché usare PowerShell</h3>
+<ul>
+<li><strong>Automazione:</strong> Elimina attività manuali ripetitive — gestione file, provisioning utenti, deployment applicazioni.</li>
+<li><strong>Gestione dei sistemi:</strong> Strumento fondamentale per l'amministrazione Windows, usato sempre più anche su Linux e macOS.</li>
+<li><strong>Efficienza:</strong> Operazioni complesse in poche righe grazie alla pipeline orientata agli oggetti.</li>
+<li><strong>Standard enterprise:</strong> È lo strumento ufficiale per la gestione di <strong>Microsoft Azure</strong> e dell'ecosistema Microsoft 365.</li>
+</ul>
+<h3>Differenze tra PowerShell, CMD e Bash</h3>
+<div class="container mb-3">
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-striped table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Caratteristica</th>
+          <th>PowerShell</th>
+          <th>CMD</th>
+          <th>Bash</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fw-semibold">Orientamento</td>
+          <td>Oggetti .NET</td>
+          <td>Testo</td>
+          <td>Testo</td>
+          </tr>
+        <tr>
+        <td class="fw-semibold">Linguaggio</td>
+          <td>Powershell (.NET)</td>
+          <td>Batch</td>
+          <td>Batch scripting</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Output pipeline</td>
+          <td>Oggetti strutturati</td>
+          <td>Stringhe</td>
+          <td>Stringhe</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Cross-platform</td>
+          <td>Win/Linux/MacOS</td>
+          <td>Win</td>
+          <td>Linux/MacOS</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Potenza</td>
+          <td>Alta</td>
+          <td>Bassa</td>
+          <td>Alta</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Curva di apprendimento</td>
+          <td>Media</td>
+          <td>Bassa</td>
+          <td>Media</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<h2>Installazione e Configurazione</h2>
+<h3>Windows</h3>
+<p>Windows 10/11 include <strong>Windows PowerShell 5.1</strong> (legacy). Per installare <strong>PowerShell 7+</strong>:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Metodo 1: Windows Package Manager (winget)</span>
+winget install <span class="token operator">--</span>id Microsoft<span class="token punctuation">.</span>Powershell <span class="token operator">--</span>source winget
+
+<span class="token comment"># Metodo 2: Download diretto</span>
+<span class="token comment"># https://github.com/PowerShell/PowerShell/releases</span></code></pre>
+<p>Dopo l'installazione, avvia PowerShell 7 con il comando <code>pwsh</code> nel terminale.</p>
+<h3>macOS</h3>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Installa Homebrew se non presente</span>
+/bin/bash <span class="token parameter variable">-c</span> <span class="token string">"<span class="token variable"><span class="token variable">$(</span><span class="token function">curl</span> <span class="token parameter variable">-fsSL</span> https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh<span class="token variable">)</span></span>"</span>
+
+<span class="token comment"># Installa PowerShell</span>
+brew <span class="token function">install</span> <span class="token parameter variable">--cask</span> powershell
+
+<span class="token comment"># Avvia PowerShell</span>
+pwsh</code></pre>
+<h3>Linux (Ubuntu/Debian)</h3>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Importa la chiave Microsoft</span>
+<span class="token function">curl</span> <span class="token parameter variable">-sSL</span> https://packages.microsoft.com/keys/microsoft.asc <span class="token operator">|</span> <span class="token function">sudo</span> <span class="token function">tee</span> /etc/apt/trusted.gpg.d/microsoft.asc
+
+<span class="token comment"># Aggiungi il repository</span>
+<span class="token function">sudo</span> add-apt-repository <span class="token string">"deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-<span class="token variable"><span class="token variable">$(</span>lsb_release <span class="token parameter variable">-rs</span><span class="token variable">)</span></span>-prod <span class="token variable"><span class="token variable">$(</span>lsb_release <span class="token parameter variable">-cs</span><span class="token variable">)</span></span> main"</span>
+
+<span class="token comment"># Installa</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> update <span class="token operator">&amp;&amp;</span> <span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> <span class="token parameter variable">-y</span> powershell
+
+<span class="token comment"># Avvia</span>
+pwsh</code></pre>
+<p>Per altre distribuzioni (RHEL, Fedora, openSUSE), consulta la <a href="https://learn.microsoft.com/powershell/scripting/install/installing-powershell">documentazione ufficiale</a>.</p>
+<h3>Editor consigliato: Visual Studio Code</h3>
+<blockquote>
+<p><strong>PowerShell ISE è ufficialmente deprecato.</strong> Microsoft raccomanda <strong>Visual Studio Code</strong> con l'estensione PowerShell.</p>
+</blockquote>
+<p>Installa l'estensione direttamente da VS Code:</p>
+<pre><code>Ctrl+P → ext install ms-vscode.PowerShell
+</code></pre>
+<p>L'estensione offre: IntelliSense, debugging integrato, esecuzione di selezioni di codice e integrazione con PSScriptAnalyzer.</p>
+<h3>Configurazione di Base</h3>
+<p><strong>Profilo PowerShell</strong> — script eseguito automaticamente all'avvio:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Visualizza il percorso del profilo</span>
+<span class="token variable">$PROFILE</span>
+
+<span class="token comment"># Crea il file di profilo se non esiste</span>
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">-not</span> <span class="token punctuation">(</span><span class="token function">Test-Path</span> <span class="token variable">$PROFILE</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">New-Item</span> <span class="token operator">-</span>ItemType File <span class="token operator">-</span>Path <span class="token variable">$PROFILE</span> <span class="token operator">-</span>Force
+<span class="token punctuation">}</span>
+
+<span class="token comment"># Apri il profilo in VS Code</span>
+code <span class="token variable">$PROFILE</span></code></pre>
+<p><strong>Execution Policy</strong> — controlla quali script possono essere eseguiti:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Visualizza la policy attuale</span>
+<span class="token function">Get-ExecutionPolicy</span>
+
+<span class="token comment"># Imposta la policy per l'utente corrente (scelta comune per sviluppo locale)</span>
+<span class="token function">Set-ExecutionPolicy</span> <span class="token operator">-</span>Scope CurrentUser <span class="token operator">-</span>ExecutionPolicy RemoteSigned
+
+<span class="token comment"># Valori possibili:</span>
+<span class="token comment"># Restricted    → Nessuno script (default su Windows)</span>
+<span class="token comment"># RemoteSigned  → Gli script locali sono OK; quelli scaricati richiedono firma</span>
+<span class="token comment"># Unrestricted  → Tutti gli script (non consigliato in produzione)</span>
+<span class="token comment"># AllSigned     → Solo script con firma digitale (massima sicurezza)</span></code></pre>
+<h2>Concetti Fondamentali</h2>
+<h3>Sintassi: Verb-Noun</h3>
+<p>Tutti i cmdlet seguono la convenzione <code>Verbo-Sostantivo</code>:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token function">Get-Process</span>        <span class="token comment"># Recupera informazioni sui processi</span>
+<span class="token function">Stop-Service</span>       <span class="token comment"># Arresta un servizio</span>
+<span class="token function">New-Item</span>           <span class="token comment"># Crea un nuovo elemento</span>
+<span class="token function">Remove-Item</span>        <span class="token comment"># Elimina un elemento</span>
+<span class="token function">Set-Location</span>       <span class="token comment"># Cambia directory</span></code></pre>
+<p>I verbi approvati da Microsoft garantiscono coerenza. Per vederli tutti:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token function">Get-Verb</span> <span class="token punctuation">|</span> <span class="token function">Sort-Object</span> Verb</code></pre>
+<h3>Il Sistema di Help</h3>
+<p>La documentazione integrata è uno dei punti di forza di PowerShell:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Aggiorna l'help (eseguire come amministratore)</span>
+<span class="token function">Update-Help</span>
+
+<span class="token comment"># Help base</span>
+<span class="token function">Get-Help</span> <span class="token function">Get-Process</span>
+
+<span class="token comment"># Con esempi pratici (molto utile!)</span>
+<span class="token function">Get-Help</span> <span class="token function">Get-Process</span> <span class="token operator">-</span>Examples
+
+<span class="token comment"># Help completo con tutti i parametri</span>
+<span class="token function">Get-Help</span> <span class="token function">Get-Process</span> <span class="token operator">-</span>Full
+
+<span class="token comment"># Apre la documentazione online</span>
+<span class="token function">Get-Help</span> <span class="token function">Get-Process</span> <span class="token operator">-</span>Online</code></pre>
+<h3>Cmdlet Essenziali</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token function">Get-Command</span>               <span class="token comment"># Elenca tutti i cmdlet disponibili</span>
+<span class="token function">Get-Command</span> <span class="token operator">-</span>Verb Get     <span class="token comment"># Filtra per verbo</span>
+<span class="token function">Get-Command</span> <span class="token operator">*</span><span class="token keyword">process</span><span class="token operator">*</span>     <span class="token comment"># Ricerca per nome</span>
+
+<span class="token function">Get-Member</span>                <span class="token comment"># Mostra proprietà e metodi di un oggetto</span>
+<span class="token function">Get-Process</span> <span class="token punctuation">|</span> <span class="token function">Get-Member</span>  <span class="token comment"># Esempio: scopri cosa puoi fare con un processo</span></code></pre>
+<h2>Variabili e Tipi di Dati</h2>
+<h3>Variabili</h3>
+<p>Le variabili iniziano con <code>$</code>. PowerShell è <strong>tipizzato dinamicamente</strong>, ma è possibile (e consigliato per script professionali) dichiarare il tipo esplicitamente:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Tipizzazione implicita</span>
+<span class="token variable">$nome</span> = <span class="token string">"Mario"</span>
+<span class="token variable">$eta</span> = 30
+<span class="token variable">$attivo</span> = <span class="token boolean">$true</span>
+
+<span class="token comment"># Tipizzazione esplicita (best practice per script professionali)</span>
+<span class="token namespace">[string]</span><span class="token variable">$nome</span> = <span class="token string">"Mario"</span>
+<span class="token namespace">[int]</span><span class="token variable">$eta</span> = 30
+<span class="token namespace">[bool]</span><span class="token variable">$attivo</span> = <span class="token boolean">$true</span>
+<span class="token namespace">[datetime]</span><span class="token variable">$oggi</span> = <span class="token function">Get-Date</span></code></pre>
+<h3>Stringhe</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Virgolette doppie: interpolazione variabili</span>
+<span class="token variable">$nome</span> = <span class="token string">"Mario"</span>
+<span class="token variable">$saluto</span> = <span class="token string">"Ciao, <span class="token variable">$nome</span>!"</span>           <span class="token comment"># → "Ciao, Mario!"</span>
+
+<span class="token comment"># Virgolette singole: stringa letterale (no interpolazione)</span>
+<span class="token variable">$letterale</span> = <span class="token string">'Ciao, $nome!'</span>        <span class="token comment"># → "Ciao, $nome!"</span>
+
+<span class="token comment"># Stringa multilinea (here-string)</span>
+<span class="token variable">$testo</span> = @<span class="token string">"
+Questa è una stringa
+su più righe con variabili: <span class="token variable">$nome</span>
+"</span>@
+
+<span class="token comment"># Metodi delle stringhe (PowerShell espone i metodi .NET)</span>
+<span class="token string">"powershell"</span><span class="token punctuation">.</span>ToUpper<span class="token punctuation">(</span><span class="token punctuation">)</span>             <span class="token comment"># → "POWERSHELL"</span>
+<span class="token string">"  testo  "</span><span class="token punctuation">.</span>Trim<span class="token punctuation">(</span><span class="token punctuation">)</span>                 <span class="token comment"># → "testo"</span>
+<span class="token string">"ciao mondo"</span><span class="token punctuation">.</span>Split<span class="token punctuation">(</span><span class="token string">" "</span><span class="token punctuation">)</span>           <span class="token comment"># → @("ciao", "mondo")</span></code></pre>
+<h3>Array e HashTable</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Array</span>
+<span class="token variable">$frutti</span> = <span class="token string">"mela"</span><span class="token punctuation">,</span> <span class="token string">"banana"</span><span class="token punctuation">,</span> <span class="token string">"arancia"</span>
+<span class="token variable">$numeri</span> = 1<span class="token punctuation">.</span><span class="token punctuation">.</span>10                    <span class="token comment"># Range: da 1 a 10</span>
+<span class="token variable">$frutti</span><span class="token punctuation">[</span>0<span class="token punctuation">]</span>                         <span class="token comment"># → "mela"</span>
+<span class="token variable">$frutti</span><span class="token punctuation">.</span>Count                      <span class="token comment"># → 3</span>
+
+<span class="token comment"># HashTable (dizionario chiave-valore)</span>
+<span class="token variable">$persona</span> = @<span class="token punctuation">{</span>
+    Nome    = <span class="token string">"Mario"</span>
+    Cognome = <span class="token string">"Rossi"</span>
+    Eta     = 30
+<span class="token punctuation">}</span>
+<span class="token variable">$persona</span><span class="token punctuation">[</span><span class="token string">"Nome"</span><span class="token punctuation">]</span>                   <span class="token comment"># → "Mario"</span>
+<span class="token variable">$persona</span><span class="token punctuation">.</span>Eta                       <span class="token comment"># → 30</span>
+<span class="token variable">$persona</span><span class="token punctuation">.</span>Keys                      <span class="token comment"># → Nome, Cognome, Eta</span></code></pre>
+<h3>Variabili Automatiche</h3>
+<p>PowerShell fornisce variabili speciali predefinite:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token variable">$_</span>         <span class="token comment"># (alias: $PSItem) L'oggetto corrente nella pipeline</span>
+$?         <span class="token comment"># True se l'ultimo comando ha avuto successo</span>
+<span class="token variable">$LASTEXITCODE</span>  <span class="token comment"># Codice di uscita dell'ultimo programma esterno</span>
+<span class="token variable">$Error</span>     <span class="token comment"># Array degli ultimi errori</span>
+<span class="token variable">$HOME</span>      <span class="token comment"># Directory home dell'utente</span>
+<span class="token variable">$PSVersionTable</span>  <span class="token comment"># Informazioni sulla versione di PowerShell</span>
+<span class="token variable">$PROFILE</span>   <span class="token comment"># Percorso del profilo utente</span></code></pre>
+<h3>Operatori</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Aritmetici</span>
+5 <span class="token operator">+</span> 3      <span class="token comment"># 8</span>
+10 <span class="token operator">%</span> 3     <span class="token comment"># 1 (modulo)</span>
+
+<span class="token comment"># Confronto</span>
+<span class="token string">"a"</span> <span class="token operator">-eq</span> <span class="token string">"a"</span>   <span class="token comment"># True  (equal)</span>
+5 <span class="token operator">-ne</span> 3       <span class="token comment"># True  (not equal)</span>
+10 <span class="token operator">-gt</span> 5      <span class="token comment"># True  (greater than)</span>
+3 <span class="token operator">-lt</span> 5       <span class="token comment"># True  (less than)</span>
+5 <span class="token operator">-ge</span> 5       <span class="token comment"># True  (greater or equal)</span>
+<span class="token string">"ciao"</span> <span class="token operator">-like</span> <span class="token string">"c*"</span>   <span class="token comment"># True  (wildcard match)</span>
+<span class="token string">"hello"</span> <span class="token operator">-match</span> <span class="token string">"^h"</span> <span class="token comment"># True  (regex match)</span>
+
+<span class="token comment"># Logici</span>
+<span class="token boolean">$true</span> <span class="token operator">-and</span> <span class="token boolean">$false</span>   <span class="token comment"># False</span>
+<span class="token boolean">$true</span> <span class="token operator">-or</span> <span class="token boolean">$false</span>    <span class="token comment"># True</span>
+<span class="token operator">-not</span> <span class="token boolean">$true</span>          <span class="token comment"># False</span></code></pre>
+<h2>La Pipeline</h2>
+<p>La <strong>pipeline</strong> (<code>|</code>) è il cuore di PowerShell. Passa <strong>oggetti interi</strong> (non testo) tra i comandi, preservando tutte le proprietà.</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Esempio base: filtra i processi che usano più di 100MB di RAM</span>
+<span class="token function">Get-Process</span> <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">{</span> <span class="token variable">$_</span><span class="token punctuation">.</span>WorkingSet <span class="token operator">-gt</span> 100MB <span class="token punctuation">}</span>
+<span class="token comment"># $_ rappresenta l'oggetto corrente nella pipeline (ogni processo)</span>
+<span class="token comment"># .WorkingSet è una proprietà dell'oggetto Process</span>
+
+<span class="token comment"># Concatena più operazioni</span>
+<span class="token function">Get-Process</span> <span class="token punctuation">|</span>
+    <span class="token function">Where-Object</span> <span class="token punctuation">{</span> <span class="token variable">$_</span><span class="token punctuation">.</span>CPU <span class="token operator">-gt</span> 1 <span class="token punctuation">}</span> <span class="token punctuation">|</span>
+    <span class="token function">Sort-Object</span> CPU <span class="token operator">-</span>Descending <span class="token punctuation">|</span>
+    <span class="token function">Select-Object</span> Name<span class="token punctuation">,</span> CPU<span class="token punctuation">,</span> Id <span class="token operator">-</span>First 10 <span class="token punctuation">|</span>
+    <span class="token function">Format-Table</span> <span class="token operator">-</span>AutoSize</code></pre>
+<h3>Cmdlet Fondamentali per la Pipeline</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Filtra oggetti</span>
+<span class="token function">Get-Service</span> <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">{</span> <span class="token variable">$_</span><span class="token punctuation">.</span>Status <span class="token operator">-eq</span> <span class="token string">"Running"</span> <span class="token punctuation">}</span>
+
+<span class="token comment"># Ordina</span>
+<span class="token function">Get-Process</span> <span class="token punctuation">|</span> <span class="token function">Sort-Object</span> WorkingSet <span class="token operator">-</span>Descending
+
+<span class="token comment"># Seleziona proprietà specifiche</span>
+<span class="token function">Get-Process</span> <span class="token punctuation">|</span> <span class="token function">Select-Object</span> Name<span class="token punctuation">,</span> Id<span class="token punctuation">,</span> CPU
+
+<span class="token comment"># Aggrega</span>
+<span class="token function">Get-Process</span> <span class="token punctuation">|</span> <span class="token function">Measure-Object</span> CPU <span class="token operator">-</span>Sum <span class="token operator">-</span>Average
+
+<span class="token comment"># Raggruppa</span>
+<span class="token function">Get-Service</span> <span class="token punctuation">|</span> <span class="token function">Group-Object</span> Status
+
+<span class="token comment"># Converte output</span>
+<span class="token function">Get-Process</span> <span class="token punctuation">|</span> <span class="token function">ConvertTo-Json</span>
+<span class="token function">Get-Process</span> <span class="token punctuation">|</span> <span class="token function">ConvertTo-Csv</span> <span class="token punctuation">|</span> <span class="token function">Out-File</span> processi<span class="token punctuation">.</span>csv
+
+<span class="token comment"># Formatta output (solo per visualizzazione, non usare in pipeline)</span>
+<span class="token function">Get-Process</span> <span class="token punctuation">|</span> <span class="token function">Format-Table</span> Name<span class="token punctuation">,</span> CPU <span class="token operator">-</span>AutoSize
+<span class="token function">Get-Process</span> <span class="token punctuation">|</span> <span class="token function">Format-List</span> <span class="token operator">*</span></code></pre>
+<h2>Gestione File e Directory</h2>
+<h3>Navigazione</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token function">Get-Location</span>              <span class="token comment"># Directory corrente (alias: pwd)</span>
+<span class="token function">Set-Location</span> C:\Projects  <span class="token comment"># Cambia directory (alias: cd)</span>
+<span class="token function">Set-Location</span> <span class="token punctuation">.</span><span class="token punctuation">.</span>           <span class="token comment"># Vai alla directory padre</span>
+
+<span class="token function">Get-PSDrive</span>               <span class="token comment"># Mostra tutti i "drive" disponibili (C:, D:, HKLM:, Env:, ecc.)</span>
+<span class="token function">Set-Location</span> HKLM:        <span class="token comment"># PowerShell può navigare anche nel Registry!</span></code></pre>
+<h3>Operazioni sui File</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Elenca contenuto</span>
+<span class="token function">Get-ChildItem</span>             <span class="token comment"># (alias: ls, dir)</span>
+<span class="token function">Get-ChildItem</span> <span class="token operator">-</span>Recurse    <span class="token comment"># Ricorsivo</span>
+<span class="token function">Get-ChildItem</span> <span class="token operator">*</span><span class="token punctuation">.</span>log       <span class="token comment"># Filtra per estensione</span>
+
+<span class="token comment"># Crea</span>
+<span class="token function">New-Item</span> <span class="token operator">-</span>ItemType File <span class="token operator">-</span>Path <span class="token punctuation">.</span>\log<span class="token punctuation">.</span>txt
+<span class="token function">New-Item</span> <span class="token operator">-</span>ItemType Directory <span class="token operator">-</span>Path <span class="token punctuation">.</span>\backup
+
+<span class="token comment"># Leggi</span>
+<span class="token function">Get-Content</span> <span class="token punctuation">.</span>\log<span class="token punctuation">.</span>txt
+<span class="token function">Get-Content</span> <span class="token punctuation">.</span>\log<span class="token punctuation">.</span>txt <span class="token operator">-</span>Tail 20   <span class="token comment"># Ultime 20 righe (come tail -n)</span>
+<span class="token function">Get-Content</span> <span class="token punctuation">.</span>\log<span class="token punctuation">.</span>txt <span class="token operator">-</span>Wait      <span class="token comment"># Modalità follow (come tail -f)</span>
+
+<span class="token comment"># Scrivi</span>
+<span class="token function">Set-Content</span> <span class="token punctuation">.</span>\output<span class="token punctuation">.</span>txt <span class="token string">"Nuovo contenuto"</span>     <span class="token comment"># Sovrascrive</span>
+<span class="token function">Add-Content</span> <span class="token punctuation">.</span>\output<span class="token punctuation">.</span>txt <span class="token string">"Riga aggiuntiva"</span>    <span class="token comment"># Appende</span>
+
+<span class="token comment"># Copia, sposta, elimina</span>
+<span class="token function">Copy-Item</span> <span class="token punctuation">.</span>\source<span class="token punctuation">.</span>txt <span class="token punctuation">.</span>\dest<span class="token punctuation">.</span>txt
+<span class="token function">Move-Item</span> <span class="token punctuation">.</span>\old<span class="token punctuation">.</span>txt <span class="token punctuation">.</span>\new<span class="token punctuation">.</span>txt
+<span class="token function">Remove-Item</span> <span class="token punctuation">.</span>\file<span class="token punctuation">.</span>txt
+<span class="token function">Remove-Item</span> <span class="token punctuation">.</span>\cartella <span class="token operator">-</span>Recurse  <span class="token comment"># Elimina cartella con contenuto</span></code></pre>
+<h2>Strutture di Controllo</h2>
+<h3>Condizionali</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># If / ElseIf / Else</span>
+<span class="token variable">$temperatura</span> = 25
+
+<span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$temperatura</span> <span class="token operator">-gt</span> 30<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">Write-Host</span> <span class="token string">"Caldo"</span>
+<span class="token punctuation">}</span> <span class="token keyword">elseif</span> <span class="token punctuation">(</span><span class="token variable">$temperatura</span> <span class="token operator">-gt</span> 20<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">Write-Host</span> <span class="token string">"Piacevole"</span>
+<span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+    <span class="token function">Write-Host</span> <span class="token string">"Fresco"</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># Switch (più efficiente di if/elseif per casi multipli)</span>
+<span class="token variable">$giorno</span> = <span class="token string">"Lunedì"</span>
+<span class="token keyword">switch</span> <span class="token punctuation">(</span><span class="token variable">$giorno</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token string">"Lunedì"</span>    <span class="token punctuation">{</span> <span class="token function">Write-Host</span> <span class="token string">"Inizio settimana"</span> <span class="token punctuation">}</span>
+    <span class="token string">"Venerdì"</span>   <span class="token punctuation">{</span> <span class="token function">Write-Host</span> <span class="token string">"Fine settimana"</span> <span class="token punctuation">}</span>
+    <span class="token string">"Sabato"</span>    <span class="token punctuation">{</span> <span class="token function">Write-Host</span> <span class="token string">"Weekend!"</span> <span class="token punctuation">}</span>
+    <span class="token string">"Domenica"</span>  <span class="token punctuation">{</span> <span class="token function">Write-Host</span> <span class="token string">"Weekend!"</span> <span class="token punctuation">}</span>
+    default     <span class="token punctuation">{</span> <span class="token function">Write-Host</span> <span class="token string">"Giorno lavorativo"</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+<h3>Loop</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># For classico</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token variable">$i</span> = 0<span class="token punctuation">;</span> <span class="token variable">$i</span> <span class="token operator">-lt</span> 5<span class="token punctuation">;</span> <span class="token variable">$i</span><span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">Write-Host</span> <span class="token string">"Iterazione: <span class="token variable">$i</span>"</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># ForEach (il più comune in PowerShell)</span>
+<span class="token variable">$servizi</span> = <span class="token function">Get-Service</span> <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">{</span> <span class="token variable">$_</span><span class="token punctuation">.</span>Status <span class="token operator">-eq</span> <span class="token string">"Stopped"</span> <span class="token punctuation">}</span>
+<span class="token keyword">foreach</span> <span class="token punctuation">(</span><span class="token variable">$servizio</span> in <span class="token variable">$servizi</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">Write-Host</span> <span class="token string">"Servizio fermo: <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$servizio</span><span class="token punctuation">.</span>Name<span class="token punctuation">)</span></span>"</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># ForEach-Object (nella pipeline)</span>
+1<span class="token punctuation">.</span><span class="token punctuation">.</span>5 <span class="token punctuation">|</span> <span class="token function">ForEach-Object</span> <span class="token punctuation">{</span> <span class="token variable">$_</span> <span class="token operator">*</span> 2 <span class="token punctuation">}</span>   <span class="token comment"># Output: 2 4 6 8 10</span>
+
+<span class="token comment"># While</span>
+<span class="token variable">$contatore</span> = 0
+<span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token variable">$contatore</span> <span class="token operator">-lt</span> 3<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token function">Write-Host</span> <span class="token string">"Contatore: <span class="token variable">$contatore</span>"</span>
+    <span class="token variable">$contatore</span><span class="token operator">++</span>
+<span class="token punctuation">}</span></code></pre>
+<h3>Gestione Errori</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># $ErrorActionPreference controlla il comportamento globale degli errori</span>
+<span class="token variable">$ErrorActionPreference</span> = <span class="token string">"Stop"</span>  <span class="token comment"># Trasforma tutti gli errori in eccezioni terminanti</span>
+
+<span class="token keyword">try</span> <span class="token punctuation">{</span>
+    <span class="token variable">$contenuto</span> = <span class="token function">Get-Content</span> <span class="token string">"file-inesistente.txt"</span> <span class="token operator">-</span>ErrorAction Stop
+    <span class="token function">Write-Host</span> <span class="token string">"File letto con successo"</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">catch</span> <span class="token namespace">[System.IO.FileNotFoundException]</span> <span class="token punctuation">{</span>
+    <span class="token function">Write-Warning</span> <span class="token string">"File non trovato: <span class="token variable">$_</span>"</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">catch</span> <span class="token punctuation">{</span>
+    <span class="token comment"># Cattura qualsiasi altro errore</span>
+    <span class="token function">Write-Error</span> <span class="token string">"Errore imprevisto: <span class="token function">$<span class="token punctuation">(</span><span class="token variable">$_</span><span class="token punctuation">.</span>Exception<span class="token punctuation">.</span>Message<span class="token punctuation">)</span></span>"</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">finally</span> <span class="token punctuation">{</span>
+    <span class="token comment"># Eseguito sempre, con o senza errori (utile per cleanup)</span>
+    <span class="token function">Write-Host</span> <span class="token string">"Operazione completata."</span>
+<span class="token punctuation">}</span></code></pre>
+<h2>Funzioni e Moduli</h2>
+<h3>Funzioni Base</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token keyword">function</span> <span class="token function">Get-Saluto</span> <span class="token punctuation">{</span>
+    <span class="token keyword">param</span><span class="token punctuation">(</span>
+        <span class="token namespace">[string]</span><span class="token variable">$Nome</span> = <span class="token string">"Mondo"</span><span class="token punctuation">,</span>   <span class="token comment"># Parametro con valore di default</span>
+        <span class="token namespace">[int]</span><span class="token variable">$Ripetizioni</span> = 1
+    <span class="token punctuation">)</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token variable">$i</span> = 0<span class="token punctuation">;</span> <span class="token variable">$i</span> <span class="token operator">-lt</span> <span class="token variable">$Ripetizioni</span><span class="token punctuation">;</span> <span class="token variable">$i</span><span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">Write-Output</span> <span class="token string">"Ciao, <span class="token variable">$Nome</span>!"</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># Chiamata</span>
+<span class="token function">Get-Saluto</span> <span class="token operator">-</span>Nome <span class="token string">"Mario"</span> <span class="token operator">-</span>Ripetizioni 3</code></pre>
+<h3>Funzioni Avanzate (Advanced Functions)</h3>
+<p>Per script professionali, usa <code>CmdletBinding</code> per ottenere comportamenti da cmdlet nativi (supporto <code>-Verbose</code>, <code>-WhatIf</code>, <code>-ErrorAction</code>, ecc.):</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token keyword">function</span> <span class="token function">Invoke-Backup</span> <span class="token punctuation">{</span>
+    <span class="token namespace">[CmdletBinding(SupportsShouldProcess)]</span>
+    <span class="token keyword">param</span><span class="token punctuation">(</span>
+        <span class="token namespace">[Parameter(Mandatory, ValueFromPipeline)]</span>
+        <span class="token namespace">[string]</span><span class="token variable">$SourcePath</span><span class="token punctuation">,</span>
+
+        <span class="token namespace">[Parameter(Mandatory)]</span>
+        <span class="token namespace">[string]</span><span class="token variable">$DestinationPath</span><span class="token punctuation">,</span>
+
+        <span class="token namespace">[switch]</span><span class="token variable">$Compress</span>
+    <span class="token punctuation">)</span>
+
+    <span class="token keyword">process</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token variable">$PSCmdlet</span><span class="token punctuation">.</span>ShouldProcess<span class="token punctuation">(</span><span class="token variable">$SourcePath</span><span class="token punctuation">,</span> <span class="token string">"Backup"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">Write-Verbose</span> <span class="token string">"Backup di '<span class="token variable">$SourcePath</span>' verso '<span class="token variable">$DestinationPath</span>'"</span>
+            <span class="token function">Copy-Item</span> <span class="token operator">-</span>Path <span class="token variable">$SourcePath</span> <span class="token operator">-</span>Destination <span class="token variable">$DestinationPath</span> <span class="token operator">-</span>Recurse
+            <span class="token function">Write-Output</span> <span class="token string">"Backup completato."</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># Uso con -WhatIf per simulare senza eseguire</span>
+<span class="token function">Invoke-Backup</span> <span class="token operator">-</span>SourcePath <span class="token string">"C:\dati"</span> <span class="token operator">-</span>DestinationPath <span class="token string">"D:\backup"</span> <span class="token operator">-</span>WhatIf
+
+<span class="token comment"># Uso con -Verbose per logging dettagliato</span>
+<span class="token function">Invoke-Backup</span> <span class="token operator">-</span>SourcePath <span class="token string">"C:\dati"</span> <span class="token operator">-</span>DestinationPath <span class="token string">"D:\backup"</span> <span class="token operator">-</span>Verbose</code></pre>
+<h3>Gestione Moduli</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Trova moduli disponibili nel repository PSGallery</span>
+<span class="token function">Find-Module</span> <span class="token operator">-</span>Name <span class="token operator">*</span>Azure*
+
+<span class="token comment"># Installa un modulo</span>
+<span class="token function">Install-Module</span> <span class="token operator">-</span>Name Az <span class="token operator">-</span>Scope CurrentUser
+
+<span class="token comment"># Importa un modulo nella sessione corrente</span>
+<span class="token function">Import-Module</span> Az
+
+<span class="token comment"># Elenca i moduli installati</span>
+<span class="token function">Get-Module</span> <span class="token operator">-</span>ListAvailable
+
+<span class="token comment"># Elenca i cmdlet di un modulo specifico</span>
+<span class="token function">Get-Command</span> <span class="token operator">-</span>Module Az<span class="token punctuation">.</span>Compute</code></pre>
+<h2>Amministrazione di Sistema</h2>
+<h3>Utenti Locali</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token function">Get-LocalUser</span>
+<span class="token function">New-LocalUser</span> <span class="token operator">-</span>Name <span class="token string">"mario"</span> <span class="token operator">-</span>Password <span class="token punctuation">(</span><span class="token function">ConvertTo-SecureString</span> <span class="token string">"P@ss!"</span> <span class="token operator">-</span>AsPlainText <span class="token operator">-</span>Force<span class="token punctuation">)</span> <span class="token operator">-</span>FullName <span class="token string">"Mario Rossi"</span>
+<span class="token function">Add-LocalGroupMember</span> <span class="token operator">-</span><span class="token function">Group</span> <span class="token string">"Administrators"</span> <span class="token operator">-</span>Member <span class="token string">"mario"</span>
+<span class="token function">Remove-LocalUser</span> <span class="token operator">-</span>Name <span class="token string">"mario"</span></code></pre>
+<h3>Servizi</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token function">Get-Service</span>
+<span class="token function">Get-Service</span> <span class="token operator">-</span>Name <span class="token string">"wuauserv"</span>           <span class="token comment"># Windows Update</span>
+<span class="token function">Start-Service</span> <span class="token operator">-</span>Name <span class="token string">"wuauserv"</span>
+<span class="token function">Stop-Service</span> <span class="token operator">-</span>Name <span class="token string">"wuauserv"</span>
+<span class="token function">Restart-Service</span> <span class="token operator">-</span>Name <span class="token string">"wuauserv"</span>
+<span class="token function">Set-Service</span> <span class="token operator">-</span>Name <span class="token string">"wuauserv"</span> <span class="token operator">-</span>StartupType Disabled</code></pre>
+<h3>Processi</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token function">Get-Process</span> <span class="token punctuation">|</span> <span class="token function">Sort-Object</span> CPU <span class="token operator">-</span>Descending <span class="token punctuation">|</span> <span class="token function">Select-Object</span> <span class="token operator">-</span>First 10
+<span class="token function">Stop-Process</span> <span class="token operator">-</span>Name <span class="token string">"notepad"</span> <span class="token operator">-</span>Confirm
+<span class="token function">Start-Process</span> <span class="token string">"notepad.exe"</span></code></pre>
+<h3>Registro di Sistema</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Naviga nel registro come se fosse un filesystem</span>
+<span class="token function">Set-Location</span> HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion
+
+<span class="token function">Get-ItemProperty</span> <span class="token operator">-</span>Path <span class="token string">"HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion"</span> <span class="token operator">-</span>Name <span class="token string">"ProductName"</span>
+<span class="token function">Set-ItemProperty</span> <span class="token operator">-</span>Path <span class="token string">"HKCU:\Software\MyApp"</span> <span class="token operator">-</span>Name <span class="token string">"Debug"</span> <span class="token operator">-</span>Value 1
+<span class="token function">New-Item</span> <span class="token operator">-</span>Path <span class="token string">"HKCU:\Software\MyApp"</span>
+<span class="token function">Remove-Item</span> <span class="token operator">-</span>Path <span class="token string">"HKCU:\Software\MyApp"</span> <span class="token operator">-</span>Recurse</code></pre>
+<h2>PowerShell Remoting</h2>
+<p>PowerShell Remoting consente di eseguire comandi su computer remoti.</p>
+<h3>Tramite WinRM (Windows)</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Abilita il remoting (da eseguire come amministratore)</span>
+<span class="token function">Enable-PSRemoting</span> <span class="token operator">-</span>Force
+
+<span class="token comment"># Sessione interattiva</span>
+<span class="token function">Enter-PSSession</span> <span class="token operator">-</span>ComputerName Server01 <span class="token operator">-</span>Credential <span class="token punctuation">(</span><span class="token function">Get-Credential</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Esegui un comando su un computer remoto</span>
+<span class="token function">Invoke-Command</span> <span class="token operator">-</span>ComputerName Server01 <span class="token operator">-</span>ScriptBlock <span class="token punctuation">{</span>
+    <span class="token function">Get-Service</span> <span class="token punctuation">|</span> <span class="token function">Where-Object</span> <span class="token punctuation">{</span> <span class="token variable">$_</span><span class="token punctuation">.</span>Status <span class="token operator">-eq</span> <span class="token string">"Stopped"</span> <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># Esegui uno script locale su computer remoti</span>
+<span class="token function">Invoke-Command</span> <span class="token operator">-</span>ComputerName Server01<span class="token punctuation">,</span> Server02 <span class="token operator">-</span>FilePath <span class="token punctuation">.</span>\script<span class="token punctuation">.</span>ps1
+
+<span class="token comment"># Gestione sessioni persistenti</span>
+<span class="token variable">$sessione</span> = <span class="token function">New-PSSession</span> <span class="token operator">-</span>ComputerName Server01 <span class="token operator">-</span>Credential <span class="token punctuation">(</span><span class="token function">Get-Credential</span><span class="token punctuation">)</span>
+<span class="token function">Invoke-Command</span> <span class="token operator">-</span>Session <span class="token variable">$sessione</span> <span class="token operator">-</span>ScriptBlock <span class="token punctuation">{</span> <span class="token function">Get-Process</span> <span class="token punctuation">}</span>
+<span class="token function">Remove-PSSession</span> <span class="token variable">$sessione</span></code></pre>
+<h3>Tramite SSH (Cross-Platform, PowerShell 7+)</h3>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Connessione SSH a un server Linux</span>
+<span class="token function">Enter-PSSession</span> <span class="token operator">-</span>HostName ubuntu-server <span class="token operator">-</span>UserName admin <span class="token operator">-</span>SSHTransport
+
+<span class="token comment"># Esegui comandi remoti via SSH</span>
+<span class="token function">Invoke-Command</span> <span class="token operator">-</span>HostName ubuntu-server <span class="token operator">-</span>UserName admin <span class="token operator">-</span>ScriptBlock <span class="token punctuation">{</span> uname <span class="token operator">-</span>a <span class="token punctuation">}</span></code></pre>
+<h2>Sicurezza in PowerShell</h2>
+<p>La sicurezza è una priorità per qualsiasi script destinato a produzione o ambienti aziendali.</p>
+<h3>Firma Digitale degli Script (Code Signing)</h3>
+<p>In ambienti con policy <code>AllSigned</code>, gli script devono essere firmati:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Ottieni il certificato di firma (da un'autorità di certificazione aziendale o auto-firmato)</span>
+<span class="token variable">$cert</span> = <span class="token function">Get-ChildItem</span> Cert:\CurrentUser\My <span class="token operator">-</span>CodeSigningCert
+
+<span class="token comment"># Firma lo script</span>
+<span class="token function">Set-AuthenticodeSignature</span> <span class="token operator">-</span>FilePath <span class="token punctuation">.</span>\script<span class="token punctuation">.</span>ps1 <span class="token operator">-</span>Certificate <span class="token variable">$cert</span>
+
+<span class="token comment"># Verifica la firma</span>
+<span class="token function">Get-AuthenticodeSignature</span> <span class="token punctuation">.</span>\script<span class="token punctuation">.</span>ps1</code></pre>
+<h3>Gestione Sicura delle Credenziali</h3>
+<blockquote>
+<p>Non inserire mai password in chiaro negli script!</p>
+</blockquote>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Chiedi le credenziali in modo sicuro</span>
+<span class="token variable">$cred</span> = <span class="token function">Get-Credential</span>
+
+<span class="token comment"># Salva una password come SecureString (cifrata, leggibile solo dall'utente corrente)</span>
+<span class="token variable">$password</span> = <span class="token function">Read-Host</span> <span class="token operator">-</span>Prompt <span class="token string">"Inserisci password"</span> <span class="token operator">-</span>AsSecureString
+<span class="token variable">$passwordCifrata</span> = <span class="token function">ConvertFrom-SecureString</span> <span class="token variable">$password</span>
+<span class="token variable">$passwordCifrata</span> <span class="token punctuation">|</span> <span class="token function">Out-File</span> <span class="token punctuation">.</span>\password<span class="token punctuation">.</span>enc  <span class="token comment"># Salva cifrata su disco</span>
+
+<span class="token comment"># Ricarica la password</span>
+<span class="token variable">$passwordCifrata</span> = <span class="token function">Get-Content</span> <span class="token punctuation">.</span>\password<span class="token punctuation">.</span>enc <span class="token punctuation">|</span> <span class="token function">ConvertTo-SecureString</span></code></pre>
+<h3>Script Block Logging e Auditing</h3>
+<p>Per ambienti aziendali, abilita la registrazione degli script tramite Group Policy:</p>
+<pre><code>Computer Configuration → Administrative Templates → Windows Components →
+Windows PowerShell → Turn on Script Block Logging → Enabled
+</code></pre>
+<p>Gli script eseguiti vengono registrati nel <strong>Windows Event Log</strong> (Event ID 4104), fondamentale per audit e incident response.</p>
+<h3>Constrained Language Mode</h3>
+<p>Limita le funzionalità di PowerShell per ridurre la superficie d'attacco:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Verifica la modalità corrente</span>
+<span class="token variable">$ExecutionContext</span><span class="token punctuation">.</span>SessionState<span class="token punctuation">.</span>LanguageMode
+
+<span class="token comment"># In CLM, tipi .NET arbitrari e COM objects sono bloccati</span>
+<span class="token comment"># Viene tipicamente applicato tramite AppLocker o WDAC</span></code></pre>
+<h2>PowerShell e il Cloud</h2>
+<p>PowerShell è lo strumento ufficiale per gestire <strong>Microsoft Azure</strong>:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Installa il modulo Az</span>
+<span class="token function">Install-Module</span> <span class="token operator">-</span>Name Az <span class="token operator">-</span>Scope CurrentUser <span class="token operator">-</span>Repository PSGallery <span class="token operator">-</span>Force
+
+<span class="token comment"># Autenticazione ad Azure</span>
+<span class="token function">Connect-AzAccount</span>
+
+<span class="token comment"># Operazioni comuni</span>
+<span class="token function">Get-AzResourceGroup</span>                          <span class="token comment"># Elenca i Resource Group</span>
+<span class="token function">Get-AzVM</span> <span class="token operator">-</span>ResourceGroupName <span class="token string">"MyRG"</span>           <span class="token comment"># Elenca le VM</span>
+
+<span class="token comment"># Esempio: avvia tutte le VM ferme in un Resource Group</span>
+<span class="token function">Get-AzVM</span> <span class="token operator">-</span>ResourceGroupName <span class="token string">"MyRG"</span> <span class="token operator">-</span>Status <span class="token punctuation">|</span>
+    <span class="token function">Where-Object</span> <span class="token punctuation">{</span> <span class="token variable">$_</span><span class="token punctuation">.</span>PowerState <span class="token operator">-eq</span> <span class="token string">"VM deallocated"</span> <span class="token punctuation">}</span> <span class="token punctuation">|</span>
+    <span class="token function">ForEach-Object</span> <span class="token punctuation">{</span> <span class="token function">Start-AzVM</span> <span class="token operator">-</span>ResourceGroupName <span class="token string">"MyRG"</span> <span class="token operator">-</span>Name <span class="token variable">$_</span><span class="token punctuation">.</span>Name <span class="token punctuation">}</span></code></pre>
+<h2>Best Practice per Script Professionali</h2>
+<h3>Qualità del Codice con PSScriptAnalyzer</h3>
+<p><strong>PSScriptAnalyzer</strong> è il linter ufficiale per PowerShell:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Installa</span>
+<span class="token function">Install-Module</span> <span class="token operator">-</span>Name PSScriptAnalyzer <span class="token operator">-</span>Scope CurrentUser
+
+<span class="token comment"># Analizza uno script</span>
+<span class="token function">Invoke-ScriptAnalyzer</span> <span class="token operator">-</span>Path <span class="token punctuation">.</span>\script<span class="token punctuation">.</span>ps1
+
+<span class="token comment"># Analizza una directory intera</span>
+<span class="token function">Invoke-ScriptAnalyzer</span> <span class="token operator">-</span>Path <span class="token punctuation">.</span>\scripts\ <span class="token operator">-</span>Recurse</code></pre>
+<h3>Testing con Pester</h3>
+<p><strong>Pester</strong> è il framework di testing standard per PowerShell:</p>
+<pre class="language-powershell"><code class="language-powershell"><span class="token comment"># Installa Pester</span>
+<span class="token function">Install-Module</span> <span class="token operator">-</span>Name Pester <span class="token operator">-</span>Scope CurrentUser <span class="token operator">-</span>Force
+
+<span class="token comment"># Esempio di test (file: Get-Saluto.Tests.ps1)</span>
+Describe <span class="token string">"Get-Saluto"</span> <span class="token punctuation">{</span>
+    It <span class="token string">"Restituisce il saluto corretto"</span> <span class="token punctuation">{</span>
+        <span class="token variable">$risultato</span> = <span class="token function">Get-Saluto</span> <span class="token operator">-</span>Nome <span class="token string">"Mario"</span>
+        <span class="token variable">$risultato</span> <span class="token punctuation">|</span> Should <span class="token operator">-</span>Be <span class="token string">"Ciao, Mario!"</span>
+    <span class="token punctuation">}</span>
+    It <span class="token string">"Usa 'Mondo' come default se nessun nome è fornito"</span> <span class="token punctuation">{</span>
+        <span class="token function">Get-Saluto</span> <span class="token punctuation">|</span> Should <span class="token operator">-</span>Be <span class="token string">"Ciao, Mondo!"</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment"># Esegui i test</span>
+<span class="token function">Invoke-Pester</span> <span class="token punctuation">.</span>\<span class="token function">Get-Saluto</span><span class="token punctuation">.</span>Tests<span class="token punctuation">.</span>ps1</code></pre>
+<h3>Checklist Best Practice</h3>
+<ul>
+<li><strong>Usa <code>CmdletBinding</code></strong> nelle funzioni per supportare <code>-Verbose</code>, <code>-WhatIf</code>, <code>-ErrorAction</code></li>
+<li><strong>Tipizza i parametri</strong> esplicitamente (<code>[string]</code>, <code>[int]</code>, <code>[Parameter(Mandatory)]</code>)</li>
+<li><strong>Usa <code>$ErrorActionPreference = &quot;Stop&quot;</code></strong> all'inizio degli script critici</li>
+<li><strong>Commenta il codice</strong> con <code>#</code> per riga e <code>&lt;# ... #&gt;</code> per blocchi</li>
+<li><strong>Non usare alias negli script</strong> (<code>ls</code>, <code>cd</code>, <code>?</code>) — usa i nomi completi per leggibilità</li>
+<li><strong>Gestisci sempre le credenziali</strong> con <code>SecureString</code> o <code>Get-Credential</code></li>
+<li><strong>Usa <code>Write-Verbose</code></strong> per logging, non <code>Write-Host</code> (che bypassa la pipeline)</li>
+<li><strong>Analizza con PSScriptAnalyzer</strong> prima di distribuire uno script</li>
+<li><strong>Scrivi test con Pester</strong> per gli script riutilizzati in produzione</li>
+<li><strong>Controlla la Execution Policy</strong> prima del deployment</li>
+</ul>
+<h2>Risorse Utili</h2>
+<p><strong>Documentazione ufficiale:</strong></p>
+<ul>
+<li><a href="https://learn.microsoft.com/powershell">Microsoft Learn – PowerShell</a></li>
+<li><a href="https://www.powershellgallery.com">PowerShell Gallery</a> — repository di moduli e script</li>
+<li><a href="https://github.com/PowerShell/PowerShell">GitHub – PowerShell</a></li>
+</ul>
+<p><strong>Community:</strong></p>
+<ul>
+<li><a href="https://powershell.org">PowerShell.org</a></li>
+<li><a href="https://reddit.com/r/PowerShell">r/PowerShell su Reddit</a></li>
+</ul>
+<p><strong>Libri consigliati:</strong></p>
+<ul>
+<li><em>PowerShell in Action</em> — Bruce Payette &amp; Richard Siddaway</li>
+<li><em>Learn PowerShell in a Month of Lunches</em> — Travis Plunk et al.</li>
+<li><em>The PowerShell Scripting Guide</em> — Microsoft Press</li>
+</ul>
+<h2>Conclusione</h2>
+<p>Hai ora una base teorica e pratica solida per iniziare a usare <strong>PowerShell</strong> in contesti reali. Gli argomenti coperti — dalla pipeline alla gestione remota, dalla sicurezza al cloud — ti posizionano bene per l'uso professionale di questo strumento.</p>
+<p>La competenza reale arriva con la <strong>pratica costante</strong>: automatizza le tue attività quotidiane, analizza i tuoi script con PSScriptAnalyzer e, quando sei pronto, scrivi i tuoi primi test con Pester.</p>
+
+  </section>
+
+  <hr class="mt-5">
+  
+  <section class="mt-5" aria-label="Commenti e reazioni">
+    <h2 class="h5 fw-bold mb-4">
+      <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
+    </h2>
+
+      <script>
+      (function () {
+        const saved = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', theme);
+        script.setAttribute('data-lang', 'it');
+        script.setAttribute('data-loading', 'lazy');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+
+        document.currentScript.replaceWith(script);
+      })();
+    </script>
+
+    <noscript>
+      <p class="text-muted small">
+        <i class="bi bi-info-circle me-1"></i>
+        Per visualizzare i commenti è necessario abilitare JavaScript.
+        Puoi leggere e partecipare alla discussione direttamente su
+        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
+      </p>
+    </noscript>
+  </section>
+
+</article>
+    </main>
+
+    <footer class="border-top mt-auto py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <h5 class="fw-bold mb-3">
+          <span><span class="text-primary">dino</span>-996</span>
+        </h5>
+        <p class="text-muted small mb-2">
+          Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne.
+        </p>
+        <a href="/feed.xml" class="text-muted" aria-label="Feed RSS" target="_blank">
+          <i class="bi bi-rss"></i>
+        </a>
+      </div>
+      
+      <div class="col-md-3 mb-3 mb-md-0">
+        <h6 class="fw-bold mb-3">Navigazione</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <a href="/" class="text-muted text-decoration-none small">Home</a>
+          </li>
+          <li class="mb-2">
+            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
+          </li>
+          <li class="mb-2">
+            <a href="/about/" class="text-muted text-decoration-none small">About</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="col-md-2">
+        <h6 class="fw-bold mb-3">Social</h6>
+        <div class="d-flex gap-3">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+              <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <hr class="my-4" />
+    
+    <div class="row">
+      <div class="col text-center">
+        <p class="text-muted small mb-0">
+          Realizzato con <span class="text-danger">❤</span> usando 
+          <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Eleventy</a> 
+          e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Bootstrap</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX — deferred per non bloccare il rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '\\[', right: '\\]', display: true}
+      ]
+    });
+  });
+</script>
+
+    <script src="/assets/js/main.js"></script>
+  </body>
+</html>

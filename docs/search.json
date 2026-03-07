@@ -1,5 +1,11 @@
 [
   {
+    "title": "Guida completa a PowerShell",
+    "url": "/blog/guida-completa-a-powershell/",
+    "description": "Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido.",
+    "date": "2026-01-01T00:00:00.000Z"
+  },
+  {
     "title": "Scheduling della CPU",
     "url": "/blog/scheduling-della-cpu/",
     "description": "Facciamo un'analisi approfondita dello scheduling della CPU, una funzione vitale dei sistemi operativi progettata per massimizzare l'efficienza attraverso la multiprogrammazione.",

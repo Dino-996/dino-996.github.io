@@ -6,13 +6,676 @@
   <link href="https://dino-996.github.io/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://dino-996.github.io" rel="alternate" type="text/html"/>
   <id>https://dino-996.github.io/</id>
-  <updated>2020-02-21T00:00:00.000Z</updated>
+  <updated>2026-01-01T00:00:00.000Z</updated>
   <author>
     <name>Davide Sabia</name>
     <email>davidesabia22@gmail.com</email>
     <uri>https://dino-996.github.io</uri>
   </author>
 
+  
+  <entry>
+    <title>Guida completa a PowerShell</title>
+    <link href="https://dino-996.github.io/blog/guida-completa-a-powershell/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/guida-completa-a-powershell/</id>
+    <published>2026-01-01T00:00:00.000Z</published>
+    <updated>2026-01-01T00:00:00.000Z</updated>
+    
+    <summary>Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido.</summary>
+    
+    
+    <content type="html"><![CDATA[&lt;h1&gt;Introduzione&lt;/h1&gt;
+&lt;p&gt;In questo guida per tutti troverete spiegazioni chiare, esempi pratici e suggerimenti per l&#39;autoapprendimento.&lt;/p&gt;
+&lt;h2&gt;Che cos&#39;è PowerShell?&lt;/h2&gt;
+&lt;p&gt;​PowerShell è una​ &lt;strong&gt;​shell di scripting&lt;/strong&gt;​ ​e un ​​&lt;strong&gt;linguaggio ​​di scripting&lt;/strong&gt; ​​sviluppato da Microsoft. A​ ​differenza delle tradizionali shell a riga di comando che si basano sul testo PowerShell è​ &lt;strong&gt;​orientato agli oggetti&lt;/strong&gt;​. Ciò significa che i comandi​​ (chiamati &lt;strong&gt;​​cmdlet&lt;/strong&gt;​) manipolano &lt;strong&gt;​​oggetti​ ​strutturati&lt;/strong&gt;, non solo stringhe di testo. Questa caratteristica lo rende estremamente potente​ per l&#39;automazione, la gestione di sistemi e la configurazione.​&lt;/p&gt;
+&lt;h3&gt;Windows PowerShell vs PowerShell 7+&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Distinzione fondamentale che molti ignorano.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;container mb-3&quot;&gt;
+  &lt;div class=&quot;table-responsive shadow-sm rounded&quot;&gt;
+    &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+      &lt;thead class=&quot;table-dark&quot;&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Caratteristica&lt;/th&gt;
+          &lt;th&gt;Windows PowerShell 5.1&lt;/th&gt;
+          &lt;th&gt;
+              PowerShell 7+
+            &lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Stato&lt;/td&gt;
+          &lt;td&gt;
+            &lt;span class=&quot;badge text-bg-warning&quot;&gt;Legacy&lt;/span&gt;
+          &lt;/td&gt;
+          &lt;td&gt;
+            &lt;span class=&quot;badge text-bg-success&quot;&gt;Attivo&lt;/span&gt;
+          &lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Open Source&lt;/td&gt;
+          &lt;td&gt;&lt;span class=&quot;text-danger fw-bold&quot;&gt;✕&lt;/span&gt;&lt;/td&gt;
+          &lt;td&gt;GitHub
+        &lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Cross-platform&lt;/td&gt;
+          &lt;td&gt;Solo Windows&lt;/td&gt;
+          &lt;td&gt;Windows · Linux · macOS&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Eseguibile&lt;/td&gt;
+          &lt;td&gt;&lt;code&gt;powershell.exe&lt;/code&gt;&lt;/td&gt;     &lt;td&gt;&lt;code&gt;pwsh&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Runtime&lt;/td&gt;
+          &lt;td&gt;.NET Framework&lt;/td&gt;
+          &lt;td&gt;.NET 6 / 7 / 8&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Incluso in Windows&lt;/td&gt;
+          &lt;td&gt;Win 10 / 11&lt;/td&gt;
+          &lt;td&gt;Da installare separatamente&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Raccomandazione:&lt;/strong&gt; Usa sempre &lt;strong&gt;PowerShell 7+&lt;/strong&gt; (&lt;code&gt;pwsh&lt;/code&gt;) per i nuovi progetti.&lt;/p&gt;
+&lt;h3&gt;Perché usare PowerShell&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Automazione:&lt;/strong&gt; Elimina attività manuali ripetitive — gestione file, provisioning utenti, deployment applicazioni.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Gestione dei sistemi:&lt;/strong&gt; Strumento fondamentale per l&#39;amministrazione Windows, usato sempre più anche su Linux e macOS.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Efficienza:&lt;/strong&gt; Operazioni complesse in poche righe grazie alla pipeline orientata agli oggetti.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Standard enterprise:&lt;/strong&gt; È lo strumento ufficiale per la gestione di &lt;strong&gt;Microsoft Azure&lt;/strong&gt; e dell&#39;ecosistema Microsoft 365.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Differenze tra PowerShell, CMD e Bash&lt;/h3&gt;
+&lt;div class=&quot;container mb-3&quot;&gt;
+  &lt;div class=&quot;table-responsive shadow-sm rounded&quot;&gt;
+    &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+      &lt;thead class=&quot;table-dark&quot;&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Caratteristica&lt;/th&gt;
+          &lt;th&gt;PowerShell&lt;/th&gt;
+          &lt;th&gt;CMD&lt;/th&gt;
+          &lt;th&gt;Bash&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Orientamento&lt;/td&gt;
+          &lt;td&gt;Oggetti .NET&lt;/td&gt;
+          &lt;td&gt;Testo&lt;/td&gt;
+          &lt;td&gt;Testo&lt;/td&gt;
+          &lt;/tr&gt;
+        &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Linguaggio&lt;/td&gt;
+          &lt;td&gt;Powershell (.NET)&lt;/td&gt;
+          &lt;td&gt;Batch&lt;/td&gt;
+          &lt;td&gt;Batch scripting&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Output pipeline&lt;/td&gt;
+          &lt;td&gt;Oggetti strutturati&lt;/td&gt;
+          &lt;td&gt;Stringhe&lt;/td&gt;
+          &lt;td&gt;Stringhe&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Cross-platform&lt;/td&gt;
+          &lt;td&gt;Win/Linux/MacOS&lt;/td&gt;
+          &lt;td&gt;Win&lt;/td&gt;
+          &lt;td&gt;Linux/MacOS&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Potenza&lt;/td&gt;
+          &lt;td&gt;Alta&lt;/td&gt;
+          &lt;td&gt;Bassa&lt;/td&gt;
+          &lt;td&gt;Alta&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Curva di apprendimento&lt;/td&gt;
+          &lt;td&gt;Media&lt;/td&gt;
+          &lt;td&gt;Bassa&lt;/td&gt;
+          &lt;td&gt;Media&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;h2&gt;Installazione e Configurazione&lt;/h2&gt;
+&lt;h3&gt;Windows&lt;/h3&gt;
+&lt;p&gt;Windows 10/11 include &lt;strong&gt;Windows PowerShell 5.1&lt;/strong&gt; (legacy). Per installare &lt;strong&gt;PowerShell 7+&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Metodo 1: Windows Package Manager (winget)&lt;/span&gt;
+winget install &lt;span class=&quot;token operator&quot;&gt;--&lt;/span&gt;id Microsoft&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Powershell &lt;span class=&quot;token operator&quot;&gt;--&lt;/span&gt;source winget
+
+&lt;span class=&quot;token comment&quot;&gt;# Metodo 2: Download diretto&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# https://github.com/PowerShell/PowerShell/releases&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Dopo l&#39;installazione, avvia PowerShell 7 con il comando &lt;code&gt;pwsh&lt;/code&gt; nel terminale.&lt;/p&gt;
+&lt;h3&gt;macOS&lt;/h3&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Installa Homebrew se non presente&lt;/span&gt;
+/bin/bash &lt;span class=&quot;token parameter variable&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-fsSL&lt;/span&gt; https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Installa PowerShell&lt;/span&gt;
+brew &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;--cask&lt;/span&gt; powershell
+
+&lt;span class=&quot;token comment&quot;&gt;# Avvia PowerShell&lt;/span&gt;
+pwsh&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Linux (Ubuntu/Debian)&lt;/h3&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Importa la chiave Microsoft&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-sSL&lt;/span&gt; https://packages.microsoft.com/keys/microsoft.asc &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;tee&lt;/span&gt; /etc/apt/trusted.gpg.d/microsoft.asc
+
+&lt;span class=&quot;token comment&quot;&gt;# Aggiungi il repository&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; add-apt-repository &lt;span class=&quot;token string&quot;&gt;&quot;deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;lsb_release &lt;span class=&quot;token parameter variable&quot;&gt;-rs&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt;-prod &lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;lsb_release &lt;span class=&quot;token parameter variable&quot;&gt;-cs&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt; main&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Installa&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt&lt;/span&gt; update &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-y&lt;/span&gt; powershell
+
+&lt;span class=&quot;token comment&quot;&gt;# Avvia&lt;/span&gt;
+pwsh&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per altre distribuzioni (RHEL, Fedora, openSUSE), consulta la &lt;a href=&quot;https://learn.microsoft.com/powershell/scripting/install/installing-powershell&quot;&gt;documentazione ufficiale&lt;/a&gt;.&lt;/p&gt;
+&lt;h3&gt;Editor consigliato: Visual Studio Code&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;PowerShell ISE è ufficialmente deprecato.&lt;/strong&gt; Microsoft raccomanda &lt;strong&gt;Visual Studio Code&lt;/strong&gt; con l&#39;estensione PowerShell.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Installa l&#39;estensione direttamente da VS Code:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Ctrl+P → ext install ms-vscode.PowerShell
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;L&#39;estensione offre: IntelliSense, debugging integrato, esecuzione di selezioni di codice e integrazione con PSScriptAnalyzer.&lt;/p&gt;
+&lt;h3&gt;Configurazione di Base&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Profilo PowerShell&lt;/strong&gt; — script eseguito automaticamente all&#39;avvio:&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Visualizza il percorso del profilo&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$PROFILE&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Crea il file di profilo se non esiste&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;-not&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Test-Path&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$PROFILE&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;New-Item&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ItemType File &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Path &lt;span class=&quot;token variable&quot;&gt;$PROFILE&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Force
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Apri il profilo in VS Code&lt;/span&gt;
+code &lt;span class=&quot;token variable&quot;&gt;$PROFILE&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Execution Policy&lt;/strong&gt; — controlla quali script possono essere eseguiti:&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Visualizza la policy attuale&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-ExecutionPolicy&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Imposta la policy per l&#39;utente corrente (scelta comune per sviluppo locale)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Set-ExecutionPolicy&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Scope CurrentUser &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ExecutionPolicy RemoteSigned
+
+&lt;span class=&quot;token comment&quot;&gt;# Valori possibili:&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# Restricted    → Nessuno script (default su Windows)&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# RemoteSigned  → Gli script locali sono OK; quelli scaricati richiedono firma&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# Unrestricted  → Tutti gli script (non consigliato in produzione)&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# AllSigned     → Solo script con firma digitale (massima sicurezza)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Concetti Fondamentali&lt;/h2&gt;
+&lt;h3&gt;Sintassi: Verb-Noun&lt;/h3&gt;
+&lt;p&gt;Tutti i cmdlet seguono la convenzione &lt;code&gt;Verbo-Sostantivo&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt;        &lt;span class=&quot;token comment&quot;&gt;# Recupera informazioni sui processi&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Stop-Service&lt;/span&gt;       &lt;span class=&quot;token comment&quot;&gt;# Arresta un servizio&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;New-Item&lt;/span&gt;           &lt;span class=&quot;token comment&quot;&gt;# Crea un nuovo elemento&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Remove-Item&lt;/span&gt;        &lt;span class=&quot;token comment&quot;&gt;# Elimina un elemento&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Set-Location&lt;/span&gt;       &lt;span class=&quot;token comment&quot;&gt;# Cambia directory&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I verbi approvati da Microsoft garantiscono coerenza. Per vederli tutti:&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;Get-Verb&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Sort-Object&lt;/span&gt; Verb&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Il Sistema di Help&lt;/h3&gt;
+&lt;p&gt;La documentazione integrata è uno dei punti di forza di PowerShell:&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Aggiorna l&#39;help (eseguire come amministratore)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Update-Help&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Help base&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Help&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Con esempi pratici (molto utile!)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Help&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Examples
+
+&lt;span class=&quot;token comment&quot;&gt;# Help completo con tutti i parametri&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Help&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Full
+
+&lt;span class=&quot;token comment&quot;&gt;# Apre la documentazione online&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Help&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Online&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Cmdlet Essenziali&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;Get-Command&lt;/span&gt;               &lt;span class=&quot;token comment&quot;&gt;# Elenca tutti i cmdlet disponibili&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Command&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Verb Get     &lt;span class=&quot;token comment&quot;&gt;# Filtra per verbo&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Command&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;process&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;     &lt;span class=&quot;token comment&quot;&gt;# Ricerca per nome&lt;/span&gt;
+
+&lt;span class=&quot;token function&quot;&gt;Get-Member&lt;/span&gt;                &lt;span class=&quot;token comment&quot;&gt;# Mostra proprietà e metodi di un oggetto&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Get-Member&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;# Esempio: scopri cosa puoi fare con un processo&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Variabili e Tipi di Dati&lt;/h2&gt;
+&lt;h3&gt;Variabili&lt;/h3&gt;
+&lt;p&gt;Le variabili iniziano con &lt;code&gt;$&lt;/code&gt;. PowerShell è &lt;strong&gt;tipizzato dinamicamente&lt;/strong&gt;, ma è possibile (e consigliato per script professionali) dichiarare il tipo esplicitamente:&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Tipizzazione implicita&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$nome&lt;/span&gt; = &lt;span class=&quot;token string&quot;&gt;&quot;Mario&quot;&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$eta&lt;/span&gt; = 30
+&lt;span class=&quot;token variable&quot;&gt;$attivo&lt;/span&gt; = &lt;span class=&quot;token boolean&quot;&gt;$true&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Tipizzazione esplicita (best practice per script professionali)&lt;/span&gt;
+&lt;span class=&quot;token namespace&quot;&gt;[string]&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$nome&lt;/span&gt; = &lt;span class=&quot;token string&quot;&gt;&quot;Mario&quot;&lt;/span&gt;
+&lt;span class=&quot;token namespace&quot;&gt;[int]&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$eta&lt;/span&gt; = 30
+&lt;span class=&quot;token namespace&quot;&gt;[bool]&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$attivo&lt;/span&gt; = &lt;span class=&quot;token boolean&quot;&gt;$true&lt;/span&gt;
+&lt;span class=&quot;token namespace&quot;&gt;[datetime]&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$oggi&lt;/span&gt; = &lt;span class=&quot;token function&quot;&gt;Get-Date&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Stringhe&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Virgolette doppie: interpolazione variabili&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$nome&lt;/span&gt; = &lt;span class=&quot;token string&quot;&gt;&quot;Mario&quot;&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$saluto&lt;/span&gt; = &lt;span class=&quot;token string&quot;&gt;&quot;Ciao, &lt;span class=&quot;token variable&quot;&gt;$nome&lt;/span&gt;!&quot;&lt;/span&gt;           &lt;span class=&quot;token comment&quot;&gt;# → &quot;Ciao, Mario!&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Virgolette singole: stringa letterale (no interpolazione)&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$letterale&lt;/span&gt; = &lt;span class=&quot;token string&quot;&gt;&#39;Ciao, $nome!&#39;&lt;/span&gt;        &lt;span class=&quot;token comment&quot;&gt;# → &quot;Ciao, $nome!&quot;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Stringa multilinea (here-string)&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$testo&lt;/span&gt; = @&lt;span class=&quot;token string&quot;&gt;&quot;
+Questa è una stringa
+su più righe con variabili: &lt;span class=&quot;token variable&quot;&gt;$nome&lt;/span&gt;
+&quot;&lt;/span&gt;@
+
+&lt;span class=&quot;token comment&quot;&gt;# Metodi delle stringhe (PowerShell espone i metodi .NET)&lt;/span&gt;
+&lt;span class=&quot;token string&quot;&gt;&quot;powershell&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ToUpper&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;             &lt;span class=&quot;token comment&quot;&gt;# → &quot;POWERSHELL&quot;&lt;/span&gt;
+&lt;span class=&quot;token string&quot;&gt;&quot;  testo  &quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Trim&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;                 &lt;span class=&quot;token comment&quot;&gt;# → &quot;testo&quot;&lt;/span&gt;
+&lt;span class=&quot;token string&quot;&gt;&quot;ciao mondo&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Split&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot; &quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;           &lt;span class=&quot;token comment&quot;&gt;# → @(&quot;ciao&quot;, &quot;mondo&quot;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Array e HashTable&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Array&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$frutti&lt;/span&gt; = &lt;span class=&quot;token string&quot;&gt;&quot;mela&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;banana&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;arancia&quot;&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$numeri&lt;/span&gt; = 1&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;10                    &lt;span class=&quot;token comment&quot;&gt;# Range: da 1 a 10&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$frutti&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;0&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;                         &lt;span class=&quot;token comment&quot;&gt;# → &quot;mela&quot;&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$frutti&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Count                      &lt;span class=&quot;token comment&quot;&gt;# → 3&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# HashTable (dizionario chiave-valore)&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$persona&lt;/span&gt; = @&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    Nome    = &lt;span class=&quot;token string&quot;&gt;&quot;Mario&quot;&lt;/span&gt;
+    Cognome = &lt;span class=&quot;token string&quot;&gt;&quot;Rossi&quot;&lt;/span&gt;
+    Eta     = 30
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$persona&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Nome&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;                   &lt;span class=&quot;token comment&quot;&gt;# → &quot;Mario&quot;&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$persona&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Eta                       &lt;span class=&quot;token comment&quot;&gt;# → 30&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$persona&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Keys                      &lt;span class=&quot;token comment&quot;&gt;# → Nome, Cognome, Eta&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Variabili Automatiche&lt;/h3&gt;
+&lt;p&gt;PowerShell fornisce variabili speciali predefinite:&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$_&lt;/span&gt;         &lt;span class=&quot;token comment&quot;&gt;# (alias: $PSItem) L&#39;oggetto corrente nella pipeline&lt;/span&gt;
+$?         &lt;span class=&quot;token comment&quot;&gt;# True se l&#39;ultimo comando ha avuto successo&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$LASTEXITCODE&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;# Codice di uscita dell&#39;ultimo programma esterno&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$Error&lt;/span&gt;     &lt;span class=&quot;token comment&quot;&gt;# Array degli ultimi errori&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$HOME&lt;/span&gt;      &lt;span class=&quot;token comment&quot;&gt;# Directory home dell&#39;utente&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$PSVersionTable&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;# Informazioni sulla versione di PowerShell&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$PROFILE&lt;/span&gt;   &lt;span class=&quot;token comment&quot;&gt;# Percorso del profilo utente&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Operatori&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Aritmetici&lt;/span&gt;
+5 &lt;span class=&quot;token operator&quot;&gt;+&lt;/span&gt; 3      &lt;span class=&quot;token comment&quot;&gt;# 8&lt;/span&gt;
+10 &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt; 3     &lt;span class=&quot;token comment&quot;&gt;# 1 (modulo)&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Confronto&lt;/span&gt;
+&lt;span class=&quot;token string&quot;&gt;&quot;a&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-eq&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;a&quot;&lt;/span&gt;   &lt;span class=&quot;token comment&quot;&gt;# True  (equal)&lt;/span&gt;
+5 &lt;span class=&quot;token operator&quot;&gt;-ne&lt;/span&gt; 3       &lt;span class=&quot;token comment&quot;&gt;# True  (not equal)&lt;/span&gt;
+10 &lt;span class=&quot;token operator&quot;&gt;-gt&lt;/span&gt; 5      &lt;span class=&quot;token comment&quot;&gt;# True  (greater than)&lt;/span&gt;
+3 &lt;span class=&quot;token operator&quot;&gt;-lt&lt;/span&gt; 5       &lt;span class=&quot;token comment&quot;&gt;# True  (less than)&lt;/span&gt;
+5 &lt;span class=&quot;token operator&quot;&gt;-ge&lt;/span&gt; 5       &lt;span class=&quot;token comment&quot;&gt;# True  (greater or equal)&lt;/span&gt;
+&lt;span class=&quot;token string&quot;&gt;&quot;ciao&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-like&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;c*&quot;&lt;/span&gt;   &lt;span class=&quot;token comment&quot;&gt;# True  (wildcard match)&lt;/span&gt;
+&lt;span class=&quot;token string&quot;&gt;&quot;hello&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-match&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;^h&quot;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;# True  (regex match)&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Logici&lt;/span&gt;
+&lt;span class=&quot;token boolean&quot;&gt;$true&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-and&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;$false&lt;/span&gt;   &lt;span class=&quot;token comment&quot;&gt;# False&lt;/span&gt;
+&lt;span class=&quot;token boolean&quot;&gt;$true&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-or&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;$false&lt;/span&gt;    &lt;span class=&quot;token comment&quot;&gt;# True&lt;/span&gt;
+&lt;span class=&quot;token operator&quot;&gt;-not&lt;/span&gt; &lt;span class=&quot;token boolean&quot;&gt;$true&lt;/span&gt;          &lt;span class=&quot;token comment&quot;&gt;# False&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;La Pipeline&lt;/h2&gt;
+&lt;p&gt;La &lt;strong&gt;pipeline&lt;/strong&gt; (&lt;code&gt;|&lt;/code&gt;) è il cuore di PowerShell. Passa &lt;strong&gt;oggetti interi&lt;/strong&gt; (non testo) tra i comandi, preservando tutte le proprietà.&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Esempio base: filtra i processi che usano più di 100MB di RAM&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Where-Object&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$_&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;WorkingSet &lt;span class=&quot;token operator&quot;&gt;-gt&lt;/span&gt; 100MB &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# $_ rappresenta l&#39;oggetto corrente nella pipeline (ogni processo)&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# .WorkingSet è una proprietà dell&#39;oggetto Process&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Concatena più operazioni&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Where-Object&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$_&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;CPU &lt;span class=&quot;token operator&quot;&gt;-gt&lt;/span&gt; 1 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Sort-Object&lt;/span&gt; CPU &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Descending &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Select-Object&lt;/span&gt; Name&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; CPU&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; Id &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;First 10 &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Format-Table&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;AutoSize&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Cmdlet Fondamentali per la Pipeline&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Filtra oggetti&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Service&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Where-Object&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$_&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Status &lt;span class=&quot;token operator&quot;&gt;-eq&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Running&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Ordina&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Sort-Object&lt;/span&gt; WorkingSet &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Descending
+
+&lt;span class=&quot;token comment&quot;&gt;# Seleziona proprietà specifiche&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Select-Object&lt;/span&gt; Name&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; Id&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; CPU
+
+&lt;span class=&quot;token comment&quot;&gt;# Aggrega&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Measure-Object&lt;/span&gt; CPU &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Sum &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Average
+
+&lt;span class=&quot;token comment&quot;&gt;# Raggruppa&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Service&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Group-Object&lt;/span&gt; Status
+
+&lt;span class=&quot;token comment&quot;&gt;# Converte output&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ConvertTo-Json&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ConvertTo-Csv&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Out-File&lt;/span&gt; processi&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;csv
+
+&lt;span class=&quot;token comment&quot;&gt;# Formatta output (solo per visualizzazione, non usare in pipeline)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Format-Table&lt;/span&gt; Name&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; CPU &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;AutoSize
+&lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Format-List&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Gestione File e Directory&lt;/h2&gt;
+&lt;h3&gt;Navigazione&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;Get-Location&lt;/span&gt;              &lt;span class=&quot;token comment&quot;&gt;# Directory corrente (alias: pwd)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Set-Location&lt;/span&gt; C:&#92;Projects  &lt;span class=&quot;token comment&quot;&gt;# Cambia directory (alias: cd)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Set-Location&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;           &lt;span class=&quot;token comment&quot;&gt;# Vai alla directory padre&lt;/span&gt;
+
+&lt;span class=&quot;token function&quot;&gt;Get-PSDrive&lt;/span&gt;               &lt;span class=&quot;token comment&quot;&gt;# Mostra tutti i &quot;drive&quot; disponibili (C:, D:, HKLM:, Env:, ecc.)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Set-Location&lt;/span&gt; HKLM:        &lt;span class=&quot;token comment&quot;&gt;# PowerShell può navigare anche nel Registry!&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Operazioni sui File&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Elenca contenuto&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-ChildItem&lt;/span&gt;             &lt;span class=&quot;token comment&quot;&gt;# (alias: ls, dir)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-ChildItem&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Recurse    &lt;span class=&quot;token comment&quot;&gt;# Ricorsivo&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-ChildItem&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;log       &lt;span class=&quot;token comment&quot;&gt;# Filtra per estensione&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Crea&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;New-Item&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ItemType File &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Path &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;log&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;txt
+&lt;span class=&quot;token function&quot;&gt;New-Item&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ItemType Directory &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Path &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;backup
+
+&lt;span class=&quot;token comment&quot;&gt;# Leggi&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Content&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;log&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;txt
+&lt;span class=&quot;token function&quot;&gt;Get-Content&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;log&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;txt &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Tail 20   &lt;span class=&quot;token comment&quot;&gt;# Ultime 20 righe (come tail -n)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Content&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;log&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;txt &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Wait      &lt;span class=&quot;token comment&quot;&gt;# Modalità follow (come tail -f)&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Scrivi&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Set-Content&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;output&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;txt &lt;span class=&quot;token string&quot;&gt;&quot;Nuovo contenuto&quot;&lt;/span&gt;     &lt;span class=&quot;token comment&quot;&gt;# Sovrascrive&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Add-Content&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;output&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;txt &lt;span class=&quot;token string&quot;&gt;&quot;Riga aggiuntiva&quot;&lt;/span&gt;    &lt;span class=&quot;token comment&quot;&gt;# Appende&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Copia, sposta, elimina&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Copy-Item&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;source&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;txt &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;dest&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;txt
+&lt;span class=&quot;token function&quot;&gt;Move-Item&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;old&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;txt &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;new&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;txt
+&lt;span class=&quot;token function&quot;&gt;Remove-Item&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;file&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;txt
+&lt;span class=&quot;token function&quot;&gt;Remove-Item&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;cartella &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Recurse  &lt;span class=&quot;token comment&quot;&gt;# Elimina cartella con contenuto&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Strutture di Controllo&lt;/h2&gt;
+&lt;h3&gt;Condizionali&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# If / ElseIf / Else&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$temperatura&lt;/span&gt; = 25
+
+&lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$temperatura&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-gt&lt;/span&gt; 30&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Write-Host&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Caldo&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;elseif&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$temperatura&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-gt&lt;/span&gt; 20&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Write-Host&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Piacevole&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Write-Host&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Fresco&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Switch (più efficiente di if/elseif per casi multipli)&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$giorno&lt;/span&gt; = &lt;span class=&quot;token string&quot;&gt;&quot;Lunedì&quot;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;switch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$giorno&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;Lunedì&quot;&lt;/span&gt;    &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Write-Host&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Inizio settimana&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;Venerdì&quot;&lt;/span&gt;   &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Write-Host&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Fine settimana&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;Sabato&quot;&lt;/span&gt;    &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Write-Host&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Weekend!&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token string&quot;&gt;&quot;Domenica&quot;&lt;/span&gt;  &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Write-Host&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Weekend!&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    default     &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Write-Host&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Giorno lavorativo&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Loop&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# For classico&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$i&lt;/span&gt; = 0&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$i&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-lt&lt;/span&gt; 5&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Write-Host&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Iterazione: &lt;span class=&quot;token variable&quot;&gt;$i&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# ForEach (il più comune in PowerShell)&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$servizi&lt;/span&gt; = &lt;span class=&quot;token function&quot;&gt;Get-Service&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Where-Object&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$_&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Status &lt;span class=&quot;token operator&quot;&gt;-eq&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Stopped&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$servizio&lt;/span&gt; in &lt;span class=&quot;token variable&quot;&gt;$servizi&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Write-Host&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Servizio fermo: &lt;span class=&quot;token function&quot;&gt;$&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$servizio&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Name&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# ForEach-Object (nella pipeline)&lt;/span&gt;
+1&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;5 &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ForEach-Object&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$_&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; 2 &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;   &lt;span class=&quot;token comment&quot;&gt;# Output: 2 4 6 8 10&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# While&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$contatore&lt;/span&gt; = 0
+&lt;span class=&quot;token keyword&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$contatore&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-lt&lt;/span&gt; 3&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Write-Host&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Contatore: &lt;span class=&quot;token variable&quot;&gt;$contatore&lt;/span&gt;&quot;&lt;/span&gt;
+    &lt;span class=&quot;token variable&quot;&gt;$contatore&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;++&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Gestione Errori&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# $ErrorActionPreference controlla il comportamento globale degli errori&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$ErrorActionPreference&lt;/span&gt; = &lt;span class=&quot;token string&quot;&gt;&quot;Stop&quot;&lt;/span&gt;  &lt;span class=&quot;token comment&quot;&gt;# Trasforma tutti gli errori in eccezioni terminanti&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token variable&quot;&gt;$contenuto&lt;/span&gt; = &lt;span class=&quot;token function&quot;&gt;Get-Content&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;file-inesistente.txt&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ErrorAction Stop
+    &lt;span class=&quot;token function&quot;&gt;Write-Host&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;File letto con successo&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;token namespace&quot;&gt;[System.IO.FileNotFoundException]&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Write-Warning&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;File non trovato: &lt;span class=&quot;token variable&quot;&gt;$_&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# Cattura qualsiasi altro errore&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Write-Error&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Errore imprevisto: &lt;span class=&quot;token function&quot;&gt;$&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$_&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Exception&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Message&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;# Eseguito sempre, con o senza errori (utile per cleanup)&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Write-Host&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Operazione completata.&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Funzioni e Moduli&lt;/h2&gt;
+&lt;h3&gt;Funzioni Base&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Get-Saluto&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;param&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;token namespace&quot;&gt;[string]&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$Nome&lt;/span&gt; = &lt;span class=&quot;token string&quot;&gt;&quot;Mondo&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;   &lt;span class=&quot;token comment&quot;&gt;# Parametro con valore di default&lt;/span&gt;
+        &lt;span class=&quot;token namespace&quot;&gt;[int]&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$Ripetizioni&lt;/span&gt; = 1
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$i&lt;/span&gt; = 0&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$i&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-lt&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$Ripetizioni&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$i&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token function&quot;&gt;Write-Output&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Ciao, &lt;span class=&quot;token variable&quot;&gt;$Nome&lt;/span&gt;!&quot;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Chiamata&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Saluto&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Nome &lt;span class=&quot;token string&quot;&gt;&quot;Mario&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Ripetizioni 3&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Funzioni Avanzate (Advanced Functions)&lt;/h3&gt;
+&lt;p&gt;Per script professionali, usa &lt;code&gt;CmdletBinding&lt;/code&gt; per ottenere comportamenti da cmdlet nativi (supporto &lt;code&gt;-Verbose&lt;/code&gt;, &lt;code&gt;-WhatIf&lt;/code&gt;, &lt;code&gt;-ErrorAction&lt;/code&gt;, ecc.):&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Invoke-Backup&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token namespace&quot;&gt;[CmdletBinding(SupportsShouldProcess)]&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;param&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+        &lt;span class=&quot;token namespace&quot;&gt;[Parameter(Mandatory, ValueFromPipeline)]&lt;/span&gt;
+        &lt;span class=&quot;token namespace&quot;&gt;[string]&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$SourcePath&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+
+        &lt;span class=&quot;token namespace&quot;&gt;[Parameter(Mandatory)]&lt;/span&gt;
+        &lt;span class=&quot;token namespace&quot;&gt;[string]&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$DestinationPath&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt;
+
+        &lt;span class=&quot;token namespace&quot;&gt;[switch]&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$Compress&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;process&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$PSCmdlet&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ShouldProcess&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token variable&quot;&gt;$SourcePath&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Backup&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;token function&quot;&gt;Write-Verbose&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Backup di &#39;&lt;span class=&quot;token variable&quot;&gt;$SourcePath&lt;/span&gt;&#39; verso &#39;&lt;span class=&quot;token variable&quot;&gt;$DestinationPath&lt;/span&gt;&#39;&quot;&lt;/span&gt;
+            &lt;span class=&quot;token function&quot;&gt;Copy-Item&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Path &lt;span class=&quot;token variable&quot;&gt;$SourcePath&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Destination &lt;span class=&quot;token variable&quot;&gt;$DestinationPath&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Recurse
+            &lt;span class=&quot;token function&quot;&gt;Write-Output&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Backup completato.&quot;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Uso con -WhatIf per simulare senza eseguire&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Invoke-Backup&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;SourcePath &lt;span class=&quot;token string&quot;&gt;&quot;C:&#92;dati&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;DestinationPath &lt;span class=&quot;token string&quot;&gt;&quot;D:&#92;backup&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;WhatIf
+
+&lt;span class=&quot;token comment&quot;&gt;# Uso con -Verbose per logging dettagliato&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Invoke-Backup&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;SourcePath &lt;span class=&quot;token string&quot;&gt;&quot;C:&#92;dati&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;DestinationPath &lt;span class=&quot;token string&quot;&gt;&quot;D:&#92;backup&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Verbose&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Gestione Moduli&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Trova moduli disponibili nel repository PSGallery&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Find-Module&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt;Azure*
+
+&lt;span class=&quot;token comment&quot;&gt;# Installa un modulo&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Install-Module&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name Az &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Scope CurrentUser
+
+&lt;span class=&quot;token comment&quot;&gt;# Importa un modulo nella sessione corrente&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Import-Module&lt;/span&gt; Az
+
+&lt;span class=&quot;token comment&quot;&gt;# Elenca i moduli installati&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Module&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ListAvailable
+
+&lt;span class=&quot;token comment&quot;&gt;# Elenca i cmdlet di un modulo specifico&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Command&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Module Az&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Compute&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Amministrazione di Sistema&lt;/h2&gt;
+&lt;h3&gt;Utenti Locali&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;Get-LocalUser&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;New-LocalUser&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name &lt;span class=&quot;token string&quot;&gt;&quot;mario&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Password &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;ConvertTo-SecureString&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;P@ss!&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;AsPlainText &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Force&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;FullName &lt;span class=&quot;token string&quot;&gt;&quot;Mario Rossi&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Add-LocalGroupMember&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Group&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Administrators&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Member &lt;span class=&quot;token string&quot;&gt;&quot;mario&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Remove-LocalUser&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name &lt;span class=&quot;token string&quot;&gt;&quot;mario&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Servizi&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;Get-Service&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-Service&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name &lt;span class=&quot;token string&quot;&gt;&quot;wuauserv&quot;&lt;/span&gt;           &lt;span class=&quot;token comment&quot;&gt;# Windows Update&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Start-Service&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name &lt;span class=&quot;token string&quot;&gt;&quot;wuauserv&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Stop-Service&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name &lt;span class=&quot;token string&quot;&gt;&quot;wuauserv&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Restart-Service&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name &lt;span class=&quot;token string&quot;&gt;&quot;wuauserv&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Set-Service&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name &lt;span class=&quot;token string&quot;&gt;&quot;wuauserv&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;StartupType Disabled&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Processi&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Sort-Object&lt;/span&gt; CPU &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Descending &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Select-Object&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;First 10
+&lt;span class=&quot;token function&quot;&gt;Stop-Process&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name &lt;span class=&quot;token string&quot;&gt;&quot;notepad&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Confirm
+&lt;span class=&quot;token function&quot;&gt;Start-Process&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;notepad.exe&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Registro di Sistema&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Naviga nel registro come se fosse un filesystem&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Set-Location&lt;/span&gt; HKLM:&#92;SOFTWARE&#92;Microsoft&#92;Windows&#92;CurrentVersion
+
+&lt;span class=&quot;token function&quot;&gt;Get-ItemProperty&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Path &lt;span class=&quot;token string&quot;&gt;&quot;HKLM:&#92;SOFTWARE&#92;Microsoft&#92;Windows NT&#92;CurrentVersion&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name &lt;span class=&quot;token string&quot;&gt;&quot;ProductName&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Set-ItemProperty&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Path &lt;span class=&quot;token string&quot;&gt;&quot;HKCU:&#92;Software&#92;MyApp&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name &lt;span class=&quot;token string&quot;&gt;&quot;Debug&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Value 1
+&lt;span class=&quot;token function&quot;&gt;New-Item&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Path &lt;span class=&quot;token string&quot;&gt;&quot;HKCU:&#92;Software&#92;MyApp&quot;&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Remove-Item&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Path &lt;span class=&quot;token string&quot;&gt;&quot;HKCU:&#92;Software&#92;MyApp&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Recurse&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;PowerShell Remoting&lt;/h2&gt;
+&lt;p&gt;PowerShell Remoting consente di eseguire comandi su computer remoti.&lt;/p&gt;
+&lt;h3&gt;Tramite WinRM (Windows)&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Abilita il remoting (da eseguire come amministratore)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Enable-PSRemoting&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Force
+
+&lt;span class=&quot;token comment&quot;&gt;# Sessione interattiva&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Enter-PSSession&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ComputerName Server01 &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Credential &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Get-Credential&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Esegui un comando su un computer remoto&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Invoke-Command&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ComputerName Server01 &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ScriptBlock &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Get-Service&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Where-Object&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$_&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Status &lt;span class=&quot;token operator&quot;&gt;-eq&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Stopped&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Esegui uno script locale su computer remoti&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Invoke-Command&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ComputerName Server01&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; Server02 &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;FilePath &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;script&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ps1
+
+&lt;span class=&quot;token comment&quot;&gt;# Gestione sessioni persistenti&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$sessione&lt;/span&gt; = &lt;span class=&quot;token function&quot;&gt;New-PSSession&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ComputerName Server01 &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Credential &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;Get-Credential&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Invoke-Command&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Session &lt;span class=&quot;token variable&quot;&gt;$sessione&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ScriptBlock &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Get-Process&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Remove-PSSession&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$sessione&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Tramite SSH (Cross-Platform, PowerShell 7+)&lt;/h3&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Connessione SSH a un server Linux&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Enter-PSSession&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;HostName ubuntu-server &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;UserName admin &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;SSHTransport
+
+&lt;span class=&quot;token comment&quot;&gt;# Esegui comandi remoti via SSH&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Invoke-Command&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;HostName ubuntu-server &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;UserName admin &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ScriptBlock &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; uname &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;a &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Sicurezza in PowerShell&lt;/h2&gt;
+&lt;p&gt;La sicurezza è una priorità per qualsiasi script destinato a produzione o ambienti aziendali.&lt;/p&gt;
+&lt;h3&gt;Firma Digitale degli Script (Code Signing)&lt;/h3&gt;
+&lt;p&gt;In ambienti con policy &lt;code&gt;AllSigned&lt;/code&gt;, gli script devono essere firmati:&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Ottieni il certificato di firma (da un&#39;autorità di certificazione aziendale o auto-firmato)&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$cert&lt;/span&gt; = &lt;span class=&quot;token function&quot;&gt;Get-ChildItem&lt;/span&gt; Cert:&#92;CurrentUser&#92;My &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;CodeSigningCert
+
+&lt;span class=&quot;token comment&quot;&gt;# Firma lo script&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Set-AuthenticodeSignature&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;FilePath &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;script&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ps1 &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Certificate &lt;span class=&quot;token variable&quot;&gt;$cert&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Verifica la firma&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-AuthenticodeSignature&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;script&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ps1&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Gestione Sicura delle Credenziali&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Non inserire mai password in chiaro negli script!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Chiedi le credenziali in modo sicuro&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$cred&lt;/span&gt; = &lt;span class=&quot;token function&quot;&gt;Get-Credential&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Salva una password come SecureString (cifrata, leggibile solo dall&#39;utente corrente)&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$password&lt;/span&gt; = &lt;span class=&quot;token function&quot;&gt;Read-Host&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Prompt &lt;span class=&quot;token string&quot;&gt;&quot;Inserisci password&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;AsSecureString
+&lt;span class=&quot;token variable&quot;&gt;$passwordCifrata&lt;/span&gt; = &lt;span class=&quot;token function&quot;&gt;ConvertFrom-SecureString&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$password&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$passwordCifrata&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Out-File&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;password&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;enc  &lt;span class=&quot;token comment&quot;&gt;# Salva cifrata su disco&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Ricarica la password&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$passwordCifrata&lt;/span&gt; = &lt;span class=&quot;token function&quot;&gt;Get-Content&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;password&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;enc &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ConvertTo-SecureString&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Script Block Logging e Auditing&lt;/h3&gt;
+&lt;p&gt;Per ambienti aziendali, abilita la registrazione degli script tramite Group Policy:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Computer Configuration → Administrative Templates → Windows Components →
+Windows PowerShell → Turn on Script Block Logging → Enabled
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Gli script eseguiti vengono registrati nel &lt;strong&gt;Windows Event Log&lt;/strong&gt; (Event ID 4104), fondamentale per audit e incident response.&lt;/p&gt;
+&lt;h3&gt;Constrained Language Mode&lt;/h3&gt;
+&lt;p&gt;Limita le funzionalità di PowerShell per ridurre la superficie d&#39;attacco:&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Verifica la modalità corrente&lt;/span&gt;
+&lt;span class=&quot;token variable&quot;&gt;$ExecutionContext&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;SessionState&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;LanguageMode
+
+&lt;span class=&quot;token comment&quot;&gt;# In CLM, tipi .NET arbitrari e COM objects sono bloccati&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# Viene tipicamente applicato tramite AppLocker o WDAC&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;PowerShell e il Cloud&lt;/h2&gt;
+&lt;p&gt;PowerShell è lo strumento ufficiale per gestire &lt;strong&gt;Microsoft Azure&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Installa il modulo Az&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Install-Module&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name Az &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Scope CurrentUser &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Repository PSGallery &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Force
+
+&lt;span class=&quot;token comment&quot;&gt;# Autenticazione ad Azure&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Connect-AzAccount&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Operazioni comuni&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-AzResourceGroup&lt;/span&gt;                          &lt;span class=&quot;token comment&quot;&gt;# Elenca i Resource Group&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-AzVM&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ResourceGroupName &lt;span class=&quot;token string&quot;&gt;&quot;MyRG&quot;&lt;/span&gt;           &lt;span class=&quot;token comment&quot;&gt;# Elenca le VM&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Esempio: avvia tutte le VM ferme in un Resource Group&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Get-AzVM&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ResourceGroupName &lt;span class=&quot;token string&quot;&gt;&quot;MyRG&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Status &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;Where-Object&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token variable&quot;&gt;$_&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;PowerState &lt;span class=&quot;token operator&quot;&gt;-eq&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;VM deallocated&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;ForEach-Object&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;Start-AzVM&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;ResourceGroupName &lt;span class=&quot;token string&quot;&gt;&quot;MyRG&quot;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name &lt;span class=&quot;token variable&quot;&gt;$_&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Name &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Best Practice per Script Professionali&lt;/h2&gt;
+&lt;h3&gt;Qualità del Codice con PSScriptAnalyzer&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;PSScriptAnalyzer&lt;/strong&gt; è il linter ufficiale per PowerShell:&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Installa&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Install-Module&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name PSScriptAnalyzer &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Scope CurrentUser
+
+&lt;span class=&quot;token comment&quot;&gt;# Analizza uno script&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Invoke-ScriptAnalyzer&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Path &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;script&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ps1
+
+&lt;span class=&quot;token comment&quot;&gt;# Analizza una directory intera&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Invoke-ScriptAnalyzer&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Path &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;scripts&#92; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Recurse&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Testing con Pester&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Pester&lt;/strong&gt; è il framework di testing standard per PowerShell:&lt;/p&gt;
+&lt;pre class=&quot;language-powershell&quot;&gt;&lt;code class=&quot;language-powershell&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Installa Pester&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Install-Module&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Name Pester &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Scope CurrentUser &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Force
+
+&lt;span class=&quot;token comment&quot;&gt;# Esempio di test (file: Get-Saluto.Tests.ps1)&lt;/span&gt;
+Describe &lt;span class=&quot;token string&quot;&gt;&quot;Get-Saluto&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    It &lt;span class=&quot;token string&quot;&gt;&quot;Restituisce il saluto corretto&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token variable&quot;&gt;$risultato&lt;/span&gt; = &lt;span class=&quot;token function&quot;&gt;Get-Saluto&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Nome &lt;span class=&quot;token string&quot;&gt;&quot;Mario&quot;&lt;/span&gt;
+        &lt;span class=&quot;token variable&quot;&gt;$risultato&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; Should &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Be &lt;span class=&quot;token string&quot;&gt;&quot;Ciao, Mario!&quot;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    It &lt;span class=&quot;token string&quot;&gt;&quot;Usa &#39;Mondo&#39; come default se nessun nome è fornito&quot;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;token function&quot;&gt;Get-Saluto&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;|&lt;/span&gt; Should &lt;span class=&quot;token operator&quot;&gt;-&lt;/span&gt;Be &lt;span class=&quot;token string&quot;&gt;&quot;Ciao, Mondo!&quot;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Esegui i test&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;Invoke-Pester&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&#92;&lt;span class=&quot;token function&quot;&gt;Get-Saluto&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;Tests&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;ps1&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Checklist Best Practice&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Usa &lt;code&gt;CmdletBinding&lt;/code&gt;&lt;/strong&gt; nelle funzioni per supportare &lt;code&gt;-Verbose&lt;/code&gt;, &lt;code&gt;-WhatIf&lt;/code&gt;, &lt;code&gt;-ErrorAction&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tipizza i parametri&lt;/strong&gt; esplicitamente (&lt;code&gt;[string]&lt;/code&gt;, &lt;code&gt;[int]&lt;/code&gt;, &lt;code&gt;[Parameter(Mandatory)]&lt;/code&gt;)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Usa &lt;code&gt;$ErrorActionPreference = &amp;quot;Stop&amp;quot;&lt;/code&gt;&lt;/strong&gt; all&#39;inizio degli script critici&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Commenta il codice&lt;/strong&gt; con &lt;code&gt;#&lt;/code&gt; per riga e &lt;code&gt;&amp;lt;# ... #&amp;gt;&lt;/code&gt; per blocchi&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Non usare alias negli script&lt;/strong&gt; (&lt;code&gt;ls&lt;/code&gt;, &lt;code&gt;cd&lt;/code&gt;, &lt;code&gt;?&lt;/code&gt;) — usa i nomi completi per leggibilità&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Gestisci sempre le credenziali&lt;/strong&gt; con &lt;code&gt;SecureString&lt;/code&gt; o &lt;code&gt;Get-Credential&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Usa &lt;code&gt;Write-Verbose&lt;/code&gt;&lt;/strong&gt; per logging, non &lt;code&gt;Write-Host&lt;/code&gt; (che bypassa la pipeline)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Analizza con PSScriptAnalyzer&lt;/strong&gt; prima di distribuire uno script&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Scrivi test con Pester&lt;/strong&gt; per gli script riutilizzati in produzione&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Controlla la Execution Policy&lt;/strong&gt; prima del deployment&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Risorse Utili&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Documentazione ufficiale:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://learn.microsoft.com/powershell&quot;&gt;Microsoft Learn – PowerShell&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.powershellgallery.com&quot;&gt;PowerShell Gallery&lt;/a&gt; — repository di moduli e script&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/PowerShell/PowerShell&quot;&gt;GitHub – PowerShell&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Community:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://powershell.org&quot;&gt;PowerShell.org&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://reddit.com/r/PowerShell&quot;&gt;r/PowerShell su Reddit&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Conclusione&lt;/h2&gt;
+&lt;p&gt;Hai ora una base teorica e pratica solida per iniziare a usare &lt;strong&gt;PowerShell&lt;/strong&gt; in contesti reali. Gli argomenti coperti — dalla pipeline alla gestione remota, dalla sicurezza al cloud — ti posizionano bene per l&#39;uso professionale di questo strumento.&lt;/p&gt;
+&lt;p&gt;La competenza reale arriva con la &lt;strong&gt;pratica costante&lt;/strong&gt;: automatizza le tue attività quotidiane, analizza i tuoi script con PSScriptAnalyzer e, quando sei pronto, scrivi i tuoi primi test con Pester.&lt;/p&gt;
+]]></content>
+    
+    
+      
+    
+      
+    <category term="powershell"/>
+      
+    
+  </entry>
   
   <entry>
     <title>Scheduling della CPU</title>
