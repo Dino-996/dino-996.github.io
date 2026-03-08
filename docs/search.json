@@ -6,6 +6,12 @@
     "date": "2026-01-01T00:00:00.000Z"
   },
   {
+    "title": "Tecniche Algoritmiche per Dev Java",
+    "url": "/blog/tecniche-algoritmiche-per-dev-java/",
+    "description": "Questa guida raccoglie le tecniche algoritmiche più comuni utilizzate nello sviluppo software quotidiano. Le seguenti tecniche sono descritte il linguaggio Java.",
+    "date": "2020-03-05T00:00:00.000Z"
+  },
+  {
     "title": "Scheduling della CPU",
     "url": "/blog/scheduling-della-cpu/",
     "description": "Facciamo un'analisi approfondita dello scheduling della CPU, una funzione vitale dei sistemi operativi progettata per massimizzare l'efficienza attraverso la multiprogrammazione.",

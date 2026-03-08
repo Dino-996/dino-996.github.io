@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="it" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Tecniche Algoritmiche per Dev Java · dino-996 blog
+</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Questa guida raccoglie le tecniche algoritmiche più comuni utilizzate nello sviluppo software quotidiano. Le seguenti tecniche sono descritte il linguaggio Java." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/tecniche-algoritmiche-per-dev-java/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/tecniche-algoritmiche-per-dev-java/" />
+
+<meta property="og:title" content="Tecniche Algoritmiche per Dev Java" />
+<meta property="og:description" content="Questa guida raccoglie le tecniche algoritmiche più comuni utilizzate nello sviluppo software quotidiano. Le seguenti tecniche sono descritte il linguaggio Java." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/java.webp" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/tecniche-algoritmiche-per-dev-java/" />
+
+<meta name="twitter:title" content="Tecniche Algoritmiche per Dev Java" />
+<meta name="twitter:description" content="Questa guida raccoglie le tecniche algoritmiche più comuni utilizzate nello sviluppo software quotidiano. Le seguenti tecniche sono descritte il linguaggio Java." />
+
+<meta name="twitter:image" content="https://dino-996.github.io/assets/img/webp/java.webp" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Bootstrap icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img 
+        src="https://github.com/Dino-996.png" 
+        alt="Davide Sabia" 
+        class="rounded-circle"
+        width="32"
+        height="32"
+        style="object-fit: cover;"
+      >
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+    
+    <button 
+      class="navbar-toggler border-0 p-0" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNav">
+      <i class="bi bi-grid-3x3-gap fs-4"></i>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">
+            Blog
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">
+            About
+          </a>
+        </li>
+
+        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+          <div class="d-inline-flex rounded-4 bg-body-tertiary p-1">
+            <button title="Dark mode" id="dark" class="btn btn-sm btn-default rounded-4 text-secondary p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-moon"></i>
+            </button>
+
+            <button title="Light mode" id="light" class="btn btn-sm btn-default rounded-4 text-warning p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-sun"></i>
+            </button>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <main class="container my-5 flex-grow-1">
+      
+<article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">Tecniche Algoritmiche per Dev Java</h1>
+
+    <time
+      class="text-muted"
+      datetime="2020-03-05T00:00:00.000Z"
+    >
+      05 marzo 2020
+    </time>
+  </header>
+
+  
+    <div class="mb-4">
+      <img 
+        src="/assets/img/webp/java.webp" 
+        alt="Immagine generata con IA" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+    
+  </div>
+  
+
+  <hr>
+
+  <section class="content">
+    <h1>Introduzione</h1>
+<p>L'obiettivo di questa guida non è una trattazione accademica, ma offrire strumenti pratici per risolvere problemi ricorrenti quando si lavora con collezioni di dati.</p>
+<blockquote>
+<p><strong>Versione di riferimento:</strong> Java 17 LTS (o superiore). Gli esempi sfruttano feature
+moderne come <code>record</code>, <code>var</code>, <code>Stream API</code> e <code>Optional</code>. Alcuni snippet sono compatibili
+anche con Java 11+, dove indicato.</p>
+</blockquote>
+<p>Gli esempi si concentrano sull'uso delle strutture dati della libreria standard:
+<code>List</code>, <code>Set</code> e <code>Map</code>.</p>
+<p>Per ogni tecnica sono presentati:</p>
+<ul>
+<li>il problema da risolvere</li>
+<li>la complessità computazionale (notazione Big-O)</li>
+<li>un'implementazione imperativa</li>
+<li>un'alternativa funzionale con Stream API</li>
+<li>note sui casi limite e le best practice</li>
+</ul>
+<hr>
+<h3>La classe <code>Product</code> usata negli esempi</h3>
+<p>Per mantenere gli esempi concisi e moderni, utilizziamo un <strong>Java Record</strong> — introdotto
+in Java 16 e stabile da Java 17. I record sono ideali per modellare dati immutabili
+(Value Object, DTO).</p>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">record</span> <span class="token class-name">Product</span><span class="token punctuation">(</span>
+    <span class="token class-name">String</span> codice<span class="token punctuation">,</span>
+    <span class="token class-name">String</span> nome<span class="token punctuation">,</span>
+    <span class="token keyword">double</span> prezzo<span class="token punctuation">,</span>
+    <span class="token keyword">boolean</span> disponibile
+<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p><strong>Perché un <code>record</code>?</strong> Rispetto a una classe tradizionale, il compilatore genera
+automaticamente costruttore, getter, <code>equals()</code>, <code>hashCode()</code> e <code>toString()</code>.
+Perfetto per oggetti di sola lettura come i prodotti di un catalogo.</p>
+</blockquote>
+<hr>
+<h2>Iterazione e Aggregazione</h2>
+<p>Molte operazioni software richiedono di attraversare una collezione per produrre
+un risultato aggregato: una somma, una media, un conteggio o una verifica logica.</p>
+<p>Queste operazioni condividono lo stesso schema:</p>
+<ol>
+<li><strong>Attraversamento sequenziale</strong> della collezione</li>
+<li><strong>Accumulazione</strong> di uno stato</li>
+<li><strong>Restituzione</strong> di un risultato</li>
+</ol>
+<p>La complessità è generalmente <strong>O(n)</strong>, dove <em>n</em> è il numero di elementi.</p>
+<h2>Somma di una collezione</h2>
+<h3>Problema</h3>
+<p>Calcolare la somma di una lista di valori numerici.</p>
+<h3>Implementazione imperativa</h3>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">double</span> <span class="token function">calcolaTotale</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Double</span><span class="token punctuation">></span></span> importi<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Objects</span><span class="token punctuation">.</span><span class="token function">requireNonNull</span><span class="token punctuation">(</span>importi<span class="token punctuation">,</span> <span class="token string">"La lista degli importi non può essere null"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">double</span> totale <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">double</span> importo <span class="token operator">:</span> importi<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        totale <span class="token operator">+=</span> importo<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> totale<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p><strong>Complessità: O(n)</strong></p>
+<h3>Versione con Stream API</h3>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">double</span> <span class="token function">calcolaTotale</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Double</span><span class="token punctuation">></span></span> importi<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Objects</span><span class="token punctuation">.</span><span class="token function">requireNonNull</span><span class="token punctuation">(</span>importi<span class="token punctuation">,</span> <span class="token string">"La lista degli importi non può essere null"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> importi<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">mapToDouble</span><span class="token punctuation">(</span><span class="token class-name">Double</span><span class="token operator">::</span><span class="token function">doubleValue</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p><strong>Nota:</strong> <code>mapToDouble()</code> restituisce un <code>DoubleStream</code> primitivo, evitando il boxing/
+unboxing di <code>Double</code> → <code>double</code>. Preferirlo sempre per operazioni numeriche intensive.</p>
+</blockquote>
+<h2>Calcolo della media</h2>
+<h3>Problema</h3>
+<p>Calcolare la media dei valori presenti in una lista.</p>
+<h3>Implementazione imperativa</h3>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">double</span> <span class="token function">calcolaMedia</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Double</span><span class="token punctuation">></span></span> valori<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Objects</span><span class="token punctuation">.</span><span class="token function">requireNonNull</span><span class="token punctuation">(</span>valori<span class="token punctuation">,</span> <span class="token string">"La lista non può essere null"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>valori<span class="token punctuation">.</span><span class="token function">isEmpty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"La lista non può essere vuota"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token keyword">double</span> somma <span class="token operator">=</span> <span class="token number">0.0</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">double</span> valore <span class="token operator">:</span> valori<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        somma <span class="token operator">+=</span> valore<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> somma <span class="token operator">/</span> valori<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3>Versione con Stream API</h3>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">double</span> <span class="token function">calcolaMedia</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Double</span><span class="token punctuation">></span></span> valori<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Objects</span><span class="token punctuation">.</span><span class="token function">requireNonNull</span><span class="token punctuation">(</span>valori<span class="token punctuation">,</span> <span class="token string">"La lista non può essere null"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> valori<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">mapToDouble</span><span class="token punctuation">(</span><span class="token class-name">Double</span><span class="token operator">::</span><span class="token function">doubleValue</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">average</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">orElseThrow</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token keyword">new</span> <span class="token class-name">IllegalArgumentException</span><span class="token punctuation">(</span><span class="token string">"Lista vuota"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2>Conteggio condizionale</h2>
+<h3>Problema</h3>
+<p>Contare quanti elementi soddisfano una certa condizione.
+<em>Esempio: quanti importi superano una soglia.</em></p>
+<h3>Implementazione imperativa</h3>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">long</span> <span class="token function">contaImportiMaggioriDi</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Double</span><span class="token punctuation">></span></span> importi<span class="token punctuation">,</span> <span class="token keyword">double</span> soglia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Objects</span><span class="token punctuation">.</span><span class="token function">requireNonNull</span><span class="token punctuation">(</span>importi<span class="token punctuation">,</span> <span class="token string">"La lista non può essere null"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">long</span> conteggio <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">double</span> importo <span class="token operator">:</span> importi<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>importo <span class="token operator">></span> soglia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            conteggio<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> conteggio<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3>Versione con Stream API</h3>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">long</span> <span class="token function">contaImportiMaggioriDi</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Double</span><span class="token punctuation">></span></span> importi<span class="token punctuation">,</span> <span class="token keyword">double</span> soglia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> importi<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>i <span class="token operator">-></span> i <span class="token operator">></span> soglia<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">count</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2>Verifiche logiche su collezioni</h2>
+<h3>Esiste almeno un elemento sotto soglia? (<code>anyMatch</code>)</h3>
+<pre class="language-java"><code class="language-java"><span class="token comment">// Imperativa</span>
+<span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">esisteImportoSottoSoglia</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Double</span><span class="token punctuation">></span></span> importi<span class="token punctuation">,</span> <span class="token keyword">double</span> soglia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">double</span> importo <span class="token operator">:</span> importi<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>importo <span class="token operator">&lt;</span> soglia<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Stream API</span>
+<span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">esisteImportoSottoSoglia</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Double</span><span class="token punctuation">></span></span> importi<span class="token punctuation">,</span> <span class="token keyword">double</span> soglia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> importi<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">anyMatch</span><span class="token punctuation">(</span>importo <span class="token operator">-></span> importo <span class="token operator">&lt;</span> soglia<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3>Tutti gli elementi sono sopra soglia? (<code>allMatch</code>)</h3>
+<pre class="language-java"><code class="language-java"><span class="token comment">// Imperativa</span>
+<span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">tuttiSopraSoglia</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Double</span><span class="token punctuation">></span></span> importi<span class="token punctuation">,</span> <span class="token keyword">double</span> soglia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">double</span> importo <span class="token operator">:</span> importi<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>importo <span class="token operator">&lt;=</span> soglia<span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Stream API</span>
+<span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">tuttiSopraSoglia</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Double</span><span class="token punctuation">></span></span> importi<span class="token punctuation">,</span> <span class="token keyword">double</span> soglia<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> importi<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">allMatch</span><span class="token punctuation">(</span>importo <span class="token operator">-></span> importo <span class="token operator">></span> soglia<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p><strong>Short-circuit evaluation:</strong> Sia la versione imperativa che <code>anyMatch</code>/<code>allMatch</code>
+interrompono l'iterazione non appena la condizione è soddisfatta (o falsificata).
+Su liste grandi questo può fare una differenza significativa di performance.</p>
+</blockquote>
+<h2>Ricerca e Filtraggio</h2>
+<p>La ricerca di elementi in una collezione è tra le operazioni più frequenti. La scelta
+dell'algoritmo e della struttura dati ha un impatto diretto sulle prestazioni.</p>
+<h2>Ricerca lineare</h2>
+<h3>Problema</h3>
+<p>Trovare un elemento in una lista tramite un campo chiave.</p>
+<h3>Implementazione imperativa (con <code>Optional</code>)</h3>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Optional</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> <span class="token function">trovaPerCodice</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> prodotti<span class="token punctuation">,</span> <span class="token class-name">String</span> codice<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Objects</span><span class="token punctuation">.</span><span class="token function">requireNonNull</span><span class="token punctuation">(</span>codice<span class="token punctuation">,</span> <span class="token string">"Il codice non può essere null"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Product</span> prodotto <span class="token operator">:</span> prodotti<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>prodotto<span class="token punctuation">.</span><span class="token function">codice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>codice<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token class-name">Optional</span><span class="token punctuation">.</span><span class="token function">of</span><span class="token punctuation">(</span>prodotto<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token class-name">Optional</span><span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p><strong>Evita <code>null</code> come valore di ritorno.</strong> Restituire <code>null</code> da un metodo di ricerca è
+una fonte comune di <code>NullPointerException</code>. Usa sempre <code>Optional&lt;T&gt;</code> per segnalare
+esplicitamente la possibile assenza di un risultato.</p>
+</blockquote>
+<p><strong>Complessità: O(n)</strong></p>
+<h3>Versione con Stream API</h3>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">Optional</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> <span class="token function">trovaPerCodice</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> prodotti<span class="token punctuation">,</span> <span class="token class-name">String</span> codice<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> prodotti<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>p <span class="token operator">-></span> p<span class="token punctuation">.</span><span class="token function">codice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">equals</span><span class="token punctuation">(</span>codice<span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">findFirst</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2>Filtraggio multiplo</h2>
+<h3>Problema</h3>
+<p>Estrarre tutti i prodotti che soddisfano più condizioni contemporaneamente.</p>
+<h3>Implementazione imperativa</h3>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> <span class="token function">filtraProdotti</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> prodotti<span class="token punctuation">,</span> <span class="token keyword">double</span> prezzoMinimo<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> risultato <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Product</span> prodotto <span class="token operator">:</span> prodotti<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>prodotto<span class="token punctuation">.</span><span class="token function">prezzo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> prezzoMinimo <span class="token operator">&amp;&amp;</span> prodotto<span class="token punctuation">.</span><span class="token function">disponibile</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            risultato<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>prodotto<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> risultato<span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h3>Versione con Stream API</h3>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> <span class="token function">filtraProdotti</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> prodotti<span class="token punctuation">,</span> <span class="token keyword">double</span> prezzoMinimo<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> prodotti<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span>p <span class="token operator">-></span> p<span class="token punctuation">.</span><span class="token function">prezzo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> prezzoMinimo<span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">filter</span><span class="token punctuation">(</span><span class="token class-name">Product</span><span class="token operator">::</span><span class="token function">disponibile</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Restituisce una lista immutabile (Java 16+)</span>
+<span class="token punctuation">}</span></code></pre>
+<blockquote>
+<p><strong><code>toList()</code> vs <code>collect(Collectors.toList())</code>:</strong> Da Java 16, <code>Stream.toList()</code> è il
+metodo preferito. Restituisce una lista <strong>immutabile</strong>, il che rende il codice più
+sicuro. Se hai bisogno di una lista mutabile, usa <code>collect(Collectors.toList())</code>.</p>
+</blockquote>
+<h2>Ricerca efficiente con <code>Map</code></h2>
+<p>Quando si effettuano ricerche frequenti per chiave univoca, indicizzare i dati in una
+<code>Map</code> è molto più efficiente di una ricerca lineare su <code>List</code>.</p>
+<pre class="language-java"><code class="language-java"><span class="token comment">// Costruzione dell'indice (eseguita una sola volta)</span>
+<span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Product</span><span class="token punctuation">></span></span> prodottiPerCodice <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashMap</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Product</span> p <span class="token operator">:</span> prodotti<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    prodottiPerCodice<span class="token punctuation">.</span><span class="token function">put</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span><span class="token function">codice</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span> p<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Con Stream API (più compatto)</span>
+<span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Product</span><span class="token punctuation">></span></span> prodottiPerCodice <span class="token operator">=</span> prodotti<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">toMap</span><span class="token punctuation">(</span><span class="token class-name">Product</span><span class="token operator">::</span><span class="token function">codice</span><span class="token punctuation">,</span> p <span class="token operator">-></span> p<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Ricerca O(1)</span>
+<span class="token class-name">Optional</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> trovato <span class="token operator">=</span> <span class="token class-name">Optional</span><span class="token punctuation">.</span><span class="token function">ofNullable</span><span class="token punctuation">(</span>prodottiPerCodice<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>codice<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<div class="container my-3">
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-striped table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Approccio</th>
+          <th>Complessità ricerca</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fw-semibold"><code>List</code> + loop</td>
+          <td>O(n)</span></td>
+          <td>Semplice, nessun pre-processing</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold"><code>HashMap</code></td>
+          <td>O(1) media</span></td>
+          <td>Richiede indicizzazione iniziale</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold"><code>TreeMap</code></td>
+          <td>O(log n)</span></td>
+          <td>Mantiene l'ordine delle chiavi</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<h2>Selezione e Ordinamento</h2>
+<p>Ordinare una collezione consente di confrontare, visualizzare e cercare dati in modo
+prevedibile. Java utilizza <strong>TimSort</strong> — un algoritmo ibrido (MergeSort + InsertionSort)
+ottimizzato per dati parzialmente ordinati, molto comune in scenari reali.</p>
+<p><strong>Complessità: O(n log n)</strong> nel caso medio e peggiore.</p>
+<h2>Ordinamento crescente con <code>Comparable</code></h2>
+<p>Se la classe implementa <code>Comparable&lt;T&gt;</code>, è possibile ordinare direttamente:</p>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">record</span> <span class="token class-name">Product</span><span class="token punctuation">(</span><span class="token class-name">String</span> codice<span class="token punctuation">,</span> <span class="token class-name">String</span> nome<span class="token punctuation">,</span> <span class="token keyword">double</span> prezzo<span class="token punctuation">,</span> <span class="token keyword">boolean</span> disponibile<span class="token punctuation">)</span>
+        <span class="token keyword">implements</span> <span class="token class-name">Comparable</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> <span class="token punctuation">{</span>
+
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">compareTo</span><span class="token punctuation">(</span><span class="token class-name">Product</span> altro<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token class-name">Double</span><span class="token punctuation">.</span><span class="token function">compare</span><span class="token punctuation">(</span><span class="token keyword">this</span><span class="token punctuation">.</span>prezzo<span class="token punctuation">,</span> altro<span class="token punctuation">.</span>prezzo<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Utilizzo</span>
+prodotti<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// usa l'ordinamento naturale definito da compareTo</span></code></pre>
+<h2>Ordinamento con <code>Comparator</code> (approccio preferito)</h2>
+<p><code>Comparator</code> è più flessibile perché non richiede di modificare la classe e permette
+criteri multipli di ordinamento.</p>
+<pre class="language-java"><code class="language-java"><span class="token comment">// Per prezzo crescente</span>
+prodotti<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token class-name">Comparator</span><span class="token punctuation">.</span><span class="token function">comparingDouble</span><span class="token punctuation">(</span><span class="token class-name">Product</span><span class="token operator">::</span><span class="token function">prezzo</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Per prezzo decrescente</span>
+prodotti<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span><span class="token class-name">Comparator</span><span class="token punctuation">.</span><span class="token function">comparingDouble</span><span class="token punctuation">(</span><span class="token class-name">Product</span><span class="token operator">::</span><span class="token function">prezzo</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">reversed</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Ordinamento multi-livello: prima per disponibilità, poi per prezzo crescente</span>
+prodotti<span class="token punctuation">.</span><span class="token function">sort</span><span class="token punctuation">(</span>
+    <span class="token class-name">Comparator</span><span class="token punctuation">.</span><span class="token function">comparing</span><span class="token punctuation">(</span><span class="token class-name">Product</span><span class="token operator">::</span><span class="token function">disponibile</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">reversed</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+              <span class="token punctuation">.</span><span class="token function">thenComparingDouble</span><span class="token punctuation">(</span><span class="token class-name">Product</span><span class="token operator">::</span><span class="token function">prezzo</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<blockquote>
+<p><strong><code>comparingDouble()</code> vs <code>comparing()</code>:</strong> Per campi di tipo <code>double</code>, usa sempre
+<code>Comparator.comparingDouble()</code>. <code>comparing()</code> usa il boxing a <code>Double</code>, introducendo
+overhead non necessario in collezioni grandi.</p>
+</blockquote>
+<h2>Gestione dei Duplicati</h2>
+<p>Rilevare e gestire duplicati è un problema comune, ad esempio nella validazione di input
+o nel processamento di batch di dati.</p>
+<h2>Verificare la presenza di duplicati</h2>
+<pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">boolean</span> <span class="token function">contieneDuplicati</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> valori<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">Set</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> valoriUnici <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Integer</span> valore <span class="token operator">:</span> valori<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>valoriUnici<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>valore<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment">// add() restituisce false se l'elemento era già presente</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<p><strong>Complessità: O(n)</strong> — ogni <code>add()</code> su <code>HashSet</code> è O(1) in media.</p>
+<h2>Rimuovere i duplicati da una lista</h2>
+<pre class="language-java"><code class="language-java"><span class="token comment">// Metodo 1: tramite Set (non preserva l'ordine)</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> senzaDuplicati <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">HashSet</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span>listaConDuplicati<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Metodo 2: tramite LinkedHashSet (preserva l'ordine di inserimento)</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> senzaDuplicatiOrdinati <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span>
+        <span class="token keyword">new</span> <span class="token class-name">LinkedHashSet</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span>listaConDuplicati<span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token comment">// Metodo 3: Stream API</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> senzaDuplicatiStream <span class="token operator">=</span> listaConDuplicati<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">distinct</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2>Deduplicazione per campo specifico</h2>
+<p>Spesso si vogliono rimuovere oggetti &quot;duplicati&quot; in base a un campo, non per uguaglianza
+totale. Un pattern comune usa <code>Collectors.toMap()</code>:</p>
+<pre class="language-java"><code class="language-java"><span class="token comment">// Mantiene il primo prodotto trovato per ogni codice</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> prodottiUnici <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span>
+    prodotti<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">toMap</span><span class="token punctuation">(</span>
+                <span class="token class-name">Product</span><span class="token operator">::</span><span class="token function">codice</span><span class="token punctuation">,</span>
+                p <span class="token operator">-></span> p<span class="token punctuation">,</span>
+                <span class="token punctuation">(</span>esistente<span class="token punctuation">,</span> nuovo<span class="token punctuation">)</span> <span class="token operator">-></span> esistente <span class="token comment">// in caso di chiave duplicata, mantieni il primo</span>
+            <span class="token punctuation">)</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">values</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2>Trasformazione dei Dati (Mapping)</h2>
+<p>Trasformare una collezione di oggetti in un'altra è un'operazione fondamentale, spesso
+chiamata <strong>mapping</strong>. Con la Stream API, questo processo diventa conciso ed espressivo.</p>
+<h2>Trasformazione semplice: estrarre un campo</h2>
+<pre class="language-java"><code class="language-java"><span class="token comment">// Imperativa</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> <span class="token function">estraiNomi</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> prodotti<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> nomi <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token class-name">Product</span> prodotto <span class="token operator">:</span> prodotti<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        nomi<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>prodotto<span class="token punctuation">.</span><span class="token function">nome</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> nomi<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment">// Stream API</span>
+<span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">></span></span> <span class="token function">estraiNomi</span><span class="token punctuation">(</span><span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> prodotti<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> prodotti<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token class-name">Product</span><span class="token operator">::</span><span class="token function">nome</span><span class="token punctuation">)</span>
+            <span class="token punctuation">.</span><span class="token function">toList</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span></code></pre>
+<h2>Collectors avanzati</h2>
+<p>I <code>Collector</code> di Java permettono aggregazioni sofisticate in una sola passata sulla
+collezione. Sono uno strumento essenziale per chi lavora con pipeline di dati.</p>
+<h3>Raggruppamento (<code>groupingBy</code>)</h3>
+<p>Raggruppa i prodotti per disponibilità:</p>
+<pre class="language-java"><code class="language-java"><span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Boolean</span><span class="token punctuation">,</span> <span class="token class-name">List</span><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span><span class="token punctuation">></span></span> perDisponibilita <span class="token operator">=</span> prodotti<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">groupingBy</span><span class="token punctuation">(</span><span class="token class-name">Product</span><span class="token operator">::</span><span class="token function">disponibile</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> disponibili   <span class="token operator">=</span> perDisponibilita<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span></span> nonDisponibili <span class="token operator">=</span> perDisponibilita<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3>Partizione (<code>partitioningBy</code>)</h3>
+<p>Versione specializzata di <code>groupingBy</code> per predicati booleani — più efficiente e
+semanticamente più chiara:</p>
+<pre class="language-java"><code class="language-java"><span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Boolean</span><span class="token punctuation">,</span> <span class="token class-name">List</span><span class="token punctuation">&lt;</span><span class="token class-name">Product</span><span class="token punctuation">></span><span class="token punctuation">></span></span> partizione <span class="token operator">=</span> prodotti<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">partitioningBy</span><span class="token punctuation">(</span>p <span class="token operator">-></span> p<span class="token punctuation">.</span><span class="token function">prezzo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">100.0</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3>Costruzione di una Map (<code>toMap</code>)</h3>
+<pre class="language-java"><code class="language-java"><span class="token comment">// Map&lt;codice, nomeProdotto></span>
+<span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">String</span><span class="token punctuation">></span></span> codiceToNome <span class="token operator">=</span> prodotti<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">toMap</span><span class="token punctuation">(</span><span class="token class-name">Product</span><span class="token operator">::</span><span class="token function">codice</span><span class="token punctuation">,</span> <span class="token class-name">Product</span><span class="token operator">::</span><span class="token function">nome</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3>Conteggio per gruppo (<code>groupingBy</code> + <code>counting</code>)</h3>
+<pre class="language-java"><code class="language-java"><span class="token comment">// Quanti prodotti per fascia di prezzo? (esempio semplificato)</span>
+<span class="token class-name">Map</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">String</span><span class="token punctuation">,</span> <span class="token class-name">Long</span><span class="token punctuation">></span></span> conteggioPerFascia <span class="token operator">=</span> prodotti<span class="token punctuation">.</span><span class="token function">stream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">collect</span><span class="token punctuation">(</span><span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">groupingBy</span><span class="token punctuation">(</span>
+            p <span class="token operator">-></span> p<span class="token punctuation">.</span><span class="token function">prezzo</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">></span> <span class="token number">100.0</span> <span class="token operator">?</span> <span class="token string">"premium"</span> <span class="token operator">:</span> <span class="token string">"standard"</span><span class="token punctuation">,</span>
+            <span class="token class-name">Collectors</span><span class="token punctuation">.</span><span class="token function">counting</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h2>Parallel Streams: quando usarli (e quando no)</h2>
+<p>La Stream API supporta l'elaborazione parallela tramite <code>parallelStream()</code>. È una
+funzionalità potente, ma va usata con cautela.</p>
+<pre class="language-java"><code class="language-java"><span class="token comment">// Esempio di parallel stream per somma su lista molto grande</span>
+<span class="token keyword">double</span> totale <span class="token operator">=</span> importiMoltoGrandi<span class="token punctuation">.</span><span class="token function">parallelStream</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">mapToDouble</span><span class="token punctuation">(</span><span class="token class-name">Double</span><span class="token operator">::</span><span class="token function">doubleValue</span><span class="token punctuation">)</span>
+        <span class="token punctuation">.</span><span class="token function">sum</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<p><strong>Quando conviene:</strong></p>
+<ul>
+<li>Collezioni con <strong>milioni di elementi</strong></li>
+<li>Operazioni <strong>CPU-intensive</strong> e <strong>stateless</strong> (senza effetti collaterali)</li>
+</ul>
+<p><strong>Quando non conviene:</strong></p>
+<ul>
+<li>Collezioni piccole (l'overhead di gestione dei thread supera il guadagno)</li>
+<li>Operazioni con <strong>side-effect</strong> (es. scrittura su variabili condivise)</li>
+<li>Operazioni di I/O (usa <code>CompletableFuture</code> in questi casi)</li>
+</ul>
+<blockquote>
+<p><strong>Regola pratica:</strong> Misura sempre con un benchmark reale (es. JMH) prima di passare
+a <code>parallelStream()</code>. In molti casi la versione sequenziale è più veloce.</p>
+</blockquote>
+<h2>Scelta delle Strutture Dati</h2>
+<p>La struttura dati corretta può fare la differenza tra un'applicazione performante e una
+che degrada sotto carico. La tabella seguente riassume le complessità principali.</p>
+<div class="container mb-3">
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-striped table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Struttura</th>
+          <th>Accesso</th>
+          <th>Ricerca</th>
+          <th>Inserimento (coda)</th>
+          <th>Inserimento (posizione)</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fw-semibold"><code>ArrayList</code></td>
+          <td><span class="badge text-bg-success">O(1)</span></td>
+          <td><span class="badge text-bg-warning">O(n)</span></td>
+          <td><span class="badge text-bg-success">O(1) ammortizzato</span></td>
+          <td><span class="badge text-bg-warning">O(n)</span></td>
+          <td>Preferita per uso generale</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold"><code>LinkedList</code></td>
+          <td><span class="badge text-bg-warning">O(n)</span></td>
+          <td><span class="badge text-bg-warning">O(n)</span></td>
+          <td><span class="badge text-bg-success">O(1)</span></td>
+          <td><span class="badge text-bg-success">O(1) *</span></td>
+          <td>*Con riferimento diretto al nodo</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold"><code>HashSet</code></td>
+          <td><span class="text-muted">—</span></td>
+          <td><span class="badge text-bg-success">O(1) med.</span></td>
+          <td><span class="badge text-bg-success">O(1) med.</span></td>
+          <td><span class="text-muted">—</span></td>
+          <td>No duplicati, no ordine</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold"><code>LinkedHashSet</code></td>
+          <td><span class="text-muted">—</span></td>
+          <td><span class="badge text-bg-success">O(1) med.</span></td>
+          <td><span class="badge text-bg-success">O(1) med.</span></td>
+          <td><span class="text-muted">—</span></td>
+          <td>No duplicati, ordine inserimento</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold"><code>TreeSet</code></td>
+          <td><span class="text-muted">—</span></td>
+          <td><span class="badge text-bg-info">O(log n)</span></td>
+          <td><span class="badge text-bg-info">O(log n)</span></td>
+          <td><span class="text-muted">—</span></td>
+          <td>No duplicati, ordinato</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold"><code>HashMap</code></td>
+          <td><span class="text-muted">—</span></td>
+          <td><span class="badge text-bg-success">O(1) med.</span></td>
+          <td><span class="badge text-bg-success">O(1) med.</span></td>
+          <td><span class="text-muted">—</span></td>
+          <td>Chiave → valore, no ordine</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold"><code>LinkedHashMap</code></td>
+          <td><span class="text-muted">—</span></td>
+          <td><span class="badge text-bg-success">O(1) med.</span></td>
+          <td><span class="badge text-bg-success">O(1) med.</span></td>
+          <td><span class="text-muted">—</span></td>
+          <td>Ordine di inserimento</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold"><code>TreeMap</code></td>
+          <td><span class="text-muted">—</span></td>
+          <td><span class="badge text-bg-info">O(log n)</span></td>
+          <td><span class="badge text-bg-info">O(log n)</span></td>
+          <td><span class="text-muted">—</span></td>
+          <td>Ordinato per chiave</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<h3>Linee guida pratiche</h3>
+<ul>
+<li><strong>Hai bisogno di accesso casuale per indice?</strong> → <code>ArrayList</code></li>
+<li><strong>Inserisci/rimuovi spesso in testa o in coda?</strong> → <code>ArrayDeque</code> (non <code>LinkedList</code>)</li>
+<li><strong>Devi verificare l'appartenenza di un elemento?</strong> → <code>HashSet</code></li>
+<li><strong>Devi iterare in ordine di inserimento?</strong> → <code>LinkedHashSet</code> / <code>LinkedHashMap</code></li>
+<li><strong>Devi mantenere un ordinamento naturale?</strong> → <code>TreeSet</code> / <code>TreeMap</code></li>
+<li><strong>Ricerchi frequentemente per chiave univoca?</strong> → <code>HashMap</code></li>
+</ul>
+
+  </section>
+
+  <hr class="mt-5">
+  
+  <section class="mt-5" aria-label="Commenti e reazioni">
+    <h2 class="h5 fw-bold mb-4">
+      <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
+    </h2>
+
+      <script>
+      (function () {
+        const saved = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', theme);
+        script.setAttribute('data-lang', 'it');
+        script.setAttribute('data-loading', 'lazy');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+
+        document.currentScript.replaceWith(script);
+      })();
+    </script>
+
+    <noscript>
+      <p class="text-muted small">
+        <i class="bi bi-info-circle me-1"></i>
+        Per visualizzare i commenti è necessario abilitare JavaScript.
+        Puoi leggere e partecipare alla discussione direttamente su
+        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
+      </p>
+    </noscript>
+  </section>
+
+</article>
+    </main>
+
+    <footer class="border-top mt-auto py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <h5 class="fw-bold mb-3">
+          <span><span class="text-primary">dino</span>-996</span>
+        </h5>
+        <p class="text-muted small mb-2">
+          Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne.
+        </p>
+        <a href="/feed.xml" class="text-muted" aria-label="Feed RSS" target="_blank">
+          <i class="bi bi-rss"></i>
+        </a>
+      </div>
+      
+      <div class="col-md-3 mb-3 mb-md-0">
+        <h6 class="fw-bold mb-3">Navigazione</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <a href="/" class="text-muted text-decoration-none small">Home</a>
+          </li>
+          <li class="mb-2">
+            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
+          </li>
+          <li class="mb-2">
+            <a href="/about/" class="text-muted text-decoration-none small">About</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="col-md-2">
+        <h6 class="fw-bold mb-3">Social</h6>
+        <div class="d-flex gap-3">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+              <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <hr class="my-4" />
+    
+    <div class="row">
+      <div class="col text-center">
+        <p class="text-muted small mb-0">
+          Realizzato con <span class="text-danger">❤</span> usando 
+          <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Eleventy</a> 
+          e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Bootstrap</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX — deferred per non bloccare il rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    renderMathInElement(document.body, {
+      delimiters: [
+        {left: '$$', right: '$$', display: true},
+        {left: '$', right: '$', display: false},
+        {left: '\\(', right: '\\)', display: false},
+        {left: '\\[', right: '\\]', display: true}
+      ]
+    });
+  });
+</script>
+
+    <script src="/assets/js/main.js"></script>
+  </body>
+</html>
