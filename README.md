@@ -1,4 +1,4 @@
-# dino-996 blog
+# ✒️ dino-996 blog
 
 ## English
 
@@ -297,3 +297,4 @@ Il sito viene pubblicato automaticamente su **GitHub Pages** dalla cartella `doc
 - **LinkedIn:** [davidesabia](https://linkedin.com/in/davidesabia)
 
 - **Email:** davidesabia22@gmail.com
+
