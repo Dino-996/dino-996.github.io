@@ -140,17 +140,6 @@ The site is automatically published on **GitHub Pages** from the `docs/` folder 
 
 ---
 
-## Contacts
-
-* **GitHub:** [@Dino-996](https://github.com/Dino-996)
-* **LinkedIn:** [davidesabia](https://linkedin.com/in/davidesabia)
-* **Email:** [davidesabia22@gmail.com](mailto:davidesabia22@gmail.com)
-
-
----
- 
-# dino-996 blog
-
 ## Italiano
 
 Blog personale e portfolio tecnico di **Davide Sabia**, realizzato con [Eleventy](https://www.11ty.dev/) e [Bootstrap](https://getbootstrap.com/).
@@ -289,12 +278,4 @@ permalink: "/blog/{{ title | slug }}/"
 
 Il sito viene pubblicato automaticamente su **GitHub Pages** dalla cartella `docs/` ad ogni push sul branch `main`.
 
----
-
-## Contatti
-
-- **GitHub:** [@Dino-996](https://github.com/Dino-996)
-- **LinkedIn:** [davidesabia](https://linkedin.com/in/davidesabia)
-
-- **Email:** davidesabia22@gmail.com
 
