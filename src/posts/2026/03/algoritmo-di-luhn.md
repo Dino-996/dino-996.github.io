@@ -1,17 +1,21 @@
 ---
 layout: layouts/post.njk
 title: L'algoritmo di Luhn
-description: 
+description: L’algoritmo di Luhn è un metodo matematico sviluppato nel 1954 dal ricercatore IBM Hans Peter Luhn per verificare la validità di numeri identificativi attraverso una cifra di controllo. Ancora oggi è utilizzato in moltissimi sistemi informatici, soprattutto per la validazione dei numeri di carte di credito, IMEI dei dispositivi mobili e altri identificatori strutturati.
 tags:
   - posts
   - algoritmi
   - java
 date: 2026-03-16
-excerpt: 
+excerpt: L’algoritmo di Luhn è uno dei metodi più diffusi per verificare la validità di numeri identificativi come quelli delle carte di credito. Ideato nel 1954 dal ricercatore IBM Hans Peter Luhn, utilizza una semplice regola matematica per individuare errori di digitazione e garantire la coerenza dei dati prima della loro elaborazione.
 permalink: "/blog/{{ title | slug }}/"
 image: /assets/img/webp/algoritmo-di-luhn.webp
 imageAlt: "Immagine generata con IA"
 ---
+
+# Introduzione
+
+{{ excerpt }}
 
 ## Cos'è e a cosa serve?
 
