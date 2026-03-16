@@ -1,5 +1,11 @@
 [
   {
+    "title": "L'algoritmo di Luhn",
+    "url": "/blog/lalgoritmo-di-luhn/",
+    "description": "",
+    "date": "2026-03-16T00:00:00.000Z"
+  },
+  {
     "title": "Guida completa a PowerShell",
     "url": "/blog/guida-completa-a-powershell/",
     "description": "Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido.",
