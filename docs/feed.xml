@@ -21,8 +21,12 @@
     <published>2026-03-16T00:00:00.000Z</published>
     <updated>2026-03-16T00:00:00.000Z</updated>
     
+    <summary>L’algoritmo di Luhn è un metodo matematico sviluppato nel 1954 dal ricercatore IBM Hans Peter Luhn per verificare la validità di numeri identificativi attraverso una cifra di controllo. Ancora oggi è utilizzato in moltissimi sistemi informatici, soprattutto per la validazione dei numeri di carte di credito, IMEI dei dispositivi mobili e altri identificatori strutturati.</summary>
     
-    <content type="html"><![CDATA[&lt;h2&gt;Cos&#39;è e a cosa serve?&lt;/h2&gt;
+    
+    <content type="html"><![CDATA[&lt;h1&gt;Introduzione&lt;/h1&gt;
+&lt;p&gt;L’algoritmo di Luhn è uno dei metodi più diffusi per verificare la validità di numeri identificativi come quelli delle carte di credito. Ideato nel 1954 dal ricercatore IBM Hans Peter Luhn, utilizza una semplice regola matematica per individuare errori di digitazione e garantire la coerenza dei dati prima della loro elaborazione.&lt;/p&gt;
+&lt;h2&gt;Cos&#39;è e a cosa serve?&lt;/h2&gt;
 &lt;p&gt;L&#39;algoritmo di Luhn è un &lt;strong&gt;semplice sistema di controllo cifre&lt;/strong&gt; inventato negli anni &#39;50 da &lt;a href=&quot;https://en.wikipedia.org/wiki/Hans_Peter_Luhn&quot;&gt;&lt;strong&gt;Hans Peter Luhn&lt;/strong&gt;&lt;/a&gt;, ingegnere &lt;a href=&quot;https://www.ibm.com/it-it&quot;&gt;IBM&lt;/a&gt;. Lo trovi ovunque: numeri di carte di credito, codici fiscali, IBAN, codici seriali. Il suo scopo è rispondere a una domanda pratica:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;&amp;quot;Questo numero che ho digitato ha senso, oppure ho fatto un errore di battitura?&amp;quot;&lt;/p&gt;

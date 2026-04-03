@@ -142,6 +142,10 @@
     </time>
   </header>
 
+  <!-- Debug -->
+  
+  <!-- Debug -->
+
   
     <div class="mb-4">
       <img 
@@ -363,22 +367,152 @@ I sistemi operativi facilitano questo compito tramite:</p>
     <!-- KaTeX — deferred per non bloccare il rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
 
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    renderMathInElement(document.body, {
-      delimiters: [
-        {left: '$$', right: '$$', display: true},
-        {left: '$', right: '$', display: false},
-        {left: '\\(', right: '\\)', display: false},
-        {left: '\\[', right: '\\]', display: true}
-      ]
-    });
-  });
-</script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]});
+      });
+    </script>
 
+    <!-- AI Assistant Widget -->
+    <div id="ai-assistant" style="position:fixed; bottom:1.5rem; right:1.5rem; z-index:1050;">
+      <button
+        id="ai-toggle"
+        class="btn btn-primary rounded-circle shadow-lg"
+        style="width:52px; height:52px;"
+        aria-label="Apri assistente AI"
+        aria-expanded="false"
+        aria-controls="ai-chat-window">
+        <i class="bi bi-stars"></i>
+      </button>
+
+      <div
+        id="ai-chat-window"
+        class="card shadow"
+        hidden
+        style="width:340px; position:absolute; bottom:64px; right:0;">
+        <div class="card-header d-flex align-items-center justify-content-between py-2">
+          <span class="fw-semibold small">
+            <i class="bi bi-stars text-primary me-1"></i>Chiedi al blog
+          </span>
+          <button id="ai-close" class="btn-close btn-sm" aria-label="Chiudi"></button>
+        </div>
+
+        <div
+          id="ai-messages"
+          class="p-3 overflow-auto"
+          style="height:280px; display:flex; flex-direction:column; gap:.75rem;">
+          <div class="text-muted small text-center mt-auto">
+            Fai una domanda sugli articoli del blog.
+          </div>
+        </div>
+
+        <div class="card-footer p-2">
+          <div class="input-group input-group-sm">
+            <input
+              id="ai-input"
+              type="text"
+              class="form-control"
+              placeholder="Es: cos'è il deadlock?"
+              autocomplete="off"
+              maxlength="200">
+            <button id="ai-send" class="btn btn-primary" aria-label="Invia">
+              <i class="bi bi-send"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const isUser = role === "user";
+          const div = document.createElement("div");
+          div.className = `d-flex ${isUser ? "justify-content-end" : "justify-content-start"}`;
+          div.innerHTML = `
+            <div class="px-3 py-2 rounded-3 small" style="max-width:85%; background:${isUser ? "var(--bs-primary)" : "var(--bs-body-tertiary)"}; color:${isUser ? "#fff" : "inherit"};">
+              ${text}
+            </div>`;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          input.value = "";
+          send.disabled = true;
+          addMessage(query, "user");
+
+          const thinking = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "assistant");
+
+          // Carica il search index generato da Eleventy
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            context = idx
+              .map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}`)
+              .join("\n\n");
+          } catch {
+            context = "";
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+            const data = await res.json();
+            thinking.querySelector("div").innerHTML = data.answer ?? "Nessuna risposta.";
+          } catch {
+            thinking.querySelector("div").innerHTML = "Errore di connessione. Riprova.";
+          } finally {
+            send.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
     <script src="/assets/js/main.js"></script>
+
   </body>
 </html>
