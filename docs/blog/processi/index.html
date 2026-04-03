@@ -148,7 +148,7 @@
         <i class="bi bi-stars text-primary"></i>
         <strong class="small text-uppercase text-primary">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small">Un processo è un&#39;entità di esecuzione attiva segmentata in memoria (text, data, heap, stack) e monitorata dal kernel tramite il rispettivo Process Control Block (PCB). L&#39;architettura multicore permette il parallelismo hardware reale dei thread, superando la concorrenza logica del time-slicing per ottimizzare l&#39;elaborazione simultanea su unità di calcolo indipendenti.</p>
+      <p class="mb-0 small">Un processo è un&#39;entità attiva definita dal proprio segmento di memoria e gestita dal sistema operativo tramite il PCB, che ne coordina il ciclo di vita attraverso tecniche di time slicing o parallelismo. L&#39;architettura multicore consente di eseguire simultaneamente più thread dello stesso processo, trasformando il parallelismo simulato dai singoli core in un&#39;esecuzione fisica concorrente.</p>
     </div>
   
 
@@ -571,13 +571,25 @@
         // Funzione per l'effetto macchina da scrivere con auto-scroll
         function typeWriter(text, element, speed = 15) {
           let i = 0;
-          element.innerHTML = ""; // Pulisce il messaggio "Sto cercando..."
+          let currentHtml = ""; // Accumulatore per evitare che il browser chiuda i tag
+          element.innerHTML = ""; 
           
           function type() {
             if (i < text.length) {
-              element.innerHTML += text.charAt(i);
-              i++;
-              // Mantiene lo scroll in fondo mentre scrive
+              // Se incontriamo un tag HTML lo leggiamo tutto in un colpo
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              
+              // Aggiorniamo l'elemento con l'HTML accumulato
+              element.innerHTML = currentHtml;
               messages.scrollTop = messages.scrollHeight;
               setTimeout(type, speed);
             }
@@ -590,7 +602,6 @@
           const div = document.createElement("div");
           div.className = `d-flex mb-3 ${isUser ? "justify-content-end" : "justify-content-start"}`;
           
-          // Creiamo il contenitore interno separatamente per poterlo manipolare con typeWriter
           const innerDiv = document.createElement("div");
           innerDiv.className = "px-3 py-2 rounded-3 small";
           innerDiv.style.maxWidth = "85%";
@@ -602,7 +613,7 @@
           messages.appendChild(div);
           messages.scrollTop = messages.scrollHeight;
           
-          return innerDiv; // Restituiamo il div interno
+          return innerDiv; // Restituisce il div interno
         }
 
         async function sendMessage() {
@@ -621,7 +632,7 @@
             const idx = await fetch("/search.json").then(r => r.json());
             // Limitiamo il contesto ai primi 10 risultati per non saturare i token
             context = idx.slice(0, 10)
-              .map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}`)
+              .map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}\nLink: https://dino-996.github.io${p.url}`)
               .join("\n\n");
           } catch {
             context = "";
@@ -637,7 +648,7 @@
             const data = await res.json();
             const answer = data.answer ?? "Nessuna risposta disponibile.";
             
-            // Applichiamo l'effetto macchina da scrivere alla risposta
+            // Effetto macchina da scrivere alla risposta
             typeWriter(answer, responseContainer);
 
           } catch {

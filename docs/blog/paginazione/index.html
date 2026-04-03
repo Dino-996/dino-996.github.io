@@ -148,7 +148,7 @@
         <i class="bi bi-stars text-primary"></i>
         <strong class="small text-uppercase text-primary">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small">La paginazione mappa indirizzi logici in frame fisici tramite la MMU e tabelle delle pagine, ottimizzando la traduzione hardware mediante l&#39;uso di blocchi a dimensione fissa pari a potenze di due. Tale architettura elimina la frammentazione esterna e consente la condivisione di memoria tra processi, pur introducendo il rischio di frammentazione interna nell&#39;ultimo frame allocato.</p>
+      <p class="mb-0 small">La paginazione organizza la memoria in blocchi di dimensione fissa, delegando alla MMU la traduzione degli indirizzi logici in fisici tramite il lookup nelle page table. Tale architettura elimina la frammentazione esterna e favorisce l&#39;efficienza della memoria tramite la condivisione di pagine di codice tra processi distinti.</p>
     </div>
   
 
@@ -575,13 +575,25 @@ di ottimizzare prematuramente.</li>
         // Funzione per l'effetto macchina da scrivere con auto-scroll
         function typeWriter(text, element, speed = 15) {
           let i = 0;
-          element.innerHTML = ""; // Pulisce il messaggio "Sto cercando..."
+          let currentHtml = ""; // Accumulatore per evitare che il browser chiuda i tag
+          element.innerHTML = ""; 
           
           function type() {
             if (i < text.length) {
-              element.innerHTML += text.charAt(i);
-              i++;
-              // Mantiene lo scroll in fondo mentre scrive
+              // Se incontriamo un tag HTML lo leggiamo tutto in un colpo
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              
+              // Aggiorniamo l'elemento con l'HTML accumulato
+              element.innerHTML = currentHtml;
               messages.scrollTop = messages.scrollHeight;
               setTimeout(type, speed);
             }
@@ -594,7 +606,6 @@ di ottimizzare prematuramente.</li>
           const div = document.createElement("div");
           div.className = `d-flex mb-3 ${isUser ? "justify-content-end" : "justify-content-start"}`;
           
-          // Creiamo il contenitore interno separatamente per poterlo manipolare con typeWriter
           const innerDiv = document.createElement("div");
           innerDiv.className = "px-3 py-2 rounded-3 small";
           innerDiv.style.maxWidth = "85%";
@@ -606,7 +617,7 @@ di ottimizzare prematuramente.</li>
           messages.appendChild(div);
           messages.scrollTop = messages.scrollHeight;
           
-          return innerDiv; // Restituiamo il div interno
+          return innerDiv; // Restituisce il div interno
         }
 
         async function sendMessage() {
@@ -625,7 +636,7 @@ di ottimizzare prematuramente.</li>
             const idx = await fetch("/search.json").then(r => r.json());
             // Limitiamo il contesto ai primi 10 risultati per non saturare i token
             context = idx.slice(0, 10)
-              .map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}`)
+              .map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}\nLink: https://dino-996.github.io${p.url}`)
               .join("\n\n");
           } catch {
             context = "";
@@ -641,7 +652,7 @@ di ottimizzare prematuramente.</li>
             const data = await res.json();
             const answer = data.answer ?? "Nessuna risposta disponibile.";
             
-            // Applichiamo l'effetto macchina da scrivere alla risposta
+            // Effetto macchina da scrivere alla risposta
             typeWriter(answer, responseContainer);
 
           } catch {

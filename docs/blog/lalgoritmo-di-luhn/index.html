@@ -148,8 +148,7 @@
         <i class="bi bi-stars text-primary"></i>
         <strong class="small text-uppercase text-primary">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small">L&#39;algoritmo di Luhn è una funzione di checksum modulo 10 progettata per rilevare errori di digitazione casuali, specificamente la sostituzione di singole cifre e la trasposizione di cifre adiacenti.
-La validazione avviene tramite il raddoppio selettivo delle cifre in posizioni alternate e la successiva riduzione decimale delle somme parziali, verificando che il totale complessivo sia divisibile per dieci.</p>
+      <p class="mb-0 small">L&#39;algoritmo di Luhn implementa una funzione di checksum modulare per il rilevamento efficiente di errori di digitazione e inversioni di cifre adiacenti in identificativi numerici. Pur essendo un tool di validazione computazionalmente leggero e diffuso, non offre alcuna garanzia di sicurezza crittografica contro tentativi di generazione fraudolenta dei dati.</p>
     </div>
   
 
@@ -470,13 +469,25 @@ $d_i = \lfloor d_i / 10 \rfloor + (d_i \bmod 10)$</li>
         // Funzione per l'effetto macchina da scrivere con auto-scroll
         function typeWriter(text, element, speed = 15) {
           let i = 0;
-          element.innerHTML = ""; // Pulisce il messaggio "Sto cercando..."
+          let currentHtml = ""; // Accumulatore per evitare che il browser chiuda i tag
+          element.innerHTML = ""; 
           
           function type() {
             if (i < text.length) {
-              element.innerHTML += text.charAt(i);
-              i++;
-              // Mantiene lo scroll in fondo mentre scrive
+              // Se incontriamo un tag HTML lo leggiamo tutto in un colpo
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              
+              // Aggiorniamo l'elemento con l'HTML accumulato
+              element.innerHTML = currentHtml;
               messages.scrollTop = messages.scrollHeight;
               setTimeout(type, speed);
             }
@@ -489,7 +500,6 @@ $d_i = \lfloor d_i / 10 \rfloor + (d_i \bmod 10)$</li>
           const div = document.createElement("div");
           div.className = `d-flex mb-3 ${isUser ? "justify-content-end" : "justify-content-start"}`;
           
-          // Creiamo il contenitore interno separatamente per poterlo manipolare con typeWriter
           const innerDiv = document.createElement("div");
           innerDiv.className = "px-3 py-2 rounded-3 small";
           innerDiv.style.maxWidth = "85%";
@@ -501,7 +511,7 @@ $d_i = \lfloor d_i / 10 \rfloor + (d_i \bmod 10)$</li>
           messages.appendChild(div);
           messages.scrollTop = messages.scrollHeight;
           
-          return innerDiv; // Restituiamo il div interno
+          return innerDiv; // Restituisce il div interno
         }
 
         async function sendMessage() {
@@ -520,7 +530,7 @@ $d_i = \lfloor d_i / 10 \rfloor + (d_i \bmod 10)$</li>
             const idx = await fetch("/search.json").then(r => r.json());
             // Limitiamo il contesto ai primi 10 risultati per non saturare i token
             context = idx.slice(0, 10)
-              .map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}`)
+              .map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}\nLink: https://dino-996.github.io${p.url}`)
               .join("\n\n");
           } catch {
             context = "";
@@ -536,7 +546,7 @@ $d_i = \lfloor d_i / 10 \rfloor + (d_i \bmod 10)$</li>
             const data = await res.json();
             const answer = data.answer ?? "Nessuna risposta disponibile.";
             
-            // Applichiamo l'effetto macchina da scrivere alla risposta
+            // Effetto macchina da scrivere alla risposta
             typeWriter(answer, responseContainer);
 
           } catch {
