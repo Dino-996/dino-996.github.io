@@ -8,10 +8,17 @@
   --light-color: #f8f9fa;
   --border-color: #dee2e6;
   --transition: all 0.3s ease;
-  --ai-primary: #007bff;
-  --ai-bg: #ffffff;
-  --ai-text: #212529;
-  --ai-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --ai-primary: #007bff; /* Il colore "brand" dell'AI */
+  --ai-card-bg: var(--tertiary-color); 
+  --ai-body-bg: var(--dark-color);
+  --ai-text: var(--primary-color);
+  --ai-input-bg: var(--tertiary-color);
+  --ai-border: rgba(0,0,0,0.1);
+  --ai-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  [data-theme="dark"] {
+  --ai-border: rgba(255,255,255,0.1);
+  --ai-shadow: 0 8px 30px rgba(0,0,0,0.5);
+  }
 }
 
 /* ========================================
@@ -270,13 +277,30 @@ footer a:hover svg {
   font-family: system-ui, -apple-system, sans-serif;
 }
 
+.ai-close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--dark-color);
+  background-color: var(--light-color);
+  border: 1px solid var(--primary-color);
+  border-radius: 4rem;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.ai-welcome-msg {
+  color: var(--secondary-color);
+}
+
 /* Bottone Pulsante */
 .ai-btn-pulse {
   width: 56px;
   height: 56px;
   border-radius: 50%;
   background: var(--ai-primary);
-  color: white;
+  color: var(--tertiary-color);
   border: none;
   box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
   font-size: 1.5rem;
@@ -285,6 +309,7 @@ footer a:hover svg {
 }
 
 .ai-btn-pulse:hover {
+  
   transform: scale(1.1);
 }
 
@@ -304,21 +329,9 @@ footer a:hover svg {
   animation: slideUp 0.3s ease-out;
 }
 
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 .ai-card-header {
   background: var(--ai-primary);
-  color: white;
+  color: var(--tertiary-color);
   padding: 1rem;
   display: flex;
   justify-content: space-between;
@@ -332,7 +345,11 @@ footer a:hover svg {
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  background: #f8f9fa;
+  background-color: var(--light-color);
+}
+
+.ai-welcome-msg{
+  color: var(--dark-color);
 }
 
 /* Bolle Messaggi */
@@ -347,13 +364,13 @@ footer a:hover svg {
 .ai-msg-user {
   align-self: flex-end;
   background: var(--ai-primary);
-  color: white;
+  color: var(--tertiary-color);;
   border-bottom-right-radius: 2px;
 }
 
 .ai-msg-bot {
   align-self: flex-start;
-  background: white;
+  background: var(--tertiary-color);;
   color: var(--ai-text);
   border-bottom-left-radius: 2px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -363,13 +380,13 @@ footer a:hover svg {
   padding: 1rem;
   display: flex;
   gap: 0.5rem;
-  background: white;
-  border-top: 1px solid #eee;
+  background-color: var(--light-color);
+  border-top: 1px solid var(--tertiary-color);
 }
 
 .ai-card-footer input {
   flex: 1;
-  border: 1px solid #dee2e6;
+  border: 1px solid var(--primary-color);
   border-radius: 25px;
   padding: 0.5rem 1rem;
   outline: none;
@@ -381,6 +398,31 @@ footer a:hover svg {
   color: var(--ai-primary);
   font-size: 1.2rem;
   cursor: pointer;
+}
+
+#ai-title {
+  color: var(--light-color);
+}
+
+#ai-toggle {
+  color: var(--light-color);
+}
+
+#ai-input {
+  color: var(--dark-color);
+  background-color: var(--light-color);
+  border: 1px solid var(--primary-color);
+}
+
+#ai-send {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--primary-color);
+  border-radius: 2rem;
+  padding: 0;
+  width: 45px;
+  height: 45px;
 }
 
 /* ========================================
@@ -470,6 +512,18 @@ hr {
   }
 }
 
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ========================================
    Dark Mode Improvements
    ======================================== */
@@ -493,4 +547,36 @@ hr {
 
 [data-bs-theme="dark"] .border {
   border-color: #4a5568 !important;
+}
+
+[data-bs-theme="dark"] .ai-chat-body {
+  background-color: var(--dark-color);
+}
+
+[data-bs-theme="dark"] .ai-card-footer{
+  background-color: var(--dark-color);
+}
+
+[data-bs-theme="dark"] .ai-welcome-msg{
+  color: var(--light-color);
+}
+
+[data-bs-theme="dark"] .ai-close-btn {
+  color: var(--light-color);
+  background-color: var(--dark-color);
+  border: 1px solid var(--primary-color);
+}
+
+[data-bs-theme="dark"] #ai-title {
+  color: var(--dark-color);
+}
+
+[data-bs-theme="dark"] #ai-toggle {
+  color: var(--dark-color);
+}
+
+[data-bs-theme="dark"] #ai-input {
+  color: var(--light-color);
+  background-color: var(--dark-color);
+  border: 1px solid var(--primary-color);
 }

@@ -410,30 +410,32 @@ $d_i = \lfloor d_i / 10 \rfloor + (d_i \bmod 10)$</li>
       });
     </script>
 
-    <!-- AI Assistant Widget -->
+    <!-- AI assistant widget -->
     <div id="ai-assistant" class="ai-assistant-wrapper">
-      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente AI">
-        <i class="bi bi-chat-dots-fill"></i>
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <i class="bi bi-stars"></i>
       </button>
 
       <div id="ai-chat-window" class="ai-card" hidden>
         <div class="ai-card-header">
           <div class="d-flex align-items-center gap-2">
-            <div class="ai-avatar-mini"><i class="bi bi-robot"></i></div>
-            <span class="fw-bold">Dino AI Assistant</span>
+            <div id="ai-title" class="ai-avatar-mini"><i class="bi bi-stars"></i></div>
+            <span id="ai-title" class="fw-bold">Assistente IA</span>
           </div>
-          <button id="ai-close" class="ai-close-btn">&times;</button>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <i class="bi bi-x-lg"></i>
+            </button>
         </div>
 
         <div id="ai-messages" class="ai-chat-body">
           <div class="ai-welcome-msg">
-            👋 Ciao! Sono l'assistente di questo blog. Posso aiutarti a trovare informazioni tra i post di Davide?
+            👋 Ciao! Sono l'assistente di questo blog. Posso aiutarti a trovare informazioni tra i post?
           </div>
         </div>
 
         <div class="ai-card-footer">
           <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
-          <button id="ai-send"><i class="bi bi-send-fill"></i></button>
+          <button id="ai-send"><i class="bi bi-arrow-up"></i></button>
         </div>
       </div>
     </div>
@@ -465,17 +467,41 @@ $d_i = \lfloor d_i / 10 \rfloor + (d_i \bmod 10)$</li>
         });
         send.addEventListener("click", sendMessage);
 
+        // Funzione per l'effetto macchina da scrivere con auto-scroll
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          element.innerHTML = ""; // Pulisce il messaggio "Sto cercando..."
+          
+          function type() {
+            if (i < text.length) {
+              element.innerHTML += text.charAt(i);
+              i++;
+              // Mantiene lo scroll in fondo mentre scrive
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
         function addMessage(text, role) {
           const isUser = role === "user";
           const div = document.createElement("div");
-          div.className = `d-flex ${isUser ? "justify-content-end" : "justify-content-start"}`;
-          div.innerHTML = `
-            <div class="px-3 py-2 rounded-3 small" style="max-width:85%; background:${isUser ? "var(--bs-primary)" : "var(--bs-body-tertiary)"}; color:${isUser ? "#fff" : "inherit"};">
-              ${text}
-            </div>`;
+          div.className = `d-flex mb-3 ${isUser ? "justify-content-end" : "justify-content-start"}`;
+          
+          // Creiamo il contenitore interno separatamente per poterlo manipolare con typeWriter
+          const innerDiv = document.createElement("div");
+          innerDiv.className = "px-3 py-2 rounded-3 small";
+          innerDiv.style.maxWidth = "85%";
+          innerDiv.style.background = isUser ? "var(--bs-primary)" : "var(--bs-body-tertiary)";
+          innerDiv.style.color = isUser ? "#fff" : "inherit";
+          innerDiv.innerHTML = text;
+
+          div.appendChild(innerDiv);
           messages.appendChild(div);
           messages.scrollTop = messages.scrollHeight;
-          return div;
+          
+          return innerDiv; // Restituiamo il div interno
         }
 
         async function sendMessage() {
@@ -486,13 +512,14 @@ $d_i = \lfloor d_i / 10 \rfloor + (d_i \bmod 10)$</li>
           send.disabled = true;
           addMessage(query, "user");
 
-          const thinking = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "assistant");
+          // Creiamo il messaggio di attesa
+          const responseContainer = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "assistant");
 
-          // Carica il search index generato da Eleventy
           let context = "";
           try {
             const idx = await fetch("/search.json").then(r => r.json());
-            context = idx
+            // Limitiamo il contesto ai primi 10 risultati per non saturare i token
+            context = idx.slice(0, 10)
               .map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}`)
               .join("\n\n");
           } catch {
@@ -505,10 +532,15 @@ $d_i = \lfloor d_i / 10 \rfloor + (d_i \bmod 10)$</li>
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ query, context }),
             });
+            
             const data = await res.json();
-            thinking.querySelector("div").innerHTML = data.answer ?? "Nessuna risposta.";
+            const answer = data.answer ?? "Nessuna risposta disponibile.";
+            
+            // Applichiamo l'effetto macchina da scrivere alla risposta
+            typeWriter(answer, responseContainer);
+
           } catch {
-            thinking.querySelector("div").innerHTML = "Errore di connessione. Riprova.";
+            responseContainer.innerHTML = "Errore di connessione. Riprova.";
           } finally {
             send.disabled = false;
             input.focus();
