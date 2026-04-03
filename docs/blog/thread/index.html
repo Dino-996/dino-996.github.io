@@ -395,51 +395,29 @@
     </script>
 
     <!-- AI Assistant Widget -->
-    <div id="ai-assistant" style="position:fixed; bottom:1.5rem; right:1.5rem; z-index:1050;">
-      <button
-        id="ai-toggle"
-        class="btn btn-primary rounded-circle shadow-lg"
-        style="width:52px; height:52px;"
-        aria-label="Apri assistente AI"
-        aria-expanded="false"
-        aria-controls="ai-chat-window">
-        <i class="bi bi-stars"></i>
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente AI">
+        <i class="bi bi-chat-dots-fill"></i>
       </button>
 
-      <div
-        id="ai-chat-window"
-        class="card shadow"
-        hidden
-        style="width:340px; position:absolute; bottom:64px; right:0;">
-        <div class="card-header d-flex align-items-center justify-content-between py-2">
-          <span class="fw-semibold small">
-            <i class="bi bi-stars text-primary me-1"></i>Chiedi al blog
-          </span>
-          <button id="ai-close" class="btn-close btn-sm" aria-label="Chiudi"></button>
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><i class="bi bi-robot"></i></div>
+            <span class="fw-bold">Dino AI Assistant</span>
+          </div>
+          <button id="ai-close" class="ai-close-btn">&times;</button>
         </div>
 
-        <div
-          id="ai-messages"
-          class="p-3 overflow-auto"
-          style="height:280px; display:flex; flex-direction:column; gap:.75rem;">
-          <div class="text-muted small text-center mt-auto">
-            Fai una domanda sugli articoli del blog.
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            👋 Ciao! Sono l'assistente di questo blog. Posso aiutarti a trovare informazioni tra i post di Davide?
           </div>
         </div>
 
-        <div class="card-footer p-2">
-          <div class="input-group input-group-sm">
-            <input
-              id="ai-input"
-              type="text"
-              class="form-control"
-              placeholder="Es: cos'è il deadlock?"
-              autocomplete="off"
-              maxlength="200">
-            <button id="ai-send" class="btn btn-primary" aria-label="Invia">
-              <i class="bi bi-send"></i>
-            </button>
-          </div>
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send"><i class="bi bi-send-fill"></i></button>
         </div>
       </div>
     </div>
