@@ -17,6 +17,8 @@ function saveCache(cache) {
   fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2), "utf-8");
 }
 
+console.log("[DEBUG SYSTEM] Il file tldr.js è stato caricato da Eleventy!");
+
 export default async function () {
   const key = process.env.GEMINI_API_KEY;
   if (!key) {

@@ -20,9 +20,8 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "start": "npx @11ty/eleventy",
-    "dev": "node --env-file=.env node_modules/.bin/eleventy --serve",
-    "build": "node --env-file=.env node_modules/.bin/eleventy",
+    "dev": "npx --node-options='--env-file=.env' @11ty/eleventy --serve",
+  "build": "npx --node-options='--env-file=.env' @11ty/eleventy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
