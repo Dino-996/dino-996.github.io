@@ -167,7 +167,6 @@ eleventyConfig.addLinter("valida-post", function (_content, inputPath) {
       input: "src",
       output: "docs",
       includes: "_includes",
-      data: "_data"
     }
   };
 }
