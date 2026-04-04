@@ -1,7 +1,7 @@
 {
   "name": "dino-996",
   "version": "1.0.0",
-  "description": "In this space I share everything that concerns my passions and interests, obviously, like all my projects, this static website was also developed persolamente with my hands",
+  "description": "In this space i share everything that concerns my passions and interests, obviously, like all my projects, this static website was also developed persolamente with my hands",
   "keywords": [
     "blog",
     "portfolio",
@@ -21,7 +21,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx --node-options='--env-file=.env' @11ty/eleventy --serve",
-    "build": "npx @11ty/eleventy",
+    "build": "npx --node-options='--env-file=.env' @11ty/eleventy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
