@@ -27,33 +27,30 @@
       (function() {
         const userTheme = localStorage.getItem('bs-theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      
         let theme = 'light';
         if (userTheme === 'dark' || userTheme === 'light') {
           theme = userTheme;
         } else {
           theme = prefersDark ? 'dark' : 'light';
         }
-
         document.documentElement.setAttribute('data-bs-theme', theme);
       })();
     </script>
 
-    <!-- KaTeX — deferred per non bloccare il rendering -->
+    <!-- KaTeX -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
-
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
-
     <script>
       document.addEventListener("DOMContentLoaded", function() {
         renderMathInElement(document.body, {
           delimiters: [
-          {left: '$$', right: '$$', display: true},
-          {left: '$', right: '$', display: false},
-          {left: '\\(', right: '\\)', display: false},
-          {left: '\\[', right: '\\]', display: true}
-        ]});
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
       });
     </script>
 
@@ -66,12 +63,12 @@
       <div id="ai-chat-window" class="ai-card" hidden>
         <div class="ai-card-header">
           <div class="d-flex align-items-center gap-2">
-            <div id="ai-title" class="ai-avatar-mini"><i class="bi bi-stars"></i></div>
-            <span id="ai-title" class="fw-bold">Assistente IA</span>
+            <div class="ai-avatar-mini"><i class="bi bi-stars"></i></div>
+            <span class="fw-bold">Assistente IA</span>
           </div>
           <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
             <i class="bi bi-x-lg"></i>
-            </button>
+          </button>
         </div>
 
         <div id="ai-messages" class="ai-chat-body">
@@ -89,6 +86,8 @@
 
     <script>
       (function () {
+        console.log("AI widget inizializzato");
+
         const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
         const toggle = document.getElementById("ai-toggle");
         const win = document.getElementById("ai-chat-window");
@@ -96,6 +95,11 @@
         const input = document.getElementById("ai-input");
         const send = document.getElementById("ai-send");
         const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
 
         toggle.addEventListener("click", () => {
           const isHidden = win.hasAttribute("hidden");
@@ -112,6 +116,7 @@
         input.addEventListener("keydown", e => {
           if (e.key === "Enter") sendMessage();
         });
+
         send.addEventListener("click", sendMessage);
 
         function typeWriter(text, element, speed = 15) {
@@ -162,17 +167,21 @@
           const query = input.value.trim();
           if (!query) return;
 
+          console.log("Invio messaggio:", query);
+
           input.value = "";
           send.disabled = true;
           input.disabled = true;
-          addMessage(query, "user");
 
+          addMessage(query, "user");
           const responseContainer = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "assistant");
 
           // Carica il contesto degli articoli
           let context = "";
           try {
+            console.log("Carico search.json...");
             const idx = await fetch("/search.json").then(r => r.json());
+            console.log("search.json caricato, articoli:", idx.length);
             context = idx
               .slice(0, 10)
               .map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}\nLink: https://dino-996.github.io${p.url}`)
@@ -184,11 +193,14 @@
 
           // Chiamata al worker
           try {
+            console.log("Chiamo il worker...");
             const res = await fetch(WORKER_URL, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({ query, context }),
             });
+
+            console.log("Risposta worker, status:", res.status);
 
             if (!res.ok) {
               const errText = await res.text();
@@ -198,8 +210,7 @@
             }
 
             const data = await res.json();
-            console.log("Data completa:", JSON.stringify(data));
-            console.log("Risposta dal worker:", data);
+            console.log("DATA COMPLETA:", JSON.stringify(data));
 
             let answer = "";
 
@@ -208,6 +219,7 @@
             } else if (data?.error?.message) {
               answer = `Errore dall'AI: ${data.error.message}`;
             } else {
+              console.warn("Struttura risposta inattesa:", data);
               answer = "Mi dispiace, non sono riuscito a generare una risposta.";
             }
 
