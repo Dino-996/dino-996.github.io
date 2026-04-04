@@ -335,7 +335,8 @@
 
         <div id="ai-messages" class="ai-chat-body">
           <div class="ai-welcome-msg">
-            <span>🦖</span> Ciao, sono Dino, l'assistente di questo blog. Come posso aiutarti?
+            <span class="fw-bold">🦖 dino</span><br>
+            Ciao! Sono l'assistente di questo blog. Posso aiutarti a trovare informazioni tra i post?
           </div>
         </div>
 
@@ -416,13 +417,23 @@
           innerDiv.style.maxWidth = "85%";
           innerDiv.style.background = isUser ? "var(--bs-primary)" : "var(--bs-body-tertiary)";
           innerDiv.style.color = isUser ? "#fff" : "inherit";
-          innerDiv.innerHTML = text;
+          
+          if (!isUser) {
+            const prefix = document.createElement("div");
+            prefix.className = "fw-bold mb-1 small";
+            prefix.textContent = "🦖 dino";
+            innerDiv.appendChild(prefix);
+          }
+
+          const content = document.createElement("div");
+          content.innerHTML = text;
+          innerDiv.appendChild(content);
 
           div.appendChild(innerDiv);
           messages.appendChild(div);
           messages.scrollTop = messages.scrollHeight;
 
-          return innerDiv;
+          return content;
         }
 
         async function sendMessage() {
