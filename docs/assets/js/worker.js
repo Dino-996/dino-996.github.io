@@ -1,7 +1,13 @@
 export default {
   async fetch(request, env, ctx) {
+    const allowedOrigins = [
+      "https://dino-996.github.io",
+      ...(env.ALLOWED_ORIGIN ? [env.ALLOWED_ORIGIN] : [])
+    ];
+
+    const origin = request.headers.get("Origin");
     const corsHeaders = {
-      "Access-Control-Allow-Origin": "https://dino-996.github.io",
+      "Access-Control-Allow-Origin": allowedOrigins.includes(origin) ? origin : allowedOrigins[0],
       "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
     };
@@ -16,11 +22,11 @@ export default {
 
     try {
       const rawBody = await request.text();
-      console.log("Body grezzo ricevuto:", rawBody);
+      // console.log("Body grezzo ricevuto:", rawBody);
 
       const body = JSON.parse(rawBody);
-      console.log("Query:", body.query);
-      console.log("Context length:", body.context?.length);
+      // console.log("Query:", body.query);
+      // console.log("Context length:", body.context?.length);
 
       const { query, context } = body;
 
@@ -68,8 +74,8 @@ export default {
       });
 
       const data = await apiResponse.json();
-      console.log("Risposta Gemini status:", apiResponse.status);
-      console.log("Risposta Gemini:", JSON.stringify(data));
+      // console.log("Risposta Gemini status:", apiResponse.status);
+      // console.log("Risposta Gemini:", JSON.stringify(data));
 
       return new Response(JSON.stringify(data), {
         status: apiResponse.status,

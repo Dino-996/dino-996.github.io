@@ -413,14 +413,15 @@
           div.className = `d-flex mb-3 ${isUser ? "justify-content-end" : "justify-content-start"}`;
 
           const innerDiv = document.createElement("div");
-          innerDiv.className = "px-3 py-2 rounded-3 small";
+          innerDiv.className = `px-3 py-2 ${isUser ? "rounded-pill" : "rounded-3"}`;
           innerDiv.style.maxWidth = "85%";
+          innerDiv.style.fontSize = "16px";
           innerDiv.style.background = isUser ? "var(--bs-primary)" : "var(--bs-body-tertiary)";
           innerDiv.style.color = isUser ? "#fff" : "inherit";
           
           if (!isUser) {
             const prefix = document.createElement("div");
-            prefix.className = "fw-bold mb-1 small";
+            prefix.className = "fw-bold mb-1";
             prefix.textContent = "🦖 dino";
             innerDiv.appendChild(prefix);
           }
