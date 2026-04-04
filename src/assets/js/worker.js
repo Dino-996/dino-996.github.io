@@ -28,7 +28,7 @@ export default {
         });
       }
 
-      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${models[1]}:generateContent?key=${env.GEMINI_API_KEY}`;
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${models[0]}:generateContent?key=${env.GEMINI_API_KEY}`;
 
       const apiResponse = await fetch(geminiUrl, {
         method: "POST",
