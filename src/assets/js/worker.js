@@ -15,10 +15,10 @@ export default {
     }
 
     try {
-      const rawBody = await request.text(); // ← leggi come testo grezzo
-      console.log("Body grezzo ricevuto:", rawBody); // ← log su Cloudflare
+      const rawBody = await request.text();
+      console.log("Body grezzo ricevuto:", rawBody);
 
-      const body = JSON.parse(rawBody); // ← poi parsa manualmente
+      const body = JSON.parse(rawBody);
       console.log("Query:", body.query);
       console.log("Context length:", body.context?.length);
 
@@ -31,7 +31,7 @@ export default {
         });
       }
 
-      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${env.GEMINI_API_KEY}`;
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${env.GEMINI_API_KEY}`;
 
       const apiResponse = await fetch(geminiUrl, {
         method: "POST",
