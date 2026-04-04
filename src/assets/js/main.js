@@ -2,7 +2,6 @@
  * Main JavaScript file for dino-996 blog
  */
 
-
 (function () {
   'use strict';
 
