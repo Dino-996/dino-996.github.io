@@ -1,0 +1,46 @@
+{
+  "Stallo dei processi": {
+    "tldr": "Il deadlock si verifica quando coesistono simultaneamente le quattro condizioni di Coffman, rendendo i processi permanentemente bloccati in un'attesa circolare. La gestione del problema richiede il monitoraggio tramite Resource Allocation Graph o l'eliminazione sistematica di una delle condizioni necessarie mediante strategie come l'ordinamento globale dei lock.",
+    "hash": "9634"
+  },
+  "Memoria centrale": {
+    "tldr": "La gestione della memoria centrale si articola tra gerarchie hardware, meccanismi di protezione basati su registri e il ciclo di vita dell'associazione degli indirizzi dai simboli al codice macchina. L'isolamento dei processi e l'efficienza nell'allocazione sono garantiti dalla MMU, che trasforma dinamicamente gli indirizzi virtuali in fisici supportando tecniche avanzate come la paginazione.",
+    "hash": "6550"
+  },
+  "Sincronizzazione dei processi": {
+    "tldr": "La gestione della sezione critica richiede il rispetto di mutua esclusione, progresso e attesa limitata per prevenire inconsistenze nell'accesso a risorse condivise. L'implementazione pratica richiede l'impiego di primitive atomiche hardware e barrier di memoria, superando i limiti teorici delle soluzioni software su architetture moderne a memoria debolmente ordinata.",
+    "hash": "6849"
+  },
+  "Paginazione": {
+    "tldr": "La paginazione organizza la memoria in blocchi di dimensione fissa, delegando alla MMU la traduzione degli indirizzi logici in fisici tramite il lookup nelle page table. Tale architettura elimina la frammentazione esterna e favorisce l'efficienza della memoria tramite la condivisione di pagine di codice tra processi distinti.",
+    "hash": "9568"
+  },
+  "Processi": {
+    "tldr": "Un processo è un'entità attiva definita dal proprio segmento di memoria e gestita dal sistema operativo tramite il PCB, che ne coordina il ciclo di vita attraverso tecniche di time slicing o parallelismo. L'architettura multicore consente di eseguire simultaneamente più thread dello stesso processo, trasformando il parallelismo simulato dai singoli core in un'esecuzione fisica concorrente.",
+    "hash": "8278"
+  },
+  "Struttura dei Sistemi Operativi": {
+    "tldr": "Il sistema operativo fornisce i servizi fondamentali tramite chiamate di sistema e API, garantendo l'astrazione hardware e la portabilità delle applicazioni. Il kernel gestisce centralmente le risorse critiche, tra cui scheduling, memoria e I/O, orchestrando l'intero ciclo di vita dell'esecuzione dei processi.",
+    "hash": "5574"
+  },
+  "Thread": {
+    "tldr": "Il thread rappresenta l'unità minima di esecuzione che condivide lo spazio di indirizzamento del processo ospite, garantendo maggiore efficienza e scalabilità rispetto al modello multiprocesso tradizionale. La distinzione tra concorrenza logica e parallelismo fisico, estesa oggi alle architetture eterogenee CPU-GPU, definisce il paradigma fondamentale per l'ottimizzazione del software moderno.",
+    "hash": "7321"
+  },
+  "Scheduling della CPU": {
+    "tldr": "Lo scheduling della CPU ottimizza l'efficienza di sistema alternando processi basati su cicli di CPU/IO burst e garantendo la reattività tramite modelli di esecuzione preemptive o non preemptive. L'efficacia dell'allocazione delle risorse è determinata dal bilanciamento tra throughput e latenza di dispatch, minimizzando l'overhead associato ai context switch.",
+    "hash": "6799"
+  },
+  "Tecniche Algoritmiche per Dev Java": {
+    "tldr": "Il testo analizza tecniche di manipolazione delle collezioni Java standard, confrontando approcci imperativi e funzionali basati su Java 17+. Viene enfatizzata l'efficienza computazionale e l'uso di best practice moderne, come l'impiego dei record e degli stream per ottimizzare le operazioni di aggregazione.",
+    "hash": "19926"
+  },
+  "Guida completa a PowerShell": {
+    "tldr": "PowerShell è un linguaggio di scripting orientato agli oggetti che, tramite l'utilizzo di cmdlet, consente un'automazione avanzata e una gestione efficiente di sistemi complessi. Rispetto alla versione legacy Windows PowerShell 5.1, PowerShell 7+ offre un'architettura open source, cross-platform e basata su .NET moderno, rendendola la scelta standard per lo sviluppo attuale.",
+    "hash": "24213"
+  },
+  "L'algoritmo di Luhn": {
+    "tldr": "L'algoritmo di Luhn implementa una funzione di checksum modulare per il rilevamento efficiente di errori di digitazione e inversioni di cifre adiacenti in identificativi numerici. Pur essendo un tool di validazione computazionalmente leggero e diffuso, non offre alcuna garanzia di sicurezza crittografica contro tentativi di generazione fraudolenta dei dati.",
+    "hash": "3584"
+  }
+}
