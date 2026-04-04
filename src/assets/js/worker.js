@@ -51,7 +51,7 @@ export default {
 
       return new Response(JSON.stringify(data), {
         status: apiResponse.status,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+        headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
       });
 
     } catch (error) {
