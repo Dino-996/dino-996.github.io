@@ -27,7 +27,7 @@ export default async function () {
   }
 
   const genAI = new GoogleGenerativeAI(key);
-  const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
   const cache = loadCache();
   const postsDir = "src/posts";
