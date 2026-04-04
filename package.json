@@ -21,7 +21,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "npx --node-options='--env-file=.env' @11ty/eleventy --serve",
-    "build": "npx --node-options='--env-file=.env' @11ty/eleventy",
+    "build": "npx @11ty/eleventy",
+    "build:local": "npx --node-options='--env-file=.env' @11ty/eleventy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
