@@ -192,13 +192,25 @@
             });
             
             const data = await res.json();
-            const answer = data.answer ?? "Nessuna risposta disponibile.";
+
+            let answer = "";
+            if (data.candidates && data.candidates[0].content.parts[0].text) {
+                answer = data.candidates[0].content.parts[0].text;
+            } else if (data.error) {
+                answer = "Errore dall'AI: " + data.error;
+            } else {
+                answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
             
-            // Effetto macchina da scrivere alla risposta
+            // Rimuoviamo l'icona di caricamento prima di iniziare a scrivere
+            responseContainer.innerHTML = "";
+            
+            // Effetto macchina da scrivere alla risposta reale
             typeWriter(answer, responseContainer);
 
-          } catch {
-            responseContainer.innerHTML = "Errore di connessione. Riprova.";
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
           } finally {
             send.disabled = false;
             input.focus();
