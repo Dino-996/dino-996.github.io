@@ -198,6 +198,7 @@
             }
 
             const data = await res.json();
+            console.log("Data completa:", JSON.stringify(data));
             console.log("Risposta dal worker:", data);
 
             let answer = "";
