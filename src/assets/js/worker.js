@@ -1,5 +1,3 @@
-const models = ["gemini-3.1-flash-lite-preview", "gemini-2.0-flash-lite"];
-
 export default {
   async fetch(request, env, ctx) {
     const corsHeaders = {
@@ -28,7 +26,7 @@ export default {
         });
       }
 
-      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${models[1]}:generateContent?key=${env.GEMINI_API_KEY}`;
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${env.GEMINI_API_KEY}`;
 
       const apiResponse = await fetch(geminiUrl, {
         method: "POST",
