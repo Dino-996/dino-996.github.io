@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dino996githubio",
+  "compatibility_date": "2026-04-03",
+  "assets": {
+    "directory": "docs"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
