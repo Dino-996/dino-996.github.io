@@ -6,7 +6,6 @@ export default {
       "Access-Control-Allow-Headers": "Content-Type",
     };
 
-    // Handle preflight
     if (request.method === "OPTIONS") {
       return new Response(null, { status: 204, headers: corsHeaders });
     }
@@ -16,7 +15,13 @@ export default {
     }
 
     try {
-      const body = await request.json();
+      const rawBody = await request.text(); // ← leggi come testo grezzo
+      console.log("Body grezzo ricevuto:", rawBody); // ← log su Cloudflare
+
+      const body = JSON.parse(rawBody); // ← poi parsa manualmente
+      console.log("Query:", body.query);
+      console.log("Context length:", body.context?.length);
+
       const { query, context } = body;
 
       if (!query) {
@@ -26,7 +31,7 @@ export default {
         });
       }
 
-      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${env.GEMINI_API_KEY}`;
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-lite:generateContent?key=${env.GEMINI_API_KEY}`;
 
       const apiResponse = await fetch(geminiUrl, {
         method: "POST",
@@ -41,6 +46,8 @@ export default {
       });
 
       const data = await apiResponse.json();
+      console.log("Risposta Gemini status:", apiResponse.status);
+      console.log("Risposta Gemini:", JSON.stringify(data));
 
       return new Response(JSON.stringify(data), {
         status: apiResponse.status,
@@ -48,6 +55,7 @@ export default {
       });
 
     } catch (error) {
+      console.error("Errore worker:", error.message);
       return new Response(JSON.stringify({ error: error.message }), {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
