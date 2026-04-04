@@ -354,14 +354,14 @@
     <!-- AI assistant widget -->
     <div id="ai-assistant" class="ai-assistant-wrapper">
       <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
-        <i class="bi bi-stars"></i>
+        <span>🦖</span>
       </button>
 
       <div id="ai-chat-window" class="ai-card" hidden>
         <div class="ai-card-header">
           <div class="d-flex align-items-center gap-2">
-            <div class="ai-avatar-mini"><i class="bi bi-stars"></i></div>
-            <span class="fw-bold">Dino</span>
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
           </div>
           <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
             <i class="bi bi-x-lg"></i>
@@ -370,8 +370,7 @@
 
         <div id="ai-messages" class="ai-chat-body">
           <div class="ai-welcome-msg">
-            <span class="fw-bold">🦖 dino</span><br>
-            Ciao! Sono l'assistente di questo blog. Posso aiutarti a trovare informazioni tra i post?
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
           </div>
         </div>
 
@@ -393,6 +392,7 @@
         const input = document.getElementById("ai-input");
         const send = document.getElementById("ai-send");
         const messages = document.getElementById("ai-messages");
+        const conversationHistory = [];
 
         if (!toggle || !win || !closeBtn || !input || !send || !messages) {
           console.error("Elementi AI widget non trovati nel DOM!");
@@ -477,6 +477,8 @@
           if (!query) return;
 
           // console.log("Invio messaggio:", query);
+
+          conversationHistory.push({role: "user", content: query});
 
           input.value = "";
           send.disabled = true;

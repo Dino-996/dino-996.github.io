@@ -22,13 +22,8 @@ export default {
 
     try {
       const rawBody = await request.text();
-      // console.log("Body grezzo ricevuto:", rawBody);
-
       const body = JSON.parse(rawBody);
-      // console.log("Query:", body.query);
-      // console.log("Context length:", body.context?.length);
-
-      const { query, context } = body;
+      const { query, context, history } = body;
 
       if (!query) {
         return new Response(JSON.stringify({ error: "Messaggio vuoto" }), {
@@ -37,13 +32,21 @@ export default {
         });
       }
 
+      // Costruisce la cronologia formattata
+      const historyText = (history || [])
+        .slice(0, -1)
+        .map(m => `${m.role === "user" ? "Utente" : "Dino"}: ${m.content}`)
+        .join("\n");
+
+      const isFirstMessage = !history || history.length <= 1;
+
       const prompt = `Sei dino 🦖, l'assistente virtuale del blog "dino-996", il blog tecnico di Davide Sabia, uno smanettone appassionato di cybersecurity con un approccio offensive security.
 
       Il tuo compito è rispondere alle domande degli utenti sugli articoli del blog e sugli argomenti tecnici trattati.
 
       Segui queste regole in modo rigoroso:
       - Rispondi SEMPRE in italiano
-      - Presentati con il tuo nome SOLO al primo messaggio, mai nei successivi
+      - ${isFirstMessage ? "Presentati brevemente come dino al primo messaggio" : "NON presentarti, NON dire il tuo nome, vai direttamente alla risposta"}
       - Usa un tono professionale ma umano, mai freddo né frivolo
       - Quando parli di tecnica sii sempre serio e preciso
       - Sii sintetico: rispondi in 2-3 frasi massimo, vai nel dettaglio solo se esplicitamente richiesto
@@ -57,7 +60,7 @@ export default {
       Contesto articoli disponibili nel blog:
       ${(context || "").slice(0, 3000)}
 
-      Domanda dell'utente: ${query}`;
+      ${historyText ? `Cronologia conversazione:\n${historyText}\n\n` : ""}Domanda dell'utente: ${query}`;
 
       const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.1-flash-lite-preview:generateContent?key=${env.GEMINI_API_KEY}`;
 
@@ -66,16 +69,12 @@ export default {
         headers: { "Content-Type": "application/json; charset=utf-8" },
         body: JSON.stringify({
           contents: [{
-            parts: [{
-              text: prompt,
-            }],
+            parts: [{ text: prompt }],
           }],
         }),
       });
 
       const data = await apiResponse.json();
-      // console.log("Risposta Gemini status:", apiResponse.status);
-      // console.log("Risposta Gemini:", JSON.stringify(data));
 
       return new Response(JSON.stringify(data), {
         status: apiResponse.status,
