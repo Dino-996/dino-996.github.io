@@ -126,6 +126,355 @@ $d_i = &#92;lfloor d_i / 10 &#92;rfloor + (d_i &#92;bmod 10)$&lt;/li&gt;
   </entry>
   
   <entry>
+    <title>GNU/Linux</title>
+    <link href="https://dino-996.github.io/blog/gnulinux/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/gnulinux/</id>
+    <published>2026-03-16T00:00:00.000Z</published>
+    <updated>2026-03-16T00:00:00.000Z</updated>
+    
+    <summary>GNU/Linux è un sistema operativo libero e open source, nato dall&#39;unione del kernel Linux e gli strumenti di sistema del progetto GNU. È stabile, sicuro e altamente personalizzabile, utilizzato in svariati ambiti, dai server ai computer desktop. In questo articolo introduttivo proviamo a capirne di più partendo dall&#39;architettura dell&#39;ecosistema fino ai comandi più utili.</summary>
+    
+    
+    <content type="html"><![CDATA[&lt;h1&gt;Un po&#39; di storia&lt;/h1&gt;
+&lt;p&gt;Lo so: appena hai visto il titolo ti è venuta voglia di saltare questa parte. Ma fidati, ne vale la pena. La storia di Linux non è solo interessante: è fondamentale per capire perché oggi domina ovunque, dai server agli smartphone.&lt;/p&gt;
+&lt;h2&gt;Più di un semplice software&lt;/h2&gt;
+&lt;p&gt;Partiamo da un punto chiave: Linux è un &lt;strong&gt;kernel&lt;/strong&gt;, non un sistema operativo completo.&lt;/p&gt;
+&lt;p&gt;Puoi immaginarlo come il &lt;strong&gt;motore di un&#39;auto&lt;/strong&gt;: essenziale per farla muovere, ma inutile senza tutto il resto (interfaccia grafica, programmi, strumenti di sistema). Il suo successo nasce da un mix unico di scelte tecniche brillanti, collaborazione globale e una filosofia di sviluppo aperta.&lt;/p&gt;
+&lt;h2&gt;Le origini&lt;/h2&gt;
+&lt;p&gt;Nel &lt;strong&gt;1991&lt;/strong&gt;, lo studente finlandese &lt;a href=&quot;https://www.linkedin.com/in/linustorvalds/&quot;&gt;&lt;strong&gt;Linus Torvalds&lt;/strong&gt;&lt;/a&gt; creò Linux per pura curiosità. Voleva un sistema simile a &lt;a href=&quot;https://www.unix.org/&quot;&gt;Unix&lt;/a&gt; per il suo PC e, non potendoselo permettere, decise di scriverselo da solo. Non lo fece per soldi né per crociata ideologica: lo fece per divertimento.&lt;/p&gt;
+&lt;p&gt;Tuttavia, Torvalds ha il vizio di creare rivoluzioni quasi per caso. Nel &lt;strong&gt;2005&lt;/strong&gt;, dopo una rottura con &lt;a href=&quot;https://www.bitkeeper.org/&quot;&gt;BitKeeper&lt;/a&gt; (il software di controllo versione usato per gestire il codice di Linux), Torvalds si chiuse in una stanza e &lt;strong&gt;scrisse Git in soli 10 giorni&lt;/strong&gt;. Oggi Git è lo standard mondiale per lo sviluppo software. Torvalds lo ha poi affidato a &lt;a href=&quot;https://www.linkedin.com/in/gitster/&quot;&gt;&lt;strong&gt;Junio Hamano&lt;/strong&gt;&lt;/a&gt;, che ne è tuttora il maintainer, dimostrando che le sue creazioni migliori diventano presto beni comuni.&lt;/p&gt;
+&lt;h2&gt;Il lato umano&lt;/h2&gt;
+&lt;p&gt;Gestire un progetto globale non è facile, specialmente se hai un carattere fumantino. Torvalds è noto per non avere peli sulla lingua: memorabili sono le sue critiche a &lt;strong&gt;NVIDIA&lt;/strong&gt; (con tanto di &lt;a href=&quot;https://www.youtube.com/watch?v=iYWzMvlj2RQ&quot;&gt;dito medio in diretta&lt;/a&gt;) o i suoi scontri su progetti come &lt;strong&gt;systemd&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Tuttavia, il &lt;strong&gt;2018&lt;/strong&gt; ha segnato un punto di svolta:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Il ritiro temporaneo:&lt;/strong&gt; Torvalds ha ammesso che il suo stile aggressivo aveva reso l&#39;ambiente tossico e si è preso una pausa di un mese per lavorare sulla propria empatia.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Il Codice di Condotta:&lt;/strong&gt; Nel &lt;strong&gt;settembre 2018&lt;/strong&gt;, il progetto ha adottato un &lt;em&gt;Code of Conduct&lt;/em&gt; formale (basato sul &lt;a href=&quot;https://www.contributor-covenant.org/&quot;&gt;&lt;em&gt;Contributor Covenant&lt;/em&gt;&lt;/a&gt;). È stato un passo cruciale per rendere la community più inclusiva, anche se non ha mancato di sollevare polemiche tra i veterani.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;La Community&lt;/h2&gt;
+&lt;p&gt;Oggi Linux è mantenuto da migliaia di sviluppatori e colossi come &lt;strong&gt;Google, IBM, Red Hat e Intel&lt;/strong&gt;. Non è più solo il progetto di un singolo uomo, ma una collaborazione globale dove migliaia di persone contribuiscono ogni giorno per migliorare il codice che fa girare internet.&lt;/p&gt;
+&lt;h2&gt;Filosofia&lt;/h2&gt;
+&lt;p&gt;Il mondo &lt;strong&gt;open source&lt;/strong&gt; vive di un dualismo affascinante:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;L&#39;idealismo di Stallman&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Il software libero è un diritto etico e morale.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Il suo idealismo si basa su quattro libertà fondamentali:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Eseguire il programma per qualunque scopo.&lt;/li&gt;
+&lt;li&gt;Studiare come funziona e modificarlo.&lt;/li&gt;
+&lt;li&gt;Ridistribuire copie.&lt;/li&gt;
+&lt;li&gt;Migliorarlo e condividere le modifiche.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Per &lt;a href=&quot;https://stallman.org/&quot;&gt;Stallman&lt;/a&gt;, il software proprietario è &lt;strong&gt;eticamente sbagliato&lt;/strong&gt; perché nega queste libertà, creando dipendenza e isolamento. La sua battaglia non è tecnica, ma morale: vuole una società in cui la condivisione del sapere sia normale e protetta.&lt;/p&gt;
+&lt;p&gt;Come disse dopo la morte di Steve Jobs nel 2011:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Steve Jobs è stato un pioniere dei computer costruiti come belle prigioni.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Il suo approccio è intransigente: rifiuta compromessi, insiste sull&#39;uso del termine &lt;em&gt;software libero&lt;/em&gt; (distinto sia dal software proprietario che dal semplice software di dominio pubblico) e promuove il copyleft tramite la licenza GPL per garantire che la libertà del codice sia perpetua anche nei lavori derivati.&lt;/p&gt;
+&lt;p&gt;È nel &lt;strong&gt;1983&lt;/strong&gt; che ha fondato il progetto &lt;a href=&quot;https://www.gnu.org/home.it.html&quot;&gt;&lt;strong&gt;GNU&lt;/strong&gt;&lt;/a&gt;, nato per creare un sistema operativo completamente libero e compatibile con Unix, dando così vita al movimento del &lt;strong&gt;software libero&lt;/strong&gt;. Il nome GNU è un acronimo ricorsivo che sta per &lt;em&gt;GNU&#39;s Not Unix&lt;/em&gt; (GNU non è Unix), riflettendo l&#39;obiettivo di fornire un&#39;alternativa libera al sistema che ai tempi era di proprietà di &lt;a href=&quot;https://archiveos.org/att-unix-pc/&quot;&gt;AT&amp;amp;T&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Nel &lt;strong&gt;1985&lt;/strong&gt; ha fondato la &lt;strong&gt;Free Software Foundation&lt;/strong&gt; per supportare il progetto e fornire un&#39;infrastruttura legale al movimento. Ha inventato il concetto di &lt;em&gt;copyleft&lt;/em&gt; e ha scritto la &lt;strong&gt;GNU General Public License&lt;/strong&gt; (&lt;strong&gt;GPL&lt;/strong&gt;) nel 1989, una licenza fondamentale che protegge i diritti di modifica e ridistribuzione del software.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Il pragmatismo di Torvalds&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;Ciò che conta è che il codice funzioni bene.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Inizialmente Linux si appoggiò a &lt;a href=&quot;https://wiki.minix3.org&quot;&gt;MINIX&lt;/a&gt;, un sistema operativo educativo basato su Unix, per configurare, compilare e installare il kernel nascente. MINIX tuttavia presentava limitazioni significative: la sua licenza non permetteva modifiche e ridistribuzione liberamente, e la sua architettura microkernel mal si adattava alle ambizioni di Torvalds. Solo dopo aver reso pubblico il kernel nel &lt;strong&gt;1991&lt;/strong&gt;, Torvalds decise di sostituire i componenti di MINIX con il software del progetto GNU, per creare un sistema operativo completo. Questo avvenne nel &lt;strong&gt;1992&lt;/strong&gt;, quando il kernel Linux si unì de facto alle utilità GNU, formando il sistema operativo completo noto oggi come &lt;strong&gt;GNU/Linux&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Linux ha vinto perché è stato &lt;strong&gt;aperto senza essere dogmatico&lt;/strong&gt;. Questa flessibilità ha permesso ad aziende e appassionati di adottarlo senza sentirsi intrappolati in una battaglia politica.&lt;/p&gt;
+&lt;h2&gt;Tux, il pinguino in smoking&lt;/h2&gt;
+&lt;p&gt;Perché un &lt;strong&gt;pinguino&lt;/strong&gt;? Tutto nasce da un aneddoto: Torvalds fu morso da un pinguino durante una visita a uno zoo e ne rimase &lt;em&gt;stregato&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Il nome &lt;strong&gt;Tux&lt;/strong&gt; ha un duplice significato:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;È l&#39;acronimo di &lt;strong&gt;(T)orvalds (U)ni(X)&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;È un gioco di parole con &lt;strong&gt;tuxedo&lt;/strong&gt; (lo smoking), per via del piumaggio che lo fa sembrare vestito per una serata di gala.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Resiliente e un po&#39; buffo, Tux rappresenta perfettamente lo spirito informale e libero di Linux.&lt;/p&gt;
+&lt;h2&gt;E il nome invece?&lt;/h2&gt;
+&lt;p&gt;Il nome fu scelto da &lt;a href=&quot;https://it.wikipedia.org/wiki/Ari_Lemmke&quot;&gt;Ari Lemmke&lt;/a&gt;, l&#39;amministratore che nel 1991 rese disponibile il sistema sul web.&lt;/p&gt;
+&lt;p&gt;Torvalds aveva inizialmente chiamato il progetto &lt;strong&gt;Freax&lt;/strong&gt;, una combinazione tra &lt;em&gt;free&lt;/em&gt;, &lt;em&gt;freak&lt;/em&gt; e &lt;em&gt;x&lt;/em&gt; per indicare le caratteristiche Unix-like. Lemmke ignorò questa scelta e preferì il nome Linux, che Torvalds aveva invece scartato ritenendolo troppo egocentrico.&lt;/p&gt;
+&lt;p&gt;Lemmke creò una &lt;strong&gt;directory&lt;/strong&gt; su un server FTP chiamata &lt;code&gt;pub/OS/Linux&lt;/code&gt; per ospitare i file del nuovo sistema.
+Poiché i file venivano scaricati da questa directory, il nome &lt;strong&gt;Linux&lt;/strong&gt; (derivato da &lt;strong&gt;(LIN)us (U)ni(X)&lt;/strong&gt;) divenne rapidamente lo standard di fatto.
+Torvalds accettò il nome, sebbene in seguito il progetto fosse spesso identificato come &lt;strong&gt;GNU/Linux&lt;/strong&gt; per riconoscere il contributo del sistema GNU.&lt;/p&gt;
+&lt;p&gt;Oltre a battezzare il kernel, Lemmke fondò il &lt;a href=&quot;https://groups.google.com/g/comp.os.linux&quot;&gt;newsgroup&lt;/a&gt; nel &lt;strong&gt;1992&lt;/strong&gt; e contribuì in modo significativo alla diffusione e allo sviluppo iniziale di Linux.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Architettura dell&#39;ecosistema GNU/Linux&lt;/h2&gt;
+&lt;p&gt;Passando al lato tecnico, l&#39;infrastruttura si divide in due ambiti operativi principali che formano il sistema operativo:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Kernel (Linux)&lt;/strong&gt;: Gestisce l&#39;astrazione dell&#39;hardware (&lt;em&gt;nascondendo la complessità dei circuiti fisici per farli vedere ai programmi come semplici risorse da usare&lt;/em&gt;), lo scheduling dei processi (&lt;em&gt;decidendo a quale programma in esecuzione dare la precedenza nell&#39;uso del processore, come un vigile urbano&lt;/em&gt;), la gestione della memoria e i file system. Funziona come interfaccia tra il software e il processore/periferiche.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Userland (GNU)&lt;/strong&gt;: Suite di strumenti essenziali per rendere operativo il sistema. Include la libreria C (&lt;em&gt;glibc - insiemi di codice condiviso pronti all&#39;uso&lt;/em&gt;), il compilatore (&lt;em&gt;GCC - un traduttore dal codice scritto dai programmatori al codice macchina comprensibile dal computer&lt;/em&gt;), le utility core (coreutils) e la shell.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Senza lo stack software GNU, il kernel Linux non fornirebbe un ambiente di runtime (&lt;em&gt;l&#39;infrastruttura di base necessaria per far funzionare i programmi&lt;/em&gt;) completo; simmetricamente, gli strumenti GNU necessitano di un kernel per eseguire le syscall (&lt;em&gt;chiamate di sistema che i programmi fanno al kernel per usare l&#39;hardware, come ad esempio chiedere il permesso di salvare un file sul disco&lt;/em&gt;).&lt;/p&gt;
+&lt;h2&gt;Gerarchia dello stack software e hardware&lt;/h2&gt;
+&lt;p&gt;Il &lt;strong&gt;flusso di esecuzione&lt;/strong&gt; può essere rappresentato come una pila di livelli indipendenti:&lt;/p&gt;
+  &lt;div class=&quot;accordion mb-3&quot; id=&quot;stackSoftware&quot;&gt;
+    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
+      &lt;h2 class=&quot;accordion-header&quot;&gt;
+        &lt;button class=&quot;accordion-button bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item1&quot;&gt;
+          Applicazione utente
+        &lt;/button&gt;
+      &lt;/h2&gt;
+      &lt;div id=&quot;item1&quot; class=&quot;accordion-collapse collapse show&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
+        &lt;div class=&quot;accordion-body&quot;&gt;
+          Browser, editor di testo, tool di sviluppo. Comunicano con il sistema tramite le API (&lt;i&gt;ponti di comunicazione che permettono a software diversi di scambiarsi informazioni in modo standardizzato&lt;/i&gt;) fornite dal software di base o dai framework grafici.
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
+      &lt;h2 class=&quot;accordion-header&quot;&gt;
+        &lt;button class=&quot;accordion-button collapsed bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item2&quot;&gt;
+          Interfaccia grafica (GUI / Display Server)
+        &lt;/button&gt;
+      &lt;/h2&gt;
+      &lt;div id=&quot;item2&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
+        &lt;div class=&quot;accordion-body&quot;&gt;
+          &lt;strong&gt;Wayland&lt;/strong&gt; o &lt;strong&gt;X11&lt;/strong&gt; (&lt;i&gt;protocolli di comunicazione che definiscono le regole per far interagire il compositore (il server grafico) con le applicazioni (client)&lt;/i&gt;), insieme ai &lt;strong&gt;Desktop Environment&lt;/strong&gt; (GNOME, KDE). Gestiscono l&#39;output visuale e l&#39;input utente.
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
+      &lt;h2 class=&quot;accordion-header&quot;&gt;
+        &lt;button class=&quot;accordion-button collapsed bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item3&quot;&gt;
+          Software di base (Userland GNU)
+        &lt;/button&gt;
+      &lt;/h2&gt;
+      &lt;div id=&quot;item3&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
+        &lt;div class=&quot;accordion-body&quot;&gt;
+          La shell (&lt;strong&gt;Bash&lt;/strong&gt;), le librerie di sistema (&lt;strong&gt;glibc&lt;/strong&gt;) e le utility core. Forniscono l&#39;ambiente di runtime necessario alle applicazioni.
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
+      &lt;h2 class=&quot;accordion-header&quot;&gt;
+        &lt;button class=&quot;accordion-button collapsed bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item4&quot;&gt;
+          Linux (Kernel)
+        &lt;/button&gt;
+      &lt;/h2&gt;
+      &lt;div id=&quot;item4&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
+        &lt;div class=&quot;accordion-body&quot;&gt;
+          Il &lt;i&gt;vigile urbano&lt;/i&gt; delle risorse. Gestisce i driver, la memoria e i processi attraverso le system call.
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
+      &lt;h2 class=&quot;accordion-header&quot;&gt;
+        &lt;button class=&quot;accordion-button collapsed bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item5&quot;&gt;
+          Firmware (BIOS / UEFI)
+        &lt;/button&gt;
+      &lt;/h2&gt;
+      &lt;div id=&quot;item5&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
+        &lt;div class=&quot;accordion-body&quot;&gt;
+          Software di basso livello integrato nella scheda madre che inizializza l&#39;hardware e passa il controllo al bootloader.
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;accordion-item border border-primary rounded-3 shadow-sm&quot;&gt;
+      &lt;h2 class=&quot;accordion-header&quot;&gt;
+        &lt;button class=&quot;accordion-button collapsed bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item6&quot;&gt;
+          Hardware
+        &lt;/button&gt;
+      &lt;/h2&gt;
+      &lt;div id=&quot;item6&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
+        &lt;div class=&quot;accordion-body&quot;&gt;
+          Il piano fisico (CPU, RAM, Storage, etc.).
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;h2&gt;Protocolli grafici&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Wayland&lt;/strong&gt; e &lt;strong&gt;X11&lt;/strong&gt; sono protocolli grafici usati in Linux per gestire la comunicazione tra applicazioni e schermo. X11 è il sistema tradizionale, nato negli anni &#39;80, mentre Wayland è la sua evoluzione moderna, progettata per hardware e scenari attuali.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;X11 funziona come un server centrale&lt;/strong&gt;: le applicazioni gli inviano comandi di disegno (per esempio: &lt;em&gt;disegna un cerchio qui&lt;/em&gt;) e lui si occupa di renderizzarli. Questo modello permetteva l&#39;uso remoto delle app (&lt;em&gt;come eseguire un programma su un server e vederlo sul PC&lt;/em&gt;), ma introduce latenza e problemi di sicurezza.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Wayland semplifica il processo&lt;/strong&gt;: le applicazioni disegnano direttamente in un buffer (memoria grafica) e lo passano al compositore che si occupa di mostrare tutto sullo schermo. Il compositore gestisce anche finestre, input e sicurezza.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;La differenza chiave è nell&#39;&lt;strong&gt;architettura&lt;/strong&gt; e nella &lt;strong&gt;sicurezza&lt;/strong&gt;. In X11, ogni applicazione può spiare altre finestre, registrare tasti (&lt;strong&gt;keylogging&lt;/strong&gt;), catturare lo schermo senza permesso, al contrario di Wayland, dove ogni applicazione è isolata! Non può interagire con altre finestre senza esplicito consenso (per esempio se si vuole condivisione lo schermo).&lt;/p&gt;
+&lt;h2&gt;Desktop Environment&lt;/h2&gt;
+&lt;p&gt;Un &lt;strong&gt;Desktop Environment&lt;/strong&gt; (&lt;strong&gt;DE&lt;/strong&gt;) è un ecosistema di componenti software che lavorano in sinergia per fornire un&#39;interfaccia grafica coerente. A differenza di Windows o macOS, dove l&#39;interfaccia è accoppiata profondamente al kernel, in ambiente Linux il &lt;strong&gt;DE è un &lt;em&gt;plugin&lt;/em&gt; di alto livello&lt;/strong&gt;, quindi intercambiabile.&lt;/p&gt;
+&lt;h3&gt;Architettura dello stack grafico&lt;/h3&gt;
+&lt;p&gt;Per il &lt;strong&gt;rendering delle finestre&lt;/strong&gt;, il sistema attraversa tre strati principali:&lt;/p&gt;
+&lt;div class=&quot;accordion mb-3&quot; id=&quot;stackSoftware&quot;&gt;
+    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
+      &lt;h2 class=&quot;accordion-header&quot;&gt;
+        &lt;button class=&quot;accordion-button bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item1&quot;&gt;
+          Display Server (X11 o Wayland)
+        &lt;/button&gt;
+      &lt;/h2&gt;
+      &lt;div id=&quot;item1&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
+        &lt;div class=&quot;accordion-body&quot;&gt;
+          Protocollo di base per la comunicazione tra hardware (GPU, input) e client grafici (le applicazioni attualmente aperte e visibili sullo schermo). Gestisce i messaggi di I/O.
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
+      &lt;h2 class=&quot;accordion-header&quot;&gt;
+        &lt;button class=&quot;accordion-button bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item2&quot;&gt;
+          Window Manager (WM)
+        &lt;/button&gt;
+      &lt;/h2&gt;
+      &lt;div id=&quot;item2&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
+        &lt;div class=&quot;accordion-body&quot;&gt;
+          Software che controlla il posizionamento e l&#39;aspetto delle finestre (bordi, pulsanti, ridimensionamento). Esempi di WM possono essere Mutter (GNOME), KWin (KDE) o gestori stand-alone come i3.
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
+      &lt;h2 class=&quot;accordion-header&quot;&gt;
+        &lt;button class=&quot;accordion-button bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item3&quot;&gt;
+          Desktop Environment (DE)
+        &lt;/button&gt;
+      &lt;/h2&gt;
+      &lt;div id=&quot;item3&quot; class=&quot;accordion-collapse collapse show&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
+        &lt;div class=&quot;accordion-body&quot;&gt;
+          Pacchetto completo che include il WM e una suite di applicazioni (file manager, terminale, impostazioni) che condividono librerie grafiche e design logico.
+          &lt;br&gt;
+          I componenti fondamentali di un DE sono:
+          &lt;ul&gt;
+            &lt;li&gt;
+              &lt;strong&gt;Pannello/Taskbar&lt;/strong&gt;: Gestione finestre e menu di avvio.
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;strong&gt;File manager&lt;/strong&gt;: Interfaccia per la navigazione del file system (es. Nautilus o Dolphin).
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;strong&gt;System settings&lt;/strong&gt;: Centro di controllo per hardware e reti (evita la modifica manuale dei file in /etc).
+            &lt;/li&gt;
+            &lt;li&gt;
+              &lt;strong&gt;Display manager&lt;/strong&gt;: Gestisce il login grafico (es. GDM o SDDM).
+            &lt;/li&gt;
+          &lt;/ul&gt;
+          &lt;div class=&quot;mb-3&quot;&gt;
+            &lt;strong&gt;Principali desktop environment e librerie&lt;/strong&gt;
+          &lt;/div&gt;
+          &lt;!--TABELLA--&gt;
+          &lt;div class=&quot;container mb-3&quot;&gt;
+            &lt;div class=&quot;table-responsive shadow-sm rounded&quot;&gt;
+              &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+                &lt;thead class=&quot;table-dark&quot;&gt;
+                  &lt;tr&gt;
+                    &lt;th&gt;DE&lt;/th&gt;
+                    &lt;th&gt;Libreria&lt;/th&gt;
+                    &lt;th&gt;Filosofia&lt;/th&gt;
+                  &lt;/tr&gt;
+                &lt;/thead&gt;
+                &lt;tbody&gt;
+                  &lt;tr&gt;
+                    &lt;td class=&quot;fw-semibold&quot;&gt;GNOME&lt;/td&gt;
+                    &lt;td&gt;GTK&lt;/td&gt;
+                    &lt;td&gt;
+                      Minimalismo, workflow orientato alla produttività e astrazione
+                    &lt;/td&gt;
+                  &lt;/tr&gt;
+                  &lt;tr&gt;
+                    &lt;td class=&quot;fw-semibold&quot;&gt;KDE Plasma&lt;/td&gt;
+                    &lt;td&gt;Qt&lt;/td&gt;
+                    &lt;td&gt;Estrema personalizzazione e modularità&lt;/td&gt;
+                  &lt;/tr&gt;
+                  &lt;tr&gt;
+                    &lt;td class=&quot;fw-semibold&quot;&gt;XFCE&lt;/td&gt;
+                    &lt;td&gt;GTK&lt;/td&gt;
+                    &lt;td&gt;Leggerezza e stabilità per hardware datato o server&lt;/td&gt;
+                  &lt;/tr&gt;
+                  &lt;tr&gt;
+                    &lt;td class=&quot;fw-semibold&quot;&gt;Pantheon&lt;/td&gt;
+                    &lt;td&gt;GTK&lt;/td&gt;
+                    &lt;td&gt;Estetica curata e semplicità (derivato da &lt;a href=&quot;https://elementary.io/it/&quot;&gt;elementaryOS&lt;/a&gt;)&lt;/td&gt;
+                  &lt;/tr&gt;
+                &lt;/tbody&gt;
+              &lt;/table&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+          &lt;!--FINE TABELLA--&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;h2&gt;Modularità e Server Headless&lt;/h2&gt;
+&lt;p&gt;L&#39;assenza di interfaccia grafica definisce un sistema &lt;strong&gt;Headless&lt;/strong&gt;. Questa configurazione è standard in ambito server per ottimizzare:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Superficie di attacco&lt;/strong&gt;: Meno software installato riduce le vulnerabilità potenziali.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Risorse&lt;/strong&gt;: Risparmio di RAM (un DE può occupare da 500MB a 1.5GB in idle, ovvero a riposo e senza eseguire operazioni attive).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dipendenze&lt;/strong&gt;: Sistema più snello e facile da manutenere.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Il ruolo del Bootloader&lt;/h2&gt;
+&lt;p&gt;Il &lt;strong&gt;Bootloader&lt;/strong&gt; è il primo software eseguito dal &lt;strong&gt;firmware&lt;/strong&gt; (&lt;strong&gt;UEFI / BIOS&lt;/strong&gt;). Individua il kernel sul disco, lo carica in RAM e gli cede il controllo del processore. Il più diffuso è GRUB2, che supporta il multi-boot e permette di iniettare parametri al kernel (es. recovery mode) prima dell&#39;avvio.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Proprietà intellettuale (PI): Copyright e Copyleft&lt;/h2&gt;
+&lt;p&gt;La proprietà intellettuale è lo &lt;strong&gt;strumento giuridico&lt;/strong&gt; che tutela i frutti dell&#39;inventiva umana. Nel software, essa garantisce che l&#39;autore possa decidere come la sua opera debba essere utilizzata, distribuita e modificata.&lt;/p&gt;
+&lt;p&gt;È fondamentale perché senza la protezione della PI, un programmatore o un&#39;azienda non avrebbero alcun controllo sulle proprie creazioni. Chiunque potrebbe appropriarsi del lavoro altrui, spacciandolo per proprio o traendone profitto senza autorizzazione. Grazie alla PI si &lt;strong&gt;riconosce il merito&lt;/strong&gt; all&#39;autore garantendo che sia sempre citato (&lt;em&gt;diritto di paternità&lt;/em&gt;) e si &lt;strong&gt;incentiva l&#39;innovazione&lt;/strong&gt; permettendo a chi investe tempo e risorse di decidere il modello di distribuzione (vendita o condivisione gratuita).&lt;/p&gt;
+&lt;p&gt;Non rispettare la PI comporta dei seri rischi, ignorare le licenze può portare a &lt;strong&gt;sanzioni legali e pecuniarie&lt;/strong&gt; in quanto violare il copyright può portare a cause civili estremamente costose, &lt;strong&gt;rimozione del software&lt;/strong&gt;, ovvero piattaforme di distribuzione come GitHub possono rimuovere il codice se non è in regola e &lt;strong&gt;danni alla reputazione&lt;/strong&gt; che per un professionista è un segnale di scarsa affidabilità tecnica e legale.&lt;/p&gt;
+&lt;p&gt;Prima di parlare di licenze facciamo un piccolo chiarimento: quando parliamo di &lt;strong&gt;software libero&lt;/strong&gt; non intendiamo &lt;strong&gt;software di dominio pubblico&lt;/strong&gt;. È un errore comune pensare che, poiché il software è &lt;em&gt;libero&lt;/em&gt;, lo si possa manipolare a piacimento senza limiti. In realtà, il software libero è un software con una licenza specifica. Se un autore rilascia un codice sotto &lt;a href=&quot;https://www.gnu.org/licenses/gpl-3.0.html&quot;&gt;licenza GPL&lt;/a&gt; e tu lo modifichi per creare un software privato e chiuso, stai violando la legge. La &lt;em&gt;libertà&lt;/em&gt; del software libero è spesso vincolata all&#39;obbligo di mantenere quella libertà anche per chi verrà dopo di te (&lt;em&gt;principio della reciprocità&lt;/em&gt;).&lt;/p&gt;
+&lt;h2&gt;Le licenze Creative Commons (CC)&lt;/h2&gt;
+&lt;p&gt;Si tratta di licenze &lt;em&gt;modulari&lt;/em&gt; nate per colmare il divario tra &lt;strong&gt;copyright tradizionale&lt;/strong&gt; (tutti i diritti riservati) e il &lt;strong&gt;pubblico dominio&lt;/strong&gt; (nessun diritto riservato).&lt;/p&gt;
+&lt;p&gt;Le CC permettono all&#39;autore di dire al mondo: &lt;em&gt;Puoi usare la mia opera, ma a queste condizioni&lt;/em&gt;, un po&#39; come usare dei mattoncini LEGO: l&#39;autore sceglie quali vincoli applicare per comporre la propria licenza personalizzata.&lt;/p&gt;
+&lt;p&gt;Queste licenze non sono un blocco unico, ma una combinazione di &lt;strong&gt;quattro clausole fondamentali&lt;/strong&gt; che definiscono i diritti dell&#39;utente:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;BY (Attribuzione)&lt;/strong&gt;: È il modulo base presente in quasi tutte le licenze. Dice: &lt;em&gt;Puoi usare l&#39;opera, ma devi dire chi è l&#39;autore&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SA (Condividi allo stesso modo)&lt;/strong&gt;: È la clausola della &lt;em&gt;continuità&lt;/em&gt;. Se modifichi l&#39;opera, devi distribuire il risultato con la stessa identica licenza dell&#39;originale.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;NC (Non Commerciale)&lt;/strong&gt;: Specifica che non puoi usare l&#39;opera per guadagnare soldi (per esempio, non puoi stampare un manuale CC-NC e rivenderlo).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ND (No Opere Derivate)&lt;/strong&gt;: Ti permette di ridistribuire l&#39;opera così com&#39;è, ma ti vieta di modificarla, tagliarla o rimescolarla.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Combinando questi simboli, si ottengono le diverse &lt;strong&gt;tipologie di licenze&lt;/strong&gt; che ora andremo ad analizzare nel dettaglio.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;CC0&lt;/strong&gt;: Rinuncia volontaria al copyright per quanto possibile per legge; l&#39;opera viene resa quanto più possibile assimilabile al pubblico dominio. Nessuna attribuzione obbligatoria, massima libertà di riuso e integrazione in opere commerciali o derivate. È lo strumento usato quando l&#39;autore vuole eliminare ogni vincolo. &lt;em&gt;Nota: in alcuni ordinamenti, come quello italiano, il diritto morale d&#39;autore è inalienabile per legge, quindi CC0 non equivale in modo assoluto al pubblico dominio.&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CC BY&lt;/strong&gt;: Licenza più permissiva che richiede solo l&#39;attribuzione. Chiunque può copiare, distribuire, modificare e usare commercialmente l&#39;opera purché citi l&#39;autore e mantenga chiari i riferimenti alla licenza. È ideale per massimizzare la diffusione mantenendo il riconoscimento dell&#39;autore.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CC BY-SA&lt;/strong&gt;: Come CC BY, ma con obbligo che le opere derivate siano rilasciate con la stessa licenza. Crea una catena di condivisione aperta: chi modifica contribuisce alla stessa comunità di licenze libere. È molto usata in progetti collaborativi e risorse educative aperte.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CC BY-NC&lt;/strong&gt;: Permette modifiche e condivisione ma vieta l&#39;uso commerciale. Implicazioni pratiche: utile per autori che vogliono consentire remix e diffusione non commerciale ma riservare la possibilità di sfruttamento economico a trattative separate. &lt;strong&gt;Attenzione&lt;/strong&gt;: la definizione di &lt;em&gt;commerciale&lt;/em&gt; può essere ambigua e talvolta richiede valutazione caso per caso.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CC BY-ND&lt;/strong&gt;: Consente la ridistribuzione solo nella forma originale; non sono permesse opere derivate. È adatta a chi vuole massima diffusione senza alterazioni. Limita però la possibilità di integrazione in progetti che richiedono adattamenti.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CC BY-NC-SA&lt;/strong&gt;: Combina &lt;strong&gt;Non Commerciale&lt;/strong&gt; e &lt;strong&gt;ShareAlike&lt;/strong&gt; con l&#39;obbligo di attribuzione. Permette &lt;em&gt;remix&lt;/em&gt; non commerciali ma impone che i derivati mantengano la stessa licenza, preservando la natura non commerciale e aperta del materiale. È una scelta conservativa per comunità che vogliono proteggere l&#39;uso non commerciale mantenendo apertura.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CC BY-NC-ND (la più restrittiva tra le licenze CC standard)&lt;/strong&gt;: attribuzione obbligatoria, nessun uso commerciale e nessuna opera derivata. Consente solo la condivisione dell&#39;opera così com&#39;è per scopi non commerciali; è utile quando l&#39;autore vuole massima protezione pur consentendo la diffusione non commerciale.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;h2&gt;Tipologie di distribuzioni (distro)&lt;/h2&gt;
+&lt;p&gt;Come abbiamo visto, una &lt;strong&gt;distribuzione&lt;/strong&gt; è un assemblaggio curato di kernel, software di base e interfaccia grafica. Tuttavia, ciò che definisce davvero l&#39;identità di una distro è la sua gestione dei pacchetti (il sistema con cui installi e aggiorni i programmi) e la sua politica di rilascio (quanto spesso e con quale filosofia vengono pubblicati gli aggiornamenti).&lt;/p&gt;
+&lt;p&gt;In base alla politica di aggiornamento
+Esistono &lt;strong&gt;due filosofie dominanti&lt;/strong&gt; che determinano l&#39;esperienza dell&#39;utente:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Fixed/Point Release (es. Debian, Ubuntu, Linux Mint)&lt;/strong&gt;: È il modello simile a quello di Windows o macOS. Il sistema operativo viene rilasciato in una versione specifica (es. Ubuntu 24.04). Gli aggiornamenti durante la vita di quella versione riguardano principalmente la sicurezza. Per avere nuove funzionalità massicce, bisogna aspettare la versione successiva.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Vantaggio&lt;/strong&gt;: Massima stabilità. Il software non cambia sotto.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Svantaggio&lt;/strong&gt;: Dopo un po&#39; di tempo, le versioni dei programmi possono diventare datate.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Rolling Release (es. Arch Linux, openSUSE Tumbleweed)&lt;/strong&gt;: Il sistema si aggiorna continuamente, pezzo dopo pezzo. Se oggi esce una nuova versione di un programma, domani è già pronta per l&#39;installazione.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Vantaggio&lt;/strong&gt;: Software sempre all&#39;ultimo grido senza dover mai reinstallare tutto il sistema.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Svantaggio&lt;/strong&gt;: Rischio maggiore. Un aggiornamento troppo recente potrebbe contenere bug non ancora scoperti o creare conflitti con altri componenti.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Famiglie di distribuzioni&lt;/h3&gt;
+&lt;p&gt;Le distribuzioni si raggruppano spesso in famiglie basate sul formato dei file di installazione che utilizzano:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&quot;https://www.debian.org/index.it.html&quot;&gt;Debian (formato .deb)&lt;/a&gt;&lt;/strong&gt;: Include Ubuntu e tutte le sue derivate. Utilizzano il comando &lt;strong&gt;apt&lt;/strong&gt;. È la famiglia più diffusa al mondo, con la più vasta documentazione disponibile.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&quot;https://www.redhat.com/it&quot;&gt;Red Hat (formato .rpm)&lt;/a&gt;&lt;/strong&gt;: Include Fedora e RHEL. È lo standard nell&#39;industria e nelle grandi aziende. Utilizzano il comando &lt;strong&gt;dnf&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href=&quot;https://archlinux.org&quot;&gt;Arch (formato .pkg.tar.zst)&lt;/a&gt;&lt;/strong&gt;: Nota per la sua filosofia &lt;em&gt;KISS&lt;/em&gt; (Keep It Simple, Stupid). L&#39;utente costruisce il sistema da zero, installando solo ciò che serve. Utilizza il comando &lt;strong&gt;pacman&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Distribuzioni specialistiche&lt;/h3&gt;
+&lt;p&gt;Esistono distro nate per scopi talmente specifici da alterare lo stack software che abbiamo studiato:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Per la Sicurezza (es. &lt;a href=&quot;https://parrotsec.org&quot;&gt;ParrotOS&lt;/a&gt;)&lt;/strong&gt;: Contengono centinaia di strumenti già pronti per il Penetration Testing (test di vulnerabilità delle reti).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Per la Privacy (es. &lt;a href=&quot;https://tails.net&quot;&gt;Tails&lt;/a&gt;)&lt;/strong&gt;: Progettate per non lasciare tracce sul computer. Tutto il traffico internet passa attraverso la rete Tor e, una volta spento il PC, ogni dato viene cancellato dalla RAM.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Per l&#39;Educazione (es. &lt;a href=&quot;https://endlessglobal.com&quot;&gt;Endless OS&lt;/a&gt;)&lt;/strong&gt;: Pensate per zone con scarsa connettività internet, includono intere enciclopedie e corsi offline.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;p-2 border border-info rounded-3 bg-primary bg-info-subtle shadow-sm&quot;&gt;&lt;strong&gt;Piccola nota editoriale&lt;/strong&gt;: nei prossimi articoli parlerò di &lt;i&gt;Linux&lt;/i&gt; intendendo sempre il sistema completo GNU/Linux. Stallman probabilmente non sarebbe d&#39;accordo, ma prometto che lo citiamo correttamente ogni volta che conta davvero.&lt;/div&gt;]]></content>
+    
+    
+      
+    
+      
+    <category term="linux"/>
+      
+    
+      
+    <category term="sistemi operativi"/>
+      
+    
+      
+    <category term="licenze"/>
+      
+    
+  </entry>
+  
+  <entry>
     <title>Guida completa a PowerShell</title>
     <link href="https://dino-996.github.io/blog/guida-completa-a-powershell/" rel="alternate" type="text/html"/>
     <id>https://dino-996.github.io/blog/guida-completa-a-powershell/</id>

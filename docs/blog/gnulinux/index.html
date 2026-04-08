@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="it" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  GNU/Linux · dino-996 blog
+</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="GNU/Linux è un sistema operativo libero e open source, nato dall&#39;unione del kernel Linux e gli strumenti di sistema del progetto GNU. È stabile, sicuro e altamente personalizzabile, utilizzato in svariati ambiti, dai server ai computer desktop. In questo articolo introduttivo proviamo a capirne di più partendo dall&#39;architettura dell&#39;ecosistema fino ai comandi più utili." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/gnulinux/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/gnulinux/" />
+
+<meta property="og:title" content="GNU/Linux" />
+<meta property="og:description" content="GNU/Linux è un sistema operativo libero e open source, nato dall&#39;unione del kernel Linux e gli strumenti di sistema del progetto GNU. È stabile, sicuro e altamente personalizzabile, utilizzato in svariati ambiti, dai server ai computer desktop. In questo articolo introduttivo proviamo a capirne di più partendo dall&#39;architettura dell&#39;ecosistema fino ai comandi più utili." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/gnu_linux.webp" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/gnulinux/" />
+
+<meta name="twitter:title" content="GNU/Linux" />
+<meta name="twitter:description" content="GNU/Linux è un sistema operativo libero e open source, nato dall&#39;unione del kernel Linux e gli strumenti di sistema del progetto GNU. È stabile, sicuro e altamente personalizzabile, utilizzato in svariati ambiti, dai server ai computer desktop. In questo articolo introduttivo proviamo a capirne di più partendo dall&#39;architettura dell&#39;ecosistema fino ai comandi più utili." />
+
+<meta name="twitter:image" content="https://dino-996.github.io/assets/img/webp/gnu_linux.webp" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Bootstrap icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img 
+        src="https://github.com/Dino-996.png" 
+        alt="Davide Sabia" 
+        class="rounded-circle"
+        width="32"
+        height="32"
+        style="object-fit: cover;"
+      >
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+    
+    <button 
+      class="navbar-toggler border-0 p-0" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNav">
+      <i class="bi bi-grid-3x3-gap fs-4"></i>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">
+            Blog
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">
+            About
+          </a>
+        </li>
+
+        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+          <div class="d-inline-flex rounded-4 bg-body-tertiary p-1">
+            <button title="Dark mode" id="dark" class="btn btn-sm btn-default rounded-4 text-secondary p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-moon"></i>
+            </button>
+
+            <button title="Light mode" id="light" class="btn btn-sm btn-default rounded-4 text-warning p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-sun"></i>
+            </button>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <main class="container my-5 flex-grow-1">
+      
+<article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">GNU/Linux</h1>
+
+    <time
+      class="text-muted"
+      datetime="2026-03-16T00:00:00.000Z"
+    >
+      16 marzo 2026
+    </time>
+  </header>
+
+  
+
+  
+    <div class="mb-4">
+      <img 
+        src="/assets/img/webp/gnu_linux.webp" 
+        alt="Immagine generata con IA" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+    
+  </div>
+  
+
+  <hr>
+
+  <section class="content">
+    <h1>Un po' di storia</h1>
+<p>Lo so: appena hai visto il titolo ti è venuta voglia di saltare questa parte. Ma fidati, ne vale la pena. La storia di Linux non è solo interessante: è fondamentale per capire perché oggi domina ovunque, dai server agli smartphone.</p>
+<h2>Più di un semplice software</h2>
+<p>Partiamo da un punto chiave: Linux è un <strong>kernel</strong>, non un sistema operativo completo.</p>
+<p>Puoi immaginarlo come il <strong>motore di un'auto</strong>: essenziale per farla muovere, ma inutile senza tutto il resto (interfaccia grafica, programmi, strumenti di sistema). Il suo successo nasce da un mix unico di scelte tecniche brillanti, collaborazione globale e una filosofia di sviluppo aperta.</p>
+<h2>Le origini</h2>
+<p>Nel <strong>1991</strong>, lo studente finlandese <a href="https://www.linkedin.com/in/linustorvalds/"><strong>Linus Torvalds</strong></a> creò Linux per pura curiosità. Voleva un sistema simile a <a href="https://www.unix.org/">Unix</a> per il suo PC e, non potendoselo permettere, decise di scriverselo da solo. Non lo fece per soldi né per crociata ideologica: lo fece per divertimento.</p>
+<p>Tuttavia, Torvalds ha il vizio di creare rivoluzioni quasi per caso. Nel <strong>2005</strong>, dopo una rottura con <a href="https://www.bitkeeper.org/">BitKeeper</a> (il software di controllo versione usato per gestire il codice di Linux), Torvalds si chiuse in una stanza e <strong>scrisse Git in soli 10 giorni</strong>. Oggi Git è lo standard mondiale per lo sviluppo software. Torvalds lo ha poi affidato a <a href="https://www.linkedin.com/in/gitster/"><strong>Junio Hamano</strong></a>, che ne è tuttora il maintainer, dimostrando che le sue creazioni migliori diventano presto beni comuni.</p>
+<h2>Il lato umano</h2>
+<p>Gestire un progetto globale non è facile, specialmente se hai un carattere fumantino. Torvalds è noto per non avere peli sulla lingua: memorabili sono le sue critiche a <strong>NVIDIA</strong> (con tanto di <a href="https://www.youtube.com/watch?v=iYWzMvlj2RQ">dito medio in diretta</a>) o i suoi scontri su progetti come <strong>systemd</strong>.</p>
+<p>Tuttavia, il <strong>2018</strong> ha segnato un punto di svolta:</p>
+<ul>
+<li><strong>Il ritiro temporaneo:</strong> Torvalds ha ammesso che il suo stile aggressivo aveva reso l'ambiente tossico e si è preso una pausa di un mese per lavorare sulla propria empatia.</li>
+<li><strong>Il Codice di Condotta:</strong> Nel <strong>settembre 2018</strong>, il progetto ha adottato un <em>Code of Conduct</em> formale (basato sul <a href="https://www.contributor-covenant.org/"><em>Contributor Covenant</em></a>). È stato un passo cruciale per rendere la community più inclusiva, anche se non ha mancato di sollevare polemiche tra i veterani.</li>
+</ul>
+<h2>La Community</h2>
+<p>Oggi Linux è mantenuto da migliaia di sviluppatori e colossi come <strong>Google, IBM, Red Hat e Intel</strong>. Non è più solo il progetto di un singolo uomo, ma una collaborazione globale dove migliaia di persone contribuiscono ogni giorno per migliorare il codice che fa girare internet.</p>
+<h2>Filosofia</h2>
+<p>Il mondo <strong>open source</strong> vive di un dualismo affascinante:</p>
+<p><strong>L'idealismo di Stallman</strong></p>
+<blockquote>
+<p><em>Il software libero è un diritto etico e morale.</em></p>
+</blockquote>
+<p>Il suo idealismo si basa su quattro libertà fondamentali:</p>
+<ul>
+<li>Eseguire il programma per qualunque scopo.</li>
+<li>Studiare come funziona e modificarlo.</li>
+<li>Ridistribuire copie.</li>
+<li>Migliorarlo e condividere le modifiche.</li>
+</ul>
+<p>Per <a href="https://stallman.org/">Stallman</a>, il software proprietario è <strong>eticamente sbagliato</strong> perché nega queste libertà, creando dipendenza e isolamento. La sua battaglia non è tecnica, ma morale: vuole una società in cui la condivisione del sapere sia normale e protetta.</p>
+<p>Come disse dopo la morte di Steve Jobs nel 2011:</p>
+<blockquote>
+<p><em>Steve Jobs è stato un pioniere dei computer costruiti come belle prigioni.</em></p>
+</blockquote>
+<p>Il suo approccio è intransigente: rifiuta compromessi, insiste sull'uso del termine <em>software libero</em> (distinto sia dal software proprietario che dal semplice software di dominio pubblico) e promuove il copyleft tramite la licenza GPL per garantire che la libertà del codice sia perpetua anche nei lavori derivati.</p>
+<p>È nel <strong>1983</strong> che ha fondato il progetto <a href="https://www.gnu.org/home.it.html"><strong>GNU</strong></a>, nato per creare un sistema operativo completamente libero e compatibile con Unix, dando così vita al movimento del <strong>software libero</strong>. Il nome GNU è un acronimo ricorsivo che sta per <em>GNU's Not Unix</em> (GNU non è Unix), riflettendo l'obiettivo di fornire un'alternativa libera al sistema che ai tempi era di proprietà di <a href="https://archiveos.org/att-unix-pc/">AT&amp;T</a>.</p>
+<p>Nel <strong>1985</strong> ha fondato la <strong>Free Software Foundation</strong> per supportare il progetto e fornire un'infrastruttura legale al movimento. Ha inventato il concetto di <em>copyleft</em> e ha scritto la <strong>GNU General Public License</strong> (<strong>GPL</strong>) nel 1989, una licenza fondamentale che protegge i diritti di modifica e ridistribuzione del software.</p>
+<p><strong>Il pragmatismo di Torvalds</strong></p>
+<blockquote>
+<p><em>Ciò che conta è che il codice funzioni bene.</em></p>
+</blockquote>
+<p>Inizialmente Linux si appoggiò a <a href="https://wiki.minix3.org">MINIX</a>, un sistema operativo educativo basato su Unix, per configurare, compilare e installare il kernel nascente. MINIX tuttavia presentava limitazioni significative: la sua licenza non permetteva modifiche e ridistribuzione liberamente, e la sua architettura microkernel mal si adattava alle ambizioni di Torvalds. Solo dopo aver reso pubblico il kernel nel <strong>1991</strong>, Torvalds decise di sostituire i componenti di MINIX con il software del progetto GNU, per creare un sistema operativo completo. Questo avvenne nel <strong>1992</strong>, quando il kernel Linux si unì de facto alle utilità GNU, formando il sistema operativo completo noto oggi come <strong>GNU/Linux</strong>.</p>
+<p>Linux ha vinto perché è stato <strong>aperto senza essere dogmatico</strong>. Questa flessibilità ha permesso ad aziende e appassionati di adottarlo senza sentirsi intrappolati in una battaglia politica.</p>
+<h2>Tux, il pinguino in smoking</h2>
+<p>Perché un <strong>pinguino</strong>? Tutto nasce da un aneddoto: Torvalds fu morso da un pinguino durante una visita a uno zoo e ne rimase <em>stregato</em>.</p>
+<p>Il nome <strong>Tux</strong> ha un duplice significato:</p>
+<ol>
+<li>È l'acronimo di <strong>(T)orvalds (U)ni(X)</strong>.</li>
+<li>È un gioco di parole con <strong>tuxedo</strong> (lo smoking), per via del piumaggio che lo fa sembrare vestito per una serata di gala.</li>
+</ol>
+<p>Resiliente e un po' buffo, Tux rappresenta perfettamente lo spirito informale e libero di Linux.</p>
+<h2>E il nome invece?</h2>
+<p>Il nome fu scelto da <a href="https://it.wikipedia.org/wiki/Ari_Lemmke">Ari Lemmke</a>, l'amministratore che nel 1991 rese disponibile il sistema sul web.</p>
+<p>Torvalds aveva inizialmente chiamato il progetto <strong>Freax</strong>, una combinazione tra <em>free</em>, <em>freak</em> e <em>x</em> per indicare le caratteristiche Unix-like. Lemmke ignorò questa scelta e preferì il nome Linux, che Torvalds aveva invece scartato ritenendolo troppo egocentrico.</p>
+<p>Lemmke creò una <strong>directory</strong> su un server FTP chiamata <code>pub/OS/Linux</code> per ospitare i file del nuovo sistema.
+Poiché i file venivano scaricati da questa directory, il nome <strong>Linux</strong> (derivato da <strong>(LIN)us (U)ni(X)</strong>) divenne rapidamente lo standard di fatto.
+Torvalds accettò il nome, sebbene in seguito il progetto fosse spesso identificato come <strong>GNU/Linux</strong> per riconoscere il contributo del sistema GNU.</p>
+<p>Oltre a battezzare il kernel, Lemmke fondò il <a href="https://groups.google.com/g/comp.os.linux">newsgroup</a> nel <strong>1992</strong> e contribuì in modo significativo alla diffusione e allo sviluppo iniziale di Linux.</p>
+<hr>
+<h2>Architettura dell'ecosistema GNU/Linux</h2>
+<p>Passando al lato tecnico, l'infrastruttura si divide in due ambiti operativi principali che formano il sistema operativo:</p>
+<ul>
+<li><strong>Kernel (Linux)</strong>: Gestisce l'astrazione dell'hardware (<em>nascondendo la complessità dei circuiti fisici per farli vedere ai programmi come semplici risorse da usare</em>), lo scheduling dei processi (<em>decidendo a quale programma in esecuzione dare la precedenza nell'uso del processore, come un vigile urbano</em>), la gestione della memoria e i file system. Funziona come interfaccia tra il software e il processore/periferiche.</li>
+<li><strong>Userland (GNU)</strong>: Suite di strumenti essenziali per rendere operativo il sistema. Include la libreria C (<em>glibc - insiemi di codice condiviso pronti all'uso</em>), il compilatore (<em>GCC - un traduttore dal codice scritto dai programmatori al codice macchina comprensibile dal computer</em>), le utility core (coreutils) e la shell.</li>
+</ul>
+<p>Senza lo stack software GNU, il kernel Linux non fornirebbe un ambiente di runtime (<em>l'infrastruttura di base necessaria per far funzionare i programmi</em>) completo; simmetricamente, gli strumenti GNU necessitano di un kernel per eseguire le syscall (<em>chiamate di sistema che i programmi fanno al kernel per usare l'hardware, come ad esempio chiedere il permesso di salvare un file sul disco</em>).</p>
+<h2>Gerarchia dello stack software e hardware</h2>
+<p>Il <strong>flusso di esecuzione</strong> può essere rappresentato come una pila di livelli indipendenti:</p>
+  <div class="accordion mb-3" id="stackSoftware">
+    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
+      <h2 class="accordion-header">
+        <button class="accordion-button bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item1">
+          Applicazione utente
+        </button>
+      </h2>
+      <div id="item1" class="accordion-collapse collapse show" data-bs-parent="#stackSoftware">
+        <div class="accordion-body">
+          Browser, editor di testo, tool di sviluppo. Comunicano con il sistema tramite le API (<i>ponti di comunicazione che permettono a software diversi di scambiarsi informazioni in modo standardizzato</i>) fornite dal software di base o dai framework grafici.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item2">
+          Interfaccia grafica (GUI / Display Server)
+        </button>
+      </h2>
+      <div id="item2" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
+        <div class="accordion-body">
+          <strong>Wayland</strong> o <strong>X11</strong> (<i>protocolli di comunicazione che definiscono le regole per far interagire il compositore (il server grafico) con le applicazioni (client)</i>), insieme ai <strong>Desktop Environment</strong> (GNOME, KDE). Gestiscono l'output visuale e l'input utente.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item3">
+          Software di base (Userland GNU)
+        </button>
+      </h2>
+      <div id="item3" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
+        <div class="accordion-body">
+          La shell (<strong>Bash</strong>), le librerie di sistema (<strong>glibc</strong>) e le utility core. Forniscono l'ambiente di runtime necessario alle applicazioni.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item4">
+          Linux (Kernel)
+        </button>
+      </h2>
+      <div id="item4" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
+        <div class="accordion-body">
+          Il <i>vigile urbano</i> delle risorse. Gestisce i driver, la memoria e i processi attraverso le system call.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item5">
+          Firmware (BIOS / UEFI)
+        </button>
+      </h2>
+      <div id="item5" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
+        <div class="accordion-body">
+          Software di basso livello integrato nella scheda madre che inizializza l'hardware e passa il controllo al bootloader.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item border border-primary rounded-3 shadow-sm">
+      <h2 class="accordion-header">
+        <button class="accordion-button collapsed bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item6">
+          Hardware
+        </button>
+      </h2>
+      <div id="item6" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
+        <div class="accordion-body">
+          Il piano fisico (CPU, RAM, Storage, etc.).
+        </div>
+      </div>
+    </div>
+  </div>
+<h2>Protocolli grafici</h2>
+<p><strong>Wayland</strong> e <strong>X11</strong> sono protocolli grafici usati in Linux per gestire la comunicazione tra applicazioni e schermo. X11 è il sistema tradizionale, nato negli anni '80, mentre Wayland è la sua evoluzione moderna, progettata per hardware e scenari attuali.</p>
+<ul>
+<li><strong>X11 funziona come un server centrale</strong>: le applicazioni gli inviano comandi di disegno (per esempio: <em>disegna un cerchio qui</em>) e lui si occupa di renderizzarli. Questo modello permetteva l'uso remoto delle app (<em>come eseguire un programma su un server e vederlo sul PC</em>), ma introduce latenza e problemi di sicurezza.</li>
+<li><strong>Wayland semplifica il processo</strong>: le applicazioni disegnano direttamente in un buffer (memoria grafica) e lo passano al compositore che si occupa di mostrare tutto sullo schermo. Il compositore gestisce anche finestre, input e sicurezza.</li>
+</ul>
+<p>La differenza chiave è nell'<strong>architettura</strong> e nella <strong>sicurezza</strong>. In X11, ogni applicazione può spiare altre finestre, registrare tasti (<strong>keylogging</strong>), catturare lo schermo senza permesso, al contrario di Wayland, dove ogni applicazione è isolata! Non può interagire con altre finestre senza esplicito consenso (per esempio se si vuole condivisione lo schermo).</p>
+<h2>Desktop Environment</h2>
+<p>Un <strong>Desktop Environment</strong> (<strong>DE</strong>) è un ecosistema di componenti software che lavorano in sinergia per fornire un'interfaccia grafica coerente. A differenza di Windows o macOS, dove l'interfaccia è accoppiata profondamente al kernel, in ambiente Linux il <strong>DE è un <em>plugin</em> di alto livello</strong>, quindi intercambiabile.</p>
+<h3>Architettura dello stack grafico</h3>
+<p>Per il <strong>rendering delle finestre</strong>, il sistema attraversa tre strati principali:</p>
+<div class="accordion mb-3" id="stackSoftware">
+    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
+      <h2 class="accordion-header">
+        <button class="accordion-button bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item1">
+          Display Server (X11 o Wayland)
+        </button>
+      </h2>
+      <div id="item1" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
+        <div class="accordion-body">
+          Protocollo di base per la comunicazione tra hardware (GPU, input) e client grafici (le applicazioni attualmente aperte e visibili sullo schermo). Gestisce i messaggi di I/O.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
+      <h2 class="accordion-header">
+        <button class="accordion-button bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item2">
+          Window Manager (WM)
+        </button>
+      </h2>
+      <div id="item2" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
+        <div class="accordion-body">
+          Software che controlla il posizionamento e l'aspetto delle finestre (bordi, pulsanti, ridimensionamento). Esempi di WM possono essere Mutter (GNOME), KWin (KDE) o gestori stand-alone come i3.
+        </div>
+      </div>
+    </div>
+    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
+      <h2 class="accordion-header">
+        <button class="accordion-button bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item3">
+          Desktop Environment (DE)
+        </button>
+      </h2>
+      <div id="item3" class="accordion-collapse collapse show" data-bs-parent="#stackSoftware">
+        <div class="accordion-body">
+          Pacchetto completo che include il WM e una suite di applicazioni (file manager, terminale, impostazioni) che condividono librerie grafiche e design logico.
+          <br>
+          I componenti fondamentali di un DE sono:
+          <ul>
+            <li>
+              <strong>Pannello/Taskbar</strong>: Gestione finestre e menu di avvio.
+            </li>
+            <li>
+              <strong>File manager</strong>: Interfaccia per la navigazione del file system (es. Nautilus o Dolphin).
+            </li>
+            <li>
+              <strong>System settings</strong>: Centro di controllo per hardware e reti (evita la modifica manuale dei file in /etc).
+            </li>
+            <li>
+              <strong>Display manager</strong>: Gestisce il login grafico (es. GDM o SDDM).
+            </li>
+          </ul>
+          <div class="mb-3">
+            <strong>Principali desktop environment e librerie</strong>
+          </div>
+          <!--TABELLA-->
+          <div class="container mb-3">
+            <div class="table-responsive shadow-sm rounded">
+              <table class="table table-bordered table-striped table-hover align-middle mb-0">
+                <thead class="table-dark">
+                  <tr>
+                    <th>DE</th>
+                    <th>Libreria</th>
+                    <th>Filosofia</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="fw-semibold">GNOME</td>
+                    <td>GTK</td>
+                    <td>
+                      Minimalismo, workflow orientato alla produttività e astrazione
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="fw-semibold">KDE Plasma</td>
+                    <td>Qt</td>
+                    <td>Estrema personalizzazione e modularità</td>
+                  </tr>
+                  <tr>
+                    <td class="fw-semibold">XFCE</td>
+                    <td>GTK</td>
+                    <td>Leggerezza e stabilità per hardware datato o server</td>
+                  </tr>
+                  <tr>
+                    <td class="fw-semibold">Pantheon</td>
+                    <td>GTK</td>
+                    <td>Estetica curata e semplicità (derivato da <a href="https://elementary.io/it/">elementaryOS</a>)</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!--FINE TABELLA-->
+        </div>
+      </div>
+    </div>
+  </div>
+<h2>Modularità e Server Headless</h2>
+<p>L'assenza di interfaccia grafica definisce un sistema <strong>Headless</strong>. Questa configurazione è standard in ambito server per ottimizzare:</p>
+<ul>
+<li><strong>Superficie di attacco</strong>: Meno software installato riduce le vulnerabilità potenziali.</li>
+<li><strong>Risorse</strong>: Risparmio di RAM (un DE può occupare da 500MB a 1.5GB in idle, ovvero a riposo e senza eseguire operazioni attive).</li>
+<li><strong>Dipendenze</strong>: Sistema più snello e facile da manutenere.</li>
+</ul>
+<h2>Il ruolo del Bootloader</h2>
+<p>Il <strong>Bootloader</strong> è il primo software eseguito dal <strong>firmware</strong> (<strong>UEFI / BIOS</strong>). Individua il kernel sul disco, lo carica in RAM e gli cede il controllo del processore. Il più diffuso è GRUB2, che supporta il multi-boot e permette di iniettare parametri al kernel (es. recovery mode) prima dell'avvio.</p>
+<hr>
+<h2>Proprietà intellettuale (PI): Copyright e Copyleft</h2>
+<p>La proprietà intellettuale è lo <strong>strumento giuridico</strong> che tutela i frutti dell'inventiva umana. Nel software, essa garantisce che l'autore possa decidere come la sua opera debba essere utilizzata, distribuita e modificata.</p>
+<p>È fondamentale perché senza la protezione della PI, un programmatore o un'azienda non avrebbero alcun controllo sulle proprie creazioni. Chiunque potrebbe appropriarsi del lavoro altrui, spacciandolo per proprio o traendone profitto senza autorizzazione. Grazie alla PI si <strong>riconosce il merito</strong> all'autore garantendo che sia sempre citato (<em>diritto di paternità</em>) e si <strong>incentiva l'innovazione</strong> permettendo a chi investe tempo e risorse di decidere il modello di distribuzione (vendita o condivisione gratuita).</p>
+<p>Non rispettare la PI comporta dei seri rischi, ignorare le licenze può portare a <strong>sanzioni legali e pecuniarie</strong> in quanto violare il copyright può portare a cause civili estremamente costose, <strong>rimozione del software</strong>, ovvero piattaforme di distribuzione come GitHub possono rimuovere il codice se non è in regola e <strong>danni alla reputazione</strong> che per un professionista è un segnale di scarsa affidabilità tecnica e legale.</p>
+<p>Prima di parlare di licenze facciamo un piccolo chiarimento: quando parliamo di <strong>software libero</strong> non intendiamo <strong>software di dominio pubblico</strong>. È un errore comune pensare che, poiché il software è <em>libero</em>, lo si possa manipolare a piacimento senza limiti. In realtà, il software libero è un software con una licenza specifica. Se un autore rilascia un codice sotto <a href="https://www.gnu.org/licenses/gpl-3.0.html">licenza GPL</a> e tu lo modifichi per creare un software privato e chiuso, stai violando la legge. La <em>libertà</em> del software libero è spesso vincolata all'obbligo di mantenere quella libertà anche per chi verrà dopo di te (<em>principio della reciprocità</em>).</p>
+<h2>Le licenze Creative Commons (CC)</h2>
+<p>Si tratta di licenze <em>modulari</em> nate per colmare il divario tra <strong>copyright tradizionale</strong> (tutti i diritti riservati) e il <strong>pubblico dominio</strong> (nessun diritto riservato).</p>
+<p>Le CC permettono all'autore di dire al mondo: <em>Puoi usare la mia opera, ma a queste condizioni</em>, un po' come usare dei mattoncini LEGO: l'autore sceglie quali vincoli applicare per comporre la propria licenza personalizzata.</p>
+<p>Queste licenze non sono un blocco unico, ma una combinazione di <strong>quattro clausole fondamentali</strong> che definiscono i diritti dell'utente:</p>
+<ol>
+<li><strong>BY (Attribuzione)</strong>: È il modulo base presente in quasi tutte le licenze. Dice: <em>Puoi usare l'opera, ma devi dire chi è l'autore</em>.</li>
+<li><strong>SA (Condividi allo stesso modo)</strong>: È la clausola della <em>continuità</em>. Se modifichi l'opera, devi distribuire il risultato con la stessa identica licenza dell'originale.</li>
+<li><strong>NC (Non Commerciale)</strong>: Specifica che non puoi usare l'opera per guadagnare soldi (per esempio, non puoi stampare un manuale CC-NC e rivenderlo).</li>
+<li><strong>ND (No Opere Derivate)</strong>: Ti permette di ridistribuire l'opera così com'è, ma ti vieta di modificarla, tagliarla o rimescolarla.</li>
+</ol>
+<p>Combinando questi simboli, si ottengono le diverse <strong>tipologie di licenze</strong> che ora andremo ad analizzare nel dettaglio.</p>
+<ol>
+<li><strong>CC0</strong>: Rinuncia volontaria al copyright per quanto possibile per legge; l'opera viene resa quanto più possibile assimilabile al pubblico dominio. Nessuna attribuzione obbligatoria, massima libertà di riuso e integrazione in opere commerciali o derivate. È lo strumento usato quando l'autore vuole eliminare ogni vincolo. <em>Nota: in alcuni ordinamenti, come quello italiano, il diritto morale d'autore è inalienabile per legge, quindi CC0 non equivale in modo assoluto al pubblico dominio.</em></li>
+<li><strong>CC BY</strong>: Licenza più permissiva che richiede solo l'attribuzione. Chiunque può copiare, distribuire, modificare e usare commercialmente l'opera purché citi l'autore e mantenga chiari i riferimenti alla licenza. È ideale per massimizzare la diffusione mantenendo il riconoscimento dell'autore.</li>
+<li><strong>CC BY-SA</strong>: Come CC BY, ma con obbligo che le opere derivate siano rilasciate con la stessa licenza. Crea una catena di condivisione aperta: chi modifica contribuisce alla stessa comunità di licenze libere. È molto usata in progetti collaborativi e risorse educative aperte.</li>
+<li><strong>CC BY-NC</strong>: Permette modifiche e condivisione ma vieta l'uso commerciale. Implicazioni pratiche: utile per autori che vogliono consentire remix e diffusione non commerciale ma riservare la possibilità di sfruttamento economico a trattative separate. <strong>Attenzione</strong>: la definizione di <em>commerciale</em> può essere ambigua e talvolta richiede valutazione caso per caso.</li>
+<li><strong>CC BY-ND</strong>: Consente la ridistribuzione solo nella forma originale; non sono permesse opere derivate. È adatta a chi vuole massima diffusione senza alterazioni. Limita però la possibilità di integrazione in progetti che richiedono adattamenti.</li>
+<li><strong>CC BY-NC-SA</strong>: Combina <strong>Non Commerciale</strong> e <strong>ShareAlike</strong> con l'obbligo di attribuzione. Permette <em>remix</em> non commerciali ma impone che i derivati mantengano la stessa licenza, preservando la natura non commerciale e aperta del materiale. È una scelta conservativa per comunità che vogliono proteggere l'uso non commerciale mantenendo apertura.</li>
+<li><strong>CC BY-NC-ND (la più restrittiva tra le licenze CC standard)</strong>: attribuzione obbligatoria, nessun uso commerciale e nessuna opera derivata. Consente solo la condivisione dell'opera così com'è per scopi non commerciali; è utile quando l'autore vuole massima protezione pur consentendo la diffusione non commerciale.</li>
+</ol>
+<hr>
+<h2>Tipologie di distribuzioni (distro)</h2>
+<p>Come abbiamo visto, una <strong>distribuzione</strong> è un assemblaggio curato di kernel, software di base e interfaccia grafica. Tuttavia, ciò che definisce davvero l'identità di una distro è la sua gestione dei pacchetti (il sistema con cui installi e aggiorni i programmi) e la sua politica di rilascio (quanto spesso e con quale filosofia vengono pubblicati gli aggiornamenti).</p>
+<p>In base alla politica di aggiornamento
+Esistono <strong>due filosofie dominanti</strong> che determinano l'esperienza dell'utente:</p>
+<ul>
+<li>
+<p><strong>Fixed/Point Release (es. Debian, Ubuntu, Linux Mint)</strong>: È il modello simile a quello di Windows o macOS. Il sistema operativo viene rilasciato in una versione specifica (es. Ubuntu 24.04). Gli aggiornamenti durante la vita di quella versione riguardano principalmente la sicurezza. Per avere nuove funzionalità massicce, bisogna aspettare la versione successiva.</p>
+<ul>
+<li><strong>Vantaggio</strong>: Massima stabilità. Il software non cambia sotto.</li>
+<li><strong>Svantaggio</strong>: Dopo un po' di tempo, le versioni dei programmi possono diventare datate.</li>
+</ul>
+</li>
+<li>
+<p><strong>Rolling Release (es. Arch Linux, openSUSE Tumbleweed)</strong>: Il sistema si aggiorna continuamente, pezzo dopo pezzo. Se oggi esce una nuova versione di un programma, domani è già pronta per l'installazione.</p>
+<ul>
+<li><strong>Vantaggio</strong>: Software sempre all'ultimo grido senza dover mai reinstallare tutto il sistema.</li>
+<li><strong>Svantaggio</strong>: Rischio maggiore. Un aggiornamento troppo recente potrebbe contenere bug non ancora scoperti o creare conflitti con altri componenti.</li>
+</ul>
+</li>
+</ul>
+<h3>Famiglie di distribuzioni</h3>
+<p>Le distribuzioni si raggruppano spesso in famiglie basate sul formato dei file di installazione che utilizzano:</p>
+<ul>
+<li><strong><a href="https://www.debian.org/index.it.html">Debian (formato .deb)</a></strong>: Include Ubuntu e tutte le sue derivate. Utilizzano il comando <strong>apt</strong>. È la famiglia più diffusa al mondo, con la più vasta documentazione disponibile.</li>
+<li><strong><a href="https://www.redhat.com/it">Red Hat (formato .rpm)</a></strong>: Include Fedora e RHEL. È lo standard nell'industria e nelle grandi aziende. Utilizzano il comando <strong>dnf</strong>.</li>
+<li><strong><a href="https://archlinux.org">Arch (formato .pkg.tar.zst)</a></strong>: Nota per la sua filosofia <em>KISS</em> (Keep It Simple, Stupid). L'utente costruisce il sistema da zero, installando solo ciò che serve. Utilizza il comando <strong>pacman</strong>.</li>
+</ul>
+<h3>Distribuzioni specialistiche</h3>
+<p>Esistono distro nate per scopi talmente specifici da alterare lo stack software che abbiamo studiato:</p>
+<ul>
+<li><strong>Per la Sicurezza (es. <a href="https://parrotsec.org">ParrotOS</a>)</strong>: Contengono centinaia di strumenti già pronti per il Penetration Testing (test di vulnerabilità delle reti).</li>
+<li><strong>Per la Privacy (es. <a href="https://tails.net">Tails</a>)</strong>: Progettate per non lasciare tracce sul computer. Tutto il traffico internet passa attraverso la rete Tor e, una volta spento il PC, ogni dato viene cancellato dalla RAM.</li>
+<li><strong>Per l'Educazione (es. <a href="https://endlessglobal.com">Endless OS</a>)</strong>: Pensate per zone con scarsa connettività internet, includono intere enciclopedie e corsi offline.</li>
+</ul>
+<div class="p-2 border border-info rounded-3 bg-primary bg-info-subtle shadow-sm"><strong>Piccola nota editoriale</strong>: nei prossimi articoli parlerò di <i>Linux</i> intendendo sempre il sistema completo GNU/Linux. Stallman probabilmente non sarebbe d'accordo, ma prometto che lo citiamo correttamente ogni volta che conta davvero.</div>
+  </section>
+
+  <hr class="mt-5">
+  
+  <section class="mt-5" aria-label="Commenti e reazioni">
+    <h2 class="h5 fw-bold mb-4">
+      <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
+    </h2>
+
+      <script>
+      (function () {
+        const saved = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', theme);
+        script.setAttribute('data-lang', 'it');
+        script.setAttribute('data-loading', 'lazy');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+
+        document.currentScript.replaceWith(script);
+      })();
+    </script>
+
+    <noscript>
+      <p class="text-muted small">
+        <i class="bi bi-info-circle me-1"></i>
+        Per visualizzare i commenti è necessario abilitare JavaScript.
+        Puoi leggere e partecipare alla discussione direttamente su
+        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
+      </p>
+    </noscript>
+  </section>
+
+</article>
+    </main>
+
+    <footer class="border-top mt-auto py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <h5 class="fw-bold mb-3">
+          <span><span class="text-primary">dino</span>-996</span>
+        </h5>
+        <p class="text-muted small mb-2">
+          Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne.
+        </p>
+        <a href="/feed.xml" class="text-muted" aria-label="Feed RSS" target="_blank">
+          <i class="bi bi-rss"></i>
+        </a>
+      </div>
+      
+      <div class="col-md-3 mb-3 mb-md-0">
+        <h6 class="fw-bold mb-3">Navigazione</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <a href="/" class="text-muted text-decoration-none small">Home</a>
+          </li>
+          <li class="mb-2">
+            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
+          </li>
+          <li class="mb-2">
+            <a href="/about/" class="text-muted text-decoration-none small">About</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="col-md-2">
+        <h6 class="fw-bold mb-3">Social</h6>
+        <div class="d-flex gap-3">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+              <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <hr class="my-4" />
+    
+    <div class="row">
+      <div class="col text-center">
+        <p class="text-muted small mb-0">
+          Realizzato con <span class="text-danger">❤</span> usando 
+          <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Eleventy</a> 
+          e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Bootstrap</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send"><i class="bi bi-arrow-up"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        // console.log("AI widget inizializzato");
+
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+        const conversationHistory = [];
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        function addMessage(text, role) {
+          const isUser = role === "user";
+          const div = document.createElement("div");
+          div.className = `d-flex mb-3 ${isUser ? "justify-content-end" : "justify-content-start"}`;
+
+          const innerDiv = document.createElement("div");
+          innerDiv.className = `px-3 py-2 ${isUser ? "rounded-pill" : "rounded-3"}`;
+          innerDiv.style.maxWidth = "85%";
+          innerDiv.style.fontSize = "16px";
+          innerDiv.style.background = isUser ? "var(--bs-primary)" : "var(--bs-body-tertiary)";
+          innerDiv.style.color = isUser ? "#fff" : "inherit";
+          
+          if (!isUser) {
+            const prefix = document.createElement("div");
+            prefix.className = "fw-bold mb-1";
+            prefix.textContent = "🦖 dino";
+            innerDiv.appendChild(prefix);
+          }
+
+          const content = document.createElement("div");
+          content.innerHTML = text;
+          innerDiv.appendChild(content);
+
+          div.appendChild(innerDiv);
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+
+          return content;
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          // console.log("Invio messaggio:", query);
+
+          conversationHistory.push({role: "user", content: query});
+
+          input.value = "";
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          const responseContainer = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "assistant");
+
+          // Carica il contesto degli articoli
+          let context = "";
+          try {
+            // console.log("Carico search.json...");
+            const idx = await fetch("/search.json").then(r => r.json());
+            // console.log("search.json caricato, articoli:", idx.length);
+            context = idx
+              .slice(0, 10)
+              .map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}\nLink: https://dino-996.github.io${p.url}`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+            context = "";
+          }
+
+          // Chiamata al worker
+          try {
+            // console.log("Chiamo il worker...");
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            // console.log("Risposta worker, status:", res.status);
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+            // console.log("DATA COMPLETA:", JSON.stringify(data));
+
+            let answer = "";
+
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js"></script>
+
+  </body>
+</html>
