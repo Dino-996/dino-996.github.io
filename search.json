@@ -6,6 +6,12 @@
     "date": "2026-03-16T00:00:00.000Z"
   },
   {
+    "title": "GNU/Linux",
+    "url": "/blog/gnulinux/",
+    "description": "GNU/Linux è un sistema operativo libero e open source, nato dall'unione del kernel Linux e gli strumenti di sistema del progetto GNU. È stabile, sicuro e altamente personalizzabile, utilizzato in svariati ambiti, dai server ai computer desktop. In questo articolo introduttivo proviamo a capirne di più partendo dall'architettura dell'ecosistema fino ai comandi più utili.",
+    "date": "2026-03-16T00:00:00.000Z"
+  },
+  {
     "title": "Guida completa a PowerShell",
     "url": "/blog/guida-completa-a-powershell/",
     "description": "Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido.",
