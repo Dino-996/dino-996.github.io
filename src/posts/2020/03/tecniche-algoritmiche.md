@@ -1,6 +1,6 @@
 ---
 layout: layouts/post.njk
-title: Tecniche Algoritmiche per Dev Java
+title: Tecniche algoritmiche per dev Java
 description: Questa guida raccoglie le tecniche algoritmiche più comuni utilizzate nello sviluppo software quotidiano. Le seguenti tecniche sono descritte il linguaggio Java.
 tags:
   - posts

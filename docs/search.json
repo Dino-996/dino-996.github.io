@@ -1,5 +1,11 @@
 [
   {
+    "title": "Il Filesystem di Linux",
+    "url": "/blog/il-filesystem-di-linux/",
+    "description": "In questo articolo esploriamo come funziona il filesystem Linux; partiremo dai concetti fondamentali, capiremo perché \"tutto è un file\", e poi percorreremo le directory principali del sistema una per una.",
+    "date": "2026-03-18T00:00:00.000Z"
+  },
+  {
     "title": "Comandi di base della Shell Linux",
     "url": "/blog/comandi-di-base-della-shell-linux/",
     "description": "Una guida pratica ai comandi fondamentali della shell Linux; dalla lettura del prompt alla navigazione nel filesystem, dalla gestione di file e directory all'elaborazione dell'output con pipe e redirezioni. Ogni comando è spiegato con esempi reali, opzioni utili e criteri chiari per scegliere quando e perché usarlo.",
@@ -24,7 +30,7 @@
     "date": "2026-01-01T00:00:00.000Z"
   },
   {
-    "title": "Tecniche Algoritmiche per Dev Java",
+    "title": "Tecniche algoritmiche per dev Java",
     "url": "/blog/tecniche-algoritmiche-per-dev-java/",
     "description": "Questa guida raccoglie le tecniche algoritmiche più comuni utilizzate nello sviluppo software quotidiano. Le seguenti tecniche sono descritte il linguaggio Java.",
     "date": "2020-03-05T00:00:00.000Z"
@@ -42,7 +48,7 @@
     "date": "2020-02-18T00:00:00.000Z"
   },
   {
-    "title": "Struttura dei Sistemi Operativi",
+    "title": "Struttura dei sistemi operativi",
     "url": "/blog/struttura-dei-sistemi-operativi/",
     "description": "Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel.",
     "date": "2020-02-14T00:00:00.000Z"

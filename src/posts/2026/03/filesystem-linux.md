@@ -1,26 +1,24 @@
 ---
 layout: layouts/post.njk
-title: Il filesystem linux
-description: 
+title: Il Filesystem di Linux
+description: In questo articolo esploriamo come funziona il filesystem Linux; partiremo dai concetti fondamentali, capiremo perché "tutto è un file", e poi percorreremo le directory principali del sistema una per una.
 tags:
   - posts
   - linux
   - filesystem
   - sistemi operativi
 date: 2026-03-18
-excerpt: 
+excerpt: Il filesystem di Linux organizza dati e risorse seguendo la filosofia per cui ogni elemento del sistema è rappresentato come un file.
 permalink: "/blog/{{ title | slug }}/"
 image: /assets/img/webp/gnu_linux.webp  
 imageAlt: "Immagine generata con IA"
 ---
 
-# Il Filesystem di Linux: Struttura e Organizzazione
+# Filesystem: Struttura e Organizzazione
 
-Se hai mai aperto un terminale Linux e digitato `ls /`, probabilmente ti sei trovato di fronte a una lista di cartelle dai nomi enigmatici: `/bin`, `/etc`, `/proc`, `/dev`… Dietro quella lista si nasconde un sistema di organizzazione preciso e coerente, ereditato dalla tradizione Unix e standardizzato nel corso degli anni.
+Se hai mai aperto un terminale Linux e digitato `ls /` (se non l'hai mai fatto questa è la volta buona: [Comandi di base della Shell Linux](https://dino-996.github.io/blog/comandi-gnu-linux)), probabilmente ti sei trovato di fronte a una lista di cartelle dai nomi enigmatici: `/bin`, `/etc`, `/proc`, `/dev`… Dietro quella lista si nasconde un sistema di organizzazione preciso e coerente, ereditato dalla tradizione Unix e standardizzato nel corso degli anni.
 
-In questo articolo esploriamo come funziona il filesystem Linux: partiremo dai concetti fondamentali, capiremo perché "tutto è un file", e poi percorreremo le directory principali del sistema una per una.
-
-## Filesystem e Filesystem Hierarchy Standard: due concetti distinti
+## Filesystem e Filesystem Hierarchy Standard
 
 Prima di tutto, è utile distinguere due concetti che spesso vengono confusi.
 
@@ -168,7 +166,7 @@ Alcuni esempi particolarmente interessanti:
     <tbody>
       <tr>
         <td class="fw-semibold"><code>/dev/null</code></td>
-        <td>"Buco nero": qualsiasi dato scritto qui viene scartato silenziosamente</td>
+        <td><i>Buco nero</i>: qualsiasi dato scritto qui viene scartato silenziosamente</td>
       </tr>
       <tr>
         <td class="fw-semibold"><code>/dev/zero</code></td>
@@ -231,9 +229,3 @@ mkfifo /tmp/mia_pipe
 ```
 
 Un processo può scrivere sulla pipe e un altro può leggerla: i dati fluiscono in ordine FIFO, senza passare dal disco. Come tutti i file virtuali di questo tipo, le FIFO non sopravvivono al riavvio della macchina.
-
-## Conclusione
-
-La struttura del filesystem Linux può sembrare complessa a prima vista, ma risponde a una logica precisa e coerente, consolidata in decenni di evoluzione Unix. Ogni directory ha uno scopo ben definito e il principio "tutto è un file" offre un'astrazione potente e uniforme per interagire con risorse eterogenee, dai documenti alle periferiche hardware, dai processi alle comunicazioni tra programmi.
-
-Capire questa organizzazione è il primo passo per muoversi con sicurezza in qualsiasi ambiente Linux: che si tratti di configurare un server, fare troubleshooting o semplicemente esplorare il sistema con curiosità.

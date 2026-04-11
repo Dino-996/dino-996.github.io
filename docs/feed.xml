@@ -6,13 +6,185 @@
   <link href="https://dino-996.github.io/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://dino-996.github.io" rel="alternate" type="text/html"/>
   <id>https://dino-996.github.io/</id>
-  <updated>2026-03-17T00:00:00.000Z</updated>
+  <updated>2026-03-18T00:00:00.000Z</updated>
   <author>
     <name>Davide Sabia</name>
     <email>davidesabia22@gmail.com</email>
     <uri>https://dino-996.github.io</uri>
   </author>
 
+  
+  <entry>
+    <title>Il Filesystem di Linux</title>
+    <link href="https://dino-996.github.io/blog/il-filesystem-di-linux/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/il-filesystem-di-linux/</id>
+    <published>2026-03-18T00:00:00.000Z</published>
+    <updated>2026-03-18T00:00:00.000Z</updated>
+    
+    <summary>In questo articolo esploriamo come funziona il filesystem Linux; partiremo dai concetti fondamentali, capiremo perché &quot;tutto è un file&quot;, e poi percorreremo le directory principali del sistema una per una.</summary>
+    
+    
+    <content type="html"><![CDATA[&lt;h1&gt;Filesystem: Struttura e Organizzazione&lt;/h1&gt;
+&lt;p&gt;Se hai mai aperto un terminale Linux e digitato &lt;code&gt;ls /&lt;/code&gt; (se non l&#39;hai mai fatto questa è la volta buona: &lt;a href=&quot;https://dino-996.github.io/blog/comandi-gnu-linux&quot;&gt;Comandi di base della Shell Linux&lt;/a&gt;), probabilmente ti sei trovato di fronte a una lista di cartelle dai nomi enigmatici: &lt;code&gt;/bin&lt;/code&gt;, &lt;code&gt;/etc&lt;/code&gt;, &lt;code&gt;/proc&lt;/code&gt;, &lt;code&gt;/dev&lt;/code&gt;… Dietro quella lista si nasconde un sistema di organizzazione preciso e coerente, ereditato dalla tradizione Unix e standardizzato nel corso degli anni.&lt;/p&gt;
+&lt;h2&gt;Filesystem e Filesystem Hierarchy Standard&lt;/h2&gt;
+&lt;p&gt;Prima di tutto, è utile distinguere due concetti che spesso vengono confusi.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Filesystem&lt;/strong&gt; (nel senso tecnico) indica il formato con cui i dati vengono organizzati fisicamente su un supporto di memoria, come un HDD, un SSD o una chiavetta USB. I più comuni su Linux sono &lt;strong&gt;ext4&lt;/strong&gt;, &lt;strong&gt;ext3&lt;/strong&gt; ed &lt;strong&gt;ext2&lt;/strong&gt;; su Windows troviamo &lt;strong&gt;FAT32&lt;/strong&gt; e &lt;strong&gt;NTFS&lt;/strong&gt;; su macOS &lt;strong&gt;HFS+&lt;/strong&gt; e il più recente &lt;strong&gt;APFS&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Filesystem Hierarchy Standard (FHS)&lt;/strong&gt; è invece una specifica che definisce &lt;em&gt;quali&lt;/em&gt; directory devono esistere in un sistema Linux e &lt;em&gt;cosa&lt;/em&gt; devono contenere. In pratica, è una convenzione condivisa tra le distribuzioni per garantire coerenza e portabilità: grazie all&#39;FHS, un amministratore di sistema sa già dove cercare i log, i file di configurazione o i binari, indipendentemente dalla distribuzione che sta usando.&lt;/p&gt;
+&lt;h2&gt;La struttura ad albero e la directory radice&lt;/h2&gt;
+&lt;p&gt;Le directory di un filesystem Linux sono organizzate secondo uno schema &lt;strong&gt;ad albero&lt;/strong&gt;: ogni cartella può contenere file e altre cartelle, creando una gerarchia che si ramifica verso il basso. Al vertice di quest&#39;albero si trova la &lt;strong&gt;directory radice&lt;/strong&gt;, indicata dal simbolo &lt;code&gt;/&lt;/code&gt; e chiamata &lt;em&gt;root&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Attenzione: la directory radice &lt;code&gt;/&lt;/code&gt; non va confusa con l&#39;utente amministratore, che si chiama anch&#39;esso &lt;em&gt;root&lt;/em&gt; e ha come home directory &lt;code&gt;/root&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Tutti i percorsi che partono da &lt;code&gt;/&lt;/code&gt; sono detti &lt;strong&gt;percorsi assoluti&lt;/strong&gt;, perché identificano un file in modo univoco a partire dalla radice, indipendentemente da dove ci si trova nel filesystem. Ad esempio:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;/home/mario/documenti/relazione.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Al contrario, un &lt;strong&gt;percorso relativo&lt;/strong&gt; non inizia con &lt;code&gt;/&lt;/code&gt; e fa riferimento alla posizione corrente. Se ci troviamo già in &lt;code&gt;/home/mario&lt;/code&gt;, possiamo scrivere semplicemente &lt;code&gt;documenti/relazione.txt&lt;/code&gt; per riferirci allo stesso file.&lt;/p&gt;
+&lt;p&gt;I nomi dei file in Linux possono contenere quasi tutti i caratteri, con alcune eccezioni: il carattere &lt;code&gt;/&lt;/code&gt; è riservato come separatore di percorso e non può comparire nei nomi. È inoltre buona norma evitare caratteri speciali come spazi, &lt;code&gt;*&lt;/code&gt;, &lt;code&gt;?&lt;/code&gt; o &lt;code&gt;!&lt;/code&gt;, poiché possono avere significati particolari nella shell e causare comportamenti inattesi. La lunghezza massima di un nome file è generalmente di &lt;strong&gt;255 caratteri&lt;/strong&gt; sui filesystem moderni.&lt;/p&gt;
+&lt;p&gt;Una caratteristica fondamentale: Linux è &lt;strong&gt;case sensitive&lt;/strong&gt;. &lt;code&gt;File.txt&lt;/code&gt;, &lt;code&gt;file.txt&lt;/code&gt; e &lt;code&gt;FILE.TXT&lt;/code&gt; sono tre file completamente distinti. Questo è diverso da Windows, dove i nomi file sono trattati in modo insensibile alle maiuscole.&lt;/p&gt;
+&lt;h2&gt;&amp;quot;In Linux, tutto è un file&amp;quot;&lt;/h2&gt;
+&lt;p&gt;Uno dei principi fondamentali di Linux (e dei sistemi Unix in generale) è che &lt;strong&gt;tutto è un file&lt;/strong&gt;. Questo non significa solo che documenti e programmi sono file, ma che quasi ogni risorsa del sistema è rappresentata attraverso questa astrazione uniforme. Esistono diverse categorie:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Tipo&lt;/th&gt;
+        &lt;th&gt;Descrizione&lt;/th&gt;
+        &lt;th&gt;Esempio&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;File regolare&lt;/td&gt;
+        &lt;td&gt;Documenti, binari, script&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;/etc/hosts&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Directory&lt;/td&gt;
+        &lt;td&gt;Contenitore per altri file&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;/home/mario/&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;File di dispositivo&lt;/td&gt;
+        &lt;td&gt;Interfaccia verso periferiche hardware&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;/dev/sda&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Link simbolico&lt;/td&gt;
+        &lt;td&gt;Puntatore a un altro file o directory&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;/usr/bin/python&lt;/code&gt; → &lt;code&gt;/usr/bin/python3&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Socket&lt;/td&gt;
+        &lt;td&gt;Canale di comunicazione tra processi (di rete o locali)&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;/run/docker.sock&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;FIFO (named pipe)&lt;/td&gt;
+        &lt;td&gt;Canale di comunicazione unidirezionale tra processi&lt;/td&gt;
+        &lt;td&gt;creato con &lt;code&gt;mkfifo&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Questa astrazione è uno dei punti di forza di Linux: strumenti e programmi possono interagire con risorse eterogenee usando sempre le stesse operazioni di lettura e scrittura.&lt;/p&gt;
+&lt;h2&gt;Montaggio e smontaggio dei filesystem&lt;/h2&gt;
+&lt;p&gt;Prima di esplorare le singole directory, è utile capire il concetto di &lt;strong&gt;mount&lt;/strong&gt; (montaggio), perché spiega come vengono integrate le varie risorse di memoria nell&#39;albero del filesystem.&lt;/p&gt;
+&lt;p&gt;Di norma, la directory &lt;code&gt;/&lt;/code&gt; corrisponde al disco da cui Linux è stato avviato. Per accedere a supporti aggiuntivi, come una chiavetta USB, un secondo disco o una partizione di rete, è necessario &amp;quot;agganciare&amp;quot; il dispositivo all&#39;albero del filesystem in un punto specifico, detto &lt;strong&gt;mount point&lt;/strong&gt;:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Monta la partizione /dev/sdb1 nella directory /mnt/chiavetta&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;mount&lt;/span&gt; /dev/sdb1 /mnt/chiavetta&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Da quel momento, i file della chiavetta saranno accessibili navigando in &lt;code&gt;/mnt/chiavetta&lt;/code&gt;. Per rimuovere il collegamento (l&#39;equivalente dell&#39;espulsione sicura), si usa &lt;code&gt;umount&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;umount&lt;/span&gt; /mnt/chiavetta&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;L&#39;elenco di tutti i filesystem attualmente montati è consultabile in &lt;code&gt;/proc/mounts&lt;/code&gt;.&lt;/p&gt;
+&lt;h2&gt;Le directory principali del sistema&lt;/h2&gt;
+&lt;h3&gt;&lt;code&gt;/home&lt;/code&gt; — Le directory degli utenti&lt;/h3&gt;
+&lt;p&gt;Contiene le cartelle personali di ciascun utente. Se il nome utente è &lt;em&gt;mario&lt;/em&gt;, la sua home sarà &lt;code&gt;/home/mario&lt;/code&gt;. Qui vengono salvati documenti, immagini, download e le configurazioni personali delle applicazioni (spesso in cartelle nascoste che iniziano con un punto, come &lt;code&gt;~/.config&lt;/code&gt; o &lt;code&gt;~/.bashrc&lt;/code&gt;). Le distribuzioni moderne proteggono queste directory impedendo l&#39;accesso agli altri utenti non privilegiati.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;/root&lt;/code&gt; — La home dell&#39;amministratore&lt;/h3&gt;
+&lt;p&gt;La directory personale dell&#39;utente &lt;em&gt;root&lt;/em&gt; è separata da &lt;code&gt;/home&lt;/code&gt; per una ragione precisa: deve essere accessibile anche quando il filesystem degli utenti non è ancora disponibile, ad esempio durante le prime fasi di avvio o in modalità di recupero.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;/bin&lt;/code&gt; e &lt;code&gt;/usr/bin&lt;/code&gt; — I programmi essenziali&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;/bin&lt;/code&gt; contiene gli eseguibili fondamentali del sistema, come &lt;code&gt;ls&lt;/code&gt;, &lt;code&gt;cp&lt;/code&gt;, &lt;code&gt;mv&lt;/code&gt;, &lt;code&gt;cat&lt;/code&gt; o &lt;code&gt;bash&lt;/code&gt;. Devono essere disponibili già nelle primissime fasi di avvio, prima che altri filesystem vengano montati. &lt;code&gt;/usr/bin&lt;/code&gt; ospita invece i comandi per gli utenti normali che non sono strettamente necessari all&#39;avvio.&lt;/p&gt;
+&lt;p&gt;Nota: su molte distribuzioni moderne (Ubuntu, Fedora, Arch…) &lt;code&gt;/bin&lt;/code&gt; è diventato un link simbolico che punta a &lt;code&gt;/usr/bin&lt;/code&gt;, nell&#39;ambito di una semplificazione chiamata &lt;em&gt;usrmerge&lt;/em&gt;.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;/usr&lt;/code&gt; — Programmi e risorse di sistema&lt;/h3&gt;
+&lt;p&gt;È una delle directory più ricche del sistema. Contiene eseguibili, librerie, documentazione e risorse della maggior parte dei programmi installati. È tipicamente in &lt;strong&gt;sola lettura&lt;/strong&gt; per gli utenti normali. Al suo interno troviamo tra l&#39;altro &lt;code&gt;/usr/sbin&lt;/code&gt; per i comandi aggiuntivi dell&#39;amministratore, &lt;code&gt;/usr/lib&lt;/code&gt; per le librerie condivise usate dai programmi, &lt;code&gt;/usr/share&lt;/code&gt; per le risorse condivise come documentazione e icone, e &lt;code&gt;/usr/share/man&lt;/code&gt; per i testi delle &lt;strong&gt;manpage&lt;/strong&gt; accessibili tramite il comando &lt;code&gt;man&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;/etc&lt;/code&gt; — Le configurazioni di sistema&lt;/h3&gt;
+&lt;p&gt;Contiene i file di configurazione dell&#39;intero sistema: impostazioni di rete, elenco degli utenti, configurazione dei servizi e molto altro. La maggior parte dei file è leggibile da tutti, ma modificabile solo dall&#39;amministratore. Alcuni file notevoli sono &lt;code&gt;/etc/passwd&lt;/code&gt; per le informazioni sugli account utente (nome, shell, home directory…), &lt;code&gt;/etc/shadow&lt;/code&gt; per le password degli utenti in forma cifrata (accessibile solo da root), &lt;code&gt;/etc/fstab&lt;/code&gt; per la tabella dei filesystem da montare automaticamente all&#39;avvio e &lt;code&gt;/etc/hosts&lt;/code&gt; per la mappatura manuale tra nomi host e indirizzi IP.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;/boot&lt;/code&gt; — Il kernel e i file di avvio&lt;/h3&gt;
+&lt;p&gt;Contiene il kernel Linux, il file &lt;code&gt;initrd&lt;/code&gt; (initial RAM disk, usato nelle prime fasi di avvio) e la configurazione del bootloader &lt;strong&gt;GRUB&lt;/strong&gt;. Si consiglia spesso di dedicare a &lt;code&gt;/boot&lt;/code&gt; una partizione separata all&#39;inizio del disco, per garantire la compatibilità con alcune configurazioni hardware e semplificare il ripristino del sistema.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;/var&lt;/code&gt; — Dati variabili&lt;/h3&gt;
+&lt;p&gt;Contiene file che cambiano frequentemente durante il normale funzionamento del sistema: log, code di stampa, database, cache dei package manager. La sottodirectory più consultata è &lt;code&gt;/var/log&lt;/code&gt;, che raccoglie i log generati dal kernel, dai servizi e dalle applicazioni. Tra i più utili troviamo &lt;code&gt;/var/log/syslog&lt;/code&gt; per gli eventi generali del sistema, &lt;code&gt;/var/log/auth.log&lt;/code&gt; per i tentativi di autenticazione e uso di &lt;code&gt;sudo&lt;/code&gt;, e &lt;code&gt;/var/log/kern.log&lt;/code&gt; per i messaggi del kernel.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;/tmp&lt;/code&gt; — File temporanei&lt;/h3&gt;
+&lt;p&gt;Directory scrivibile da tutti gli utenti, usata per i file temporanei creati da applicazioni e processi. Il suo contenuto viene cancellato ad ogni riavvio. Su molte distribuzioni moderne è montata come &lt;code&gt;tmpfs&lt;/code&gt;, ovvero direttamente in RAM, il che la rende molto veloce ma ne limita la capacità alla memoria disponibile.&lt;/p&gt;
+&lt;h2&gt;&lt;code&gt;/dev&lt;/code&gt; — I file di dispositivo&lt;/h2&gt;
+&lt;p&gt;La directory &lt;code&gt;/dev&lt;/code&gt; contiene file speciali che rappresentano le periferiche hardware e alcune risorse virtuali del kernel. Non occupano spazio fisico sul disco: sono interfacce verso il kernel, gestite dal demone &lt;strong&gt;udev&lt;/strong&gt; che li crea e li rimuove dinamicamente al collegamento o alla disconnessione dei dispositivi.&lt;/p&gt;
+&lt;p&gt;Alcuni esempi particolarmente interessanti:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;File&lt;/th&gt;
+        &lt;th&gt;Descrizione&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;/dev/null&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;i&gt;Buco nero&lt;/i&gt;: qualsiasi dato scritto qui viene scartato silenziosamente&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;/dev/zero&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Genera una sequenza infinita di byte a zero, utile per sovrascrivere dati o creare file di dimensione fissa&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;/dev/random&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Genera numeri casuali usando l&#39;entropia raccolta dal kernel&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;/dev/urandom&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Come &lt;code&gt;/dev/random&lt;/code&gt;, ma non si blocca se l&#39;entropia disponibile è poca; consigliato per uso generale&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;/dev/sda&lt;/code&gt;, &lt;code&gt;/dev/nvme0n1&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Immagine di un intero disco fisico (SATA o NVMe); le partizioni sono &lt;code&gt;/dev/sda1&lt;/code&gt;, &lt;code&gt;/dev/sda2&lt;/code&gt;…&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;/dev/tty&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Il terminale corrente&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;h2&gt;&lt;code&gt;/proc&lt;/code&gt; — La finestra sul kernel&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;/proc&lt;/code&gt; è un &lt;strong&gt;filesystem virtuale&lt;/strong&gt;: non esiste fisicamente su disco, ma viene popolato dal kernel in tempo reale con informazioni sui processi attivi e sullo stato del sistema. Ogni processo in esecuzione ha una sottodirectory identificata dal suo PID (es. &lt;code&gt;/proc/1234&lt;/code&gt;), contenente informazioni su quel processo: file aperti, memoria usata, variabili d&#39;ambiente e altro.&lt;/p&gt;
+&lt;p&gt;Tra i file più utili a livello di sistema troviamo &lt;code&gt;/proc/cpuinfo&lt;/code&gt; per le informazioni dettagliate sul processore, &lt;code&gt;/proc/meminfo&lt;/code&gt; per lo stato della memoria RAM e swap, &lt;code&gt;/proc/mounts&lt;/code&gt; per l&#39;elenco dei filesystem attualmente montati e &lt;code&gt;/proc/uptime&lt;/code&gt; per il tempo trascorso dall&#39;avvio del sistema.&lt;/p&gt;
+&lt;h2&gt;Link: hard e soft&lt;/h2&gt;
+&lt;p&gt;Linux supporta due tipi di collegamento tra file, creati entrambi con il comando &lt;code&gt;ln&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Gli &lt;strong&gt;hard link&lt;/strong&gt; puntano direttamente all&#39;&lt;strong&gt;inode&lt;/strong&gt; del file, ovvero la struttura dati interna al filesystem che descrive un file (permessi, dimensione, posizione dei dati sul disco). Due hard link allo stesso file condividono esattamente i medesimi dati: modificare uno significa modificare l&#39;altro. Il file viene eliminato dal disco solo quando l&#39;ultimo hard link che lo punta viene rimosso. Hanno però dei limiti: non funzionano tra filesystem diversi e non possono puntare a directory.&lt;/p&gt;
+&lt;p&gt;I &lt;strong&gt;soft link&lt;/strong&gt; (o link simbolici) sono invece semplici puntatori al &lt;em&gt;percorso&lt;/em&gt; di un altro file. Si creano con:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;ln&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-s&lt;/span&gt; /percorso/origine /percorso/destinazione&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Sono più flessibili degli hard link, possono attraversare filesystem diversi e puntare a directory, ma se il file originale viene spostato o eliminato il link diventa &lt;em&gt;rotto&lt;/em&gt; (dangling link) e accedervi produrrà un errore.&lt;/p&gt;
+&lt;p&gt;Nel listato di &lt;code&gt;ls -l&lt;/code&gt;, i soft link sono identificati dalla lettera &lt;code&gt;l&lt;/code&gt; all&#39;inizio della stringa dei permessi, e mostrano esplicitamente il percorso a cui puntano:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;lrwxrwxrwx 1 root root 7 gen 10 12:00 /bin -&amp;gt; usr/bin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;FIFO — Le named pipe&lt;/h2&gt;
+&lt;p&gt;Le &lt;strong&gt;FIFO&lt;/strong&gt; (First In, First Out), dette anche &lt;em&gt;named pipe&lt;/em&gt;, sono un meccanismo di comunicazione tra processi. A differenza delle pipe anonime, quelle usate con &lt;code&gt;|&lt;/code&gt; nel terminale che esistono solo per la durata del comando, le FIFO hanno un nome nel filesystem e possono essere usate da processi non correlati, anche avviati in momenti diversi.&lt;/p&gt;
+&lt;p&gt;Si creano con il comando &lt;code&gt;mkfifo&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;mkfifo&lt;/span&gt; /tmp/mia_pipe&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Un processo può scrivere sulla pipe e un altro può leggerla: i dati fluiscono in ordine FIFO, senza passare dal disco. Come tutti i file virtuali di questo tipo, le FIFO non sopravvivono al riavvio della macchina.&lt;/p&gt;
+]]></content>
+    
+    
+      
+    
+      
+    <category term="linux"/>
+      
+    
+      
+    <category term="filesystem"/>
+      
+    
+      
+    <category term="sistemi operativi"/>
+      
+    
+  </entry>
   
   <entry>
     <title>Comandi di base della Shell Linux</title>
@@ -1653,7 +1825,7 @@ Describe &lt;span class=&quot;token string&quot;&gt;&quot;Get-Saluto&quot;&lt;/s
   </entry>
   
   <entry>
-    <title>Tecniche Algoritmiche per Dev Java</title>
+    <title>Tecniche algoritmiche per dev Java</title>
     <link href="https://dino-996.github.io/blog/tecniche-algoritmiche-per-dev-java/" rel="alternate" type="text/html"/>
     <id>https://dino-996.github.io/blog/tecniche-algoritmiche-per-dev-java/</id>
     <published>2020-03-05T00:00:00.000Z</published>
@@ -2373,7 +2545,7 @@ che degrada sotto carico. La tabella seguente riassume le complessità principal
   </entry>
   
   <entry>
-    <title>Struttura dei Sistemi Operativi</title>
+    <title>Struttura dei sistemi operativi</title>
     <link href="https://dino-996.github.io/blog/struttura-dei-sistemi-operativi/" rel="alternate" type="text/html"/>
     <id>https://dino-996.github.io/blog/struttura-dei-sistemi-operativi/</id>
     <published>2020-02-14T00:00:00.000Z</published>

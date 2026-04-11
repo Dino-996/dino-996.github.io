@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
+    <loc>/blog/il-filesystem-di-linux/</loc>
+    <lastmod>2026-03-18T00:00:00.000Z</lastmod>
+  </url>
+
+  <url>
     <loc>/blog/comandi-di-base-della-shell-linux/</loc>
     <lastmod>2026-03-17T00:00:00.000Z</lastmod>
   </url>

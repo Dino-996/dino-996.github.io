@@ -1,6 +1,6 @@
 ---
 layout: layouts/post.njk
-title: Struttura dei Sistemi Operativi
+title: Struttura dei sistemi operativi
 description: Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel.
 tags:
   - posts
