@@ -103,8 +103,6 @@ Passando al lato tecnico, l'infrastruttura si divide in due ambiti operativi pri
 
 Senza lo stack software GNU, il kernel Linux non fornirebbe un ambiente di runtime (*l'infrastruttura di base necessaria per far funzionare i programmi*) completo; simmetricamente, gli strumenti GNU necessitano di un kernel per eseguire le syscall (*chiamate di sistema che i programmi fanno al kernel per usare l'hardware, come ad esempio chiedere il permesso di salvare un file sul disco*).
 
-
-
 ## Gerarchia dello stack software e hardware
 
 Il **flusso di esecuzione** può essere rappresentato come una pila di livelli indipendenti:

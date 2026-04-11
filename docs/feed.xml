@@ -6,7 +6,7 @@
   <link href="https://dino-996.github.io/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://dino-996.github.io" rel="alternate" type="text/html"/>
   <id>https://dino-996.github.io/</id>
-  <updated>2026-03-16T00:00:00.000Z</updated>
+  <updated>2026-03-17T00:00:00.000Z</updated>
   <author>
     <name>Davide Sabia</name>
     <email>davidesabia22@gmail.com</email>
@@ -15,112 +15,516 @@
 
   
   <entry>
-    <title>L&#39;algoritmo di Luhn</title>
-    <link href="https://dino-996.github.io/blog/lalgoritmo-di-luhn/" rel="alternate" type="text/html"/>
-    <id>https://dino-996.github.io/blog/lalgoritmo-di-luhn/</id>
-    <published>2026-03-16T00:00:00.000Z</published>
-    <updated>2026-03-16T00:00:00.000Z</updated>
+    <title>Comandi di base della Shell Linux</title>
+    <link href="https://dino-996.github.io/blog/comandi-di-base-della-shell-linux/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/comandi-di-base-della-shell-linux/</id>
+    <published>2026-03-17T00:00:00.000Z</published>
+    <updated>2026-03-17T00:00:00.000Z</updated>
     
-    <summary>L’algoritmo di Luhn è un metodo matematico sviluppato nel 1954 dal ricercatore IBM Hans Peter Luhn per verificare la validità di numeri identificativi attraverso una cifra di controllo. Ancora oggi è utilizzato in moltissimi sistemi informatici, soprattutto per la validazione dei numeri di carte di credito, IMEI dei dispositivi mobili e altri identificatori strutturati.</summary>
+    <summary>Una guida pratica ai comandi fondamentali della shell Linux; dalla lettura del prompt alla navigazione nel filesystem, dalla gestione di file e directory all&#39;elaborazione dell&#39;output con pipe e redirezioni. Ogni comando è spiegato con esempi reali, opzioni utili e criteri chiari per scegliere quando e perché usarlo.</summary>
     
     
-    <content type="html"><![CDATA[&lt;h1&gt;Introduzione&lt;/h1&gt;
-&lt;p&gt;L’algoritmo di Luhn è uno dei metodi più diffusi per verificare la validità di numeri identificativi come quelli delle carte di credito. Ideato nel 1954 dal ricercatore IBM Hans Peter Luhn, utilizza una semplice regola matematica per individuare errori di digitazione e garantire la coerenza dei dati prima della loro elaborazione.&lt;/p&gt;
-&lt;h2&gt;Cos&#39;è e a cosa serve?&lt;/h2&gt;
-&lt;p&gt;L&#39;algoritmo di Luhn è un &lt;strong&gt;semplice sistema di controllo cifre&lt;/strong&gt; inventato negli anni &#39;50 da &lt;a href=&quot;https://en.wikipedia.org/wiki/Hans_Peter_Luhn&quot;&gt;&lt;strong&gt;Hans Peter Luhn&lt;/strong&gt;&lt;/a&gt;, ingegnere &lt;a href=&quot;https://www.ibm.com/it-it&quot;&gt;IBM&lt;/a&gt;. Lo trovi ovunque: numeri di carte di credito, codici fiscali, IBAN, codici seriali. Il suo scopo è rispondere a una domanda pratica:&lt;/p&gt;
+    <content type="html"><![CDATA[&lt;h1&gt;Comandi di base della Shell&lt;/h1&gt;
+&lt;p&gt;Lavorare dalla shell significa comunicare direttamente con il sistema operativo attraverso istruzioni testuali. Un &lt;strong&gt;comando&lt;/strong&gt; può essere un &lt;strong&gt;programma esterno&lt;/strong&gt; (come &lt;code&gt;ls&lt;/code&gt;), una &lt;strong&gt;funzione interna&lt;/strong&gt; della shell, o una combinazione di più comandi collegati tra loro.&lt;/p&gt;
+&lt;p&gt;Quando digiti un comando, la shell lo interpreta, lo avvia e gestisce il suo input/output: il risultato può comparire a schermo, essere salvato su file o essere passato ad altri comandi tramite &lt;strong&gt;pipe&lt;/strong&gt;. Conoscere questi strumenti, il loro significato, le possibilità e i limiti, è essenziale per lavorare in modo efficace e sicuro.&lt;/p&gt;
+&lt;h2&gt;Anatomia del terminale&lt;/h2&gt;
+&lt;p&gt;Prima di digitare qualsiasi comando, vale la pena capire cosa stai guardando. Quando apri un terminale, la prima cosa che vedi non è una pagina bianca, è un &lt;strong&gt;prompt&lt;/strong&gt;, ovvero un invito della shell a ricevere istruzioni. Ogni elemento di quella riga ha un significato preciso.&lt;/p&gt;
+&lt;p&gt;Un prompt tipico su una distribuzione Linux si presenta così:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;davide@ubuntu:~/progetti$
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Pensala come una mappa: ti dice chi sei, dove sei e con quali permessi stai operando.&lt;/p&gt;
+&lt;h3&gt;Gli elementi del prompt&lt;/h3&gt;
+&lt;pre&gt;&lt;code&gt;davide   @   ubuntu   :   ~/progetti   $   _
+  │      │     │      │       │        │   │
+  │      │     │      │       │        │   └── Cursore
+  │      │     │      │       │        └────── Modalità di esecuzione
+  │      │     │      │       └─────────────── Directory corrente
+  │      │     │      └─────────────────────── Separatore
+  │      │     └────────────────────────────── Nome host
+  │      └──────────────────────────────────── Separatore
+  └─────────────────────────────────────────── Nome utente
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Nome utente&lt;/strong&gt; — Il nome dell&#39;account con cui hai effettuato l&#39;accesso. È importante perché determina quali file puoi leggere, scrivere o eseguire in base ai permessi del filesystem.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Nome host&lt;/strong&gt; — Il nome della macchina su cui stai lavorando. Diventa fondamentale quando lavori su più server in remoto via SSH: ti impedisce di confonderti su &lt;em&gt;quale&lt;/em&gt; macchina stai operando.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Directory corrente&lt;/strong&gt; — Il percorso della directory in cui ti trovi in quel momento. La tilde (&lt;code&gt;~&lt;/code&gt;) è una scorciatoia per la tua home directory (es. &lt;code&gt;/home/davide&lt;/code&gt;). Questa informazione cambia ogni volta che usi &lt;code&gt;cd&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Modalità di esecuzione&lt;/strong&gt; — Il simbolo finale è probabilmente il più importante:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Simbolo&lt;/th&gt;
+        &lt;th&gt;Significato&lt;/th&gt;
+        &lt;th&gt;Quando compare&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;$&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Utente normale&lt;/td&gt;
+        &lt;td&gt;
+          Operazioni quotidiane, permessi limitati
+        &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;#&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Utente root (superutente)&lt;/td&gt;
+        &lt;td&gt;Accesso completo al sistema&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&amp;quot;Questo numero che ho digitato ha senso, oppure ho fatto un errore di battitura?&amp;quot;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Attenzione:&lt;/strong&gt; Quando vedi &lt;code&gt;#&lt;/code&gt;, stai operando come root: hai permessi illimitati. Qualsiasi comando eseguito in questa modalità può modificare o danneggiare file di sistema senza alcuna protezione. Usa l&#39;accesso root solo quando strettamente necessario, e preferisci &lt;code&gt;sudo&lt;/code&gt; per i singoli comandi che lo richiedono.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Non protegge da frodi&lt;/strong&gt;. È solo un modo veloce per stanare gli errori.&lt;/p&gt;
-&lt;h2&gt;Come funziona, passo per passo&lt;/h2&gt;
-&lt;p&gt;Sia $N = n_1, n_2, &#92;dots, n_{11}$ una matrice righa a 11 cifre, con $n_1$ la &lt;strong&gt;prima cifra a sinistra&lt;/strong&gt;.&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Identifica le cifre in &lt;strong&gt;posizione dispari&lt;/strong&gt; ($n_2,n_4,n_6,...$)&lt;/li&gt;
-&lt;li&gt;Raddoppia ciascuna cifra: $d_i = 2 &#92;cdot n_i$&lt;/li&gt;
-&lt;li&gt;Se $d_i &amp;gt; 9$, somma le due cifre:
-$d_i = &#92;lfloor d_i / 10 &#92;rfloor + (d_i &#92;bmod 10)$&lt;/li&gt;
-&lt;li&gt;Le cifre in &lt;strong&gt;posizione pari&lt;/strong&gt; restano invariate.&lt;/li&gt;
-&lt;li&gt;Somma tutte le cifre elaborate: $S = &#92;sum_{i=1}^{11} d_i$&lt;/li&gt;
-&lt;li&gt;Se $S &#92;bmod 10 = 0$, PAN valido secondo l&#39;algoritmo di Luhn&lt;/li&gt;
-&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Cursore&lt;/strong&gt; — Il trattino lampeggiante (o il blocco, a seconda della configurazione del terminale) che segue il prompt indica che la shell è in attesa del tuo input. Se il cursore non compare o il prompt non ritorna dopo aver eseguito un comando, significa che la shell è ancora occupata, o che il processo è in attesa di input da tastiera.&lt;/p&gt;
+&lt;h3&gt;Il prompt è personalizzabile&lt;/h3&gt;
+&lt;p&gt;Quello che hai visto sopra è il formato più comune, ma il prompt può avere forme molto diverse. Alcune shell e configurazioni mostrano informazioni aggiuntive come il ramo Git corrente, l&#39;ambiente virtuale Python attivo, o l&#39;ora dell&#39;ultimo comando. Tutto questo è controllato dalla variabile d&#39;ambiente &lt;code&gt;PS1&lt;/code&gt; (e &lt;code&gt;PS2&lt;/code&gt; per i prompt di continuazione). Non devi modificarla ora, ma sapere che esiste ti aiuta a capire perché prompt su macchine diverse possono sembrare così diversi.&lt;/p&gt;
+&lt;h2&gt;Anatomia di un comando&lt;/h2&gt;
+&lt;p&gt;Ogni comando segue una struttura formale precisa:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;programma&amp;gt; [-opzione &amp;lt;valore&amp;gt;] &amp;lt;parametro1&amp;gt; &amp;lt;parametro2&amp;gt; …
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Programma&lt;/strong&gt; — il nome del comando da eseguire (es. &lt;code&gt;ls&lt;/code&gt;, &lt;code&gt;cp&lt;/code&gt;, &lt;code&gt;grep&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Opzioni&lt;/strong&gt; — modificano il comportamento rispetto alle impostazioni di default. Si identificano con &lt;code&gt;-&lt;/code&gt; (forma breve) o &lt;code&gt;--&lt;/code&gt; (forma lunga) e possono richiedere un valore associato (es. &lt;code&gt;-n 5&lt;/code&gt; o &lt;code&gt;--lines=5&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Flag&lt;/strong&gt; — opzioni booleane senza valore associato: la loro semplice presenza attiva un comportamento (es. &lt;code&gt;-r&lt;/code&gt;, &lt;code&gt;-a&lt;/code&gt;, &lt;code&gt;-i&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Parametri&lt;/strong&gt; — i valori posizionali su cui il comando opera (percorsi, nomi file, stringhe). Il numero di parametri richiesti varia da comando a comando.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Per conoscere tutte le opzioni e i parametri disponibili per qualsiasi programma, usa sempre &lt;code&gt;man &amp;lt;programma&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;Esempio scomposto&lt;/h3&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-l&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-a&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;--color&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt;always /home/davide&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Parte&lt;/th&gt;
+        &lt;th&gt;Tipo&lt;/th&gt;
+        &lt;th&gt;Significato&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;ls&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Programma&lt;/td&gt;
+        &lt;td&gt;
+          Il comando da eseguire
+        &lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;-l&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Flag&lt;/td&gt;
+        &lt;td&gt;Formato lungo&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;-a&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Flag&lt;/td&gt;
+        &lt;td&gt;Include file nascosti&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;--color=always&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Opzione&lt;/td&gt;
+        &lt;td&gt;Forza l&#39;output colorato&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;/home/davide&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Parametro&lt;/td&gt;
+        &lt;td&gt;La directory da listare&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;h2&gt;I comandi fondamentali&lt;/h2&gt;
+&lt;h3&gt;&lt;code&gt;pwd&lt;/code&gt; — Dove mi trovo?&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;pwd&lt;/code&gt; sta per &lt;em&gt;print working directory&lt;/em&gt; e mostra il percorso assoluto della directory in cui ti trovi in quel momento.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token builtin class-name&quot;&gt;pwd&lt;/span&gt;
+/home/davide/progetto&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; ogni volta che non sei sicuro della tua posizione nel filesystem, soprattutto dopo una serie di &lt;code&gt;cd&lt;/code&gt; o prima di eseguire comandi che operano su percorsi relativi.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Perché sceglierlo:&lt;/strong&gt; è il modo più diretto per evitare errori di percorso. Sapere dove sei prima di cancellare o modificare file può fare la differenza tra un&#39;operazione riuscita e un disastro.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;ls&lt;/code&gt; — Cosa c&#39;è qui dentro?&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;ls&lt;/code&gt; elenca il contenuto di una directory. Senza opzioni mostra solo i nomi; con le opzioni giuste fornisce dettagli su permessi, proprietario, dimensione e timestamp.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-la&lt;/span&gt; /home/davide&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Opzione&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-l&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Formato lungo con dettagli (permessi, dimensione, data)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-a&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Include i file nascosti (quelli che iniziano con &lt;code&gt;.&lt;/code&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-h&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Dimensioni leggibili (es. &lt;code&gt;4.2K&lt;/code&gt; invece di &lt;code&gt;4312&lt;/code&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-t&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Ordina per data di modifica&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; per esplorare una directory, verificare la presenza di file, controllare i permessi o capire cosa è stato modificato di recente.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;cd&lt;/code&gt; — Spostati nel filesystem&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;cd&lt;/code&gt; (&lt;em&gt;change directory&lt;/em&gt;) cambia la directory di lavoro corrente della shell.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; /etc          &lt;span class=&quot;token comment&quot;&gt;# percorso assoluto&lt;/span&gt;
+$ &lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; ~/progetti    &lt;span class=&quot;token comment&quot;&gt;# ~ è la shortcut per la home&lt;/span&gt;
+$ &lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;..&lt;/span&gt;            &lt;span class=&quot;token comment&quot;&gt;# sale di un livello&lt;/span&gt;
+$ &lt;span class=&quot;token builtin class-name&quot;&gt;cd&lt;/span&gt; -             &lt;span class=&quot;token comment&quot;&gt;# torna alla directory precedente&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; prima di operare su file in una directory diversa da quella corrente — editare, copiare, eseguire script.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Perché sceglierlo:&lt;/strong&gt; lavorare dalla directory giusta consente di usare percorsi relativi più brevi. Le scorciatoie (&lt;code&gt;~&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;, &lt;code&gt;..&lt;/code&gt;) velocizzano molto la navigazione una volta che le si conosce.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;touch&lt;/code&gt; — Crea un file o aggiorna i timestamp&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;touch&lt;/code&gt; crea un file vuoto se non esiste; se esiste già, aggiorna la sua data/ora di modifica senza toccare il contenuto.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;touch&lt;/span&gt; file.txt
+$ &lt;span class=&quot;token function&quot;&gt;touch&lt;/span&gt; src/index.ts&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; per creare rapidamente file, per forzare la ricompilazione in build system basati su timestamp, o per aggiornare i metadati di un file.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Perché sceglierlo:&lt;/strong&gt; è non distruttivo — non sovrascrive mai il contenuto esistente.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;mkdir -p&lt;/code&gt; — Crea directory (anche annidate)&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;mkdir&lt;/code&gt; crea una o più directory. L&#39;opzione &lt;code&gt;-p&lt;/code&gt; crea anche tutte le directory intermedie mancanti, senza errori se esistono già.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;mkdir&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-p&lt;/span&gt; progetto/src/components&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Senza &lt;code&gt;-p&lt;/code&gt;, se &lt;code&gt;progetto/src&lt;/code&gt; non esiste il comando fallisce. Con &lt;code&gt;-p&lt;/code&gt;, crea l&#39;intera struttura in un colpo solo.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; ogni volta che devi creare strutture di cartelle annidate, specialmente in script che vuoi poter rieseguire senza problemi.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Perché sceglierlo:&lt;/strong&gt; rende gli script &lt;strong&gt;idempotenti&lt;/strong&gt; — possono essere eseguiti più volte senza effetti collaterali indesiderati.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;cp -r&lt;/code&gt; e &lt;code&gt;mv&lt;/code&gt; — Copia e sposta&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;cp&lt;/code&gt; copia file e, con &lt;code&gt;-r&lt;/code&gt;, intere directory in modo ricorsivo. &lt;code&gt;mv&lt;/code&gt; sposta o rinomina file e directory.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-r&lt;/span&gt; src/ backup/src/      &lt;span class=&quot;token comment&quot;&gt;# copia ricorsiva&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;mv&lt;/span&gt; report.txt archivio/     &lt;span class=&quot;token comment&quot;&gt;# sposta&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;mv&lt;/span&gt; vecchio_nome nuovo_nome  &lt;span class=&quot;token comment&quot;&gt;# rinomina&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Quando usare &lt;code&gt;cp&lt;/code&gt;:&lt;/strong&gt; quando vuoi duplicare mantenendo l&#39;originale intatto.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Quando usare &lt;code&gt;mv&lt;/code&gt;:&lt;/strong&gt; quando basta spostare o rinominare. All&#39;interno dello stesso filesystem, &lt;code&gt;mv&lt;/code&gt; è molto più efficiente di &lt;code&gt;cp&lt;/code&gt; + &lt;code&gt;rm&lt;/code&gt; perché non copia fisicamente i dati — aggiorna solo i metadati del filesystem.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;rm -r&lt;/code&gt; / &lt;code&gt;rm -f&lt;/code&gt; — Rimuovi file e directory&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;rm&lt;/code&gt; elimina file in modo definitivo (non finiscono nel cestino). Con &lt;code&gt;-r&lt;/code&gt; rimuove ricorsivamente directory intere; con &lt;code&gt;-f&lt;/code&gt; forza l&#39;operazione senza chiedere conferma.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;rm&lt;/span&gt; file.txt          &lt;span class=&quot;token comment&quot;&gt;# rimuove un singolo file&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-r&lt;/span&gt; dist/          &lt;span class=&quot;token comment&quot;&gt;# rimuove la directory dist/ e tutto il suo contenuto&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;rm&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-i&lt;/span&gt; *.log          &lt;span class=&quot;token comment&quot;&gt;# chiede conferma per ogni file (consigliato)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 &lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Nota sugli indici:&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;In matematica le posizioni partono da 1&lt;/li&gt;
-&lt;li&gt;In Java gli &lt;strong&gt;array partono da 0&lt;/strong&gt;, quindi la seconda cifra (posizione 2) corrisponde all’indice 1 dell’array.&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Attenzione:&lt;/strong&gt; &lt;code&gt;rm -rf /&lt;/code&gt; cancella l&#39;intero filesystem se eseguito con i privilegi giusti. Verifica sempre il percorso prima di usare &lt;code&gt;-rf&lt;/code&gt;.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h2&gt;Quando si usa?&lt;/h2&gt;
-&lt;p&gt;Luhn è progettato per rilevare i due errori più comuni:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; per pulire file o directory non più necessari, in script di build o deploy.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Consiglio:&lt;/strong&gt; in caso di dubbio usa &lt;code&gt;-i&lt;/code&gt; per ricevere una conferma interattiva prima di ogni eliminazione.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;cat&lt;/code&gt; e &lt;code&gt;less&lt;/code&gt; — Leggi il contenuto di un file&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;cat&lt;/code&gt; stampa il contenuto di un file direttamente nel terminale. &lt;code&gt;less&lt;/code&gt; apre un visualizzatore interattivo che permette di scorrere, cercare e navigare.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;cat&lt;/span&gt; config.json          &lt;span class=&quot;token comment&quot;&gt;# output immediato, tutto in una volta&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;less&lt;/span&gt; /var/log/syslog     &lt;span class=&quot;token comment&quot;&gt;# visualizzazione paginata e navigabile&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In &lt;code&gt;less&lt;/code&gt;: usa le frecce o &lt;code&gt;j&lt;/code&gt;/&lt;code&gt;k&lt;/code&gt; per scorrere, &lt;code&gt;/termine&lt;/code&gt; per cercare, &lt;code&gt;q&lt;/code&gt; per uscire.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Quando usare &lt;code&gt;cat&lt;/code&gt;:&lt;/strong&gt; per file brevi o per concatenare più file in pipeline (&lt;code&gt;cat a.txt b.txt | sort&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Quando usare &lt;code&gt;less&lt;/code&gt;:&lt;/strong&gt; per file lunghi come log di sistema — eviti di intasare il terminale con migliaia di righe.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;man&lt;/code&gt; — Il manuale integrato&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;man&lt;/code&gt; (&lt;em&gt;manual&lt;/em&gt;) apre la pagina di documentazione ufficiale di un comando, direttamente nel terminale. Ogni pagina descrive scopo, sintassi, opzioni e, spesso, esempi d&#39;uso.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;man&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt;       &lt;span class=&quot;token comment&quot;&gt;# apre il manuale di ls&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;man&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;cp&lt;/span&gt;       &lt;span class=&quot;token comment&quot;&gt;# apre il manuale di cp&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;La navigazione in &lt;code&gt;man&lt;/code&gt; usa le stesse scorciatoie di &lt;code&gt;less&lt;/code&gt;: frecce o &lt;code&gt;j&lt;/code&gt;/&lt;code&gt;k&lt;/code&gt; per scorrere, &lt;code&gt;/termine&lt;/code&gt; per cercare, &lt;code&gt;q&lt;/code&gt; per uscire.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; ogni volta che non ricordi un&#39;opzione specifica o vuoi capire il comportamento esatto di un comando senza cercare su internet. È la fonte più affidabile perché è sempre aggiornata alla versione installata sul tuo sistema.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Perché sceglierlo:&lt;/strong&gt; &lt;code&gt;man&lt;/code&gt; non richiede connessione, non ha pubblicità e non ti porta su Stack Overflow. È lento da leggere all&#39;inizio, ma imparare a navigarlo è un investimento che ripaga nel tempo.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;💡 Se vuoi una versione più concisa, prova &lt;code&gt;man -k termine&lt;/code&gt; per cercare tra tutte le pagine di manuale che menzionano una parola chiave, oppure comandi come &lt;code&gt;tldr&lt;/code&gt; (da installare separatamente) per riassunti pratici e orientati agli esempi.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;&lt;code&gt;clear&lt;/code&gt; — Pulisci lo schermo&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;clear&lt;/code&gt; svuota il terminale rimuovendo tutto l&#39;output precedente, riportando il prompt in cima allo schermo.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;clear&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In alternativa, la scorciatoia da tastiera &lt;code&gt;Ctrl + L&lt;/code&gt; produce lo stesso effetto senza dover digitare nulla.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; quando lo schermo è affollato di output e vuoi ricominciare da una vista pulita, oppure prima di eseguire un comando il cui output vuoi leggere senza distrazioni.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Perché sceglierlo:&lt;/strong&gt; non cancella la cronologia dei comandi (&lt;code&gt;history&lt;/code&gt; rimane intatta) né termina processi in esecuzione — è puramente visivo. Se vuoi scorrere l&#39;output precedente dopo un &lt;code&gt;clear&lt;/code&gt;, nella maggior parte dei terminali puoi farlo con la rotella del mouse o con &lt;code&gt;Shift + PgUp&lt;/code&gt;.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;exit&lt;/code&gt; — Chiudi la sessione&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;exit&lt;/code&gt; termina la sessione della shell corrente. Se stai lavorando in un terminale normale, chiude la finestra o la scheda. Se sei connesso via SSH a un server remoto, disconnette la sessione remota riportandoti alla shell locale.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token builtin class-name&quot;&gt;exit&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Puoi ottenere lo stesso risultato con la scorciatoia &lt;code&gt;Ctrl + D&lt;/code&gt;, che invia il segnale di fine input alla shell.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; per chiudere sessioni SSH in modo pulito, per uscire da una subshell avviata manualmente, o semplicemente per terminare il lavoro nel terminale.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Perché sceglierlo:&lt;/strong&gt; chiudere una sessione con &lt;code&gt;exit&lt;/code&gt; è più corretto che chiudere brutalmente la finestra del terminale, soprattutto su connessioni remote: assicura che i processi associati alla sessione vengano terminati correttamente.&lt;/p&gt;
+&lt;h2&gt;Canali di comunicazione di un comando&lt;/h2&gt;
+&lt;p&gt;Ogni comando ha a disposizione tre canali di comunicazione con il resto del sistema:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Canale&lt;/th&gt;
+        &lt;th&gt;Nome&lt;/th&gt;
+        &lt;th&gt;Descrizione&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;stdin&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Standard input&lt;/td&gt;
+        &lt;td&gt;L&#39;ingresso del programma. Di default è collegato alla tastiera.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;stdout&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Standard output&lt;/td&gt;
+        &lt;td&gt;L&#39;uscita principale del programma. Di default viene mostrata nel terminale.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;stderr&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Standard error&lt;/td&gt;
+        &lt;td&gt;L&#39;uscita dedicata agli errori e ai messaggi di stato. Tenuta su un canale separato per evitare che si mescoli con l&#39;output normale. Di default appare anch&#39;essa nel terminale.&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Separare &lt;code&gt;stdout&lt;/code&gt; e &lt;code&gt;stderr&lt;/code&gt; è una scelta progettuale importante: permette di filtrare, reindirizzare o loggare errori e output in modo indipendente, senza che si contaminino a vicenda.&lt;/p&gt;
+&lt;h2&gt;Redirezione dell&#39;output&lt;/h2&gt;
+&lt;p&gt;La shell permette di collegare i canali di comunicazione tra comandi e file, costruendo catene di elaborazione anche complesse. Queste operazioni si chiamano &lt;strong&gt;redirezioni&lt;/strong&gt;.&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Sinstassi&lt;/th&gt;
+        &lt;th&gt;Effetto&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;comando &gt; file&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Scrive &lt;code&gt;stdout&lt;/code&gt; nel file (sovrascrive se esiste)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;comando &gt;&gt; file&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Appende &lt;code&gt;stdout&lt;/code&gt; al file (non sovrascrive)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;comando &lt; file&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Usa il file come &lt;code&gt;stdin&lt;/code&gt; del comando&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;comando 2&gt; file&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Scrive &lt;code&gt;stderr&lt;/code&gt; nel file&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold text-nowrap&quot;&gt;&lt;code&gt;comando1 | comando2&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Trasforma l&#39;output del primo comando (&lt;code&gt;stdout&lt;/code&gt;) &lt;code&gt;comando1&lt;/code&gt; in input (&lt;code&gt;stdin&lt;/code&gt;) del secondo comando &lt;code&gt;comando2&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;h3&gt;Esempi pratici&lt;/h3&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Salva la lista dei file in un log&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-la&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; lista_file.txt
+
+&lt;span class=&quot;token comment&quot;&gt;# Appende nuovi risultati senza sovrascrivere&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;ls&lt;/span&gt; ~/downloads &lt;span class=&quot;token operator&quot;&gt;&gt;&gt;&lt;/span&gt; lista_file.txt
+
+&lt;span class=&quot;token comment&quot;&gt;# Filtra solo gli errori in un file separato&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;make&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&lt;span class=&quot;token file-descriptor important&quot;&gt;2&lt;/span&gt;&gt;&lt;/span&gt; errori.log
+
+&lt;span class=&quot;token comment&quot;&gt;# Concatena due file e cerca una stringa&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;cat&lt;/span&gt; a.txt b.txt &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;TODO&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;La pipe (&lt;code&gt;|&lt;/code&gt;) è uno degli strumenti più potenti della shell: permette di comporre programmi semplici in pipeline sofisticate, dove l&#39;output di uno diventa l&#39;input del successivo.&lt;/p&gt;
+&lt;h2&gt;Comandi di elaborazione dell&#39;output&lt;/h2&gt;
+&lt;p&gt;Questi comandi sono progettati per trasformare, filtrare e analizzare dati testuali. Lavorano spesso in combinazione tramite pipe, e il loro punto di forza è proprio la componibilità: incatenati insieme, permettono di estrarre esattamente le informazioni che servono da flussi di dati anche molto grandi.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;echo&lt;/code&gt; — Stampa una stringa&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;echo&lt;/code&gt; scrive una stringa su &lt;code&gt;stdout&lt;/code&gt;. Semplice, ma molto utile in script e pipeline.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;Ciao mondo&quot;&lt;/span&gt;
+Ciao mondo
+
+$ &lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-n&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;senza newline&quot;&lt;/span&gt;   &lt;span class=&quot;token comment&quot;&gt;# non va a capo alla fine&lt;/span&gt;
+$ &lt;span class=&quot;token builtin class-name&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;&lt;span class=&quot;token entity&quot; title=&quot;&#92;e&quot;&gt;&#92;e&lt;/span&gt;[36;1mTesto ciano grassetto&lt;span class=&quot;token entity&quot; title=&quot;&#92;e&quot;&gt;&#92;e&lt;/span&gt;[0m&quot;&lt;/span&gt;   &lt;span class=&quot;token comment&quot;&gt;# interpreta escape ANSI&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Opzione&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-n&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Non aggiunge il carattere di newline finale&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-e&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Interpreta i caratteri di escape (es. colori ANSI, &lt;code&gt;&#92;t&lt;/code&gt;, &lt;code&gt;&#92;n&lt;/code&gt;)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; per stampare messaggi in script, per passare stringhe a pipeline, o per testare rapidamente l&#39;output di variabili d&#39;ambiente (&lt;code&gt;echo $PATH&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Perché sceglierlo:&lt;/strong&gt; è universalmente disponibile e non ha dipendenze. Con &lt;code&gt;-e&lt;/code&gt; permette anche di formattare l&#39;output con colori e stili (vedi &lt;code&gt;man console_codes&lt;/code&gt; per i codici ANSI).&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;head&lt;/code&gt; e &lt;code&gt;tail&lt;/code&gt; — Prime e ultime righe&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;head&lt;/code&gt; mostra le prime righe di un file o di uno stream; &lt;code&gt;tail&lt;/code&gt; mostra le ultime. Per default entrambi mostrano 10 righe.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;head&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-n&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;5&lt;/span&gt; access.log      &lt;span class=&quot;token comment&quot;&gt;# prime 5 righe&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;tail&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-n&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;20&lt;/span&gt; error.log      &lt;span class=&quot;token comment&quot;&gt;# ultime 20 righe&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;tail&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-f&lt;/span&gt; /var/log/syslog   &lt;span class=&quot;token comment&quot;&gt;# segue il file in tempo reale (live)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Opzione&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-n &amp;lt;numero&amp;gt;&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Specifica il numero di righe da mostrare&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarli:&lt;/strong&gt; &lt;code&gt;head&lt;/code&gt; per ispezionare l&#39;intestazione di un file (es. CSV con colonne); &lt;code&gt;tail&lt;/code&gt; per leggere le righe più recenti di un log. &lt;code&gt;tail -f&lt;/code&gt; è particolarmente utile per monitorare log applicativi in tempo reale.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Perché sceglierli:&lt;/strong&gt; evitano di caricare l&#39;intero file quando serve solo una porzione. Su file di log da gigabyte, la differenza è sostanziale.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;grep&lt;/code&gt; — Cerca nel testo&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;grep&lt;/code&gt; (&lt;em&gt;General Regular Expression Print&lt;/em&gt;) cerca righe che corrispondono a un pattern all&#39;interno di file o stream. Restituisce solo le righe che contengono la corrispondenza.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;errore&quot;&lt;/span&gt; app.log               &lt;span class=&quot;token comment&quot;&gt;# cerca la stringa &quot;errore&quot;&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;warning&quot;&lt;/span&gt; app.log           &lt;span class=&quot;token comment&quot;&gt;# case insensitive&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-n&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;TODO&quot;&lt;/span&gt; src/main.ts          &lt;span class=&quot;token comment&quot;&gt;# mostra il numero di riga&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;404&quot;&lt;/span&gt; access.log            &lt;span class=&quot;token comment&quot;&gt;# conta le righe corrispondenti&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;cat&lt;/span&gt; app.log &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;grep&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;error&quot;&lt;/span&gt;       &lt;span class=&quot;token comment&quot;&gt;# in pipeline&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Opzione&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-i&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Ignora maiuscole/minuscole&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-n&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Precede ogni riga con il suo numero&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-c&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Restituisce solo il conteggio delle righe corrispondenti&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; per filtrare log, cercare occorrenze di una stringa in un file, o come filtro in una pipeline (&lt;code&gt;comando | grep &amp;quot;pattern&amp;quot;&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Perché sceglierlo:&lt;/strong&gt; è lo strumento standard per la ricerca testuale su stream e file. Supporta anche le espressioni regolari, che aprono possibilità di ricerca molto più avanzate della semplice stringa fissa.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;wc&lt;/code&gt; — Conta righe, parole e caratteri&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;wc&lt;/code&gt; (&lt;em&gt;Word Count&lt;/em&gt;) conta righe, parole e caratteri di un file o stream.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;wc&lt;/span&gt; file.txt              &lt;span class=&quot;token comment&quot;&gt;# righe, parole e caratteri&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;wc&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-l&lt;/span&gt; *.log              &lt;span class=&quot;token comment&quot;&gt;# conta solo le righe di ogni file .log&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;cat&lt;/span&gt; file.txt &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;wc&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-w&lt;/span&gt;     &lt;span class=&quot;token comment&quot;&gt;# conta le parole via pipe&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Opzione&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-l&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Conta solo le righe&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-w&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Conta solo le parole&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-m&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Conta solo i caratteri&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; per sapere quante righe ha un file di log, quante voci contiene un CSV, o quante occorrenze ha restituito un &lt;code&gt;grep&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Perché sceglierlo:&lt;/strong&gt; è veloce e componibile. &lt;code&gt;grep &amp;quot;errore&amp;quot; app.log | wc -l&lt;/code&gt; risponde in un colpo solo a &amp;quot;quanti errori ci sono nel log?&amp;quot;.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;sort&lt;/code&gt; — Ordina le righe&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;sort&lt;/code&gt; riordina le righe di un file o stream secondo la regola specificata. Di default ordina lessicograficamente.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;sort&lt;/span&gt; nomi.txt                  &lt;span class=&quot;token comment&quot;&gt;# ordine alfabetico&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;sort&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-r&lt;/span&gt; nomi.txt               &lt;span class=&quot;token comment&quot;&gt;# ordine inverso&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;sort&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-g&lt;/span&gt; numeri.txt             &lt;span class=&quot;token comment&quot;&gt;# ordine numerico&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;sort&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-R&lt;/span&gt; lista.txt              &lt;span class=&quot;token comment&quot;&gt;# ordine casuale&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;cat&lt;/span&gt; log.txt &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sort&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-f&lt;/span&gt;          &lt;span class=&quot;token comment&quot;&gt;# case insensitive via pipe&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Opzione&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-f&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Ignora maiuscole/minuscole&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-g&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Ordine numerico&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-d&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Ordine alfabetico (dizionario, ignora punteggiatura)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-r&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Ordine inverso&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-R&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Ordine casuale&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; per ordinare output prima di confrontarlo, per preparare dati per &lt;code&gt;uniq&lt;/code&gt;, o per trovare rapidamente il valore massimo/minimo in una lista numerica.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Perché sceglierlo:&lt;/strong&gt; è spesso il passaggio intermedio necessario in una pipeline prima di elaborazioni successive — &lt;code&gt;sort&lt;/code&gt; + &lt;code&gt;uniq&lt;/code&gt; è una combinazione classica.&lt;/p&gt;
+&lt;h3&gt;&lt;code&gt;uniq&lt;/code&gt; — Rimuovi o conta i duplicati&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;uniq&lt;/code&gt; (&lt;em&gt;UNIQue&lt;/em&gt;) opera su righe adiacenti identiche: le rimuove, le conta o le filtra. Per funzionare correttamente su file non ordinati, va quasi sempre preceduto da &lt;code&gt;sort&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;$ &lt;span class=&quot;token function&quot;&gt;sort&lt;/span&gt; lista.txt &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;uniq&lt;/span&gt;          &lt;span class=&quot;token comment&quot;&gt;# rimuove i duplicati&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;sort&lt;/span&gt; lista.txt &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;uniq&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-c&lt;/span&gt;       &lt;span class=&quot;token comment&quot;&gt;# conta le occorrenze di ogni valore&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;sort&lt;/span&gt; lista.txt &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;uniq&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-u&lt;/span&gt;       &lt;span class=&quot;token comment&quot;&gt;# mostra solo i valori univoci&lt;/span&gt;
+$ &lt;span class=&quot;token function&quot;&gt;sort&lt;/span&gt; lista.txt &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;uniq&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-d&lt;/span&gt;       &lt;span class=&quot;token comment&quot;&gt;# mostra solo i valori duplicati&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Opzione&lt;/th&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-i&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Ignora maiuscole/minuscole&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-c&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Precede ogni riga con il numero di occorrenze&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-u&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Mostra solo le righe che appaiono una volta sola&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;-d&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;Mostra solo le righe che appaiono più di una volta&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;br&gt;
+&lt;p&gt;&lt;strong&gt;Quando usarlo:&lt;/strong&gt; per deduplicare liste, per trovare valori ripetuti in un log, o per costruire un conteggio delle frequenze (&lt;code&gt;sort | uniq -c | sort -rg&lt;/code&gt; restituisce una classifica delle occorrenze).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Perché sceglierlo:&lt;/strong&gt; in combinazione con &lt;code&gt;sort&lt;/code&gt;, &lt;code&gt;grep&lt;/code&gt; e &lt;code&gt;wc&lt;/code&gt; copre la maggior parte dei casi d&#39;uso di analisi testuale rapida senza bisogno di script complessi.&lt;/p&gt;
+&lt;h2&gt;Come scegliere il comando giusto&lt;/h2&gt;
+&lt;p&gt;La scelta dipende da tre fattori principali:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Sbagliare una cifra&lt;/strong&gt;, per esempio scrivere 4 invece di 5&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Invertire due cifre adiacenti&lt;/strong&gt;, per esempio scrivere 63 invece di 36&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Scopo (Identifica l&#39;azione)&lt;/strong&gt;: leggere, copiare, spostare, eliminare. Scegli il comando che fa esattamente quello e niente di più.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Efficienza&lt;/strong&gt;: &lt;code&gt;mv&lt;/code&gt; è più veloce di &lt;code&gt;cp&lt;/code&gt; + &lt;code&gt;rm&lt;/code&gt; per spostamenti sullo stesso filesystem. Conoscere queste differenze evita operazioni inutili.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sicurezza&lt;/strong&gt;: Preferisci comandi che richiedono conferma (&lt;code&gt;rm -i&lt;/code&gt;) per operazioni distruttive. In uno script, verifica sempre i percorsi prima di eseguire cancellazioni.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Nella pratica quotidiana, queste due casistiche coprono la stragrande maggioranza degli sbagli umani. Luhn &lt;strong&gt;non è un sistema di sicurezza serio&lt;/strong&gt;: chi vuole può creare numeri validi rispettando la regola. Il suo scopo è &lt;strong&gt;essere veloce e affidabile&lt;/strong&gt; per evitare errori di battitura, non proteggere soldi o dati.&lt;/p&gt;
-&lt;p&gt;Negli anni ’50, quando i computer erano grandi quanto una stanza, questa era una priorità enorme. Al giorno d&#39;oggi questo algoritmo è comunque utile, anche se non essenziale come allora.&lt;/p&gt;
-&lt;h2&gt;In Java&lt;/h2&gt;
-&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token import&quot;&gt;&lt;span class=&quot;token namespace&quot;&gt;org&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;apache&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;logging&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;log4j&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;LogManager&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token import&quot;&gt;&lt;span class=&quot;token namespace&quot;&gt;org&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;apache&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;logging&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;log4j&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Logger&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token import&quot;&gt;&lt;span class=&quot;token namespace&quot;&gt;java&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;util&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;ArrayList&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token import&quot;&gt;&lt;span class=&quot;token namespace&quot;&gt;java&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;util&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Arrays&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token import&quot;&gt;&lt;span class=&quot;token namespace&quot;&gt;java&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;util&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;List&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;LuhnValidator&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Logger&lt;/span&gt; logger &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;LogManager&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getLogger&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;LuhnValidator&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-
-    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; args&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-
-        &lt;span class=&quot;token class-name&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; a &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Arrays&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;asList&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;token class-name&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; b &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-
-        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;a&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-            logger&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Il PAN deve essere composto da 11 cifre!&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
-
-        &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; n &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; n &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt; a&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; n&lt;span class=&quot;token operator&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-            
-            &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; valoreCorrente &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; a&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-
-            &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;valoreCorrente &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-                logger&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Il PAN non può contenere valori negativi&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
-
-            &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;n &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// Indici dispari&lt;/span&gt;
-                &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; p &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; valoreCorrente &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-
-                &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;p &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-                    b&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;p &lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;p &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// Sommo la prima e l&#39;ultima cifra del valore&lt;/span&gt;
-                &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-                    b&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;p&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-                &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
-            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-                b&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;valoreCorrente&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
-
-        &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; somma &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; j &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; j &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt; b&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; j&lt;span class=&quot;token operator&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-            somma &lt;span class=&quot;token operator&quot;&gt;+=&lt;/span&gt; b&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;j&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
-
-        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;somma &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-            logger&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Il PAN soddisfa l&#39;algoritmo di Luhn&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
-            logger&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Il PAN NON soddisfa l&#39;algoritmo di Luhn&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
-        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
 ]]></content>
     
     
       
     
       
-    <category term="algoritmi"/>
+    <category term="linux"/>
       
     
       
-    <category term="java"/>
+    <category term="shell"/>
+      
+    
+      
+    <category term="sistemi operativi"/>
       
     
   </entry>
@@ -470,6 +874,117 @@ Esistono &lt;strong&gt;due filosofie dominanti&lt;/strong&gt; che determinano l&
     
       
     <category term="licenze"/>
+      
+    
+  </entry>
+  
+  <entry>
+    <title>L&#39;algoritmo di Luhn</title>
+    <link href="https://dino-996.github.io/blog/lalgoritmo-di-luhn/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/lalgoritmo-di-luhn/</id>
+    <published>2026-03-08T00:00:00.000Z</published>
+    <updated>2026-03-08T00:00:00.000Z</updated>
+    
+    <summary>L’algoritmo di Luhn è un metodo matematico sviluppato nel 1954 dal ricercatore IBM Hans Peter Luhn per verificare la validità di numeri identificativi attraverso una cifra di controllo. Ancora oggi è utilizzato in moltissimi sistemi informatici, soprattutto per la validazione dei numeri di carte di credito, IMEI dei dispositivi mobili e altri identificatori strutturati.</summary>
+    
+    
+    <content type="html"><![CDATA[&lt;h1&gt;Introduzione&lt;/h1&gt;
+&lt;p&gt;L’algoritmo di Luhn è uno dei metodi più diffusi per verificare la validità di numeri identificativi come quelli delle carte di credito. Ideato nel 1954 dal ricercatore IBM Hans Peter Luhn, utilizza una semplice regola matematica per individuare errori di digitazione e garantire la coerenza dei dati prima della loro elaborazione.&lt;/p&gt;
+&lt;h2&gt;Cos&#39;è e a cosa serve?&lt;/h2&gt;
+&lt;p&gt;L&#39;algoritmo di Luhn è un &lt;strong&gt;semplice sistema di controllo cifre&lt;/strong&gt; inventato negli anni &#39;50 da &lt;a href=&quot;https://en.wikipedia.org/wiki/Hans_Peter_Luhn&quot;&gt;&lt;strong&gt;Hans Peter Luhn&lt;/strong&gt;&lt;/a&gt;, ingegnere &lt;a href=&quot;https://www.ibm.com/it-it&quot;&gt;IBM&lt;/a&gt;. Lo trovi ovunque: numeri di carte di credito, codici fiscali, IBAN, codici seriali. Il suo scopo è rispondere a una domanda pratica:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&amp;quot;Questo numero che ho digitato ha senso, oppure ho fatto un errore di battitura?&amp;quot;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Non protegge da frodi&lt;/strong&gt;. È solo un modo veloce per stanare gli errori.&lt;/p&gt;
+&lt;h2&gt;Come funziona, passo per passo&lt;/h2&gt;
+&lt;p&gt;Sia $N = n_1, n_2, &#92;dots, n_{11}$ una matrice righa a 11 cifre, con $n_1$ la &lt;strong&gt;prima cifra a sinistra&lt;/strong&gt;.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Identifica le cifre in &lt;strong&gt;posizione dispari&lt;/strong&gt; ($n_2,n_4,n_6,...$)&lt;/li&gt;
+&lt;li&gt;Raddoppia ciascuna cifra: $d_i = 2 &#92;cdot n_i$&lt;/li&gt;
+&lt;li&gt;Se $d_i &amp;gt; 9$, somma le due cifre:
+$d_i = &#92;lfloor d_i / 10 &#92;rfloor + (d_i &#92;bmod 10)$&lt;/li&gt;
+&lt;li&gt;Le cifre in &lt;strong&gt;posizione pari&lt;/strong&gt; restano invariate.&lt;/li&gt;
+&lt;li&gt;Somma tutte le cifre elaborate: $S = &#92;sum_{i=1}^{11} d_i$&lt;/li&gt;
+&lt;li&gt;Se $S &#92;bmod 10 = 0$, PAN valido secondo l&#39;algoritmo di Luhn&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Nota sugli indici:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;In matematica le posizioni partono da 1&lt;/li&gt;
+&lt;li&gt;In Java gli &lt;strong&gt;array partono da 0&lt;/strong&gt;, quindi la seconda cifra (posizione 2) corrisponde all’indice 1 dell’array.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Quando si usa?&lt;/h2&gt;
+&lt;p&gt;Luhn è progettato per rilevare i due errori più comuni:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Sbagliare una cifra&lt;/strong&gt;, per esempio scrivere 4 invece di 5&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Invertire due cifre adiacenti&lt;/strong&gt;, per esempio scrivere 63 invece di 36&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Nella pratica quotidiana, queste due casistiche coprono la stragrande maggioranza degli sbagli umani. Luhn &lt;strong&gt;non è un sistema di sicurezza serio&lt;/strong&gt;: chi vuole può creare numeri validi rispettando la regola. Il suo scopo è &lt;strong&gt;essere veloce e affidabile&lt;/strong&gt; per evitare errori di battitura, non proteggere soldi o dati.&lt;/p&gt;
+&lt;p&gt;Negli anni ’50, quando i computer erano grandi quanto una stanza, questa era una priorità enorme. Al giorno d&#39;oggi questo algoritmo è comunque utile, anche se non essenziale come allora.&lt;/p&gt;
+&lt;h2&gt;In Java&lt;/h2&gt;
+&lt;pre class=&quot;language-java&quot;&gt;&lt;code class=&quot;language-java&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token import&quot;&gt;&lt;span class=&quot;token namespace&quot;&gt;org&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;apache&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;logging&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;log4j&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;LogManager&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token import&quot;&gt;&lt;span class=&quot;token namespace&quot;&gt;org&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;apache&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;logging&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;log4j&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Logger&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token import&quot;&gt;&lt;span class=&quot;token namespace&quot;&gt;java&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;util&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;ArrayList&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token import&quot;&gt;&lt;span class=&quot;token namespace&quot;&gt;java&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;util&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Arrays&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token import&quot;&gt;&lt;span class=&quot;token namespace&quot;&gt;java&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;util&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;List&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;LuhnValidator&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Logger&lt;/span&gt; logger &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;LogManager&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getLogger&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;LuhnValidator&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+    &lt;span class=&quot;token keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; args&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+
+        &lt;span class=&quot;token class-name&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; a &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;Arrays&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;asList&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;5&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;6&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;7&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token class-name&quot;&gt;List&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;Integer&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt; b &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;token class-name&quot;&gt;ArrayList&lt;/span&gt;&lt;span class=&quot;token generics&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;a&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;16&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            logger&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Il PAN deve essere composto da 11 cifre!&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; n &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; n &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt; a&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; n&lt;span class=&quot;token operator&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            
+            &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; valoreCorrente &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; a&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;n&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+            &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;valoreCorrente &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                logger&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Il PAN non può contenere valori negativi&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+            &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;n &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// Indici dispari&lt;/span&gt;
+                &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; p &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; valoreCorrente &lt;span class=&quot;token operator&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+                &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;p &lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;9&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                    b&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;p &lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;p &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;token comment&quot;&gt;// Sommo la prima e l&#39;ultima cifra del valore&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                    b&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;p&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+                &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+                b&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;valoreCorrente&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+            &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; somma &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token keyword&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token keyword&quot;&gt;int&lt;/span&gt; j &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; j &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt; b&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt; j&lt;span class=&quot;token operator&quot;&gt;++&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            somma &lt;span class=&quot;token operator&quot;&gt;+=&lt;/span&gt; b&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;get&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;j&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+        &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;somma &lt;span class=&quot;token operator&quot;&gt;%&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            logger&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;info&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Il PAN soddisfa l&#39;algoritmo di Luhn&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+            logger&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;Il PAN NON soddisfa l&#39;algoritmo di Luhn&quot;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+]]></content>
+    
+    
+      
+    
+      
+    <category term="algoritmi"/>
+      
+    
+      
+    <category term="java"/>
       
     
   </entry>
