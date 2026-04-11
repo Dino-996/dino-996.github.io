@@ -1,12 +1,12 @@
 ---
 layout: layouts/post.njk
 title: Il Filesystem di Linux
-description: In questo articolo esploriamo come funziona il filesystem Linux; partiremo dai concetti fondamentali, capiremo perché "tutto è un file", e poi percorreremo le directory principali del sistema una per una.
+description: In questo articolo esploriamo come funziona il filesystem Linux; partiremo dai concetti fondamentali, capiremo perché tutto è un file, e poi percorreremo le directory principali del sistema una per una.
 tags:
   - posts
   - linux
-  - filesystem
   - sistemi operativi
+  - filesystem
 date: 2026-03-18
 excerpt: Il filesystem di Linux organizza dati e risorse seguendo la filosofia per cui ogni elemento del sistema è rappresentato come un file.
 permalink: "/blog/{{ title | slug }}/"

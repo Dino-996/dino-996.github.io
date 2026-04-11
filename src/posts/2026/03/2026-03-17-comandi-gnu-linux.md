@@ -5,8 +5,8 @@ description: Una guida pratica ai comandi fondamentali della shell Linux; dalla 
 tags:
   - posts
   - linux
-  - shell
   - sistemi operativi
+  - shell
 date: 2026-03-17
 excerpt: Quando apri un terminale per la prima volta, quello che vedi non è una pagina bianca — è un prompt, una mappa che ti dice chi sei, dove sei e con quali permessi stai operando. Da lì in poi, ogni cosa che fai passa attraverso comandi; istruzioni testuali che la shell interpreta, avvia e di cui gestisce l'input e l'output. Imparare a usarli bene non significa memorizzarli tutti, ma capire come funzionano e come combinarli tra loro.
 permalink: "/blog/{{ title | slug }}/"

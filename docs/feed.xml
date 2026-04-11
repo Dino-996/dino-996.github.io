@@ -21,7 +21,7 @@
     <published>2026-03-18T00:00:00.000Z</published>
     <updated>2026-03-18T00:00:00.000Z</updated>
     
-    <summary>In questo articolo esploriamo come funziona il filesystem Linux; partiremo dai concetti fondamentali, capiremo perché &quot;tutto è un file&quot;, e poi percorreremo le directory principali del sistema una per una.</summary>
+    <summary>In questo articolo esploriamo come funziona il filesystem Linux; partiremo dai concetti fondamentali, capiremo perché tutto è un file, e poi percorreremo le directory principali del sistema una per una.</summary>
     
     
     <content type="html"><![CDATA[&lt;h1&gt;Filesystem: Struttura e Organizzazione&lt;/h1&gt;
@@ -177,11 +177,11 @@
       
     
       
-    <category term="filesystem"/>
+    <category term="sistemi operativi"/>
       
     
       
-    <category term="sistemi operativi"/>
+    <category term="filesystem"/>
       
     
   </entry>
@@ -692,11 +692,11 @@ $ &lt;span class=&quot;token function&quot;&gt;sort&lt;/span&gt; lista.txt &lt;s
       
     
       
-    <category term="shell"/>
+    <category term="sistemi operativi"/>
       
     
       
-    <category term="sistemi operativi"/>
+    <category term="shell"/>
       
     
   </entry>
@@ -2333,6 +2333,150 @@ che degrada sotto carico. La tabella seguente riassume le complessità principal
     
       
     <category term="java"/>
+      
+    
+  </entry>
+  
+  <entry>
+    <title>Allocazione della memoria</title>
+    <link href="https://dino-996.github.io/blog/allocazione-della-memoria/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/allocazione-della-memoria/</id>
+    <published>2020-02-23T00:00:00.000Z</published>
+    <updated>2020-02-23T00:00:00.000Z</updated>
+    
+    <summary>Questo approfondimento tecnico esplora le sfide dell&#39;allocazione dei frame in sistemi multiprogrammati. Analizzeremo come il modello del working set e la frequenza dei page fault prevengano il collasso del sistema (thrashing), oltre a esaminare le tecniche specifiche del kernel per la gestione di oggetti di dimensioni variabili e fisse.</summary>
+    
+    
+    <content type="html"><![CDATA[&lt;h1&gt;Strategie di allocazione dei frame&lt;/h1&gt;
+&lt;p&gt;La gestione efficiente della memoria fisica non si limita alla semplice paginazione; il cuore delle prestazioni risiede nella &lt;strong&gt;strategia di allocazione dei frame&lt;/strong&gt;. Decidere quanti e quali frame assegnare a ogni processo è un gioco di equilibrio tra equità, priorità e throughput del sistema.&lt;/p&gt;
+&lt;h2&gt;Modelli di allocazione&lt;/h2&gt;
+&lt;p&gt;Esistono due approcci filosofici alla distribuzione della memoria:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Allocazione Uniforme:&lt;/strong&gt; Assegna a ogni processo lo stesso numero di frame ($m/n$), indipendentemente dal carico di lavoro. È una strategia democratica ma inefficiente, poiché penalizza i processi pesanti e spreca risorse con quelli leggeri.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Allocazione Proporzionale:&lt;/strong&gt; Distribuisce la memoria in base alla dimensione virtuale del processo. Se un processo $p_i$ ha una dimensione virtuale $s_i$, riceverà un numero di frame $a_i$ proporzionale alla sua quota sul totale della memoria virtuale richiesta.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Politiche di sostituzione&lt;/h3&gt;
+&lt;p&gt;Oltre alla quantità, la &amp;quot;provenienza&amp;quot; dei frame è determinante:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Sostituzione Globale:&lt;/strong&gt; Un processo può sottrarre frame a un altro (spesso a quelli con priorità inferiore). Questo massimizza il throughput ma rende il tempo di risposta del singolo processo imprevedibile.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sostituzione Locale:&lt;/strong&gt; Un processo può rimpiazzare solo i frame che gli sono già stati assegnati. Questo garantisce isolamento e stabilità, ma può lasciare inutilizzata RAM preziosa se un processo non ne ha immediato bisogno.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Il pericolo del Thrashing&lt;/h2&gt;
+&lt;p&gt;Il &lt;strong&gt;Thrashing&lt;/strong&gt; è il &amp;quot;punto di rottura&amp;quot; di un sistema operativo: si verifica quando il sistema spende più tempo a gestire i page fault (I/O) che a eseguire istruzioni utili.&lt;/p&gt;
+&lt;p&gt;Questo collasso avviene tipicamente quando il grado di multiprogrammazione aumenta oltre il limite critico. La CPU registra un calo di utilizzo perché i processi sono in attesa dell&#39;I/O; il sistema operativo, interpretando erroneamente il calo come mancanza di carico, avvia nuovi processi. Questo sottrae ulteriori frame ai processi esistenti, innescando una reazione a catena che porta il sistema alla paralisi.&lt;/p&gt;
+&lt;h3&gt;Strategie di prevenzione&lt;/h3&gt;
+&lt;p&gt;Per scongiurare il thrashing, i kernel moderni adottano due modelli principali:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Modello del Working Set:&lt;/strong&gt; Si basa sul &lt;strong&gt;principio di località&lt;/strong&gt;. Il sistema monitora le pagine usate attivamente in una finestra temporale $&#92;Delta$. Se la somma dei working set di tutti i processi supera la RAM disponibile, il sistema sospende temporaneamente un processo (swap-out) per liberare risorse.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Frequenza dei Page Fault (PFF):&lt;/strong&gt; Un approccio diretto che stabilisce una soglia superiore e inferiore di fault. Se un processo genera troppi fault, riceve più frame; se ne genera troppi pochi, i suoi frame vengono ridotti.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Gestione della memoria nel kernel&lt;/h2&gt;
+&lt;p&gt;A differenza dei processi utente, il kernel richiede spesso allocazioni di memoria &lt;strong&gt;fisicamente contigue&lt;/strong&gt; (per interagire con l&#39;hardware via DMA). Vengono utilizzate due tecniche specifiche:&lt;/p&gt;
+&lt;h3&gt;Sistema buddy (Buddy System)&lt;/h3&gt;
+&lt;p&gt;Il kernel gestisce la memoria in blocchi di dimensioni pari a potenze di due ($2^n$). Se viene richiesta una quantità di memoria che non corrisponde a una potenza di due, il sistema divide ricorsivamente i blocchi a metà (&amp;quot;buddies&amp;quot;) finché non trova la dimensione minima adatta.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Vantaggio:&lt;/strong&gt; Facilità estrema nel ricompattare i blocchi liberi.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Svantaggio:&lt;/strong&gt; Rischio di &lt;strong&gt;frammentazione interna&lt;/strong&gt; se la richiesta è appena superiore a una potenza di due.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Slab allocator&lt;/h3&gt;
+&lt;p&gt;Ideato per gestire oggetti di dimensione fissa (come i descrittori dei processi o i nodi del file system). Organizza la memoria in &lt;strong&gt;Slab&lt;/strong&gt; (lastre) che contengono oggetti pre-allocati.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cache dedicate:&lt;/strong&gt; Ogni tipo di struttura dati ha la sua cache.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Zero frammentazione:&lt;/strong&gt; Elimina la frammentazione interna ed evita il costo computazionale di allocazione/deallocazione continua.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Ottimizzazioni moderne e il caso Linux&lt;/h2&gt;
+&lt;p&gt;Nei sistemi contemporanei, l&#39;efficienza è spinta all&#39;estremo attraverso:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;TLB Reach:&lt;/strong&gt; L&#39;uso di &amp;quot;Huge Pages&amp;quot; (pagine di dimensioni maggiori, es. 2MB o 1GB) per aumentare la porzione di memoria indirizzabile senza causare un flush del TLB.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Compressione della Memoria (ZRAM):&lt;/strong&gt; Comune nei dispositivi mobili; invece di fare swap su disco, le pagine meno usate vengono compresse in una porzione dedicata della RAM.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Come gestisce Linux il rimpiazzo?&lt;/h3&gt;
+&lt;p&gt;Linux non usa un algoritmo LRU puro (troppo costoso), ma una sua approssimazione efficace tramite due liste:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Active List:&lt;/strong&gt; Pagine referenziate di recente.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Inactive List:&lt;/strong&gt; Pagine candidate alla rimozione.
+Attraverso il bit di accesso, il kernel sposta dinamicamente le pagine tra queste liste (meccanismo a &amp;quot;due mani&amp;quot;), garantendo che le pagine più preziose rimangano in memoria il più a lungo possibile.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;hr&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Key Takeaway:&lt;/strong&gt; L&#39;allocazione dei frame non è solo una questione di spazio, ma di tempo. Un kernel che sa prevedere il working set dei suoi processi è la differenza tra una workstation fluida e un sistema in costante attesa del disco.&lt;/p&gt;
+&lt;/blockquote&gt;
+]]></content>
+    
+    
+      
+    
+      
+    <category term="sistemi operativi"/>
+      
+    
+      
+    <category term="allocazione della memoria"/>
+      
+    
+  </entry>
+  
+  <entry>
+    <title>La memoria virtuale</title>
+    <link href="https://dino-996.github.io/blog/la-memoria-virtuale/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/la-memoria-virtuale/</id>
+    <published>2020-02-22T00:00:00.000Z</published>
+    <updated>2020-02-22T00:00:00.000Z</updated>
+    
+    <summary>Scopri come i sistemi operativi riescono a eseguire applicazioni enormi su hardware limitato attraverso la memoria virtuale, la paginazione su richiesta e i sofisticati algoritmi di sostituzione delle pagine.</summary>
+    
+    
+    <content type="html"><![CDATA[&lt;h1&gt;Architettura e strategie della Memoria Virtuale&lt;/h1&gt;
+&lt;p&gt;Nei moderni sistemi multiprogrammati, l&#39;esecuzione simultanea di più processi richiede una gestione oculata delle risorse. Tuttavia, la RAM è per definizione una risorsa finita e spesso insufficiente a ospitare l&#39;intero working set di ogni applicazione attiva. Qui entra in gioco la &lt;strong&gt;Memoria Virtuale&lt;/strong&gt;, un&#39;astrazione fondamentale che scollega la memoria logica vista dal programmatore dalla memoria fisica effettivamente disponibile.&lt;/p&gt;
+&lt;p&gt;Questa architettura offre vantaggi determinanti:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Scalabilità:&lt;/strong&gt; Consente l&#39;esecuzione di programmi le cui dimensioni superano la capacità della RAM fisica.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Astrazione:&lt;/strong&gt; Il programmatore interagisce con uno spazio di indirizzamento lineare e contiguo, ignorando la frammentazione fisica.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Efficienza:&lt;/strong&gt; Facilita la condivisione di librerie (DLL/Shared Objects) tra processi diversi attraverso la mappatura delle medesime pagine fisiche.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Paginazione su richiesta&lt;/h2&gt;
+&lt;p&gt;Il cuore della memoria virtuale risiede nel &lt;strong&gt;Demand Paging&lt;/strong&gt; (paginazione su richiesta). Invece di caricare l&#39;intero binario in fase di startup, il kernel carica le singole pagine solo quando vengono effettivamente referenziate durante l&#39;esecuzione.&lt;/p&gt;
+&lt;h3&gt;Il ciclo del page fault&lt;/h3&gt;
+&lt;p&gt;Quando un processo tenta di accedere a un indirizzo logico non presente in RAM (identificato da un bit di validità &amp;quot;0&amp;quot; nella Page Table), l&#39;hardware genera un&#39;eccezione nota come &lt;strong&gt;Page Fault&lt;/strong&gt;. Il sistema operativo interviene seguendo una procedura rigorosa:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Verifica:&lt;/strong&gt; Il SO controlla se il riferimento alla memoria era legittimo.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Swap-in:&lt;/strong&gt; Individua la pagina nel disco (area di swap).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Allocazione:&lt;/strong&gt; Cerca un frame libero nella RAM.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Update:&lt;/strong&gt; Carica i dati nel frame, aggiorna la Page Table e setta il bit di validità a &amp;quot;1&amp;quot;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Restart:&lt;/strong&gt; Ripristina l&#39;istruzione che aveva causato l&#39;eccezione.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Performance e ottimizzazioni&lt;/h2&gt;
+&lt;p&gt;L&#39;implementazione della memoria virtuale introduce un overhead inevitabile. Le prestazioni del sistema vengono misurate tramite il &lt;strong&gt;Tempo di Accesso Effettivo (EAT)&lt;/strong&gt;, calcolato come:&lt;/p&gt;
+&lt;p&gt;$$EAT = (1 - p) &#92;times ma + p &#92;times pft$$&lt;/p&gt;
+&lt;p&gt;Dove:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;$p$ è la probabilità di page fault ($0 &#92;le p &#92;le 1$).&lt;/li&gt;
+&lt;li&gt;$ma$ è il tempo di accesso alla memoria (nanosecondi).&lt;/li&gt;
+&lt;li&gt;$pft$ è il tempo di gestione del page fault (millisecondi).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Dato che il recupero da disco è ordini di grandezza più lento della RAM, anche un tasso di page fault minimo può degradare sensibilmente le performance.&lt;/p&gt;
+&lt;h3&gt;Copy-on-Write (CoW)&lt;/h3&gt;
+&lt;p&gt;Per ottimizzare la creazione dei processi (system call &lt;code&gt;fork()&lt;/code&gt;), si utilizza la tecnica &lt;strong&gt;Copy-on-Write&lt;/strong&gt;. Inizialmente, processo padre e figlio condividono le stesse pagine fisiche in sola lettura. Solo quando uno dei due tenta una scrittura, il kernel interviene duplicando la pagina specifica. Questo evita sprechi di memoria per processi che non modificano i dati ereditati.&lt;/p&gt;
+&lt;h2&gt;Algoritmi di sostituzione delle pagine&lt;/h2&gt;
+&lt;p&gt;Cosa accade quando la memoria fisica è satura? Il sistema deve selezionare una &amp;quot;vittima&amp;quot; da espellere per far spazio a una nuova pagina. Per ottimizzare questo processo, si utilizza il &lt;strong&gt;Dirty Bit&lt;/strong&gt; (o bit di modifica): se una pagina non è stata modificata dal suo caricamento, può essere sovrascritta senza essere riscritta su disco, dimezzando l&#39;I/O.&lt;/p&gt;
+&lt;h3&gt;Analisi delle strategie di replacement&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;FIFO (First-In-First-Out):&lt;/strong&gt; Sostituisce la pagina residente da più tempo. Sebbene semplice, è inefficiente e soggetto all&#39;&lt;strong&gt;Anomalia di Belady&lt;/strong&gt;: un fenomeno controintuitivo dove l&#39;aggiunta di frame fisici può aumentare il numero di page fault.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;OPT (Algoritmo Ottimale):&lt;/strong&gt; Sostituisce la pagina che non verrà utilizzata per il periodo di tempo più lungo in assoluto. È il gold standard teorico, ma è &lt;strong&gt;irrealizzabile&lt;/strong&gt; poiché richiederebbe la conoscenza futura degli accessi (non determinismo).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;LRU (Least Recently Used):&lt;/strong&gt; Approssima l&#39;algoritmo ottimale sostituendo la pagina non utilizzata da più tempo. È molto efficace ma richiede supporto hardware dedicato (contatori o stack) per non appesantire la CPU.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Seconda Chance (Clock):&lt;/strong&gt; Un compromesso ingegnoso tra FIFO e LRU. Organizza le pagine in una lista circolare e utilizza un &lt;strong&gt;Reference Bit&lt;/strong&gt;. Se il bit è 1, la pagina riceve una &amp;quot;seconda possibilità&amp;quot; e il bit viene azzerato; se è 0, la pagina viene sostituita.&lt;/li&gt;
+&lt;/ol&gt;
+]]></content>
+    
+    
+      
+    
+      
+    <category term="sistemi operativi"/>
+      
+    
+      
+    <category term="memoria virtuale"/>
       
     
   </entry>

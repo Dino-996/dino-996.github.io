@@ -32,6 +32,16 @@
   </url>
 
   <url>
+    <loc>/blog/allocazione-della-memoria/</loc>
+    <lastmod>2020-02-23T00:00:00.000Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/la-memoria-virtuale/</loc>
+    <lastmod>2020-02-22T00:00:00.000Z</lastmod>
+  </url>
+
+  <url>
     <loc>/blog/scheduling-della-cpu/</loc>
     <lastmod>2020-02-21T00:00:00.000Z</lastmod>
   </url>

@@ -2,7 +2,7 @@
   {
     "title": "Il Filesystem di Linux",
     "url": "/blog/il-filesystem-di-linux/",
-    "description": "In questo articolo esploriamo come funziona il filesystem Linux; partiremo dai concetti fondamentali, capiremo perché \"tutto è un file\", e poi percorreremo le directory principali del sistema una per una.",
+    "description": "In questo articolo esploriamo come funziona il filesystem Linux; partiremo dai concetti fondamentali, capiremo perché tutto è un file, e poi percorreremo le directory principali del sistema una per una.",
     "date": "2026-03-18T00:00:00.000Z"
   },
   {
@@ -34,6 +34,18 @@
     "url": "/blog/tecniche-algoritmiche-per-dev-java/",
     "description": "Questa guida raccoglie le tecniche algoritmiche più comuni utilizzate nello sviluppo software quotidiano. Le seguenti tecniche sono descritte il linguaggio Java.",
     "date": "2020-03-05T00:00:00.000Z"
+  },
+  {
+    "title": "Allocazione della memoria",
+    "url": "/blog/allocazione-della-memoria/",
+    "description": "Questo approfondimento tecnico esplora le sfide dell'allocazione dei frame in sistemi multiprogrammati. Analizzeremo come il modello del working set e la frequenza dei page fault prevengano il collasso del sistema (thrashing), oltre a esaminare le tecniche specifiche del kernel per la gestione di oggetti di dimensioni variabili e fisse.",
+    "date": "2020-02-23T00:00:00.000Z"
+  },
+  {
+    "title": "La memoria virtuale",
+    "url": "/blog/la-memoria-virtuale/",
+    "description": "Scopri come i sistemi operativi riescono a eseguire applicazioni enormi su hardware limitato attraverso la memoria virtuale, la paginazione su richiesta e i sofisticati algoritmi di sostituzione delle pagine.",
+    "date": "2020-02-22T00:00:00.000Z"
   },
   {
     "title": "Scheduling della CPU",

@@ -5,38 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  Blog · dino-996 blog
+  La memoria virtuale · dino-996 blog
 </title>
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="Articoli e appunti" />
+<meta name="description" content="Scopri come i sistemi operativi riescono a eseguire applicazioni enormi su hardware limitato attraverso la memoria virtuale, la paginazione su richiesta e i sofisticati algoritmi di sostituzione delle pagine." />
 <meta name="author" content="Davide Sabia" />
 <meta name="robots" content="index, follow" />
 
 <!-- Canonical URL -->
 
-<link rel="canonical" href="https://dino-996.github.io/blog/" />
+<link rel="canonical" href="https://dino-996.github.io/blog/la-memoria-virtuale/" />
 
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
 
-<meta property="og:url" content="https://dino-996.github.io/blog/" />
+<meta property="og:url" content="https://dino-996.github.io/blog/la-memoria-virtuale/" />
 
-<meta property="og:title" content="Blog" />
-<meta property="og:description" content="Articoli e appunti" />
+<meta property="og:title" content="La memoria virtuale" />
+<meta property="og:description" content="Scopri come i sistemi operativi riescono a eseguire applicazioni enormi su hardware limitato attraverso la memoria virtuale, la paginazione su richiesta e i sofisticati algoritmi di sostituzione delle pagine." />
 <meta property="og:site_name" content="dino-996 blog" />
 
-<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/og-default.webp" />
+<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/sistemi-operativi.webp" />
 
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 
-<meta name="twitter:url" content="https://dino-996.github.io/blog/" />
+<meta name="twitter:url" content="https://dino-996.github.io/blog/la-memoria-virtuale/" />
 
-<meta name="twitter:title" content="Blog" />
-<meta name="twitter:description" content="Articoli e appunti" />
+<meta name="twitter:title" content="La memoria virtuale" />
+<meta name="twitter:description" content="Scopri come i sistemi operativi riescono a eseguire applicazioni enormi su hardware limitato attraverso la memoria virtuale, la paginazione su richiesta e i sofisticati algoritmi di sostituzione delle pagine." />
+
+<meta name="twitter:image" content="https://dino-996.github.io/assets/img/webp/sistemi-operativi.webp" />
 
 
 <!-- Favicon -->
@@ -128,193 +130,125 @@
 
     <main class="container my-5 flex-grow-1">
       
-<h1>
-  <i class="text-primary bi bi-journal-text me-1"></i>
-  Blog
-</h1>
-<div class="mb-4">
-  <div class="input-group">
-    <span class="input-group-text bg-body rounded-start-3">
-      <i class="bi bi-search text-muted"></i>
-    </span>
-    <input
-      type="search"
-      id="search-input"
-      class="form-control border-2 ps-0 ml-3"
-      placeholder="Cerca un articolo per titolo..."
-      aria-label="Cerca articoli"
-      autocomplete="off"
-    >
-    <button id="search-button" class="btn btn-primary shadow-none rounded-end-3" type="button" style="transform: none;">
-      Cerca
-    </button>
-  </div>
-  <div id="search-results" class="mt-3" hidden></div>
-</div>
-<section id="posts-list" class="row g-4">
-  <div class="col-12">
-    <article class="card h-100 overflow-hidden shadow-sm">
-      <div class="row g-0 h-100">
-        <div class="col-md-4 p-0">
-          <img src="/assets/img/webp/gnu_linux.webp" alt="Immagine generata con IA" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 250px; max-height: 400px">
-        </div>
-      <div class="col-md-8">
-          <div class="card-body d-flex flex-column h-100">
-            <div>
-              <h2 class="h4 card-title mb-2">
-                <a href="/blog/il-filesystem-di-linux/" class="text-decoration-none">Il Filesystem di Linux</a>
-              </h2>
-              <time class="text-muted text-truncate small d-block mb-2" datetime="2026-03-18T00:00:00.000Z">
-                <i class="bi bi-calendar3 me-1"></i>18 marzo 2026
-              </time>
-              <hr>
-              <p class="card-text">In questo articolo esploriamo come funziona il filesystem Linux; partiremo dai concetti fondamentali, capiremo perché tutto è un file, e poi percorreremo le directory principali del sistema una per una.</p>
-              <div class="mb-3"><span class="fw-bold me-2">Tag:</span>
-                <a href="/tags/linux/" class="badge bg-light text-body border text-decoration-none">linux</a>
-                <a href="/tags/sistemi-operativi/" class="badge bg-light text-body border text-decoration-none">sistemi operativi</a>
-                <a href="/tags/filesystem/" class="badge bg-light text-body border text-decoration-none">filesystem</a>
-              </div></div>
-              <div class="text-end mt-auto mb-3">
-                <a href="/blog/il-filesystem-di-linux/" class="btn btn-primary btn-sm rounded">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-    </article>
-  </div>
-  <div class="col-12">
-    <article class="card h-100 overflow-hidden shadow-sm">
-      <div class="row g-0 h-100">
-        <div class="col-md-4 p-0">
-          <img src="/assets/img/webp/gnu_linux.webp" alt="Immagine generata con IA" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 250px; max-height: 400px">
-        </div>
-      <div class="col-md-8">
-          <div class="card-body d-flex flex-column h-100">
-            <div>
-              <h2 class="h4 card-title mb-2">
-                <a href="/blog/comandi-di-base-della-shell-linux/" class="text-decoration-none">Comandi di base della Shell Linux</a>
-              </h2>
-              <time class="text-muted text-truncate small d-block mb-2" datetime="2026-03-17T00:00:00.000Z">
-                <i class="bi bi-calendar3 me-1"></i>17 marzo 2026
-              </time>
-              <hr>
-              <p class="card-text">Una guida pratica ai comandi fondamentali della shell Linux; dalla lettura del prompt alla navigazione nel filesystem, dalla gestione di file e directory all'elaborazione dell'output con pipe e redirezioni. Ogni comando è spiegato con esempi reali, opzioni utili e criteri chiari per scegliere quando e perché usarlo.</p>
-              <div class="mb-3"><span class="fw-bold me-2">Tag:</span>
-                <a href="/tags/linux/" class="badge bg-light text-body border text-decoration-none">linux</a>
-                <a href="/tags/sistemi-operativi/" class="badge bg-light text-body border text-decoration-none">sistemi operativi</a>
-                <a href="/tags/shell/" class="badge bg-light text-body border text-decoration-none">shell</a>
-              </div></div>
-              <div class="text-end mt-auto mb-3">
-                <a href="/blog/comandi-di-base-della-shell-linux/" class="btn btn-primary btn-sm rounded">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-    </article>
-  </div>
-  <div class="col-12">
-    <article class="card h-100 overflow-hidden shadow-sm">
-      <div class="row g-0 h-100">
-        <div class="col-md-4 p-0">
-          <img src="/assets/img/webp/gnu_linux.webp" alt="Immagine generata con IA" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 250px; max-height: 400px">
-        </div>
-      <div class="col-md-8">
-          <div class="card-body d-flex flex-column h-100">
-            <div>
-              <h2 class="h4 card-title mb-2">
-                <a href="/blog/gnulinux/" class="text-decoration-none">GNU/Linux</a>
-              </h2>
-              <time class="text-muted text-truncate small d-block mb-2" datetime="2026-03-16T00:00:00.000Z">
-                <i class="bi bi-calendar3 me-1"></i>16 marzo 2026
-              </time>
-              <hr>
-              <p class="card-text">GNU/Linux è un sistema operativo libero e open source, nato dall'unione del kernel Linux e gli strumenti di sistema del progetto GNU. È stabile, sicuro e altamente personalizzabile, utilizzato in svariati ambiti, dai server ai computer desktop. In questo articolo introduttivo proviamo a capirne di più partendo dall'architettura dell'ecosistema fino ai comandi più utili.</p>
-              <div class="mb-3"><span class="fw-bold me-2">Tag:</span>
-                <a href="/tags/linux/" class="badge bg-light text-body border text-decoration-none">linux</a>
-                <a href="/tags/sistemi-operativi/" class="badge bg-light text-body border text-decoration-none">sistemi operativi</a>
-                <a href="/tags/licenze/" class="badge bg-light text-body border text-decoration-none">licenze</a>
-              </div></div>
-              <div class="text-end mt-auto mb-3">
-                <a href="/blog/gnulinux/" class="btn btn-primary btn-sm rounded">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-    </article>
-  </div>
-  <div class="col-12">
-    <article class="card h-100 overflow-hidden shadow-sm">
-      <div class="row g-0 h-100">
-        <div class="col-md-4 p-0">
-          <img src="/assets/img/webp/algoritmo-di-luhn.webp" alt="Immagine generata con IA" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 250px; max-height: 400px">
-        </div>
-      <div class="col-md-8">
-          <div class="card-body d-flex flex-column h-100">
-            <div>
-              <h2 class="h4 card-title mb-2">
-                <a href="/blog/lalgoritmo-di-luhn/" class="text-decoration-none">L'algoritmo di Luhn</a>
-              </h2>
-              <time class="text-muted text-truncate small d-block mb-2" datetime="2026-03-08T00:00:00.000Z">
-                <i class="bi bi-calendar3 me-1"></i>08 marzo 2026
-              </time>
-              <hr>
-              <p class="card-text">L’algoritmo di Luhn è un metodo matematico sviluppato nel 1954 dal ricercatore IBM Hans Peter Luhn per verificare la validità di numeri identificativi attraverso una cifra di controllo. Ancora oggi è utilizzato in moltissimi sistemi informatici, soprattutto per la validazione dei numeri di carte di credito, IMEI dei dispositivi mobili e altri identificatori strutturati.</p>
-              <div class="mb-3"><span class="fw-bold me-2">Tag:</span>
-                <a href="/tags/algoritmi/" class="badge bg-light text-body border text-decoration-none">algoritmi</a>
-                <a href="/tags/java/" class="badge bg-light text-body border text-decoration-none">java</a>
-              </div></div>
-              <div class="text-end mt-auto mb-3">
-                <a href="/blog/lalgoritmo-di-luhn/" class="btn btn-primary btn-sm rounded">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-    </article>
-  </div>
-  <div class="col-12">
-    <article class="card h-100 overflow-hidden shadow-sm">
-      <div class="row g-0 h-100">
-        <div class="col-md-4 p-0">
-          <img src="/assets/img/webp/powershell.webp" alt="Immagine generata con IA" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 250px; max-height: 400px">
-        </div>
-      <div class="col-md-8">
-          <div class="card-body d-flex flex-column h-100">
-            <div>
-              <h2 class="h4 card-title mb-2">
-                <a href="/blog/guida-completa-a-powershell/" class="text-decoration-none">Guida completa a PowerShell</a>
-              </h2>
-              <time class="text-muted text-truncate small d-block mb-2" datetime="2026-01-01T00:00:00.000Z">
-                <i class="bi bi-calendar3 me-1"></i>01 gennaio 2026
-              </time>
-              <hr>
-              <p class="card-text">Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido.</p>
-              <div class="mb-3"><span class="fw-bold me-2">Tag:</span>
-                <a href="/tags/powershell/" class="badge bg-light text-body border text-decoration-none">powershell</a>
-              </div></div>
-              <div class="text-end mt-auto mb-3">
-                <a href="/blog/guida-completa-a-powershell/" class="btn btn-primary btn-sm rounded">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-    </article>
-  </div>
-</section>
-<nav id="pagination" class="mt-5" aria-label="Navigazione pagine blog">
-  <div class="d-flex justify-content-between align-items-center">
-    <div>
-<p></div>
-<div class="text-muted small">
-Pagina 1 di 4
-</div>
-<div></p>
-<p><a href="/blog/page/2/" class="btn btn-outline-primary rounded">
-Successivo<i class="bi bi-arrow-right ms-1"></i>
-</a></p>
-<p></div></p>
-  </div>
-</nav>
+<article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">La memoria virtuale</h1>
 
+    <time
+      class="text-muted"
+      datetime="2020-02-22T00:00:00.000Z"
+    >
+      22 febbraio 2020
+    </time>
+  </header>
+
+  
+
+  
+    <div class="mb-4">
+      <img 
+        src="/assets/img/webp/sistemi-operativi.webp" 
+        alt="Immagine generata con IA" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+    
+  </div>
+  
+
+  <hr>
+
+  <section class="content">
+    <h1>Architettura e strategie della Memoria Virtuale</h1>
+<p>Nei moderni sistemi multiprogrammati, l'esecuzione simultanea di più processi richiede una gestione oculata delle risorse. Tuttavia, la RAM è per definizione una risorsa finita e spesso insufficiente a ospitare l'intero working set di ogni applicazione attiva. Qui entra in gioco la <strong>Memoria Virtuale</strong>, un'astrazione fondamentale che scollega la memoria logica vista dal programmatore dalla memoria fisica effettivamente disponibile.</p>
+<p>Questa architettura offre vantaggi determinanti:</p>
+<ul>
+<li><strong>Scalabilità:</strong> Consente l'esecuzione di programmi le cui dimensioni superano la capacità della RAM fisica.</li>
+<li><strong>Astrazione:</strong> Il programmatore interagisce con uno spazio di indirizzamento lineare e contiguo, ignorando la frammentazione fisica.</li>
+<li><strong>Efficienza:</strong> Facilita la condivisione di librerie (DLL/Shared Objects) tra processi diversi attraverso la mappatura delle medesime pagine fisiche.</li>
+</ul>
+<h2>Paginazione su richiesta</h2>
+<p>Il cuore della memoria virtuale risiede nel <strong>Demand Paging</strong> (paginazione su richiesta). Invece di caricare l'intero binario in fase di startup, il kernel carica le singole pagine solo quando vengono effettivamente referenziate durante l'esecuzione.</p>
+<h3>Il ciclo del page fault</h3>
+<p>Quando un processo tenta di accedere a un indirizzo logico non presente in RAM (identificato da un bit di validità &quot;0&quot; nella Page Table), l'hardware genera un'eccezione nota come <strong>Page Fault</strong>. Il sistema operativo interviene seguendo una procedura rigorosa:</p>
+<ol>
+<li><strong>Verifica:</strong> Il SO controlla se il riferimento alla memoria era legittimo.</li>
+<li><strong>Swap-in:</strong> Individua la pagina nel disco (area di swap).</li>
+<li><strong>Allocazione:</strong> Cerca un frame libero nella RAM.</li>
+<li><strong>Update:</strong> Carica i dati nel frame, aggiorna la Page Table e setta il bit di validità a &quot;1&quot;.</li>
+<li><strong>Restart:</strong> Ripristina l'istruzione che aveva causato l'eccezione.</li>
+</ol>
+<h2>Performance e ottimizzazioni</h2>
+<p>L'implementazione della memoria virtuale introduce un overhead inevitabile. Le prestazioni del sistema vengono misurate tramite il <strong>Tempo di Accesso Effettivo (EAT)</strong>, calcolato come:</p>
+<p>$$EAT = (1 - p) \times ma + p \times pft$$</p>
+<p>Dove:</p>
+<ul>
+<li>$p$ è la probabilità di page fault ($0 \le p \le 1$).</li>
+<li>$ma$ è il tempo di accesso alla memoria (nanosecondi).</li>
+<li>$pft$ è il tempo di gestione del page fault (millisecondi).</li>
+</ul>
+<p>Dato che il recupero da disco è ordini di grandezza più lento della RAM, anche un tasso di page fault minimo può degradare sensibilmente le performance.</p>
+<h3>Copy-on-Write (CoW)</h3>
+<p>Per ottimizzare la creazione dei processi (system call <code>fork()</code>), si utilizza la tecnica <strong>Copy-on-Write</strong>. Inizialmente, processo padre e figlio condividono le stesse pagine fisiche in sola lettura. Solo quando uno dei due tenta una scrittura, il kernel interviene duplicando la pagina specifica. Questo evita sprechi di memoria per processi che non modificano i dati ereditati.</p>
+<h2>Algoritmi di sostituzione delle pagine</h2>
+<p>Cosa accade quando la memoria fisica è satura? Il sistema deve selezionare una &quot;vittima&quot; da espellere per far spazio a una nuova pagina. Per ottimizzare questo processo, si utilizza il <strong>Dirty Bit</strong> (o bit di modifica): se una pagina non è stata modificata dal suo caricamento, può essere sovrascritta senza essere riscritta su disco, dimezzando l'I/O.</p>
+<h3>Analisi delle strategie di replacement</h3>
+<ol>
+<li><strong>FIFO (First-In-First-Out):</strong> Sostituisce la pagina residente da più tempo. Sebbene semplice, è inefficiente e soggetto all'<strong>Anomalia di Belady</strong>: un fenomeno controintuitivo dove l'aggiunta di frame fisici può aumentare il numero di page fault.</li>
+<li><strong>OPT (Algoritmo Ottimale):</strong> Sostituisce la pagina che non verrà utilizzata per il periodo di tempo più lungo in assoluto. È il gold standard teorico, ma è <strong>irrealizzabile</strong> poiché richiederebbe la conoscenza futura degli accessi (non determinismo).</li>
+<li><strong>LRU (Least Recently Used):</strong> Approssima l'algoritmo ottimale sostituendo la pagina non utilizzata da più tempo. È molto efficace ma richiede supporto hardware dedicato (contatori o stack) per non appesantire la CPU.</li>
+<li><strong>Seconda Chance (Clock):</strong> Un compromesso ingegnoso tra FIFO e LRU. Organizza le pagine in una lista circolare e utilizza un <strong>Reference Bit</strong>. Se il bit è 1, la pagina riceve una &quot;seconda possibilità&quot; e il bit viene azzerato; se è 0, la pagina viene sostituita.</li>
+</ol>
+
+  </section>
+
+  <hr class="mt-5">
+  
+  <section class="mt-5" aria-label="Commenti e reazioni">
+    <h2 class="h5 fw-bold mb-4">
+      <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
+    </h2>
+
+      <script>
+      (function () {
+        const saved = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', theme);
+        script.setAttribute('data-lang', 'it');
+        script.setAttribute('data-loading', 'lazy');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+
+        document.currentScript.replaceWith(script);
+      })();
+    </script>
+
+    <noscript>
+      <p class="text-muted small">
+        <i class="bi bi-info-circle me-1"></i>
+        Per visualizzare i commenti è necessario abilitare JavaScript.
+        Puoi leggere e partecipare alla discussione direttamente su
+        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
+      </p>
+    </noscript>
+  </section>
+
+</article>
     </main>
 
     <footer class="border-top mt-auto py-4">
