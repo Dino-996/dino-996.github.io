@@ -5,40 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  Struttura dei sistemi operativi · dino-996 blog
+  Il filesystem linux · dino-996 blog
 </title>
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel." />
+<meta name="description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
 <meta name="author" content="Davide Sabia" />
 <meta name="robots" content="index, follow" />
 
 <!-- Canonical URL -->
 
-<link rel="canonical" href="https://dino-996.github.io/blog/struttura-dei-sistemi-operativi/" />
+<link rel="canonical" href="https://dino-996.github.io/blog/il-filesystem-linux/" />
 
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="article" />
 
-<meta property="og:url" content="https://dino-996.github.io/blog/struttura-dei-sistemi-operativi/" />
+<meta property="og:url" content="https://dino-996.github.io/blog/il-filesystem-linux/" />
 
-<meta property="og:title" content="Struttura dei sistemi operativi" />
-<meta property="og:description" content="Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel." />
+<meta property="og:title" content="Il filesystem linux" />
+<meta property="og:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
 <meta property="og:site_name" content="dino-996 blog" />
 
-<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/sistemi-operativi.webp" />
+<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/gnu_linux.webp" />
 
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 
-<meta name="twitter:url" content="https://dino-996.github.io/blog/struttura-dei-sistemi-operativi/" />
+<meta name="twitter:url" content="https://dino-996.github.io/blog/il-filesystem-linux/" />
 
-<meta name="twitter:title" content="Struttura dei sistemi operativi" />
-<meta name="twitter:description" content="Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel." />
+<meta name="twitter:title" content="Il filesystem linux" />
+<meta name="twitter:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
 
-<meta name="twitter:image" content="https://dino-996.github.io/assets/img/webp/sistemi-operativi.webp" />
+<meta name="twitter:image" content="https://dino-996.github.io/assets/img/webp/gnu_linux.webp" />
 
 
 <!-- Favicon -->
@@ -132,30 +132,22 @@
       
 <article class="mx-auto" style="max-width: 800px;">
   <header class="mb-4">
-    <h1 class="fw-bold">Struttura dei sistemi operativi</h1>
+    <h1 class="fw-bold">Il filesystem linux</h1>
 
     <time
       class="text-muted"
-      datetime="2020-02-14T00:00:00.000Z"
+      datetime="2026-03-18T00:00:00.000Z"
     >
-      14 febbraio 2020
+      18 marzo 2026
     </time>
   </header>
 
-  
-    <div class="alert alert-primary border-start border-4 border-primary mb-4" role="note">
-      <div class="d-flex align-items-center gap-2 mb-1">
-        <i class="bi bi-stars text-primary"></i>
-        <strong class="small text-uppercase text-primary">Riassunto IA</strong>
-      </div>
-      <p class="mb-0 small">Il sistema operativo abilita l&#39;esecuzione e l&#39;interazione applicativa tramite interfacce CLI/GUI e il meccanismo delle system call, spesso astratte attraverso API per garantire la portabilità. Il kernel orchestra le risorse hardware critiche, gestendo lo scheduling dei processi, la memoria virtuale e l&#39;I/O attraverso l&#39;interfaccia di basso livello.</p>
-    </div>
   
 
   
     <div class="mb-4">
       <img 
-        src="/assets/img/webp/sistemi-operativi.webp" 
+        src="/assets/img/webp/gnu_linux.webp" 
         alt="Immagine generata con IA" 
         class="img-fluid rounded w-100"
         style="max-height: 400px; object-fit: cover;"
@@ -169,71 +161,153 @@
   <hr>
 
   <section class="content">
-    <h1>Introduzione</h1>
-<p>In questo articolo vediamo l'architettura dei sistemi operativi, analizzando il modo in cui gestiscono le risorse hardware e interagiscono con l'utente.</p>
-<h2>Servizi e Interfacce del Sistema Operativo</h2>
-<p>Il sistema operativo (<strong>SO</strong>) fornisce un ambiente per l'esecuzione dei programmi, offrendo servizi essenziali quali l'<strong>esecuzione di programmi</strong>, operazioni di <strong>I/O</strong>, gestione del <strong>file system</strong>, comunicazioni, rilevamento di errori e allocazione delle risorse.</p>
-<p>L'interazione con l'utente avviene attraverso tre modalità principali:</p>
-<ul>
-<li><strong>Interfaccia a riga di comando (CLI):</strong> utilizza interpreti speciali chiamati <strong>shell</strong> (come Bash nei sistemi Unix/Linux). È preferita dagli amministratori per l'efficienza e la programmabilità.</li>
-<li><strong>Interfaccia grafica (GUI):</strong> basata sulla metafora del desktop, icone e puntatori.</li>
-<li><strong>Interfaccia touch screen:</strong> basata su gesti (gesture) direttamente sullo schermo.</li>
-</ul>
-<h2>Interfaccia di Programmazione - System Call e API</h2>
-<p>Le <strong>chiamate di sistema (system call)</strong> rappresentano l'interfaccia verso i servizi resi disponibili dal SO.<br>
-Spesso i programmatori non invocano direttamente le system call, ma utilizzano le <strong>Application Programming Interface (API)</strong>, come le API di Windows, POSIX (per Unix, Linux, macOS) o le API Java. Questo garantisce la <strong>portabilità delle applicazioni</strong>.</p>
-<p>Per passare i parametri al sistema operativo durante una chiamata, si utilizzano tre metodi principali:</p>
-<ul>
-<li>Attraverso i <strong>registri</strong> della CPU (metodo più veloce).</li>
-<li>In un <strong>blocco o tabella di memoria</strong>, passando l'indirizzo del blocco in un registro.</li>
-<li>Nello <strong>stack</strong>, dove i parametri vengono inseriti (<strong>push</strong>) e poi prelevati dal SO (<strong>pop</strong>).</li>
-</ul>
-<h2>Sviluppo ed Esecuzione delle Applicazioni</h2>
-<p>Il processo che porta un codice sorgente alla sua esecuzione prevede due figure chiave:</p>
-<ul>
-<li><strong>Linker:</strong> combina file oggetto rilocabili in un unico <strong>file binario</strong> eseguibile, includendo eventuali librerie (es. la libreria standard C).</li>
-<li><strong>Loader:</strong> carica il file eseguibile in memoria, assegnando gli indirizzi definitivi (<strong>relocation</strong>) per permettere l'esecuzione sul core della CPU.</li>
-</ul>
-<p>Le applicazioni sono generalmente dipendenti dal SO, poiché ogni sistema fornisce un insieme univoco di chiamate di sistema.</p>
-<h2>Kernel</h2>
-<p>Il kernel è responsabile della gestione delle risorse hardware e dei servizi di base del sistema. Le sue attività principali includono:</p>
-<ul>
-<li><strong>Inizializzazione dell'hardware:</strong> durante il processo di avvio (<strong>boot</strong>), il kernel viene caricato in memoria e prepara i componenti fisici del computer per l'uso.</li>
-<li><strong>Gestione dei processi e della CPU:</strong> si occupa dello <strong>scheduling</strong>, decidendo quali programmi devono essere eseguiti dal processore e per quanto tempo.</li>
-<li><strong>Gestione della memoria:</strong> controlla la memoria fisica, la <strong>memoria virtuale</strong> e la paginazione.</li>
-<li><strong>Gestione dei file e dei dispositivi:</strong> amministra il <strong>file system</strong> (montando il root file system all'avvio) e i driver necessari per interagire con periferiche, dischi e reti.</li>
-<li><strong>Interfaccia per le chiamate di sistema:</strong> fornisce un'interfaccia protetta tramite la quale le applicazioni possono richiedere servizi al sistema operativo usando le <strong>system call</strong>.</li>
-</ul>
-<h3>Modalità di Esecuzione</h3>
-<p>Il kernel opera in uno spazio di memoria protetto chiamato <strong>kernel space</strong> (o modalità kernel), distinto dallo spazio utente dove girano le normali applicazioni.<br>
-Questa separazione garantisce la stabilità del sistema: un errore critico all'interno del kernel provoca un <strong>crash di sistema</strong>, non un semplice bug applicativo.</p>
-<h3>Tipologie di Architettura del Kernel</h3>
-<p>Ci sono diversi approcci utilizzati per la progettazione di un kernel:</p>
-<ul>
-<li><strong>Kernel Monolitico:</strong> tutte le funzioni del sistema risiedono in un <strong>unico spazio di indirizzamento</strong>. Questo approccio (usato da <strong>Unix</strong> e <strong>Linux</strong>) offre prestazioni elevate grazie alla comunicazione interna veloce, anche se può risultare più difficile da estendere. Molti kernel monolitici moderni sono comunque <strong>modulari</strong>, permettendo di caricare funzionalità aggiuntive dinamicamente.</li>
-<li><strong>Microkernel</strong> (es. <strong>Mach</strong>): fornisce solo le funzioni minime necessarie (come la comunicazione tra processi). La maggior parte dei servizi del sistema operativo viene spostata nello spazio utente per aumentare la modularità e la flessibilità.</li>
-<li><strong>Sistemi Ibridi:</strong> come <strong>Darwin</strong> (il cuore di macOS e iOS), che combina la struttura a microkernel di Mach con parti del kernel BSD Unix.</li>
-</ul>
-<h2>Esempi Specifici</h2>
-<ul>
-<li><strong>Linux:</strong> un kernel monolitico ampiamente personalizzabile. Progetti come <em>Linux From Scratch</em> mostrano come compilare il proprio kernel partendo dal codice sorgente.</li>
-<li><strong>Android:</strong> utilizza un kernel Linux, ma aggiunge uno strato chiamato <strong>HAL</strong> (Hardware Abstraction Layer) per poter girare su una vasta gamma di dispositivi hardware diversi.</li>
-<li><strong>Darwin:</strong> il kernel alla base dei sistemi Apple, rilasciato come software open-source.</li>
-</ul>
-<h2>Generazione, Avvio e Debugging</h2>
-<p>Il processo di avvio (<strong>boot</strong>) segue solitamente questi passaggi:</p>
-<ol>
-<li>Un <strong>programma di bootstrap</strong> (nel firmware BIOS o UEFI) individua e carica il kernel.</li>
-<li>Un bootloader più evoluto, come <strong>GRUB</strong>, può gestire il caricamento di diversi kernel o parametri di avvio.</li>
-<li>Il kernel inizializza l'hardware e monta il root file system.</li>
-</ol>
-<p>Il <strong>debugging</strong> è l'attività volta a risolvere i <strong>bug</strong> e ottimizzare le prestazioni.<br>
-I sistemi operativi facilitano questo compito tramite:</p>
-<ul>
-<li><strong>file di log</strong></li>
-<li><strong>core dump</strong> (immagini della memoria dei processi falliti)</li>
-<li>strumenti di <strong>tracing</strong> e <strong>contatori</strong> per monitorare gli eventi e le chiamate di sistema</li>
-</ul>
+    <h1>Il Filesystem di Linux: Struttura e Organizzazione</h1>
+<p>Se hai mai aperto un terminale Linux e digitato <code>ls /</code>, probabilmente ti sei trovato di fronte a una lista di cartelle dai nomi enigmatici: <code>/bin</code>, <code>/etc</code>, <code>/proc</code>, <code>/dev</code>… Dietro quella lista si nasconde un sistema di organizzazione preciso e coerente, ereditato dalla tradizione Unix e standardizzato nel corso degli anni.</p>
+<p>In questo articolo esploriamo come funziona il filesystem Linux: partiremo dai concetti fondamentali, capiremo perché &quot;tutto è un file&quot;, e poi percorreremo le directory principali del sistema una per una.</p>
+<h2>Filesystem e Filesystem Hierarchy Standard: due concetti distinti</h2>
+<p>Prima di tutto, è utile distinguere due concetti che spesso vengono confusi.</p>
+<p><strong>Filesystem</strong> (nel senso tecnico) indica il formato con cui i dati vengono organizzati fisicamente su un supporto di memoria, come un HDD, un SSD o una chiavetta USB. I più comuni su Linux sono <strong>ext4</strong>, <strong>ext3</strong> ed <strong>ext2</strong>; su Windows troviamo <strong>FAT32</strong> e <strong>NTFS</strong>; su macOS <strong>HFS+</strong> e il più recente <strong>APFS</strong>.</p>
+<p><strong>Filesystem Hierarchy Standard (FHS)</strong> è invece una specifica che definisce <em>quali</em> directory devono esistere in un sistema Linux e <em>cosa</em> devono contenere. In pratica, è una convenzione condivisa tra le distribuzioni per garantire coerenza e portabilità: grazie all'FHS, un amministratore di sistema sa già dove cercare i log, i file di configurazione o i binari, indipendentemente dalla distribuzione che sta usando.</p>
+<h2>La struttura ad albero e la directory radice</h2>
+<p>Le directory di un filesystem Linux sono organizzate secondo uno schema <strong>ad albero</strong>: ogni cartella può contenere file e altre cartelle, creando una gerarchia che si ramifica verso il basso. Al vertice di quest'albero si trova la <strong>directory radice</strong>, indicata dal simbolo <code>/</code> e chiamata <em>root</em>.</p>
+<p>Attenzione: la directory radice <code>/</code> non va confusa con l'utente amministratore, che si chiama anch'esso <em>root</em> e ha come home directory <code>/root</code>.</p>
+<p>Tutti i percorsi che partono da <code>/</code> sono detti <strong>percorsi assoluti</strong>, perché identificano un file in modo univoco a partire dalla radice, indipendentemente da dove ci si trova nel filesystem. Ad esempio:</p>
+<pre><code>/home/mario/documenti/relazione.txt
+</code></pre>
+<p>Al contrario, un <strong>percorso relativo</strong> non inizia con <code>/</code> e fa riferimento alla posizione corrente. Se ci troviamo già in <code>/home/mario</code>, possiamo scrivere semplicemente <code>documenti/relazione.txt</code> per riferirci allo stesso file.</p>
+<p>I nomi dei file in Linux possono contenere quasi tutti i caratteri, con alcune eccezioni: il carattere <code>/</code> è riservato come separatore di percorso e non può comparire nei nomi. È inoltre buona norma evitare caratteri speciali come spazi, <code>*</code>, <code>?</code> o <code>!</code>, poiché possono avere significati particolari nella shell e causare comportamenti inattesi. La lunghezza massima di un nome file è generalmente di <strong>255 caratteri</strong> sui filesystem moderni.</p>
+<p>Una caratteristica fondamentale: Linux è <strong>case sensitive</strong>. <code>File.txt</code>, <code>file.txt</code> e <code>FILE.TXT</code> sono tre file completamente distinti. Questo è diverso da Windows, dove i nomi file sono trattati in modo insensibile alle maiuscole.</p>
+<h2>&quot;In Linux, tutto è un file&quot;</h2>
+<p>Uno dei principi fondamentali di Linux (e dei sistemi Unix in generale) è che <strong>tutto è un file</strong>. Questo non significa solo che documenti e programmi sono file, ma che quasi ogni risorsa del sistema è rappresentata attraverso questa astrazione uniforme. Esistono diverse categorie:</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Tipo</th>
+        <th>Descrizione</th>
+        <th>Esempio</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">File regolare</td>
+        <td>Documenti, binari, script</td>
+        <td><code>/etc/hosts</code></td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Directory</td>
+        <td>Contenitore per altri file</td>
+        <td><code>/home/mario/</code></td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">File di dispositivo</td>
+        <td>Interfaccia verso periferiche hardware</td>
+        <td><code>/dev/sda</code></td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Link simbolico</td>
+        <td>Puntatore a un altro file o directory</td>
+        <td><code>/usr/bin/python</code> → <code>/usr/bin/python3</code></td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Socket</td>
+        <td>Canale di comunicazione tra processi (di rete o locali)</td>
+        <td><code>/run/docker.sock</code></td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">FIFO (named pipe)</td>
+        <td>Canale di comunicazione unidirezionale tra processi</td>
+        <td>creato con <code>mkfifo</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>Questa astrazione è uno dei punti di forza di Linux: strumenti e programmi possono interagire con risorse eterogenee usando sempre le stesse operazioni di lettura e scrittura.</p>
+<h2>Montaggio e smontaggio dei filesystem</h2>
+<p>Prima di esplorare le singole directory, è utile capire il concetto di <strong>mount</strong> (montaggio), perché spiega come vengono integrate le varie risorse di memoria nell'albero del filesystem.</p>
+<p>Di norma, la directory <code>/</code> corrisponde al disco da cui Linux è stato avviato. Per accedere a supporti aggiuntivi, come una chiavetta USB, un secondo disco o una partizione di rete, è necessario &quot;agganciare&quot; il dispositivo all'albero del filesystem in un punto specifico, detto <strong>mount point</strong>:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Monta la partizione /dev/sdb1 nella directory /mnt/chiavetta</span>
+<span class="token function">mount</span> /dev/sdb1 /mnt/chiavetta</code></pre>
+<p>Da quel momento, i file della chiavetta saranno accessibili navigando in <code>/mnt/chiavetta</code>. Per rimuovere il collegamento (l'equivalente dell'espulsione sicura), si usa <code>umount</code>:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">umount</span> /mnt/chiavetta</code></pre>
+<p>L'elenco di tutti i filesystem attualmente montati è consultabile in <code>/proc/mounts</code>.</p>
+<h2>Le directory principali del sistema</h2>
+<h3><code>/home</code> — Le directory degli utenti</h3>
+<p>Contiene le cartelle personali di ciascun utente. Se il nome utente è <em>mario</em>, la sua home sarà <code>/home/mario</code>. Qui vengono salvati documenti, immagini, download e le configurazioni personali delle applicazioni (spesso in cartelle nascoste che iniziano con un punto, come <code>~/.config</code> o <code>~/.bashrc</code>). Le distribuzioni moderne proteggono queste directory impedendo l'accesso agli altri utenti non privilegiati.</p>
+<h3><code>/root</code> — La home dell'amministratore</h3>
+<p>La directory personale dell'utente <em>root</em> è separata da <code>/home</code> per una ragione precisa: deve essere accessibile anche quando il filesystem degli utenti non è ancora disponibile, ad esempio durante le prime fasi di avvio o in modalità di recupero.</p>
+<h3><code>/bin</code> e <code>/usr/bin</code> — I programmi essenziali</h3>
+<p><code>/bin</code> contiene gli eseguibili fondamentali del sistema, come <code>ls</code>, <code>cp</code>, <code>mv</code>, <code>cat</code> o <code>bash</code>. Devono essere disponibili già nelle primissime fasi di avvio, prima che altri filesystem vengano montati. <code>/usr/bin</code> ospita invece i comandi per gli utenti normali che non sono strettamente necessari all'avvio.</p>
+<p>Nota: su molte distribuzioni moderne (Ubuntu, Fedora, Arch…) <code>/bin</code> è diventato un link simbolico che punta a <code>/usr/bin</code>, nell'ambito di una semplificazione chiamata <em>usrmerge</em>.</p>
+<h3><code>/usr</code> — Programmi e risorse di sistema</h3>
+<p>È una delle directory più ricche del sistema. Contiene eseguibili, librerie, documentazione e risorse della maggior parte dei programmi installati. È tipicamente in <strong>sola lettura</strong> per gli utenti normali. Al suo interno troviamo tra l'altro <code>/usr/sbin</code> per i comandi aggiuntivi dell'amministratore, <code>/usr/lib</code> per le librerie condivise usate dai programmi, <code>/usr/share</code> per le risorse condivise come documentazione e icone, e <code>/usr/share/man</code> per i testi delle <strong>manpage</strong> accessibili tramite il comando <code>man</code>.</p>
+<h3><code>/etc</code> — Le configurazioni di sistema</h3>
+<p>Contiene i file di configurazione dell'intero sistema: impostazioni di rete, elenco degli utenti, configurazione dei servizi e molto altro. La maggior parte dei file è leggibile da tutti, ma modificabile solo dall'amministratore. Alcuni file notevoli sono <code>/etc/passwd</code> per le informazioni sugli account utente (nome, shell, home directory…), <code>/etc/shadow</code> per le password degli utenti in forma cifrata (accessibile solo da root), <code>/etc/fstab</code> per la tabella dei filesystem da montare automaticamente all'avvio e <code>/etc/hosts</code> per la mappatura manuale tra nomi host e indirizzi IP.</p>
+<h3><code>/boot</code> — Il kernel e i file di avvio</h3>
+<p>Contiene il kernel Linux, il file <code>initrd</code> (initial RAM disk, usato nelle prime fasi di avvio) e la configurazione del bootloader <strong>GRUB</strong>. Si consiglia spesso di dedicare a <code>/boot</code> una partizione separata all'inizio del disco, per garantire la compatibilità con alcune configurazioni hardware e semplificare il ripristino del sistema.</p>
+<h3><code>/var</code> — Dati variabili</h3>
+<p>Contiene file che cambiano frequentemente durante il normale funzionamento del sistema: log, code di stampa, database, cache dei package manager. La sottodirectory più consultata è <code>/var/log</code>, che raccoglie i log generati dal kernel, dai servizi e dalle applicazioni. Tra i più utili troviamo <code>/var/log/syslog</code> per gli eventi generali del sistema, <code>/var/log/auth.log</code> per i tentativi di autenticazione e uso di <code>sudo</code>, e <code>/var/log/kern.log</code> per i messaggi del kernel.</p>
+<h3><code>/tmp</code> — File temporanei</h3>
+<p>Directory scrivibile da tutti gli utenti, usata per i file temporanei creati da applicazioni e processi. Il suo contenuto viene cancellato ad ogni riavvio. Su molte distribuzioni moderne è montata come <code>tmpfs</code>, ovvero direttamente in RAM, il che la rende molto veloce ma ne limita la capacità alla memoria disponibile.</p>
+<h2><code>/dev</code> — I file di dispositivo</h2>
+<p>La directory <code>/dev</code> contiene file speciali che rappresentano le periferiche hardware e alcune risorse virtuali del kernel. Non occupano spazio fisico sul disco: sono interfacce verso il kernel, gestite dal demone <strong>udev</strong> che li crea e li rimuove dinamicamente al collegamento o alla disconnessione dei dispositivi.</p>
+<p>Alcuni esempi particolarmente interessanti:</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>File</th>
+        <th>Descrizione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold"><code>/dev/null</code></td>
+        <td>"Buco nero": qualsiasi dato scritto qui viene scartato silenziosamente</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>/dev/zero</code></td>
+        <td>Genera una sequenza infinita di byte a zero, utile per sovrascrivere dati o creare file di dimensione fissa</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>/dev/random</code></td>
+        <td>Genera numeri casuali usando l'entropia raccolta dal kernel</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>/dev/urandom</code></td>
+        <td>Come <code>/dev/random</code>, ma non si blocca se l'entropia disponibile è poca; consigliato per uso generale</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>/dev/sda</code>, <code>/dev/nvme0n1</code></td>
+        <td>Immagine di un intero disco fisico (SATA o NVMe); le partizioni sono <code>/dev/sda1</code>, <code>/dev/sda2</code>…</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>/dev/tty</code></td>
+        <td>Il terminale corrente</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h2><code>/proc</code> — La finestra sul kernel</h2>
+<p><code>/proc</code> è un <strong>filesystem virtuale</strong>: non esiste fisicamente su disco, ma viene popolato dal kernel in tempo reale con informazioni sui processi attivi e sullo stato del sistema. Ogni processo in esecuzione ha una sottodirectory identificata dal suo PID (es. <code>/proc/1234</code>), contenente informazioni su quel processo: file aperti, memoria usata, variabili d'ambiente e altro.</p>
+<p>Tra i file più utili a livello di sistema troviamo <code>/proc/cpuinfo</code> per le informazioni dettagliate sul processore, <code>/proc/meminfo</code> per lo stato della memoria RAM e swap, <code>/proc/mounts</code> per l'elenco dei filesystem attualmente montati e <code>/proc/uptime</code> per il tempo trascorso dall'avvio del sistema.</p>
+<h2>Link: hard e soft</h2>
+<p>Linux supporta due tipi di collegamento tra file, creati entrambi con il comando <code>ln</code>.</p>
+<p>Gli <strong>hard link</strong> puntano direttamente all'<strong>inode</strong> del file, ovvero la struttura dati interna al filesystem che descrive un file (permessi, dimensione, posizione dei dati sul disco). Due hard link allo stesso file condividono esattamente i medesimi dati: modificare uno significa modificare l'altro. Il file viene eliminato dal disco solo quando l'ultimo hard link che lo punta viene rimosso. Hanno però dei limiti: non funzionano tra filesystem diversi e non possono puntare a directory.</p>
+<p>I <strong>soft link</strong> (o link simbolici) sono invece semplici puntatori al <em>percorso</em> di un altro file. Si creano con:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">ln</span> <span class="token parameter variable">-s</span> /percorso/origine /percorso/destinazione</code></pre>
+<p>Sono più flessibili degli hard link, possono attraversare filesystem diversi e puntare a directory, ma se il file originale viene spostato o eliminato il link diventa <em>rotto</em> (dangling link) e accedervi produrrà un errore.</p>
+<p>Nel listato di <code>ls -l</code>, i soft link sono identificati dalla lettera <code>l</code> all'inizio della stringa dei permessi, e mostrano esplicitamente il percorso a cui puntano:</p>
+<pre><code>lrwxrwxrwx 1 root root 7 gen 10 12:00 /bin -&gt; usr/bin
+</code></pre>
+<h2>FIFO — Le named pipe</h2>
+<p>Le <strong>FIFO</strong> (First In, First Out), dette anche <em>named pipe</em>, sono un meccanismo di comunicazione tra processi. A differenza delle pipe anonime, quelle usate con <code>|</code> nel terminale che esistono solo per la durata del comando, le FIFO hanno un nome nel filesystem e possono essere usate da processi non correlati, anche avviati in momenti diversi.</p>
+<p>Si creano con il comando <code>mkfifo</code>:</p>
+<pre class="language-bash"><code class="language-bash"><span class="token function">mkfifo</span> /tmp/mia_pipe</code></pre>
+<p>Un processo può scrivere sulla pipe e un altro può leggerla: i dati fluiscono in ordine FIFO, senza passare dal disco. Come tutti i file virtuali di questo tipo, le FIFO non sopravvivono al riavvio della macchina.</p>
+<h2>Conclusione</h2>
+<p>La struttura del filesystem Linux può sembrare complessa a prima vista, ma risponde a una logica precisa e coerente, consolidata in decenni di evoluzione Unix. Ogni directory ha uno scopo ben definito e il principio &quot;tutto è un file&quot; offre un'astrazione potente e uniforme per interagire con risorse eterogenee, dai documenti alle periferiche hardware, dai processi alle comunicazioni tra programmi.</p>
+<p>Capire questa organizzazione è il primo passo per muoversi con sicurezza in qualsiasi ambiente Linux: che si tratti di configurare un server, fare troubleshooting o semplicemente esplorare il sistema con curiosità.</p>
 
   </section>
 

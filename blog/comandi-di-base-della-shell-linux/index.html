@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="it" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Comandi di base della Shell Linux · dino-996 blog
+</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Una guida pratica ai comandi fondamentali della shell Linux; dalla lettura del prompt alla navigazione nel filesystem, dalla gestione di file e directory all&#39;elaborazione dell&#39;output con pipe e redirezioni. Ogni comando è spiegato con esempi reali, opzioni utili e criteri chiari per scegliere quando e perché usarlo." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/comandi-di-base-della-shell-linux/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/comandi-di-base-della-shell-linux/" />
+
+<meta property="og:title" content="Comandi di base della Shell Linux" />
+<meta property="og:description" content="Una guida pratica ai comandi fondamentali della shell Linux; dalla lettura del prompt alla navigazione nel filesystem, dalla gestione di file e directory all&#39;elaborazione dell&#39;output con pipe e redirezioni. Ogni comando è spiegato con esempi reali, opzioni utili e criteri chiari per scegliere quando e perché usarlo." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/gnu_linux.webp" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/comandi-di-base-della-shell-linux/" />
+
+<meta name="twitter:title" content="Comandi di base della Shell Linux" />
+<meta name="twitter:description" content="Una guida pratica ai comandi fondamentali della shell Linux; dalla lettura del prompt alla navigazione nel filesystem, dalla gestione di file e directory all&#39;elaborazione dell&#39;output con pipe e redirezioni. Ogni comando è spiegato con esempi reali, opzioni utili e criteri chiari per scegliere quando e perché usarlo." />
+
+<meta name="twitter:image" content="https://dino-996.github.io/assets/img/webp/gnu_linux.webp" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Bootstrap icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img 
+        src="https://github.com/Dino-996.png" 
+        alt="Davide Sabia" 
+        class="rounded-circle"
+        width="32"
+        height="32"
+        style="object-fit: cover;"
+      >
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+    
+    <button 
+      class="navbar-toggler border-0 p-0" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNav">
+      <i class="bi bi-grid-3x3-gap fs-4"></i>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">
+            Blog
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">
+            About
+          </a>
+        </li>
+
+        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+          <div class="d-inline-flex rounded-4 bg-body-tertiary p-1">
+            <button title="Dark mode" id="dark" class="btn btn-sm btn-default rounded-4 text-secondary p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-moon"></i>
+            </button>
+
+            <button title="Light mode" id="light" class="btn btn-sm btn-default rounded-4 text-warning p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-sun"></i>
+            </button>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <main class="container my-5 flex-grow-1">
+      
+<article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">Comandi di base della Shell Linux</h1>
+
+    <time
+      class="text-muted"
+      datetime="2026-03-17T00:00:00.000Z"
+    >
+      17 marzo 2026
+    </time>
+  </header>
+
+  
+    <div class="alert alert-primary border-start border-4 border-primary mb-4" role="note">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <i class="bi bi-stars text-primary"></i>
+        <strong class="small text-uppercase text-primary">Riassunto IA</strong>
+      </div>
+      <p class="mb-0 small">La shell funge da interprete diretto per l&#39;esecuzione di comandi, la gestione di flussi di I/O e l&#39;orchestrazione di processi tramite pipe. Il prompt del terminale fornisce metadati critici, quali identità utente, contesto di rete e privilegi correnti, essenziali per operare in sicurezza sul filesystem.</p>
+    </div>
+  
+
+  
+    <div class="mb-4">
+      <img 
+        src="/assets/img/webp/gnu_linux.webp" 
+        alt="Immagine generata con IA" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+    
+  </div>
+  
+
+  <hr>
+
+  <section class="content">
+    <h1>Comandi di base della Shell</h1>
+<p>Lavorare dalla shell significa comunicare direttamente con il sistema operativo attraverso istruzioni testuali. Un <strong>comando</strong> può essere un <strong>programma esterno</strong> (come <code>ls</code>), una <strong>funzione interna</strong> della shell, o una combinazione di più comandi collegati tra loro.</p>
+<p>Quando digiti un comando, la shell lo interpreta, lo avvia e gestisce il suo input/output: il risultato può comparire a schermo, essere salvato su file o essere passato ad altri comandi tramite <strong>pipe</strong>. Conoscere questi strumenti, il loro significato, le possibilità e i limiti, è essenziale per lavorare in modo efficace e sicuro.</p>
+<h2>Anatomia del terminale</h2>
+<p>Prima di digitare qualsiasi comando, vale la pena capire cosa stai guardando. Quando apri un terminale, la prima cosa che vedi non è una pagina bianca, è un <strong>prompt</strong>, ovvero un invito della shell a ricevere istruzioni. Ogni elemento di quella riga ha un significato preciso.</p>
+<p>Un prompt tipico su una distribuzione Linux si presenta così:</p>
+<pre><code>davide@ubuntu:~/progetti$
+</code></pre>
+<p>Pensala come una mappa: ti dice chi sei, dove sei e con quali permessi stai operando.</p>
+<h3>Gli elementi del prompt</h3>
+<pre><code>davide   @   ubuntu   :   ~/progetti   $   _
+  │      │     │      │       │        │   │
+  │      │     │      │       │        │   └── Cursore
+  │      │     │      │       │        └────── Modalità di esecuzione
+  │      │     │      │       └─────────────── Directory corrente
+  │      │     │      └─────────────────────── Separatore
+  │      │     └────────────────────────────── Nome host
+  │      └──────────────────────────────────── Separatore
+  └─────────────────────────────────────────── Nome utente
+</code></pre>
+<p><strong>Nome utente</strong> — Il nome dell'account con cui hai effettuato l'accesso. È importante perché determina quali file puoi leggere, scrivere o eseguire in base ai permessi del filesystem.</p>
+<p><strong>Nome host</strong> — Il nome della macchina su cui stai lavorando. Diventa fondamentale quando lavori su più server in remoto via SSH: ti impedisce di confonderti su <em>quale</em> macchina stai operando.</p>
+<p><strong>Directory corrente</strong> — Il percorso della directory in cui ti trovi in quel momento. La tilde (<code>~</code>) è una scorciatoia per la tua home directory (es. <code>/home/davide</code>). Questa informazione cambia ogni volta che usi <code>cd</code>.</p>
+<p><strong>Modalità di esecuzione</strong> — Il simbolo finale è probabilmente il più importante:</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Simbolo</th>
+        <th>Significato</th>
+        <th>Quando compare</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold"><code>$</code></td>
+        <td>Utente normale</td>
+        <td>
+          Operazioni quotidiane, permessi limitati
+        </td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>#</code></td>
+        <td>Utente root (superutente)</td>
+        <td>Accesso completo al sistema</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<blockquote>
+<p><strong>Attenzione:</strong> Quando vedi <code>#</code>, stai operando come root: hai permessi illimitati. Qualsiasi comando eseguito in questa modalità può modificare o danneggiare file di sistema senza alcuna protezione. Usa l'accesso root solo quando strettamente necessario, e preferisci <code>sudo</code> per i singoli comandi che lo richiedono.</p>
+</blockquote>
+<p><strong>Cursore</strong> — Il trattino lampeggiante (o il blocco, a seconda della configurazione del terminale) che segue il prompt indica che la shell è in attesa del tuo input. Se il cursore non compare o il prompt non ritorna dopo aver eseguito un comando, significa che la shell è ancora occupata, o che il processo è in attesa di input da tastiera.</p>
+<h3>Il prompt è personalizzabile</h3>
+<p>Quello che hai visto sopra è il formato più comune, ma il prompt può avere forme molto diverse. Alcune shell e configurazioni mostrano informazioni aggiuntive come il ramo Git corrente, l'ambiente virtuale Python attivo, o l'ora dell'ultimo comando. Tutto questo è controllato dalla variabile d'ambiente <code>PS1</code> (e <code>PS2</code> per i prompt di continuazione). Non devi modificarla ora, ma sapere che esiste ti aiuta a capire perché prompt su macchine diverse possono sembrare così diversi.</p>
+<h2>Anatomia di un comando</h2>
+<p>Ogni comando segue una struttura formale precisa:</p>
+<pre><code>&lt;programma&gt; [-opzione &lt;valore&gt;] &lt;parametro1&gt; &lt;parametro2&gt; …
+</code></pre>
+<ul>
+<li><strong>Programma</strong> — il nome del comando da eseguire (es. <code>ls</code>, <code>cp</code>, <code>grep</code>).</li>
+<li><strong>Opzioni</strong> — modificano il comportamento rispetto alle impostazioni di default. Si identificano con <code>-</code> (forma breve) o <code>--</code> (forma lunga) e possono richiedere un valore associato (es. <code>-n 5</code> o <code>--lines=5</code>).</li>
+<li><strong>Flag</strong> — opzioni booleane senza valore associato: la loro semplice presenza attiva un comportamento (es. <code>-r</code>, <code>-a</code>, <code>-i</code>).</li>
+<li><strong>Parametri</strong> — i valori posizionali su cui il comando opera (percorsi, nomi file, stringhe). Il numero di parametri richiesti varia da comando a comando.</li>
+</ul>
+<p>Per conoscere tutte le opzioni e i parametri disponibili per qualsiasi programma, usa sempre <code>man &lt;programma&gt;</code>.</p>
+<h3>Esempio scomposto</h3>
+<pre class="language-bash"><code class="language-bash"><span class="token function">ls</span> <span class="token parameter variable">-l</span> <span class="token parameter variable">-a</span> <span class="token parameter variable">--color</span><span class="token operator">=</span>always /home/davide</code></pre>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Parte</th>
+        <th>Tipo</th>
+        <th>Significato</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold"><code>ls</code></td>
+        <td>Programma</td>
+        <td>
+          Il comando da eseguire
+        </td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>-l</code></td>
+        <td>Flag</td>
+        <td>Formato lungo</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>-a</code></td>
+        <td>Flag</td>
+        <td>Include file nascosti</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>--color=always</code></td>
+        <td>Opzione</td>
+        <td>Forza l'output colorato</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>/home/davide</code></td>
+        <td>Parametro</td>
+        <td>La directory da listare</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h2>I comandi fondamentali</h2>
+<h3><code>pwd</code> — Dove mi trovo?</h3>
+<p><code>pwd</code> sta per <em>print working directory</em> e mostra il percorso assoluto della directory in cui ti trovi in quel momento.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">pwd</span>
+/home/davide/progetto</code></pre>
+<p><strong>Quando usarlo:</strong> ogni volta che non sei sicuro della tua posizione nel filesystem, soprattutto dopo una serie di <code>cd</code> o prima di eseguire comandi che operano su percorsi relativi.</p>
+<p><strong>Perché sceglierlo:</strong> è il modo più diretto per evitare errori di percorso. Sapere dove sei prima di cancellare o modificare file può fare la differenza tra un'operazione riuscita e un disastro.</p>
+<h3><code>ls</code> — Cosa c'è qui dentro?</h3>
+<p><code>ls</code> elenca il contenuto di una directory. Senza opzioni mostra solo i nomi; con le opzioni giuste fornisce dettagli su permessi, proprietario, dimensione e timestamp.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">ls</span> <span class="token parameter variable">-la</span> /home/davide</code></pre>
+<table>
+<thead>
+<tr>
+<th>Opzione</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-l</code></td>
+<td>Formato lungo con dettagli (permessi, dimensione, data)</td>
+</tr>
+<tr>
+<td><code>-a</code></td>
+<td>Include i file nascosti (quelli che iniziano con <code>.</code>)</td>
+</tr>
+<tr>
+<td><code>-h</code></td>
+<td>Dimensioni leggibili (es. <code>4.2K</code> invece di <code>4312</code>)</td>
+</tr>
+<tr>
+<td><code>-t</code></td>
+<td>Ordina per data di modifica</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong>Quando usarlo:</strong> per esplorare una directory, verificare la presenza di file, controllare i permessi o capire cosa è stato modificato di recente.</p>
+<h3><code>cd</code> — Spostati nel filesystem</h3>
+<p><code>cd</code> (<em>change directory</em>) cambia la directory di lavoro corrente della shell.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">cd</span> /etc          <span class="token comment"># percorso assoluto</span>
+$ <span class="token builtin class-name">cd</span> ~/progetti    <span class="token comment"># ~ è la shortcut per la home</span>
+$ <span class="token builtin class-name">cd</span> <span class="token punctuation">..</span>            <span class="token comment"># sale di un livello</span>
+$ <span class="token builtin class-name">cd</span> -             <span class="token comment"># torna alla directory precedente</span></code></pre>
+<p><strong>Quando usarlo:</strong> prima di operare su file in una directory diversa da quella corrente — editare, copiare, eseguire script.</p>
+<p><strong>Perché sceglierlo:</strong> lavorare dalla directory giusta consente di usare percorsi relativi più brevi. Le scorciatoie (<code>~</code>, <code>-</code>, <code>..</code>) velocizzano molto la navigazione una volta che le si conosce.</p>
+<h3><code>touch</code> — Crea un file o aggiorna i timestamp</h3>
+<p><code>touch</code> crea un file vuoto se non esiste; se esiste già, aggiorna la sua data/ora di modifica senza toccare il contenuto.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">touch</span> file.txt
+$ <span class="token function">touch</span> src/index.ts</code></pre>
+<p><strong>Quando usarlo:</strong> per creare rapidamente file, per forzare la ricompilazione in build system basati su timestamp, o per aggiornare i metadati di un file.</p>
+<p><strong>Perché sceglierlo:</strong> è non distruttivo — non sovrascrive mai il contenuto esistente.</p>
+<h3><code>mkdir -p</code> — Crea directory (anche annidate)</h3>
+<p><code>mkdir</code> crea una o più directory. L'opzione <code>-p</code> crea anche tutte le directory intermedie mancanti, senza errori se esistono già.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">mkdir</span> <span class="token parameter variable">-p</span> progetto/src/components</code></pre>
+<p>Senza <code>-p</code>, se <code>progetto/src</code> non esiste il comando fallisce. Con <code>-p</code>, crea l'intera struttura in un colpo solo.</p>
+<p><strong>Quando usarlo:</strong> ogni volta che devi creare strutture di cartelle annidate, specialmente in script che vuoi poter rieseguire senza problemi.</p>
+<p><strong>Perché sceglierlo:</strong> rende gli script <strong>idempotenti</strong> — possono essere eseguiti più volte senza effetti collaterali indesiderati.</p>
+<h3><code>cp -r</code> e <code>mv</code> — Copia e sposta</h3>
+<p><code>cp</code> copia file e, con <code>-r</code>, intere directory in modo ricorsivo. <code>mv</code> sposta o rinomina file e directory.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cp</span> <span class="token parameter variable">-r</span> src/ backup/src/      <span class="token comment"># copia ricorsiva</span>
+$ <span class="token function">mv</span> report.txt archivio/     <span class="token comment"># sposta</span>
+$ <span class="token function">mv</span> vecchio_nome nuovo_nome  <span class="token comment"># rinomina</span></code></pre>
+<p><strong>Quando usare <code>cp</code>:</strong> quando vuoi duplicare mantenendo l'originale intatto.</p>
+<p><strong>Quando usare <code>mv</code>:</strong> quando basta spostare o rinominare. All'interno dello stesso filesystem, <code>mv</code> è molto più efficiente di <code>cp</code> + <code>rm</code> perché non copia fisicamente i dati — aggiorna solo i metadati del filesystem.</p>
+<h3><code>rm -r</code> / <code>rm -f</code> — Rimuovi file e directory</h3>
+<p><code>rm</code> elimina file in modo definitivo (non finiscono nel cestino). Con <code>-r</code> rimuove ricorsivamente directory intere; con <code>-f</code> forza l'operazione senza chiedere conferma.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">rm</span> file.txt          <span class="token comment"># rimuove un singolo file</span>
+$ <span class="token function">rm</span> <span class="token parameter variable">-r</span> dist/          <span class="token comment"># rimuove la directory dist/ e tutto il suo contenuto</span>
+$ <span class="token function">rm</span> <span class="token parameter variable">-i</span> *.log          <span class="token comment"># chiede conferma per ogni file (consigliato)</span></code></pre>
+<blockquote>
+<p><strong>Attenzione:</strong> <code>rm -rf /</code> cancella l'intero filesystem se eseguito con i privilegi giusti. Verifica sempre il percorso prima di usare <code>-rf</code>.</p>
+</blockquote>
+<p><strong>Quando usarlo:</strong> per pulire file o directory non più necessari, in script di build o deploy.</p>
+<p><strong>Consiglio:</strong> in caso di dubbio usa <code>-i</code> per ricevere una conferma interattiva prima di ogni eliminazione.</p>
+<h3><code>cat</code> e <code>less</code> — Leggi il contenuto di un file</h3>
+<p><code>cat</code> stampa il contenuto di un file direttamente nel terminale. <code>less</code> apre un visualizzatore interattivo che permette di scorrere, cercare e navigare.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">cat</span> config.json          <span class="token comment"># output immediato, tutto in una volta</span>
+$ <span class="token function">less</span> /var/log/syslog     <span class="token comment"># visualizzazione paginata e navigabile</span></code></pre>
+<p>In <code>less</code>: usa le frecce o <code>j</code>/<code>k</code> per scorrere, <code>/termine</code> per cercare, <code>q</code> per uscire.</p>
+<p><strong>Quando usare <code>cat</code>:</strong> per file brevi o per concatenare più file in pipeline (<code>cat a.txt b.txt | sort</code>).</p>
+<p><strong>Quando usare <code>less</code>:</strong> per file lunghi come log di sistema — eviti di intasare il terminale con migliaia di righe.</p>
+<h3><code>man</code> — Il manuale integrato</h3>
+<p><code>man</code> (<em>manual</em>) apre la pagina di documentazione ufficiale di un comando, direttamente nel terminale. Ogni pagina descrive scopo, sintassi, opzioni e, spesso, esempi d'uso.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">man</span> <span class="token function">ls</span>       <span class="token comment"># apre il manuale di ls</span>
+$ <span class="token function">man</span> <span class="token function">cp</span>       <span class="token comment"># apre il manuale di cp</span></code></pre>
+<p>La navigazione in <code>man</code> usa le stesse scorciatoie di <code>less</code>: frecce o <code>j</code>/<code>k</code> per scorrere, <code>/termine</code> per cercare, <code>q</code> per uscire.</p>
+<p><strong>Quando usarlo:</strong> ogni volta che non ricordi un'opzione specifica o vuoi capire il comportamento esatto di un comando senza cercare su internet. È la fonte più affidabile perché è sempre aggiornata alla versione installata sul tuo sistema.</p>
+<p><strong>Perché sceglierlo:</strong> <code>man</code> non richiede connessione, non ha pubblicità e non ti porta su Stack Overflow. È lento da leggere all'inizio, ma imparare a navigarlo è un investimento che ripaga nel tempo.</p>
+<blockquote>
+<p>💡 Se vuoi una versione più concisa, prova <code>man -k termine</code> per cercare tra tutte le pagine di manuale che menzionano una parola chiave, oppure comandi come <code>tldr</code> (da installare separatamente) per riassunti pratici e orientati agli esempi.</p>
+</blockquote>
+<h3><code>clear</code> — Pulisci lo schermo</h3>
+<p><code>clear</code> svuota il terminale rimuovendo tutto l'output precedente, riportando il prompt in cima allo schermo.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">clear</span></code></pre>
+<p>In alternativa, la scorciatoia da tastiera <code>Ctrl + L</code> produce lo stesso effetto senza dover digitare nulla.</p>
+<p><strong>Quando usarlo:</strong> quando lo schermo è affollato di output e vuoi ricominciare da una vista pulita, oppure prima di eseguire un comando il cui output vuoi leggere senza distrazioni.</p>
+<p><strong>Perché sceglierlo:</strong> non cancella la cronologia dei comandi (<code>history</code> rimane intatta) né termina processi in esecuzione — è puramente visivo. Se vuoi scorrere l'output precedente dopo un <code>clear</code>, nella maggior parte dei terminali puoi farlo con la rotella del mouse o con <code>Shift + PgUp</code>.</p>
+<h3><code>exit</code> — Chiudi la sessione</h3>
+<p><code>exit</code> termina la sessione della shell corrente. Se stai lavorando in un terminale normale, chiude la finestra o la scheda. Se sei connesso via SSH a un server remoto, disconnette la sessione remota riportandoti alla shell locale.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">exit</span></code></pre>
+<p>Puoi ottenere lo stesso risultato con la scorciatoia <code>Ctrl + D</code>, che invia il segnale di fine input alla shell.</p>
+<p><strong>Quando usarlo:</strong> per chiudere sessioni SSH in modo pulito, per uscire da una subshell avviata manualmente, o semplicemente per terminare il lavoro nel terminale.</p>
+<p><strong>Perché sceglierlo:</strong> chiudere una sessione con <code>exit</code> è più corretto che chiudere brutalmente la finestra del terminale, soprattutto su connessioni remote: assicura che i processi associati alla sessione vengano terminati correttamente.</p>
+<h2>Canali di comunicazione di un comando</h2>
+<p>Ogni comando ha a disposizione tre canali di comunicazione con il resto del sistema:</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Canale</th>
+        <th>Nome</th>
+        <th>Descrizione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold"><code>stdin</code></td>
+        <td>Standard input</td>
+        <td>L'ingresso del programma. Di default è collegato alla tastiera.</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>stdout</code></td>
+        <td>Standard output</td>
+        <td>L'uscita principale del programma. Di default viene mostrata nel terminale.</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>stderr</code></td>
+        <td>Standard error</td>
+        <td>L'uscita dedicata agli errori e ai messaggi di stato. Tenuta su un canale separato per evitare che si mescoli con l'output normale. Di default appare anch'essa nel terminale.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>Separare <code>stdout</code> e <code>stderr</code> è una scelta progettuale importante: permette di filtrare, reindirizzare o loggare errori e output in modo indipendente, senza che si contaminino a vicenda.</p>
+<h2>Redirezione dell'output</h2>
+<p>La shell permette di collegare i canali di comunicazione tra comandi e file, costruendo catene di elaborazione anche complesse. Queste operazioni si chiamano <strong>redirezioni</strong>.</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Sinstassi</th>
+        <th>Effetto</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold"><code>comando > file</code></td>
+        <td>Scrive <code>stdout</code> nel file (sovrascrive se esiste)</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>comando >> file</code></td>
+        <td>Appende <code>stdout</code> al file (non sovrascrive)</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>comando < file</code></td>
+        <td>Usa il file come <code>stdin</code> del comando</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold"><code>comando 2> file</code></td>
+        <td>Scrive <code>stderr</code> nel file</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold text-nowrap"><code>comando1 | comando2</code></td>
+        <td>Trasforma l'output del primo comando (<code>stdout</code>) <code>comando1</code> in input (<code>stdin</code>) del secondo comando <code>comando2</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h3>Esempi pratici</h3>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Salva la lista dei file in un log</span>
+$ <span class="token function">ls</span> <span class="token parameter variable">-la</span> <span class="token operator">></span> lista_file.txt
+
+<span class="token comment"># Appende nuovi risultati senza sovrascrivere</span>
+$ <span class="token function">ls</span> ~/downloads <span class="token operator">>></span> lista_file.txt
+
+<span class="token comment"># Filtra solo gli errori in un file separato</span>
+$ <span class="token function">make</span> <span class="token operator"><span class="token file-descriptor important">2</span>></span> errori.log
+
+<span class="token comment"># Concatena due file e cerca una stringa</span>
+$ <span class="token function">cat</span> a.txt b.txt <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"TODO"</span></code></pre>
+<p>La pipe (<code>|</code>) è uno degli strumenti più potenti della shell: permette di comporre programmi semplici in pipeline sofisticate, dove l'output di uno diventa l'input del successivo.</p>
+<h2>Comandi di elaborazione dell'output</h2>
+<p>Questi comandi sono progettati per trasformare, filtrare e analizzare dati testuali. Lavorano spesso in combinazione tramite pipe, e il loro punto di forza è proprio la componibilità: incatenati insieme, permettono di estrarre esattamente le informazioni che servono da flussi di dati anche molto grandi.</p>
+<h3><code>echo</code> — Stampa una stringa</h3>
+<p><code>echo</code> scrive una stringa su <code>stdout</code>. Semplice, ma molto utile in script e pipeline.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">"Ciao mondo"</span>
+Ciao mondo
+
+$ <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"senza newline"</span>   <span class="token comment"># non va a capo alla fine</span>
+$ <span class="token builtin class-name">echo</span> <span class="token parameter variable">-e</span> <span class="token string">"<span class="token entity" title="\e">\e</span>[36;1mTesto ciano grassetto<span class="token entity" title="\e">\e</span>[0m"</span>   <span class="token comment"># interpreta escape ANSI</span></code></pre>
+<table>
+<thead>
+<tr>
+<th>Opzione</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-n</code></td>
+<td>Non aggiunge il carattere di newline finale</td>
+</tr>
+<tr>
+<td><code>-e</code></td>
+<td>Interpreta i caratteri di escape (es. colori ANSI, <code>\t</code>, <code>\n</code>)</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong>Quando usarlo:</strong> per stampare messaggi in script, per passare stringhe a pipeline, o per testare rapidamente l'output di variabili d'ambiente (<code>echo $PATH</code>).</p>
+<p><strong>Perché sceglierlo:</strong> è universalmente disponibile e non ha dipendenze. Con <code>-e</code> permette anche di formattare l'output con colori e stili (vedi <code>man console_codes</code> per i codici ANSI).</p>
+<h3><code>head</code> e <code>tail</code> — Prime e ultime righe</h3>
+<p><code>head</code> mostra le prime righe di un file o di uno stream; <code>tail</code> mostra le ultime. Per default entrambi mostrano 10 righe.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">head</span> <span class="token parameter variable">-n</span> <span class="token number">5</span> access.log      <span class="token comment"># prime 5 righe</span>
+$ <span class="token function">tail</span> <span class="token parameter variable">-n</span> <span class="token number">20</span> error.log      <span class="token comment"># ultime 20 righe</span>
+$ <span class="token function">tail</span> <span class="token parameter variable">-f</span> /var/log/syslog   <span class="token comment"># segue il file in tempo reale (live)</span></code></pre>
+<table>
+<thead>
+<tr>
+<th>Opzione</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-n &lt;numero&gt;</code></td>
+<td>Specifica il numero di righe da mostrare</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong>Quando usarli:</strong> <code>head</code> per ispezionare l'intestazione di un file (es. CSV con colonne); <code>tail</code> per leggere le righe più recenti di un log. <code>tail -f</code> è particolarmente utile per monitorare log applicativi in tempo reale.</p>
+<p><strong>Perché sceglierli:</strong> evitano di caricare l'intero file quando serve solo una porzione. Su file di log da gigabyte, la differenza è sostanziale.</p>
+<h3><code>grep</code> — Cerca nel testo</h3>
+<p><code>grep</code> (<em>General Regular Expression Print</em>) cerca righe che corrispondono a un pattern all'interno di file o stream. Restituisce solo le righe che contengono la corrispondenza.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">grep</span> <span class="token string">"errore"</span> app.log               <span class="token comment"># cerca la stringa "errore"</span>
+$ <span class="token function">grep</span> <span class="token parameter variable">-i</span> <span class="token string">"warning"</span> app.log           <span class="token comment"># case insensitive</span>
+$ <span class="token function">grep</span> <span class="token parameter variable">-n</span> <span class="token string">"TODO"</span> src/main.ts          <span class="token comment"># mostra il numero di riga</span>
+$ <span class="token function">grep</span> <span class="token parameter variable">-c</span> <span class="token string">"404"</span> access.log            <span class="token comment"># conta le righe corrispondenti</span>
+$ <span class="token function">cat</span> app.log <span class="token operator">|</span> <span class="token function">grep</span> <span class="token parameter variable">-i</span> <span class="token string">"error"</span>       <span class="token comment"># in pipeline</span></code></pre>
+<table>
+<thead>
+<tr>
+<th>Opzione</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-i</code></td>
+<td>Ignora maiuscole/minuscole</td>
+</tr>
+<tr>
+<td><code>-n</code></td>
+<td>Precede ogni riga con il suo numero</td>
+</tr>
+<tr>
+<td><code>-c</code></td>
+<td>Restituisce solo il conteggio delle righe corrispondenti</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong>Quando usarlo:</strong> per filtrare log, cercare occorrenze di una stringa in un file, o come filtro in una pipeline (<code>comando | grep &quot;pattern&quot;</code>).</p>
+<p><strong>Perché sceglierlo:</strong> è lo strumento standard per la ricerca testuale su stream e file. Supporta anche le espressioni regolari, che aprono possibilità di ricerca molto più avanzate della semplice stringa fissa.</p>
+<h3><code>wc</code> — Conta righe, parole e caratteri</h3>
+<p><code>wc</code> (<em>Word Count</em>) conta righe, parole e caratteri di un file o stream.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">wc</span> file.txt              <span class="token comment"># righe, parole e caratteri</span>
+$ <span class="token function">wc</span> <span class="token parameter variable">-l</span> *.log              <span class="token comment"># conta solo le righe di ogni file .log</span>
+$ <span class="token function">cat</span> file.txt <span class="token operator">|</span> <span class="token function">wc</span> <span class="token parameter variable">-w</span>     <span class="token comment"># conta le parole via pipe</span></code></pre>
+<table>
+<thead>
+<tr>
+<th>Opzione</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-l</code></td>
+<td>Conta solo le righe</td>
+</tr>
+<tr>
+<td><code>-w</code></td>
+<td>Conta solo le parole</td>
+</tr>
+<tr>
+<td><code>-m</code></td>
+<td>Conta solo i caratteri</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong>Quando usarlo:</strong> per sapere quante righe ha un file di log, quante voci contiene un CSV, o quante occorrenze ha restituito un <code>grep</code>.</p>
+<p><strong>Perché sceglierlo:</strong> è veloce e componibile. <code>grep &quot;errore&quot; app.log | wc -l</code> risponde in un colpo solo a &quot;quanti errori ci sono nel log?&quot;.</p>
+<h3><code>sort</code> — Ordina le righe</h3>
+<p><code>sort</code> riordina le righe di un file o stream secondo la regola specificata. Di default ordina lessicograficamente.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">sort</span> nomi.txt                  <span class="token comment"># ordine alfabetico</span>
+$ <span class="token function">sort</span> <span class="token parameter variable">-r</span> nomi.txt               <span class="token comment"># ordine inverso</span>
+$ <span class="token function">sort</span> <span class="token parameter variable">-g</span> numeri.txt             <span class="token comment"># ordine numerico</span>
+$ <span class="token function">sort</span> <span class="token parameter variable">-R</span> lista.txt              <span class="token comment"># ordine casuale</span>
+$ <span class="token function">cat</span> log.txt <span class="token operator">|</span> <span class="token function">sort</span> <span class="token parameter variable">-f</span>          <span class="token comment"># case insensitive via pipe</span></code></pre>
+<table>
+<thead>
+<tr>
+<th>Opzione</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-f</code></td>
+<td>Ignora maiuscole/minuscole</td>
+</tr>
+<tr>
+<td><code>-g</code></td>
+<td>Ordine numerico</td>
+</tr>
+<tr>
+<td><code>-d</code></td>
+<td>Ordine alfabetico (dizionario, ignora punteggiatura)</td>
+</tr>
+<tr>
+<td><code>-r</code></td>
+<td>Ordine inverso</td>
+</tr>
+<tr>
+<td><code>-R</code></td>
+<td>Ordine casuale</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong>Quando usarlo:</strong> per ordinare output prima di confrontarlo, per preparare dati per <code>uniq</code>, o per trovare rapidamente il valore massimo/minimo in una lista numerica.</p>
+<p><strong>Perché sceglierlo:</strong> è spesso il passaggio intermedio necessario in una pipeline prima di elaborazioni successive — <code>sort</code> + <code>uniq</code> è una combinazione classica.</p>
+<h3><code>uniq</code> — Rimuovi o conta i duplicati</h3>
+<p><code>uniq</code> (<em>UNIQue</em>) opera su righe adiacenti identiche: le rimuove, le conta o le filtra. Per funzionare correttamente su file non ordinati, va quasi sempre preceduto da <code>sort</code>.</p>
+<pre class="language-bash"><code class="language-bash">$ <span class="token function">sort</span> lista.txt <span class="token operator">|</span> <span class="token function">uniq</span>          <span class="token comment"># rimuove i duplicati</span>
+$ <span class="token function">sort</span> lista.txt <span class="token operator">|</span> <span class="token function">uniq</span> <span class="token parameter variable">-c</span>       <span class="token comment"># conta le occorrenze di ogni valore</span>
+$ <span class="token function">sort</span> lista.txt <span class="token operator">|</span> <span class="token function">uniq</span> <span class="token parameter variable">-u</span>       <span class="token comment"># mostra solo i valori univoci</span>
+$ <span class="token function">sort</span> lista.txt <span class="token operator">|</span> <span class="token function">uniq</span> <span class="token parameter variable">-d</span>       <span class="token comment"># mostra solo i valori duplicati</span></code></pre>
+<table>
+<thead>
+<tr>
+<th>Opzione</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>-i</code></td>
+<td>Ignora maiuscole/minuscole</td>
+</tr>
+<tr>
+<td><code>-c</code></td>
+<td>Precede ogni riga con il numero di occorrenze</td>
+</tr>
+<tr>
+<td><code>-u</code></td>
+<td>Mostra solo le righe che appaiono una volta sola</td>
+</tr>
+<tr>
+<td><code>-d</code></td>
+<td>Mostra solo le righe che appaiono più di una volta</td>
+</tr>
+</tbody>
+</table>
+<br>
+<p><strong>Quando usarlo:</strong> per deduplicare liste, per trovare valori ripetuti in un log, o per costruire un conteggio delle frequenze (<code>sort | uniq -c | sort -rg</code> restituisce una classifica delle occorrenze).</p>
+<p><strong>Perché sceglierlo:</strong> in combinazione con <code>sort</code>, <code>grep</code> e <code>wc</code> copre la maggior parte dei casi d'uso di analisi testuale rapida senza bisogno di script complessi.</p>
+<h2>Come scegliere il comando giusto</h2>
+<p>La scelta dipende da tre fattori principali:</p>
+<ul>
+<li><strong>Scopo (Identifica l'azione)</strong>: leggere, copiare, spostare, eliminare. Scegli il comando che fa esattamente quello e niente di più.</li>
+<li><strong>Efficienza</strong>: <code>mv</code> è più veloce di <code>cp</code> + <code>rm</code> per spostamenti sullo stesso filesystem. Conoscere queste differenze evita operazioni inutili.</li>
+<li><strong>Sicurezza</strong>: Preferisci comandi che richiedono conferma (<code>rm -i</code>) per operazioni distruttive. In uno script, verifica sempre i percorsi prima di eseguire cancellazioni.</li>
+</ul>
+
+  </section>
+
+  <hr class="mt-5">
+  
+  <section class="mt-5" aria-label="Commenti e reazioni">
+    <h2 class="h5 fw-bold mb-4">
+      <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
+    </h2>
+
+      <script>
+      (function () {
+        const saved = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', theme);
+        script.setAttribute('data-lang', 'it');
+        script.setAttribute('data-loading', 'lazy');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+
+        document.currentScript.replaceWith(script);
+      })();
+    </script>
+
+    <noscript>
+      <p class="text-muted small">
+        <i class="bi bi-info-circle me-1"></i>
+        Per visualizzare i commenti è necessario abilitare JavaScript.
+        Puoi leggere e partecipare alla discussione direttamente su
+        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
+      </p>
+    </noscript>
+  </section>
+
+</article>
+    </main>
+
+    <footer class="border-top mt-auto py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <h5 class="fw-bold mb-3">
+          <span><span class="text-primary">dino</span>-996</span>
+        </h5>
+        <p class="text-muted small mb-2">
+          Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne.
+        </p>
+        <a href="/feed.xml" class="text-muted" aria-label="Feed RSS" target="_blank">
+          <i class="bi bi-rss"></i>
+        </a>
+      </div>
+      
+      <div class="col-md-3 mb-3 mb-md-0">
+        <h6 class="fw-bold mb-3">Navigazione</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <a href="/" class="text-muted text-decoration-none small">Home</a>
+          </li>
+          <li class="mb-2">
+            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
+          </li>
+          <li class="mb-2">
+            <a href="/about/" class="text-muted text-decoration-none small">About</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="col-md-2">
+        <h6 class="fw-bold mb-3">Social</h6>
+        <div class="d-flex gap-3">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+              <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <hr class="my-4" />
+    
+    <div class="row">
+      <div class="col text-center">
+        <p class="text-muted small mb-0">
+          Realizzato con <span class="text-danger">❤</span> usando 
+          <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Eleventy</a> 
+          e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Bootstrap</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send"><i class="bi bi-arrow-up"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        // console.log("AI widget inizializzato");
+
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+        const conversationHistory = [];
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        function addMessage(text, role) {
+          const isUser = role === "user";
+          const div = document.createElement("div");
+          div.className = `d-flex mb-3 ${isUser ? "justify-content-end" : "justify-content-start"}`;
+
+          const innerDiv = document.createElement("div");
+          innerDiv.className = `px-3 py-2 ${isUser ? "rounded-pill" : "rounded-3"}`;
+          innerDiv.style.maxWidth = "85%";
+          innerDiv.style.fontSize = "16px";
+          innerDiv.style.background = isUser ? "var(--bs-primary)" : "var(--bs-body-tertiary)";
+          innerDiv.style.color = isUser ? "#fff" : "inherit";
+          
+          if (!isUser) {
+            const prefix = document.createElement("div");
+            prefix.className = "fw-bold mb-1";
+            prefix.textContent = "🦖 dino";
+            innerDiv.appendChild(prefix);
+          }
+
+          const content = document.createElement("div");
+          content.innerHTML = text;
+          innerDiv.appendChild(content);
+
+          div.appendChild(innerDiv);
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+
+          return content;
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          // console.log("Invio messaggio:", query);
+
+          conversationHistory.push({role: "user", content: query});
+
+          input.value = "";
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          const responseContainer = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "assistant");
+
+          // Carica il contesto degli articoli
+          let context = "";
+          try {
+            // console.log("Carico search.json...");
+            const idx = await fetch("/search.json").then(r => r.json());
+            // console.log("search.json caricato, articoli:", idx.length);
+            context = idx
+              .slice(0, 10)
+              .map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}\nLink: https://dino-996.github.io${p.url}`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+            context = "";
+          }
+
+          // Chiamata al worker
+          try {
+            // console.log("Chiamo il worker...");
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            // console.log("Risposta worker, status:", res.status);
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+            // console.log("DATA COMPLETA:", JSON.stringify(data));
+
+            let answer = "";
+
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js"></script>
+
+  </body>
+</html>

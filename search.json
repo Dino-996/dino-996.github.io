@@ -1,9 +1,15 @@
 [
   {
-    "title": "L'algoritmo di Luhn",
-    "url": "/blog/lalgoritmo-di-luhn/",
-    "description": "L’algoritmo di Luhn è un metodo matematico sviluppato nel 1954 dal ricercatore IBM Hans Peter Luhn per verificare la validità di numeri identificativi attraverso una cifra di controllo. Ancora oggi è utilizzato in moltissimi sistemi informatici, soprattutto per la validazione dei numeri di carte di credito, IMEI dei dispositivi mobili e altri identificatori strutturati.",
-    "date": "2026-03-16T00:00:00.000Z"
+    "title": "Il Filesystem di Linux",
+    "url": "/blog/il-filesystem-di-linux/",
+    "description": "In questo articolo esploriamo come funziona il filesystem Linux; partiremo dai concetti fondamentali, capiremo perché tutto è un file, e poi percorreremo le directory principali del sistema una per una.",
+    "date": "2026-03-18T00:00:00.000Z"
+  },
+  {
+    "title": "Comandi di base della Shell Linux",
+    "url": "/blog/comandi-di-base-della-shell-linux/",
+    "description": "Una guida pratica ai comandi fondamentali della shell Linux; dalla lettura del prompt alla navigazione nel filesystem, dalla gestione di file e directory all'elaborazione dell'output con pipe e redirezioni. Ogni comando è spiegato con esempi reali, opzioni utili e criteri chiari per scegliere quando e perché usarlo.",
+    "date": "2026-03-17T00:00:00.000Z"
   },
   {
     "title": "GNU/Linux",
@@ -12,16 +18,34 @@
     "date": "2026-03-16T00:00:00.000Z"
   },
   {
+    "title": "L'algoritmo di Luhn",
+    "url": "/blog/lalgoritmo-di-luhn/",
+    "description": "L’algoritmo di Luhn è un metodo matematico sviluppato nel 1954 dal ricercatore IBM Hans Peter Luhn per verificare la validità di numeri identificativi attraverso una cifra di controllo. Ancora oggi è utilizzato in moltissimi sistemi informatici, soprattutto per la validazione dei numeri di carte di credito, IMEI dei dispositivi mobili e altri identificatori strutturati.",
+    "date": "2026-03-08T00:00:00.000Z"
+  },
+  {
     "title": "Guida completa a PowerShell",
     "url": "/blog/guida-completa-a-powershell/",
     "description": "Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido.",
     "date": "2026-01-01T00:00:00.000Z"
   },
   {
-    "title": "Tecniche Algoritmiche per Dev Java",
+    "title": "Tecniche algoritmiche per dev Java",
     "url": "/blog/tecniche-algoritmiche-per-dev-java/",
     "description": "Questa guida raccoglie le tecniche algoritmiche più comuni utilizzate nello sviluppo software quotidiano. Le seguenti tecniche sono descritte il linguaggio Java.",
     "date": "2020-03-05T00:00:00.000Z"
+  },
+  {
+    "title": "Allocazione della memoria",
+    "url": "/blog/allocazione-della-memoria/",
+    "description": "Questo approfondimento tecnico esplora le sfide dell'allocazione dei frame in sistemi multiprogrammati. Analizzeremo come il modello del working set e la frequenza dei page fault prevengano il collasso del sistema (thrashing), oltre a esaminare le tecniche specifiche del kernel per la gestione di oggetti di dimensioni variabili e fisse.",
+    "date": "2020-02-23T00:00:00.000Z"
+  },
+  {
+    "title": "La memoria virtuale",
+    "url": "/blog/la-memoria-virtuale/",
+    "description": "Scopri come i sistemi operativi riescono a eseguire applicazioni enormi su hardware limitato attraverso la memoria virtuale, la paginazione su richiesta e i sofisticati algoritmi di sostituzione delle pagine.",
+    "date": "2020-02-22T00:00:00.000Z"
   },
   {
     "title": "Scheduling della CPU",
@@ -36,7 +60,7 @@
     "date": "2020-02-18T00:00:00.000Z"
   },
   {
-    "title": "Struttura dei Sistemi Operativi",
+    "title": "Struttura dei sistemi operativi",
     "url": "/blog/struttura-dei-sistemi-operativi/",
     "description": "Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel.",
     "date": "2020-02-14T00:00:00.000Z"

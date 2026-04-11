@@ -5,38 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  Tag: {{ tag }} · dino-996 blog
+  Allocazione della memoria · dino-996 blog
 </title>
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
+<meta name="description" content="Questo approfondimento tecnico esplora le sfide dell&#39;allocazione dei frame in sistemi multiprogrammati. Analizzeremo come il modello del working set e la frequenza dei page fault prevengano il collasso del sistema (thrashing), oltre a esaminare le tecniche specifiche del kernel per la gestione di oggetti di dimensioni variabili e fisse." />
 <meta name="author" content="Davide Sabia" />
 <meta name="robots" content="index, follow" />
 
 <!-- Canonical URL -->
 
-<link rel="canonical" href="https://dino-996.github.io/tags/java/" />
+<link rel="canonical" href="https://dino-996.github.io/blog/allocazione-della-memoria/" />
 
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
 
-<meta property="og:url" content="https://dino-996.github.io/tags/java/" />
+<meta property="og:url" content="https://dino-996.github.io/blog/allocazione-della-memoria/" />
 
-<meta property="og:title" content="Tag: {{ tag }}" />
-<meta property="og:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
+<meta property="og:title" content="Allocazione della memoria" />
+<meta property="og:description" content="Questo approfondimento tecnico esplora le sfide dell&#39;allocazione dei frame in sistemi multiprogrammati. Analizzeremo come il modello del working set e la frequenza dei page fault prevengano il collasso del sistema (thrashing), oltre a esaminare le tecniche specifiche del kernel per la gestione di oggetti di dimensioni variabili e fisse." />
 <meta property="og:site_name" content="dino-996 blog" />
 
-<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/og-default.webp" />
+<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/sistemi-operativi.webp" />
 
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 
-<meta name="twitter:url" content="https://dino-996.github.io/tags/java/" />
+<meta name="twitter:url" content="https://dino-996.github.io/blog/allocazione-della-memoria/" />
 
-<meta name="twitter:title" content="Tag: {{ tag }}" />
-<meta name="twitter:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
+<meta name="twitter:title" content="Allocazione della memoria" />
+<meta name="twitter:description" content="Questo approfondimento tecnico esplora le sfide dell&#39;allocazione dei frame in sistemi multiprogrammati. Analizzeremo come il modello del working set e la frequenza dei page fault prevengano il collasso del sistema (thrashing), oltre a esaminare le tecniche specifiche del kernel per la gestione di oggetti di dimensioni variabili e fisse." />
+
+<meta name="twitter:image" content="https://dino-996.github.io/assets/img/webp/sistemi-operativi.webp" />
 
 
 <!-- Favicon -->
@@ -99,7 +101,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/blog/">
+          <a class="nav-link active" href="/blog/">
             Blog
           </a>
         </li>
@@ -128,91 +130,147 @@
 
     <main class="container my-5 flex-grow-1">
       
+<article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">Allocazione della memoria</h1>
 
-<div class="mb-4">
-  <h1>
-    <i class="bi bi-tag-fill text-primary me-2"></i>Tag: <span class="text-primary">java</span>
-  </h1>
-  <p class="text-muted">Articoli con tag "java"</p>
-</div>
+    <time
+      class="text-muted"
+      datetime="2020-02-23T00:00:00.000Z"
+    >
+      23 febbraio 2020
+    </time>
+  </header>
 
+  
+    <div class="alert alert-primary border-start border-4 border-primary mb-4" role="note">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <i class="bi bi-stars text-primary"></i>
+        <strong class="small text-uppercase text-primary">Riassunto IA</strong>
+      </div>
+      <p class="mb-0 small">L&#39;allocazione dei frame bilancia l&#39;efficienza del sistema attraverso strategie di distribuzione uniforme o proporzionale e politiche di sostituzione locale o globale. Il controllo rigoroso del working set e della frequenza dei page fault è essenziale per prevenire il thrashing, garantendo al contempo le allocazioni contigue necessarie per le operazioni hardware del kernel.</p>
+    </div>
+  
+
+  
+    <div class="mb-4">
+      <img 
+        src="/assets/img/webp/sistemi-operativi.webp" 
+        alt="Immagine generata con IA" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+    
+  </div>
+  
+
+  <hr>
+
+  <section class="content">
+    <h1>Strategie di allocazione dei frame</h1>
+<p>La gestione efficiente della memoria fisica non si limita alla semplice paginazione; il cuore delle prestazioni risiede nella <strong>strategia di allocazione dei frame</strong>. Decidere quanti e quali frame assegnare a ogni processo è un gioco di equilibrio tra equità, priorità e throughput del sistema.</p>
+<h2>Modelli di allocazione</h2>
+<p>Esistono due approcci filosofici alla distribuzione della memoria:</p>
 <ul>
-  
-  
-    
-      <li class="mb-4">
-        <article class="card shadows-sm">
-          <div class="card-body">
-            <h2 class="h4 mb-2">
-              <a href="/blog/lalgoritmo-di-luhn/" class="text-decoration-none"> L&#39;algoritmo di Luhn <a/>
-            </h2>
-
-            <time>
-              <i class="bi bi-calendar3 me-1"></i>08 marzo 2026
-            </time>
-
-            <hr />
-
-            
-              <p class="mt-2 mb-3">L’algoritmo di Luhn è un metodo matematico sviluppato nel 1954 dal ricercatore IBM Hans Peter Luhn per verificare la validità di numeri identificativi attraverso una cifra di controllo. Ancora oggi è utilizzato in moltissimi sistemi informatici, soprattutto per la validazione dei numeri di carte di credito, IMEI dei dispositivi mobili e altri identificatori strutturati.</p>
-            
-
-            
-              <div class="mb-3">
-                <span class="fw-bold me-2">Altri tag:</span>
-                
-                  
-                
-                  
-                    <a href="/tags/algoritmi" class="badge bg-light text-body border text-decoration-none">algoritmi</a>
-                  
-                
-                  
-                
-              </div>
-            
-          </div>
-        </article>
-      </li>
-    
-      <li class="mb-4">
-        <article class="card shadows-sm">
-          <div class="card-body">
-            <h2 class="h4 mb-2">
-              <a href="/blog/tecniche-algoritmiche-per-dev-java/" class="text-decoration-none"> Tecniche algoritmiche per dev Java <a/>
-            </h2>
-
-            <time>
-              <i class="bi bi-calendar3 me-1"></i>05 marzo 2020
-            </time>
-
-            <hr />
-
-            
-              <p class="mt-2 mb-3">Questa guida raccoglie le tecniche algoritmiche più comuni utilizzate nello sviluppo software quotidiano. Le seguenti tecniche sono descritte il linguaggio Java.</p>
-            
-
-            
-              <div class="mb-3">
-                <span class="fw-bold me-2">Altri tag:</span>
-                
-                  
-                
-                  
-                    <a href="/tags/algoritmi" class="badge bg-light text-body border text-decoration-none">algoritmi</a>
-                  
-                
-                  
-                
-              </div>
-            
-          </div>
-        </article>
-      </li>
-    
-  
+<li><strong>Allocazione Uniforme:</strong> Assegna a ogni processo lo stesso numero di frame ($m/n$), indipendentemente dal carico di lavoro. È una strategia democratica ma inefficiente, poiché penalizza i processi pesanti e spreca risorse con quelli leggeri.</li>
+<li><strong>Allocazione Proporzionale:</strong> Distribuisce la memoria in base alla dimensione virtuale del processo. Se un processo $p_i$ ha una dimensione virtuale $s_i$, riceverà un numero di frame $a_i$ proporzionale alla sua quota sul totale della memoria virtuale richiesta.</li>
 </ul>
+<h3>Politiche di sostituzione</h3>
+<p>Oltre alla quantità, la &quot;provenienza&quot; dei frame è determinante:</p>
+<ul>
+<li><strong>Sostituzione Globale:</strong> Un processo può sottrarre frame a un altro (spesso a quelli con priorità inferiore). Questo massimizza il throughput ma rende il tempo di risposta del singolo processo imprevedibile.</li>
+<li><strong>Sostituzione Locale:</strong> Un processo può rimpiazzare solo i frame che gli sono già stati assegnati. Questo garantisce isolamento e stabilità, ma può lasciare inutilizzata RAM preziosa se un processo non ne ha immediato bisogno.</li>
+</ul>
+<h2>Il pericolo del Thrashing</h2>
+<p>Il <strong>Thrashing</strong> è il &quot;punto di rottura&quot; di un sistema operativo: si verifica quando il sistema spende più tempo a gestire i page fault (I/O) che a eseguire istruzioni utili.</p>
+<p>Questo collasso avviene tipicamente quando il grado di multiprogrammazione aumenta oltre il limite critico. La CPU registra un calo di utilizzo perché i processi sono in attesa dell'I/O; il sistema operativo, interpretando erroneamente il calo come mancanza di carico, avvia nuovi processi. Questo sottrae ulteriori frame ai processi esistenti, innescando una reazione a catena che porta il sistema alla paralisi.</p>
+<h3>Strategie di prevenzione</h3>
+<p>Per scongiurare il thrashing, i kernel moderni adottano due modelli principali:</p>
+<ol>
+<li><strong>Modello del Working Set:</strong> Si basa sul <strong>principio di località</strong>. Il sistema monitora le pagine usate attivamente in una finestra temporale $\Delta$. Se la somma dei working set di tutti i processi supera la RAM disponibile, il sistema sospende temporaneamente un processo (swap-out) per liberare risorse.</li>
+<li><strong>Frequenza dei Page Fault (PFF):</strong> Un approccio diretto che stabilisce una soglia superiore e inferiore di fault. Se un processo genera troppi fault, riceve più frame; se ne genera troppi pochi, i suoi frame vengono ridotti.</li>
+</ol>
+<h2>Gestione della memoria nel kernel</h2>
+<p>A differenza dei processi utente, il kernel richiede spesso allocazioni di memoria <strong>fisicamente contigue</strong> (per interagire con l'hardware via DMA). Vengono utilizzate due tecniche specifiche:</p>
+<h3>Sistema buddy (Buddy System)</h3>
+<p>Il kernel gestisce la memoria in blocchi di dimensioni pari a potenze di due ($2^n$). Se viene richiesta una quantità di memoria che non corrisponde a una potenza di due, il sistema divide ricorsivamente i blocchi a metà (&quot;buddies&quot;) finché non trova la dimensione minima adatta.</p>
+<ul>
+<li><strong>Vantaggio:</strong> Facilità estrema nel ricompattare i blocchi liberi.</li>
+<li><strong>Svantaggio:</strong> Rischio di <strong>frammentazione interna</strong> se la richiesta è appena superiore a una potenza di due.</li>
+</ul>
+<h3>Slab allocator</h3>
+<p>Ideato per gestire oggetti di dimensione fissa (come i descrittori dei processi o i nodi del file system). Organizza la memoria in <strong>Slab</strong> (lastre) che contengono oggetti pre-allocati.</p>
+<ul>
+<li><strong>Cache dedicate:</strong> Ogni tipo di struttura dati ha la sua cache.</li>
+<li><strong>Zero frammentazione:</strong> Elimina la frammentazione interna ed evita il costo computazionale di allocazione/deallocazione continua.</li>
+</ul>
+<h2>Ottimizzazioni moderne e il caso Linux</h2>
+<p>Nei sistemi contemporanei, l'efficienza è spinta all'estremo attraverso:</p>
+<ul>
+<li><strong>TLB Reach:</strong> L'uso di &quot;Huge Pages&quot; (pagine di dimensioni maggiori, es. 2MB o 1GB) per aumentare la porzione di memoria indirizzabile senza causare un flush del TLB.</li>
+<li><strong>Compressione della Memoria (ZRAM):</strong> Comune nei dispositivi mobili; invece di fare swap su disco, le pagine meno usate vengono compresse in una porzione dedicata della RAM.</li>
+</ul>
+<h3>Come gestisce Linux il rimpiazzo?</h3>
+<p>Linux non usa un algoritmo LRU puro (troppo costoso), ma una sua approssimazione efficace tramite due liste:</p>
+<ol>
+<li><strong>Active List:</strong> Pagine referenziate di recente.</li>
+<li><strong>Inactive List:</strong> Pagine candidate alla rimozione.
+Attraverso il bit di accesso, il kernel sposta dinamicamente le pagine tra queste liste (meccanismo a &quot;due mani&quot;), garantendo che le pagine più preziose rimangano in memoria il più a lungo possibile.</li>
+</ol>
+<hr>
+<blockquote>
+<p><strong>Key Takeaway:</strong> L'allocazione dei frame non è solo una questione di spazio, ma di tempo. Un kernel che sa prevedere il working set dei suoi processi è la differenza tra una workstation fluida e un sistema in costante attesa del disco.</p>
+</blockquote>
 
+  </section>
+
+  <hr class="mt-5">
+  
+  <section class="mt-5" aria-label="Commenti e reazioni">
+    <h2 class="h5 fw-bold mb-4">
+      <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
+    </h2>
+
+      <script>
+      (function () {
+        const saved = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', theme);
+        script.setAttribute('data-lang', 'it');
+        script.setAttribute('data-loading', 'lazy');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+
+        document.currentScript.replaceWith(script);
+      })();
+    </script>
+
+    <noscript>
+      <p class="text-muted small">
+        <i class="bi bi-info-circle me-1"></i>
+        Per visualizzare i commenti è necessario abilitare JavaScript.
+        Puoi leggere e partecipare alla discussione direttamente su
+        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
+      </p>
+    </noscript>
+  </section>
+
+</article>
     </main>
 
     <footer class="border-top mt-auto py-4">
