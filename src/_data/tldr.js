@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import fs from "fs";
+import process from "process";
 import path from "path";
 import matter from "gray-matter";
 
@@ -44,7 +45,7 @@ export default async function () {
 
     if (!data.title) continue;
 
-    // Usa il titolo come chiave cache — rigenera solo se il contenuto cambia
+    // Usa il titolo come chiave cache, rigenera solo se il contenuto cambia
     const cacheKey = data.title;
     const contentHash = content.length.toString(); // hash semplice
 
