@@ -148,7 +148,7 @@
         <i class="bi bi-stars text-primary"></i>
         <strong class="small text-uppercase text-primary">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small">La gestione della sezione critica richiede il rispetto di mutua esclusione, progresso e attesa limitata per prevenire inconsistenze nei dati condivisi in ambienti concorrenti. Sui sistemi moderni, l&#39;adozione di modelli di memoria debolmente ordinati rende necessarie primitive hardware atomiche e memory barrier per superare i limiti delle soluzioni software teoriche.</p>
+      <p class="mb-0 small">La sincronizzazione dei processi richiede la gestione delle sezioni critiche tramite mutua esclusione, progresso e attesa limitata per prevenire race condition. Nelle architetture moderne, l&#39;implementazione deve integrare primitive hardware atomiche e memory barrier per mitigare i rischi derivanti dal riordino delle istruzioni e dai modelli di memoria deboli.</p>
     </div>
   
 
