@@ -10,12 +10,6 @@ pnpm-debug.log*
 .yarn-integrity
 
 # ===================================
-# = Eleventy Build Output
-# ===================================
-# Non ignorare docs/ serve per GitHub Pages deployment
-# docs/
-
-# ===================================
 # = Eleventy Cache
 # ===================================
 .eleventy-cache/
@@ -99,10 +93,9 @@ logs/
 # ===================================
 # = Package Manager Lock Files (optional)
 # ===================================
-# Decommenta se vuoi ignorare i lock files
-# package-lock.json
-# yarn.lock
-# pnpm-lock.yaml
+ package-lock.json
+ yarn.lock
+ pnpm-lock.yaml
 
 # ===================================
 # = Build & Distribution
