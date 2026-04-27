@@ -30,6 +30,12 @@
     "date": "2026-01-01T00:00:00.000Z"
   },
   {
+    "title": "Fondamenti di Networking",
+    "url": "/blog/fondamenti-di-networking/",
+    "description": "Una prima introduzione sulle basi del networking, le fondamenta che ci permetteranno di capire come funzionano realmente le reti a cui ci connettiamo tutti i giorni.",
+    "date": "2020-03-12T00:00:00.000Z"
+  },
+  {
     "title": "Tecniche algoritmiche per dev Java",
     "url": "/blog/tecniche-algoritmiche-per-dev-java/",
     "description": "Questa guida raccoglie le tecniche algoritmiche più comuni utilizzate nello sviluppo software quotidiano. Le seguenti tecniche sono descritte il linguaggio Java.",

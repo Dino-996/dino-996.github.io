@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="it" data-bs-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Fondamenti di Networking · dino-996 blog
+</title>
+
+<!-- SEO Meta Tags -->
+<meta name="description" content="Una prima introduzione sulle basi del networking, le fondamenta che ci permetteranno di capire come funzionano realmente le reti a cui ci connettiamo tutti i giorni." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/fondamenti-di-networking/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/fondamenti-di-networking/" />
+
+<meta property="og:title" content="Fondamenti di Networking" />
+<meta property="og:description" content="Una prima introduzione sulle basi del networking, le fondamenta che ci permetteranno di capire come funzionano realmente le reti a cui ci connettiamo tutti i giorni." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/networking.webp" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/fondamenti-di-networking/" />
+
+<meta name="twitter:title" content="Fondamenti di Networking" />
+<meta name="twitter:description" content="Una prima introduzione sulle basi del networking, le fondamenta che ci permetteranno di capire come funzionano realmente le reti a cui ci connettiamo tutti i giorni." />
+
+<meta name="twitter:image" content="https://dino-996.github.io/assets/img/webp/networking.webp" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Bootstrap icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+
+    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img 
+        src="https://github.com/Dino-996.png" 
+        alt="Davide Sabia" 
+        class="rounded-circle"
+        width="32"
+        height="32"
+        style="object-fit: cover;"
+      >
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+    
+    <button 
+      class="navbar-toggler border-0 p-0" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNav">
+      <i class="bi bi-grid-3x3-gap fs-4"></i>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">
+            Blog
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">
+            About
+          </a>
+        </li>
+
+        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+          <div class="d-inline-flex rounded-4 bg-body-tertiary p-1">
+            <button title="Dark mode" id="dark" class="btn btn-sm btn-default rounded-4 text-secondary p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-moon"></i>
+            </button>
+
+            <button title="Light mode" id="light" class="btn btn-sm btn-default rounded-4 text-warning p-2" style="transform: none; box-shadow: none">
+              <i class="bi bi-sun"></i>
+            </button>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <main class="container my-5 flex-grow-1">
+      
+<article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">Fondamenti di Networking</h1>
+
+    <time
+      class="text-muted"
+      datetime="2020-03-12T00:00:00.000Z"
+    >
+      12 marzo 2020
+    </time>
+  </header>
+
+  
+    <div class="alert alert-primary border-start border-4 border-primary mb-4" role="note">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <i class="bi bi-stars text-primary"></i>
+        <strong class="small text-uppercase text-primary">Riassunto IA</strong>
+      </div>
+      <p class="mb-0 small">Internet è una rete decentralizzata di reti autonome che interoperano tramite protocolli standard su infrastrutture fisiche eterogenee. L&#39;ecosistema attuale integra reti locali, aziendali e un&#39;architettura IoT gerarchica, basata su un modello che va dai dispositivi edge al cloud computing.</p>
+    </div>
+  
+
+  
+    <div class="mb-4">
+      <img 
+        src="/assets/img/webp/networking.webp" 
+        alt="Immagine generata con IA" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+    
+  </div>
+  
+
+  <hr>
+
+  <section class="content">
+    <h1>Fondamenti di networking</h1>
+<p>Oggi non ci chiediamo più se siamo connessi a Internet. La connettività è diventata un'infrastruttura critica, al pari dell'elettricità o dell'acqua corrente. Comprendere come funzionano le reti non è più prerogativa esclusiva degli ingegneri informatici, è una competenza fondamentale per chiunque lavori nel mondo digitale, dallo sviluppatore all'IT Manager.</p>
+<h2>Chi possiede internet?</h2>
+<p>Internet non appartiene a nessun singolo gruppo, azienda o governo. È il risultato
+dell'interconnessione di migliaia di reti autonome che cooperano attraverso <strong>standard
+e protocolli comuni</strong> (come TCP/IP) per scambiarsi informazioni.</p>
+<p>Le informazioni viaggiano attraverso una varietà di mezzi fisici:</p>
+<ul>
+<li><strong>Cavi in rame</strong> (doppino telefonico, cavo coassiale)</li>
+<li><strong>Fibra ottica</strong> (trasmissione tramite impulsi luminosi)</li>
+<li><strong>Connessioni wireless</strong> (Wi-Fi, 4G/5G, satellite)</li>
+</ul>
+<p>I dati scambiati possono assumere forme diverse: testo, video, audio, immagini,
+telemetria IoT e molto altro.</p>
+<h2>Reti locali (LAN)</h2>
+<p>Le reti locali (Local Area Network) esistono in tutte le dimensioni e configurazioni.</p>
+<h3>Reti SOHO (Small Office / Home Office)</h3>
+<p>Le reti SOHO collegano un numero ridotto di dispositivi (da 2 a qualche decina) e
+consentono la condivisione di risorse come stampanti, file, musica e connessione
+Internet. Sono tipicamente basate su un router consumer con funzionalità Wi-Fi
+integrate.</p>
+<h3>Reti aziendali</h3>
+<p>Le reti aziendali possono connettere centinaia di migliaia di dispositivi distribuiti
+su più sedi geografiche. Supportano applicazioni critiche come:</p>
+<ul>
+<li>E-commerce e CRM</li>
+<li>Comunicazioni interne (email, VoIP, videoconferenza)</li>
+<li>Accesso centralizzato a server e database</li>
+<li>Sistemi ERP e supply chain management</li>
+</ul>
+<p>La comunicazione in rete è generalmente più efficiente e meno costosa rispetto ai
+canali tradizionali. Le reti aziendali e SOHO forniscono tipicamente una <strong>connessione
+condivisa a Internet</strong>, motivo per cui Internet viene spesso definita una
+<strong>&quot;rete di reti&quot;</strong> (<em>network of networks</em>).</p>
+<h2>Dispositivi mobili e IoT</h2>
+<p>Internet connette oggi miliardi di dispositivi che vanno ben oltre i tradizionali
+computer desktop e laptop.</p>
+<h3>Dispositivi mobili</h3>
+<p>Smartphone, tablet e wearable (smartwatch, fitness tracker) sono oggi tra i
+principali produttori e consumatori di traffico Internet mondiale.</p>
+<h3>Internet of Things (IoT)</h3>
+<p>L'<strong>IoT (Internet of Things)</strong> rappresenta l'ecosistema di oggetti fisici dotati di
+sensori, software e connettività di rete. L'architettura IoT si articola tipicamente
+su tre livelli:</p>
+<div class="container my-3">
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-striped table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Cloud / Data Center</th>
+          <th>Edge / Gateway</th>
+          <th>Dispositivi / End Nodes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fw-semibold">Elaborazione, storage, analytics</td>
+          <td class="fw-semibold">Pre-elaborazione locale, protocolli (MQTT, CoAP)</td>
+          <td class="fw-semibold"><code>Sensori, attuatori, RFID</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<p>Esempi concreti di dispositivi IoT:</p>
+<div class="container my-3">
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-striped table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Tag RFID</th>
+          <th>Sensori industriali</th>
+          <th>Dispositivi medici</th>
+          <th>Domotica</th>
+          <th>Veicoli connessi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fw-semibold">Tracciamento merci, badge aziendali, antifurti</td>
+          <td class="fw-semibold">Temperatura, pressione, vibrazione (Industry 4.0)</td>
+          <td class="fw-semibold">Glucometri connessi, pacemaker smart, telemedicina</td>
+          <td class="fw-semibold">Termostati intelligenti, serrature smart, telecamere IP</td>
+          <td class="fw-semibold">Telemetria auto, fleet management, guida assistita</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<blockquote>
+<p><strong>Nota per sviluppatori</strong>: i protocolli più diffusi in ambito IoT sono <strong>MQTT</strong>
+(publish/subscribe, leggero, ideale per connessioni instabili) e <strong>CoAP</strong>
+(ottimizzato per dispositivi con risorse limitate). Entrambi operano sopra TCP/IP.</p>
+</blockquote>
+<h2>Il Bit: L'Unità fondamentale dell'informazione</h2>
+<p>I computer e le reti operano esclusivamente con <strong>cifre binarie</strong>: zeri e uno.
+Il termine <strong>bit</strong> (abbreviazione di <em>binary digit</em>) rappresenta la più piccola
+unità di informazione digitale.</p>
+<p>Un bit può assumere solo due stati fisici distinti:</p>
+<div class="container my-3">
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-striped table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Stato fisico</th>
+          <th>Valore binario</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fw-semibold">Interruttore aperto</td>
+          <td class="fw-semibold"><code>1</code></td>
+        </tr>
+        <tr>
+        <td class="fw-semibold">Interruttore chiuso</td>
+          <td class="fw-semibold"><code>0</code></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<h3>Byte e codifica dei caratteri</h3>
+<p>Otto bit formano un <strong>byte</strong>, l'unità standard per rappresentare un singolo carattere
+o valore.</p>
+<p><strong>ASCII e Unicode</strong></p>
+<blockquote>
+<p>⚠️ <strong>Precisazione tecnica</strong>: l'ASCII <em>originale</em> (standard ANSI X3.4-1968)
+utilizza <strong>7 bit</strong>, codificando 128 caratteri. La versione &quot;Extended ASCII&quot;
+estende a 8 bit (256 caratteri). Tuttavia, per applicazioni moderne e
+internazionali, si utilizza <strong>Unicode</strong> (standard UTF-8), che supporta oltre
+1.1 milioni di caratteri e mantiene compatibilità retroattiva con ASCII.</p>
+</blockquote>
+<p>Esempi di codifica ASCII (Extended, 8 bit):</p>
+<div class="container my-3">
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-striped table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Carattere</th>
+          <th>Binario</th>
+          <th>Decimale</th>
+          <th>Esadecimale (Hex)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fw-semibold"><code>A</code></td>
+          <td class="fw-semibold"><code>01000001</code></td>
+          <td class="fw-semibold"><code>65</code></td>
+          <td class="fw-semibold"><code>0x41</code></td>
+        </tr>
+        <tr>
+          <td class="fw-semibold"><code>9</code></td>
+          <td class="fw-semibold"><code>00111001</code></td>
+          <td class="fw-semibold"><code>57</code></td>
+          <td class="fw-semibold"><code>0x39</code></td>
+        </tr>
+        <tr>
+          <td class="fw-semibold"><code>#</code></td>
+          <td class="fw-semibold"><code>00100011</code></td>
+          <td class="fw-semibold"><code>35</code></td>
+          <td class="fw-semibold"><code>0x23</code></td>
+        </tr>
+        <tr>
+          <td class="fw-semibold"><code>€</code></td>
+          <td>Non codificabile in ASCII. Richiede UTF-8</td>
+          <td>-</td>
+          <td>-</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<h3>Conversione binaria in Python</h3>
+<pre class="language-python"><code class="language-python"><span class="token comment"># Conversione tra carattere, decimale e binario in Python</span>
+
+carattere <span class="token operator">=</span> <span class="token string">'A'</span>
+
+<span class="token comment"># Ottieni il valore decimale (code point Unicode)</span>
+decimale <span class="token operator">=</span> <span class="token builtin">ord</span><span class="token punctuation">(</span>carattere<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Carattere : </span><span class="token interpolation"><span class="token punctuation">{</span>carattere<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Decimale  : </span><span class="token interpolation"><span class="token punctuation">{</span>decimale<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>          <span class="token comment"># Output: 65</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Binario   : </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">bin</span><span class="token punctuation">(</span>decimale<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>     <span class="token comment"># Output: 0b1000001</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Hex       : </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">hex</span><span class="token punctuation">(</span>decimale<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>     <span class="token comment"># Output: 0x41</span>
+
+<span class="token comment"># Padding a 8 bit (formato byte completo)</span>
+binario_8bit <span class="token operator">=</span> <span class="token builtin">format</span><span class="token punctuation">(</span>decimale<span class="token punctuation">,</span> <span class="token string">'08b'</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Byte      : </span><span class="token interpolation"><span class="token punctuation">{</span>binario_8bit<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>      <span class="token comment"># Output: 01000001</span>
+
+<span class="token comment"># Operazione inversa: da binario a carattere</span>
+valore <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span><span class="token string">'01000001'</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Da bin a char: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">chr</span><span class="token punctuation">(</span>valore<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>    <span class="token comment"># Output: A</span></code></pre>
+<h2>Metodi di trasmissione dei dati</h2>
+<p>Dopo che le informazioni sono state convertite in bit, devono essere trasformate in
+<strong>segnali fisici</strong> trasmissibili attraverso un mezzo (<em>medium</em>). Esistono tre metodi
+principali:</p>
+<h3>1. Segnali elettrici</h3>
+<p>Trasmissione tramite impulsi di tensione su <strong>cavi in rame</strong> (es. cavo Cat5e/Cat6
+per reti Ethernet). Economici e diffusi, ma soggetti a interferenze elettromagnetiche
+(EMI) e attenuazione sul lungo raggio.</p>
+<h3>2. Segnali ottici</h3>
+<p>Trasmissione tramite <strong>impulsi luminosi</strong> su cavi in fibra ottica (single-mode o
+multi-mode). Offrono larghezza di banda elevatissima, immunità alle interferenze e
+distanze di trasmissione fino a centinaia di chilometri.</p>
+<h3>3. Segnali wireless</h3>
+<p>Trasmissione tramite <strong>onde elettromagnetiche</strong> (radio, microonde, infrarossi).
+Elimina la necessità di cablaggio fisico ma è soggetto a interferenze, ostacoli
+fisici e limitazioni di sicurezza.</p>
+<table>
+<thead>
+<tr>
+<th>Mezzo</th>
+<th>Velocità tipica</th>
+<th>Distanza</th>
+<th>Pro</th>
+<th>Contro</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Rame (Cat6)</td>
+<td>1–10 Gbps</td>
+<td>≤100 m</td>
+<td>Economico</td>
+<td>Interferenze, distanza</td>
+</tr>
+<tr>
+<td>Fibra ottica</td>
+<td>10 Gbps–400 Tbps</td>
+<td>km–migliaia di km</td>
+<td>Velocità, sicurezza</td>
+<td>Costo installazione</td>
+</tr>
+<tr>
+<td>Wi-Fi (802.11ax)</td>
+<td>Fino a ~9.6 Gbps teorici</td>
+<td>~50–100 m indoor</td>
+<td>Mobilità</td>
+<td>Interferenze, sicurezza</td>
+</tr>
+<tr>
+<td>5G</td>
+<td>Fino a ~20 Gbps teorici</td>
+<td>Variabile</td>
+<td>Mobilità, copertura</td>
+<td>Infrastruttura</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>I segnali possono essere <strong>convertiti più volte</strong> lungo il percorso
+(es. elettrico → ottico → wireless) attraverso dispositivi come convertitori
+di media (<em>media converters</em>) e access point.</p>
+</blockquote>
+<h2>Larghezza di Banda, Throughput, Latenza e Jitter</h2>
+<p>Questi quattro parametri sono fondamentali per valutare le <strong>prestazioni di una
+rete</strong>. Vengono spesso confusi: ecco le distinzioni precise.</p>
+<h3>Bandwidth (larghezza di banda)</h3>
+<p>La <strong>bandwidth</strong> rappresenta la <em>capacità teorica massima</em> di un collegamento,
+ovvero quanti bit possono essere trasmessi per unità di tempo in condizioni ideali.
+È una proprietà del mezzo fisico e dell'infrastruttura.</p>
+<h3>Throughput (velocità effettiva)</h3>
+<p>Il <strong>throughput</strong> misura la quantità di dati <em>effettivamente</em> trasferiti in un dato
+intervallo di tempo. È quasi sempre inferiore alla bandwidth dichiarata, a causa di:</p>
+<ul>
+<li>Overhead dei protocolli di rete (header TCP/IP, controllo errori)</li>
+<li>Congestione e collisioni</li>
+<li>Qualità del collegamento fisico</li>
+<li>Limitazioni hardware dei dispositivi intermedi</li>
+</ul>
+<h3>Latenza</h3>
+<p>La <strong>latenza</strong> è il tempo necessario affinché un pacchetto viaggi dalla sorgente
+alla destinazione. Si misura tipicamente in millisecondi (ms) tramite il comando
+<code>ping</code>. È critica per applicazioni <strong>real-time</strong> come VoIP, gaming online e
+videoconferenze.</p>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Misurazione latenza verso un host remoto</span>
+<span class="token function">ping</span> <span class="token parameter variable">-c</span> <span class="token number">4</span> <span class="token number">8.8</span>.8.8
+
+<span class="token comment"># Output di esempio:</span>
+<span class="token comment"># 64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=12.4 ms</span>
+<span class="token comment"># 64 bytes from 8.8.8.8: icmp_seq=2 ttl=118 time=11.8 ms</span>
+<span class="token comment"># round-trip min/avg/max/stddev = 11.8/12.1/12.4/0.3 ms</span></code></pre>
+<h3>Jitter</h3>
+<p>Il <strong>jitter</strong> è la <em>variazione</em> della latenza nel tempo (la deviazione standard
+della latenza). Un jitter elevato causa degrado della qualità audio/video nelle
+comunicazioni real-time, anche quando la latenza media è accettabile.</p>
+<pre><code>Latenza ideale:  10ms — 10ms — 10ms — 10ms  (jitter ≈ 0)
+Latenza reale:   10ms — 25ms —  8ms — 30ms  (jitter elevato → qualità VoIP scarsa)
+</code></pre>
+<h3>Tabella unità di misura della bandwidth</h3>
+<table>
+<thead>
+<tr>
+<th>Unità</th>
+<th>Simbolo</th>
+<th>Equivalente</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bit per secondo</td>
+<td>bps</td>
+<td>unità base</td>
+</tr>
+<tr>
+<td>Kilobit per secondo</td>
+<td>Kbps</td>
+<td>10³ bps</td>
+</tr>
+<tr>
+<td>Megabit per secondo</td>
+<td>Mbps</td>
+<td>10⁶ bps</td>
+</tr>
+<tr>
+<td>Gigabit per secondo</td>
+<td>Gbps</td>
+<td>10⁹ bps</td>
+</tr>
+<tr>
+<td>Terabit per secondo</td>
+<td>Tbps</td>
+<td>10¹² bps</td>
+</tr>
+<tr>
+<td>Petabit per secondo</td>
+<td>Pbps</td>
+<td>10¹⁵ bps</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>⚠️ <strong>Attenzione</strong>: i provider Internet dichiarano la velocità in <strong>Mbps</strong>
+(megabit), mentre i sistemi operativi mostrano spesso la velocità di download
+in <strong>MB/s</strong> (megabyte). Ricorda: 1 byte = 8 bit → 100 Mbps ≈ 12.5 MB/s.</p>
+</blockquote>
+<h3>Il collo di bottiglia (<em>Bottleneck</em>)</h3>
+<p>In una rete con più segmenti, la <strong>velocità massima effettiva è limitata dal
+segmento più lento</strong> del percorso — il cosiddetto <em>bottleneck</em>. Questo principio,
+noto come <strong>legge dell'anello debole</strong>, è fondamentale nell'ottimizzazione delle
+prestazioni di rete in contesti Cloud e DevOps.</p>
+<pre><code>Client (1 Gbps) ──→ Switch (10 Gbps) ──→ Router WAN (100 Mbps) ──→ Server
+                                               ↑
+                                     BOTTLENECK: throughput massimo = 100 Mbps
+</code></pre>
+<h2>Ottimizzazione delle performance di rete</h2>
+<blockquote>
+<p><strong>Per IT Manager e DevOps Engineer</strong></p>
+</blockquote>
+<ul>
+<li><strong>Monitoring continuo</strong>: usa strumenti come <strong>Prometheus + Grafana</strong>, <strong>Zabbix</strong>
+o <strong>PRTG</strong> per monitorare latenza, throughput e packet loss in tempo reale.</li>
+<li><strong>Quality of Service (QoS)</strong>: prioritizza il traffico critico (VoIP, video) su
+quello non critico (backup, aggiornamenti) tramite policy QoS su switch e router.</li>
+<li><strong>Segmentazione della rete</strong>: usa VLAN per isolare traffico e migliorare sicurezza
+e performance.</li>
+<li><strong>CDN (Content Delivery Network)</strong>: distribuisci i contenuti statici vicino agli
+utenti finali per ridurre latenza e carico sui server centrali.</li>
+<li><strong>Test periodici</strong>: strumenti come <strong>iPerf3</strong> (throughput interno) e
+<strong>Speedtest CLI</strong> (connettività esterna) aiutano a rilevare degradi prestazionali
+prima che diventino problemi critici.</li>
+</ul>
+<pre class="language-bash"><code class="language-bash"><span class="token comment"># Test throughput interno con iPerf3</span>
+<span class="token comment"># Sul server:</span>
+iperf3 <span class="token parameter variable">-s</span>
+
+<span class="token comment"># Sul client:</span>
+iperf3 <span class="token parameter variable">-c</span> <span class="token operator">&lt;</span>IP_SERVER<span class="token operator">></span> <span class="token parameter variable">-t</span> <span class="token number">10</span> <span class="token parameter variable">-P</span> <span class="token number">4</span>
+<span class="token comment"># -t 10 = durata 10 secondi</span>
+<span class="token comment"># -P 4  = 4 stream paralleli</span></code></pre>
+<h2>Introduzione al modello OSI</h2>
+<p>Tutti i concetti trattati in questo modulo — trasmissione dei dati, segnali,
+larghezza di banda — trovano una collocazione precisa nel <strong>Modello OSI</strong>
+(Open Systems Interconnection), il framework a 7 livelli che descrive come i
+dati viaggiano da un'applicazione su un dispositivo a un'altra applicazione su
+un dispositivo remoto.</p>
+<table>
+<thead>
+<tr>
+<th>Livello</th>
+<th>Nome</th>
+<th>Funzione chiave</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>7</td>
+<td>Applicazione</td>
+<td>HTTP, DNS, SMTP</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Presentazione</td>
+<td>Codifica, crittografia, compressione</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Sessione</td>
+<td>Gestione connessioni</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Trasporto</td>
+<td>TCP/UDP, porte, controllo flusso</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Rete</td>
+<td>IP, routing</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Data Link</td>
+<td>MAC, switch, Ethernet</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Fisico</td>
+<td>Bit, segnali, cavi ← <strong>questo modulo</strong></td>
+</tr>
+</tbody>
+</table>
+
+  </section>
+
+  <hr class="mt-5">
+  
+  <section class="mt-5" aria-label="Commenti e reazioni">
+    <h2 class="h5 fw-bold mb-4">
+      <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
+    </h2>
+
+      <script>
+      (function () {
+        const saved = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', theme);
+        script.setAttribute('data-lang', 'it');
+        script.setAttribute('data-loading', 'lazy');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+
+        document.currentScript.replaceWith(script);
+      })();
+    </script>
+
+    <noscript>
+      <p class="text-muted small">
+        <i class="bi bi-info-circle me-1"></i>
+        Per visualizzare i commenti è necessario abilitare JavaScript.
+        Puoi leggere e partecipare alla discussione direttamente su
+        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
+      </p>
+    </noscript>
+  </section>
+
+</article>
+    </main>
+
+    <footer class="border-top mt-auto py-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <h5 class="fw-bold mb-3">
+          <span><span class="text-primary">dino</span>-996</span>
+        </h5>
+        <p class="text-muted small mb-2">
+          Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne.
+        </p>
+        <a href="/feed.xml" class="text-muted" aria-label="Feed RSS" target="_blank">
+          <i class="bi bi-rss"></i>
+        </a>
+      </div>
+      
+      <div class="col-md-3 mb-3 mb-md-0">
+        <h6 class="fw-bold mb-3">Navigazione</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <a href="/" class="text-muted text-decoration-none small">Home</a>
+          </li>
+          <li class="mb-2">
+            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
+          </li>
+          <li class="mb-2">
+            <a href="/about/" class="text-muted text-decoration-none small">About</a>
+          </li>
+        </ul>
+      </div>
+      
+      <div class="col-md-2">
+        <h6 class="fw-bold mb-3">Social</h6>
+        <div class="d-flex gap-3">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+              <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <hr class="my-4" />
+    
+    <div class="row">
+      <div class="col text-center">
+        <p class="text-muted small mb-0">
+          Realizzato con <span class="text-danger">❤</span> usando 
+          <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Eleventy</a> 
+          e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Bootstrap</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send"><i class="bi bi-arrow-up"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        // console.log("AI widget inizializzato");
+
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+        const conversationHistory = [];
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        function addMessage(text, role) {
+          const isUser = role === "user";
+          const div = document.createElement("div");
+          div.className = `d-flex mb-3 ${isUser ? "justify-content-end" : "justify-content-start"}`;
+
+          const innerDiv = document.createElement("div");
+          innerDiv.className = `px-3 py-2 ${isUser ? "rounded-pill" : "rounded-3"}`;
+          innerDiv.style.maxWidth = "85%";
+          innerDiv.style.fontSize = "16px";
+          innerDiv.style.background = isUser ? "var(--bs-primary)" : "var(--bs-body-tertiary)";
+          innerDiv.style.color = isUser ? "#fff" : "inherit";
+          
+          if (!isUser) {
+            const prefix = document.createElement("div");
+            prefix.className = "fw-bold mb-1";
+            prefix.textContent = "🦖 dino";
+            innerDiv.appendChild(prefix);
+          }
+
+          const content = document.createElement("div");
+          content.innerHTML = text;
+          innerDiv.appendChild(content);
+
+          div.appendChild(innerDiv);
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+
+          return content;
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          // console.log("Invio messaggio:", query);
+
+          conversationHistory.push({role: "user", content: query});
+
+          input.value = "";
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          const responseContainer = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "assistant");
+
+          // Carica il contesto degli articoli
+          let context = "";
+          try {
+            // console.log("Carico search.json...");
+            const idx = await fetch("/search.json").then(r => r.json());
+            // console.log("search.json caricato, articoli:", idx.length);
+            context = idx
+              .slice(0, 10)
+              .map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}\nLink: https://dino-996.github.io${p.url}`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+            context = "";
+          }
+
+          // Chiamata al worker
+          try {
+            // console.log("Chiamo il worker...");
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            // console.log("Risposta worker, status:", res.status);
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+            // console.log("DATA COMPLETA:", JSON.stringify(data));
+
+            let answer = "";
+
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js"></script>
+
+  </body>
+</html>

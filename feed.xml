@@ -1825,6 +1825,449 @@ Describe &lt;span class=&quot;token string&quot;&gt;&quot;Get-Saluto&quot;&lt;/s
   </entry>
   
   <entry>
+    <title>Fondamenti di Networking</title>
+    <link href="https://dino-996.github.io/blog/fondamenti-di-networking/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/fondamenti-di-networking/</id>
+    <published>2020-03-12T00:00:00.000Z</published>
+    <updated>2020-03-12T00:00:00.000Z</updated>
+    
+    <summary>Una prima introduzione sulle basi del networking, le fondamenta che ci permetteranno di capire come funzionano realmente le reti a cui ci connettiamo tutti i giorni.</summary>
+    
+    
+    <content type="html"><![CDATA[&lt;h1&gt;Fondamenti di networking&lt;/h1&gt;
+&lt;p&gt;Oggi non ci chiediamo più se siamo connessi a Internet. La connettività è diventata un&#39;infrastruttura critica, al pari dell&#39;elettricità o dell&#39;acqua corrente. Comprendere come funzionano le reti non è più prerogativa esclusiva degli ingegneri informatici, è una competenza fondamentale per chiunque lavori nel mondo digitale, dallo sviluppatore all&#39;IT Manager.&lt;/p&gt;
+&lt;h2&gt;Chi possiede internet?&lt;/h2&gt;
+&lt;p&gt;Internet non appartiene a nessun singolo gruppo, azienda o governo. È il risultato
+dell&#39;interconnessione di migliaia di reti autonome che cooperano attraverso &lt;strong&gt;standard
+e protocolli comuni&lt;/strong&gt; (come TCP/IP) per scambiarsi informazioni.&lt;/p&gt;
+&lt;p&gt;Le informazioni viaggiano attraverso una varietà di mezzi fisici:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cavi in rame&lt;/strong&gt; (doppino telefonico, cavo coassiale)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Fibra ottica&lt;/strong&gt; (trasmissione tramite impulsi luminosi)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Connessioni wireless&lt;/strong&gt; (Wi-Fi, 4G/5G, satellite)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I dati scambiati possono assumere forme diverse: testo, video, audio, immagini,
+telemetria IoT e molto altro.&lt;/p&gt;
+&lt;h2&gt;Reti locali (LAN)&lt;/h2&gt;
+&lt;p&gt;Le reti locali (Local Area Network) esistono in tutte le dimensioni e configurazioni.&lt;/p&gt;
+&lt;h3&gt;Reti SOHO (Small Office / Home Office)&lt;/h3&gt;
+&lt;p&gt;Le reti SOHO collegano un numero ridotto di dispositivi (da 2 a qualche decina) e
+consentono la condivisione di risorse come stampanti, file, musica e connessione
+Internet. Sono tipicamente basate su un router consumer con funzionalità Wi-Fi
+integrate.&lt;/p&gt;
+&lt;h3&gt;Reti aziendali&lt;/h3&gt;
+&lt;p&gt;Le reti aziendali possono connettere centinaia di migliaia di dispositivi distribuiti
+su più sedi geografiche. Supportano applicazioni critiche come:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;E-commerce e CRM&lt;/li&gt;
+&lt;li&gt;Comunicazioni interne (email, VoIP, videoconferenza)&lt;/li&gt;
+&lt;li&gt;Accesso centralizzato a server e database&lt;/li&gt;
+&lt;li&gt;Sistemi ERP e supply chain management&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;La comunicazione in rete è generalmente più efficiente e meno costosa rispetto ai
+canali tradizionali. Le reti aziendali e SOHO forniscono tipicamente una &lt;strong&gt;connessione
+condivisa a Internet&lt;/strong&gt;, motivo per cui Internet viene spesso definita una
+&lt;strong&gt;&amp;quot;rete di reti&amp;quot;&lt;/strong&gt; (&lt;em&gt;network of networks&lt;/em&gt;).&lt;/p&gt;
+&lt;h2&gt;Dispositivi mobili e IoT&lt;/h2&gt;
+&lt;p&gt;Internet connette oggi miliardi di dispositivi che vanno ben oltre i tradizionali
+computer desktop e laptop.&lt;/p&gt;
+&lt;h3&gt;Dispositivi mobili&lt;/h3&gt;
+&lt;p&gt;Smartphone, tablet e wearable (smartwatch, fitness tracker) sono oggi tra i
+principali produttori e consumatori di traffico Internet mondiale.&lt;/p&gt;
+&lt;h3&gt;Internet of Things (IoT)&lt;/h3&gt;
+&lt;p&gt;L&#39;&lt;strong&gt;IoT (Internet of Things)&lt;/strong&gt; rappresenta l&#39;ecosistema di oggetti fisici dotati di
+sensori, software e connettività di rete. L&#39;architettura IoT si articola tipicamente
+su tre livelli:&lt;/p&gt;
+&lt;div class=&quot;container my-3&quot;&gt;
+  &lt;div class=&quot;table-responsive shadow-sm rounded&quot;&gt;
+    &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+      &lt;thead class=&quot;table-dark&quot;&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Cloud / Data Center&lt;/th&gt;
+          &lt;th&gt;Edge / Gateway&lt;/th&gt;
+          &lt;th&gt;Dispositivi / End Nodes&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Elaborazione, storage, analytics&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Pre-elaborazione locale, protocolli (MQTT, CoAP)&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;Sensori, attuatori, RFID&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Esempi concreti di dispositivi IoT:&lt;/p&gt;
+&lt;div class=&quot;container my-3&quot;&gt;
+  &lt;div class=&quot;table-responsive shadow-sm rounded&quot;&gt;
+    &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+      &lt;thead class=&quot;table-dark&quot;&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Tag RFID&lt;/th&gt;
+          &lt;th&gt;Sensori industriali&lt;/th&gt;
+          &lt;th&gt;Dispositivi medici&lt;/th&gt;
+          &lt;th&gt;Domotica&lt;/th&gt;
+          &lt;th&gt;Veicoli connessi&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Tracciamento merci, badge aziendali, antifurti&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Temperatura, pressione, vibrazione (Industry 4.0)&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Glucometri connessi, pacemaker smart, telemedicina&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Termostati intelligenti, serrature smart, telecamere IP&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Telemetria auto, fleet management, guida assistita&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Nota per sviluppatori&lt;/strong&gt;: i protocolli più diffusi in ambito IoT sono &lt;strong&gt;MQTT&lt;/strong&gt;
+(publish/subscribe, leggero, ideale per connessioni instabili) e &lt;strong&gt;CoAP&lt;/strong&gt;
+(ottimizzato per dispositivi con risorse limitate). Entrambi operano sopra TCP/IP.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Il Bit: L&#39;Unità fondamentale dell&#39;informazione&lt;/h2&gt;
+&lt;p&gt;I computer e le reti operano esclusivamente con &lt;strong&gt;cifre binarie&lt;/strong&gt;: zeri e uno.
+Il termine &lt;strong&gt;bit&lt;/strong&gt; (abbreviazione di &lt;em&gt;binary digit&lt;/em&gt;) rappresenta la più piccola
+unità di informazione digitale.&lt;/p&gt;
+&lt;p&gt;Un bit può assumere solo due stati fisici distinti:&lt;/p&gt;
+&lt;div class=&quot;container my-3&quot;&gt;
+  &lt;div class=&quot;table-responsive shadow-sm rounded&quot;&gt;
+    &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+      &lt;thead class=&quot;table-dark&quot;&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Stato fisico&lt;/th&gt;
+          &lt;th&gt;Valore binario&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Interruttore aperto&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;1&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Interruttore chiuso&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;0&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;h3&gt;Byte e codifica dei caratteri&lt;/h3&gt;
+&lt;p&gt;Otto bit formano un &lt;strong&gt;byte&lt;/strong&gt;, l&#39;unità standard per rappresentare un singolo carattere
+o valore.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ASCII e Unicode&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;⚠️ &lt;strong&gt;Precisazione tecnica&lt;/strong&gt;: l&#39;ASCII &lt;em&gt;originale&lt;/em&gt; (standard ANSI X3.4-1968)
+utilizza &lt;strong&gt;7 bit&lt;/strong&gt;, codificando 128 caratteri. La versione &amp;quot;Extended ASCII&amp;quot;
+estende a 8 bit (256 caratteri). Tuttavia, per applicazioni moderne e
+internazionali, si utilizza &lt;strong&gt;Unicode&lt;/strong&gt; (standard UTF-8), che supporta oltre
+1.1 milioni di caratteri e mantiene compatibilità retroattiva con ASCII.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Esempi di codifica ASCII (Extended, 8 bit):&lt;/p&gt;
+&lt;div class=&quot;container my-3&quot;&gt;
+  &lt;div class=&quot;table-responsive shadow-sm rounded&quot;&gt;
+    &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+      &lt;thead class=&quot;table-dark&quot;&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Carattere&lt;/th&gt;
+          &lt;th&gt;Binario&lt;/th&gt;
+          &lt;th&gt;Decimale&lt;/th&gt;
+          &lt;th&gt;Esadecimale (Hex)&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;A&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;01000001&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;65&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;0x41&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;9&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;00111001&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;57&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;0x39&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;#&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;00100011&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;35&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;0x23&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;€&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;Non codificabile in ASCII. Richiede UTF-8&lt;/td&gt;
+          &lt;td&gt;-&lt;/td&gt;
+          &lt;td&gt;-&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;h3&gt;Conversione binaria in Python&lt;/h3&gt;
+&lt;pre class=&quot;language-python&quot;&gt;&lt;code class=&quot;language-python&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Conversione tra carattere, decimale e binario in Python&lt;/span&gt;
+
+carattere &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;A&#39;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Ottieni il valore decimale (code point Unicode)&lt;/span&gt;
+decimale &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;ord&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;carattere&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-interpolation&quot;&gt;&lt;span class=&quot;token string&quot;&gt;f&quot;Carattere : &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;carattere&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-interpolation&quot;&gt;&lt;span class=&quot;token string&quot;&gt;f&quot;Decimale  : &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;decimale&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;          &lt;span class=&quot;token comment&quot;&gt;# Output: 65&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-interpolation&quot;&gt;&lt;span class=&quot;token string&quot;&gt;f&quot;Binario   : &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;bin&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;decimale&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;     &lt;span class=&quot;token comment&quot;&gt;# Output: 0b1000001&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-interpolation&quot;&gt;&lt;span class=&quot;token string&quot;&gt;f&quot;Hex       : &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;hex&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;decimale&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;     &lt;span class=&quot;token comment&quot;&gt;# Output: 0x41&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Padding a 8 bit (formato byte completo)&lt;/span&gt;
+binario_8bit &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;decimale&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&#39;08b&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-interpolation&quot;&gt;&lt;span class=&quot;token string&quot;&gt;f&quot;Byte      : &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;binario_8bit&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;      &lt;span class=&quot;token comment&quot;&gt;# Output: 01000001&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Operazione inversa: da binario a carattere&lt;/span&gt;
+valore &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token builtin&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&#39;01000001&#39;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string-interpolation&quot;&gt;&lt;span class=&quot;token string&quot;&gt;f&quot;Da bin a char: &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;token builtin&quot;&gt;chr&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;valore&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&quot;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;    &lt;span class=&quot;token comment&quot;&gt;# Output: A&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Metodi di trasmissione dei dati&lt;/h2&gt;
+&lt;p&gt;Dopo che le informazioni sono state convertite in bit, devono essere trasformate in
+&lt;strong&gt;segnali fisici&lt;/strong&gt; trasmissibili attraverso un mezzo (&lt;em&gt;medium&lt;/em&gt;). Esistono tre metodi
+principali:&lt;/p&gt;
+&lt;h3&gt;1. Segnali elettrici&lt;/h3&gt;
+&lt;p&gt;Trasmissione tramite impulsi di tensione su &lt;strong&gt;cavi in rame&lt;/strong&gt; (es. cavo Cat5e/Cat6
+per reti Ethernet). Economici e diffusi, ma soggetti a interferenze elettromagnetiche
+(EMI) e attenuazione sul lungo raggio.&lt;/p&gt;
+&lt;h3&gt;2. Segnali ottici&lt;/h3&gt;
+&lt;p&gt;Trasmissione tramite &lt;strong&gt;impulsi luminosi&lt;/strong&gt; su cavi in fibra ottica (single-mode o
+multi-mode). Offrono larghezza di banda elevatissima, immunità alle interferenze e
+distanze di trasmissione fino a centinaia di chilometri.&lt;/p&gt;
+&lt;h3&gt;3. Segnali wireless&lt;/h3&gt;
+&lt;p&gt;Trasmissione tramite &lt;strong&gt;onde elettromagnetiche&lt;/strong&gt; (radio, microonde, infrarossi).
+Elimina la necessità di cablaggio fisico ma è soggetto a interferenze, ostacoli
+fisici e limitazioni di sicurezza.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Mezzo&lt;/th&gt;
+&lt;th&gt;Velocità tipica&lt;/th&gt;
+&lt;th&gt;Distanza&lt;/th&gt;
+&lt;th&gt;Pro&lt;/th&gt;
+&lt;th&gt;Contro&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Rame (Cat6)&lt;/td&gt;
+&lt;td&gt;1–10 Gbps&lt;/td&gt;
+&lt;td&gt;≤100 m&lt;/td&gt;
+&lt;td&gt;Economico&lt;/td&gt;
+&lt;td&gt;Interferenze, distanza&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fibra ottica&lt;/td&gt;
+&lt;td&gt;10 Gbps–400 Tbps&lt;/td&gt;
+&lt;td&gt;km–migliaia di km&lt;/td&gt;
+&lt;td&gt;Velocità, sicurezza&lt;/td&gt;
+&lt;td&gt;Costo installazione&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Wi-Fi (802.11ax)&lt;/td&gt;
+&lt;td&gt;Fino a ~9.6 Gbps teorici&lt;/td&gt;
+&lt;td&gt;~50–100 m indoor&lt;/td&gt;
+&lt;td&gt;Mobilità&lt;/td&gt;
+&lt;td&gt;Interferenze, sicurezza&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5G&lt;/td&gt;
+&lt;td&gt;Fino a ~20 Gbps teorici&lt;/td&gt;
+&lt;td&gt;Variabile&lt;/td&gt;
+&lt;td&gt;Mobilità, copertura&lt;/td&gt;
+&lt;td&gt;Infrastruttura&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I segnali possono essere &lt;strong&gt;convertiti più volte&lt;/strong&gt; lungo il percorso
+(es. elettrico → ottico → wireless) attraverso dispositivi come convertitori
+di media (&lt;em&gt;media converters&lt;/em&gt;) e access point.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Larghezza di Banda, Throughput, Latenza e Jitter&lt;/h2&gt;
+&lt;p&gt;Questi quattro parametri sono fondamentali per valutare le &lt;strong&gt;prestazioni di una
+rete&lt;/strong&gt;. Vengono spesso confusi: ecco le distinzioni precise.&lt;/p&gt;
+&lt;h3&gt;Bandwidth (larghezza di banda)&lt;/h3&gt;
+&lt;p&gt;La &lt;strong&gt;bandwidth&lt;/strong&gt; rappresenta la &lt;em&gt;capacità teorica massima&lt;/em&gt; di un collegamento,
+ovvero quanti bit possono essere trasmessi per unità di tempo in condizioni ideali.
+È una proprietà del mezzo fisico e dell&#39;infrastruttura.&lt;/p&gt;
+&lt;h3&gt;Throughput (velocità effettiva)&lt;/h3&gt;
+&lt;p&gt;Il &lt;strong&gt;throughput&lt;/strong&gt; misura la quantità di dati &lt;em&gt;effettivamente&lt;/em&gt; trasferiti in un dato
+intervallo di tempo. È quasi sempre inferiore alla bandwidth dichiarata, a causa di:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Overhead dei protocolli di rete (header TCP/IP, controllo errori)&lt;/li&gt;
+&lt;li&gt;Congestione e collisioni&lt;/li&gt;
+&lt;li&gt;Qualità del collegamento fisico&lt;/li&gt;
+&lt;li&gt;Limitazioni hardware dei dispositivi intermedi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;Latenza&lt;/h3&gt;
+&lt;p&gt;La &lt;strong&gt;latenza&lt;/strong&gt; è il tempo necessario affinché un pacchetto viaggi dalla sorgente
+alla destinazione. Si misura tipicamente in millisecondi (ms) tramite il comando
+&lt;code&gt;ping&lt;/code&gt;. È critica per applicazioni &lt;strong&gt;real-time&lt;/strong&gt; come VoIP, gaming online e
+videoconferenze.&lt;/p&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Misurazione latenza verso un host remoto&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;ping&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;8.8&lt;/span&gt;.8.8
+
+&lt;span class=&quot;token comment&quot;&gt;# Output di esempio:&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# 64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=12.4 ms&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# 64 bytes from 8.8.8.8: icmp_seq=2 ttl=118 time=11.8 ms&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# round-trip min/avg/max/stddev = 11.8/12.1/12.4/0.3 ms&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Jitter&lt;/h3&gt;
+&lt;p&gt;Il &lt;strong&gt;jitter&lt;/strong&gt; è la &lt;em&gt;variazione&lt;/em&gt; della latenza nel tempo (la deviazione standard
+della latenza). Un jitter elevato causa degrado della qualità audio/video nelle
+comunicazioni real-time, anche quando la latenza media è accettabile.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Latenza ideale:  10ms — 10ms — 10ms — 10ms  (jitter ≈ 0)
+Latenza reale:   10ms — 25ms —  8ms — 30ms  (jitter elevato → qualità VoIP scarsa)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3&gt;Tabella unità di misura della bandwidth&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Unità&lt;/th&gt;
+&lt;th&gt;Simbolo&lt;/th&gt;
+&lt;th&gt;Equivalente&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Bit per secondo&lt;/td&gt;
+&lt;td&gt;bps&lt;/td&gt;
+&lt;td&gt;unità base&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kilobit per secondo&lt;/td&gt;
+&lt;td&gt;Kbps&lt;/td&gt;
+&lt;td&gt;10³ bps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Megabit per secondo&lt;/td&gt;
+&lt;td&gt;Mbps&lt;/td&gt;
+&lt;td&gt;10⁶ bps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Gigabit per secondo&lt;/td&gt;
+&lt;td&gt;Gbps&lt;/td&gt;
+&lt;td&gt;10⁹ bps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Terabit per secondo&lt;/td&gt;
+&lt;td&gt;Tbps&lt;/td&gt;
+&lt;td&gt;10¹² bps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Petabit per secondo&lt;/td&gt;
+&lt;td&gt;Pbps&lt;/td&gt;
+&lt;td&gt;10¹⁵ bps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;⚠️ &lt;strong&gt;Attenzione&lt;/strong&gt;: i provider Internet dichiarano la velocità in &lt;strong&gt;Mbps&lt;/strong&gt;
+(megabit), mentre i sistemi operativi mostrano spesso la velocità di download
+in &lt;strong&gt;MB/s&lt;/strong&gt; (megabyte). Ricorda: 1 byte = 8 bit → 100 Mbps ≈ 12.5 MB/s.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3&gt;Il collo di bottiglia (&lt;em&gt;Bottleneck&lt;/em&gt;)&lt;/h3&gt;
+&lt;p&gt;In una rete con più segmenti, la &lt;strong&gt;velocità massima effettiva è limitata dal
+segmento più lento&lt;/strong&gt; del percorso — il cosiddetto &lt;em&gt;bottleneck&lt;/em&gt;. Questo principio,
+noto come &lt;strong&gt;legge dell&#39;anello debole&lt;/strong&gt;, è fondamentale nell&#39;ottimizzazione delle
+prestazioni di rete in contesti Cloud e DevOps.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Client (1 Gbps) ──→ Switch (10 Gbps) ──→ Router WAN (100 Mbps) ──→ Server
+                                               ↑
+                                     BOTTLENECK: throughput massimo = 100 Mbps
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Ottimizzazione delle performance di rete&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Per IT Manager e DevOps Engineer&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Monitoring continuo&lt;/strong&gt;: usa strumenti come &lt;strong&gt;Prometheus + Grafana&lt;/strong&gt;, &lt;strong&gt;Zabbix&lt;/strong&gt;
+o &lt;strong&gt;PRTG&lt;/strong&gt; per monitorare latenza, throughput e packet loss in tempo reale.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Quality of Service (QoS)&lt;/strong&gt;: prioritizza il traffico critico (VoIP, video) su
+quello non critico (backup, aggiornamenti) tramite policy QoS su switch e router.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Segmentazione della rete&lt;/strong&gt;: usa VLAN per isolare traffico e migliorare sicurezza
+e performance.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CDN (Content Delivery Network)&lt;/strong&gt;: distribuisci i contenuti statici vicino agli
+utenti finali per ridurre latenza e carico sui server centrali.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Test periodici&lt;/strong&gt;: strumenti come &lt;strong&gt;iPerf3&lt;/strong&gt; (throughput interno) e
+&lt;strong&gt;Speedtest CLI&lt;/strong&gt; (connettività esterna) aiutano a rilevare degradi prestazionali
+prima che diventino problemi critici.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;# Test throughput interno con iPerf3&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# Sul server:&lt;/span&gt;
+iperf3 &lt;span class=&quot;token parameter variable&quot;&gt;-s&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;# Sul client:&lt;/span&gt;
+iperf3 &lt;span class=&quot;token parameter variable&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;lt;&lt;/span&gt;IP_SERVER&lt;span class=&quot;token operator&quot;&gt;&gt;&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-t&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;token parameter variable&quot;&gt;-P&lt;/span&gt; &lt;span class=&quot;token number&quot;&gt;4&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# -t 10 = durata 10 secondi&lt;/span&gt;
+&lt;span class=&quot;token comment&quot;&gt;# -P 4  = 4 stream paralleli&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Introduzione al modello OSI&lt;/h2&gt;
+&lt;p&gt;Tutti i concetti trattati in questo modulo — trasmissione dei dati, segnali,
+larghezza di banda — trovano una collocazione precisa nel &lt;strong&gt;Modello OSI&lt;/strong&gt;
+(Open Systems Interconnection), il framework a 7 livelli che descrive come i
+dati viaggiano da un&#39;applicazione su un dispositivo a un&#39;altra applicazione su
+un dispositivo remoto.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Livello&lt;/th&gt;
+&lt;th&gt;Nome&lt;/th&gt;
+&lt;th&gt;Funzione chiave&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;Applicazione&lt;/td&gt;
+&lt;td&gt;HTTP, DNS, SMTP&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;Presentazione&lt;/td&gt;
+&lt;td&gt;Codifica, crittografia, compressione&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;Sessione&lt;/td&gt;
+&lt;td&gt;Gestione connessioni&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;Trasporto&lt;/td&gt;
+&lt;td&gt;TCP/UDP, porte, controllo flusso&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;Rete&lt;/td&gt;
+&lt;td&gt;IP, routing&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;Data Link&lt;/td&gt;
+&lt;td&gt;MAC, switch, Ethernet&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;Fisico&lt;/td&gt;
+&lt;td&gt;Bit, segnali, cavi ← &lt;strong&gt;questo modulo&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]]></content>
+    
+    
+      
+    
+      
+    <category term="networking"/>
+      
+    
+  </entry>
+  
+  <entry>
     <title>Tecniche algoritmiche per dev Java</title>
     <link href="https://dino-996.github.io/blog/tecniche-algoritmiche-per-dev-java/" rel="alternate" type="text/html"/>
     <id>https://dino-996.github.io/blog/tecniche-algoritmiche-per-dev-java/</id>
