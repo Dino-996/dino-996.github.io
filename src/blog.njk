@@ -51,7 +51,7 @@ permalink: "/blog/{% if pagination.pageNumber > 0 %}page/{{ pagination.pageNumbe
         <div class="col-md-{% if post.data.image %}8{% else %}12{% endif %} d-flex flex-column">
           <div class="card-body d-flex flex-column h-100 p-4">
             
-            <div class="flex-grow-1">
+            <div class="grow">
               <h2 class="h4 card-title mb-2 fw-bold">
                 <a href="{{ post.url }}" class="text-decoration-none" style="color: var(--bs-body-color)">{{ post.data.title }}</a>
               </h2>
