@@ -134,12 +134,40 @@
   <header class="mb-4">
     <h1 class="fw-bold">Sincronizzazione dei processi</h1>
 
-    <time
-      class="text-muted"
-      datetime="2020-02-03T00:00:00.000Z"
-    >
-      03 febbraio 2020
-    </time>
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <time class="text-muted small" datetime="2020-02-03T00:00:00.000Z">
+        <i class="bi bi-calendar3 me-1"></i>03 febbraio 2020
+      </time>
+
+      <div class="tags-container d-flex flex-wrap gap-2">
+        
+        
+          
+        
+        
+          
+          
+        
+          
+          
+            <a href="/tags/sistemi-operativi/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/processi/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               processi
+            </a>
+          
+        
+      </div>
+    </div>
   </header>
 
   
@@ -148,7 +176,7 @@
         <i class="bi bi-stars text-primary"></i>
         <strong class="small text-uppercase text-primary">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small">La sincronizzazione dei processi richiede la gestione delle sezioni critiche tramite mutua esclusione, progresso e attesa limitata per prevenire race condition. Nelle architetture moderne, l&#39;implementazione deve integrare primitive hardware atomiche e memory barrier per mitigare i rischi derivanti dal riordino delle istruzioni e dai modelli di memoria deboli.</p>
+      <p class="mb-0 small">La gestione delle sezioni critiche richiede il rigoroso rispetto di mutua esclusione, progresso e attesa limitata per garantire l&#39;integrità dei dati in ambienti concorrenti. Sui sistemi moderni, l&#39;implementazione pratica di tali meccanismi deve superare il riordino delle istruzioni hardware tramite l&#39;uso di primitive atomiche come il CAS e opportune memory barrier.</p>
     </div>
   
 
@@ -161,9 +189,9 @@
         style="max-height: 400px; object-fit: cover;"
       >
       
-      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
-    
-  </div>
+        <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+      
+    </div>
   
 
   <hr>
@@ -174,7 +202,7 @@
 <h2>Sincronizzazione dei Processi</h2>
 <p>La sincronizzazione dei processi è uno dei problemi fondamentali dell’informatica dei sistemi. Quando più thread o processi accedono a dati condivisi, il rischio di inconsistenza diventa concreto. Comprendere e progettare correttamente la <strong>sezione critica</strong> è essenziale per garantire sicurezza, affidabilità e scalabilità.</p>
 <h2>Il Problema della Sezione Critica</h2>
-<p>Una <strong>sezione critica (Critical Section, CS)</strong> è la porzione di codice in cui un <a href="https://dino-996.github.io/blog/processi/">processo</a> o <a href="https://dino-996.github.io/blog/thread/">thread</a> accede e modifica risorse condivise.</p>
+<p>Una <strong>sezione critica (Critical Section, CS)</strong> è la porzione di codice in cui un <a href="https://dino-996.github.io/blog/processi/" target="_blank" rel="noopener noreferrer">processo</a> o <a href="https://dino-996.github.io/blog/thread/" target="_blank" rel="noopener noreferrer">thread</a> accede e modifica risorse condivise.</p>
 <p>Qualsiasi soluzione corretta deve soddisfare tre proprietà fondamentali:</p>
 <ul>
 <li><strong>Mutua esclusione</strong>: se un processo è nella CS, nessun altro può entrarvi.</li>
@@ -245,24 +273,20 @@
 <h2>Esempi in Python e Java</h2>
 <h3>Python (threading)</h3>
 <pre class="language-python"><code class="language-python"><span class="token keyword">import</span> threading
-
-lock <span class="token operator">=</span> threading<span class="token punctuation">.</span>Lock<span class="token punctuation">(</span><span class="token punctuation">)</span>
-counter <span class="token operator">=</span> <span class="token number">0</span>
-
-<span class="token keyword">def</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
-    <span class="token keyword">global</span> counter
-    <span class="token keyword">with</span> lock<span class="token punctuation">:</span>
-        counter <span class="token operator">+=</span> <span class="token number">1</span></code></pre>
+<p>lock <span class="token operator">=</span> threading<span class="token punctuation">.</span>Lock<span class="token punctuation">(</span><span class="token punctuation">)</span><br>
+counter <span class="token operator">=</span> <span class="token number">0</span></p>
+<p><span class="token keyword">def</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span><br>
+<span class="token keyword">global</span> counter<br>
+<span class="token keyword">with</span> lock<span class="token punctuation">:</span><br>
+counter <span class="token operator">+=</span> <span class="token number">1</span></code></pre></p>
 <p>Nota: a causa del <strong>GIL (Global Interpreter Lock)</strong>, il threading in CPython non è realmente parallelo su CPU-bound tasks.</p>
 <hr>
 <h3>Java</h3>
 <pre class="language-java"><code class="language-java"><span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span>concurrent<span class="token punctuation">.</span>atomic<span class="token punctuation">.</span></span><span class="token class-name">AtomicInteger</span></span><span class="token punctuation">;</span>
-
-<span class="token class-name">AtomicInteger</span> counter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AtomicInteger</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
-<span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-    counter<span class="token punctuation">.</span><span class="token function">incrementAndGet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-<span class="token punctuation">}</span></code></pre>
+<p><span class="token class-name">AtomicInteger</span> counter <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">AtomicInteger</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span></p>
+<p><span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">increment</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><br>
+counter<span class="token punctuation">.</span><span class="token function">incrementAndGet</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><br>
+<span class="token punctuation">}</span></code></pre></p>
 <p>Java fornisce:</p>
 <ul>
 <li><code>synchronized</code></li>
@@ -283,9 +307,9 @@ counter <span class="token operator">=</span> <span class="token number">0</span
 <p>Nei <strong>sistemi distribuiti</strong> (insieme di computer indipendenti che collaborano tra loro come se fossero un unico sistema coerente agli occhi dell’utente o delle applicazioni), la sincronizzazione non riguarda più solo thread locali.</p>
 <p>Si utilizzano:</p>
 <ul>
-<li><strong>Lock distribuiti</strong> (meccanismo che garantisce mutua esclusione tra processi o servizi che girano su nodi diversi di un sistema distribuito) (<a href="https://redis.io/">Redis</a>, <a href="https://zookeeper.apache.org/">ZooKeeper</a>)</li>
+<li><strong>Lock distribuiti</strong> (meccanismo che garantisce mutua esclusione tra processi o servizi che girano su nodi diversi di un sistema distribuito) (<a href="https://redis.io/" target="_blank" rel="noopener noreferrer">Redis</a>, <a href="https://zookeeper.apache.org/" target="_blank" rel="noopener noreferrer">ZooKeeper</a>)</li>
 <li><strong>Transazioni database</strong> (insieme di operazioni che vengono trattate con un'unica unità logica di lavoro)</li>
-<li><strong>Algoritmi di consenso</strong> (meccanismo che permette a un insieme di nodi di un sistema distribuito di accordarsi su un singolo valore o decisione, anche in presenza di guasti o comunicazioni ritardate) (<a href="https://raft.github.io/raft.pdf">Raft</a>, <a href="https://www.cs.cornell.edu/home/rvr/Paxos/paxos.pdf">Paxos</a>) - Per approfondire: <a href="https://arxiv.org/abs/2004.05074">Paxos vs Raft: Have we reached consensus on distributed consensus?</a></li>
+<li><strong>Algoritmi di consenso</strong> (meccanismo che permette a un insieme di nodi di un sistema distribuito di accordarsi su un singolo valore o decisione, anche in presenza di guasti o comunicazioni ritardate) (<a href="https://raft.github.io/raft.pdf" target="_blank" rel="noopener noreferrer">Raft</a>, <a href="https://www.cs.cornell.edu/home/rvr/Paxos/paxos.pdf" target="_blank" rel="noopener noreferrer">Paxos</a>) - Per approfondire: <a href="https://arxiv.org/abs/2004.05074" target="_blank" rel="noopener noreferrer">Paxos vs Raft: Have we reached consensus on distributed consensus?</a></li>
 </ul>
 <p>In architetture <strong>microservizi</strong>, l’eccesso di lock distribuiti può compromettere la scalabilità (intesa come capacità di un sistema di gestire un aumento del carico di lavoro senza degradare significativamente le prestazioni.).</p>
 <p>Approcci moderni:</p>
@@ -317,7 +341,7 @@ counter <span class="token operator">=</span> <span class="token number">0</span
       <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
     </h2>
 
-      <script>
+    <script>
       (function () {
         const saved = localStorage.getItem('bs-theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;

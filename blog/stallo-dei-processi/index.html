@@ -27,7 +27,7 @@
 <meta property="og:description" content="Viene esaminato il fenomeno dello stallo dei processi (deadlock) nei sistemi operativi, analizzando come più thread competano per risorse limitate." />
 <meta property="og:site_name" content="dino-996 blog" />
 
-<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/sistemi-operativi.webp" />
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" />
 
 
 <!-- Twitter Card -->
@@ -38,7 +38,7 @@
 <meta name="twitter:title" content="Stallo dei processi" />
 <meta name="twitter:description" content="Viene esaminato il fenomeno dello stallo dei processi (deadlock) nei sistemi operativi, analizzando come più thread competano per risorse limitate." />
 
-<meta name="twitter:image" content="https://dino-996.github.io/assets/img/webp/sistemi-operativi.webp" />
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" />
 
 
 <!-- Favicon -->
@@ -134,12 +134,22 @@
   <header class="mb-4">
     <h1 class="fw-bold">Stallo dei processi</h1>
 
-    <time
-      class="text-muted"
-      datetime="2020-02-01T00:00:00.000Z"
-    >
-      01 febbraio 2020
-    </time>
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <time class="text-muted small" datetime="2026-05-04T18:56:44.359Z">
+        <i class="bi bi-calendar3 me-1"></i>04 maggio 2026
+      </time>
+
+      <div class="tags-container d-flex flex-wrap gap-2">
+        
+        
+          
+        
+        
+          
+          
+        
+      </div>
+    </div>
   </header>
 
   
@@ -148,22 +158,22 @@
         <i class="bi bi-stars text-primary"></i>
         <strong class="small text-uppercase text-primary">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small">Il deadlock si verifica quando coesistono le quattro condizioni di Coffman, rendendo necessario l&#39;uso di grafi di allocazione per monitorare le dipendenze tra thread e risorse. La gestione del problema varia tra l&#39;approccio pragmatico dell&#39;Ostrich, che delega la responsabilità allo sviluppatore, e strategie formali basate sulla prevenzione tramite l&#39;eliminazione dei cicli di attesa.</p>
+      <p class="mb-0 small">Il deadlock si verifica quando coesistono le quattro condizioni di Coffman, rendendo i processi reciprocamente bloccati in una catena di attesa circolare. La gestione pratica del fenomeno richiede l&#39;analisi dei Resource Allocation Graph o l&#39;adozione di strategie di prevenzione, come l&#39;ordinamento gerarchico dei lock, per rompere le dipendenze cicliche.</p>
     </div>
   
 
   
     <div class="mb-4">
       <img 
-        src="/assets/img/webp/sistemi-operativi.webp" 
+        src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" 
         alt="Immagine generata con IA" 
         class="img-fluid rounded w-100"
         style="max-height: 400px; object-fit: cover;"
       >
       
-      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
-    
-  </div>
+        <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+      
+    </div>
   
 
   <hr>
@@ -184,13 +194,13 @@
 <h2>Le quattro condizioni necessarie allo stallo</h2>
 <p>Affinché si verifichi un deadlock, devono coesistere simultaneamente quattro condizioni (Coffman conditions):</p>
 <ol>
-<li><strong>Mutua esclusione</strong>
+<li><strong>Mutua esclusione</strong><br>
 Almeno una risorsa deve essere non condivisibile (es. un lock esclusivo).</li>
-<li><strong>Possesso e attesa (Hold and Wait)</strong>
+<li><strong>Possesso e attesa (Hold and Wait)</strong><br>
 Un thread detiene almeno una risorsa e ne attende altre.</li>
-<li><strong>Assenza di prelazione (No Preemption)</strong>
+<li><strong>Assenza di prelazione (No Preemption)</strong><br>
 Le risorse non possono essere sottratte forzatamente; devono essere rilasciate volontariamente.</li>
-<li><strong>Attesa circolare (Circular Wait)</strong>
+<li><strong>Attesa circolare (Circular Wait)</strong><br>
 Esiste una catena chiusa di attese tra thread/processi.</li>
 </ol>
 <p>Rimuovere anche solo una di queste condizioni impedisce il verificarsi dello stallo.</p>
@@ -316,25 +326,20 @@ $
 <h2>Esempio in Python</h2>
 <pre class="language-python"><code class="language-python"><span class="token keyword">import</span> threading
 <span class="token keyword">import</span> time
-
 lock1 <span class="token operator">=</span> threading<span class="token punctuation">.</span>Lock<span class="token punctuation">(</span><span class="token punctuation">)</span>
 lock2 <span class="token operator">=</span> threading<span class="token punctuation">.</span>Lock<span class="token punctuation">(</span><span class="token punctuation">)</span>
-
 <span class="token keyword">def</span> <span class="token function">thread1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">with</span> lock1<span class="token punctuation">:</span>
         time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
         <span class="token keyword">with</span> lock2<span class="token punctuation">:</span>
             <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Thread 1 acquisito lock2"</span><span class="token punctuation">)</span>
-
 <span class="token keyword">def</span> <span class="token function">thread2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
     <span class="token keyword">with</span> lock2<span class="token punctuation">:</span>
         time<span class="token punctuation">.</span>sleep<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
         <span class="token keyword">with</span> lock1<span class="token punctuation">:</span>
             <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"Thread 2 acquisito lock1"</span><span class="token punctuation">)</span>
-
 t1 <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>thread1<span class="token punctuation">)</span>
 t2 <span class="token operator">=</span> threading<span class="token punctuation">.</span>Thread<span class="token punctuation">(</span>target<span class="token operator">=</span>thread2<span class="token punctuation">)</span>
-
 t1<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span>
 t2<span class="token punctuation">.</span>start<span class="token punctuation">(</span><span class="token punctuation">)</span></code></pre>
 <p>Qui:</p>
@@ -348,12 +353,9 @@ t2<span class="token punctuation">.</span>start<span class="token punctuation">(
 <p>Imporre un ordine globale di acquisizione dei lock.</p>
 <h2>Esempio in Java</h2>
 <pre class="language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">DeadlockExample</span> <span class="token punctuation">{</span>
-
     <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">Object</span> lock1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">Object</span> lock2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
     <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-
         <span class="token class-name">Thread</span> t1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">{</span>
             <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>lock1<span class="token punctuation">)</span> <span class="token punctuation">{</span>
                 <span class="token keyword">try</span> <span class="token punctuation">{</span> 
@@ -362,7 +364,6 @@ t2<span class="token punctuation">.</span>start<span class="token punctuation">(
                 <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>lock2<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
             <span class="token punctuation">}</span>
         <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
         <span class="token class-name">Thread</span> t2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">-></span> <span class="token punctuation">{</span>
             <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>lock2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
                 <span class="token keyword">try</span> <span class="token punctuation">{</span> 
@@ -371,7 +372,6 @@ t2<span class="token punctuation">.</span>start<span class="token punctuation">(
                 <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>lock1<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
             <span class="token punctuation">}</span>
         <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-
         t1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         t2<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
@@ -403,7 +403,7 @@ t2<span class="token punctuation">.</span>start<span class="token punctuation">(
       <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
     </h2>
 
-      <script>
+    <script>
       (function () {
         const saved = localStorage.getItem('bs-theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;

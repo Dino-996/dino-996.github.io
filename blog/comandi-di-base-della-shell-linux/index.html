@@ -134,12 +134,49 @@
   <header class="mb-4">
     <h1 class="fw-bold">Comandi di base della Shell Linux</h1>
 
-    <time
-      class="text-muted"
-      datetime="2026-03-17T00:00:00.000Z"
-    >
-      17 marzo 2026
-    </time>
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <time class="text-muted small" datetime="2026-03-17T00:00:00.000Z">
+        <i class="bi bi-calendar3 me-1"></i>17 marzo 2026
+      </time>
+
+      <div class="tags-container d-flex flex-wrap gap-2">
+        
+        
+          
+        
+        
+          
+          
+        
+          
+          
+            <a href="/tags/linux/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               linux
+            </a>
+          
+        
+          
+          
+            <a href="/tags/sistemi-operativi/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/shell/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               shell
+            </a>
+          
+        
+      </div>
+    </div>
   </header>
 
   
@@ -148,7 +185,7 @@
         <i class="bi bi-stars text-primary"></i>
         <strong class="small text-uppercase text-primary">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small">La shell funge da interprete per l&#39;esecuzione di comandi, gestendo l&#39;interazione diretta con il sistema operativo attraverso la manipolazione di input, output e flussi di dati. Il prompt del terminale costituisce un&#39;interfaccia contestuale essenziale, fornendo metadati critici su utente, host, directory di lavoro e privilegi di esecuzione correnti.</p>
+      <p class="mb-0 small">La shell funge da interprete per l&#39;esecuzione di comandi, programmi esterni o pipeline, gestendo direttamente l&#39;interazione con il sistema operativo. L&#39;analisi del prompt è fondamentale per identificare il contesto operativo, inclusi utente, host, working directory e privilegi di esecuzione.</p>
     </div>
   
 
@@ -161,9 +198,9 @@
         style="max-height: 400px; object-fit: cover;"
       >
       
-      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
-    
-  </div>
+        <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+      
+    </div>
   
 
   <hr>
@@ -449,15 +486,12 @@ $ <span class="token function">man</span> <span class="token function">cp</span>
 <h3>Esempi pratici</h3>
 <pre class="language-bash"><code class="language-bash"><span class="token comment"># Salva la lista dei file in un log</span>
 $ <span class="token function">ls</span> <span class="token parameter variable">-la</span> <span class="token operator">></span> lista_file.txt
-
-<span class="token comment"># Appende nuovi risultati senza sovrascrivere</span>
-$ <span class="token function">ls</span> ~/downloads <span class="token operator">>></span> lista_file.txt
-
-<span class="token comment"># Filtra solo gli errori in un file separato</span>
-$ <span class="token function">make</span> <span class="token operator"><span class="token file-descriptor important">2</span>></span> errori.log
-
-<span class="token comment"># Concatena due file e cerca una stringa</span>
-$ <span class="token function">cat</span> a.txt b.txt <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">"TODO"</span></code></pre>
+<p><span class="token comment"># Appende nuovi risultati senza sovrascrivere</span><br>
+$ <span class="token function">ls</span> ~/downloads <span class="token operator">&gt;&gt;</span> lista_file.txt</p>
+<p><span class="token comment"># Filtra solo gli errori in un file separato</span><br>
+$ <span class="token function">make</span> <span class="token operator"><span class="token file-descriptor important">2</span>&gt;</span> errori.log</p>
+<p><span class="token comment"># Concatena due file e cerca una stringa</span><br>
+$ <span class="token function">cat</span> a.txt b.txt <span class="token operator">|</span> <span class="token function">grep</span> <span class="token string">&quot;TODO&quot;</span></code></pre></p>
 <p>La pipe (<code>|</code>) è uno degli strumenti più potenti della shell: permette di comporre programmi semplici in pipeline sofisticate, dove l'output di uno diventa l'input del successivo.</p>
 <h2>Comandi di elaborazione dell'output</h2>
 <p>Questi comandi sono progettati per trasformare, filtrare e analizzare dati testuali. Lavorano spesso in combinazione tramite pipe, e il loro punto di forza è proprio la componibilità: incatenati insieme, permettono di estrarre esattamente le informazioni che servono da flussi di dati anche molto grandi.</p>
@@ -465,9 +499,8 @@ $ <span class="token function">cat</span> a.txt b.txt <span class="token operato
 <p><code>echo</code> scrive una stringa su <code>stdout</code>. Semplice, ma molto utile in script e pipeline.</p>
 <pre class="language-bash"><code class="language-bash">$ <span class="token builtin class-name">echo</span> <span class="token string">"Ciao mondo"</span>
 Ciao mondo
-
-$ <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">"senza newline"</span>   <span class="token comment"># non va a capo alla fine</span>
-$ <span class="token builtin class-name">echo</span> <span class="token parameter variable">-e</span> <span class="token string">"<span class="token entity" title="\e">\e</span>[36;1mTesto ciano grassetto<span class="token entity" title="\e">\e</span>[0m"</span>   <span class="token comment"># interpreta escape ANSI</span></code></pre>
+<p>$ <span class="token builtin class-name">echo</span> <span class="token parameter variable">-n</span> <span class="token string">&quot;senza newline&quot;</span>   <span class="token comment"># non va a capo alla fine</span><br>
+$ <span class="token builtin class-name">echo</span> <span class="token parameter variable">-e</span> <span class="token string">&quot;<span class="token entity" title="\e">\e</span>[36;1mTesto ciano grassetto<span class="token entity" title="\e">\e</span>[0m&quot;</span>   <span class="token comment"># interpreta escape ANSI</span></code></pre></p>
 <table>
 <thead>
 <tr>
@@ -665,7 +698,7 @@ $ <span class="token function">sort</span> lista.txt <span class="token operator
       <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
     </h2>
 
-      <script>
+    <script>
       (function () {
         const saved = localStorage.getItem('bs-theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;

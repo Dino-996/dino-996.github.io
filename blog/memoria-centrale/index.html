@@ -134,12 +134,40 @@
   <header class="mb-4">
     <h1 class="fw-bold">Memoria centrale</h1>
 
-    <time
-      class="text-muted"
-      datetime="2020-02-02T00:00:00.000Z"
-    >
-      02 febbraio 2020
-    </time>
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <time class="text-muted small" datetime="2020-02-02T00:00:00.000Z">
+        <i class="bi bi-calendar3 me-1"></i>02 febbraio 2020
+      </time>
+
+      <div class="tags-container d-flex flex-wrap gap-2">
+        
+        
+          
+        
+        
+          
+          
+        
+          
+          
+            <a href="/tags/sistemi-operativi/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/memoria-centrale/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               memoria centrale
+            </a>
+          
+        
+      </div>
+    </div>
   </header>
 
   
@@ -148,7 +176,7 @@
         <i class="bi bi-stars text-primary"></i>
         <strong class="small text-uppercase text-primary">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small">L&#39;architettura della memoria gerarchica e i meccanismi di protezione hardware assicurano l&#39;isolamento dei processi e l&#39;efficienza nell&#39;esecuzione dei programmi tramite il binding degli indirizzi. La Memory Management Unit (MMU) abilita la traduzione dinamica tra indirizzi logici e fisici, consentendo tecniche avanzate di gestione come paginazione e segmentazione.</p>
+      <p class="mb-0 small">L&#39;architettura della memoria gerarchica e i meccanismi di protezione hardware definiscono le fondamenta per l&#39;isolamento dei processi e l&#39;efficienza operativa. La traduzione degli indirizzi tramite MMU e il processo di binding permettono la gestione dinamica della memoria, separando efficacemente gli spazi logici da quelli fisici.</p>
     </div>
   
 
@@ -161,9 +189,9 @@
         style="max-height: 400px; object-fit: cover;"
       >
       
-      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
-    
-  </div>
+        <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+      
+    </div>
   
 
   <hr>
@@ -260,7 +288,7 @@
       <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
     </h2>
 
-      <script>
+    <script>
       (function () {
         const saved = localStorage.getItem('bs-theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
