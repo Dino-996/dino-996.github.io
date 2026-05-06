@@ -52,6 +52,13 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
                 <i class="bi bi-calendar3 me-1"></i>{{ post.date | dateHuman }}
               </time>
               <hr>
+              <div class="mb-3">
+                {% if post.data.description.size > 160 %}
+                  <div class="text-truncate">{{ post.data.description }}<div>
+                {% else %}
+                  {{ post.data.description }}
+                {% endif %}
+                </div>
               {% assign rawTags = post.data.strapiTags | split: "," %}
               {% if rawTags %}
                 <div class="mb-3 d-flex flex-wrap align-items-baseline gap-2">

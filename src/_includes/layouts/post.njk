@@ -5,9 +5,17 @@ layout: layouts/base.njk
   <header class="mb-4">
     <h1 class="fw-bold">{{ title }}</h1>
     <div class="d-flex flex-wrap align-items-baseline gap-3">
-      <time class="text-muted small" datetime="{{ page.date | dateIso }}">
-        <i class="bi bi-calendar3 me-1"></i>{{ page.date | dateHuman }}
-      </time>
+      <div>
+      <img 
+        src="https://github.com/Dino-996.png" 
+        alt="Davide Sabia" 
+        class="rounded-circle"
+        width="32"
+        height="32"
+        style="object-fit: cover;"
+      >
+      <span class="text-primary mx-1">Davide Sabia</span>
+      </div>
       <div class="tags-container d-flex flex-wrap gap-2">
         {% set rawTags = strapiTags if strapiTags else "" %}
         {% set tagList = rawTags.split(",") if rawTags is string else rawTags %}
@@ -22,6 +30,9 @@ layout: layouts/base.njk
           {% endif %}
         {% endfor %}
       </div>
+      <time class="text-muted small" datetime="{{ page.date | dateIso }}">
+        <i class="bi bi-calendar3 me-1"></i>{{ page.date | dateHuman }}
+      </time>
     </div>
   </header>
 
