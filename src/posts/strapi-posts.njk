@@ -14,5 +14,6 @@ eleventyComputed:
   date: "{{ strapiPost.date }}"
   image: "{{ strapiPost.image }}"
   imageAlt: "{{ strapiPost.imageAlt }}"
+  strapiTags: "{{ strapiPost.strapiTags }}"
 ---
 {{ strapiPost.content | markdownBlock | safe }}

@@ -18,7 +18,7 @@ function saveCache(cache) {
   fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2), "utf-8");
 }
 
-console.log("[DEBUG SYSTEM] Il file tldr.js è stato caricato da Eleventy!");
+console.log("[tldr] Il file tldr.js è stato caricato da Eleventy!");
 
 export default async function () {
   const key = process.env.GEMINI_API_KEY;
@@ -34,7 +34,6 @@ export default async function () {
   const postsDir = "src/posts";
   const result = { ...cache };
 
-  // Raccoglie tutti i file .md ricorsivamente
   const files = fs.readdirSync(postsDir, { recursive: true })
     .filter(f => String(f).endsWith(".md"))
     .map(f => path.join(postsDir, String(f)));
@@ -45,10 +44,8 @@ export default async function () {
 
     if (!data.title) continue;
 
-    // Usa il titolo come chiave cache, rigenera solo se il contenuto cambia
     const cacheKey = data.title;
-    const contentHash = content.length.toString(); // hash semplice
-
+    const contentHash = content.length.toString();
     if (cache[cacheKey]?.hash === contentHash) continue;
 
     console.log(`[tldr] Generazione TL;DR per: ${data.title}`);

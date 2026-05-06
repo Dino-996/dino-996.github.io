@@ -52,16 +52,21 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
                 <i class="bi bi-calendar3 me-1"></i>{{ post.date | dateHuman }}
               </time>
               <hr>
-              {% if post.data.tags %}
-              <div class="mb-3 d-flex flex-wrap align-items-baseline gap-2">
-                <span class="fw-bold small text-uppercase">Tag:</span>
-                {% for t in post.data.tags %}
-                  {% if t != "posts" and t != "" %}
-                    <a href="/tags/{{ t | slugify }}/" class="badge bg-light border text-decoration-none d-inline-flex align-items-center" style="color: var(--bs-body-color); padding: 0.4em 0.6em; line-height: 1">
-                      {{ t }}
-                    </a>
-                  {% endif %}
-                {% endfor %}
+              {% assign rawTags = post.data.strapiTags | split: "," %}
+              {% if rawTags %}
+                <div class="mb-3 d-flex flex-wrap align-items-baseline gap-2">
+                  <span class="fw-bold small text-uppercase">Tag:</span>
+                  {% for t in rawTags %}
+                    {% assign cleanTag = t | strip %}
+                    {% unless cleanTag == "posts" or cleanTag == "" %}
+                      <a href="/tags/{{ cleanTag | slugify }}/"
+                         class="badge border text-decoration-none d-inline-flex align-items-center"
+                         style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+                        {{ cleanTag }}
+                      </a>
+                    {% endunless %}
+                  {% endfor %}
+                </div>
               </div>
               {% endif %}
               <div class="text-end mt-auto mb-3">
