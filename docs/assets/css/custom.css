@@ -1,3 +1,5 @@
+@import "node_modules/prism-themes/themes/prism-vsc-dark-plus.css";
+
 /* ========================================
    Variabili Custom
    ======================================== */
@@ -8,16 +10,18 @@
   --light-color: #f8f9fa;
   --border-color: #dee2e6;
   --transition: all 0.3s ease;
-  --ai-primary: #007bff; /* Il colore "brand" dell'AI */
-  --ai-card-bg: var(--tertiary-color); 
+  --ai-primary: #007bff;
+  /* Il colore "brand" dell'AI */
+  --ai-card-bg: var(--tertiary-color);
   --ai-body-bg: var(--dark-color);
   --ai-text: var(--primary-color);
   --ai-input-bg: var(--tertiary-color);
-  --ai-border: rgba(0,0,0,0.1);
-  --ai-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  --ai-border: rgba(0, 0, 0, 0.1);
+  --ai-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+
   [data-theme="dark"] {
-  --ai-border: rgba(255,255,255,0.1);
-  --ai-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    --ai-border: rgba(255, 255, 255, 0.1);
+    --ai-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
   }
 }
 
@@ -158,16 +162,18 @@ article h4 a:hover {
 /* ========================================
    Code Blocks
    ======================================== */
-code {
-  background-color: #f8f9fa;
-  padding: 0.2rem 0.4rem;
-  border-radius: 3px;
-  font-size: 0.875em;
-}
-
-[data-bs-theme="dark"] code {
-  background-color: #2d3748;
-  color: #fc8181;
+pre h1,
+pre h2,
+pre h3,
+pre h4,
+pre p {
+  font-size: 1em !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-family: inherit !important;
+  color: inherit !important;
+  font-weight: normal !important;
+  line-height: inherit !important;
 }
 
 pre {
@@ -176,26 +182,44 @@ pre {
   border-radius: 6px;
   padding: 1rem;
   overflow-x: auto;
+  white-space: pre;
+  position: relative;
+  z-index: 1;
 }
 
 [data-bs-theme="dark"] pre {
-  background-color: #2d3748;
+  background-color: #1e2433;
   border-color: #4a5568;
 }
 
 :not(pre)>code {
-  background-color: #f8f9fa;
+  background-color: rgba(0, 123, 255, 0.1);
+  color: #e83e8c;
   padding: 0.2rem 0.4rem;
   border-radius: 3px;
   font-size: 0.875em;
-  color: #e83e8c;
+  word-wrap: break-word;
 }
 
 pre code {
   background-color: transparent;
   padding: 0;
   color: inherit;
-  font-size: 0.875em;
+  font-size: 0.9rem;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+}
+
+/* Rimuove il pulsante copia duplicato se presente dentro il pre */
+pre .copy-button, 
+pre button.copy,
+.strapi-code-button { 
+    display: none !important; 
+}
+
+/* Se il pulsante "Copia" è un elemento testuale generato dall'editor */
+pre ::-webkit-details-marker,
+pre .copy-text {
+    display: none;
 }
 
 /* ========================================
@@ -309,7 +333,7 @@ footer a:hover svg {
 }
 
 .ai-btn-pulse:hover {
-  
+
   transform: scale(1.1);
 }
 
@@ -348,7 +372,7 @@ footer a:hover svg {
   background-color: var(--light-color);
 }
 
-.ai-welcome-msg{
+.ai-welcome-msg {
   color: var(--dark-color);
 }
 
@@ -364,13 +388,15 @@ footer a:hover svg {
 .ai-msg-user {
   align-self: flex-end;
   background: var(--ai-primary);
-  color: var(--tertiary-color);;
+  color: var(--tertiary-color);
+  ;
   border-bottom-right-radius: 2px;
 }
 
 .ai-msg-bot {
   align-self: flex-start;
-  background: var(--tertiary-color);;
+  background: var(--tertiary-color);
+  ;
   color: var(--ai-text);
   border-bottom-left-radius: 2px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
@@ -455,14 +481,12 @@ hr {
 /* Truncate text utility */
 .text-truncate-2 {
   display: -webkit-box;
-  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
 .text-truncate-3 {
   display: -webkit-box;
-  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -553,11 +577,11 @@ hr {
   background-color: var(--dark-color);
 }
 
-[data-bs-theme="dark"] .ai-card-footer{
+[data-bs-theme="dark"] .ai-card-footer {
   background-color: var(--dark-color);
 }
 
-[data-bs-theme="dark"] .ai-welcome-msg{
+[data-bs-theme="dark"] .ai-welcome-msg {
   color: var(--light-color);
 }
 

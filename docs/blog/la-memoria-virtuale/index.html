@@ -134,14 +134,50 @@
   <header class="mb-4">
     <h1 class="fw-bold">La memoria virtuale</h1>
 
-    <time
-      class="text-muted"
-      datetime="2020-02-22T00:00:00.000Z"
-    >
-      22 febbraio 2020
-    </time>
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <time class="text-muted small" datetime="2020-02-22T00:00:00.000Z">
+        <i class="bi bi-calendar3 me-1"></i>22 febbraio 2020
+      </time>
+
+      <div class="tags-container d-flex flex-wrap gap-2">
+        
+        
+          
+        
+        
+          
+          
+        
+          
+          
+            <a href="/tags/sistemi-operativi/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/memoria-virtuale/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               memoria virtuale
+            </a>
+          
+        
+      </div>
+    </div>
   </header>
 
+  
+    <div class="alert alert-primary border-start border-4 border-primary mb-4" role="note">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <i class="bi bi-stars text-primary"></i>
+        <strong class="small text-uppercase text-primary">Riassunto IA</strong>
+      </div>
+      <p class="mb-0 small">La memoria virtuale astrae lo spazio di indirizzamento logico dalla RAM fisica tramite il demand paging, garantendo scalabilità e isolamento dei processi. L&#39;efficienza del sistema dipende criticamente dalla minimizzazione del tasso di page fault e dall&#39;adozione di strategie ottimizzate come il Copy-on-Write per la gestione delle risorse.</p>
+    </div>
   
 
   
@@ -153,9 +189,9 @@
         style="max-height: 400px; object-fit: cover;"
       >
       
-      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
-    
-  </div>
+        <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+      
+    </div>
   
 
   <hr>
@@ -211,7 +247,7 @@
       <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
     </h2>
 
-      <script>
+    <script>
       (function () {
         const saved = localStorage.getItem('bs-theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;

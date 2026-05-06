@@ -134,14 +134,50 @@
   <header class="mb-4">
     <h1 class="fw-bold">Processi</h1>
 
-    <time
-      class="text-muted"
-      datetime="2020-02-10T00:00:00.000Z"
-    >
-      10 febbraio 2020
-    </time>
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <time class="text-muted small" datetime="2020-02-10T00:00:00.000Z">
+        <i class="bi bi-calendar3 me-1"></i>10 febbraio 2020
+      </time>
+
+      <div class="tags-container d-flex flex-wrap gap-2">
+        
+        
+          
+        
+        
+          
+          
+        
+          
+          
+            <a href="/tags/sistemi-operativi/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/processi/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               processi
+            </a>
+          
+        
+      </div>
+    </div>
   </header>
 
+  
+    <div class="alert alert-primary border-start border-4 border-primary mb-4" role="note">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <i class="bi bi-stars text-primary"></i>
+        <strong class="small text-uppercase text-primary">Riassunto IA</strong>
+      </div>
+      <p class="mb-0 small">Un processo è un&#39;istanza attiva di un programma, definita da risorse allocate e gestita dal sistema operativo tramite un Process Control Block. Mentre nei sistemi single-core il parallelismo è simulato mediante time-slicing, le architetture multicore consentono l&#39;esecuzione simultanea di thread, ottimizzando le prestazioni computazionali attraverso il calcolo parallelo reale.</p>
+    </div>
   
 
   
@@ -153,9 +189,9 @@
         style="max-height: 400px; object-fit: cover;"
       >
       
-      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
-    
-  </div>
+        <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+      
+    </div>
   
 
   <hr>
@@ -172,7 +208,7 @@
 <li><strong>Heap</strong>: area di memoria allocata dinamicamente durante l’esecuzione.</li>
 <li><strong>Stack</strong>: memoria temporanea utilizzata per le chiamate di funzione e le variabili locali.</li>
 </ul>
-<p>Nei sistemi moderni il concetto si estende ai <strong><a href="https://dino-996.github.io/blog/thread/">thread</a>.</strong>, che consentono a un singolo processo di avere più percorsi di esecuzione concorrenti, facilitando il parallelismo nei sistemi multicore.</p>
+<p>Nei sistemi moderni il concetto si estende ai <strong><a href="https://dino-996.github.io/blog/thread/" target="_blank" rel="noopener noreferrer">thread</a>.</strong>, che consentono a un singolo processo di avere più percorsi di esecuzione concorrenti, facilitando il parallelismo nei sistemi multicore.</p>
 <h2>Il core e il multicore</h2>
 <p>Un <strong>core</strong> è un’unità di calcolo fisica indipendente all’interno della CPU.</p>
 <p>Una CPU contiene tipicamente:</p>
@@ -359,7 +395,7 @@
       <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
     </h2>
 
-      <script>
+    <script>
       (function () {
         const saved = localStorage.getItem('bs-theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;

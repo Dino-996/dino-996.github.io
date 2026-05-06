@@ -134,14 +134,50 @@
   <header class="mb-4">
     <h1 class="fw-bold">Allocazione della memoria</h1>
 
-    <time
-      class="text-muted"
-      datetime="2020-02-23T00:00:00.000Z"
-    >
-      23 febbraio 2020
-    </time>
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <time class="text-muted small" datetime="2020-02-23T00:00:00.000Z">
+        <i class="bi bi-calendar3 me-1"></i>23 febbraio 2020
+      </time>
+
+      <div class="tags-container d-flex flex-wrap gap-2">
+        
+        
+          
+        
+        
+          
+          
+        
+          
+          
+            <a href="/tags/sistemi-operativi/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/allocazione-della-memoria/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               allocazione della memoria
+            </a>
+          
+        
+      </div>
+    </div>
   </header>
 
+  
+    <div class="alert alert-primary border-start border-4 border-primary mb-4" role="note">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <i class="bi bi-stars text-primary"></i>
+        <strong class="small text-uppercase text-primary">Riassunto IA</strong>
+      </div>
+      <p class="mb-0 small">L&#39;allocazione dei frame bilancia l&#39;efficienza del sistema attraverso strategie proporzionali e politiche di sostituzione locali o globali, mirando a ottimizzare il throughput e l&#39;isolamento dei processi. Per prevenire il collasso da thrashing, i kernel moderni implementano il modello del Working Set o il controllo della frequenza dei page fault, garantendo che le risorse siano proporzionate alle esigenze di località dei processi.</p>
+    </div>
   
 
   
@@ -153,9 +189,9 @@
         style="max-height: 400px; object-fit: cover;"
       >
       
-      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
-    
-  </div>
+        <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+      
+    </div>
   
 
   <hr>
@@ -208,7 +244,7 @@
 <p>Linux non usa un algoritmo LRU puro (troppo costoso), ma una sua approssimazione efficace tramite due liste:</p>
 <ol>
 <li><strong>Active List:</strong> Pagine referenziate di recente.</li>
-<li><strong>Inactive List:</strong> Pagine candidate alla rimozione.
+<li><strong>Inactive List:</strong> Pagine candidate alla rimozione.<br>
 Attraverso il bit di accesso, il kernel sposta dinamicamente le pagine tra queste liste (meccanismo a &quot;due mani&quot;), garantendo che le pagine più preziose rimangano in memoria il più a lungo possibile.</li>
 </ol>
 <hr>
@@ -225,7 +261,7 @@ Attraverso il bit di accesso, il kernel sposta dinamicamente le pagine tra quest
       <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
     </h2>
 
-      <script>
+    <script>
       (function () {
         const saved = localStorage.getItem('bs-theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;

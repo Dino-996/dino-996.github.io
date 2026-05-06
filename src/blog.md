@@ -51,11 +51,19 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
               <time class="text-muted text-truncate small d-block mb-2" datetime="{{ post.date | dateIso }}">
                 <i class="bi bi-calendar3 me-1"></i>{{ post.date | dateHuman }}
               </time>
-              <hr>{% if post.data.description %}
-              <p class="card-text">{{ post.data.description }}</p>{% endif %}{% if post.data.tags %}
-              <div class="mb-3"><span class="fw-bold me-2">Tag:</span>{% for tag in post.data.tags %}{% if tag != "posts" %}
-                <a href="/tags/{{ tag | slug }}/" class="badge bg-light text-body border text-decoration-none">{{ tag }}</a>{% endif %}{% endfor %}
-              </div>{% endif %}</div>
+              <hr>
+              {% if post.data.tags %}
+              <div class="mb-3 d-flex flex-wrap align-items-baseline gap-2">
+                <span class="fw-bold small text-uppercase">Tag:</span>
+                {% for t in post.data.tags %}
+                  {% if t != "posts" and t != "" %}
+                    <a href="/tags/{{ t | slugify }}/" class="badge bg-light border text-decoration-none d-inline-flex align-items-center" style="color: var(--bs-body-color); padding: 0.4em 0.6em; line-height: 1">
+                      {{ t }}
+                    </a>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              {% endif %}
               <div class="text-end mt-auto mb-3">
                 <a href="{{ post.url }}" class="btn btn-primary btn-sm rounded">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a>
               </div>

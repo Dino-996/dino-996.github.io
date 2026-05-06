@@ -1,0 +1,18 @@
+---
+pagination:
+  data: posts
+  size: 1
+  alias: strapiPost
+  addAllPagesToCollections: true
+layout: layouts/post.njk
+permalink: "blog/{{ strapiPost.slug | slugify }}/index.html"
+tags:
+  - posts
+eleventyComputed:
+  title: "{{ strapiPost.title }}"
+  description: "{{ strapiPost.description }}"
+  date: "{{ strapiPost.date }}"
+  image: "{{ strapiPost.image }}"
+  imageAlt: "{{ strapiPost.imageAlt }}"
+---
+{{ strapiPost.content | markdownBlock | safe }}

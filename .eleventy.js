@@ -4,6 +4,7 @@ import slugify from "slugify";
 import markdownIt from "markdown-it";
 import fs from "fs";
 import path from "path";
+import "dotenv/config";
 
 export default function (eleventyConfig) {
   // ============================================
@@ -54,32 +55,38 @@ export default function (eleventyConfig) {
   };
 
   // ============================================
-  // = PLUGIN
+  // = LIBRARY CONFIGURATION
   // ============================================
+  eleventyConfig.setLibrary("md", md);
   eleventyConfig.addPlugin(syntaxHighlight);
 
   // ============================================
   // = LINTER
   // ============================================
-eleventyConfig.addLinter("valida-post", function (_content, inputPath) {
-  if (!inputPath.includes("/posts/")) return;
+  eleventyConfig.addLinter("valida-post", function (_content, inputPath) {
+    if (!inputPath.includes("/posts/") || inputPath.includes("strapi-posts.njk")) return;
 
-  const fileContent = fs.readFileSync(inputPath, "utf-8");
-  const { data } = matter(fileContent);
+    const fileContent = fs.readFileSync(inputPath, "utf-8");
+    const { data } = matter(fileContent);
 
-  const campiObbligatori = ["title", "description", "date"];
-  campiObbligatori.forEach((campo) => {
-    if (!data[campo]) {
-      console.warn(`⚠️  "${campo}" mancante in ${inputPath}`);
-    }
+    const campiObbligatori = ["title", "description", "date"];
+    campiObbligatori.forEach((campo) => {
+      if (!data[campo]) {
+        console.warn(`"${campo}" mancante in ${inputPath}`);
+      }
+    });
   });
-});
 
   // ============================================
   // = FILTERS
   // ============================================
   eleventyConfig.addFilter("markdown", (content) => {
     return md.renderInline(content);
+  });
+
+  eleventyConfig.addFilter("markdownBlock", (content) => {
+    if (!content) return ''
+    return md.render(content);
   });
 
   eleventyConfig.addFilter("dateIso", (date) => {
@@ -117,22 +124,21 @@ eleventyConfig.addLinter("valida-post", function (_content, inputPath) {
   // ============================================
   // = COLLECTIONS
   // ============================================
-  eleventyConfig.addCollection("posts", (collection) => {
-    return collection
-      .getFilteredByTag("posts")
-      .sort((a, b) => b.date - a.date);
-  });
-
-  eleventyConfig.addCollection("tagsList", (collection) => {
-    const tagsSet = new Set();
-    collection.getAll().forEach((item) => {
-      if ("tags" in item.data) {
-        item.data.tags.forEach((tag) => {
-          if (tag !== "posts") tagsSet.add(tag);
-        });
+  eleventyConfig.addCollection("tagsList", function (collection) {
+    const tagSet = new Set();
+    collection.getAll().forEach(item => {
+      const tags = item.data.tags ?? [];
+      if (Array.isArray(tags)) {
+        tags.filter(t => t !== "posts").forEach(t => tagSet.add(t));
       }
     });
-    return [...tagsSet].sort();
+    return [...tagSet].sort();
+  });
+
+  eleventyConfig.addCollection("posts", function (collection) {
+    return collection.getFilteredByTag("posts").sort((a, b) => {
+      return b.date - a.date;
+    });
   });
 
   // ============================================
@@ -143,13 +149,13 @@ eleventyConfig.addLinter("valida-post", function (_content, inputPath) {
   eleventyConfig.addCollection("searchIndex", (collection) => {
     searchIndexCache = collection
       .getFilteredByTag("posts")
-      .sort((a, b) => b.date - a.date)
       .map((post) => ({
         title: post.data.title ?? "",
         url: post.url,
         description: post.data.description ?? "",
-        date: post.date ? post.date.toISOString() : ""
-      }));
+        date: post.date instanceof Date ? post.date.toISOString() : new Date(post.date).toISOString()
+      }))
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
     return searchIndexCache;
   });
 

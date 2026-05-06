@@ -134,14 +134,50 @@
   <header class="mb-4">
     <h1 class="fw-bold">Thread</h1>
 
-    <time
-      class="text-muted"
-      datetime="2020-02-18T00:00:00.000Z"
-    >
-      18 febbraio 2020
-    </time>
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <time class="text-muted small" datetime="2020-02-18T00:00:00.000Z">
+        <i class="bi bi-calendar3 me-1"></i>18 febbraio 2020
+      </time>
+
+      <div class="tags-container d-flex flex-wrap gap-2">
+        
+        
+          
+        
+        
+          
+          
+        
+          
+          
+            <a href="/tags/sistemi-operativi/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/thread/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               thread
+            </a>
+          
+        
+      </div>
+    </div>
   </header>
 
+  
+    <div class="alert alert-primary border-start border-4 border-primary mb-4" role="note">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <i class="bi bi-stars text-primary"></i>
+        <strong class="small text-uppercase text-primary">Riassunto IA</strong>
+      </div>
+      <p class="mb-0 small">Il thread è l&#39;unità minima di esecuzione che condivide lo spazio di indirizzamento del processo ospitante, garantendo maggiore efficienza operativa e scalabilità rispetto al modello multiprocesso tradizionale. La distinzione tra concorrenza logica e parallelismo hardware, estesa oggi a contesti eterogenei CPU-GPU, permette di ottimizzare il carico computazionale su architetture multicore e massivamente parallele.</p>
+    </div>
   
 
   
@@ -153,9 +189,9 @@
         style="max-height: 400px; object-fit: cover;"
       >
       
-      <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
-    
-  </div>
+        <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+      
+    </div>
   
 
   <hr>
@@ -171,7 +207,7 @@
 <li>un insieme di registri di stato;</li>
 <li>uno stack privato per la gestione delle chiamate di funzione e delle variabili locali.</li>
 </ul>
-<p>All’interno dello stesso <strong><a href="https://dino-996.github.io/blog/processi/">processo</a></strong>, i thread condividono lo spazio di indirizzamento e le risorse globali, tra cui il segmento di codice, il segmento dati (heap e variabili globali) e le risorse di sistema allocate (file descriptor, segnali, socket). Tale condivisione costituisce l’elemento distintivo rispetto al modello multiprocesso tradizionale, nel quale ogni processo possiede uno spazio di memoria isolato.</p>
+<p>All’interno dello stesso <strong><a href="https://dino-996.github.io/blog/processi/" target="_blank" rel="noopener noreferrer">processo</a></strong>, i thread condividono lo spazio di indirizzamento e le risorse globali, tra cui il segmento di codice, il segmento dati (heap e variabili globali) e le risorse di sistema allocate (file descriptor, segnali, socket). Tale condivisione costituisce l’elemento distintivo rispetto al modello multiprocesso tradizionale, nel quale ogni processo possiede uno spazio di memoria isolato.</p>
 <p>L’introduzione del multithreading risponde a esigenze di efficienza computazionale e di progettazione del software concorrente. I principali benefici possono essere formalizzati come segue:</p>
 <ul>
 <li><strong>Riduzione della latenza percepita</strong>: la suddivisione del lavoro in più thread consente la sovrapposizione tra operazioni di I/O e computazione.</li>
@@ -242,7 +278,7 @@
       <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
     </h2>
 
-      <script>
+    <script>
       (function () {
         const saved = localStorage.getItem('bs-theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;

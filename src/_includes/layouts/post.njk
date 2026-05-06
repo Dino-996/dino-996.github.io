@@ -6,12 +6,30 @@ layout: layouts/base.njk
   <header class="mb-4">
     <h1 class="fw-bold">{{ title }}</h1>
 
-    <time
-      class="text-muted"
-      datetime="{{ page.date | dateIso }}"
-    >
-      {{ page.date | dateHuman }}
-    </time>
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <time class="text-muted small" datetime="{{ page.date | dateIso }}">
+        <i class="bi bi-calendar3 me-1"></i>{{ page.date | dateHuman }}
+      </time>
+
+      <div class="tags-container d-flex flex-wrap gap-2">
+        {% set tagList = [] %}
+        {% if strapiTags %}
+          {% set tagList = strapiTags.split(",") %}
+        {% else %}
+          {% set tagList = tags %}
+        {% endif %}
+        {% for t in tagList %}
+          {% set cleanTag = t | trim %}
+          {% if cleanTag != "posts" and cleanTag != "" %}
+            <a href="/tags/{{ cleanTag | slugify }}/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               {{ cleanTag }}
+            </a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
   </header>
 
   {% if tldr[title] %}
@@ -33,15 +51,15 @@ layout: layouts/base.njk
         style="max-height: 400px; object-fit: cover;"
       >
       {% if imageAlt %}
-      <figcaption class="text-muted small mt-2 text-center">{{ imageAlt }}</figcaption>
-    {% endif %}
-  </div>
+        <figcaption class="text-muted small mt-2 text-center">{{ imageAlt }}</figcaption>
+      {% endif %}
+    </div>
   {% endif %}
 
   <hr>
 
   <section class="content">
-    {{ content | safe }}
+    {{ content | markdownBlock | safe }}
   </section>
 
   <hr class="mt-5">
@@ -51,7 +69,7 @@ layout: layouts/base.njk
       <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
     </h2>
 
-      <script>
+    <script>
       (function () {
         const saved = localStorage.getItem('bs-theme');
         const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
