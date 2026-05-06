@@ -15,5 +15,7 @@ eleventyComputed:
   image: "{{ strapiPost.image }}"
   imageAlt: "{{ strapiPost.imageAlt }}"
   strapiTags: "{{ strapiPost.strapiTags }}"
+  author: "{{ strapiPost.author }}"
+  authorAvatar: "{{ strapiPost.authorAvatar }}"
 ---
 {{ strapiPost.content | markdownBlock | safe }}

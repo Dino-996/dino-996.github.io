@@ -128,117 +128,195 @@
 
     <main class="container my-5 flex-grow-1">
       
+
 <h1>
-  <i class="text-primary bi bi-journal-text me-1"></i>
-  Blog
+  <i class="text-primary bi bi-journal-text me-2"></i>
+  <span style="color: var(--bs-body-color)"> Blog </span>
 </h1>
-<div class="mb-4">
-  <div class="input-group">
-    <span class="input-group-text bg-body rounded-start-3">
-      <i class="bi bi-search text-muted"></i>
+
+<div class="mb-5">
+  <div class="input-group shadow-sm">
+    <span class="input-group-text border-end-0">
+      <i class="bi bi-search" style="color: var(--bs-body-color)"></i>
     </span>
     <input
       type="search"
       id="search-input"
-      class="form-control border-2 ps-0 ml-3"
-      placeholder="Cerca un articolo per titolo..."
-      aria-label="Cerca articoli"
-      autocomplete="off"
+      class="form-control border-start-0 ps-1"
+      placeholder="Cerca un articolo..."
     >
-    <button id="search-button" class="btn btn-primary shadow-none rounded-end-3" type="button" style="transform: none;">
+    <button id="search-button" class="btn btn-primary px-4" type="button">
       Cerca
     </button>
   </div>
-  <div id="search-results" class="mt-3" hidden></div>
 </div>
+
 <section id="posts-list" class="row g-4">
+  
   <div class="col-12">
-    <article class="card h-100 overflow-hidden shadow-sm">
+    <article class="card h-100 shadow-sm border-0 overflow-hidden">
       <div class="row g-0 h-100">
-        <div class="col-md-4 p-0">
-          <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" alt="Immagine generata con IA" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 250px; max-height: 400px">
+        
+        
+        <div class="col-md-4 lg:h-75 md:h-100">
+          <img 
+            src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" 
+            alt="Stallo dei processi" 
+            class="d-block w-100 h-100" 
+            style="object-fit: cover; min-height: 220px;"
+          >
         </div>
-      <div class="col-md-8">
-          <div class="card-body d-flex flex-column h-100">
-            <div>
-              <h2 class="h4 card-title mb-2">
-                <a href="/blog/stallo-dei-processi/" class="text-decoration-none">Stallo dei processi</a>
+        
+
+        <div class="col-md-8 d-flex flex-column">
+          <div class="card-body d-flex flex-column h-100 p-4">
+            
+            <div class="flex-grow-1">
+              <h2 class="h4 card-title mb-2 fw-bold">
+                <a href="/blog/stallo-dei-processi/" class="text-decoration-none" style="color: var(--bs-body-color)">Stallo dei processi</a>
               </h2>
-              <time class="text-muted text-truncate small d-block mb-2" datetime="2026-05-04T18:56:44.359Z">
-                <i class="bi bi-calendar3 me-1"></i>04 maggio 2026
-              </time>
-              <hr>
-              <div class="mb-3">
-<p>Viene esaminato il fenomeno dello stallo dei processi (deadlock) nei sistemi operativi, analizzando come più thread competano per risorse limitate.</p>
-<p></div></p>
-<p><div class="mb-3 d-flex flex-wrap align-items-baseline gap-2"><br>
-<span class="fw-bold small text-uppercase">Tag:</span></p>
-<p><a href="/tags/sistemi-operativi/"
-                         class="badge border text-decoration-none d-inline-flex align-items-center"
-                         style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;"><br>
-sistemi operativi<br>
-</a></p>
-<p><a href="/tags/processi/"
-                         class="badge border text-decoration-none d-inline-flex align-items-center"
-                         style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;"><br>
-processi<br>
-</a></p>
-<p></div><br>
-</div></p>
-<p><div class="text-end mt-auto mb-3"><br>
-<a href="/blog/stallo-dei-processi/" class="btn btn-primary btn-sm rounded">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a><br>
-</div><br>
-</div><br>
-</div><br>
-</div><br>
-</article></p>
+
+              <div class="d-flex align-items-center mb-3">
+                <div class="d-inline-flex align-items-center gap-2" style="color: var(--bs-body-color)">
+                  <img 
+                    src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1778060088/dino_89453d65ac.png" 
+                    alt="Davide Sabia" 
+                    class="rounded-circle"
+                    width="32"
+                    height="32"
+                    style="object-fit: cover;">
+                 <span class="small">Davide Sabia</span>
+                </div>
+                <time class="text-muted small d-block ms-auto">
+                  <i class="bi bi-calendar3 me-1"></i>01 febbraio 2020
+                </time>
+              </div>
+              
+              <div class="mb-3 small" style="color: var(--bs-body-color)">
+                Viene esaminato il fenomeno dello stallo dei processi (deadlock) nei sistemi operativi, analizzando come più thread competano per risorse limitate.
+              </div>
+
+              
+              
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                
+                
+                  
+                  
+                    <a href="/tags/sistemi-operativi/" class="badge bg-light border text-decoration-none fw-normal" style="color: var(--bs-body-color)">
+                      sistemi operativi
+                    </a>
+                  
+                
+                  
+                  
+                    <a href="/tags/processi/" class="badge bg-light border text-decoration-none fw-normal" style="color: var(--bs-body-color)">
+                      processi
+                    </a>
+                  
+                
+              </div>
+              
+            </div>
+
+            <div class="text-end mt-auto pt-3 border-top">
+              <a href="/blog/stallo-dei-processi/" class="btn btn-primary btn-sm px-3 rounded-2">
+                Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </article>
   </div>
+  
   <div class="col-12">
-    <article class="card h-100 overflow-hidden shadow-sm">
+    <article class="card h-100 shadow-sm border-0 overflow-hidden">
       <div class="row g-0 h-100">
-        <div class="col-md-4 p-0">
-          <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947841/powershell_0cea247545.webp" alt="Immagine generata con IA" class="img-fluid w-100 h-100" style="object-fit: cover; min-height: 250px; max-height: 400px">
+        
+        
+        <div class="col-md-4 lg:h-75 md:h-100">
+          <img 
+            src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947841/powershell_0cea247545.webp" 
+            alt="Guida completa a powershell" 
+            class="d-block w-100 h-100" 
+            style="object-fit: cover; min-height: 220px;"
+          >
         </div>
-      <div class="col-md-8">
-          <div class="card-body d-flex flex-column h-100">
-            <div>
-              <h2 class="h4 card-title mb-2">
-                <a href="/blog/post/" class="text-decoration-none">Guida completa a powershell</a>
+        
+
+        <div class="col-md-8 d-flex flex-column">
+          <div class="card-body d-flex flex-column h-100 p-4">
+            
+            <div class="flex-grow-1">
+              <h2 class="h4 card-title mb-2 fw-bold">
+                <a href="/blog/post/" class="text-decoration-none" style="color: var(--bs-body-color)">Guida completa a powershell</a>
               </h2>
-              <time class="text-muted text-truncate small d-block mb-2" datetime="2026-05-04T18:56:44.359Z">
-                <i class="bi bi-calendar3 me-1"></i>04 maggio 2026
-              </time>
-              <hr>
-              <div class="mb-3">
-<p>Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido.</p>
-<p></div></p>
-<p><div class="mb-3 d-flex flex-wrap align-items-baseline gap-2"><br>
-<span class="fw-bold small text-uppercase">Tag:</span></p>
-<p><a href="/tags/powershell/"
-                         class="badge border text-decoration-none d-inline-flex align-items-center"
-                         style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;"><br>
-powershell<br>
-</a></p>
-<p></div><br>
-</div></p>
-<p><div class="text-end mt-auto mb-3"><br>
-<a href="/blog/post/" class="btn btn-primary btn-sm rounded">Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i></a><br>
-</div><br>
-</div><br>
-</div><br>
-</div><br>
-</article></p>
+
+              <div class="d-flex align-items-center mb-3">
+                <div class="d-inline-flex align-items-center gap-2" style="color: var(--bs-body-color)">
+                  <img 
+                    src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1778060088/dino_89453d65ac.png" 
+                    alt="Davide Sabia" 
+                    class="rounded-circle"
+                    width="32"
+                    height="32"
+                    style="object-fit: cover;">
+                 <span class="small">Davide Sabia</span>
+                </div>
+                <time class="text-muted small d-block ms-auto">
+                  <i class="bi bi-calendar3 me-1"></i>01 gennaio 2026
+                </time>
+              </div>
+              
+              <div class="mb-3 small" style="color: var(--bs-body-color)">
+                Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido.
+              </div>
+
+              
+              
+              <div class="d-flex flex-wrap gap-2 mb-3">
+                
+                
+                  
+                  
+                    <a href="/tags/powershell/" class="badge bg-light border text-decoration-none fw-normal" style="color: var(--bs-body-color)">
+                      powershell
+                    </a>
+                  
+                
+              </div>
+              
+            </div>
+
+            <div class="text-end mt-auto pt-3 border-top">
+              <a href="/blog/post/" class="btn btn-primary btn-sm px-3 rounded-2">
+                Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </article>
   </div>
+  
 </section>
-<nav id="pagination" class="mt-5" aria-label="Navigazione pagine blog">
+
+<nav class="mt-5 border-top pt-4">
   <div class="d-flex justify-content-between align-items-center">
     <div>
-<p></div><br>
-<div class="text-muted small"><br>
-Pagina 1 di 1<br>
-</div><br>
-<div></p>
-<p></div></p>
+      
+    </div>
+    
+    <div class="text-muted small">
+      Pagina 1 di 1
+    </div>
+    
+    <div>
+      
+    </div>
   </div>
 </nav>
 

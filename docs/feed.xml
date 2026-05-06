@@ -6,7 +6,7 @@
   <link href="https://dino-996.github.io/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://dino-996.github.io" rel="alternate" type="text/html"/>
   <id>https://dino-996.github.io/</id>
-  <updated>2026-05-04T18:56:44.359Z</updated>
+  <updated>2026-05-06T08:55:58.180Z</updated>
   <author>
     <name>Davide Sabia</name>
     <email>davidesabia22@gmail.com</email>
@@ -18,8 +18,8 @@
     <title>Stallo dei processi</title>
     <link href="https://dino-996.github.io/blog/stallo-dei-processi/" rel="alternate" type="text/html"/>
     <id>https://dino-996.github.io/blog/stallo-dei-processi/</id>
-    <published>2026-05-04T18:56:44.359Z</published>
-    <updated>2026-05-04T18:56:44.359Z</updated>
+    <published>2026-05-06T08:55:58.180Z</published>
+    <updated>2026-05-06T08:55:58.180Z</updated>
     
     <summary>Viene esaminato il fenomeno dello stallo dei processi (deadlock) nei sistemi operativi, analizzando come più thread competano per risorse limitate.</summary>
     
@@ -249,8 +249,8 @@ t2&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;start&lt;span cl
     <title>Guida completa a powershell</title>
     <link href="https://dino-996.github.io/blog/post/" rel="alternate" type="text/html"/>
     <id>https://dino-996.github.io/blog/post/</id>
-    <published>2026-05-04T18:56:44.359Z</published>
-    <updated>2026-05-04T18:56:44.359Z</updated>
+    <published>2026-05-06T08:55:58.180Z</published>
+    <updated>2026-05-06T08:55:58.180Z</updated>
     
     <summary>Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido.</summary>
     

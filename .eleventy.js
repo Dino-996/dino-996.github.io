@@ -91,16 +91,20 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addFilter("dateIso", (date) => {
     if (!date) return "";
-    return new Date(date).toISOString();
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return "";
+    return d.toISOString();
   });
 
   eleventyConfig.addFilter("dateHuman", (date) => {
-    if (!date) return "Data non disponibile.";
+    if (!date) return "";
+    const d = new Date(date);
+    if (isNaN(d.getTime())) return "Data non valida";
     return new Intl.DateTimeFormat("it-IT", {
       day: "2-digit",
       month: "long",
       year: "numeric"
-    }).format(new Date(date));
+    }).format(d);
   });
 
   eleventyConfig.addFilter("excerpt", (post) => {
@@ -125,21 +129,21 @@ export default function (eleventyConfig) {
   // = COLLECTIONS
   // ============================================
   eleventyConfig.addCollection("tagsList", function (collection) {
-  const tagSet = new Set();
-  collection.getAll().forEach(item => {
-    // Tags Eleventy
-    const tags = item.data.tags ?? [];
-    if (Array.isArray(tags)) {
-      tags.filter(t => t !== "posts").forEach(t => tagSet.add(t));
-    }
-    // Tags Strapi
-    const strapiTags = item.data.strapiTags ?? "";
-    if (typeof strapiTags === "string" && strapiTags) {
-      strapiTags.split(",").map(t => t.trim()).filter(Boolean).forEach(t => tagSet.add(t));
-    }
+    const tagSet = new Set();
+    collection.getAll().forEach(item => {
+      // Tags Eleventy
+      const tags = item.data.tags ?? [];
+      if (Array.isArray(tags)) {
+        tags.filter(t => t !== "posts").forEach(t => tagSet.add(t));
+      }
+      // Tags Strapi
+      const strapiTags = item.data.strapiTags ?? "";
+      if (typeof strapiTags === "string" && strapiTags) {
+        strapiTags.split(",").map(t => t.trim()).filter(Boolean).forEach(t => tagSet.add(t));
+      }
+    });
+    return [...tagSet].sort();
   });
-  return [...tagSet].sort();
-});
 
   eleventyConfig.addCollection("posts", function (collection) {
     return collection.getFilteredByTag("posts").sort((a, b) => {
