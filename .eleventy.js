@@ -125,15 +125,21 @@ export default function (eleventyConfig) {
   // = COLLECTIONS
   // ============================================
   eleventyConfig.addCollection("tagsList", function (collection) {
-    const tagSet = new Set();
-    collection.getAll().forEach(item => {
-      const tags = item.data.tags ?? [];
-      if (Array.isArray(tags)) {
-        tags.filter(t => t !== "posts").forEach(t => tagSet.add(t));
-      }
-    });
-    return [...tagSet].sort();
+  const tagSet = new Set();
+  collection.getAll().forEach(item => {
+    // Tags Eleventy
+    const tags = item.data.tags ?? [];
+    if (Array.isArray(tags)) {
+      tags.filter(t => t !== "posts").forEach(t => tagSet.add(t));
+    }
+    // Tags Strapi
+    const strapiTags = item.data.strapiTags ?? "";
+    if (typeof strapiTags === "string" && strapiTags) {
+      strapiTags.split(",").map(t => t.trim()).filter(Boolean).forEach(t => tagSet.add(t));
+    }
   });
+  return [...tagSet].sort();
+});
 
   eleventyConfig.addCollection("posts", function (collection) {
     return collection.getFilteredByTag("posts").sort((a, b) => {

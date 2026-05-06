@@ -17,9 +17,10 @@ pagination:
 </div>
 
 <ul class="list-unstyled">
+<!-- DEBUG: {{ collections.posts[0].data.strapiTags | dump }} -->
   {% set taggedPosts = [] %}
   {% for post in collections.posts %}
-    {% set allTags = post.data.strapiTags or post.data.tags %}
+    {% set allTags = post.data.strapiTags.split(",") %}
     {% if tag in allTags %}
       {% set taggedPosts = (taggedPosts.push(post), taggedPosts) %}
     {% endif %}
@@ -33,23 +34,20 @@ pagination:
             <h2 class="h4 mb-2">
               <a href="{{ post.url }}" class="text-decoration-none">{{ post.data.title }}</a>
             </h2>
-
             <time class="text-muted small d-inline-flex align-items-center">
               <i class="bi bi-calendar3 me-1" style="line-height: 0;"></i>{{ post.date | dateHuman }}
             </time>
-
-            <hr />
-
+            <hr>
             {% if post.data.description %}
               <p class="mt-2 mb-3">{{ post.data.description }}</p>
             {% endif %}
-
             <div class="mb-3 d-flex flex-wrap gap-2 align-items-center">
               <span class="fw-bold small">Altri tag:</span>
-              {% set currentTags = post.data.strapiTags or post.data.tags %}
+              {% set currentTags = post.data.strapiTags.split(",") %}
               {% for t in currentTags %}
-                {% if t != "posts" and t != tag %}
-                  <a href="/tags/{{ t | slugify }}/" class="badge bg-light border text-decoration-none" style="color: var(--bs-body-color); padding: 0.4em 0.6em; line-height: 1">{{ t }}</a>
+                {% set cleanTag = t | trim %}
+                {% if cleanTag != "posts" and cleanTag != tag and cleanTag != "" %}
+                  <a href="/tags/{{ cleanTag | slugify }}/" class="badge bg-light border text-decoration-none" style="color: var(--bs-body-color); padding: 0.4em 0.6em; line-height: 1">{{ cleanTag }}</a>
                 {% endif %}
               {% endfor %}
             </div>
