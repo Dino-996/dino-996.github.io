@@ -5,38 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  Home · dino-996 blog
+  Struttura dei sistemi operativi · dino-996 blog
 </title>
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
+<meta name="description" content="Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel." />
 <meta name="author" content="Davide Sabia" />
 <meta name="robots" content="index, follow" />
 
 <!-- Canonical URL -->
 
-<link rel="canonical" href="https://dino-996.github.io/" />
+<link rel="canonical" href="https://dino-996.github.io/blog/struttura-dei-sistemi-operativi/" />
 
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
 
-<meta property="og:url" content="https://dino-996.github.io/" />
+<meta property="og:url" content="https://dino-996.github.io/blog/struttura-dei-sistemi-operativi/" />
 
-<meta property="og:title" content="Home" />
-<meta property="og:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
+<meta property="og:title" content="Struttura dei sistemi operativi" />
+<meta property="og:description" content="Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel." />
 <meta property="og:site_name" content="dino-996 blog" />
 
-<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/og-default.webp" />
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" />
 
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 
-<meta name="twitter:url" content="https://dino-996.github.io/" />
+<meta name="twitter:url" content="https://dino-996.github.io/blog/struttura-dei-sistemi-operativi/" />
 
-<meta name="twitter:title" content="Home" />
-<meta name="twitter:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
+<meta name="twitter:title" content="Struttura dei sistemi operativi" />
+<meta name="twitter:description" content="Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" />
 
 
 <!-- Favicon -->
@@ -94,12 +96,12 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="/">
+          <a class="nav-link" href="/">
             Home
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/blog/">
+          <a class="nav-link active" href="/blog/">
             Blog
           </a>
         </li>
@@ -127,151 +129,183 @@
 </nav>
 
     <main class="container my-5 flex-grow-1">
-      
-<article>
-    <div class="content">
-        <div class="hero-section text-center py-5 mb-5">
-  <h1 class="display-4 fw-bold mb-3">
-    Ciao, sono <span class="text-primary">Davide</span> 👋
-  </h1>
-  <p class="lead text-muted mb-4">
-    Informatico appassionato di tecnologie moderne.<br>
-    Condivido qui i miei progetti e articoli su programmazione e sicurezza informatica.
-  </p>
-  <div class="d-flex gap-3 justify-content-center">
-    <a href="/blog/" class="btn btn-primary btn-lg">
-      <i class="bi bi-journal-text me-2"></i>Blog
-    </a>
-    <a href="/about/" class="btn btn-outline-primary btn-lg">
-      <i class="bi bi-person me-2"></i>About
-    </a>
-  </div>
-</div>
-<hr class="my-5" />
-<!-- Progetti recenti -->
-<section class="mb-5">
-  <div class="d-flex align-items-center justify-content-between mb-4">
-    <h2 class="h3 fw-bold mb-0">
-      <i class="bi bi-code-square text-primary me-2"></i>Progetti recenti
-    </h2>
-  </div>
-  <div class="row g-4">
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="card h-100 shadow-none" style="transform: none;">
-        <div class="card-body d-flex flex-column">
-          <div class="d-flex align-items-center mb-3">
-            <i class="bi bi-github fs-3 text-primary me-2"></i>
-            <h3 class="h5 card-title mb-0">Personal Blog</h3>
-          </div>
-          <p class="card-text text-muted">
-            Blog personale realizzato con Eleventy e Bootstrap. Include sistema di tag, pagination e dark mode.
-          </p>
-          <div class="mb-3">
-            <span class="badge bg-light text-body border me-1 pe-none">Eleventy</span>
-            <span class="badge bg-light text-body border me-1 pe-none">Bootstrap</span>
-            <span class="badge bg-light text-body border pe-none">Nunjucks</span>
-            <span class="badge bg-light text-body border pe-none">Liquid</span>
-          </div>
-          <div class="mt-auto">
-            <a href="https://github.com/Dino-996/dino-996.github.io" target="_blank" class="btn btn-primary btn-sm mb-2 w-100">
-              <i class="bi bi-github me-1"></i>Vedi su GitHub
+      <article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">Struttura dei sistemi operativi</h1>
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <div>
+      <img 
+        src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1778060088/dino_89453d65ac.png" 
+        alt="Davide Sabia" 
+        class="rounded-circle"
+        width="32"
+        height="32"
+        style="object-fit: cover;"
+      >
+      <span class="fw-bold fs-6 mx-1">Davide Sabia</span>
+      </div>
+      <div class="tags-container d-flex flex-wrap gap-2">
+        
+        
+        
+          
+          
+            <a href="/tags/sistemi-operativi/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               sistemi operativi
             </a>
-            <div class="text-start">
-              <span class="badge bg-success pe-none">
-                <i class="bi bi-check-circle me-1"></i>Completato
-              </span>
-            </div>
-          </div>
-        </div>
+          
+        
+          
+          
+            <a href="/tags/struttura/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               struttura
+            </a>
+          
+        
       </div>
+      <time class="text-muted small" datetime="2020-02-14T00:00:00.000Z">
+        <i class="bi bi-calendar3 me-1"></i>14 febbraio 2020
+      </time>
     </div>
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="card h-100 shadow-none" style="transform: none;">
-          <div class="card-body d-flex flex-column">
-            <div class="d-flex align-items-center mb-3">
-              <i class="bi bi-cloud-fill fs-3 text-primary me-2"></i>
-              <h3 class="h5 card-title mb-0">Spring Boot API</h3>
-            </div>
-            <p class="card-text text-muted">
-              API REST completa sviluppata con Spring Boot per la gestione utenti, con supporto per database PostgreSQL e H2.
-            </p>
-            <div class="mb-3">
-              <span class="badge bg-light text-body border me-1 pe-none">Sping Boot</span>
-            <span class="badge bg-light text-body border me-1 pe-none">API REST</span>
-            </div>
-            <div class="mt-auto">
-              <a href="https://github.com/Dino-996/spring-boot-api" target="_blank" class="btn btn-primary btn-sm mb-2 w-100">
-                <i class="bi bi-github me-1"></i>Vedi su GitHub
-              </a>
-              <div class="text-start">
-                <span class="badge bg-success pe-none">
-                  <i class="bi bi-check-circle me-1"></i>Completato
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    <div class="col-12 col-md-12 col-lg-4">
-      <div class="card h-100 shadow-none" style="transform: none;">
-        <div class="card-body d-flex flex-column">
-          <div class="d-flex align-items-center mb-3">
-            <i class="bi bi-lightbulb fs-3 text-warning me-2"></i>
-            <h3 class="h5 card-title mb-0">Prossimamente</h3>
-          </div>
-          <p class="card-text text-muted">
-            Attualmente sto lavorando ad un progetto di cyber security. Torna a controllare tra qualche settimana!
-          </p>
-          <div class="mb-3">
-            <span class="badge bg-light text-body border me-1 pe-none">In sviluppo</span>
-          </div>
-          <div class="mt-auto">
-            <button class="btn btn-secondary btn-sm mb-2 w-100" disabled>
-              <i class="bi bi-hourglass-split me-1"></i>Coming Soon
-            </button>
-            <div class="text-start">
-              <span class="badge bg-warning text-dark pe-none">
-                <i class="bi bi-gear-fill me-1"></i>In corso
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<hr class="my-5" />
-<!-- Ultimi Articoli -->
-<section class="mb-5">
-  <div class="d-flex align-items-center justify-content-between mb-4">
-    <h2 class="h3 fw-bold mb-0">
-      <i class="bi bi-journal-text text-primary me-2"></i>Ultimi Articoli
-    </h2>
-    <a href="/blog/" class="btn btn-outline-primary btn-sm">
-      Vedi tutti <i class="bi bi-arrow-right ms-1"></i>
-    </a>
-  </div>
-  <div class="row g-4">
-</div>
-</section>
-<!-- Call to Action -->
-<section class="text-center py-5 bg-light rounded">
-  <h2 class="h4 fw-bold mb-3">Vuoi rimanere aggiornato?</h2>
-  <p class="text-muted mb-4">
-    Seguimi sui social per non perdere i nuovi articoli e progetti
-  </p>
-  <div class="d-flex gap-3 justify-content-center">
-    <a href="https://github.com/Dino-996" target="_blank" class="btn btn-dark">
-      <i class="bi bi-github me-2"></i>GitHub
-    </a>
-    <a href="https://linkedin.com/in/davidesabia" target="_blank" class="btn btn-primary">
-      <i class="bi bi-linkedin me-2"></i>LinkedIn
-    </a>
-  </div>
-</section>
-    </div>
-</article>
+  </header>
 
+  
+    <div class="alert alert-primary border-start border-4 border-primary mb-4" role="note">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <i class="bi bi-stars text-primary"></i>
+        <strong class="small text-uppercase text-primary">Riassunto IA</strong>
+      </div>
+      <p class="mb-0 small">Il sistema operativo orchestra l&#39;interazione tra hardware e applicazioni attraverso un kernel dedicato, esponendo servizi fondamentali tramite system call o API astratte per garantire portabilità. Il ciclo di vita dei processi è gestito tramite linker e loader, mentre l&#39;interazione utente si articola su interfacce CLI, GUI o touch, mediando l&#39;allocazione delle risorse di sistema.</p>
+    </div>
+  
+
+  
+    <div class="mb-4">
+      <img 
+        src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" 
+        alt="Immagine generata con IA" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+        <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+      
+    </div>
+  
+
+  <hr>
+
+  <section class="content">
+    <h2>Servizi e Interfacce del Sistema Operativo</h2>
+<p>Il sistema operativo (<strong>SO</strong>) fornisce un ambiente per l'esecuzione dei programmi, offrendo servizi essenziali quali l'<strong>esecuzione di programmi</strong>, operazioni di <strong>I/O</strong>, gestione del <strong>file system</strong>, comunicazioni, rilevamento di errori e allocazione delle risorse.</p>
+<p>L'interazione con l'utente avviene attraverso tre modalità principali:</p>
+<ul>
+<li><strong>Interfaccia a riga di comando (CLI):</strong> utilizza interpreti speciali chiamati <strong>shell</strong> (come Bash nei sistemi Unix/Linux). È preferita dagli amministratori per l'efficienza e la programmabilità.</li>
+<li><strong>Interfaccia grafica (GUI):</strong> basata sulla metafora del desktop, icone e puntatori.</li>
+<li><strong>Interfaccia touch screen:</strong> basata su gesti (gesture) direttamente sullo schermo.</li>
+</ul>
+<h2>Interfaccia di Programmazione - System Call e API</h2>
+<p>Le <strong>chiamate di sistema (system call)</strong> rappresentano l'interfaccia verso i servizi resi disponibili dal SO.<br>
+Spesso i programmatori non invocano direttamente le system call, ma utilizzano le <strong>Application Programming Interface (API)</strong>, come le API di Windows, POSIX (per Unix, Linux, macOS) o le API Java. Questo garantisce la <strong>portabilità delle applicazioni</strong>.</p>
+<p>Per passare i parametri al sistema operativo durante una chiamata, si utilizzano tre metodi principali:</p>
+<ul>
+<li>Attraverso i <strong>registri</strong> della CPU (metodo più veloce).</li>
+<li>In un <strong>blocco o tabella di memoria</strong>, passando l'indirizzo del blocco in un registro.</li>
+<li>Nello <strong>stack</strong>, dove i parametri vengono inseriti (<strong>push</strong>) e poi prelevati dal SO (<strong>pop</strong>).</li>
+</ul>
+<h2>Sviluppo ed Esecuzione delle Applicazioni</h2>
+<p>Il processo che porta un codice sorgente alla sua esecuzione prevede due figure chiave:</p>
+<ul>
+<li><strong>Linker:</strong> combina file oggetto rilocabili in un unico <strong>file binario</strong> eseguibile, includendo eventuali librerie (es. la libreria standard C).</li>
+<li><strong>Loader:</strong> carica il file eseguibile in memoria, assegnando gli indirizzi definitivi (<strong>relocation</strong>) per permettere l'esecuzione sul core della CPU.</li>
+</ul>
+<p>Le applicazioni sono generalmente dipendenti dal SO, poiché ogni sistema fornisce un insieme univoco di chiamate di sistema.</p>
+<h2>Kernel</h2>
+<p>Il kernel è responsabile della gestione delle risorse hardware e dei servizi di base del sistema. Le sue attività principali includono:</p>
+<ul>
+<li><strong>Inizializzazione dell'hardware:</strong> durante il processo di avvio (<strong>boot</strong>), il kernel viene caricato in memoria e prepara i componenti fisici del computer per l'uso.</li>
+<li><strong>Gestione dei processi e della CPU:</strong> si occupa dello <strong>scheduling</strong>, decidendo quali programmi devono essere eseguiti dal processore e per quanto tempo.</li>
+<li><strong>Gestione della memoria:</strong> controlla la memoria fisica, la <strong>memoria virtuale</strong> e la paginazione.</li>
+<li><strong>Gestione dei file e dei dispositivi:</strong> amministra il <strong>file system</strong> (montando il root file system all'avvio) e i driver necessari per interagire con periferiche, dischi e reti.</li>
+<li><strong>Interfaccia per le chiamate di sistema:</strong> fornisce un'interfaccia protetta tramite la quale le applicazioni possono richiedere servizi al sistema operativo usando le <strong>system call</strong>.</li>
+</ul>
+<h3>Modalità di Esecuzione</h3>
+<p>Il kernel opera in uno spazio di memoria protetto chiamato <strong>kernel space</strong> (o modalità kernel), distinto dallo spazio utente dove girano le normali applicazioni.<br>
+Questa separazione garantisce la stabilità del sistema: un errore critico all'interno del kernel provoca un <strong>crash di sistema</strong>, non un semplice bug applicativo.</p>
+<h3>Tipologie di Architettura del Kernel</h3>
+<p>Ci sono diversi approcci utilizzati per la progettazione di un kernel:</p>
+<ul>
+<li><strong>Kernel Monolitico:</strong> tutte le funzioni del sistema risiedono in un <strong>unico spazio di indirizzamento</strong>. Questo approccio (usato da <strong>Unix</strong> e <strong>Linux</strong>) offre prestazioni elevate grazie alla comunicazione interna veloce, anche se può risultare più difficile da estendere. Molti kernel monolitici moderni sono comunque <strong>modulari</strong>, permettendo di caricare funzionalità aggiuntive dinamicamente.</li>
+<li><strong>Microkernel</strong> (es. <strong>Mach</strong>): fornisce solo le funzioni minime necessarie (come la comunicazione tra processi). La maggior parte dei servizi del sistema operativo viene spostata nello spazio utente per aumentare la modularità e la flessibilità.</li>
+<li><strong>Sistemi Ibridi:</strong> come <strong>Darwin</strong> (il cuore di macOS e iOS), che combina la struttura a microkernel di Mach con parti del kernel BSD Unix.</li>
+</ul>
+<h2>Esempi Specifici</h2>
+<ul>
+<li><strong>Linux:</strong> un kernel monolitico ampiamente personalizzabile. Progetti come <em>Linux From Scratch</em> mostrano come compilare il proprio kernel partendo dal codice sorgente.</li>
+<li><strong>Android:</strong> utilizza un kernel Linux, ma aggiunge uno strato chiamato <strong>HAL</strong> (Hardware Abstraction Layer) per poter girare su una vasta gamma di dispositivi hardware diversi.</li>
+<li><strong>Darwin:</strong> il kernel alla base dei sistemi Apple, rilasciato come software open-source.</li>
+</ul>
+<h2>Generazione, Avvio e Debugging</h2>
+<p>Il processo di avvio (<strong>boot</strong>) segue solitamente questi passaggi:</p>
+<ol>
+<li>Un <strong>programma di bootstrap</strong> (nel firmware BIOS o UEFI) individua e carica il kernel.</li>
+<li>Un bootloader più evoluto, come <strong>GRUB</strong>, può gestire il caricamento di diversi kernel o parametri di avvio.</li>
+<li>Il kernel inizializza l'hardware e monta il root file system.</li>
+</ol>
+<p>Il <strong>debugging</strong> è l'attività volta a risolvere i <strong>bug</strong> e ottimizzare le prestazioni.<br>
+I sistemi operativi facilitano questo compito tramite:</p>
+<ul>
+<li><strong>file di log</strong></li>
+<li><strong>core dump</strong> (immagini della memoria dei processi falliti)</li>
+<li>strumenti di <strong>tracing</strong> e <strong>contatori</strong> per monitorare gli eventi e le chiamate di sistema</li>
+</ul>
+
+  </section>
+
+  <hr class="mt-5">
+  
+  <section class="mt-5" aria-label="Commenti e reazioni">
+    <h2 class="h5 fw-bold mb-4">
+      <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
+    </h2>
+    <script>
+      (function () {
+        const saved = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', theme);
+        script.setAttribute('data-lang', 'it');
+        script.setAttribute('data-loading', 'lazy');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        document.currentScript.replaceWith(script);
+      })();
+    </script>
+    <noscript>
+      <p class="text-muted small">
+        <i class="bi bi-info-circle me-1"></i>
+        Per visualizzare i commenti è necessario abilitare JavaScript.
+        Puoi leggere e partecipare alla discussione direttamente su
+        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
+      </p>
+    </noscript>
+  </section>
+</article>
     </main>
 
     <footer class="border-top mt-auto py-4">
