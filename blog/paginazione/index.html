@@ -344,10 +344,11 @@ pagina logica). Riduce drasticamente l'occupazione di memoria, ma complica la ri
 <strong>Huge Pages</strong> (2 MB o 1 GB su x86-64) per ridurre il numero di entry nella tabella<br>
 delle pagine e aumentare l'hit rate del TLB.</p>
 <p>Su Linux è possibile abilitarle tramite:</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># Verifica disponibilità</span>
-<span class="token function">grep</span> <span class="token parameter variable">-i</span> hugepages /proc/meminfo
-<p><span class="token comment"># Allocazione di 512 huge pages da 2MB (= 1GB)</span><br>
-<span class="token builtin class-name">echo</span> <span class="token number">512</span> <span class="token operator">&gt;</span> /proc/sys/vm/nr_hugepages</code></pre></p>
+<pre><code class="language-bash"># Verifica disponibilità
+grep -i hugepages /proc/meminfo
+<h1>Allocazione di 512 huge pages da 2MB (= 1GB)</h1>
+<p>echo 512 &gt; /proc/sys/vm/nr_hugepages<br>
+</code></pre></p>
 <p>Framework come <strong>Java HotSpot</strong> (<code>-XX:+UseHugePages</code>) e <strong>DPDK</strong> le sfruttano<br>
 attivamente per ridurre la latenza.</p>
 <h2>Swapping e Memoria Ausiliaria</h2>

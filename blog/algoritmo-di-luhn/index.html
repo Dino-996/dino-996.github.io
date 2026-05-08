@@ -226,47 +226,48 @@ $d_i = \lfloor d_i / 10 \rfloor + (d_i \bmod 10)$</li>
 <p>Nella pratica quotidiana, queste due casistiche coprono la stragrande maggioranza degli sbagli umani. Luhn <strong>non è un sistema di sicurezza serio</strong>: chi vuole può creare numeri validi rispettando la regola. Il suo scopo è <strong>essere veloce e affidabile</strong> per evitare errori di battitura, non proteggere soldi o dati.</p>
 <p>Negli anni ’50, quando i computer erano grandi quanto una stanza, questa era una priorità enorme. Al giorno d'oggi questo algoritmo è comunque utile, anche se non essenziale come allora.</p>
 <h2>In Java</h2>
-<pre class="language-java"><code class="language-java"><span class="token keyword">import</span> <span class="token import"><span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>logging<span class="token punctuation">.</span>log4j<span class="token punctuation">.</span></span><span class="token class-name">LogManager</span></span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">org<span class="token punctuation">.</span>apache<span class="token punctuation">.</span>logging<span class="token punctuation">.</span>log4j<span class="token punctuation">.</span></span><span class="token class-name">Logger</span></span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token class-name">ArrayList</span></span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token class-name">Arrays</span></span><span class="token punctuation">;</span>
-<span class="token keyword">import</span> <span class="token import"><span class="token namespace">java<span class="token punctuation">.</span>util<span class="token punctuation">.</span></span><span class="token class-name">List</span></span><span class="token punctuation">;</span>
-<span class="token keyword">public</span> <span class="token keyword">class</span> <span class="token class-name">LuhnValidator</span> <span class="token punctuation">{</span>
-    <span class="token keyword">private</span> <span class="token keyword">static</span> <span class="token keyword">final</span> <span class="token class-name">Logger</span> logger <span class="token operator">=</span> <span class="token class-name">LogManager</span><span class="token punctuation">.</span><span class="token function">getLogger</span><span class="token punctuation">(</span><span class="token class-name">LuhnValidator</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token class-name">String</span><span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> a <span class="token operator">=</span> <span class="token class-name">Arrays</span><span class="token punctuation">.</span><span class="token function">asList</span><span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">8</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">7</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token class-name">List</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token class-name">Integer</span><span class="token punctuation">></span></span> b <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ArrayList</span><span class="token generics"><span class="token punctuation">&lt;</span><span class="token punctuation">></span></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>a<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">!=</span> <span class="token number">16</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            logger<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Il PAN deve essere composto da 11 cifre!"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> n <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> n <span class="token operator">&lt;</span> a<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> n<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            <span class="token keyword">int</span> valoreCorrente <span class="token operator">=</span> a<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>valoreCorrente <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                logger<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Il PAN non può contenere valori negativi"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-            <span class="token comment">// indice dispari</span>
-            <span class="token keyword">if</span> <span class="token punctuation">(</span>n <span class="token operator">%</span> <span class="token number">2</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                <span class="token keyword">int</span> p <span class="token operator">=</span> valoreCorrente <span class="token operator">*</span> <span class="token number">2</span><span class="token punctuation">;</span>
-                <span class="token keyword">if</span> <span class="token punctuation">(</span>p <span class="token operator">></span> <span class="token number">9</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                    b<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token punctuation">(</span>p <span class="token operator">/</span> <span class="token number">10</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token punctuation">(</span>p <span class="token operator">%</span> <span class="token number">10</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">// Sommo la prima e l'ultima cifra del valore</span>
-                <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-                    b<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span><span class="token punctuation">;</span>
-                <span class="token punctuation">}</span>
-            <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-                b<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span>valoreCorrente<span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">int</span> somma <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> j <span class="token operator">&lt;</span> b<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            somma <span class="token operator">+=</span> b<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>j<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">if</span> <span class="token punctuation">(</span>somma <span class="token operator">%</span> <span class="token number">10</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            logger<span class="token punctuation">.</span><span class="token function">info</span><span class="token punctuation">(</span><span class="token string">"Il PAN soddisfa l'algoritmo di Luhn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
-            logger<span class="token punctuation">.</span><span class="token function">error</span><span class="token punctuation">(</span><span class="token string">"Il PAN NON soddisfa l'algoritmo di Luhn"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span></code></pre>
+<pre><code class="language-java">import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+public class LuhnValidator {
+    private static final Logger logger = LogManager.getLogger(LuhnValidator.class);
+    public static void main(String[] args) {
+        List&lt;Integer&gt; a = Arrays.asList(4, 5, 3, 9, 1, 4, 8, 8, 0, 3, 4, 3, 6, 4, 6, 7);
+        List&lt;Integer&gt; b = new ArrayList&lt;&gt;();
+        if (a.size() != 16) {
+            logger.error(&quot;Il PAN deve essere composto da 11 cifre!&quot;);
+        }
+        for (int n = 0; n &lt; a.size(); n++) {
+            int valoreCorrente = a.get(n);
+            if (valoreCorrente &lt; 0) {
+                logger.error(&quot;Il PAN non può contenere valori negativi&quot;);
+            }
+            // indice dispari
+            if (n % 2 != 0) {
+                int p = valoreCorrente * 2;
+                if (p &gt; 9) {
+                    b.add((p / 10) + (p % 10)); // Sommo la prima e l'ultima cifra del valore
+                } else {
+                    b.add(p);
+                }
+            } else {
+                b.add(valoreCorrente);
+            }
+        }
+        int somma = 0;
+        for (int j = 0; j &lt; b.size(); j++) {
+            somma += b.get(j);
+        }
+        if (somma % 10 == 0) {
+            logger.info(&quot;Il PAN soddisfa l'algoritmo di Luhn&quot;);
+        } else {
+            logger.error(&quot;Il PAN NON soddisfa l'algoritmo di Luhn&quot;);
+        }
+    }
+}
+</code></pre>
 
   </section>
 

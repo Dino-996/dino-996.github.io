@@ -357,20 +357,21 @@ internazionali, si utilizza <strong>Unicode</strong> (standard UTF-8), che suppo
   </div>
 </div>
 <h3>Conversione binaria in Python</h3>
-<pre class="language-python"><code class="language-python"><span class="token comment"># Conversione tra carattere, decimale e binario in Python</span>
-carattere <span class="token operator">=</span> <span class="token string">'A'</span>
-<span class="token comment"># Ottieni il valore decimale (code point Unicode)</span>
-decimale <span class="token operator">=</span> <span class="token builtin">ord</span><span class="token punctuation">(</span>carattere<span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Carattere : </span><span class="token interpolation"><span class="token punctuation">{</span>carattere<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Decimale  : </span><span class="token interpolation"><span class="token punctuation">{</span>decimale<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>          <span class="token comment"># Output: 65</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Binario   : </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">bin</span><span class="token punctuation">(</span>decimale<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>     <span class="token comment"># Output: 0b1000001</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Hex       : </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">hex</span><span class="token punctuation">(</span>decimale<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>     <span class="token comment"># Output: 0x41</span>
-<span class="token comment"># Padding a 8 bit (formato byte completo)</span>
-binario_8bit <span class="token operator">=</span> <span class="token builtin">format</span><span class="token punctuation">(</span>decimale<span class="token punctuation">,</span> <span class="token string">'08b'</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Byte      : </span><span class="token interpolation"><span class="token punctuation">{</span>binario_8bit<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>      <span class="token comment"># Output: 01000001</span>
-<span class="token comment"># Operazione inversa: da binario a carattere</span>
-valore <span class="token operator">=</span> <span class="token builtin">int</span><span class="token punctuation">(</span><span class="token string">'01000001'</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
-<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Da bin a char: </span><span class="token interpolation"><span class="token punctuation">{</span><span class="token builtin">chr</span><span class="token punctuation">(</span>valore<span class="token punctuation">)</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>    <span class="token comment"># Output: A</span></code></pre>
+<pre><code class="language-python"># Conversione tra carattere, decimale e binario in Python
+carattere = 'A'
+# Ottieni il valore decimale (code point Unicode)
+decimale = ord(carattere)
+print(f&quot;Carattere : {carattere}&quot;)
+print(f&quot;Decimale  : {decimale}&quot;)          # Output: 65
+print(f&quot;Binario   : {bin(decimale)}&quot;)     # Output: 0b1000001
+print(f&quot;Hex       : {hex(decimale)}&quot;)     # Output: 0x41
+# Padding a 8 bit (formato byte completo)
+binario_8bit = format(decimale, '08b')
+print(f&quot;Byte      : {binario_8bit}&quot;)      # Output: 01000001
+# Operazione inversa: da binario a carattere
+valore = int('01000001', 2)
+print(f&quot;Da bin a char: {chr(valore)}&quot;)    # Output: A
+</code></pre>
 <h2>Metodi di trasmissione dei dati</h2>
 <p>Dopo che le informazioni sono state convertite in bit, devono essere trasformate in<br>
 <strong>segnali fisici</strong> trasmissibili attraverso un mezzo (<em>medium</em>). Esistono tre metodi<br>
@@ -454,12 +455,13 @@ intervallo di tempo. È quasi sempre inferiore alla bandwidth dichiarata, a caus
 alla destinazione. Si misura tipicamente in millisecondi (ms) tramite il comando<br>
 <code>ping</code>. È critica per applicazioni <strong>real-time</strong> come VoIP, gaming online e<br>
 videoconferenze.</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># Misurazione latenza verso un host remoto</span>
-<span class="token function">ping</span> <span class="token parameter variable">-c</span> <span class="token number">4</span> <span class="token number">8.8</span>.8.8
-<span class="token comment"># Output di esempio:</span>
-<span class="token comment"># 64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=12.4 ms</span>
-<span class="token comment"># 64 bytes from 8.8.8.8: icmp_seq=2 ttl=118 time=11.8 ms</span>
-<span class="token comment"># round-trip min/avg/max/stddev = 11.8/12.1/12.4/0.3 ms</span></code></pre>
+<pre><code class="language-bash"># Misurazione latenza verso un host remoto
+ping -c 4 8.8.8.8
+# Output di esempio:
+# 64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=12.4 ms
+# 64 bytes from 8.8.8.8: icmp_seq=2 ttl=118 time=11.8 ms
+# round-trip min/avg/max/stddev = 11.8/12.1/12.4/0.3 ms
+</code></pre>
 <h3>Jitter</h3>
 <p>Il <strong>jitter</strong> è la <em>variazione</em> della latenza nel tempo (la deviazione standard<br>
 della latenza). Un jitter elevato causa degrado della qualità audio/video nelle<br>
@@ -540,13 +542,14 @@ utenti finali per ridurre latenza e carico sui server centrali.</li>
 <strong>Speedtest CLI</strong> (connettività esterna) aiutano a rilevare degradi prestazionali<br>
 prima che diventino problemi critici.</li>
 </ul>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># Test throughput interno con iPerf3</span>
-<span class="token comment"># Sul server:</span>
-iperf3 <span class="token parameter variable">-s</span>
-<span class="token comment"># Sul client:</span>
-iperf3 <span class="token parameter variable">-c</span> <span class="token operator">&lt;</span>IP_SERVER<span class="token operator">></span> <span class="token parameter variable">-t</span> <span class="token number">10</span> <span class="token parameter variable">-P</span> <span class="token number">4</span>
-<span class="token comment"># -t 10 = durata 10 secondi</span>
-<span class="token comment"># -P 4  = 4 stream paralleli</span></code></pre>
+<pre><code class="language-bash"># Test throughput interno con iPerf3
+# Sul server:
+iperf3 -s
+# Sul client:
+iperf3 -c &lt;IP_SERVER&gt; -t 10 -P 4
+# -t 10 = durata 10 secondi
+# -P 4  = 4 stream paralleli
+</code></pre>
 <h2>Introduzione al modello OSI</h2>
 <p>Tutti i concetti trattati in questo modulo — trasmissione dei dati, segnali,<br>
 larghezza di banda — trovano una collocazione precisa nel <strong>Modello OSI</strong><br>
