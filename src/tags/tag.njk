@@ -17,7 +17,6 @@ pagination:
 </div>
 
 <ul class="list-unstyled">
-<!-- DEBUG: {{ collections.posts[0].data.strapiTags | dump }} -->
   {% set taggedPosts = [] %}
   {% for post in collections.posts %}
     {% set allTags = post.data.strapiTags.split(",") %}
@@ -35,7 +34,7 @@ pagination:
               <a href="{{ post.url }}" class="text-decoration-none">{{ post.data.title }}</a>
             </h2>
             <time class="text-muted small d-inline-flex align-items-center">
-              <i class="bi bi-calendar3 me-1" style="line-height: 0;"></i>{{ post.date | dateHuman }}
+              <i class="bi bi-calendar3 me-1" style="line-height: 0;"></i>{{ post.data.date | dateHuman }}
             </time>
             <hr>
             {% if post.data.description %}

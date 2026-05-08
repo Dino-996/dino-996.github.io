@@ -131,12 +131,6 @@ export default function (eleventyConfig) {
   eleventyConfig.addCollection("tagsList", function (collection) {
     const tagSet = new Set();
     collection.getAll().forEach(item => {
-      // Tags Eleventy
-      const tags = item.data.tags ?? [];
-      if (Array.isArray(tags)) {
-        tags.filter(t => t !== "posts").forEach(t => tagSet.add(t));
-      }
-      // Tags Strapi
       const strapiTags = item.data.strapiTags ?? "";
       if (typeof strapiTags === "string" && strapiTags) {
         strapiTags.split(",").map(t => t.trim()).filter(Boolean).forEach(t => tagSet.add(t));
@@ -147,7 +141,10 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addCollection("posts", function (collection) {
     return collection.getFilteredByTag("posts").sort((a, b) => {
-      return b.date - a.date;
+      const dateA = new Date(a.data.date);
+      const dateB = new Date(b.data.date);
+
+      return dateB - dateA;
     });
   });
 
@@ -157,15 +154,12 @@ export default function (eleventyConfig) {
   let searchIndexCache = [];
 
   eleventyConfig.addCollection("searchIndex", (collection) => {
-    searchIndexCache = collection
-      .getFilteredByTag("posts")
-      .map((post) => ({
-        title: post.data.title ?? "",
-        url: post.url,
-        description: post.data.description ?? "",
-        date: post.date instanceof Date ? post.date.toISOString() : new Date(post.date).toISOString()
-      }))
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
+    searchIndexCache = collection.getFilteredByTag("posts").map(post => ({
+      title: post.data.title,
+      description: post.data.description,
+      url: post.url,
+      date: new Date(post.data.date)
+    })).sort((a, b) => new Date(b.date) - new Date(a.date));
     return searchIndexCache;
   });
 
@@ -185,4 +179,9 @@ export default function (eleventyConfig) {
       includes: "_includes",
     }
   };
+
+  // ============================================
+  // = CLEAN BUILD
+  // ============================================
+  eleventyConfig.setEmptyOutputHtmlExtension(true);
 }

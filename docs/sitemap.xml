@@ -2,12 +2,87 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>/blog/stallo-dei-processi/</loc>
+    <loc>/blog/filesistem-linux/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/comandi-di-base/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/gnu-linux/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/algoritmo-di-luhn/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/tecniche-algoritmiche-java/</loc>
     <lastmod>2026-05-06T08:55:58.180Z</lastmod>
   </url>
 
   <url>
     <loc>/blog/post/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/memoria-centrale/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/fondamenti-di-networking/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/allocazione-della-memoria/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/memoria-virtuale/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/scheduling-della-cpu/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/thread/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/struttura-dei-sistemi-operativi/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/processi/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/paginazione/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/sincronizzazione-dei-processi/</loc>
+    <lastmod>2026-05-06T08:55:58.180Z</lastmod>
+  </url>
+
+  <url>
+    <loc>/blog/stallo-dei-processi/</loc>
     <lastmod>2026-05-06T08:55:58.180Z</lastmod>
   </url>
 

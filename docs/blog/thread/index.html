@@ -5,38 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  About · dino-996 blog
+  Thread · dino-996 blog
 </title>
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
+<meta name="description" content="Si descrivono i thread come le unità di base di utilizzo della CPU, evidenziando i vantaggi del multithreading come la condivisione delle risorse e la scalabilità, concludendo con le sfide della cancellazione dei task e le specificità di sistema come la funzione clone() in Linux." />
 <meta name="author" content="Davide Sabia" />
 <meta name="robots" content="index, follow" />
 
 <!-- Canonical URL -->
 
-<link rel="canonical" href="https://dino-996.github.io/about/" />
+<link rel="canonical" href="https://dino-996.github.io/blog/thread/" />
 
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
 
-<meta property="og:url" content="https://dino-996.github.io/about/" />
+<meta property="og:url" content="https://dino-996.github.io/blog/thread/" />
 
-<meta property="og:title" content="About" />
-<meta property="og:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
+<meta property="og:title" content="Thread" />
+<meta property="og:description" content="Si descrivono i thread come le unità di base di utilizzo della CPU, evidenziando i vantaggi del multithreading come la condivisione delle risorse e la scalabilità, concludendo con le sfide della cancellazione dei task e le specificità di sistema come la funzione clone() in Linux." />
 <meta property="og:site_name" content="dino-996 blog" />
 
-<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/og-default.webp" />
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" />
 
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 
-<meta name="twitter:url" content="https://dino-996.github.io/about/" />
+<meta name="twitter:url" content="https://dino-996.github.io/blog/thread/" />
 
-<meta name="twitter:title" content="About" />
-<meta name="twitter:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
+<meta name="twitter:title" content="Thread" />
+<meta name="twitter:description" content="Si descrivono i thread come le unità di base di utilizzo della CPU, evidenziando i vantaggi del multithreading come la condivisione delle risorse e la scalabilità, concludendo con le sfide della cancellazione dei task e le specificità di sistema come la funzione clone() in Linux." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" />
 
 
 <!-- Favicon -->
@@ -99,12 +101,12 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/blog/">
+          <a class="nav-link active" href="/blog/">
             Blog
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="/about/">
+          <a class="nav-link" href="/about/">
             About
           </a>
         </li>
@@ -127,81 +129,189 @@
 </nav>
 
     <main class="container my-5 flex-grow-1">
-      
-<article>
-    <div class="content">
-          <!-- Hero narrativo -->
-  <section class="mb-5">
-    <h1 class="fw-bold mb-3">
-        <i class="text-primary bi bi-person me-1"></i>
-        About
-    </h1>
-    <p class="lead text-muted">
-      Sono un informatico orientato alla costruzione di software solido,
-      con interesse per architettura backend e sicurezza applicativa.
-    </p>
-  </section>
-  <div class="row g-4">
-    <!-- Stack -->
-    <div class="col-12 col-md-6">
-      <div class="card h-100 shadow-none border" style="transform: none">
-        <div class="card-body">
-          <h3 class="h5 mb-3">Stack</h3>
-          <p class="mb-2">
-            <strong>Backend</strong><br>
-            <span class="badge bg-light text-body border me-1">Java</span>
-            <span class="badge bg-light text-body border me-1">Spring Boot</span>
-            <span class="badge bg-light text-body border">PostgreSQL</span>
-          </p>
-          <p class="mb-0">
-            <strong>Frontend</strong><br>
-            <span class="badge bg-light text-body border me-1">Angular</span>
-            <span class="badge bg-light text-body border me-1">TypeScript</span>
-            <span class="badge bg-light text-body border">Bootstrap</span>
-          </p>
-        </div>
+      <article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">Thread</h1>
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <div>
+      <img 
+        src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1778060088/dino_89453d65ac.png" 
+        alt="Davide Sabia" 
+        class="rounded-circle"
+        width="32"
+        height="32"
+        style="object-fit: cover;"
+      >
+      <span class="fw-bold fs-6 mx-1">Davide Sabia</span>
       </div>
-    </div>
-    <!-- Blog -->
-    <div class="col-12 col-md-6">
-      <div class="card h-100 shadow-none border" style="transform: none">
-        <div class="card-body d-flex flex-column">
-          <h3 class="h5 mb-3">Il Blog</h3>
-          <p class="text-muted mb-3">
-            Uno spazio di studio pubblico dove documento ciò che imparo,
-            con particolare attenzione a sviluppo web e sicurezza.
-          </p>
-          <div class="mt-auto">
-            <a href="https://github.com/Dino-996" target="_blank"
-               class="btn btn-dark btn-sm w-100">
-              <i class="bi bi-github me-1"></i>
-              GitHub
+      <div class="tags-container d-flex flex-wrap gap-2">
+        
+        
+        
+          
+          
+            <a href="/tags/sistemi-operativi/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               sistemi operativi
             </a>
-          </div>
-        </div>
+          
+        
+          
+          
+            <a href="/tags/thread/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               thread
+            </a>
+          
+        
       </div>
+      <time class="text-muted small" datetime="2020-02-18T00:00:00.000Z">
+        <i class="bi bi-calendar3 me-1"></i>18 febbraio 2020
+      </time>
     </div>
-    <!-- Contatti full width -->
-    <div class="col-12">
-      <div class="card shadow-none border" style="transform: none">
-        <div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
-          <div>
-            <h3 class="h5 mb-1">Contatti</h3>
-            <p class="text-muted mb-0">Disponibile per collaborazioni e progetti.</p>
-          </div>
-          <a href="mailto:davidesabia22@gmail.com"
-             class="btn btn-outline-primary btn-sm">
-            <i class="bi bi-envelope-fill me-1"></i>
-            Email
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+  </header>
 
+  
+    <div class="alert alert-primary border-start border-4 border-primary mb-4" role="note">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <i class="bi bi-stars text-primary"></i>
+        <strong class="small text-uppercase text-primary">Riassunto IA</strong>
+      </div>
+      <p class="mb-0 small">Il thread è l&#39;unità minima di esecuzione che condivide lo spazio di indirizzamento del processo ospitante, garantendo maggiore efficienza operativa e scalabilità rispetto al modello multiprocesso tradizionale. La distinzione tra concorrenza logica e parallelismo hardware, estesa oggi a contesti eterogenei CPU-GPU, permette di ottimizzare il carico computazionale su architetture multicore e massivamente parallele.</p>
     </div>
+  
+
+  
+    <div class="mb-4">
+      <img 
+        src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" 
+        alt="Immagine generata con IA" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+        <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+      
+    </div>
+  
+
+  <hr>
+
+  <section class="content">
+    <h2>Thread</h2>
+<p>Il thread rappresenta l’unità minima di esecuzione schedulabile dalla CPU all’interno di un processo. Dal punto di vista architetturale, ciascun thread è caratterizzato da:</p>
+<ul>
+<li>un identificatore univoco;</li>
+<li>un Program Counter (PC), che individua l’istruzione corrente;</li>
+<li>un insieme di registri di stato;</li>
+<li>uno stack privato per la gestione delle chiamate di funzione e delle variabili locali.</li>
+</ul>
+<p>All’interno dello stesso <strong><a href="https://dino-996.github.io/blog/processi/" target="_blank" rel="noopener noreferrer">processo</a></strong>, i thread condividono lo spazio di indirizzamento e le risorse globali, tra cui il segmento di codice, il segmento dati (heap e variabili globali) e le risorse di sistema allocate (file descriptor, segnali, socket). Tale condivisione costituisce l’elemento distintivo rispetto al modello multiprocesso tradizionale, nel quale ogni processo possiede uno spazio di memoria isolato.</p>
+<p>L’introduzione del multithreading risponde a esigenze di efficienza computazionale e di progettazione del software concorrente. I principali benefici possono essere formalizzati come segue:</p>
+<ul>
+<li><strong>Riduzione della latenza percepita</strong>: la suddivisione del lavoro in più thread consente la sovrapposizione tra operazioni di I/O e computazione.</li>
+<li><strong>Efficienza nell’uso delle risorse</strong>: il costo di creazione e distruzione di un thread è inferiore rispetto a quello di un processo, così come l’overhead del context switch.</li>
+<li><strong>Modularità progettuale</strong>: la decomposizione di un’applicazione in unità concorrenti favorisce una strutturazione più chiara delle responsabilità.</li>
+<li><strong>Scalabilità su architetture multicore</strong>: la presenza di più unità di esecuzione fisiche permette l’esecuzione realmente parallela dei thread.</li>
+</ul>
+<h2>Concorrenza, Parallelismo e Architetture Eterogenee</h2>
+<p>Nel contesto dei sistemi moderni è necessario distinguere rigorosamente tra concorrenza e parallelismo, abbiamo già affrontato l'argomento quando parlavamo dei processi ma è bene ripetere i concetti al fine di fissare bene le idee.</p>
+<p>La <strong>concorrenza</strong> è una proprietà logica del sistema: più task progrediscono nel tempo, anche se non necessariamente in modo simultaneo. In un sistema single-core, ciò avviene tramite time slicing e meccanismi di scheduling preemptive.</p>
+<p>Il <strong>parallelismo</strong>, invece, è una proprietà fisica dell’hardware: più task sono eseguiti simultaneamente su core distinti. Il parallelismo rappresenta quindi un caso particolare di concorrenza in presenza di risorse computazionali multiple.</p>
+<p>L’evoluzione delle architetture ha introdotto sistemi eterogenei CPU–GPU. Le GPU (Graphics Processing Unit), inizialmente progettate per il rendering grafico, sono oggi impiegate nel paradigma GPGPU (General-Purpose computing on GPU). Tali dispositivi integrano un numero elevato di ALU (Arithmetic Logic Units), ottimizzate per il calcolo massivamente parallelo su grandi insiemi di dati omogenei.</p>
+<p>Applicazioni tipiche includono:</p>
+<ul>
+<li>calcolo scientifico e bioinformatica;</li>
+<li>crittografia e analisi numerica;</li>
+<li>addestramento di modelli di deep learning;</li>
+<li>simulazioni fisiche su larga scala.</li>
+</ul>
+<h2>Modelli di Implementazione del Multithreading</h2>
+<p>Dal punto di vista sistemistico, si distinguono thread a livello utente e thread a livello kernel.</p>
+<p>I <strong>thread a livello utente</strong> sono gestiti da librerie in spazio utente, senza intervento diretto del kernel nelle operazioni di scheduling interne al processo.</p>
+<p>I <strong>thread a livello kernel</strong> sono invece entità direttamente note al sistema operativo, il quale ne gestisce pianificazione, sospensione e sincronizzazione.</p>
+<p>La relazione tra thread utente e thread kernel è formalizzata attraverso modelli di mapping:</p>
+<ul>
+<li><strong>Many-to-One</strong>: più thread utente sono associati a un singolo thread kernel. Il modello minimizza l’overhead (indica il costo aggiuntivo necessario per gestire un’operazione, costo che non contribuisce direttamente al risultato utile, ma è indispensabile per renderla possibile), ma una chiamata bloccante compromette l’intero processo.</li>
+<li><strong>One-to-One</strong>: ogni thread utente corrisponde a un thread kernel. Garantisce parallelismo reale su sistemi multicore, al prezzo di un maggiore consumo di risorse.</li>
+<li><strong>Many-to-Many</strong>: più thread utente sono mappati su un numero limitato di thread kernel, consentendo un compromesso tra flessibilità e scalabilità.</li>
+<li><strong>Two-Level Model</strong>: estensione del many-to-many che consente l’associazione vincolata di specifici thread utente a determinati thread kernel.</li>
+</ul>
+<p>La scelta del modello influenza direttamente prestazioni, prevedibilità temporale e complessità di gestione.</p>
+<h2>Astrazioni di Programmazione e Threading Implicito</h2>
+<p>Le principali interfacce di programmazione concorrente includono:</p>
+<ul>
+<li><strong>POSIX Threads (Pthreads)</strong>: standard che definisce primitive per creazione, sincronizzazione e gestione dei thread in ambienti Unix-like.</li>
+<li><strong>API Windows</strong>: insieme di primitive integrate nel kernel NT per la gestione nativa dei thread.</li>
+<li><strong>Java Concurrency Framework</strong>: insieme di astrazioni ad alto livello (Executor, ExecutorService, Callable, Future) che separano la definizione del task dalla gestione dei thread sottostanti.</li>
+</ul>
+<p>Il paradigma del <strong>threading implicito</strong> trasferisce la responsabilità della gestione concorrente a runtime e librerie specializzate. Tra i principali strumenti:</p>
+<ul>
+<li><strong>Thread Pool</strong>: insieme di thread riutilizzabili per l’esecuzione di task asincroni, con controllo del grado di parallelismo.</li>
+<li><strong>Fork/Join Framework</strong>: modello ricorsivo divide-et-impera basato su work stealing per l’ottimizzazione del bilanciamento del carico.</li>
+<li><strong>OpenMP, Grand Central Dispatch, Intel TBB</strong>: tecnologie che forniscono direttive e costrutti di alto livello per la parallelizzazione controllata.</li>
+</ul>
+<p>Tali astrazioni riducono la probabilità di errori sistemici e favoriscono una gestione più robusta delle risorse concorrenti.</p>
+<h2>Criticità e Differenze tra Sistemi Operativi</h2>
+<p>La programmazione multithread introduce problematiche complesse, tra cui:</p>
+<ul>
+<li>condizioni di race e necessità di meccanismi di sincronizzazione (mutex, semafori, monitor);</li>
+<li>gestione coerente dei segnali in presenza di più flussi di esecuzione;</li>
+<li>utilizzo del Thread-Local Storage (TLS) per mantenere dati isolati per thread;</li>
+<li>politiche di cancellazione e terminazione.</li>
+</ul>
+<p>La cancellazione può essere asincrona, con interruzione immediata del thread, oppure differita, mediante punti di cancellazione espliciti. L’approccio differito è generalmente preferito per preservare la consistenza dello stato condiviso.</p>
+<p>Dal punto di vista implementativo emergono differenze significative:</p>
+<ul>
+<li><strong>Windows</strong> utilizza strutture interne quali ETHREAD, KTHREAD e TEB (Thread Environment Block) per rappresentare e gestire i thread.</li>
+<li><strong>Linux</strong> adotta un modello unificato in cui processi e thread sono rappresentati come task. La system call <code>clone()</code> consente di specificare, tramite flag, il livello di condivisione delle risorse tra entità padre e figlio, realizzando un modello flessibile di creazione concorrente.</li>
+</ul>
+<p>L’analisi comparativa evidenzia come le scelte progettuali a livello di kernel influenzino direttamente il modello di programmazione esposto agli sviluppatori e le garanzie offerte in termini di isolamento, prestazioni e controllo della concorrenza.</p>
+
+  </section>
+
+  <hr class="mt-5">
+  
+  <section class="mt-5" aria-label="Commenti e reazioni">
+    <h2 class="h5 fw-bold mb-4">
+      <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
+    </h2>
+    <script>
+      (function () {
+        const saved = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', theme);
+        script.setAttribute('data-lang', 'it');
+        script.setAttribute('data-loading', 'lazy');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        document.currentScript.replaceWith(script);
+      })();
+    </script>
+    <noscript>
+      <p class="text-muted small">
+        <i class="bi bi-info-circle me-1"></i>
+        Per visualizzare i commenti è necessario abilitare JavaScript.
+        Puoi leggere e partecipare alla discussione direttamente su
+        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
+      </p>
+    </noscript>
+  </section>
 </article>
-
     </main>
 
     <footer class="border-top mt-auto py-4">

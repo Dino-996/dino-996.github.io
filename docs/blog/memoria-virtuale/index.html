@@ -5,38 +5,40 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  About · dino-996 blog
+  La memoria virtuale · dino-996 blog
 </title>
 
 <!-- SEO Meta Tags -->
-<meta name="description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
+<meta name="description" content="Scopri come i sistemi operativi riescono a eseguire applicazioni enormi su hardware limitato attraverso la memoria virtuale, la paginazione su richiesta e i sofisticati algoritmi di sostituzione delle pagine." />
 <meta name="author" content="Davide Sabia" />
 <meta name="robots" content="index, follow" />
 
 <!-- Canonical URL -->
 
-<link rel="canonical" href="https://dino-996.github.io/about/" />
+<link rel="canonical" href="https://dino-996.github.io/blog/memoria-virtuale/" />
 
 
 <!-- Open Graph / Facebook -->
-<meta property="og:type" content="website" />
+<meta property="og:type" content="article" />
 
-<meta property="og:url" content="https://dino-996.github.io/about/" />
+<meta property="og:url" content="https://dino-996.github.io/blog/memoria-virtuale/" />
 
-<meta property="og:title" content="About" />
-<meta property="og:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
+<meta property="og:title" content="La memoria virtuale" />
+<meta property="og:description" content="Scopri come i sistemi operativi riescono a eseguire applicazioni enormi su hardware limitato attraverso la memoria virtuale, la paginazione su richiesta e i sofisticati algoritmi di sostituzione delle pagine." />
 <meta property="og:site_name" content="dino-996 blog" />
 
-<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/og-default.webp" />
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" />
 
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 
-<meta name="twitter:url" content="https://dino-996.github.io/about/" />
+<meta name="twitter:url" content="https://dino-996.github.io/blog/memoria-virtuale/" />
 
-<meta name="twitter:title" content="About" />
-<meta name="twitter:description" content="Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne." />
+<meta name="twitter:title" content="La memoria virtuale" />
+<meta name="twitter:description" content="Scopri come i sistemi operativi riescono a eseguire applicazioni enormi su hardware limitato attraverso la memoria virtuale, la paginazione su richiesta e i sofisticati algoritmi di sostituzione delle pagine." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" />
 
 
 <!-- Favicon -->
@@ -99,12 +101,12 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/blog/">
+          <a class="nav-link active" href="/blog/">
             Blog
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="/about/">
+          <a class="nav-link" href="/about/">
             About
           </a>
         </li>
@@ -127,81 +129,160 @@
 </nav>
 
     <main class="container my-5 flex-grow-1">
-      
-<article>
-    <div class="content">
-          <!-- Hero narrativo -->
-  <section class="mb-5">
-    <h1 class="fw-bold mb-3">
-        <i class="text-primary bi bi-person me-1"></i>
-        About
-    </h1>
-    <p class="lead text-muted">
-      Sono un informatico orientato alla costruzione di software solido,
-      con interesse per architettura backend e sicurezza applicativa.
-    </p>
-  </section>
-  <div class="row g-4">
-    <!-- Stack -->
-    <div class="col-12 col-md-6">
-      <div class="card h-100 shadow-none border" style="transform: none">
-        <div class="card-body">
-          <h3 class="h5 mb-3">Stack</h3>
-          <p class="mb-2">
-            <strong>Backend</strong><br>
-            <span class="badge bg-light text-body border me-1">Java</span>
-            <span class="badge bg-light text-body border me-1">Spring Boot</span>
-            <span class="badge bg-light text-body border">PostgreSQL</span>
-          </p>
-          <p class="mb-0">
-            <strong>Frontend</strong><br>
-            <span class="badge bg-light text-body border me-1">Angular</span>
-            <span class="badge bg-light text-body border me-1">TypeScript</span>
-            <span class="badge bg-light text-body border">Bootstrap</span>
-          </p>
-        </div>
+      <article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">La memoria virtuale</h1>
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <div>
+      <img 
+        src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1778060088/dino_89453d65ac.png" 
+        alt="Davide Sabia" 
+        class="rounded-circle"
+        width="32"
+        height="32"
+        style="object-fit: cover;"
+      >
+      <span class="fw-bold fs-6 mx-1">Davide Sabia</span>
       </div>
-    </div>
-    <!-- Blog -->
-    <div class="col-12 col-md-6">
-      <div class="card h-100 shadow-none border" style="transform: none">
-        <div class="card-body d-flex flex-column">
-          <h3 class="h5 mb-3">Il Blog</h3>
-          <p class="text-muted mb-3">
-            Uno spazio di studio pubblico dove documento ciò che imparo,
-            con particolare attenzione a sviluppo web e sicurezza.
-          </p>
-          <div class="mt-auto">
-            <a href="https://github.com/Dino-996" target="_blank"
-               class="btn btn-dark btn-sm w-100">
-              <i class="bi bi-github me-1"></i>
-              GitHub
+      <div class="tags-container d-flex flex-wrap gap-2">
+        
+        
+        
+          
+          
+            <a href="/tags/sistemi-operativi/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               sistemi operativi
             </a>
-          </div>
-        </div>
+          
+        
+          
+          
+            <a href="/tags/memoria-virtuale/" 
+               class="badge border text-decoration-none d-inline-flex align-items-center" 
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+               memoria virtuale
+            </a>
+          
+        
       </div>
+      <time class="text-muted small" datetime="2020-02-22T00:00:00.000Z">
+        <i class="bi bi-calendar3 me-1"></i>22 febbraio 2020
+      </time>
     </div>
-    <!-- Contatti full width -->
-    <div class="col-12">
-      <div class="card shadow-none border" style="transform: none">
-        <div class="card-body d-flex justify-content-between align-items-center flex-wrap gap-3">
-          <div>
-            <h3 class="h5 mb-1">Contatti</h3>
-            <p class="text-muted mb-0">Disponibile per collaborazioni e progetti.</p>
-          </div>
-          <a href="mailto:davidesabia22@gmail.com"
-             class="btn btn-outline-primary btn-sm">
-            <i class="bi bi-envelope-fill me-1"></i>
-            Email
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
+  </header>
 
+  
+    <div class="alert alert-primary border-start border-4 border-primary mb-4" role="note">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <i class="bi bi-stars text-primary"></i>
+        <strong class="small text-uppercase text-primary">Riassunto IA</strong>
+      </div>
+      <p class="mb-0 small">La memoria virtuale astrae lo spazio di indirizzamento logico dalla RAM fisica tramite il demand paging, garantendo scalabilità e isolamento dei processi. L&#39;efficienza del sistema dipende criticamente dalla minimizzazione del tasso di page fault e dall&#39;adozione di strategie ottimizzate come il Copy-on-Write per la gestione delle risorse.</p>
     </div>
+  
+
+  
+    <div class="mb-4">
+      <img 
+        src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp" 
+        alt="Immagine generata con IA" 
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+        <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+      
+    </div>
+  
+
+  <hr>
+
+  <section class="content">
+    <h1>Architettura e strategie della Memoria Virtuale</h1>
+<p>Nei moderni sistemi multiprogrammati, l'esecuzione simultanea di più processi richiede una gestione oculata delle risorse. Tuttavia, la RAM è per definizione una risorsa finita e spesso insufficiente a ospitare l'intero working set di ogni applicazione attiva. Qui entra in gioco la <strong>Memoria Virtuale</strong>, un'astrazione fondamentale che scollega la memoria logica vista dal programmatore dalla memoria fisica effettivamente disponibile.</p>
+<p>Questa architettura offre vantaggi determinanti:</p>
+<ul>
+<li><strong>Scalabilità:</strong> Consente l'esecuzione di programmi le cui dimensioni superano la capacità della RAM fisica.</li>
+<li><strong>Astrazione:</strong> Il programmatore interagisce con uno spazio di indirizzamento lineare e contiguo, ignorando la frammentazione fisica.</li>
+<li><strong>Efficienza:</strong> Facilita la condivisione di librerie (DLL/Shared Objects) tra processi diversi attraverso la mappatura delle medesime pagine fisiche.</li>
+</ul>
+<h2>Paginazione su richiesta</h2>
+<p>Il cuore della memoria virtuale risiede nel <strong>Demand Paging</strong> (paginazione su richiesta). Invece di caricare l'intero binario in fase di startup, il kernel carica le singole pagine solo quando vengono effettivamente referenziate durante l'esecuzione.</p>
+<h3>Il ciclo del page fault</h3>
+<p>Quando un processo tenta di accedere a un indirizzo logico non presente in RAM (identificato da un bit di validità &quot;0&quot; nella Page Table), l'hardware genera un'eccezione nota come <strong>Page Fault</strong>. Il sistema operativo interviene seguendo una procedura rigorosa:</p>
+<ol>
+<li><strong>Verifica:</strong> Il SO controlla se il riferimento alla memoria era legittimo.</li>
+<li><strong>Swap-in:</strong> Individua la pagina nel disco (area di swap).</li>
+<li><strong>Allocazione:</strong> Cerca un frame libero nella RAM.</li>
+<li><strong>Update:</strong> Carica i dati nel frame, aggiorna la Page Table e setta il bit di validità a &quot;1&quot;.</li>
+<li><strong>Restart:</strong> Ripristina l'istruzione che aveva causato l'eccezione.</li>
+</ol>
+<h2>Performance e ottimizzazioni</h2>
+<p>L'implementazione della memoria virtuale introduce un overhead inevitabile. Le prestazioni del sistema vengono misurate tramite il <strong>Tempo di Accesso Effettivo (EAT)</strong>, calcolato come:</p>
+<p>$$EAT = (1 - p) \times ma + p \times pft$$</p>
+<p>Dove:</p>
+<ul>
+<li>$p$ è la probabilità di page fault ($0 \le p \le 1$).</li>
+<li>$ma$ è il tempo di accesso alla memoria (nanosecondi).</li>
+<li>$pft$ è il tempo di gestione del page fault (millisecondi).</li>
+</ul>
+<p>Dato che il recupero da disco è ordini di grandezza più lento della RAM, anche un tasso di page fault minimo può degradare sensibilmente le performance.</p>
+<h3>Copy-on-Write (CoW)</h3>
+<p>Per ottimizzare la creazione dei processi (system call <code>fork()</code>), si utilizza la tecnica <strong>Copy-on-Write</strong>. Inizialmente, processo padre e figlio condividono le stesse pagine fisiche in sola lettura. Solo quando uno dei due tenta una scrittura, il kernel interviene duplicando la pagina specifica. Questo evita sprechi di memoria per processi che non modificano i dati ereditati.</p>
+<h2>Algoritmi di sostituzione delle pagine</h2>
+<p>Cosa accade quando la memoria fisica è satura? Il sistema deve selezionare una &quot;vittima&quot; da espellere per far spazio a una nuova pagina. Per ottimizzare questo processo, si utilizza il <strong>Dirty Bit</strong> (o bit di modifica): se una pagina non è stata modificata dal suo caricamento, può essere sovrascritta senza essere riscritta su disco, dimezzando l'I/O.</p>
+<h3>Analisi delle strategie di replacement</h3>
+<ol>
+<li><strong>FIFO (First-In-First-Out):</strong> Sostituisce la pagina residente da più tempo. Sebbene semplice, è inefficiente e soggetto all'<strong>Anomalia di Belady</strong>: un fenomeno controintuitivo dove l'aggiunta di frame fisici può aumentare il numero di page fault.</li>
+<li><strong>OPT (Algoritmo Ottimale):</strong> Sostituisce la pagina che non verrà utilizzata per il periodo di tempo più lungo in assoluto. È il gold standard teorico, ma è <strong>irrealizzabile</strong> poiché richiederebbe la conoscenza futura degli accessi (non determinismo).</li>
+<li><strong>LRU (Least Recently Used):</strong> Approssima l'algoritmo ottimale sostituendo la pagina non utilizzata da più tempo. È molto efficace ma richiede supporto hardware dedicato (contatori o stack) per non appesantire la CPU.</li>
+<li><strong>Seconda Chance (Clock):</strong> Un compromesso ingegnoso tra FIFO e LRU. Organizza le pagine in una lista circolare e utilizza un <strong>Reference Bit</strong>. Se il bit è 1, la pagina riceve una &quot;seconda possibilità&quot; e il bit viene azzerato; se è 0, la pagina viene sostituita.</li>
+</ol>
+
+  </section>
+
+  <hr class="mt-5">
+  
+  <section class="mt-5" aria-label="Commenti e reazioni">
+    <h2 class="h5 fw-bold mb-4">
+      <i class="bi bi-chat-dots text-primary me-2"></i>Commenti
+    </h2>
+    <script>
+      (function () {
+        const saved = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', theme);
+        script.setAttribute('data-lang', 'it');
+        script.setAttribute('data-loading', 'lazy');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        document.currentScript.replaceWith(script);
+      })();
+    </script>
+    <noscript>
+      <p class="text-muted small">
+        <i class="bi bi-info-circle me-1"></i>
+        Per visualizzare i commenti è necessario abilitare JavaScript.
+        Puoi leggere e partecipare alla discussione direttamente su
+        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
+      </p>
+    </noscript>
+  </section>
 </article>
-
     </main>
 
     <footer class="border-top mt-auto py-4">
