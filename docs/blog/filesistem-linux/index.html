@@ -265,10 +265,12 @@
 <h2>Montaggio e smontaggio dei filesystem</h2>
 <p>Prima di esplorare le singole directory, è utile capire il concetto di <strong>mount</strong> (montaggio), perché spiega come vengono integrate le varie risorse di memoria nell'albero del filesystem.</p>
 <p>Di norma, la directory <code>/</code> corrisponde al disco da cui Linux è stato avviato. Per accedere a supporti aggiuntivi, come una chiavetta USB, un secondo disco o una partizione di rete, è necessario &quot;agganciare&quot; il dispositivo all'albero del filesystem in un punto specifico, detto <strong>mount point</strong>:</p>
-<pre class="language-bash"><code class="language-bash"><span class="token comment"># Monta la partizione /dev/sdb1 nella directory /mnt/chiavetta</span>
-<span class="token function">mount</span> /dev/sdb1 /mnt/chiavetta</code></pre>
+<pre><code class="language-bash"># Monta la partizione /dev/sdb1 nella directory /mnt/chiavetta
+mount /dev/sdb1 /mnt/chiavetta
+</code></pre>
 <p>Da quel momento, i file della chiavetta saranno accessibili navigando in <code>/mnt/chiavetta</code>. Per rimuovere il collegamento (l'equivalente dell'espulsione sicura), si usa <code>umount</code>:</p>
-<pre class="language-bash"><code class="language-bash"><span class="token function">umount</span> /mnt/chiavetta</code></pre>
+<pre><code class="language-bash">umount /mnt/chiavetta
+</code></pre>
 <p>L'elenco di tutti i filesystem attualmente montati è consultabile in <code>/proc/mounts</code>.</p>
 <h2>Le directory principali del sistema</h2>
 <h3><code>/home</code> — Le directory degli utenti</h3>
@@ -334,7 +336,8 @@
 <p>Linux supporta due tipi di collegamento tra file, creati entrambi con il comando <code>ln</code>.</p>
 <p>Gli <strong>hard link</strong> puntano direttamente all'<strong>inode</strong> del file, ovvero la struttura dati interna al filesystem che descrive un file (permessi, dimensione, posizione dei dati sul disco). Due hard link allo stesso file condividono esattamente i medesimi dati: modificare uno significa modificare l'altro. Il file viene eliminato dal disco solo quando l'ultimo hard link che lo punta viene rimosso. Hanno però dei limiti: non funzionano tra filesystem diversi e non possono puntare a directory.</p>
 <p>I <strong>soft link</strong> (o link simbolici) sono invece semplici puntatori al <em>percorso</em> di un altro file. Si creano con:</p>
-<pre class="language-bash"><code class="language-bash"><span class="token function">ln</span> <span class="token parameter variable">-s</span> /percorso/origine /percorso/destinazione</code></pre>
+<pre><code class="language-bash">ln -s /percorso/origine /percorso/destinazione
+</code></pre>
 <p>Sono più flessibili degli hard link, possono attraversare filesystem diversi e puntare a directory, ma se il file originale viene spostato o eliminato il link diventa <em>rotto</em> (dangling link) e accedervi produrrà un errore.</p>
 <p>Nel listato di <code>ls -l</code>, i soft link sono identificati dalla lettera <code>l</code> all'inizio della stringa dei permessi, e mostrano esplicitamente il percorso a cui puntano:</p>
 <pre><code>lrwxrwxrwx 1 root root 7 gen 10 12:00 /bin -&gt; usr/bin
@@ -342,7 +345,8 @@
 <h2>FIFO — Le named pipe</h2>
 <p>Le <strong>FIFO</strong> (First In, First Out), dette anche <em>named pipe</em>, sono un meccanismo di comunicazione tra processi. A differenza delle pipe anonime, quelle usate con <code>|</code> nel terminale che esistono solo per la durata del comando, le FIFO hanno un nome nel filesystem e possono essere usate da processi non correlati, anche avviati in momenti diversi.</p>
 <p>Si creano con il comando <code>mkfifo</code>:</p>
-<pre class="language-bash"><code class="language-bash"><span class="token function">mkfifo</span> /tmp/mia_pipe</code></pre>
+<pre><code class="language-bash">mkfifo /tmp/mia_pipe
+</code></pre>
 <p>Un processo può scrivere sulla pipe e un altro può leggerla: i dati fluiscono in ordine FIFO, senza passare dal disco. Come tutti i file virtuali di questo tipo, le FIFO non sopravvivono al riavvio della macchina.</p>
 
   </section>

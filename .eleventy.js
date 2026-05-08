@@ -1,5 +1,4 @@
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
-import matter from "gray-matter";
 import slugify from "slugify";
 import markdownIt from "markdown-it";
 import fs from "fs";
@@ -13,15 +12,15 @@ export default function (eleventyConfig) {
   eleventyConfig.setLiquidOptions({
     jsTruthy: true,
     dynamicPartials: true,
-    strictFilters: true
+    strictFilters: true,
   });
 
   // ============================================
-  // = NUJUCKS CONFIGURATION
+  // = NUNJUCKS CONFIGURATION
   // ============================================
   eleventyConfig.setNunjucksEnvironmentOptions({
     throwOnUndefined: false,
-    autoescape: true
+    autoescape: true,
   });
 
   // ============================================
@@ -36,7 +35,7 @@ export default function (eleventyConfig) {
   const md = markdownIt({
     html: true,
     breaks: true,
-    linkify: true
+    linkify: true,
   }).disable("image");
 
   const defaultRender =
@@ -55,45 +54,25 @@ export default function (eleventyConfig) {
   };
 
   // ============================================
-  // = LIBRARY CONFIGURATION
+  // = LIBRARY & PLUGINS
   // ============================================
   eleventyConfig.setLibrary("md", md);
   eleventyConfig.addPlugin(syntaxHighlight);
 
   // ============================================
-  // = LINTER
-  // ============================================
-  eleventyConfig.addLinter("valida-post", function (_content, inputPath) {
-    if (!inputPath.includes("/posts/") || inputPath.includes("strapi-posts.njk")) return;
-
-    const fileContent = fs.readFileSync(inputPath, "utf-8");
-    const { data } = matter(fileContent);
-
-    const campiObbligatori = ["title", "description", "date"];
-    campiObbligatori.forEach((campo) => {
-      if (!data[campo]) {
-        console.warn(`"${campo}" mancante in ${inputPath}`);
-      }
-    });
-  });
-
-  // ============================================
   // = FILTERS
   // ============================================
-  eleventyConfig.addFilter("markdown", (content) => {
-    return md.renderInline(content);
-  });
+  eleventyConfig.addFilter("markdown", (content) => md.renderInline(content));
 
   eleventyConfig.addFilter("markdownBlock", (content) => {
-    if (!content) return ''
+    if (!content) return "";
     return md.render(content);
   });
 
   eleventyConfig.addFilter("dateIso", (date) => {
     if (!date) return "";
     const d = new Date(date);
-    if (isNaN(d.getTime())) return "";
-    return d.toISOString();
+    return isNaN(d.getTime()) ? "" : d.toISOString();
   });
 
   eleventyConfig.addFilter("dateHuman", (date) => {
@@ -103,7 +82,7 @@ export default function (eleventyConfig) {
     return new Intl.DateTimeFormat("it-IT", {
       day: "2-digit",
       month: "long",
-      year: "numeric"
+      year: "numeric",
     }).format(d);
   });
 
@@ -121,31 +100,36 @@ export default function (eleventyConfig) {
       strict: true,
       locale: "it",
       replacement: "-",
-      trim: true
+      trim: true,
     });
   });
 
   // ============================================
   // = COLLECTIONS
   // ============================================
-  eleventyConfig.addCollection("tagsList", function (collection) {
+  eleventyConfig.addCollection("tagsList", (collection) => {
     const tagSet = new Set();
-    collection.getAll().forEach(item => {
-      const strapiTags = item.data.strapiTags ?? "";
-      if (typeof strapiTags === "string" && strapiTags) {
-        strapiTags.split(",").map(t => t.trim()).filter(Boolean).forEach(t => tagSet.add(t));
+    collection.getAll().forEach((item) => {
+      const postTags = item.data.postTags;
+      if (Array.isArray(postTags)) {
+        postTags.forEach((t) => tagSet.add(t));
       }
     });
     return [...tagSet].sort();
   });
 
-  eleventyConfig.addCollection("posts", function (collection) {
-    return collection.getFilteredByTag("posts").sort((a, b) => {
-      const dateA = new Date(a.data.date);
-      const dateB = new Date(b.data.date);
+  eleventyConfig.addCollection("posts", (collection) =>
+    collection
+      .getFilteredByTag("posts")
+      .sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
+  );
 
-      return dateB - dateA;
-    });
+  eleventyConfig.addFilter("jsonParse", function(str) {
+    try {
+      return JSON.parse(str);
+    } catch (e) {
+      return []; // Se c'è un errore, restituisce una lista vuota
+    }
   });
 
   // ============================================
@@ -154,12 +138,15 @@ export default function (eleventyConfig) {
   let searchIndexCache = [];
 
   eleventyConfig.addCollection("searchIndex", (collection) => {
-    searchIndexCache = collection.getFilteredByTag("posts").map(post => ({
-      title: post.data.title,
-      description: post.data.description,
-      url: post.url,
-      date: new Date(post.data.date)
-    })).sort((a, b) => new Date(b.date) - new Date(a.date));
+    searchIndexCache = collection
+      .getFilteredByTag("posts")
+      .map((post) => ({
+        title: post.data.title,
+        description: post.data.description,
+        url: post.url,
+        date: new Date(post.data.date),
+      }))
+      .sort((a, b) => new Date(b.date) - new Date(a.date));
     return searchIndexCache;
   });
 
@@ -177,11 +164,6 @@ export default function (eleventyConfig) {
       input: "src",
       output: "docs",
       includes: "_includes",
-    }
+    },
   };
-
-  // ============================================
-  // = CLEAN BUILD
-  // ============================================
-  eleventyConfig.setEmptyOutputHtmlExtension(true);
 }

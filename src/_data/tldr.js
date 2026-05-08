@@ -1,10 +1,11 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import fs from "fs";
-import process from "process";
 import path from "path";
-import matter from "gray-matter";
+import process from "process";
 
 const CACHE_FILE = ".cache/tldr-cache.json";
+const STRAPI_URL = process.env.STRAPI_URL ?? "http://localhost:1337";
+const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
 function loadCache() {
   if (fs.existsSync(CACHE_FILE)) {
@@ -18,47 +19,76 @@ function saveCache(cache) {
   fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2), "utf-8");
 }
 
-console.log("[tldr] Il file tldr.js è stato caricato da Eleventy!");
+async function fetchStrapiPosts() {
+  if (!STRAPI_TOKEN) {
+    console.warn("[tldr] STRAPI_TOKEN non trovato, impossibile recuperare i post.");
+    return [];
+  }
+
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/posts?locale=it&populate=*`, {
+      headers: {
+        Authorization: `Bearer ${STRAPI_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      console.error("[tldr] Errore Strapi:", res.status);
+      return [];
+    }
+
+    const { data } = await res.json();
+    return data ?? [];
+  } catch (err) {
+    console.error("[tldr] Fetch Strapi fallito:", err.message);
+    return [];
+  }
+}
 
 export default async function () {
   const key = process.env.GEMINI_API_KEY;
   if (!key) {
-    console.warn("[tldr] GEMINI_API_KEY non trovata, skip generazione TL;DR.");
-    return {};
+    console.warn("[tldr] GEMINI_API_KEY non trovata, uso cache esistente.");
+    return loadCache();
   }
 
   const genAI = new GoogleGenerativeAI(key);
-  const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite-preview" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash-lite" });
 
   const cache = loadCache();
-  const postsDir = "src/posts";
+  const posts = await fetchStrapiPosts();
+
+  if (posts.length === 0) {
+    console.warn("[tldr] Nessun post da Strapi, uso cache esistente.");
+    return cache;
+  }
+
   const result = { ...cache };
 
-  const files = fs.readdirSync(postsDir, { recursive: true })
-    .filter(f => String(f).endsWith(".md"))
-    .map(f => path.join(postsDir, String(f)));
+  for (const item of posts) {
+    const title = item.title;
+    const content = item.content ?? "";
 
-  for (const filePath of files) {
-    const raw = fs.readFileSync(filePath, "utf-8");
-    const { data, content } = matter(raw);
+    if (!title || !content) continue;
 
-    if (!data.title) continue;
-
-    const cacheKey = data.title;
     const contentHash = content.length.toString();
-    if (cache[cacheKey]?.hash === contentHash) continue;
+    if (cache[title]?.hash === contentHash) continue;
 
-    console.log(`[tldr] Generazione TL;DR per: ${data.title}`);
+    console.log(`[tldr] Generazione TL;DR per: ${title}`);
 
     try {
-      const prompt = `Sei un assistente tecnico. Riassumi questo articolo in 2 frasi concise per un lettore esperto. Rispondi SOLO con le 2 frasi, senza prefissi o etichette.\n\n${content.slice(0, 3000)}`;
+      const prompt = `
+      Sei un assistente tecnico. 
+      Riassumi questo articolo in 2 frasi concise per un lettore esperto. 
+      Rispondi SOLO con le 2 frasi, senza prefissi o etichette.\n\n${content.slice(0, 3000)}`;
       const response = await model.generateContent(prompt);
       const tldr = response.response.text().trim();
 
-      result[cacheKey] = { tldr, hash: contentHash };
-      console.log(`[tldr] ✓ ${data.title}`);
+      result[title] = { tldr, hash: contentHash };
+      console.log(`[tldr] ✓ ${title}`);
     } catch (err) {
-      console.error(`[tldr] ✗ Errore per "${data.title}":`, err.message);
+      console.error(`[tldr] ✗ Errore per "${title}":`, err.message);
     }
   }
 

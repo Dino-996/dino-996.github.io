@@ -23,7 +23,7 @@ title: Home
 
 <hr class="my-5" />
 
-<!-- Progetti recenti -->
+{# Progetti recenti #}
 <section class="mb-5">
   <div class="d-flex align-items-center justify-content-between mb-4">
     <h2 class="h3 fw-bold mb-0">
@@ -119,7 +119,7 @@ title: Home
 
 <hr class="my-5" />
 
-<!-- Ultimi Articoli -->
+{# Ultimi Articoli #}
 <section class="mb-5">
   <div class="d-flex align-items-center justify-content-between mb-4">
     <h2 class="h3 fw-bold mb-0">
@@ -130,59 +130,69 @@ title: Home
     </a>
   </div>
   
-  <div class="row g-4">{% assign recentPosts=collections.posts | reverse %}{% for post in recentPosts limit: 3 %}
-  <div class="col-12 col-md-{% if forloop.last %}12{% else %}6{% endif %} col-lg-4">
-    <article class="card h-100 overflow-hidden shadow-none" style="transform: none">
-      <div class="row g-0 h-100">{% if post.data.image %}
-        <div class="col-12 p-0">
-          <img 
-            src="{{ post.data.image }}" 
-            alt="{% if post.data.imageAlt %}{{ post.data.imageAlt }}{% else %}{{ post.data.title }}{% endif %}" 
-            class="img-fluid w-100" 
-            style="object-fit: cover; height: 200px;"
-          >
-        </div>{% endif %}
-        <div class="col-12">
-          <div class="card-body d-flex flex-column h-100">
-            <div>
-              <h2 class="h4 card-title mb-2">
-                <a href="{{ post.url }}" class="text-decoration-none">{{ post.data.title }}</a>
-              </h2>
-              <time class="text-muted text-truncate small d-block mb-2" datetime="{{ post.date | dateIso }}">
-                <i class="bi bi-calendar3 me-1"></i>{{ post.date | dateHuman }}
-              </time>
-              <hr>
-              {% if post.data.description %}
-              <p class="card-text">{{ post.data.description | truncate: 140 }}</p>
-              {% endif %}
-              {% if post.data.tags %}
-              <div class="mb-3">
-               <div class="d-flex flex-row gap-1">
-                 <strong class="me-2">Tag:</strong>
-                   {% for tag in post.data.tags %}
-                     {% unless tag == "posts" %}
-                     <a href="/tags/{{ tag | slugify }}/" class="badge bg-light text-body border text-decoration-none">{{ tag }}</a>
-                     {% endunless %}
-                   {% endfor %}
-               </div>
+  <div class="row g-4">
+    {% set recentPosts = collections.posts | reverse %}
+    
+    {% for post in recentPosts.slice(0, 3) %}
+    <div class="col-12 col-md-{% if loop.last %}12{% else %}6{% endif %} col-lg-4">
+      <article class="card h-100 overflow-hidden shadow-none" style="transform: none">
+        <div class="row g-0 h-100">
+          {% if post.data.image %}
+          <div class="col-12 p-0">
+            <img 
+              src="{{ post.data.image }}" 
+              alt="{{ post.data.imageAlt if post.data.imageAlt else post.data.title }}" 
+              class="img-fluid w-100" 
+              style="object-fit: cover; height: 200px;"
+            >
+          </div>
+          {% endif %}
+          
+          <div class="col-12">
+            <div class="card-body d-flex flex-column h-100">
+              <div>
+                <h2 class="h4 card-title mb-2">
+                  <a href="{{ post.url }}" class="text-decoration-none">{{ post.data.title }}</a>
+                </h2>
+                <time class="text-muted text-truncate small d-block mb-2">
+                  <i class="bi bi-calendar3 me-1"></i>{{ post.date | dateHuman }}
+                </time>
+                <hr>
+                
+                {% if post.data.description %}
+                <p class="card-text">{{ post.data.description | truncate(140) | safe }}</p>
+                {% endif %}
+
+                {% if post.data.strapiTags %}
+                  {% set tagList = post.data.strapiTags | jsonParse %}
+                  <div class="d-flex flex-wrap gap-2 mb-3">
+                    {% for tag in tagList %}
+                      {% set t = tag | trim %}
+                      {% if t and t != "posts" %}
+                        <a href="/tags/{{ t | slugify }}/" class="badge bg-light border text-decoration-none fw-normal" style="color: var(--bs-body-color)">
+                          {{ t }}
+                        </a>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
               </div>
-              {% endif %}
-            </div>
-            <div class="text-end mt-auto mb-3">
-              <a href="{{ post.url }}" class="btn btn-primary btn-sm">
-                Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
-              </a>
+
+              <div class="text-end mt-auto mb-3">
+                <a href="{{ post.url }}" class="btn btn-primary btn-sm">
+                  Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </div>
+    {% endfor %}
   </div>
-  {% endfor %}
-</div>
 </section>
 
-<!-- Call to Action -->
+{# Call to action #}
 <section class="text-center py-5 bg-light rounded">
   <h2 class="h4 fw-bold mb-3">Vuoi rimanere aggiornato?</h2>
   <p class="text-muted mb-4">
