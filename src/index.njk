@@ -158,11 +158,11 @@ title: Home
                 <hr>
                 
                 {% if post.data.description %}
-                <p class="card-text">{{ post.data.description | truncate(140) | safe }}</p>
+                  <p class="card-text">{{ post.data.description | safe }}</p>
                 {% endif %}
 
                 {% if post.data.strapiTags %}
-                  {% set tagList = post.data.strapiTags | jsonParse %}
+                  {% set tagList = post.data.strapiTags.split(',') %}
                   <div class="d-flex flex-wrap gap-2 mb-3">
                     {% for tag in tagList %}
                       {% set t = tag | trim %}
@@ -183,6 +183,7 @@ title: Home
               </div>
             </div>
           </div>
+
         </div>
       </article>
     </div>

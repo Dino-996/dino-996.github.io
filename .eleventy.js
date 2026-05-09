@@ -105,14 +105,6 @@ export default function (eleventyConfig) {
       trim: true,
     });
   });
-
-  eleventyConfig.addFilter("jsonParse", function (str) {
-    try {
-      return JSON.parse(str);
-    } catch (e) {
-      return [];
-    }
-  });
   
   // ============================================
   // = COLLECTIONS
