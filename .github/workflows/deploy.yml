@@ -26,7 +26,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .cache/tldr-cache.json
-          key: tldr-cache-${{ hashFiles('src/posts/**/*.md') }}
+          key: tldr-cache-${{ github.run_id }}
           restore-keys: |
             tldr-cache-
 
@@ -37,6 +37,8 @@ jobs:
         run: npm run build
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          STRAPI_TOKEN: ${{ secrets.STRAPI_TOKEN }}
+          STRAPI_URL: ${{ secrets.STRAPI_URL }}
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4

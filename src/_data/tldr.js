@@ -7,6 +7,15 @@ const CACHE_FILE = ".cache/tldr-cache.json";
 const STRAPI_URL = process.env.STRAPI_URL ?? "http://localhost:1337";
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
+function hashContent(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = ((hash << 5) - hash) + str.charCodeAt(i);
+    hash = hash & hash;
+  }
+  return Math.abs(hash).toString(36);
+}
+
 function loadCache() {
   if (fs.existsSync(CACHE_FILE)) {
     return JSON.parse(fs.readFileSync(CACHE_FILE, "utf-8"));
@@ -72,7 +81,7 @@ export default async function () {
 
     if (!title || !content) continue;
 
-    const contentHash = content.length.toString();
+    const contentHash = hashContent(content.slice(0, 5000));
     if (cache[title]?.hash === contentHash) continue;
 
     console.log(`[tldr] Generazione TL;DR per: ${title}`);

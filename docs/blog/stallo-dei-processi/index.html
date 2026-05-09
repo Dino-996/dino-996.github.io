@@ -594,8 +594,6 @@ t2.start()
 
     <script>
       (function () {
-        // console.log("AI widget inizializzato");
-
         const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
         const toggle = document.getElementById("ai-toggle");
         const win = document.getElementById("ai-chat-window");
@@ -703,11 +701,10 @@ t2.start()
           try {
             // console.log("Carico search.json...");
             const idx = await fetch("/search.json").then(r => r.json());
-            // console.log("search.json caricato, articoli:", idx.length);
-            context = idx
-              .slice(0, 10)
-              .map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}\nLink: https://dino-996.github.io${p.url}`)
-              .join("\n\n");
+            const total = idx.length;
+            context = `Il blog contiene ${total} articoli totali.\n\n` + 
+            idx.map(p => `Titolo: ${p.title}\nDescrizione: ${p.description}\nLink: https://dino-996.github.io${p.url}`)
+            .join("\n\n");
           } catch (err) {
             console.warn("Impossibile caricare search.json:", err);
             context = "";
