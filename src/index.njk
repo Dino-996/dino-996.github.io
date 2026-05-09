@@ -131,9 +131,7 @@ title: Home
   </div>
   
   <div class="row g-4">
-    {% set recentPosts = collections.posts %}
-    
-    {% for post in recentPosts.slice(0, 3) %}
+   {% for post in collections.posts | limit(3) %}
     <div class="col-12 col-md-{% if loop.last %}12{% else %}6{% endif %} col-lg-4">
       <article class="card h-100 overflow-hidden shadow-none" style="transform: none">
         <div class="row g-0 h-100">

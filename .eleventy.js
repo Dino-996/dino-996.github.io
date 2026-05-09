@@ -86,6 +86,8 @@ export default function (eleventyConfig) {
     }).format(d);
   });
 
+  eleventyConfig.addFilter("limit", (arr, n) => arr.slice(0, n));
+
   eleventyConfig.addFilter("excerpt", (post) => {
     if (post.data?.excerpt) return post.data.excerpt;
     if (!post?.templateContent) return "";
