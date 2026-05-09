@@ -23,13 +23,6 @@ export default async function () {
 
     const { data } = await res.json();
 
-    console.log("\fData di creazione:", Date(JSON.stringify(data[0].date, null, 2)), "\f");
-    console.log("--- DEBUG STRAPI DATA (dettaglio) ---");
-    if (data && data[0]) {
-      console.dir(data[0], { depth: null, colors: true });
-    }
-    console.log("--------------------------------------");
-
     if (!data || data.length === 0) {
       console.warn("[posts] Nessun dato ricevuto da Strapi");
       return [];
