@@ -104,18 +104,44 @@ export default function (eleventyConfig) {
     });
   });
 
+  eleventyConfig.addFilter("jsonParse", function (str) {
+    try {
+      return JSON.parse(str);
+    } catch (e) {
+      return [];
+    }
+  });
+  
   // ============================================
   // = COLLECTIONS
   // ============================================
-  eleventyConfig.addCollection("tagsList", (collection) => {
-    const tagSet = new Set();
-    collection.getAll().forEach((item) => {
-      const postTags = item.data.postTags;
-      if (Array.isArray(postTags)) {
-        postTags.forEach((t) => tagSet.add(t));
-      }
+  eleventyConfig.addCollection("tagList", function (api) {
+    const tags = new Set();
+    api.getAll().forEach(item => {
+      const raw = item.data.strapiTags;
+      if (!raw) return;
+      (typeof raw === "string" ? raw.split(",") : raw)
+        .map(t => t.trim())
+        .filter(t => t && t !== "posts")
+        .forEach(t => tags.add(t));
     });
-    return [...tagSet].sort();
+    return [...tags].sort();
+  });
+
+  eleventyConfig.addCollection("postsByTag", function (api) {
+    const map = {};
+    api.getAll().forEach(item => {
+      const raw = item.data.strapiTags;
+      if (!raw) return;
+      (typeof raw === "string" ? raw.split(",") : raw)
+        .map(t => t.trim())
+        .filter(t => t && t !== "posts")
+        .forEach(tag => {
+          if (!map[tag]) map[tag] = [];
+          map[tag].push(item);
+        });
+    });
+    return map;
   });
 
   eleventyConfig.addCollection("posts", (collection) =>
@@ -123,14 +149,6 @@ export default function (eleventyConfig) {
       .getFilteredByTag("posts")
       .sort((a, b) => new Date(b.data.date) - new Date(a.data.date))
   );
-
-  eleventyConfig.addFilter("jsonParse", function(str) {
-    try {
-      return JSON.parse(str);
-    } catch (e) {
-      return []; // Se c'è un errore, restituisce una lista vuota
-    }
-  });
 
   // ============================================
   // = SEARCH INDEX

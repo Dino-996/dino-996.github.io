@@ -131,7 +131,7 @@ title: Home
   </div>
   
   <div class="row g-4">
-    {% set recentPosts = collections.posts | reverse %}
+    {% set recentPosts = collections.posts %}
     
     {% for post in recentPosts.slice(0, 3) %}
     <div class="col-12 col-md-{% if loop.last %}12{% else %}6{% endif %} col-lg-4">
@@ -155,7 +155,7 @@ title: Home
                   <a href="{{ post.url }}" class="text-decoration-none">{{ post.data.title }}</a>
                 </h2>
                 <time class="text-muted text-truncate small d-block mb-2">
-                  <i class="bi bi-calendar3 me-1"></i>{{ post.date | dateHuman }}
+                  <i class="bi bi-calendar3 me-1"></i>{{ post.data.date | dateHuman }}
                 </time>
                 <hr>
                 
