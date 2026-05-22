@@ -196,7 +196,7 @@ export default function (eleventyConfig) {
             // motore del modello html
             htmlTemplateEngine: "njk",
             // prefisso base degli URL quando il sito è distribuito
-            pathPrefix: repositoryName,
+            pathPrefix: "",
         }
     }
 }
