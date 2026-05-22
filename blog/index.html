@@ -6,26 +6,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  Home · dino-996 blog
+  Blog · dino-996 blog
 </title>
 
 <!-- SEO meta tags -->
-<meta name="description" content="Developer portfolio e blog tecnico" />
+<meta name="description" content="Articoli e appunti" />
 <meta name="author" content="Davide Sabia" />
 <meta name="robots" content="index, follow" />
 
 <!-- Canonical URL -->
 
-<link rel="canonical" href="https://dino-996.github.io/" />
+<link rel="canonical" href="https://dino-996.github.io/blog/" />
 
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 
-<meta property="og:url" content="https://dino-996.github.io/" />
+<meta property="og:url" content="https://dino-996.github.io/blog/" />
 
-<meta property="og:title" content="Home" />
-<meta property="og:description" content="Developer portfolio e blog tecnico" />
+<meta property="og:title" content="Blog" />
+<meta property="og:description" content="Articoli e appunti" />
 <meta property="og:site_name" content="dino-996 blog" />
 
 <meta property="og:image" content="https://dino-996.github.io/assets/img/webp/og-default.webp" />
@@ -34,10 +34,10 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 
-<meta name="twitter:url" content="https://dino-996.github.io/" />
+<meta name="twitter:url" content="https://dino-996.github.io/blog/" />
 
-<meta name="twitter:title" content="Home" />
-<meta name="twitter:description" content="Developer portfolio e blog tecnico" />
+<meta name="twitter:title" content="Blog" />
+<meta name="twitter:description" content="Articoli e appunti" />
 
 
 <!-- Favicon -->
@@ -85,12 +85,12 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="/">
+          <a class="nav-link" href="/">
             Home
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/blog/">
+          <a class="nav-link active" href="/blog/">
             Blog
           </a>
         </li>
@@ -120,162 +120,66 @@
     <main class="container my-5 flex-grow-1">
       
 
-<!-- Call to Action -->
-<div class="hero-section text-center py-5 mb-5">
-  <h1 class="display-4 fw-bold mb-3">
-    Ciao, sono <span class="text-primary">Davide</span> 👋
-  </h1>
-  <p class="lead text-muted mb-4">
-    Informatico appassionato di tecnologie moderne.<br>
-    Condivido qui i miei progetti e articoli su programmazione e sicurezza informatica.
-  </p>
-  <div class="d-flex gap-3 justify-content-center">
-    <a href="/blog/" class="btn btn-primary btn-lg">
-      <i class="bi bi-journal-text me-2"></i>Blog
-    </a>
-    <a href="/about/" class="btn btn-outline-primary btn-lg">
-      <i class="bi bi-person me-2"></i>About
-    </a>
+<h1>
+  <i class="text-primary bi bi-journal-text me-1"></i>
+  Blog
+</h1>
+
+<div class="mb-4">
+  <div class="input-group">
+    <span class="input-group-text bg-body rounded-start-3">
+      <i class="bi bi-search text-muted"></i>
+    </span>
+    <input
+      type="search"
+      id="search-input"
+      class="form-control border-2 ps-0 ml-3"
+      placeholder="Cerca un articolo per titolo..."
+      aria-label="Cerca articoli"
+      autocomplete="off"
+    >
+    <button id="search-button" class="btn btn-primary shadow-none rounded-end-3" type="button" style="transform: none;">
+      Cerca
+    </button>
   </div>
+  <div id="search-results" class="mt-3" hidden></div>
 </div>
 
-<hr class="my-5" />
-
-<!-- Progetti recenti -->
-<section class="mb-5">
-  <div class="d-flex align-items-center justify-content-between mb-4">
-    <h2 class="h3 fw-bold mb-0">
-      <i class="bi bi-code-square text-primary me-2"></i>Progetti recenti
-    </h2>
-  </div>
-
-  <div class="row g-4">
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="card h-100 shadow-none" style="transform: none;">
-        <div class="card-body d-flex flex-column">
-          <div class="d-flex align-items-center mb-3">
-            <i class="bi bi-github fs-3 text-primary me-2"></i>
-            <h3 class="h5 card-title mb-0">Personal Blog</h3>
-          </div>
-          <p class="card-text text-muted">
-            Blog personale realizzato con Eleventy e Bootstrap. Include sistema di tag, pagination e dark mode.
-          </p>
-          <div class="mb-3">
-            <span class="badge bg-light text-body border me-1 pe-none">Eleventy</span>
-            <span class="badge bg-light text-body border me-1 pe-none">Bootstrap</span>
-            <span class="badge bg-light text-body border pe-none">Nunjucks</span>
-            <span class="badge bg-light text-body border pe-none">Liquid</span>
-          </div>
-          <div class="mt-auto">
-            <a href="https://github.com/Dino-996/dino-996.github.io" target="_blank" class="btn btn-primary btn-sm mb-2 w-100">
-              <i class="bi bi-github me-1"></i>Vedi su GitHub
-            </a>
-            <div class="text-start">
-              <span class="badge bg-success pe-none">
-                <i class="bi bi-check-circle me-1"></i>Completato
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-md-6 col-lg-4">
-      <div class="card h-100 shadow-none" style="transform: none;">
-        <div class="card-body d-flex flex-column">
-          <div class="d-flex align-items-center mb-3">
-            <i class="bi bi-cloud-fill fs-3 text-primary me-2"></i>
-            <h3 class="h5 card-title mb-0">Spring Boot API</h3>
-          </div>
-          <p class="card-text text-muted">
-            API REST completa sviluppata con Spring Boot per la gestione utenti, con supporto per database PostgreSQL e H2.
-          </p>
-          <div class="mb-3">
-            <span class="badge bg-light text-body border me-1 pe-none">Spring Boot</span>
-            <span class="badge bg-light text-body border me-1 pe-none">API REST</span>
-          </div>
-          <div class="mt-auto">
-            <a href="https://github.com/Dino-996/spring-boot-api" target="_blank" class="btn btn-primary btn-sm mb-2 w-100">
-              <i class="bi bi-github me-1"></i>Vedi su GitHub
-            </a>
-            <div class="text-start">
-              <span class="badge bg-success pe-none">
-                <i class="bi bi-check-circle me-1"></i>Completato
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-md-12 col-lg-4">
-      <div class="card h-100 shadow-none" style="transform: none;">
-        <div class="card-body d-flex flex-column">
-          <div class="d-flex align-items-center mb-3">
-            <i class="bi bi-lightbulb fs-3 text-warning me-2"></i>
-            <h3 class="h5 card-title mb-0">Prossimamente</h3>
-          </div>
-          <p class="card-text text-muted">
-            Attualmente sto lavorando ad un progetto di cyber security. Torna a controllare tra qualche settimana!
-          </p>
-          <div class="mb-3">
-            <span class="badge bg-light text-body border me-1 pe-none">In sviluppo</span>
-          </div>
-          <div class="mt-auto">
-            <button class="btn btn-secondary btn-sm mb-2 w-100" disabled>
-              <i class="bi bi-hourglass-split me-1"></i>Coming Soon
-            </button>
-            <div class="text-start">
-              <span class="badge bg-warning text-dark pe-none">
-                <i class="bi bi-gear-fill me-1"></i>In corso
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Ultimi articoli -->
-<section class="row g-4">
-  <div class="d-flex align-items-center justify-content-between mb-4">
-    <h2 class="h3 fw-bold mb-0">
-      <i class="bi bi-book text-primary me-2"></i>Ultimi articoli
-    </h2>
-  </div>
+<section id="posts-list" class="row g-4">
   
-  
-    
-    <div class="col-12 col-md-6 col-lg-4">
-      <article class="card h-100 overflow-hidden shadow-none" style="transform: none">
-        <div class="row g-0 h-100">
-          
-          <div class="col-12 p-0">
-            <img
-              src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
-              alt="Immagine generata con IA"
-              class="img-fluid w-100"
-              style="object-fit: cover; height: 200px;"
-            >
-          </div>
-          
-          <div class="col-12">
-            <div class="card-body d-flex flex-column h-100">
-              <div>
-                <h2 class="h4 card-title mb-2">
-                  <a href="/blog/reti-wireless-mobile/" class="text-decoration-none">Reti wireless e mobili</a>
-                </h2>
-                <time class="text-muted text-truncate small d-block mb-2" datetime="2026-05-17T00:00:00.000Z">
-                  <i class="bi bi-calendar3 me-1"></i>17 maggio 2026
-                </time>
-                <hr>
+  <div class="col-12">
+    <article class="card h-100 overflow-hidden shadow-sm">
+      <div class="row g-0 h-100">
+        
+        <div class="col-md-4 p-0">
+          <img
+            src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
+            alt="Immagine generata con IA"
+            class="img-fluid w-100 h-100"
+            style="object-fit: cover; min-height: 250px; max-height: 400px"
+          >
+        </div>
+        <div class="col-md-8">
+        
+          <div class="card-body d-flex flex-column h-100">
+            <div>
+              <h2 class="h4 card-title mb-2">
+                <a href="/blog/reti-wireless-mobile/" class="text-decoration-none">Reti wireless e mobili</a>
+              </h2>
+              <time class="text-muted text-truncate small d-block mb-2" datetime="2026-05-17T00:00:00.000Z">
+                <i class="bi bi-calendar3 me-1"></i>17 maggio 2026
+              </time>
+              <hr>
+              <div class="mb-3">
                 
-                <p class="card-text">Questo articolo esplora le principali tecnologie di connettività wireless presenti nei dispositivi mobili: come funzionano, come si...</p>
+                  
+                    <p>Questo articolo esplora le principali tecnologie di connettività wireless presenti nei dispositivi mobili: come funzionano, come si configurano e come si integrano nell&#39;ecosistema digitale contemporaneo.</p>
+                  
                 
                 
-                <div class="mb-3">
-                  <div class="d-flex flex-wrap align-items-baseline gap-2">
-                    <strong class="me-2 small text-uppercase">TAG:</strong>
-                    
+                  
+                  <div class="mb-3 d-flex flex-wrap align-items-baseline gap-2">
+                    <span class="fw-bold small text-uppercase">TAG:</span>
                     
                       
                       
@@ -308,53 +212,52 @@
                       
                     
                   </div>
-                </div>
                 
               </div>
               <div class="text-end mt-auto mb-3">
-                <a href="/blog/reti-wireless-mobile/" class="btn btn-primary btn-sm">
+                <a href="/blog/reti-wireless-mobile/" class="btn btn-primary btn-sm rounded">
                   Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
                 </a>
               </div>
             </div>
           </div>
         </div>
-      </article>
-    </div>
-    
+    </article>
+  </div>
   
-    
-    <div class="col-12 col-md-6 col-lg-4">
-      <article class="card h-100 overflow-hidden shadow-none" style="transform: none">
-        <div class="row g-0 h-100">
-          
-          <div class="col-12 p-0">
-            <img
-              src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
-              alt="Immagine generata con IA"
-              class="img-fluid w-100"
-              style="object-fit: cover; height: 200px;"
-            >
-          </div>
-          
-          <div class="col-12">
-            <div class="card-body d-flex flex-column h-100">
-              <div>
-                <h2 class="h4 card-title mb-2">
-                  <a href="/blog/componenti-tipi-e-connessioni-di-rete/" class="text-decoration-none">Componenti, tipi e connessioni di rete</a>
-                </h2>
-                <time class="text-muted text-truncate small d-block mb-2" datetime="2026-05-08T00:00:00.000Z">
-                  <i class="bi bi-calendar3 me-1"></i>08 maggio 2026
-                </time>
-                <hr>
+  <div class="col-12">
+    <article class="card h-100 overflow-hidden shadow-sm">
+      <div class="row g-0 h-100">
+        
+        <div class="col-md-4 p-0">
+          <img
+            src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
+            alt="Immagine generata con IA"
+            class="img-fluid w-100 h-100"
+            style="object-fit: cover; min-height: 250px; max-height: 400px"
+          >
+        </div>
+        <div class="col-md-8">
+        
+          <div class="card-body d-flex flex-column h-100">
+            <div>
+              <h2 class="h4 card-title mb-2">
+                <a href="/blog/componenti-tipi-e-connessioni-di-rete/" class="text-decoration-none">Componenti, tipi e connessioni di rete</a>
+              </h2>
+              <time class="text-muted text-truncate small d-block mb-2" datetime="2026-05-08T00:00:00.000Z">
+                <i class="bi bi-calendar3 me-1"></i>08 maggio 2026
+              </time>
+              <hr>
+              <div class="mb-3">
                 
-                <p class="card-text">Esplora le architetture Client-Server e P2P, scopri come sono strutturate le moderne infrastrutture di rete e approfondisci le tecnologie di...</p>
+                  
+                    <p>Esplora le architetture Client-Server e P2P, scopri come sono strutturate le moderne infrastrutture di rete e approfondisci le tecnologie di accesso a banda larga (FTTH, 5G, LEO) e le strategie di sicurezza per connettività SOHO e aziendali.</p>
+                  
                 
                 
-                <div class="mb-3">
-                  <div class="d-flex flex-wrap align-items-baseline gap-2">
-                    <strong class="me-2 small text-uppercase">TAG:</strong>
-                    
+                  
+                  <div class="mb-3 d-flex flex-wrap align-items-baseline gap-2">
+                    <span class="fw-bold small text-uppercase">TAG:</span>
                     
                       
                       
@@ -378,53 +281,52 @@
                       
                     
                   </div>
-                </div>
                 
               </div>
               <div class="text-end mt-auto mb-3">
-                <a href="/blog/componenti-tipi-e-connessioni-di-rete/" class="btn btn-primary btn-sm">
+                <a href="/blog/componenti-tipi-e-connessioni-di-rete/" class="btn btn-primary btn-sm rounded">
                   Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
                 </a>
               </div>
             </div>
           </div>
         </div>
-      </article>
-    </div>
-    
+    </article>
+  </div>
   
-    
-    <div class="col-12 col-md-6 col-lg-4">
-      <article class="card h-100 overflow-hidden shadow-none" style="transform: none">
-        <div class="row g-0 h-100">
-          
-          <div class="col-12 p-0">
-            <img
-              src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
-              alt="Immagine generata con IA"
-              class="img-fluid w-100"
-              style="object-fit: cover; height: 200px;"
-            >
-          </div>
-          
-          <div class="col-12">
-            <div class="card-body d-flex flex-column h-100">
-              <div>
-                <h2 class="h4 card-title mb-2">
-                  <a href="/blog/le-reti/" class="text-decoration-none">Le reti</a>
-                </h2>
-                <time class="text-muted text-truncate small d-block mb-2" datetime="2026-05-06T00:00:00.000Z">
-                  <i class="bi bi-calendar3 me-1"></i>06 maggio 2026
-                </time>
-                <hr>
+  <div class="col-12">
+    <article class="card h-100 overflow-hidden shadow-sm">
+      <div class="row g-0 h-100">
+        
+        <div class="col-md-4 p-0">
+          <img
+            src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
+            alt="Immagine generata con IA"
+            class="img-fluid w-100 h-100"
+            style="object-fit: cover; min-height: 250px; max-height: 400px"
+          >
+        </div>
+        <div class="col-md-8">
+        
+          <div class="card-body d-flex flex-column h-100">
+            <div>
+              <h2 class="h4 card-title mb-2">
+                <a href="/blog/le-reti/" class="text-decoration-none">Le reti</a>
+              </h2>
+              <time class="text-muted text-truncate small d-block mb-2" datetime="2026-05-06T00:00:00.000Z">
+                <i class="bi bi-calendar3 me-1"></i>06 maggio 2026
+              </time>
+              <hr>
+              <div class="mb-3">
                 
-                <p class="card-text">La connettività è l&#39;infrastruttura critica del mondo moderno. Scopri come funzionano le reti, dai protocolli fondamentali ai dispositivi...</p>
+                  
+                    <p>La connettività è l&#39;infrastruttura critica del mondo moderno. Scopri come funzionano le reti, dai protocolli fondamentali ai dispositivi IoT, e impara a misurare e ottimizzare le performance di rete come un professionista.</p>
+                  
                 
                 
-                <div class="mb-3">
-                  <div class="d-flex flex-wrap align-items-baseline gap-2">
-                    <strong class="me-2 small text-uppercase">TAG:</strong>
-                    
+                  
+                  <div class="mb-3 d-flex flex-wrap align-items-baseline gap-2">
+                    <span class="fw-bold small text-uppercase">TAG:</span>
                     
                       
                       
@@ -448,56 +350,188 @@
                       
                     
                   </div>
-                </div>
                 
               </div>
               <div class="text-end mt-auto mb-3">
-                <a href="/blog/le-reti/" class="btn btn-primary btn-sm">
+                <a href="/blog/le-reti/" class="btn btn-primary btn-sm rounded">
                   Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
                 </a>
               </div>
             </div>
           </div>
         </div>
-      </article>
-    </div>
-    
+    </article>
+  </div>
   
-    
+  <div class="col-12">
+    <article class="card h-100 overflow-hidden shadow-sm">
+      <div class="row g-0 h-100">
+        
+        <div class="col-md-4 p-0">
+          <img
+            src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947641/gnu_linux_1b34ec4ff7.webp"
+            alt="Immagine generata con IA"
+            class="img-fluid w-100 h-100"
+            style="object-fit: cover; min-height: 250px; max-height: 400px"
+          >
+        </div>
+        <div class="col-md-8">
+        
+          <div class="card-body d-flex flex-column h-100">
+            <div>
+              <h2 class="h4 card-title mb-2">
+                <a href="/blog/filesistem-linux/" class="text-decoration-none">Il filesystem di linux</a>
+              </h2>
+              <time class="text-muted text-truncate small d-block mb-2" datetime="2026-03-18T00:00:00.000Z">
+                <i class="bi bi-calendar3 me-1"></i>18 marzo 2026
+              </time>
+              <hr>
+              <div class="mb-3">
+                
+                  
+                    <p>In questo articolo esploriamo come funziona il filesystem Linux; partiremo dai concetti fondamentali, capiremo perché tutto è un file, e poi percorreremo le directory principali del sistema una per una.</p>
+                  
+                
+                
+                  
+                  <div class="mb-3 d-flex flex-wrap align-items-baseline gap-2">
+                    <span class="fw-bold small text-uppercase">TAG:</span>
+                    
+                      
+                      
+                        <a href="/tags/linux/"
+                           class="badge border text-decoration-none d-inline-flex align-items-center"
+                           style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+                          linux
+                        </a>
+                      
+                    
+                      
+                      
+                        <a href="/tags/sistemi-operativi/"
+                           class="badge border text-decoration-none d-inline-flex align-items-center"
+                           style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+                          sistemi operativi
+                        </a>
+                      
+                    
+                      
+                      
+                        <a href="/tags/filesystem/"
+                           class="badge border text-decoration-none d-inline-flex align-items-center"
+                           style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+                          filesystem
+                        </a>
+                      
+                    
+                  </div>
+                
+              </div>
+              <div class="text-end mt-auto mb-3">
+                <a href="/blog/filesistem-linux/" class="btn btn-primary btn-sm rounded">
+                  Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </article>
+  </div>
   
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
+  <div class="col-12">
+    <article class="card h-100 overflow-hidden shadow-sm">
+      <div class="row g-0 h-100">
+        
+        <div class="col-md-4 p-0">
+          <img
+            src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947641/gnu_linux_1b34ec4ff7.webp"
+            alt="Immagine generata con IA"
+            class="img-fluid w-100 h-100"
+            style="object-fit: cover; min-height: 250px; max-height: 400px"
+          >
+        </div>
+        <div class="col-md-8">
+        
+          <div class="card-body d-flex flex-column h-100">
+            <div>
+              <h2 class="h4 card-title mb-2">
+                <a href="/blog/comandi-di-base/" class="text-decoration-none">Comandi di base della shell</a>
+              </h2>
+              <time class="text-muted text-truncate small d-block mb-2" datetime="2026-03-17T00:00:00.000Z">
+                <i class="bi bi-calendar3 me-1"></i>17 marzo 2026
+              </time>
+              <hr>
+              <div class="mb-3">
+                
+                  
+                    <p class="text-truncate">Una guida pratica ai comandi fondamentali della shell Linux; dalla lettura del prompt alla navigazione nel filesystem, dalla gestione di file e directory all&#39;elaborazione dell&#39;output con pipe e redirezioni. Ogni comando è spiegato con esempi reali, opzioni utili e criteri chiari per scegliere quando e perché usarlo.</p>
+                  
+                
+                
+                  
+                  <div class="mb-3 d-flex flex-wrap align-items-baseline gap-2">
+                    <span class="fw-bold small text-uppercase">TAG:</span>
+                    
+                      
+                      
+                        <a href="/tags/linux/"
+                           class="badge border text-decoration-none d-inline-flex align-items-center"
+                           style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+                          linux
+                        </a>
+                      
+                    
+                      
+                      
+                        <a href="/tags/sistemi-operativi/"
+                           class="badge border text-decoration-none d-inline-flex align-items-center"
+                           style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+                          sistemi operativi
+                        </a>
+                      
+                    
+                      
+                      
+                        <a href="/tags/shell/"
+                           class="badge border text-decoration-none d-inline-flex align-items-center"
+                           style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;">
+                          shell
+                        </a>
+                      
+                    
+                  </div>
+                
+              </div>
+              <div class="text-end mt-auto mb-3">
+                <a href="/blog/comandi-di-base/" class="btn btn-primary btn-sm rounded">
+                  Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </article>
+  </div>
   
 </section>
+
+<nav id="pagination" class="mt-5" aria-label="Navigazione pagine blog">
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      
+    </div>
+    <div class="text-muted small">
+      Pagina 1 di 4
+    </div>
+    <div>
+      
+        <a href="/blog/page/2/" class="btn btn-outline-primary rounded">
+          Successivo<i class="bi bi-arrow-right ms-1"></i>
+        </a>
+      
+    </div>
+  </div>
+</nav>
     </main>
 
     <footer class="border-top mt-auto py-4">

@@ -1,1 +1,122 @@
-[]
+[
+  {
+    "title": "Reti wireless e mobili",
+    "url": "/blog/reti-wireless-mobile/",
+    "description": "Questo articolo esplora le principali tecnologie di connettività wireless presenti nei dispositivi mobili: come funzionano, come si configurano e come si integrano nell&#39;ecosistema digitale contemporaneo.",
+    "date": "2026-05-17T00:00:00.000Z"
+  },
+  {
+    "title": "Componenti, tipi e connessioni di rete",
+    "url": "/blog/componenti-tipi-e-connessioni-di-rete/",
+    "description": "Esplora le architetture Client-Server e P2P, scopri come sono strutturate le moderne infrastrutture di rete e approfondisci le tecnologie di accesso a banda larga (FTTH, 5G, LEO) e le strategie di sicurezza per connettività SOHO e aziendali.",
+    "date": "2026-05-08T00:00:00.000Z"
+  },
+  {
+    "title": "Le reti",
+    "url": "/blog/le-reti/",
+    "description": "La connettività è l&#39;infrastruttura critica del mondo moderno. Scopri come funzionano le reti, dai protocolli fondamentali ai dispositivi IoT, e impara a misurare e ottimizzare le performance di rete come un professionista.",
+    "date": "2026-05-06T00:00:00.000Z"
+  },
+  {
+    "title": "Il filesystem di linux",
+    "url": "/blog/filesistem-linux/",
+    "description": "In questo articolo esploriamo come funziona il filesystem Linux; partiremo dai concetti fondamentali, capiremo perché tutto è un file, e poi percorreremo le directory principali del sistema una per una.",
+    "date": "2026-03-18T00:00:00.000Z"
+  },
+  {
+    "title": "Comandi di base della shell",
+    "url": "/blog/comandi-di-base/",
+    "description": "Una guida pratica ai comandi fondamentali della shell Linux; dalla lettura del prompt alla navigazione nel filesystem, dalla gestione di file e directory all&#39;elaborazione dell&#39;output con pipe e redirezioni. Ogni comando è spiegato con esempi reali, opzioni utili e criteri chiari per scegliere quando e perché usarlo.",
+    "date": "2026-03-17T00:00:00.000Z"
+  },
+  {
+    "title": "GNU/Linux",
+    "url": "/blog/gnu-linux/",
+    "description": "GNU/Linux è un sistema operativo libero e open source, nato dall&#39;unione del kernel Linux e gli strumenti di sistema del progetto GNU. È stabile, sicuro e altamente personalizzabile, utilizzato in svariati ambiti, dai server ai computer desktop. In questo articolo introduttivo proviamo a capirne di più partendo dall&#39;architettura dell&#39;ecosistema fino ai comandi più utili.",
+    "date": "2026-03-16T00:00:00.000Z"
+  },
+  {
+    "title": "Algoritmo di Luhn",
+    "url": "/blog/algoritmo-di-luhn/",
+    "description": "L’algoritmo di Luhn è un metodo matematico sviluppato nel 1954 dal ricercatore IBM Hans Peter Luhn per verificare la validità di numeri identificativi attraverso una cifra di controllo. Ancora oggi è utilizzato in moltissimi sistemi informatici, soprattutto per la validazione dei numeri di carte di credito, IMEI dei dispositivi mobili e altri identificatori strutturati.",
+    "date": "2026-03-08T00:00:00.000Z"
+  },
+  {
+    "title": "Tecniche algoritmiche per dev Java",
+    "url": "/blog/tecniche-algoritmiche-java/",
+    "description": "Questa guida raccoglie le tecniche algoritmiche più comuni utilizzate nello sviluppo software quotidiano. Le seguenti tecniche sono descritte il linguaggio Java.",
+    "date": "2026-03-05T00:00:00.000Z"
+  },
+  {
+    "title": "Guida completa a powershell",
+    "url": "/blog/post/",
+    "description": "Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido.",
+    "date": "2026-01-01T00:00:00.000Z"
+  },
+  {
+    "title": "Memoria centrale",
+    "url": "/blog/memoria-centrale/",
+    "description": "Presentiamo la memoria centrale nei sistemi operativi, con particolare focus sulla necessità di ospitare dati e programmi durante l&#39;esecuzione.",
+    "date": "2022-02-02T00:00:00.000Z"
+  },
+  {
+    "title": "Fondamenti di networking",
+    "url": "/blog/fondamenti-di-networking/",
+    "description": "Una prima introduzione sulle basi del networking, le fondamenta che ci permetteranno di capire come funzionano realmente le reti a cui ci connettiamo tutti i giorni.",
+    "date": "2020-03-12T00:00:00.000Z"
+  },
+  {
+    "title": "Allocazione della memoria",
+    "url": "/blog/allocazione-della-memoria/",
+    "description": "Questo approfondimento tecnico esplora le sfide dell&#39;allocazione dei frame in sistemi multiprogrammati. Analizzeremo come il modello del working set e la frequenza dei page fault prevengano il collasso del sistema (thrashing), oltre a esaminare le tecniche specifiche del kernel per la gestione di oggetti di dimensioni variabili e fisse.",
+    "date": "2020-02-23T00:00:00.000Z"
+  },
+  {
+    "title": "La memoria virtuale",
+    "url": "/blog/memoria-virtuale/",
+    "description": "Scopri come i sistemi operativi riescono a eseguire applicazioni enormi su hardware limitato attraverso la memoria virtuale, la paginazione su richiesta e i sofisticati algoritmi di sostituzione delle pagine.",
+    "date": "2020-02-22T00:00:00.000Z"
+  },
+  {
+    "title": "Scheduling della CPU",
+    "url": "/blog/scheduling-della-cpu/",
+    "description": "Facciamo un&#39;analisi approfondita dello scheduling della CPU, una funzione vitale dei sistemi operativi progettata per massimizzare l&#39;efficienza attraverso la multiprogrammazione.",
+    "date": "2020-02-21T00:00:00.000Z"
+  },
+  {
+    "title": "Thread",
+    "url": "/blog/thread/",
+    "description": "Si descrivono i thread come le unità di base di utilizzo della CPU, evidenziando i vantaggi del multithreading come la condivisione delle risorse e la scalabilità, concludendo con le sfide della cancellazione dei task e le specificità di sistema come la funzione clone() in Linux.",
+    "date": "2020-02-18T00:00:00.000Z"
+  },
+  {
+    "title": "Struttura dei sistemi operativi",
+    "url": "/blog/struttura-dei-sistemi-operativi/",
+    "description": "Si descrivono le diverse modalità di accesso, dalle interfacce testuali (shell) a quelle grafiche touch-screen, evidenziando come le chiamate di sistema permettono ai programmi di comunicare con il kernel.",
+    "date": "2020-02-14T00:00:00.000Z"
+  },
+  {
+    "title": "Processi",
+    "url": "/blog/processi/",
+    "description": "Vengono esaminati i meccanismi di gestione della memoria, illustrando la differenza tra l&#39;allocazione dinamica nello heap e l&#39;utilizzo temporaneo dello stack per le chiamate di funzione. Process Control Block (PCB), una struttura dati fondamentale che memorizza lo stato, i registri e le informazioni di scheduling necessarie alla CPU.",
+    "date": "2020-02-10T00:00:00.000Z"
+  },
+  {
+    "title": "Paginazione",
+    "url": "/blog/paginazione/",
+    "description": "La paginazione è una tecnica di gestione della memoria che permette di allocare i processi in modo non contiguo per eliminare la frammentazione esterna.",
+    "date": "2020-02-04T00:00:00.000Z"
+  },
+  {
+    "title": "Sincronizzazione dei processi",
+    "url": "/blog/sincronizzazione-dei-processi/",
+    "description": "Viene esaminata la sincronizzazione dei processi nei sistemi operativi, focalizzandosi sulla gestione dell&#39;accesso concorrente a dati condivisi per prevenire le race condition.",
+    "date": "2020-02-03T00:00:00.000Z"
+  },
+  {
+    "title": "Stallo dei processi",
+    "url": "/blog/stallo-dei-processi/",
+    "description": "Viene esaminato il fenomeno dello stallo dei processi (deadlock) nei sistemi operativi, analizzando come più thread competano per risorse limitate.",
+    "date": "2020-02-01T00:00:00.000Z"
+  }
+]

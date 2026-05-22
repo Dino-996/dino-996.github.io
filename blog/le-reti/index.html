@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Le reti · dino-996 blog
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="La connettività è l&amp;#39;infrastruttura critica del mondo moderno. Scopri come funzionano le reti, dai protocolli fondamentali ai dispositivi IoT, e impara a misurare e ottimizzare le performance di rete come un professionista." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/le-reti/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/le-reti/" />
+
+<meta property="og:title" content="Le reti" />
+<meta property="og:description" content="La connettività è l&amp;#39;infrastruttura critica del mondo moderno. Scopri come funzionano le reti, dai protocolli fondamentali ai dispositivi IoT, e impara a misurare e ottimizzare le performance di rete come un professionista." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/le-reti/" />
+
+<meta name="twitter:title" content="Le reti" />
+<meta name="twitter:description" content="La connettività è l&amp;#39;infrastruttura critica del mondo moderno. Scopri come funzionano le reti, dai protocolli fondamentali ai dispositivi IoT, e impara a misurare e ottimizzare le performance di rete come un professionista." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Bootstrap icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+    
+    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <i class="bi bi-grid-3x3-gap fs-4"></i>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">
+            Blog
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">
+            About
+          </a>
+        </li>
+
+        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+          <div class="theme-toggle" role="group" aria-label="Toggle tema">
+            <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-sun"></i>
+            </button>
+            <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-moon"></i>
+            </button>
+            <div class="theme-toggle-slider"></div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+    <main class="container my-5 flex-grow-1">
+      
+<article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">Le reti</h1>
+
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <div>
+        <img
+          src="https://github.com/Dino-996.png"
+          alt="Davide Sabia"
+          class="rounded-circle"
+          width="32"
+          height="32"
+          style="object-fit: cover;"
+          loading="lazy"
+        >
+        <span class="fw-light mx-1">Davide Sabia</span>
+      </div>
+
+      <div class="tags-container d-flex flex-wrap gap-2">
+        
+        
+        
+          
+          
+        
+          
+          
+            <a
+              href="/tags/reti/"
+              class="badge border text-decoration-none d-inline-flex align-items-center"
+              style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;"
+            >
+              reti
+            </a>
+          
+        
+          
+          
+            <a
+              href="/tags/networking/"
+              class="badge border text-decoration-none d-inline-flex align-items-center"
+              style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;"
+            >
+              networking
+            </a>
+          
+        
+      </div>
+
+      <time class="text-muted small" datetime="2026-05-06T00:00:00.000Z">
+        <i class="bi bi-calendar3 me-1"></i>06 maggio 2026
+      </time>
+    </div>
+  </header>
+
+  
+
+  
+    <div class="mb-4">
+      <img
+        src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
+        alt="Immagine generata con IA"
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+        <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+      
+    </div>
+  
+
+  <hr>
+
+  <section class="content">
+    <h1>Tutto è in rete</h1>
+<p>Oggi non ci chiediamo più <em>se</em> siamo connessi a Internet: la connettività è diventata un'infrastruttura critica, al pari dell'elettricità o dell'acqua corrente. Comprendere come funzionano le reti non è più prerogativa esclusiva degli ingegneri: è una competenza fondamentale per chiunque lavori nel mondo digitale, dallo sviluppatore all'IT Manager.</p>
+<h2>Chi possiede internet?</h2>
+<p>Internet non appartiene a nessun singolo gruppo, azienda o governo. È il risultato dell'interconnessione di migliaia di reti autonome che cooperano attraverso <strong>standard e protocolli comuni</strong> (come <strong>TCP/IP</strong>) per scambiarsi informazioni.</p>
+<p>Le informazioni viaggiano attraverso una varietà di mezzi fisici:</p>
+<ul>
+<li><strong>Cavi in rame</strong> (doppino telefonico, cavo coassiale)</li>
+<li><strong>Fibra ottica</strong> (trasmissione tramite impulsi luminosi)</li>
+<li><strong>Connessioni wireless</strong> (Wi-Fi, 4G/5G, satellite)</li>
+</ul>
+<p>I dati scambiati possono assumere forme diverse: testo, video, audio, immagini, telemetria IoT e molto altro.</p>
+<h2>Reti Locali (LAN)</h2>
+<p>Le reti locali <strong>LAN</strong> (<strong>Local Area Network</strong>) esistono in tutte le dimensioni e configurazioni.<br>
+Una <strong>LAN</strong> è una rete locale che collega dispositivi informatici e periferiche in un'area geografica limitata, come una casa, un ufficio o una scuola. Questo tipo di rete permette la condivisione di risorse (stampanti, file, connessioni internet) e la comunicazione ad alta velocità tra i dispositivi connessi.</p>
+<p>Le caratteristiche principali delle reti LAN includono:</p>
+<ul>
+<li><strong>Copertura ridotta</strong>: Si estende tipicamente per poche centinaia di metri, all'interno di uno o più edifici adiacenti.</li>
+<li><strong>Alta velocità e bassa latenza</strong>: Garantisce trasmissioni dati rapide (da 10 Mbps a 10 Gbps) grazie alla distanza breve tra i nodi.</li>
+<li><strong>Gestione autonoma</strong>: È generalmente una rete privata, gestita dall'organizzazione proprietaria senza dipendere da provider esterni per la connettività interna.</li>
+<li><strong>Componenti</strong>: Utilizza cavi Ethernet (rame o fibra ottica) o connessioni wireless (Wi-Fi) e dispositivi attivi come switch e router.</li>
+<li>A differenza delle <strong>MAN</strong> (reti metropolitane) e delle <strong>WAN</strong> (reti geografiche), la <strong>LAN</strong> non copre città o paesi. Inoltre offre prestazioni superiori in termini di velocità e costi di implementazione inferiori per ambiti locali.</li>
+</ul>
+<h3>Reti SOHO (Small Office / Home Office)</h3>
+<p>Le reti <strong>SOHO</strong> collegano un numero ridotto di dispositivi (da 2 a qualche decina) e<br>
+consentono la condivisione di risorse come stampanti, file, musica e connessione<br>
+Internet. Sono tipicamente basate su un <strong>router</strong> consumer con funzionalità Wi-Fi<br>
+integrate.</p>
+<h3>Reti Aziendali</h3>
+<p>Le <strong>reti aziendali</strong> possono connettere centinaia di migliaia di dispositivi distribuiti<br>
+su più sedi geografiche. Supportano applicazioni critiche come:</p>
+<ul>
+<li><strong>E-commerce</strong> e <strong>CRM</strong></li>
+<li><strong>Comunicazioni interne</strong> (email, VoIP, videoconferenza)</li>
+<li>Accesso centralizzato a server e database</li>
+<li>Sistemi <strong>ERP</strong> e <strong>supply chain management</strong></li>
+</ul>
+<p>La comunicazione in rete è generalmente più efficiente e meno costosa rispetto ai<br>
+canali tradizionali. Le reti aziendali e SOHO forniscono tipicamente una <strong>connessione<br>
+condivisa a Internet</strong>, motivo per cui Internet viene spesso definita una<br>
+<strong>&quot;rete di reti&quot;</strong> (<em>network of networks</em>).</p>
+<h2>Dispositivi Mobili e IoT</h2>
+<p>Internet connette oggi miliardi di dispositivi che vanno ben oltre i tradizionali<br>
+computer desktop e laptop.</p>
+<h3>Dispositivi Mobili</h3>
+<p>Smartphone, tablet e wearable (smartwatch, fitness tracker) sono oggi tra i<br>
+principali produttori e consumatori di traffico Internet mondiale.</p>
+<h3>Internet of Things (IoT)</h3>
+<p>L'<strong>IoT (Internet of Things)</strong> rappresenta l'ecosistema di oggetti fisici dotati di<br>
+sensori, software e connettività di rete. L'architettura IoT si articola tipicamente<br>
+su tre livelli:</p>
+<pre><code>┌─────────────────────────────────┐
+│        Cloud / Data Center      │  ← Elaborazione, storage, analytics
+├─────────────────────────────────┤
+│         Edge / Gateway          │  ← Pre-elaborazione locale, protocolli (MQTT, CoAP)
+├─────────────────────────────────┤
+│    Dispositivi / End Nodes      │  ← Sensori, attuatori, RFID
+└─────────────────────────────────┘
+</code></pre>
+<p>Esempi concreti di dispositivi IoT:</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Categoria</th>
+        <th>Esempi</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">TAG RFID</td>
+        <td>Tracciamento merci, badge aziendali, antifurti</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Sensori industriali</td>
+        <td>Temperatura, pressione, vibrazione (Industry 4.0)</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Dispositivi medici</td>
+        <td>Glucometri connessi, pacemaker smart, telemedicina</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Domotica</td>
+        <td>Termostati intelligenti, serrature smart, telecamere IP</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Veicoli connessi</td>
+        <td>Telemetria auto, fleet management, guida assistita</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<blockquote>
+<p><strong>Nota per sviluppatori</strong>: i protocolli più diffusi in ambito IoT sono <strong>MQTT</strong><br>
+(publish/subscribe, leggero, ideale per connessioni instabili) e <strong>CoAP</strong><br>
+(ottimizzato per dispositivi con risorse limitate). Entrambi operano sopra TCP/IP.</p>
+</blockquote>
+<h2>Il Bit: L'Unità Fondamentale dell'Informazione</h2>
+<p>I computer e le reti operano esclusivamente con <strong>cifre binarie</strong>: zeri e uno.<br>
+Il termine <strong>bit</strong> (abbreviazione di <em>binary digit</em>) rappresenta la più piccola<br>
+unità di informazione digitale.</p>
+<p>Un bit può assumere solo due stati fisici distinti:</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Stato fisico</th>
+        <th>Valore binario</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Interruttore aperto</td>
+        <td><code>0</code></td>
+      </tr>
+      <tr>
+        <td>Interruttore chiuso</td>
+        <td><code>1</code></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h3>Byte e Codifica dei Caratteri</h3>
+<p>Otto bit formano un <strong>byte</strong>, l'unità standard per rappresentare un singolo carattere<br>
+o valore.</p>
+<p><strong>ASCII e Unicode</strong></p>
+<blockquote>
+<p><strong>Precisazione tecnica</strong>: l'ASCII <em>originale</em> (standard ANSI X3.4-1968)<br>
+utilizza <strong>7 bit</strong>, codificando 128 caratteri. La versione &quot;Extended ASCII&quot;<br>
+estende a 8 bit (256 caratteri). Tuttavia, per applicazioni moderne e<br>
+internazionali, si utilizza <strong>Unicode</strong> (standard UTF-8), che supporta oltre<br>
+1.1 milioni di caratteri e mantiene compatibilità retroattiva con ASCII.</p>
+</blockquote>
+<p>Esempi di codifica ASCII (Extended, 8 bit):</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Carattere</th>
+        <th>Binario</th>
+        <th>Decimale</th>
+        <th>Hex</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>A</code></td>
+        <td><code>01000001</code></td>
+        <td>65</td>
+        <td><code>0x41</code></td>
+      </tr>
+      <tr>
+        <td><code>9</code></td>
+        <td><code>00111001</code></td>
+        <td>57</td>
+        <td><code>0x39</code></td>
+      </tr>
+      <tr>
+        <td><code>#</code></td>
+        <td><code>00100011</code></td>
+        <td>35</td>
+        <td><code>0x23</code></td>
+      </tr>
+      <tr>
+        <td><code>&euro;</code></td>
+        <td>Non codificabile in ASCII &rarr; richiede UTF-8</td>
+        <td>&mdash;</td>
+        <td>&mdash;</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h3>Esempio Pratico: Conversione Binaria in Python</h3>
+<pre><code class="language-python"># Conversione tra carattere, decimale e binario in Python
+carattere = 'A'
+# Ottieni il valore decimale (code point Unicode)
+decimale = ord(carattere)
+print(f&quot;Carattere : {carattere}&quot;)
+print(f&quot;Decimale  : {decimale}&quot;)          # Output: 65
+print(f&quot;Binario   : {bin(decimale)}&quot;)     # Output: 0b1000001
+print(f&quot;Hex       : {hex(decimale)}&quot;)     # Output: 0x41
+# Padding a 8 bit (formato byte completo)
+binario_8bit = format(decimale, '08b')
+print(f&quot;Byte      : {binario_8bit}&quot;)      # Output: 01000001
+# Operazione inversa: da binario a carattere
+valore = int('01000001', 2)
+print(f&quot;Da bin a char: {chr(valore)}&quot;)    # Output: A
+</code></pre>
+<h2>Metodi di Trasmissione dei Dati</h2>
+<p>Dopo che le informazioni sono state convertite in bit, devono essere trasformate in <strong>segnali fisici</strong> trasmissibili attraverso un mezzo (<em>medium</em>). Esistono tre metodi principali:</p>
+<h3>1. Segnali Elettrici</h3>
+<p>Trasmissione tramite impulsi di tensione su <strong>cavi in rame</strong> (es. cavo Cat5e/Cat6 per reti Ethernet). Economici e diffusi, ma soggetti a interferenze elettromagnetiche (EMI) e attenuazione sul lungo raggio.</p>
+<h3>2. Segnali Ottici</h3>
+<p>Trasmissione tramite <strong>impulsi luminosi</strong> su cavi in fibra ottica (single-mode o multi-mode). Offrono larghezza di banda elevatissima, immunità alle interferenze e distanze di trasmissione fino a centinaia di chilometri.</p>
+<h3>3. Segnali Wireless</h3>
+<p>Trasmissione tramite <strong>onde elettromagnetiche</strong> (radio, microonde, infrarossi). Elimina la necessità di cablaggio fisico ma è soggetto a interferenze, ostacoli fisici e limitazioni di sicurezza.</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Mezzo</th>
+        <th>Velocità tipica</th>
+        <th>Distanza</th>
+        <th>Pro</th>
+        <th>Contro</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Rame (Cat6)</td>
+        <td>1&ndash;10 Gbps</td>
+        <td>&le;100 m</td>
+        <td>Economico</td>
+        <td>Interferenze, distanza limitata</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Fibra ottica</td>
+        <td>10 Gbps&ndash;400 Tbps</td>
+        <td>km&ndash;migliaia di km</td>
+        <td>Velocità, sicurezza</td>
+        <td>Costo di installazione</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Wi-Fi (802.11ax)</td>
+        <td>Fino a ~9.6 Gbps teorici</td>
+        <td>~50&ndash;100 m indoor</td>
+        <td>Mobilità</td>
+        <td>Interferenze, sicurezza</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">5G</td>
+        <td>Fino a ~20 Gbps teorici</td>
+        <td>Variabile</td>
+        <td>Mobilità, copertura</td>
+        <td>Infrastruttura</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<blockquote>
+<p>I segnali possono essere <strong>convertiti più volte</strong> lungo il percorso<br>
+(es. elettrico → ottico → wireless) attraverso dispositivi come convertitori<br>
+di media (<em>media converters</em>) e access point.</p>
+</blockquote>
+<h2>Larghezza di Banda, Throughput, Latenza e Jitter</h2>
+<p>Questi quattro parametri sono fondamentali per valutare le <strong>prestazioni di una rete</strong>. Vengono spesso confusi: ecco le distinzioni precise.</p>
+<h3>Bandwidth (Larghezza di Banda)</h3>
+<p>La <strong>bandwidth</strong> rappresenta la <em>capacità teorica massima</em> di un collegamento, ovvero quanti bit possono essere trasmessi per unità di tempo in condizioni ideali. È una proprietà del mezzo fisico e dell'infrastruttura.</p>
+<h3>Throughput (Velocità Effettiva)</h3>
+<p>Il <strong>throughput</strong> misura la quantità di dati <em>effettivamente</em> trasferiti in un dato<br>
+intervallo di tempo. È quasi sempre inferiore alla bandwidth dichiarata, a causa di:</p>
+<ul>
+<li>Overhead dei protocolli di rete (header TCP/IP, controllo errori)</li>
+<li>Congestione e collisioni</li>
+<li>Qualità del collegamento fisico</li>
+<li>Limitazioni hardware dei dispositivi intermedi</li>
+</ul>
+<h3>Latenza</h3>
+<p>La <strong>latenza</strong> è il tempo necessario affinché un pacchetto viaggi dalla sorgente alla destinazione. Si misura tipicamente in millisecondi (ms) tramite il comando <code>ping</code>. È critica per applicazioni <strong>real-time</strong> come VoIP, gaming online e videoconferenze.</p>
+<pre><code class="language-bash"># Misurazione latenza verso un host remoto
+ping -c 4 8.8.8.8
+# Output di esempio:
+# 64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=12.4 ms
+# 64 bytes from 8.8.8.8: icmp_seq=2 ttl=118 time=11.8 ms
+# round-trip min/avg/max/stddev = 11.8/12.1/12.4/0.3 ms
+</code></pre>
+<h3>Jitter</h3>
+<p>Il <strong>jitter</strong> è la <em>variazione</em> della latenza nel tempo (la deviazione standard della latenza). Un jitter elevato causa degrado della qualità audio/video nelle comunicazioni real-time, anche quando la latenza media è accettabile.</p>
+<pre><code>Latenza ideale:  10ms — 10ms — 10ms — 10ms  (jitter ≈ 0)
+Latenza reale:   10ms — 25ms —  8ms — 30ms  (jitter elevato → qualità VoIP scarsa)
+</code></pre>
+<h3>Tabella Unità di Misura della Bandwidth</h3>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Unità</th>
+        <th>Simbolo</th>
+        <th>Equivalente</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Bit per secondo</td>
+        <td><code>bps</code></td>
+        <td>unità base</td>
+      </tr>
+      <tr>
+        <td>Kilobit per secondo</td>
+        <td><code>Kbps</code></td>
+        <td>10<sup>3</sup> bps</td>
+      </tr>
+      <tr>
+        <td>Megabit per secondo</td>
+        <td><code>Mbps</code></td>
+        <td>10<sup>6</sup> bps</td>
+      </tr>
+      <tr>
+        <td>Gigabit per secondo</td>
+        <td><code>Gbps</code></td>
+        <td>10<sup>9</sup> bps</td>
+      </tr>
+      <tr>
+        <td>Terabit per secondo</td>
+        <td><code>Tbps</code></td>
+        <td>10<sup>12</sup> bps</td>
+      </tr>
+      <tr>
+        <td>Petabit per secondo</td>
+        <td><code>Pbps</code></td>
+        <td>10<sup>15</sup> bps</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<blockquote>
+<p><strong>Attenzione</strong>: i provider Internet dichiarano la velocità in <strong>Mbps</strong><br>
+(megabit), mentre i sistemi operativi mostrano spesso la velocità di download<br>
+in <strong>MB/s</strong> (megabyte). Ricorda: 1 byte = 8 bit → 100 Mbps ≈ 12.5 MB/s.</p>
+</blockquote>
+<h3>Il Collo di Bottiglia (<em>Bottleneck</em>)</h3>
+<p>In una rete con più segmenti, la <strong>velocità massima effettiva è limitata dal segmento più lento</strong> del percorso — il cosiddetto <em>bottleneck</em>. Questo principio, noto come <strong>legge dell'anello debole</strong>, è fondamentale nell'ottimizzazione delle prestazioni di rete in contesti Cloud e DevOps.</p>
+<pre><code>Client (1 Gbps) ──→ Switch (10 Gbps) ──→ Router WAN (100 Mbps) ──→ Server
+                                               ↑
+                                     BOTTLENECK: throughput massimo = 100 Mbps
+</code></pre>
+<h2>Best Practice: Ottimizzazione delle Performance di Rete</h2>
+<blockquote>
+<p>💡 <strong>Per IT Manager e DevOps Engineer</strong></p>
+</blockquote>
+<ul>
+<li><strong>Monitoring continuo</strong>: usa strumenti come <strong>Prometheus + Grafana</strong>, <strong>Zabbix</strong><br>
+o <strong>PRTG</strong> per monitorare latenza, throughput e packet loss in tempo reale.</li>
+<li><strong>Quality of Service (QoS)</strong>: prioritizza il traffico critico (VoIP, video) su<br>
+quello non critico (backup, aggiornamenti) tramite policy QoS su switch e router.</li>
+<li><strong>Segmentazione della rete</strong>: usa VLAN per isolare traffico e migliorare sicurezza<br>
+e performance.</li>
+<li><strong>CDN (Content Delivery Network)</strong>: distribuisci i contenuti statici vicino agli<br>
+utenti finali per ridurre latenza e carico sui server centrali.</li>
+<li><strong>Test periodici</strong>: strumenti come <strong>iPerf3</strong> (throughput interno) e<br>
+<strong>Speedtest CLI</strong> (connettività esterna) aiutano a rilevare degradi prestazionali<br>
+prima che diventino problemi critici.</li>
+</ul>
+<pre><code class="language-bash"># Test throughput interno con iPerf3
+# Sul server:
+iperf3 -s
+# Sul client:
+iperf3 -c &lt;IP_SERVER&gt; -t 10 -P 4
+# -t 10 = durata 10 secondi
+# -P 4  = 4 stream paralleli
+</code></pre>
+<h2>Il Modello OSI</h2>
+<p>Tutti i concetti trattati in questo modulo — trasmissione dei dati, segnali, larghezza di banda — trovano una collocazione precisa nel <strong>Modello OSI</strong> (Open Systems Interconnection), il framework a 7 livelli che descrive come i dati viaggiano da un'applicazione su un dispositivo a un'altra applicazione su un dispositivo remoto.</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Livello</th>
+        <th>Nome</th>
+        <th>Funzione chiave</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="text-center fw-semibold">7</td>
+        <td class="fw-semibold">Applicazione</td>
+        <td><code>HTTP</code>, <code>DNS</code>, <code>SMTP</code></td>
+      </tr>
+      <tr>
+        <td class="text-center fw-semibold">6</td>
+        <td class="fw-semibold">Presentazione</td>
+        <td>Codifica, crittografia, compressione</td>
+      </tr>
+      <tr>
+        <td class="text-center fw-semibold">5</td>
+        <td class="fw-semibold">Sessione</td>
+        <td>Gestione connessioni</td>
+      </tr>
+      <tr>
+        <td class="text-center fw-semibold">4</td>
+        <td class="fw-semibold">Trasporto</td>
+        <td><code>TCP</code>/<code>UDP</code>, porte, controllo flusso</td>
+      </tr>
+      <tr>
+        <td class="text-center fw-semibold">3</td>
+        <td class="fw-semibold">Rete</td>
+        <td><code>IP</code>, routing</td>
+      </tr>
+      <tr>
+        <td class="text-center fw-semibold">2</td>
+        <td class="fw-semibold">Data Link</td>
+        <td>MAC, switch, Ethernet</td>
+      </tr>
+      <tr>
+        <td class="text-center fw-semibold">1</td>
+        <td class="fw-semibold">Fisico</td>
+        <td>Bit, segnali, cavi &larr; <strong>adesso siamo qui</strong></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<hr>
+<p>Alcune note sulle scelte adottate nelle conversioni:</p>
+<ul>
+<li>Nella tabella <strong>ASCII</strong> ho usato <code>&lt;code&gt;</code> per i valori di carattere, binario e hex, e <code>&lt;sup&gt;</code> era già inapplicabile lì; la riga dell'<code>€</code> usa le entità HTML <code>&amp;rarr;</code> e <code>&amp;mdash;</code> al posto delle frecce e trattini Markdown.</li>
+<li>Nella tabella <strong>bandwidth</strong> ho usato <code>&lt;sup&gt;</code> per gli esponenti (<code>10&lt;sup&gt;3&lt;/sup&gt;</code> ecc.) in luogo del carattere Unicode, così il rendering è più affidabile e semanticamente corretto.</li>
+<li>Nella tabella <strong>OSI</strong> il numero di livello è centrato con <code>text-center</code> e i nomi di protocollo sono racchiusi in <code>&lt;code&gt;</code>; l'ultimo record usa <code>&amp;larr;</code> per la freccia e <code>&lt;strong&gt;</code> per il grassetto finale.</li>
+<li>Nella tabella dei <strong>mezzi di trasmissione</strong> ho usato <code>&amp;ndash;</code> per i trattini lunghi nei range e <code>&amp;le;</code> per il simbolo ≤.</li>
+</ul>
+
+  </section>
+
+  <hr class="mt-5">
+
+  <section class="mt-5" aria-label="Commenti e reazioni">
+    <h2 class="h5 fw-bold mb-4">
+      <i class="bi bi-chat-dots text-primary me-2"></i>
+      Commenti
+    </h2>
+
+    <script>
+      (function () {
+        const saved = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', theme);
+        script.setAttribute('data-lang', 'it');
+        script.setAttribute('data-loading', 'lazy');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        document.currentScript.replaceWith(script);
+      })();
+    </script>
+
+    <noscript>
+      <p class="text-muted small">
+        <i class="bi bi-info-circle me-1"></i>
+        Per visualizzare i commenti è necessario abilitare JavaScript.
+        Puoi leggere e partecipare alla discussione direttamente su
+        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
+      </p>
+    </noscript>
+  </section>
+</article>
+    </main>
+
+    <footer class="border-top mt-auto py-4">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <h5 class="fw-bold mb-3">
+          <span><span class="text-primary">dino</span>-996</span>
+        </h5>
+        <p class="text-muted small mb-2">
+          Developer portfolio e blog tecnico
+        </p>
+        <a href="/feed.xml" class="text-muted" aria-label="Feed RSS" target="_blank">
+          <i class="bi bi-rss"></i>
+        </a>
+      </div>
+
+      <div class="col-md-3 mb-3 mb-md-0">
+        <h6 class="fw-bold mb-3">Navigazione</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <a href="/" class="text-muted text-decoration-none small">Home</a>
+          </li>
+          <li class="mb-2">
+            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
+          </li>
+          <li class="mb-2">
+            <a href="/about/" class="text-muted text-decoration-none small">About</a>
+          </li>
+        </ul>
+      </div>
+
+      
+
+      <div class="col-md-2">
+        <h6 class="fw-bold mb-3">Social</h6>
+        <div class="d-flex gap-3">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+              <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4" />
+
+    <div class="row">
+      <div class="col text-center">
+        <p class="text-muted small mb-0">
+          Realizzato con <span class="text-danger">❤️</span> usando 
+          <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Eleventy</a> 
+          e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Bootstrap</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</footer>
+      <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      window.pathPrefix = ".";
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send"><i class="bi bi-arrow-up"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js"></script>
+  </body>
+  
+</html>

@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Guida completa a powershell · dino-996 blog
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/post/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/post/" />
+
+<meta property="og:title" content="Guida completa a powershell" />
+<meta property="og:description" content="Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947841/powershell_0cea247545.webp" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/post/" />
+
+<meta name="twitter:title" content="Guida completa a powershell" />
+<meta name="twitter:description" content="Una guida teorica e pratica per iniziare a utilizzare powershell in modo efficace e rapido." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947841/powershell_0cea247545.webp" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Bootstrap icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+    
+    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <i class="bi bi-grid-3x3-gap fs-4"></i>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">
+            Blog
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">
+            About
+          </a>
+        </li>
+
+        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+          <div class="theme-toggle" role="group" aria-label="Toggle tema">
+            <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-sun"></i>
+            </button>
+            <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-moon"></i>
+            </button>
+            <div class="theme-toggle-slider"></div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+    <main class="container my-5 flex-grow-1">
+      
+<article class="mx-auto" style="max-width: 800px;">
+  <header class="mb-4">
+    <h1 class="fw-bold">Guida completa a powershell</h1>
+
+    <div class="d-flex flex-wrap align-items-baseline gap-3">
+      <div>
+        <img
+          src="https://github.com/Dino-996.png"
+          alt="Davide Sabia"
+          class="rounded-circle"
+          width="32"
+          height="32"
+          style="object-fit: cover;"
+          loading="lazy"
+        >
+        <span class="fw-light mx-1">Davide Sabia</span>
+      </div>
+
+      <div class="tags-container d-flex flex-wrap gap-2">
+        
+        
+        
+          
+          
+            <a
+              href="/tags/powershell/"
+              class="badge border text-decoration-none d-inline-flex align-items-center"
+              style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;"
+            >
+              powershell
+            </a>
+          
+        
+      </div>
+
+      <time class="text-muted small" datetime="2026-01-01T00:00:00.000Z">
+        <i class="bi bi-calendar3 me-1"></i>01 gennaio 2026
+      </time>
+    </div>
+  </header>
+
+  
+    <div class="alert alert-primary border-start border-4 border-primary mb-4" role="note">
+      <div class="d-flex align-items-center gap-2 mb-1">
+        <i class="bi bi-stars text-primary"></i>
+        <strong class="small text-uppercase text-primary">Riassunto IA</strong>
+      </div>
+      <p class="mb-0 small">PowerShell è una shell e un linguaggio di scripting orientato agli oggetti per l&#39;automazione e la gestione di sistemi, offrendo un&#39;efficienza notevole rispetto alle tradizionali shell testuali. La versione moderna PowerShell 7+ è open source, cross-platform e basata su .NET, rappresentando lo standard enterprise raccomandato per la gestione di Azure e Microsoft 365.</p>
+    </div>
+  
+
+  
+    <div class="mb-4">
+      <img
+        src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947841/powershell_0cea247545.webp"
+        alt="Immagine generata con IA"
+        class="img-fluid rounded w-100"
+        style="max-height: 400px; object-fit: cover;"
+      >
+      
+        <figcaption class="text-muted small mt-2 text-center">Immagine generata con IA</figcaption>
+      
+    </div>
+  
+
+  <hr>
+
+  <section class="content">
+    <h1>Introduzione</h1>
+<p>In questo guida per tutti troverete spiegazioni chiare, esempi pratici e suggerimenti per l'autoapprendimento.</p>
+<h2>Che cos'è PowerShell?</h2>
+<p>​PowerShell è una​ <strong>​shell di scripting</strong>​ ​e un ​​<strong>linguaggio ​​di scripting</strong> ​​sviluppato da Microsoft. A​ ​differenza delle tradizionali shell a riga di comando che si basano sul testo PowerShell è​ <strong>​orientato agli oggetti</strong>​. Ciò significa che i comandi​​ (chiamati <strong>​​cmdlet</strong>​) manipolano <strong>​​oggetti​ ​strutturati</strong>, non solo stringhe di testo. Questa caratteristica lo rende estremamente potente​ per l'automazione, la gestione di sistemi e la configurazione.​</p>
+<h3>Windows PowerShell vs PowerShell 7+</h3>
+<blockquote>
+<p>Distinzione fondamentale che molti ignorano.</p>
+</blockquote>
+<div class="container mb-3">
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-striped table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Caratteristica</th>
+          <th>Windows PowerShell 5.1</th>
+          <th>PowerShell 7+</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fw-semibold">Stato</td>
+          <td><span class="badge text-bg-warning">Legacy</span></td>
+          <td><span class="badge text-bg-success">Attivo</span></td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Open Source</td>
+          <td><span class="text-danger fw-bold">✕</span></td>
+          <td>GitHub</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Cross-platform</td>
+          <td>Solo Windows</td>
+          <td>Windows · Linux · macOS</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Eseguibile</td>
+          <td><code>powershell.exe</code></td>
+          <td><code>pwsh</code></td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Runtime</td>
+          <td>.NET Framework</td>
+          <td>.NET 6 / 7 / 8</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Incluso in Windows</td>
+          <td>Win 10 / 11</td>
+          <td>Da installare separatamente</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<br>
+<p><strong>Raccomandazione:</strong> Usa sempre <strong>PowerShell 7+</strong> (<code>pwsh</code>) per i nuovi progetti.</p>
+<h3>Perché usare PowerShell</h3>
+<ul>
+<li><strong>Automazione:</strong> Elimina attività manuali ripetitive — gestione file, provisioning utenti, deployment applicazioni.</li>
+<li><strong>Gestione dei sistemi:</strong> Strumento fondamentale per l'amministrazione Windows, usato sempre più anche su Linux e macOS.</li>
+<li><strong>Efficienza:</strong> Operazioni complesse in poche righe grazie alla pipeline orientata agli oggetti.</li>
+<li><strong>Standard enterprise:</strong> È lo strumento ufficiale per la gestione di <strong>Microsoft Azure</strong> e dell'ecosistema Microsoft 365.</li>
+</ul>
+<h3>Differenze tra PowerShell, CMD e Bash</h3>
+<div class="container mb-3">
+  <div class="table-responsive shadow-sm rounded">
+    <table class="table table-bordered table-striped table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>Caratteristica</th>
+          <th>PowerShell</th>
+          <th>CMD</th>
+          <th>Bash</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="fw-semibold">Orientamento</td>
+          <td>Oggetti .NET</td>
+          <td>Testo</td>
+          <td>Testo</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Linguaggio</td>
+          <td>Powershell (.NET)</td>
+          <td>Batch</td>
+          <td>Batch scripting</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Output pipeline</td>
+          <td>Oggetti strutturati</td>
+          <td>Stringhe</td>
+          <td>Stringhe</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Cross-platform</td>
+          <td>Win/Linux/MacOS</td>
+          <td>Win</td>
+          <td>Linux/MacOS</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Potenza</td>
+          <td>Alta</td>
+          <td>Bassa</td>
+          <td>Alta</td>
+        </tr>
+        <tr>
+          <td class="fw-semibold">Curva di apprendimento</td>
+          <td>Media</td>
+          <td>Bassa</td>
+          <td>Media</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<h2>Installazione e Configurazione</h2>
+<h3>Windows</h3>
+<p>Windows 10/11 include <strong>Windows PowerShell 5.1</strong> (legacy). Per installare <strong>PowerShell 7+</strong>:</p>
+<p><strong>Metodo 1: Windows Package Manager (winget)</strong></p>
+<pre><code class="language-powershell">winget install --id Microsoft.Powershell --source winget
+</code></pre>
+<p><strong>Metodo 2: Download diretto</strong></p>
+<pre><code class="language-bash">https://github.com/PowerShell/PowerShell/releases
+</code></pre>
+<p>Dopo l'installazione, avvia PowerShell 7 con il comando <code>pwsh</code> nel terminale.</p>
+<h3>macOS</h3>
+<pre><code class="language-bash"># Installa Homebrew se non presente
+/bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;
+# Installa PowerShell
+brew install --cask powershell
+# Avvia PowerShell
+pwsh
+</code></pre>
+<h3>Linux (Ubuntu/Debian)</h3>
+<pre><code class="language-bash"># Importa la chiave Microsoft
+curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
+# Aggiungi il repository
+sudo add-apt-repository &quot;deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -rs)-prod $(lsb_release -cs) main&quot;
+# Installa
+sudo apt update &amp;&amp; sudo apt install -y powershell
+# Avvia
+pwsh
+</code></pre>
+<br>
+<p>Per altre distribuzioni (RHEL, Fedora, openSUSE), consulta la <a href="https://learn.microsoft.com/powershell/scripting/install/installing-powershell" target="_blank" rel="noopener noreferer">documentazione ufficiale</a>.</p>
+<h3>Editor consigliato: Visual Studio Code</h3>
+<blockquote>
+<p><strong>PowerShell ISE è ufficialmente deprecato.</strong> Microsoft raccomanda <strong>Visual Studio Code</strong> con l'estensione PowerShell.</p>
+</blockquote>
+<p>Installa l'estensione direttamente da VS Code:</p>
+<pre><code>Ctrl+P → ext install ms-vscode.PowerShell
+</code></pre>
+<p>L'estensione offre: IntelliSense, debugging integrato, esecuzione di selezioni di codice e integrazione con PSScriptAnalyzer.</p>
+<h3>Configurazione di Base</h3>
+<p><strong>Profilo PowerShell</strong> — script eseguito automaticamente all'avvio:</p>
+<pre><code class="language-powershell"># Visualizza il percorso del profilo
+$PROFILE
+# Crea il file di profilo se non esiste
+if (-not (Test-Path $PROFILE)) {
+    New-Item -ItemType File -Path $PROFILE -Force
+}
+# Apri il profilo in VS Code
+code $PROFILE
+</code></pre>
+<br>
+<p><strong>Execution Policy</strong> — controlla quali script possono essere eseguiti:</p>
+<pre><code class="language-powershell"># Visualizza la policy attuale
+Get-ExecutionPolicy
+# Imposta la policy per l'utente corrente (scelta comune per sviluppo locale)
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+# Valori possibili:
+# Restricted    → Nessuno script (default su Windows)
+# RemoteSigned  → Gli script locali sono OK; quelli scaricati richiedono firma
+# Unrestricted  → Tutti gli script (non consigliato in produzione)
+# AllSigned     → Solo script con firma digitale (massima sicurezza)
+</code></pre>
+<h2>Concetti Fondamentali</h2>
+<h3>Sintassi: Verb-Noun</h3>
+<p>Tutti i cmdlet seguono la convenzione <code>Verbo-Sostantivo</code>:</p>
+<pre><code class="language-powershell">Get-Process        # Recupera informazioni sui processi
+Stop-Service       # Arresta un servizio
+New-Item           # Crea un nuovo elemento
+Remove-Item        # Elimina un elemento
+Set-Location       # Cambia directory
+</code></pre>
+<br>
+<p>I verbi approvati da Microsoft garantiscono coerenza. Per vederli tutti:</p>
+<pre><code class="language-powershell">Get-Verb | Sort-Object Verb
+</code></pre>
+<h3>Il Sistema di Help</h3>
+<p>La documentazione integrata è uno dei punti di forza di PowerShell:</p>
+<pre><code class="language-powershell"># Aggiorna l'help (eseguire come amministratore)
+Update-Help
+# Help base
+Get-Help Get-Process
+# Con esempi pratici (molto utile!)
+Get-Help Get-Process -Examples
+# Help completo con tutti i parametri
+Get-Help Get-Process -Full
+# Apre la documentazione online
+Get-Help Get-Process -Online
+</code></pre>
+<h3>Cmdlet Essenziali</h3>
+<pre><code class="language-powershell">Get-Command               # Elenca tutti i cmdlet disponibili
+Get-Command -Verb Get     # Filtra per verbo
+Get-Command *process*     # Ricerca per nome
+Get-Member                # Mostra proprietà e metodi di un oggetto
+Get-Process | Get-Member  # Esempio: scopri cosa puoi fare con un processo
+</code></pre>
+<h2>Variabili e Tipi di Dati</h2>
+<h3>Variabili</h3>
+<p>Le variabili iniziano con <code>$</code>. PowerShell è <strong>tipizzato dinamicamente</strong>, ma è possibile (e consigliato per script professionali) dichiarare il tipo esplicitamente:</p>
+<pre><code class="language-powershell"># Tipizzazione implicita
+$nome = &quot;Mario&quot;
+$eta = 30
+$attivo = $true
+# Tipizzazione esplicita (best practice per script professionali)
+[string]$nome = &quot;Mario&quot;
+[int]$eta = 30
+[bool]$attivo = $true
+[datetime]$oggi = Get-Date
+</code></pre>
+<h3>Stringhe</h3>
+<pre><code class="language-powershell"># Virgolette doppie: interpolazione variabili
+$nome = &quot;Mario&quot;
+$saluto = &quot;Ciao, $nome!&quot;           # → &quot;Ciao, Mario!&quot;
+# Virgolette singole: stringa letterale (no interpolazione)
+$letterale = 'Ciao, $nome!'        # → &quot;Ciao, $nome!&quot;
+# Stringa multilinea (here-string)
+$testo = @&quot;
+Questa è una stringa
+su più righe con variabili: $nome
+&quot;@
+# Metodi delle stringhe (PowerShell espone i metodi .NET)
+&quot;powershell&quot;.ToUpper()             # → &quot;POWERSHELL&quot;
+&quot;  testo  &quot;.Trim()                 # → &quot;testo&quot;
+&quot;ciao mondo&quot;.Split(&quot; &quot;)           # → @(&quot;ciao&quot;, &quot;mondo&quot;)
+</code></pre>
+<h3>Array e HashTable</h3>
+<pre><code class="language-powershell"># Array
+$frutti = &quot;mela&quot;, &quot;banana&quot;, &quot;arancia&quot;
+$numeri = 1..10                    # Range: da 1 a 10
+$frutti[0]                         # → &quot;mela&quot;
+$frutti.Count                      # → 3
+# HashTable (dizionario chiave-valore)
+$persona = @{
+    Nome    = &quot;Mario&quot;
+    Cognome = &quot;Rossi&quot;
+    Eta     = 30
+}
+$persona[&quot;Nome&quot;]                   # → &quot;Mario&quot;
+$persona.Eta                       # → 30
+$persona.Keys                      # → Nome, Cognome, Eta
+</code></pre>
+<h3>Variabili Automatiche</h3>
+<p>PowerShell fornisce variabili speciali predefinite:</p>
+<pre><code class="language-powershell">$_             # (alias: $PSItem) L'oggetto corrente nella pipeline
+$?             # True se l'ultimo comando ha avuto successo
+$LASTEXITCODE  # Codice di uscita dell'ultimo programma esterno
+$Error         # Array degli ultimi errori
+$HOME          # Directory home dell'utente
+$PSVersionTable  # Informazioni sulla versione di PowerShell
+$PROFILE       # Percorso del profilo utente
+</code></pre>
+<h3>Operatori</h3>
+<pre><code class="language-powershell"># Aritmetici
+5 + 3      # 8
+10 % 3     # 1 (modulo)
+# Confronto
+&quot;a&quot; -eq &quot;a&quot;   # True  (equal)
+5 -ne 3       # True  (not equal)
+10 -gt 5      # True  (greater than)
+3 -lt 5       # True  (less than)
+5 -ge 5       # True  (greater or equal)
+&quot;ciao&quot; -like &quot;c*&quot;   # True  (wildcard match)
+&quot;hello&quot; -match &quot;^h&quot; # True  (regex match)
+# Logici
+$true -and $false   # False
+$true -or $false    # True
+-not $true          # False
+</code></pre>
+<h2>La Pipeline</h2>
+<p>La <strong>pipeline</strong> (<code>|</code>) è il cuore di PowerShell. Passa <strong>oggetti interi</strong> (non testo) tra i comandi, preservando tutte le proprietà.</p>
+<pre><code class="language-powershell"># Esempio base: filtra i processi che usano più di 100MB di RAM
+Get-Process | Where-Object { $_.WorkingSet -gt 100MB }
+# $_ rappresenta l'oggetto corrente nella pipeline (ogni processo)
+# .WorkingSet è una proprietà dell'oggetto Process
+# Concatena più operazioni
+Get-Process |
+    Where-Object { $_.CPU -gt 1 } |
+    Sort-Object CPU -Descending |
+    Select-Object Name, CPU, Id -First 10 |
+    Format-Table -AutoSize
+</code></pre>
+<h3>Cmdlet Fondamentali per la Pipeline</h3>
+<pre><code class="language-powershell"># Filtra oggetti
+Get-Service | Where-Object { $_.Status -eq &quot;Running&quot; }
+# Ordina
+Get-Process | Sort-Object WorkingSet -Descending
+# Seleziona proprietà specifiche
+Get-Process | Select-Object Name, Id, CPU
+# Aggrega
+Get-Process | Measure-Object CPU -Sum -Average
+# Raggruppa
+Get-Service | Group-Object Status
+# Converte output
+Get-Process | ConvertTo-Json
+Get-Process | ConvertTo-Csv | Out-File processi.csv
+# Formatta output (solo per visualizzazione, non usare in pipeline)
+Get-Process | Format-Table Name, CPU -AutoSize
+Get-Process | Format-List *
+</code></pre>
+<h2>Gestione File e Directory</h2>
+<h3>Navigazione</h3>
+<pre><code class="language-powershell">Get-Location              # Directory corrente (alias: pwd)
+Set-Location C:\Projects  # Cambia directory (alias: cd)
+Set-Location ..           # Vai alla directory padre
+Get-PSDrive               # Mostra tutti i &quot;drive&quot; disponibili (C:, D:, HKLM:, Env:, ecc.)
+Set-Location HKLM:        # PowerShell può navigare anche nel Registry!
+</code></pre>
+<h3>Operazioni sui File</h3>
+<pre><code class="language-powershell"># Elenca contenuto
+Get-ChildItem             # (alias: ls, dir)
+Get-ChildItem -Recurse    # Ricorsivo
+Get-ChildItem *.log       # Filtra per estensione
+# Crea
+New-Item -ItemType File -Path .\log.txt
+New-Item -ItemType Directory -Path .\backup
+# Leggi
+Get-Content .\log.txt
+Get-Content .\log.txt -Tail 20   # Ultime 20 righe (come tail -n)
+Get-Content .\log.txt -Wait      # Modalità follow (come tail -f)
+# Scrivi
+Set-Content .\output.txt &quot;Nuovo contenuto&quot;     # Sovrascrive
+Add-Content .\output.txt &quot;Riga aggiuntiva&quot;    # Appende
+# Copia, sposta, elimina
+Copy-Item .\source.txt .\dest.txt
+Move-Item .\old.txt .\new.txt
+Remove-Item .\file.txt
+Remove-Item .\cartella -Recurse  # Elimina cartella con contenuto
+</code></pre>
+<h2>Strutture di Controllo</h2>
+<h3>Condizionali</h3>
+<pre><code class="language-powershell"># If / ElseIf / Else
+$temperatura = 25
+if ($temperatura -gt 30) {
+    Write-Host &quot;Caldo&quot;
+} elseif ($temperatura -gt 20) {
+    Write-Host &quot;Piacevole&quot;
+} else {
+    Write-Host &quot;Fresco&quot;
+}
+# Switch (più efficiente di if/elseif per casi multipli)
+$giorno = &quot;Lunedì&quot;
+switch ($giorno) {
+    &quot;Lunedì&quot;    { Write-Host &quot;Inizio settimana&quot; }
+    &quot;Venerdì&quot;   { Write-Host &quot;Fine settimana&quot; }
+    &quot;Sabato&quot;    { Write-Host &quot;Weekend!&quot; }
+    &quot;Domenica&quot;  { Write-Host &quot;Weekend!&quot; }
+    default     { Write-Host &quot;Giorno lavorativo&quot; }
+}
+</code></pre>
+<h3>Loop</h3>
+<pre><code class="language-powershell"># For classico
+for ($i = 0; $i -lt 5; $i++) {
+    Write-Host &quot;Iterazione: $i&quot;
+}
+# ForEach (il più comune in PowerShell)
+$servizi = Get-Service | Where-Object { $_.Status -eq &quot;Stopped&quot; }
+foreach ($servizio in $servizi) {
+    Write-Host &quot;Servizio fermo: $($servizio.Name)&quot;
+}
+# ForEach-Object (nella pipeline)
+1..5 | ForEach-Object { $_ * 2 }   # Output: 2 4 6 8 10
+# While
+$contatore = 0
+while ($contatore -lt 3) {
+    Write-Host &quot;Contatore: $contatore&quot;
+    $contatore++
+}
+</code></pre>
+<h3>Gestione Errori</h3>
+<pre><code class="language-powershell"># $ErrorActionPreference controlla il comportamento globale degli errori
+$ErrorActionPreference = &quot;Stop&quot;  # Trasforma tutti gli errori in eccezioni terminanti
+try {
+    $contenuto = Get-Content &quot;file-inesistente.txt&quot; -ErrorAction Stop
+    Write-Host &quot;File letto con successo&quot;
+}
+catch [System.IO.FileNotFoundException] {
+    Write-Warning &quot;File non trovato: $_&quot;
+}
+catch {
+    # Cattura qualsiasi altro errore
+    Write-Error &quot;Errore imprevisto: $($_.Exception.Message)&quot;
+}
+finally {
+    # Eseguito sempre, con o senza errori (utile per cleanup)
+    Write-Host &quot;Operazione completata.&quot;
+}
+</code></pre>
+<h2>Funzioni e Moduli</h2>
+<h3>Funzioni Base</h3>
+<pre><code class="language-powershell">function Get-Saluto {
+    param(
+        [string]$Nome = &quot;Mondo&quot;,   # Parametro con valore di default
+        [int]$Ripetizioni = 1
+    )
+    for ($i = 0; $i -lt $Ripetizioni; $i++) {
+        Write-Output &quot;Ciao, $Nome!&quot;
+    }
+}
+# Chiamata
+Get-Saluto -Nome &quot;Mario&quot; -Ripetizioni 3
+</code></pre>
+<h3>Funzioni Avanzate (Advanced Functions)</h3>
+<p>Per script professionali, usa <code>CmdletBinding</code> per ottenere comportamenti da cmdlet nativi (supporto <code>-Verbose</code>, <code>-WhatIf</code>, <code>-ErrorAction</code>, ecc.):</p>
+<pre><code class="language-powershell">function Invoke-Backup {
+    [CmdletBinding(SupportsShouldProcess)]
+    param(
+        [Parameter(Mandatory, ValueFromPipeline)]
+        [string]$SourcePath,
+        [Parameter(Mandatory)]
+        [string]$DestinationPath,
+        [switch]$Compress
+    )
+    process {
+        if ($PSCmdlet.ShouldProcess($SourcePath, &quot;Backup&quot;)) {
+            Write-Verbose &quot;Backup di '$SourcePath' verso '$DestinationPath'&quot;
+            Copy-Item -Path $SourcePath -Destination $DestinationPath -Recurse
+            Write-Output &quot;Backup completato.&quot;
+        }
+    }
+}
+# Uso con -WhatIf per simulare senza eseguire
+Invoke-Backup -SourcePath &quot;C:\dati&quot; -DestinationPath &quot;D:\backup&quot; -WhatIf
+# Uso con -Verbose per logging dettagliato
+Invoke-Backup -SourcePath &quot;C:\dati&quot; -DestinationPath &quot;D:\backup&quot; -Verbose
+</code></pre>
+<h3>Gestione Moduli</h3>
+<pre><code class="language-powershell"># Trova moduli disponibili nel repository PSGallery
+Find-Module -Name *Azure*
+# Installa un modulo
+Install-Module -Name Az -Scope CurrentUser
+# Importa un modulo nella sessione corrente
+Import-Module Az
+# Elenca i moduli installati
+Get-Module -ListAvailable
+# Elenca i cmdlet di un modulo specifico
+Get-Command -Module Az.Compute
+</code></pre>
+<h2>Amministrazione di Sistema</h2>
+<h3>Utenti Locali</h3>
+<pre><code class="language-powershell">Get-LocalUser
+New-LocalUser -Name &quot;mario&quot; -Password (ConvertTo-SecureString &quot;P@ss!&quot; -AsPlainText -Force) -FullName &quot;Mario Rossi&quot;
+Add-LocalGroupMember -Group &quot;Administrators&quot; -Member &quot;mario&quot;
+Remove-LocalUser -Name &quot;mario&quot;
+</code></pre>
+<h3>Servizi</h3>
+<pre><code class="language-powershell">Get-Service
+Get-Service -Name &quot;wuauserv&quot;           # Windows Update
+Start-Service -Name &quot;wuauserv&quot;
+Stop-Service -Name &quot;wuauserv&quot;
+Restart-Service -Name &quot;wuauserv&quot;
+Set-Service -Name &quot;wuauserv&quot; -StartupType Disabled
+</code></pre>
+<h3>Processi</h3>
+<pre><code class="language-powershell">Get-Process | Sort-Object CPU -Descending | Select-Object -First 10
+Stop-Process -Name &quot;notepad&quot; -Confirm
+Start-Process &quot;notepad.exe&quot;
+</code></pre>
+<h3>Registro di Sistema</h3>
+<pre><code class="language-powershell"># Naviga nel registro come se fosse un filesystem
+Set-Location HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion
+Get-ItemProperty -Path &quot;HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; -Name &quot;ProductName&quot;
+Set-ItemProperty -Path &quot;HKCU:\Software\MyApp&quot; -Name &quot;Debug&quot; -Value 1
+New-Item -Path &quot;HKCU:\Software\MyApp&quot;
+Remove-Item -Path &quot;HKCU:\Software\MyApp&quot; -Recurse
+</code></pre>
+<h2>PowerShell Remoting</h2>
+<p>PowerShell Remoting consente di eseguire comandi su computer remoti.</p>
+<h3>Tramite WinRM (Windows)</h3>
+<pre><code class="language-powershell"># Abilita il remoting (da eseguire come amministratore)
+Enable-PSRemoting -Force
+# Sessione interattiva
+Enter-PSSession -ComputerName Server01 -Credential (Get-Credential)
+# Esegui un comando su un computer remoto
+Invoke-Command -ComputerName Server01 -ScriptBlock {
+    Get-Service | Where-Object { $_.Status -eq &quot;Stopped&quot; }
+}
+# Esegui uno script locale su computer remoti
+Invoke-Command -ComputerName Server01, Server02 -FilePath .\script.ps1
+# Gestione sessioni persistenti
+$sessione = New-PSSession -ComputerName Server01 -Credential (Get-Credential)
+Invoke-Command -Session $sessione -ScriptBlock { Get-Process }
+Remove-PSSession $sessione
+</code></pre>
+<h3>Tramite SSH (Cross-Platform, PowerShell 7+)</h3>
+<pre><code class="language-powershell"># Connessione SSH a un server Linux
+Enter-PSSession -HostName ubuntu-server -UserName admin -SSHTransport
+# Esegui comandi remoti via SSH
+Invoke-Command -HostName ubuntu-server -UserName admin -ScriptBlock { uname -a }
+</code></pre>
+<h2>Sicurezza in PowerShell</h2>
+<p>La sicurezza è una priorità per qualsiasi script destinato a produzione o ambienti aziendali.</p>
+<h3>Firma Digitale degli Script (Code Signing)</h3>
+<p>In ambienti con policy <code>AllSigned</code>, gli script devono essere firmati:</p>
+<pre><code class="language-powershell"># Ottieni il certificato di firma (da un'autorità di certificazione aziendale o auto-firmato)
+$cert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert
+# Firma lo script
+Set-AuthenticodeSignature -FilePath .\script.ps1 -Certificate $cert
+# Verifica la firma
+Get-AuthenticodeSignature .\script.ps1
+</code></pre>
+<h3>Gestione Sicura delle Credenziali</h3>
+<blockquote>
+<p>Non inserire mai password in chiaro negli script!</p>
+</blockquote>
+<pre><code class="language-powershell"># Chiedi le credenziali in modo sicuro
+$cred = Get-Credential
+# Salva una password come SecureString (cifrata, leggibile solo dall'utente corrente)
+$password = Read-Host -Prompt &quot;Inserisci password&quot; -AsSecureString
+$passwordCifrata = ConvertFrom-SecureString $password
+$passwordCifrata | Out-File .\password.enc  # Salva cifrata su disco
+# Ricarica la password
+$passwordCifrata = Get-Content .\password.enc | ConvertTo-SecureString
+</code></pre>
+<h3>Script Block Logging e Auditing</h3>
+<p>Per ambienti aziendali, abilita la registrazione degli script tramite Group Policy:</p>
+<pre><code>Computer Configuration → Administrative Templates → Windows Components →
+Windows PowerShell → Turn on Script Block Logging → Enabled
+</code></pre>
+<p>Gli script eseguiti vengono registrati nel <strong>Windows Event Log</strong> (Event ID 4104), fondamentale per audit e incident response.</p>
+<h3>Constrained Language Mode</h3>
+<p>Limita le funzionalità di PowerShell per ridurre la superficie d'attacco:</p>
+<pre><code class="language-powershell"># Verifica la modalità corrente
+$ExecutionContext.SessionState.LanguageMode
+# In CLM, tipi .NET arbitrari e COM objects sono bloccati
+# Viene tipicamente applicato tramite AppLocker o WDAC
+</code></pre>
+<h2>PowerShell e il Cloud</h2>
+<p>PowerShell è lo strumento ufficiale per gestire <strong>Microsoft Azure</strong>:</p>
+<pre><code class="language-powershell"># Installa il modulo Az
+Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
+# Autenticazione ad Azure
+Connect-AzAccount
+# Operazioni comuni
+Get-AzResourceGroup                          # Elenca i Resource Group
+Get-AzVM -ResourceGroupName &quot;MyRG&quot;           # Elenca le VM
+# Esempio: avvia tutte le VM ferme in un Resource Group
+Get-AzVM -ResourceGroupName &quot;MyRG&quot; -Status |
+    Where-Object { $_.PowerState -eq &quot;VM deallocated&quot; } |
+    ForEach-Object { Start-AzVM -ResourceGroupName &quot;MyRG&quot; -Name $_.Name }
+</code></pre>
+<h2>Best Practice per Script Professionali</h2>
+<h3>Qualità del Codice con PSScriptAnalyzer</h3>
+<p><strong>PSScriptAnalyzer</strong> è il linter ufficiale per PowerShell:</p>
+<pre><code class="language-powershell"># Installa
+Install-Module -Name PSScriptAnalyzer -Scope CurrentUser
+# Analizza uno script
+Invoke-ScriptAnalyzer -Path .\script.ps1
+# Analizza una directory intera
+Invoke-ScriptAnalyzer -Path .\scripts\ -Recurse
+</code></pre>
+<h3>Testing con Pester</h3>
+<p><strong>Pester</strong> è il framework di testing standard per PowerShell:</p>
+<pre><code class="language-powershell"># Installa Pester
+Install-Module -Name Pester -Scope CurrentUser -Force
+# Esempio di test (file: Get-Saluto.Tests.ps1)
+Describe &quot;Get-Saluto&quot; {
+    It &quot;Restituisce il saluto corretto&quot; {
+        $risultato = Get-Saluto -Nome &quot;Mario&quot;
+        $risultato | Should -Be &quot;Ciao, Mario!&quot;
+    }
+    It &quot;Usa 'Mondo' come default se nessun nome è fornito&quot; {
+        Get-Saluto | Should -Be &quot;Ciao, Mondo!&quot;
+    }
+}
+# Esegui i test
+Invoke-Pester .\Get-Saluto.Tests.ps1
+</code></pre>
+<h3>Checklist Best Practice</h3>
+<ul>
+<li><strong>Usa <code>CmdletBinding</code></strong> nelle funzioni per supportare <code>-Verbose</code>, <code>-WhatIf</code>, <code>-ErrorAction</code></li>
+<li><strong>Tipizza i parametri</strong> esplicitamente (<code>[string]</code>, <code>[int]</code>, <code>[Parameter(Mandatory)]</code>)</li>
+<li><strong>Usa <code>$ErrorActionPreference = &quot;Stop&quot;</code></strong> all'inizio degli script critici</li>
+<li><strong>Commenta il codice</strong> con <code>#</code> per riga e <code>&lt;# ... #&gt;</code> per blocchi</li>
+<li><strong>Non usare alias negli script</strong> (<code>ls</code>, <code>cd</code>, <code>?</code>) — usa i nomi completi per leggibilità</li>
+<li><strong>Gestisci sempre le credenziali</strong> con <code>SecureString</code> o <code>Get-Credential</code></li>
+<li><strong>Usa <code>Write-Verbose</code></strong> per logging, non <code>Write-Host</code> (che bypassa la pipeline)</li>
+<li><strong>Analizza con PSScriptAnalyzer</strong> prima di distribuire uno script</li>
+<li><strong>Scrivi test con Pester</strong> per gli script riutilizzati in produzione</li>
+<li><strong>Controlla la Execution Policy</strong> prima del deployment</li>
+</ul>
+<h2>Risorse Utili</h2>
+<p><strong>Documentazione ufficiale:</strong></p>
+<ul>
+<li><a href="https://learn.microsoft.com/powershell" target="_blank" rel="noopener noreferer">Microsoft Learn – PowerShell</a></li>
+<li><a href="https://www.powershellgallery.com" target="_blank" rel="noopener noreferer">PowerShell Gallery</a> — repository di moduli e script</li>
+<li><a href="https://github.com/PowerShell/PowerShell" target="_blank" rel="noopener noreferer">GitHub – PowerShell</a></li>
+</ul>
+<p><strong>Community:</strong></p>
+<ul>
+<li><a href="https://powershell.org" target="_blank" rel="noopener noreferer">PowerShell.org</a></li>
+<li><a href="https://reddit.com/r/PowerShell" target="_blank" rel="noopener noreferer">r/PowerShell su Reddit</a></li>
+</ul>
+
+  </section>
+
+  <hr class="mt-5">
+
+  <section class="mt-5" aria-label="Commenti e reazioni">
+    <h2 class="h5 fw-bold mb-4">
+      <i class="bi bi-chat-dots text-primary me-2"></i>
+      Commenti
+    </h2>
+
+    <script>
+      (function () {
+        const saved = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+        const script = document.createElement('script');
+        script.src = 'https://giscus.app/client.js';
+        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+        script.setAttribute('data-category', 'Announcements');
+        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+        script.setAttribute('data-mapping', 'pathname');
+        script.setAttribute('data-strict', '0');
+        script.setAttribute('data-reactions-enabled', '1');
+        script.setAttribute('data-emit-metadata', '0');
+        script.setAttribute('data-input-position', 'top');
+        script.setAttribute('data-theme', theme);
+        script.setAttribute('data-lang', 'it');
+        script.setAttribute('data-loading', 'lazy');
+        script.setAttribute('crossorigin', 'anonymous');
+        script.async = true;
+        document.currentScript.replaceWith(script);
+      })();
+    </script>
+
+    <noscript>
+      <p class="text-muted small">
+        <i class="bi bi-info-circle me-1"></i>
+        Per visualizzare i commenti è necessario abilitare JavaScript.
+        Puoi leggere e partecipare alla discussione direttamente su
+        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
+      </p>
+    </noscript>
+  </section>
+</article>
+    </main>
+
+    <footer class="border-top mt-auto py-4">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 mb-3 mb-md-0">
+        <h5 class="fw-bold mb-3">
+          <span><span class="text-primary">dino</span>-996</span>
+        </h5>
+        <p class="text-muted small mb-2">
+          Developer portfolio e blog tecnico
+        </p>
+        <a href="/feed.xml" class="text-muted" aria-label="Feed RSS" target="_blank">
+          <i class="bi bi-rss"></i>
+        </a>
+      </div>
+
+      <div class="col-md-3 mb-3 mb-md-0">
+        <h6 class="fw-bold mb-3">Navigazione</h6>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <a href="/" class="text-muted text-decoration-none small">Home</a>
+          </li>
+          <li class="mb-2">
+            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
+          </li>
+          <li class="mb-2">
+            <a href="/about/" class="text-muted text-decoration-none small">About</a>
+          </li>
+        </ul>
+      </div>
+
+      
+
+      <div class="col-md-2">
+        <h6 class="fw-bold mb-3">Social</h6>
+        <div class="d-flex gap-3">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="GitHub">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+              <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+            </svg>
+          </a>
+
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer" class="text-muted" aria-label="LinkedIn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+              <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4" />
+
+    <div class="row">
+      <div class="col text-center">
+        <p class="text-muted small mb-0">
+          Realizzato con <span class="text-danger">❤️</span> usando 
+          <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Eleventy</a> 
+          e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none">Bootstrap</a>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</footer>
+      <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      window.pathPrefix = ".";
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send"><i class="bi bi-arrow-up"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js"></script>
+  </body>
+  
+</html>
