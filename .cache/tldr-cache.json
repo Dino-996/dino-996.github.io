@@ -46,5 +46,21 @@
   "Tecniche algoritmiche per dev Java": {
     "tldr": "Questa guida pratica, basata su Java 17 LTS, illustra tecniche imperativi e funzionali (con Stream API) per risolvere problemi comuni con collezioni standard (`List`, `Set`, `Map`). Vengono analizzati algoritmi come iterazione, aggregazione, somma e media, con focus su complessità computazionale, `record` e best practice.",
     "hash": "19461"
+  },
+  "Struttura dei sistemi operativi": {
+    "tldr": "Il sistema operativo offre servizi essenziali attraverso chiamate di sistema, accedute direttamente o tramite API per garantire portabilità, con il kernel che gestisce le risorse hardware e i servizi di base. Le interfacce utente includono CLI, GUI e touch, mentre lo sviluppo applicativo prevede linker e loader per produrre file eseguibili.",
+    "hash": "5467"
+  },
+  "Fondamenti di networking": {
+    "tldr": "Internet, una rete di reti basata su standard comuni, interconnette in modo autonomo migliaia di reti tramite diversi mezzi fisici per scambiare dati globalmente. Le reti locali (LAN), dalle SOHO alle aziendali, forniscono connettività condivisa a Internet, supportando una vasta gamma di dispositivi, dai tradizionali computer ai dispositivi mobili e all'Internet of Things (IoT).",
+    "hash": "14210"
+  },
+  "Sincronizzazione dei processi": {
+    "tldr": "La sincronizzazione dei processi è cruciale per evitare inconsistenze nei dati condivisi, richiedendo mutua esclusione, progresso e attesa limitata. Le architetture moderne, con memoria debolmente ordinata e riordino delle istruzioni, necessitano di memory barrier e primitive hardware atomiche come CAS per garantire la correttezza degli algoritmi concorrenti, superando i limiti di soluzioni puramente software come l'algoritmo di Peterson.",
+    "hash": "6628"
+  },
+  "Le reti": {
+    "tldr": "Internet è un sistema decentralizzato di reti interconnesse che utilizzano standard comuni come TCP/IP per lo scambio di dati su vari mezzi fisici, diventando un'infrastruttura critica fondamentale. Le Reti Locali (LAN), che includono configurazioni SOHO e aziendali, collegano dispositivi in aree geografiche limitate per la condivisione di risorse e comunicazioni ad alta velocità, gestite autonomamente dagli organizzazioni proprietarie.",
+    "hash": "18243"
   }
 }
