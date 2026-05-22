@@ -11,9 +11,7 @@ eleventyExcludeFromCollections: true
   <link href="{{ site.url }}/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="{{ site.url }}" rel="alternate" type="text/html"/>
   <id>{{ site.url }}/</id>
-  {% if collections.posts | length %}
-  <updated>{{ collections.posts[0].date | dateIso }}</updated>
-  {% endif %}
+  <updated>{{ (collections.posts | first).data.date | dateIso }}</updated>
   <author>
     <name>{{ site.author }}</name>
     <email>{{ site.email }}</email>
@@ -25,23 +23,21 @@ eleventyExcludeFromCollections: true
     <title>{{ post.data.title }}</title>
     <link href="{{ site.url }}{{ post.url }}" rel="alternate" type="text/html"/>
     <id>{{ site.url }}{{ post.url }}</id>
-    <published>{{ post.date | dateIso }}</published>
-    <updated>{{ post.date | dateIso }}</updated>
+    <published>{{ post.data.date | dateIso }}</published>
+    <updated>{{ post.data.date | dateIso }}</updated>
     {% if post.data.description %}
     <summary>{{ post.data.description }}</summary>
     {% endif %}
-    {% if post.data.content %}
-    <content type="html"><![CDATA[{{ post.data.content }}]]></content>
+    {% if post.templateContent %}
+    <content type="html"><![CDATA[{{ post.templateContent }}]]></content>
     {% endif %}
-    {% if post.data.strapiTags %}
-      {% set tagList = post.data.strapiTags.split(',') %}
-      {% for tag in tagList %}
-        {% set t = tag | trim %}
-        {% if t and t != "posts" %}
-    <category term="{{ t }}"/>
-        {% endif %}
-      {% endfor %}
-    {% endif %}
+    {% set postTags = (post.data.strapiTags or "").split(",") %}
+    {% for tag in postTags %}
+      {% set cleanTag = tag | trim %}
+      {% if cleanTag and cleanTag != "posts" %}
+    <category term="{{ cleanTag }}"/>
+      {% endif %}
+    {% endfor %}
   </entry>
   {% endfor %}
 

@@ -1,78 +1,34 @@
 {
   "Stallo dei processi": {
-    "tldr": "Il deadlock si verifica quando coesistono le quattro condizioni di Coffman, rendendo i processi reciprocamente bloccati in una catena di attesa circolare. La gestione pratica del fenomeno richiede l'analisi dei Resource Allocation Graph o l'adozione di strategie di prevenzione, come l'ordinamento gerarchico dei lock, per rompere le dipendenze cicliche.",
-    "hash": "9375"
+    "tldr": "L'articolo analizza le quattro condizioni necessarie per il deadlock, distinguendolo da livelock e starvation, e illustra l'uso del Resource Allocation Graph per la diagnostica.\nPer prevenire e gestire il deadlock, vengono discusse strategie come l'algoritmo del banchiere e tecniche di ripristino come la terminazione o la prelazione delle risorse.",
+    "hash": "9894"
   },
-  "Memoria centrale": {
-    "tldr": "L'architettura della memoria gerarchica e i meccanismi di protezione hardware definiscono le fondamenta per l'isolamento dei processi e l'efficienza operativa. La traduzione degli indirizzi tramite MMU e il processo di binding permettono la gestione dinamica della memoria, separando efficacemente gli spazi logici da quelli fisici.",
-    "hash": "6460"
-  },
-  "Sincronizzazione dei processi": {
-    "tldr": "La gestione delle sezioni critiche richiede il rigoroso rispetto di mutua esclusione, progresso e attesa limitata per garantire l'integrità dei dati in ambienti concorrenti. Sui sistemi moderni, l'implementazione pratica di tali meccanismi deve superare il riordino delle istruzioni hardware tramite l'uso di primitive atomiche come il CAS e opportune memory barrier.",
-    "hash": "6664"
-  },
-  "Paginazione": {
-    "tldr": "La paginazione disaccoppia lo spazio di indirizzamento logico da quello fisico tramite la MMU, che mappa pagine in frame di dimensione fissa per eliminare la frammentazione esterna. Il sistema ottimizza l'efficienza della memoria e la protezione tramite la condivisione di frame read-only e l'uso di potenze di due per velocizzare il calcolo degli indirizzi.",
-    "hash": "9322"
-  },
-  "Processi": {
-    "tldr": "Un processo è un'istanza attiva di un programma, definita da risorse allocate e gestita dal sistema operativo tramite un Process Control Block. Mentre nei sistemi single-core il parallelismo è simulato mediante time-slicing, le architetture multicore consentono l'esecuzione simultanea di thread, ottimizzando le prestazioni computazionali attraverso il calcolo parallelo reale.",
-    "hash": "7999"
-  },
-  "Struttura dei Sistemi Operativi": {
-    "tldr": "Il sistema operativo fornisce i servizi fondamentali tramite chiamate di sistema e API, garantendo l'astrazione hardware e la portabilità delle applicazioni. Il kernel gestisce centralmente le risorse critiche, tra cui scheduling, memoria e I/O, orchestrando l'intero ciclo di vita dell'esecuzione dei processi.",
-    "hash": "5574"
-  },
-  "Thread": {
-    "tldr": "Il thread è l'unità minima di esecuzione che condivide lo spazio di indirizzamento del processo ospitante, garantendo maggiore efficienza operativa e scalabilità rispetto al modello multiprocesso tradizionale. La distinzione tra concorrenza logica e parallelismo hardware, estesa oggi a contesti eterogenei CPU-GPU, permette di ottimizzare il carico computazionale su architetture multicore e massivamente parallele.",
-    "hash": "7232"
-  },
-  "Scheduling della CPU": {
-    "tldr": "Lo scheduling della CPU ottimizza l'utilizzo delle risorse di sistema bilanciando l'alternanza tra burst di calcolo e operazioni di I/O tramite meccanismi di prelazione. L'efficacia di tali algoritmi viene valutata mediando metriche contrapposte, minimizzando al contempo l'overhead introdotto dai context switch gestiti dal dispatcher.",
-    "hash": "6677"
-  },
-  "Tecniche Algoritmiche per Dev Java": {
-    "tldr": "Il testo analizza tecniche di manipolazione delle collezioni Java standard, confrontando approcci imperativi e funzionali basati su Java 17+. Viene enfatizzata l'efficienza computazionale e l'uso di best practice moderne, come l'impiego dei record e degli stream per ottimizzare le operazioni di aggregazione.",
-    "hash": "19926"
-  },
-  "Guida completa a PowerShell": {
-    "tldr": "PowerShell è un ambiente di scripting cross-platform orientato agli oggetti che, tramite l'uso di cmdlet, permette un'automazione avanzata e una gestione efficiente dell'infrastruttura. È consigliabile preferire la versione 7+ (pwsh), basata su .NET Core, rispetto alla legacy Windows PowerShell 5.1 per garantire portabilità e supporto tecnologico moderno.",
-    "hash": "23383"
-  },
-  "L'algoritmo di Luhn": {
-    "tldr": "L'algoritmo di Luhn è una tecnica di checksum computazionalmente efficiente, concepita esclusivamente per il rilevamento di errori di trascrizione come digitazioni errate o trasposizioni di cifre adiacenti. Privo di proprietà crittografiche, il metodo opera tramite una somma modulare ponderata ed è ampiamente utilizzato per la validazione sintattica di identificativi numerici standardizzati.",
-    "hash": "3489"
-  },
-  "Struttura dei sistemi operativi": {
-    "tldr": "Il sistema operativo orchestra l'interazione tra hardware e applicazioni attraverso un kernel dedicato, esponendo servizi fondamentali tramite system call o API astratte per garantire portabilità. Il ciclo di vita dei processi è gestito tramite linker e loader, mentre l'interazione utente si articola su interfacce CLI, GUI o touch, mediando l'allocazione delle risorse di sistema.",
-    "hash": "5499"
-  },
-  "La memoria virtuale": {
-    "tldr": "La memoria virtuale astrae lo spazio di indirizzamento logico dalla RAM fisica tramite il demand paging, garantendo scalabilità e isolamento dei processi. L'efficienza del sistema dipende criticamente dalla minimizzazione del tasso di page fault e dall'adozione di strategie ottimizzate come il Copy-on-Write per la gestione delle risorse.",
-    "hash": "4317"
-  },
-  "Allocazione della memoria": {
-    "tldr": "L'allocazione dei frame bilancia l'efficienza del sistema attraverso strategie proporzionali e politiche di sostituzione locali o globali, mirando a ottimizzare il throughput e l'isolamento dei processi. Per prevenire il collasso da thrashing, i kernel moderni implementano il modello del Working Set o il controllo della frequenza dei page fault, garantendo che le risorse siano proporzionate alle esigenze di località dei processi.",
-    "hash": "5046"
-  },
-  "Tecniche algoritmiche per dev Java": {
-    "tldr": "La guida analizza l'elaborazione di collezioni Java (List, Set, Map) confrontando approcci imperativi tradizionali con soluzioni funzionali basate su Stream API. Il testo fornisce best practice e analisi della complessità computazionale per operazioni di aggregazione, ottimizzando l'uso di Java 17 attraverso l'impiego di record immutabili.",
-    "hash": "19329"
-  },
-  "Fondamenti di Networking": {
-    "tldr": "Internet è un'infrastruttura decentralizzata costituita dall'interconnessione di reti autonome che operano tramite standard comuni come il protocollo TCP/IP. L'ecosistema si è evoluto includendo architetture scalabili, dalle reti SOHO alle complesse infrastrutture aziendali, fino all'integrazione pervasiva di dispositivi mobile e soluzioni IoT stratificate.",
-    "hash": "13870"
+  "Guida completa a powershell": {
+    "tldr": "PowerShell è una shell e un linguaggio di scripting orientato agli oggetti per l'automazione e la gestione di sistemi, offrendo un'efficienza notevole rispetto alle tradizionali shell testuali. La versione moderna PowerShell 7+ è open source, cross-platform e basata su .NET, rappresentando lo standard enterprise raccomandato per la gestione di Azure e Microsoft 365.",
+    "hash": "22924"
   },
   "GNU/Linux": {
-    "tldr": "Nato come kernel Unix-like creato da Linus Torvalds nel 1991, Linux si è evoluto in uno standard globale grazie a un modello di sviluppo open source collaborativo sostenuto dalle principali aziende tecnologiche. L'ecosistema ha consolidato la propria stabilità e inclusività attraverso l'adozione di rigorosi codici di condotta e la creazione di strumenti fondamentali come Git, trasformando il progetto individuale in un pilastro dell'infrastruttura IT moderna.",
-    "hash": "28259"
+    "tldr": "Linux, inizialmente un kernel creato da Linus Torvalds per curiosità nel 1991, è ora uno standard globale grazie alla sua architettura aperta, allo sviluppo collaborativo e all'evoluzione, inclusa la creazione di Git. Il progetto, oggi supportato da migliaia di sviluppatori e aziende, ha affrontato sfide di gestione della community adottando un Codice di Condotta formale nel 2018 per favorire un ambiente più inclusivo.",
+    "hash": "28258"
   },
-  "Comandi di base della Shell Linux": {
-    "tldr": "La shell funge da interprete per l'esecuzione di comandi, programmi esterni o pipeline, gestendo direttamente l'interazione con il sistema operativo. L'analisi del prompt è fondamentale per identificare il contesto operativo, inclusi utente, host, working directory e privilegi di esecuzione.",
-    "hash": "23518"
+  "Processi": {
+    "tldr": "Un processo è un programma attivo con aree di memoria distinte (testo, dati, heap, stack) e, nei sistemi moderni, può essere composto da thread per un'esecuzione concorrente. Le architetture multicore consentono il parallelismo reale assegnando processi/thread a core fisici distinti, a differenza del time slicing dei sistemi single-core che simula il parallelismo.",
+    "hash": "8171"
   },
-  "Il Filesystem di Linux": {
-    "tldr": "Il filesystem Linux organizza i dati secondo una struttura gerarchica ad albero conforme allo standard FHS, garantendo coerenza e portabilità tra le diverse distribuzioni. Il sistema opera tramite percorsi assoluti o relativi, adottando una nomenclatura case-sensitive che ne definisce univocamente le risorse all'interno della root directory.",
-    "hash": "13984"
+  "Comandi di base della shell": {
+    "tldr": "La shell è un'interfaccia testuale per interagire con il sistema operativo, interpretando comandi esterni, interni o pipeline per gestire input/output.\nIl prompt del terminale, composto da nome utente, nome host e directory corrente, fornisce contesto operativo e, con simboli come `$` o `#`, indica i permessi dell'utente attivo.",
+    "hash": "23517"
+  },
+  "Memoria centrale": {
+    "tldr": "La memoria centrale, comprendente ROM, RAM e cache, è essenziale per l'esecuzione dei programmi e la gestione dei dati, con ottimizzazioni suggerite per linguaggi come Python e Java. La protezione della memoria, gestita dall'hardware tramite registri base/limite e eccezioni, isola i processi, mentre la traduzione dinamica degli indirizzi logici in fisici è affidata alla MMU, supportando tecniche avanzate come paginazione e segmentazione per la gestione di ampi spazi di indirizzamento.",
+    "hash": "6448"
+  },
+  "Paginazione": {
+    "tldr": "La MMU traduce indirizzi logici in fisici tramite paginazione, utilizzando il TLB per velocizzare il processo e supportando varie configurazioni di tabelle delle pagine, meccanismi di protezione e condivisione del codice. L'articolo esplora anche le differenze tra swapping standard e mobile, illustrando implementazioni su architetture Intel e ARMv8.",
+    "hash": "10060"
+  },
+  "Scheduling della CPU": {
+    "tldr": "Lo scheduling della CPU gestisce l'allocazione del processore tra processi concorrenti, bilanciando efficienza e reattività attraverso strategie preemptive o non preemptive e il minimo overhead del context switch. La valutazione degli algoritmi si basa su metriche quali utilizzo della CPU, throughput e tempi di attesa/risposta.",
+    "hash": "6644"
   }
 }

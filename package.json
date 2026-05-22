@@ -1,7 +1,7 @@
 {
-  "name": "dino-996",
+  "name": "dino-996.github.io",
   "version": "1.0.0",
-  "description": "In this space i share everything that concerns my passions and interests, obviously, like all my projects, this static website was also developed persolamente with my hands",
+  "description": "In this space i share everything that concerns my passions and interests, obviusly, like all my projects, that static website was also developed with me",
   "keywords": [
     "blog",
     "portfolio",
@@ -9,6 +9,7 @@
   ],
   "homepage": "https://github.com/Dino-996/dino-996.github.io#readme",
   "bugs": {
+    "email": "davidesabia22@gmail.com",
     "url": "https://github.com/Dino-996/dino-996.github.io/issues"
   },
   "repository": {
@@ -22,14 +23,16 @@
   "scripts": {
     "dev": "npx @11ty/eleventy --serve",
     "build": "npx @11ty/eleventy",
-    "build:local": "npx --node-options='--env-file=.env' @11ty/eleventy",
+    "build-local": "npx --node-options='--env-file=.env' @11ty/eleventy",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@11ty/eleventy": "^3.1.2",
+    "@11ty/eleventy": "^3.1.5",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.2",
     "@google/generative-ai": "^0.24.1",
-    "dotenv": "^17.4.0",
-    "prism-themes": "^1.9.0"
+    "dotenv": "^17.4.2"
+  },
+  "devDependencies": {
+    "wrangler": "^4.93.0"
   }
 }

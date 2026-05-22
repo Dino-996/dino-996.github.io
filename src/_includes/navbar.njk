@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+    
+    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <i class="bi bi-grid-3x3-gap fs-4"></i>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link{% if page.url == '/' %} active{% endif %}" href="/">
+            Home
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if '/blog/' in page.url %} active{% endif %}" href="/blog/">
+            Blog
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if page.url == '/about/' %} active{% endif %}" href="/about/">
+            About
+          </a>
+        </li>
+
+        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+          <div class="theme-toggle" role="group" aria-label="Toggle tema">
+            <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-sun"></i>
+            </button>
+            <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-moon"></i>
+            </button>
+            <div class="theme-toggle-slider"></div>
+          </div>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>

@@ -1,9 +1,9 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "dino996githubio",
-  "main": "src/assets/js/worker.js",
-  "compatibility_date": "2026-04-03",
-  "observability": {
-    "enabled": true
-  }
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "name": "dino996githubio",
+    "main": "src/assets/js/worker.js",
+    "compatibility_date": "2026-04-03",
+    "observability": {
+        "enabled": true
+    }
 }
