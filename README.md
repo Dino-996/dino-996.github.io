@@ -78,8 +78,3 @@ The chat widget ("dino") consists of:
 Deploy the worker:
 ```bash
 npx wrangler deploy
-```
-
-## License
-
-ISC
