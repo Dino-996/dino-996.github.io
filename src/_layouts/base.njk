@@ -164,9 +164,10 @@
           let context = "";
           try {
             const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
             context = idx
               .slice(0, 15)
-              .map(p => `- ${p.title}: ${p.description}`)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
               .join("\n\n");
           } catch (err) {
             console.warn("Impossibile caricare search.json:", err);

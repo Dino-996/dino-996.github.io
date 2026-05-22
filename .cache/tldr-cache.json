@@ -42,5 +42,9 @@
   "La memoria virtuale": {
     "tldr": "La memoria virtuale, tramite Demand Paging, scollega lo spazio logico dall'hardware fisico permettendo l'esecuzione di processi più grandi della RAM e ottimizzando la condivisione di risorse. Le prestazioni sono influenzate significativamente dall'EAT, dove un basso tasso di page fault (gestito con meccanismi come Copy-on-Write) è cruciale per mitigare l'overhead disco.",
     "hash": "4316"
+  },
+  "Tecniche algoritmiche per dev Java": {
+    "tldr": "Questa guida pratica, basata su Java 17 LTS, illustra tecniche imperativi e funzionali (con Stream API) per risolvere problemi comuni con collezioni standard (`List`, `Set`, `Map`). Vengono analizzati algoritmi come iterazione, aggregazione, somma e media, con focus su complessità computazionale, `record` e best practice.",
+    "hash": "19461"
   }
 }
