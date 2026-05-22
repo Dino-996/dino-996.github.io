@@ -2,11 +2,11 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
 
   <title>dino-996 blog</title>
-  <subtitle>Developer portfolio e blog tecnico. Condivido articoli su programmazione, web development e tecnologie moderne.</subtitle>
+  <subtitle>Developer portfolio e blog tecnico</subtitle>
   <link href="https://dino-996.github.io/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://dino-996.github.io" rel="alternate" type="text/html"/>
   <id>https://dino-996.github.io/</id>
-  
+  <updated></updated>
   <author>
     <name>Davide Sabia</name>
     <email>davidesabia22@gmail.com</email>
