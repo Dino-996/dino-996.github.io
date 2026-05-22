@@ -30,5 +30,17 @@
   "Scheduling della CPU": {
     "tldr": "Lo scheduling della CPU gestisce l'allocazione del processore tra processi concorrenti, bilanciando efficienza e reattività attraverso strategie preemptive o non preemptive e il minimo overhead del context switch. La valutazione degli algoritmi si basa su metriche quali utilizzo della CPU, throughput e tempi di attesa/risposta.",
     "hash": "6644"
+  },
+  "Il filesystem di linux": {
+    "tldr": "Il Filesystem Hierarchy Standard (FHS) definisce la convenzione della struttura a directory di Linux, organizzata gerarchicamente a partire dalla radice `/`. Questa struttura è indipendente dal formato fisico del filesystem (es. ext4) e garantisce la coerenza tra le distribuzioni.",
+    "hash": "13983"
+  },
+  "Thread": {
+    "tldr": "I thread sono unità di esecuzione all'interno di un processo che condividono risorse come lo spazio di indirizzamento, offrendo vantaggi in termini di efficienza, latenza e modularità rispetto ai processi tradizionali. La concorrenza, a differenza del parallelismo ottenibile su architetture multicore o con GPU, indica la progressione logica di più task nel tempo.",
+    "hash": "7200"
+  },
+  "La memoria virtuale": {
+    "tldr": "La memoria virtuale, tramite Demand Paging, scollega lo spazio logico dall'hardware fisico permettendo l'esecuzione di processi più grandi della RAM e ottimizzando la condivisione di risorse. Le prestazioni sono influenzate significativamente dall'EAT, dove un basso tasso di page fault (gestito con meccanismi come Copy-on-Write) è cruciale per mitigare l'overhead disco.",
+    "hash": "4316"
   }
 }
