@@ -4,83 +4,69 @@ layout: base.njk
 
 <article class="mx-auto" style="max-width: 800px;">
   <header class="mb-4">
-    <h1 class="fw-bold">{{ title }}</h1>
+    <h1 class="fw-bold mb-3">{{ title }}</h1>
 
-    <div class="d-flex flex-wrap align-items-baseline gap-3">
-      <div>
-        <img
-          src="https://github.com/Dino-996.png"
-          alt="Davide Sabia"
-          class="rounded-circle"
-          width="32"
-          height="32"
-          style="object-fit: cover;"
-          loading="lazy"
-        >
-        <span class="fw-light mx-1">Davide Sabia</span>
+    <div class="author-card mb-4">
+      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" loading="lazy">
+      <div class="flex-grow-1">
+        <div class="author-name">Davide Sabia</div>
+        <div class="author-meta">
+          <time datetime="{{ postDate | dateIso }}">
+            <i class="bi bi-calendar3 me-1"></i>{{ postDate | dateHuman }}
+          </time>
+          <span class="mx-1">·</span>
+          <span class="reading-time"></span>
+        </div>
+        <div class="tags-container d-flex flex-wrap gap-1 mt-2">
+          {% set rawTags = strapiTags if strapiTags else "" %}
+          {% set tagList = rawTags.split(",") if rawTags is string else rawTags %}
+          {% for t in tagList %}
+            {% set cleanTag = t | trim %}
+            {% if cleanTag != "posts" and cleanTag != "" %}
+              <a href="/tags/{{ cleanTag | slugify }}/"
+                 class="badge border text-decoration-none"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                {{ cleanTag }}
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
-
-      <div class="tags-container d-flex flex-wrap gap-2">
-        {% set rawTags = strapiTags if strapiTags else "" %}
-        {% set tagList = rawTags.split(",") if rawTags is string else rawTags %}
-        {% for t in tagList %}
-          {% set cleanTag = t | trim %}
-          {% if cleanTag != "posts" and cleanTag != "" %}
-            <a
-              href="/tags/{{ cleanTag | slugify }}/"
-              class="badge border text-decoration-none d-inline-flex align-items-center"
-              style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important; padding: 0.4em 0.6em; line-height: 1;"
-            >
-              {{ cleanTag }}
-            </a>
-          {% endif %}
-        {% endfor %}
-      </div>
-
-      <time class="text-muted small" datetime="{{ postDate | dateIso }}">
-        <i class="bi bi-calendar3 me-1"></i>{{ postDate | dateHuman }}
-      </time>
     </div>
   </header>
 
   {% if tldr[title] %}
-    <div class="alert alert-primary border-start border-4 border-primary mb-4" role="note">
-      <div class="d-flex align-items-center gap-2 mb-1">
-        <i class="bi bi-stars text-primary"></i>
-        <strong class="small text-uppercase text-primary">Riassunto IA</strong>
+    <div class="alert alert-primary border-start mb-4" role="note">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <span class="d-flex align-items-center justify-content-center rounded"
+              style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+          <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+        </span>
+        <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small">{{ tldr[title].tldr }}</p>
+      <p class="mb-0 small lh-lg">{{ tldr[title].tldr }}</p>
     </div>
   {% endif %}
 
   {% if image %}
-    <div class="mb-4">
-      <img
-        src="{{ image }}"
-        alt="{{ imageAlt | default('Immagine di copertina') }}"
-        class="img-fluid rounded w-100"
-        style="max-height: 400px; object-fit: cover;"
-      >
+    <figure class="mb-4">
+      <img src="{{ image }}"
+           alt="{{ imageAlt | default('Immagine di copertina') }}"
+           class="img-fluid rounded w-100"
+           style="max-height: 420px; object-fit: cover;">
       {% if imageAlt %}
-        <figcaption class="text-muted small mt-2 text-center">{{ imageAlt }}</figcaption>
+        <figcaption class="text-muted small mt-2 text-center fst-italic">{{ imageAlt }}</figcaption>
       {% endif %}
-    </div>
+    </figure>
   {% endif %}
-
-  <hr>
 
   <section class="content">
     {{ content | markdownBlock | safe }}
   </section>
 
-  <hr class="mt-5">
+  <div class="section-divider mt-5 mb-4">Commenti</div>
 
-  <section class="mt-5" aria-label="Commenti e reazioni">
-    <h2 class="h5 fw-bold mb-4">
-      <i class="bi bi-chat-dots text-primary me-2"></i>
-      Commenti
-    </h2>
-
+  <section aria-label="Commenti e reazioni">
     <script>
       (function () {
         const saved = localStorage.getItem('bs-theme');
@@ -107,12 +93,16 @@ layout: base.njk
     </script>
 
     <noscript>
-      <p class="text-muted small">
-        <i class="bi bi-info-circle me-1"></i>
-        Per visualizzare i commenti è necessario abilitare JavaScript.
-        Puoi leggere e partecipare alla discussione direttamente su
-        <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">GitHub Discussions</a>.
-      </p>
+      <div class="text-center py-4 text-muted">
+        <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+        <p class="small mb-0">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+            Discuti su GitHub Discussions →
+          </a>
+        </p>
+      </div>
     </noscript>
   </section>
 </article>
