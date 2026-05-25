@@ -82,30 +82,34 @@
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
-    
-    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <i class="bi bi-grid-3x3-gap fs-4"></i>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/blog/">
-            Blog
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">
-            About
-          </a>
-        </li>
 
-        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
           <div class="theme-toggle" role="group" aria-label="Toggle tema">
             <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
               <i class="bi bi-sun"></i>
@@ -116,7 +120,6 @@
             <div class="theme-toggle-slider"></div>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -124,29 +127,65 @@
   
     <main class="container my-5 flex-grow-1">
       
-<article class="mx-auto" style="max-width: 800px;">
-  <header class="mb-4">
-    <h1 class="fw-bold mb-3">Il filesystem di linux</h1>
-
-    <div class="author-card mb-4">
-      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" loading="lazy">
-      <div class="flex-grow-1">
-        <div class="author-name">Davide Sabia</div>
-        <div class="author-meta">
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
           <time datetime="2026-03-18T00:00:00.000Z">
             <i class="bi bi-calendar3 me-1"></i>18 marzo 2026
           </time>
-          <span class="mx-1">·</span>
-          <span class="reading-time"></span>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-05-08T07:27:38.000Z">
+                <i class="bi bi-pencil me-1"></i>08 maggio 2026
+              </time>
+            </span>
+          
         </div>
-        <div class="tags-container d-flex flex-wrap gap-1 mt-2">
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Ffilesistem-linux%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Il%20filesystem%20di%20linux&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Ffilesistem-linux%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Ffilesistem-linux%2F&title=Il%20filesystem%20di%20linux"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Ffilesistem-linux%2F&t=Il%20filesystem%20di%20linux"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
           
           
           
             
             
               <a href="/tags/linux/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 linux
               </a>
@@ -155,7 +194,7 @@
             
             
               <a href="/tags/sistemi-operativi/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 sistemi operativi
               </a>
@@ -164,7 +203,7 @@
             
             
               <a href="/tags/filesystem/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 filesystem
               </a>
@@ -172,42 +211,107 @@
           
         </div>
       </div>
-    </div>
-  </header>
-
-  
-    <div class="alert alert-primary border-start mb-4" role="note">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <span class="d-flex align-items-center justify-content-center rounded"
-              style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
-          <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
-        </span>
-        <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small lh-lg">Il Filesystem Hierarchy Standard (FHS) definisce la convenzione della struttura a directory di Linux, organizzata gerarchicamente a partire dalla radice `/`. Questa struttura è indipendente dal formato fisico del filesystem (es. ext4) e garantisce la coerenza tra le distribuzioni.</p>
     </div>
-  
+  </aside>
 
-  
-    <figure class="mb-4">
-      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947641/gnu_linux_1b34ec4ff7.webp"
-           alt="Immagine generata con IA"
-           class="img-fluid rounded w-100"
-           style="max-height: 420px; object-fit: cover;">
-      
-        <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
-      
-    </figure>
-  
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Il filesystem di linux</h1>
 
-  <section class="content">
-    <h1>Filesystem: Struttura e Organizzazione</h1>
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2026-03-18T00:00:00.000Z">18 marzo 2026</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/linux/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              linux
+            </a>
+          
+        
+          
+          
+            <a href="/tags/sistemi-operativi/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/filesystem/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              filesystem
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">Il Filesystem Hierarchy Standard (FHS) definisce la convenzione della struttura a directory di Linux, organizzata gerarchicamente a partire dalla radice `/`. Questa struttura è indipendente dal formato fisico del filesystem (es. ext4) e garantisce la coerenza tra le distribuzioni.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947641/gnu_linux_1b34ec4ff7.webp"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h1 id="filesystem-struttura-e-organizzazione"><a class="header-anchor" href="#filesystem-struttura-e-organizzazione"><i class="bi bi-link-45deg"></i></a> Filesystem: Struttura e Organizzazione</h1>
 <p>Se hai mai aperto un terminale Linux e digitato <code>ls /</code> (se non l'hai mai fatto questa è la volta buona: <a href="https://dino-996.github.io/blog/comandi-gnu-linux" target="_blank" rel="noopener noreferer">Comandi di base della Shell Linux</a>), probabilmente ti sei trovato di fronte a una lista di cartelle dai nomi enigmatici: <code>/bin</code>, <code>/etc</code>, <code>/proc</code>, <code>/dev</code>… Dietro quella lista si nasconde un sistema di organizzazione preciso e coerente, ereditato dalla tradizione Unix e standardizzato nel corso degli anni.</p>
-<h2>Filesystem e Filesystem Hierarchy Standard</h2>
+<h2 id="filesystem-e-filesystem-hierarchy-standard"><a class="header-anchor" href="#filesystem-e-filesystem-hierarchy-standard"><i class="bi bi-link-45deg"></i></a> Filesystem e Filesystem Hierarchy Standard</h2>
 <p>Prima di tutto, è utile distinguere due concetti che spesso vengono confusi.</p>
 <p><strong>Filesystem</strong> (nel senso tecnico) indica il formato con cui i dati vengono organizzati fisicamente su un supporto di memoria, come un HDD, un SSD o una chiavetta USB. I più comuni su Linux sono <strong>ext4</strong>, <strong>ext3</strong> ed <strong>ext2</strong>; su Windows troviamo <strong>FAT32</strong> e <strong>NTFS</strong>; su macOS <strong>HFS+</strong> e il più recente <strong>APFS</strong>.</p>
 <p><strong>Filesystem Hierarchy Standard (FHS)</strong> è invece una specifica che definisce <em>quali</em> directory devono esistere in un sistema Linux e <em>cosa</em> devono contenere. In pratica, è una convenzione condivisa tra le distribuzioni per garantire coerenza e portabilità: grazie all'FHS, un amministratore di sistema sa già dove cercare i log, i file di configurazione o i binari, indipendentemente dalla distribuzione che sta usando.</p>
-<h2>La struttura ad albero e la directory radice</h2>
+<h2 id="la-struttura-ad-albero-e-la-directory-radice"><a class="header-anchor" href="#la-struttura-ad-albero-e-la-directory-radice"><i class="bi bi-link-45deg"></i></a> La struttura ad albero e la directory radice</h2>
 <p>Le directory di un filesystem Linux sono organizzate secondo uno schema <strong>ad albero</strong>: ogni cartella può contenere file e altre cartelle, creando una gerarchia che si ramifica verso il basso. Al vertice di quest'albero si trova la <strong>directory radice</strong>, indicata dal simbolo <code>/</code> e chiamata <em>root</em>.</p>
 <p>Attenzione: la directory radice <code>/</code> non va confusa con l'utente amministratore, che si chiama anch'esso <em>root</em> e ha come home directory <code>/root</code>.</p>
 <p>Tutti i percorsi che partono da <code>/</code> sono detti <strong>percorsi assoluti</strong>, perché identificano un file in modo univoco a partire dalla radice, indipendentemente da dove ci si trova nel filesystem. Ad esempio:</p>
@@ -216,7 +320,7 @@
 <p>Al contrario, un <strong>percorso relativo</strong> non inizia con <code>/</code> e fa riferimento alla posizione corrente. Se ci troviamo già in <code>/home/mario</code>, possiamo scrivere semplicemente <code>documenti/relazione.txt</code> per riferirci allo stesso file.</p>
 <p>I nomi dei file in Linux possono contenere quasi tutti i caratteri, con alcune eccezioni: il carattere <code>/</code> è riservato come separatore di percorso e non può comparire nei nomi. È inoltre buona norma evitare caratteri speciali come spazi, <code>*</code>, <code>?</code> o <code>!</code>, poiché possono avere significati particolari nella shell e causare comportamenti inattesi. La lunghezza massima di un nome file è generalmente di <strong>255 caratteri</strong> sui filesystem moderni.</p>
 <p>Una caratteristica fondamentale: Linux è <strong>case sensitive</strong>. <code>File.txt</code>, <code>file.txt</code> e <code>FILE.TXT</code> sono tre file completamente distinti. Questo è diverso da Windows, dove i nomi file sono trattati in modo insensibile alle maiuscole.</p>
-<h2>&quot;In Linux, tutto è un file&quot;</h2>
+<h2 id="in-linux-tutto-e-un-file"><a class="header-anchor" href="#in-linux-tutto-e-un-file"><i class="bi bi-link-45deg"></i></a> &quot;In Linux, tutto è un file&quot;</h2>
 <p>Uno dei principi fondamentali di Linux (e dei sistemi Unix in generale) è che <strong>tutto è un file</strong>. Questo non significa solo che documenti e programmi sono file, ma che quasi ogni risorsa del sistema è rappresentata attraverso questa astrazione uniforme. Esistono diverse categorie:</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -262,7 +366,7 @@
   </table>
 </div>
 <p>Questa astrazione è uno dei punti di forza di Linux: strumenti e programmi possono interagire con risorse eterogenee usando sempre le stesse operazioni di lettura e scrittura.</p>
-<h2>Montaggio e smontaggio dei filesystem</h2>
+<h2 id="montaggio-e-smontaggio-dei-filesystem"><a class="header-anchor" href="#montaggio-e-smontaggio-dei-filesystem"><i class="bi bi-link-45deg"></i></a> Montaggio e smontaggio dei filesystem</h2>
 <p>Prima di esplorare le singole directory, è utile capire il concetto di <strong>mount</strong> (montaggio), perché spiega come vengono integrate le varie risorse di memoria nell'albero del filesystem.</p>
 <p>Di norma, la directory <code>/</code> corrisponde al disco da cui Linux è stato avviato. Per accedere a supporti aggiuntivi, come una chiavetta USB, un secondo disco o una partizione di rete, è necessario &quot;agganciare&quot; il dispositivo all'albero del filesystem in un punto specifico, detto <strong>mount point</strong>:</p>
 <pre><code class="language-bash"># Monta la partizione /dev/sdb1 nella directory /mnt/chiavetta
@@ -272,25 +376,25 @@ mount /dev/sdb1 /mnt/chiavetta
 <pre><code class="language-bash">umount /mnt/chiavetta
 </code></pre>
 <p>L'elenco di tutti i filesystem attualmente montati è consultabile in <code>/proc/mounts</code>.</p>
-<h2>Le directory principali del sistema</h2>
-<h3><code>/home</code> — Le directory degli utenti</h3>
+<h2 id="le-directory-principali-del-sistema"><a class="header-anchor" href="#le-directory-principali-del-sistema"><i class="bi bi-link-45deg"></i></a> Le directory principali del sistema</h2>
+<h3 id="home-le-directory-degli-utenti"><a class="header-anchor" href="#home-le-directory-degli-utenti"><i class="bi bi-link-45deg"></i></a> <code>/home</code> — Le directory degli utenti</h3>
 <p>Contiene le cartelle personali di ciascun utente. Se il nome utente è <em>mario</em>, la sua home sarà <code>/home/mario</code>. Qui vengono salvati documenti, immagini, download e le configurazioni personali delle applicazioni (spesso in cartelle nascoste che iniziano con un punto, come <code>~/.config</code> o <code>~/.bashrc</code>). Le distribuzioni moderne proteggono queste directory impedendo l'accesso agli altri utenti non privilegiati.</p>
-<h3><code>/root</code> — La home dell'amministratore</h3>
+<h3 id="root-la-home-dellamministratore"><a class="header-anchor" href="#root-la-home-dellamministratore"><i class="bi bi-link-45deg"></i></a> <code>/root</code> — La home dell'amministratore</h3>
 <p>La directory personale dell'utente <em>root</em> è separata da <code>/home</code> per una ragione precisa: deve essere accessibile anche quando il filesystem degli utenti non è ancora disponibile, ad esempio durante le prime fasi di avvio o in modalità di recupero.</p>
-<h3><code>/bin</code> e <code>/usr/bin</code> — I programmi essenziali</h3>
+<h3 id="bin-e-usrbin-i-programmi-essenziali"><a class="header-anchor" href="#bin-e-usrbin-i-programmi-essenziali"><i class="bi bi-link-45deg"></i></a> <code>/bin</code> e <code>/usr/bin</code> — I programmi essenziali</h3>
 <p><code>/bin</code> contiene gli eseguibili fondamentali del sistema, come <code>ls</code>, <code>cp</code>, <code>mv</code>, <code>cat</code> o <code>bash</code>. Devono essere disponibili già nelle primissime fasi di avvio, prima che altri filesystem vengano montati. <code>/usr/bin</code> ospita invece i comandi per gli utenti normali che non sono strettamente necessari all'avvio.</p>
 <p>Nota: su molte distribuzioni moderne (Ubuntu, Fedora, Arch…) <code>/bin</code> è diventato un link simbolico che punta a <code>/usr/bin</code>, nell'ambito di una semplificazione chiamata <em>usrmerge</em>.</p>
-<h3><code>/usr</code> — Programmi e risorse di sistema</h3>
+<h3 id="usr-programmi-e-risorse-di-sistema"><a class="header-anchor" href="#usr-programmi-e-risorse-di-sistema"><i class="bi bi-link-45deg"></i></a> <code>/usr</code> — Programmi e risorse di sistema</h3>
 <p>È una delle directory più ricche del sistema. Contiene eseguibili, librerie, documentazione e risorse della maggior parte dei programmi installati. È tipicamente in <strong>sola lettura</strong> per gli utenti normali. Al suo interno troviamo tra l'altro <code>/usr/sbin</code> per i comandi aggiuntivi dell'amministratore, <code>/usr/lib</code> per le librerie condivise usate dai programmi, <code>/usr/share</code> per le risorse condivise come documentazione e icone, e <code>/usr/share/man</code> per i testi delle <strong>manpage</strong> accessibili tramite il comando <code>man</code>.</p>
-<h3><code>/etc</code> — Le configurazioni di sistema</h3>
+<h3 id="etc-le-configurazioni-di-sistema"><a class="header-anchor" href="#etc-le-configurazioni-di-sistema"><i class="bi bi-link-45deg"></i></a> <code>/etc</code> — Le configurazioni di sistema</h3>
 <p>Contiene i file di configurazione dell'intero sistema: impostazioni di rete, elenco degli utenti, configurazione dei servizi e molto altro. La maggior parte dei file è leggibile da tutti, ma modificabile solo dall'amministratore. Alcuni file notevoli sono <code>/etc/passwd</code> per le informazioni sugli account utente (nome, shell, home directory…), <code>/etc/shadow</code> per le password degli utenti in forma cifrata (accessibile solo da root), <code>/etc/fstab</code> per la tabella dei filesystem da montare automaticamente all'avvio e <code>/etc/hosts</code> per la mappatura manuale tra nomi host e indirizzi IP.</p>
-<h3><code>/boot</code> — Il kernel e i file di avvio</h3>
+<h3 id="boot-il-kernel-e-i-file-di-avvio"><a class="header-anchor" href="#boot-il-kernel-e-i-file-di-avvio"><i class="bi bi-link-45deg"></i></a> <code>/boot</code> — Il kernel e i file di avvio</h3>
 <p>Contiene il kernel Linux, il file <code>initrd</code> (initial RAM disk, usato nelle prime fasi di avvio) e la configurazione del bootloader <strong>GRUB</strong>. Si consiglia spesso di dedicare a <code>/boot</code> una partizione separata all'inizio del disco, per garantire la compatibilità con alcune configurazioni hardware e semplificare il ripristino del sistema.</p>
-<h3><code>/var</code> — Dati variabili</h3>
+<h3 id="var-dati-variabili"><a class="header-anchor" href="#var-dati-variabili"><i class="bi bi-link-45deg"></i></a> <code>/var</code> — Dati variabili</h3>
 <p>Contiene file che cambiano frequentemente durante il normale funzionamento del sistema: log, code di stampa, database, cache dei package manager. La sottodirectory più consultata è <code>/var/log</code>, che raccoglie i log generati dal kernel, dai servizi e dalle applicazioni. Tra i più utili troviamo <code>/var/log/syslog</code> per gli eventi generali del sistema, <code>/var/log/auth.log</code> per i tentativi di autenticazione e uso di <code>sudo</code>, e <code>/var/log/kern.log</code> per i messaggi del kernel.</p>
-<h3><code>/tmp</code> — File temporanei</h3>
+<h3 id="tmp-file-temporanei"><a class="header-anchor" href="#tmp-file-temporanei"><i class="bi bi-link-45deg"></i></a> <code>/tmp</code> — File temporanei</h3>
 <p>Directory scrivibile da tutti gli utenti, usata per i file temporanei creati da applicazioni e processi. Il suo contenuto viene cancellato ad ogni riavvio. Su molte distribuzioni moderne è montata come <code>tmpfs</code>, ovvero direttamente in RAM, il che la rende molto veloce ma ne limita la capacità alla memoria disponibile.</p>
-<h2><code>/dev</code> — I file di dispositivo</h2>
+<h2 id="dev-i-file-di-dispositivo"><a class="header-anchor" href="#dev-i-file-di-dispositivo"><i class="bi bi-link-45deg"></i></a> <code>/dev</code> — I file di dispositivo</h2>
 <p>La directory <code>/dev</code> contiene file speciali che rappresentano le periferiche hardware e alcune risorse virtuali del kernel. Non occupano spazio fisico sul disco: sono interfacce verso il kernel, gestite dal demone <strong>udev</strong> che li crea e li rimuove dinamicamente al collegamento o alla disconnessione dei dispositivi.</p>
 <p>Alcuni esempi particolarmente interessanti:</p>
 <div class="table-responsive shadow-sm rounded mb-3">
@@ -329,10 +433,10 @@ mount /dev/sdb1 /mnt/chiavetta
     </tbody>
   </table>
 </div>
-<h2><code>/proc</code> — La finestra sul kernel</h2>
+<h2 id="proc-la-finestra-sul-kernel"><a class="header-anchor" href="#proc-la-finestra-sul-kernel"><i class="bi bi-link-45deg"></i></a> <code>/proc</code> — La finestra sul kernel</h2>
 <p><code>/proc</code> è un <strong>filesystem virtuale</strong>: non esiste fisicamente su disco, ma viene popolato dal kernel in tempo reale con informazioni sui processi attivi e sullo stato del sistema. Ogni processo in esecuzione ha una sottodirectory identificata dal suo PID (es. <code>/proc/1234</code>), contenente informazioni su quel processo: file aperti, memoria usata, variabili d'ambiente e altro.</p>
 <p>Tra i file più utili a livello di sistema troviamo <code>/proc/cpuinfo</code> per le informazioni dettagliate sul processore, <code>/proc/meminfo</code> per lo stato della memoria RAM e swap, <code>/proc/mounts</code> per l'elenco dei filesystem attualmente montati e <code>/proc/uptime</code> per il tempo trascorso dall'avvio del sistema.</p>
-<h2>Link: hard e soft</h2>
+<h2 id="link-hard-e-soft"><a class="header-anchor" href="#link-hard-e-soft"><i class="bi bi-link-45deg"></i></a> Link: hard e soft</h2>
 <p>Linux supporta due tipi di collegamento tra file, creati entrambi con il comando <code>ln</code>.</p>
 <p>Gli <strong>hard link</strong> puntano direttamente all'<strong>inode</strong> del file, ovvero la struttura dati interna al filesystem che descrive un file (permessi, dimensione, posizione dei dati sul disco). Due hard link allo stesso file condividono esattamente i medesimi dati: modificare uno significa modificare l'altro. Il file viene eliminato dal disco solo quando l'ultimo hard link che lo punta viene rimosso. Hanno però dei limiti: non funzionano tra filesystem diversi e non possono puntare a directory.</p>
 <p>I <strong>soft link</strong> (o link simbolici) sono invece semplici puntatori al <em>percorso</em> di un altro file. Si creano con:</p>
@@ -342,70 +446,81 @@ mount /dev/sdb1 /mnt/chiavetta
 <p>Nel listato di <code>ls -l</code>, i soft link sono identificati dalla lettera <code>l</code> all'inizio della stringa dei permessi, e mostrano esplicitamente il percorso a cui puntano:</p>
 <pre><code>lrwxrwxrwx 1 root root 7 gen 10 12:00 /bin -&gt; usr/bin
 </code></pre>
-<h2>FIFO — Le named pipe</h2>
+<h2 id="fifo-le-named-pipe"><a class="header-anchor" href="#fifo-le-named-pipe"><i class="bi bi-link-45deg"></i></a> FIFO — Le named pipe</h2>
 <p>Le <strong>FIFO</strong> (First In, First Out), dette anche <em>named pipe</em>, sono un meccanismo di comunicazione tra processi. A differenza delle pipe anonime, quelle usate con <code>|</code> nel terminale che esistono solo per la durata del comando, le FIFO hanno un nome nel filesystem e possono essere usate da processi non correlati, anche avviati in momenti diversi.</p>
 <p>Si creano con il comando <code>mkfifo</code>:</p>
 <pre><code class="language-bash">mkfifo /tmp/mia_pipe
 </code></pre>
 <p>Un processo può scrivere sulla pipe e un altro può leggerla: i dati fluiscono in ordine FIFO, senza passare dal disco. Come tutti i file virtuali di questo tipo, le FIFO non sopravvivono al riavvio della macchina.</p>
 
-  </section>
+    </section>
 
-  <div class="section-divider mt-5 mb-4">Commenti</div>
+    <div class="section-divider mt-5 mb-4">Commenti</div>
 
-  <section aria-label="Commenti e reazioni">
-    <script>
-      (function () {
-        const saved = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
-        const script = document.createElement('script');
-        script.src = 'https://giscus.app/client.js';
-        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
-        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
-        script.setAttribute('data-category', 'Announcements');
-        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
-        script.setAttribute('data-mapping', 'pathname');
-        script.setAttribute('data-strict', '0');
-        script.setAttribute('data-reactions-enabled', '1');
-        script.setAttribute('data-emit-metadata', '0');
-        script.setAttribute('data-input-position', 'top');
-        script.setAttribute('data-theme', theme);
-        script.setAttribute('data-lang', 'it');
-        script.setAttribute('data-loading', 'lazy');
-        script.setAttribute('crossorigin', 'anonymous');
-        script.async = true;
-        document.currentScript.replaceWith(script);
-      })();
-    </script>
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
 
-    <noscript>
-      <div class="text-center py-4 text-muted">
-        <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
-        <p class="small mb-0">
-          Per visualizzare i commenti è necessario abilitare JavaScript.
-          <br>
-          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
-            Discuti su GitHub Discussions →
-          </a>
-        </p>
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
       </div>
-    </noscript>
-  </section>
-</article>
+    </nav>
+  </aside>
+</div>
+
     </main>
 
     <footer class="border-top mt-auto py-5">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-md-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
         <h5 class="fw-bold mb-3">
           <span class="text-primary">dino</span>-996
         </h5>
-        <p class="text-muted small mb-3" style="max-width: 320px;">
+        <p class="text-muted small mb-3">
           Developer portfolio e blog tecnico
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex justify-content-center gap-3 mb-0">
           <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
              class="text-muted" aria-label="GitHub">
             <i class="bi bi-github fs-5"></i>
@@ -418,33 +533,6 @@ mount /dev/sdb1 /mnt/chiavetta
             <i class="bi bi-rss fs-5"></i>
           </a>
         </div>
-      </div>
-
-      <div class="col-6 col-md-3 offset-md-1">
-        <h6 class="fw-bold mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/" class="text-muted text-decoration-none small">Home</a>
-          </li>
-          <li class="mb-2">
-            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
-          </li>
-          <li class="mb-2">
-            <a href="/about/" class="text-muted text-decoration-none small">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <h6 class="fw-bold mb-3">Risorse</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/tags/" class="text-muted text-decoration-none small">Tag</a>
-          </li>
-          <li class="mb-2">
-            <a href="/feed.xml" class="text-muted text-decoration-none small">RSS Feed</a>
-          </li>
-        </ul>
       </div>
     </div>
 

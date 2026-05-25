@@ -82,30 +82,34 @@
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
-    
-    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <i class="bi bi-grid-3x3-gap fs-4"></i>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/blog/">
-            Blog
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">
-            About
-          </a>
-        </li>
 
-        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
           <div class="theme-toggle" role="group" aria-label="Toggle tema">
             <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
               <i class="bi bi-sun"></i>
@@ -116,7 +120,6 @@
             <div class="theme-toggle-slider"></div>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -124,29 +127,65 @@
   
     <main class="container my-5 flex-grow-1">
       
-<article class="mx-auto" style="max-width: 800px;">
-  <header class="mb-4">
-    <h1 class="fw-bold mb-3">Thread</h1>
-
-    <div class="author-card mb-4">
-      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" loading="lazy">
-      <div class="flex-grow-1">
-        <div class="author-name">Davide Sabia</div>
-        <div class="author-meta">
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
           <time datetime="2020-02-18T00:00:00.000Z">
             <i class="bi bi-calendar3 me-1"></i>18 febbraio 2020
           </time>
-          <span class="mx-1">·</span>
-          <span class="reading-time"></span>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-05-08T07:48:54.000Z">
+                <i class="bi bi-pencil me-1"></i>08 maggio 2026
+              </time>
+            </span>
+          
         </div>
-        <div class="tags-container d-flex flex-wrap gap-1 mt-2">
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fthread%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Thread&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fthread%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fthread%2F&title=Thread"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fthread%2F&t=Thread"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
           
           
           
             
             
               <a href="/tags/sistemi-operativi/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 sistemi operativi
               </a>
@@ -155,7 +194,7 @@
             
             
               <a href="/tags/thread/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 thread
               </a>
@@ -163,36 +202,92 @@
           
         </div>
       </div>
-    </div>
-  </header>
-
-  
-    <div class="alert alert-primary border-start mb-4" role="note">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <span class="d-flex align-items-center justify-content-center rounded"
-              style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
-          <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
-        </span>
-        <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small lh-lg">I thread sono unità di esecuzione all&#39;interno di un processo che condividono risorse come lo spazio di indirizzamento, offrendo vantaggi in termini di efficienza, latenza e modularità rispetto ai processi tradizionali. La concorrenza, a differenza del parallelismo ottenibile su architetture multicore o con GPU, indica la progressione logica di più task nel tempo.</p>
     </div>
-  
+  </aside>
 
-  
-    <figure class="mb-4">
-      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp"
-           alt="Immagine generata con IA"
-           class="img-fluid rounded w-100"
-           style="max-height: 420px; object-fit: cover;">
-      
-        <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
-      
-    </figure>
-  
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Thread</h1>
 
-  <section class="content">
-    <h2>Thread</h2>
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2020-02-18T00:00:00.000Z">18 febbraio 2020</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/sistemi-operativi/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/thread/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              thread
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">I thread sono unità di esecuzione all&#39;interno di un processo che condividono risorse come lo spazio di indirizzamento, offrendo vantaggi in termini di efficienza, latenza e modularità rispetto ai processi tradizionali. La concorrenza, a differenza del parallelismo ottenibile su architetture multicore o con GPU, indica la progressione logica di più task nel tempo.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h2 id="thread"><a class="header-anchor" href="#thread"><i class="bi bi-link-45deg"></i></a> Thread</h2>
 <p>Il thread rappresenta l’unità minima di esecuzione schedulabile dalla CPU all’interno di un processo. Dal punto di vista architetturale, ciascun thread è caratterizzato da:</p>
 <ul>
 <li>un identificatore univoco;</li>
@@ -208,7 +303,7 @@
 <li><strong>Modularità progettuale</strong>: la decomposizione di un’applicazione in unità concorrenti favorisce una strutturazione più chiara delle responsabilità.</li>
 <li><strong>Scalabilità su architetture multicore</strong>: la presenza di più unità di esecuzione fisiche permette l’esecuzione realmente parallela dei thread.</li>
 </ul>
-<h2>Concorrenza, Parallelismo e Architetture Eterogenee</h2>
+<h2 id="concorrenza-parallelismo-e-architetture-eterogenee"><a class="header-anchor" href="#concorrenza-parallelismo-e-architetture-eterogenee"><i class="bi bi-link-45deg"></i></a> Concorrenza, Parallelismo e Architetture Eterogenee</h2>
 <p>Nel contesto dei sistemi moderni è necessario distinguere rigorosamente tra concorrenza e parallelismo, abbiamo già affrontato l'argomento quando parlavamo dei processi ma è bene ripetere i concetti al fine di fissare bene le idee.</p>
 <p>La <strong>concorrenza</strong> è una proprietà logica del sistema: più task progrediscono nel tempo, anche se non necessariamente in modo simultaneo. In un sistema single-core, ciò avviene tramite time slicing e meccanismi di scheduling preemptive.</p>
 <p>Il <strong>parallelismo</strong>, invece, è una proprietà fisica dell’hardware: più task sono eseguiti simultaneamente su core distinti. Il parallelismo rappresenta quindi un caso particolare di concorrenza in presenza di risorse computazionali multiple.</p>
@@ -220,7 +315,7 @@
 <li>addestramento di modelli di deep learning;</li>
 <li>simulazioni fisiche su larga scala.</li>
 </ul>
-<h2>Modelli di Implementazione del Multithreading</h2>
+<h2 id="modelli-di-implementazione-del-multithreading"><a class="header-anchor" href="#modelli-di-implementazione-del-multithreading"><i class="bi bi-link-45deg"></i></a> Modelli di Implementazione del Multithreading</h2>
 <p>Dal punto di vista sistemistico, si distinguono thread a livello utente e thread a livello kernel.</p>
 <p>I <strong>thread a livello utente</strong> sono gestiti da librerie in spazio utente, senza intervento diretto del kernel nelle operazioni di scheduling interne al processo.</p>
 <p>I <strong>thread a livello kernel</strong> sono invece entità direttamente note al sistema operativo, il quale ne gestisce pianificazione, sospensione e sincronizzazione.</p>
@@ -232,7 +327,7 @@
 <li><strong>Two-Level Model</strong>: estensione del many-to-many che consente l’associazione vincolata di specifici thread utente a determinati thread kernel.</li>
 </ul>
 <p>La scelta del modello influenza direttamente prestazioni, prevedibilità temporale e complessità di gestione.</p>
-<h2>Astrazioni di Programmazione e Threading Implicito</h2>
+<h2 id="astrazioni-di-programmazione-e-threading-implicito"><a class="header-anchor" href="#astrazioni-di-programmazione-e-threading-implicito"><i class="bi bi-link-45deg"></i></a> Astrazioni di Programmazione e Threading Implicito</h2>
 <p>Le principali interfacce di programmazione concorrente includono:</p>
 <ul>
 <li><strong>POSIX Threads (Pthreads)</strong>: standard che definisce primitive per creazione, sincronizzazione e gestione dei thread in ambienti Unix-like.</li>
@@ -246,7 +341,7 @@
 <li><strong>OpenMP, Grand Central Dispatch, Intel TBB</strong>: tecnologie che forniscono direttive e costrutti di alto livello per la parallelizzazione controllata.</li>
 </ul>
 <p>Tali astrazioni riducono la probabilità di errori sistemici e favoriscono una gestione più robusta delle risorse concorrenti.</p>
-<h2>Criticità e Differenze tra Sistemi Operativi</h2>
+<h2 id="criticita-e-differenze-tra-sistemi-operativi"><a class="header-anchor" href="#criticita-e-differenze-tra-sistemi-operativi"><i class="bi bi-link-45deg"></i></a> Criticità e Differenze tra Sistemi Operativi</h2>
 <p>La programmazione multithread introduce problematiche complesse, tra cui:</p>
 <ul>
 <li>condizioni di race e necessità di meccanismi di sincronizzazione (mutex, semafori, monitor);</li>
@@ -262,63 +357,74 @@
 </ul>
 <p>L’analisi comparativa evidenzia come le scelte progettuali a livello di kernel influenzino direttamente il modello di programmazione esposto agli sviluppatori e le garanzie offerte in termini di isolamento, prestazioni e controllo della concorrenza.</p>
 
-  </section>
+    </section>
 
-  <div class="section-divider mt-5 mb-4">Commenti</div>
+    <div class="section-divider mt-5 mb-4">Commenti</div>
 
-  <section aria-label="Commenti e reazioni">
-    <script>
-      (function () {
-        const saved = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
-        const script = document.createElement('script');
-        script.src = 'https://giscus.app/client.js';
-        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
-        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
-        script.setAttribute('data-category', 'Announcements');
-        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
-        script.setAttribute('data-mapping', 'pathname');
-        script.setAttribute('data-strict', '0');
-        script.setAttribute('data-reactions-enabled', '1');
-        script.setAttribute('data-emit-metadata', '0');
-        script.setAttribute('data-input-position', 'top');
-        script.setAttribute('data-theme', theme);
-        script.setAttribute('data-lang', 'it');
-        script.setAttribute('data-loading', 'lazy');
-        script.setAttribute('crossorigin', 'anonymous');
-        script.async = true;
-        document.currentScript.replaceWith(script);
-      })();
-    </script>
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
 
-    <noscript>
-      <div class="text-center py-4 text-muted">
-        <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
-        <p class="small mb-0">
-          Per visualizzare i commenti è necessario abilitare JavaScript.
-          <br>
-          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
-            Discuti su GitHub Discussions →
-          </a>
-        </p>
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
       </div>
-    </noscript>
-  </section>
-</article>
+    </nav>
+  </aside>
+</div>
+
     </main>
 
     <footer class="border-top mt-auto py-5">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-md-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
         <h5 class="fw-bold mb-3">
           <span class="text-primary">dino</span>-996
         </h5>
-        <p class="text-muted small mb-3" style="max-width: 320px;">
+        <p class="text-muted small mb-3">
           Developer portfolio e blog tecnico
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex justify-content-center gap-3 mb-0">
           <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
              class="text-muted" aria-label="GitHub">
             <i class="bi bi-github fs-5"></i>
@@ -331,33 +437,6 @@
             <i class="bi bi-rss fs-5"></i>
           </a>
         </div>
-      </div>
-
-      <div class="col-6 col-md-3 offset-md-1">
-        <h6 class="fw-bold mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/" class="text-muted text-decoration-none small">Home</a>
-          </li>
-          <li class="mb-2">
-            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
-          </li>
-          <li class="mb-2">
-            <a href="/about/" class="text-muted text-decoration-none small">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <h6 class="fw-bold mb-3">Risorse</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/tags/" class="text-muted text-decoration-none small">Tag</a>
-          </li>
-          <li class="mb-2">
-            <a href="/feed.xml" class="text-muted text-decoration-none small">RSS Feed</a>
-          </li>
-        </ul>
       </div>
     </div>
 

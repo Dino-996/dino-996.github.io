@@ -82,30 +82,34 @@
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
-    
-    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <i class="bi bi-grid-3x3-gap fs-4"></i>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/blog/">
-            Blog
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">
-            About
-          </a>
-        </li>
 
-        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
           <div class="theme-toggle" role="group" aria-label="Toggle tema">
             <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
               <i class="bi bi-sun"></i>
@@ -116,7 +120,6 @@
             <div class="theme-toggle-slider"></div>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -124,29 +127,65 @@
   
     <main class="container my-5 flex-grow-1">
       
-<article class="mx-auto" style="max-width: 800px;">
-  <header class="mb-4">
-    <h1 class="fw-bold mb-3">La memoria virtuale</h1>
-
-    <div class="author-card mb-4">
-      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" loading="lazy">
-      <div class="flex-grow-1">
-        <div class="author-name">Davide Sabia</div>
-        <div class="author-meta">
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
           <time datetime="2020-02-22T00:00:00.000Z">
             <i class="bi bi-calendar3 me-1"></i>22 febbraio 2020
           </time>
-          <span class="mx-1">·</span>
-          <span class="reading-time"></span>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-05-08T07:50:37.000Z">
+                <i class="bi bi-pencil me-1"></i>08 maggio 2026
+              </time>
+            </span>
+          
         </div>
-        <div class="tags-container d-flex flex-wrap gap-1 mt-2">
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fmemoria-virtuale%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=La%20memoria%20virtuale&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fmemoria-virtuale%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fmemoria-virtuale%2F&title=La%20memoria%20virtuale"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fmemoria-virtuale%2F&t=La%20memoria%20virtuale"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
           
           
           
             
             
               <a href="/tags/sistemi-operativi/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 sistemi operativi
               </a>
@@ -155,7 +194,7 @@
             
             
               <a href="/tags/memoria-virtuale/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 memoria virtuale
               </a>
@@ -163,36 +202,92 @@
           
         </div>
       </div>
-    </div>
-  </header>
-
-  
-    <div class="alert alert-primary border-start mb-4" role="note">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <span class="d-flex align-items-center justify-content-center rounded"
-              style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
-          <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
-        </span>
-        <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small lh-lg">La memoria virtuale, tramite Demand Paging, scollega lo spazio logico dall&#39;hardware fisico permettendo l&#39;esecuzione di processi più grandi della RAM e ottimizzando la condivisione di risorse. Le prestazioni sono influenzate significativamente dall&#39;EAT, dove un basso tasso di page fault (gestito con meccanismi come Copy-on-Write) è cruciale per mitigare l&#39;overhead disco.</p>
     </div>
-  
+  </aside>
 
-  
-    <figure class="mb-4">
-      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp"
-           alt="Immagine generata con IA"
-           class="img-fluid rounded w-100"
-           style="max-height: 420px; object-fit: cover;">
-      
-        <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
-      
-    </figure>
-  
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">La memoria virtuale</h1>
 
-  <section class="content">
-    <h1>Architettura e strategie della Memoria Virtuale</h1>
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2020-02-22T00:00:00.000Z">22 febbraio 2020</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/sistemi-operativi/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/memoria-virtuale/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              memoria virtuale
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">La memoria virtuale, tramite Demand Paging, scollega lo spazio logico dall&#39;hardware fisico permettendo l&#39;esecuzione di processi più grandi della RAM e ottimizzando la condivisione di risorse. Le prestazioni sono influenzate significativamente dall&#39;EAT, dove un basso tasso di page fault (gestito con meccanismi come Copy-on-Write) è cruciale per mitigare l&#39;overhead disco.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h1 id="architettura-e-strategie-della-memoria-virtuale"><a class="header-anchor" href="#architettura-e-strategie-della-memoria-virtuale"><i class="bi bi-link-45deg"></i></a> Architettura e strategie della Memoria Virtuale</h1>
 <p>Nei moderni sistemi multiprogrammati, l'esecuzione simultanea di più processi richiede una gestione oculata delle risorse. Tuttavia, la RAM è per definizione una risorsa finita e spesso insufficiente a ospitare l'intero working set di ogni applicazione attiva. Qui entra in gioco la <strong>Memoria Virtuale</strong>, un'astrazione fondamentale che scollega la memoria logica vista dal programmatore dalla memoria fisica effettivamente disponibile.</p>
 <p>Questa architettura offre vantaggi determinanti:</p>
 <ul>
@@ -200,9 +295,9 @@
 <li><strong>Astrazione:</strong> Il programmatore interagisce con uno spazio di indirizzamento lineare e contiguo, ignorando la frammentazione fisica.</li>
 <li><strong>Efficienza:</strong> Facilita la condivisione di librerie (DLL/Shared Objects) tra processi diversi attraverso la mappatura delle medesime pagine fisiche.</li>
 </ul>
-<h2>Paginazione su richiesta</h2>
+<h2 id="paginazione-su-richiesta"><a class="header-anchor" href="#paginazione-su-richiesta"><i class="bi bi-link-45deg"></i></a> Paginazione su richiesta</h2>
 <p>Il cuore della memoria virtuale risiede nel <strong>Demand Paging</strong> (paginazione su richiesta). Invece di caricare l'intero binario in fase di startup, il kernel carica le singole pagine solo quando vengono effettivamente referenziate durante l'esecuzione.</p>
-<h3>Il ciclo del page fault</h3>
+<h3 id="il-ciclo-del-page-fault"><a class="header-anchor" href="#il-ciclo-del-page-fault"><i class="bi bi-link-45deg"></i></a> Il ciclo del page fault</h3>
 <p>Quando un processo tenta di accedere a un indirizzo logico non presente in RAM (identificato da un bit di validità &quot;0&quot; nella Page Table), l'hardware genera un'eccezione nota come <strong>Page Fault</strong>. Il sistema operativo interviene seguendo una procedura rigorosa:</p>
 <ol>
 <li><strong>Verifica:</strong> Il SO controlla se il riferimento alla memoria era legittimo.</li>
@@ -211,7 +306,7 @@
 <li><strong>Update:</strong> Carica i dati nel frame, aggiorna la Page Table e setta il bit di validità a &quot;1&quot;.</li>
 <li><strong>Restart:</strong> Ripristina l'istruzione che aveva causato l'eccezione.</li>
 </ol>
-<h2>Performance e ottimizzazioni</h2>
+<h2 id="performance-e-ottimizzazioni"><a class="header-anchor" href="#performance-e-ottimizzazioni"><i class="bi bi-link-45deg"></i></a> Performance e ottimizzazioni</h2>
 <p>L'implementazione della memoria virtuale introduce un overhead inevitabile. Le prestazioni del sistema vengono misurate tramite il <strong>Tempo di Accesso Effettivo (EAT)</strong>, calcolato come:</p>
 <p>$$EAT = (1 - p) \times ma + p \times pft$$</p>
 <p>Dove:</p>
@@ -221,11 +316,11 @@
 <li>$pft$ è il tempo di gestione del page fault (millisecondi).</li>
 </ul>
 <p>Dato che il recupero da disco è ordini di grandezza più lento della RAM, anche un tasso di page fault minimo può degradare sensibilmente le performance.</p>
-<h3>Copy-on-Write (CoW)</h3>
+<h3 id="copy-on-write-cow"><a class="header-anchor" href="#copy-on-write-cow"><i class="bi bi-link-45deg"></i></a> Copy-on-Write (CoW)</h3>
 <p>Per ottimizzare la creazione dei processi (system call <code>fork()</code>), si utilizza la tecnica <strong>Copy-on-Write</strong>. Inizialmente, processo padre e figlio condividono le stesse pagine fisiche in sola lettura. Solo quando uno dei due tenta una scrittura, il kernel interviene duplicando la pagina specifica. Questo evita sprechi di memoria per processi che non modificano i dati ereditati.</p>
-<h2>Algoritmi di sostituzione delle pagine</h2>
+<h2 id="algoritmi-di-sostituzione-delle-pagine"><a class="header-anchor" href="#algoritmi-di-sostituzione-delle-pagine"><i class="bi bi-link-45deg"></i></a> Algoritmi di sostituzione delle pagine</h2>
 <p>Cosa accade quando la memoria fisica è satura? Il sistema deve selezionare una &quot;vittima&quot; da espellere per far spazio a una nuova pagina. Per ottimizzare questo processo, si utilizza il <strong>Dirty Bit</strong> (o bit di modifica): se una pagina non è stata modificata dal suo caricamento, può essere sovrascritta senza essere riscritta su disco, dimezzando l'I/O.</p>
-<h3>Analisi delle strategie di replacement</h3>
+<h3 id="analisi-delle-strategie-di-replacement"><a class="header-anchor" href="#analisi-delle-strategie-di-replacement"><i class="bi bi-link-45deg"></i></a> Analisi delle strategie di replacement</h3>
 <ol>
 <li><strong>FIFO (First-In-First-Out):</strong> Sostituisce la pagina residente da più tempo. Sebbene semplice, è inefficiente e soggetto all'<strong>Anomalia di Belady</strong>: un fenomeno controintuitivo dove l'aggiunta di frame fisici può aumentare il numero di page fault.</li>
 <li><strong>OPT (Algoritmo Ottimale):</strong> Sostituisce la pagina che non verrà utilizzata per il periodo di tempo più lungo in assoluto. È il gold standard teorico, ma è <strong>irrealizzabile</strong> poiché richiederebbe la conoscenza futura degli accessi (non determinismo).</li>
@@ -233,63 +328,74 @@
 <li><strong>Seconda Chance (Clock):</strong> Un compromesso ingegnoso tra FIFO e LRU. Organizza le pagine in una lista circolare e utilizza un <strong>Reference Bit</strong>. Se il bit è 1, la pagina riceve una &quot;seconda possibilità&quot; e il bit viene azzerato; se è 0, la pagina viene sostituita.</li>
 </ol>
 
-  </section>
+    </section>
 
-  <div class="section-divider mt-5 mb-4">Commenti</div>
+    <div class="section-divider mt-5 mb-4">Commenti</div>
 
-  <section aria-label="Commenti e reazioni">
-    <script>
-      (function () {
-        const saved = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
-        const script = document.createElement('script');
-        script.src = 'https://giscus.app/client.js';
-        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
-        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
-        script.setAttribute('data-category', 'Announcements');
-        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
-        script.setAttribute('data-mapping', 'pathname');
-        script.setAttribute('data-strict', '0');
-        script.setAttribute('data-reactions-enabled', '1');
-        script.setAttribute('data-emit-metadata', '0');
-        script.setAttribute('data-input-position', 'top');
-        script.setAttribute('data-theme', theme);
-        script.setAttribute('data-lang', 'it');
-        script.setAttribute('data-loading', 'lazy');
-        script.setAttribute('crossorigin', 'anonymous');
-        script.async = true;
-        document.currentScript.replaceWith(script);
-      })();
-    </script>
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
 
-    <noscript>
-      <div class="text-center py-4 text-muted">
-        <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
-        <p class="small mb-0">
-          Per visualizzare i commenti è necessario abilitare JavaScript.
-          <br>
-          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
-            Discuti su GitHub Discussions →
-          </a>
-        </p>
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
       </div>
-    </noscript>
-  </section>
-</article>
+    </nav>
+  </aside>
+</div>
+
     </main>
 
     <footer class="border-top mt-auto py-5">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-md-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
         <h5 class="fw-bold mb-3">
           <span class="text-primary">dino</span>-996
         </h5>
-        <p class="text-muted small mb-3" style="max-width: 320px;">
+        <p class="text-muted small mb-3">
           Developer portfolio e blog tecnico
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex justify-content-center gap-3 mb-0">
           <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
              class="text-muted" aria-label="GitHub">
             <i class="bi bi-github fs-5"></i>
@@ -302,33 +408,6 @@
             <i class="bi bi-rss fs-5"></i>
           </a>
         </div>
-      </div>
-
-      <div class="col-6 col-md-3 offset-md-1">
-        <h6 class="fw-bold mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/" class="text-muted text-decoration-none small">Home</a>
-          </li>
-          <li class="mb-2">
-            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
-          </li>
-          <li class="mb-2">
-            <a href="/about/" class="text-muted text-decoration-none small">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <h6 class="fw-bold mb-3">Risorse</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/tags/" class="text-muted text-decoration-none small">Tag</a>
-          </li>
-          <li class="mb-2">
-            <a href="/feed.xml" class="text-muted text-decoration-none small">RSS Feed</a>
-          </li>
-        </ul>
       </div>
     </div>
 

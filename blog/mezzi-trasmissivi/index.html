@@ -82,30 +82,34 @@
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
-    
-    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <i class="bi bi-grid-3x3-gap fs-4"></i>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/blog/">
-            Blog
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">
-            About
-          </a>
-        </li>
 
-        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
           <div class="theme-toggle" role="group" aria-label="Toggle tema">
             <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
               <i class="bi bi-sun"></i>
@@ -116,7 +120,6 @@
             <div class="theme-toggle-slider"></div>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -124,32 +127,65 @@
   
     <main class="container my-5 flex-grow-1">
       
-<article class="mx-auto" style="max-width: 800px;">
-  <header class="mb-4">
-    <h1 class="fw-bold mb-3">Mezzi trasmissivi</h1>
-
-    <div class="author-card mb-4">
-      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" loading="lazy">
-      <div class="flex-grow-1">
-        <div class="author-name">Davide Sabia</div>
-        <div class="author-meta">
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
           <time datetime="2026-05-23T00:00:00.000Z">
             <i class="bi bi-calendar3 me-1"></i>23 maggio 2026
           </time>
-          <span class="mx-1">·</span>
-          <span class="reading-time"></span>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-05-23T10:48:20.000Z">
+                <i class="bi bi-pencil me-1"></i>23 maggio 2026
+              </time>
+            </span>
+          
         </div>
-        <div class="tags-container d-flex flex-wrap gap-1 mt-2">
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fmezzi-trasmissivi%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Mezzi%20trasmissivi&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fmezzi-trasmissivi%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fmezzi-trasmissivi%2F&title=Mezzi%20trasmissivi"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fmezzi-trasmissivi%2F&t=Mezzi%20trasmissivi"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
           
           
-          
-            
-            
           
             
             
               <a href="/tags/reti/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 reti
               </a>
@@ -158,7 +194,7 @@
             
             
               <a href="/tags/livello-7/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 livello 7
               </a>
@@ -167,7 +203,7 @@
             
             
               <a href="/tags/livello-fisico/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 livello fisico
               </a>
@@ -176,7 +212,7 @@
             
             
               <a href="/tags/mezzi-trasmissivi/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 mezzi trasmissivi
               </a>
@@ -184,36 +220,110 @@
           
         </div>
       </div>
-    </div>
-  </header>
-
-  
-    <div class="alert alert-primary border-start mb-4" role="note">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <span class="d-flex align-items-center justify-content-center rounded"
-              style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
-          <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
-        </span>
-        <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small lh-lg">I media di rete, che includono cavi in rame, fibra ottica e trasmissione wireless, sono scelti in base a fattori come larghezza di banda, distanza, immunità ai disturbi e costo. Il doppino intrecciato in rame (UTP/STP) è prevalente nelle LAN per il suo equilibrio tra costo e prestazioni, con categorie come Cat5e e Cat6 che definiscono le capacità di velocità e distanza.</p>
     </div>
-  
+  </aside>
 
-  
-    <figure class="mb-4">
-      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
-           alt="Immagine generata con IA"
-           class="img-fluid rounded w-100"
-           style="max-height: 420px; object-fit: cover;">
-      
-        <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
-      
-    </figure>
-  
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Mezzi trasmissivi</h1>
 
-  <section class="content">
-    <h2>Tipi di media di rete</h2>
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2026-05-23T00:00:00.000Z">23 maggio 2026</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/reti/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              reti
+            </a>
+          
+        
+          
+          
+            <a href="/tags/livello-7/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              livello 7
+            </a>
+          
+        
+          
+          
+            <a href="/tags/livello-fisico/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              livello fisico
+            </a>
+          
+        
+          
+          
+            <a href="/tags/mezzi-trasmissivi/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              mezzi trasmissivi
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">I media di rete, che includono cavi in rame, fibra ottica e trasmissione wireless, sono scelti in base a fattori come larghezza di banda, distanza, immunità ai disturbi e costo. Il doppino intrecciato in rame (UTP/STP) è prevalente nelle LAN per il suo equilibrio tra costo e prestazioni, con categorie come Cat5e e Cat6 che definiscono le capacità di velocità e distanza.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h2 id="tipi-di-media-di-rete"><a class="header-anchor" href="#tipi-di-media-di-rete"><i class="bi bi-link-45deg"></i></a> Tipi di media di rete</h2>
 <p>In una rete di comunicazione, il <strong>media</strong> (o mezzo trasmissivo) è il canale fisico o elettromagnetico attraverso cui i dati viaggiano dalla sorgente alla destinazione. La scelta del media influenza direttamente larghezza di banda disponibile, distanza massima, immunità ai disturbi elettromagnetici, costo di installazione e manutenibilità dell'infrastruttura.</p>
 <p>Le reti moderne si basano su tre categorie principali di media trasmissivi:</p>
 <ul>
@@ -222,9 +332,9 @@
 <li><strong>Trasmissione wireless:</strong> i dati vengono codificati modulando frequenze specifiche dello spettro elettromagnetico.</li>
 </ul>
 <p>Ciascun media presenta vantaggi e vincoli distinti, che ne determinano l'idoneità a specifici scenari infrastrutturali.</p>
-<h2>Il cavo in rame</h2>
+<h2 id="il-cavo-in-rame"><a class="header-anchor" href="#il-cavo-in-rame"><i class="bi bi-link-45deg"></i></a> Il cavo in rame</h2>
 <p>Il rame rimane il media più diffuso nelle reti locali (LAN) aziendali e residenziali, grazie al rapporto favorevole tra costo, semplicità di installazione e prestazioni nei collegamenti a breve-media distanza.</p>
-<h3>Doppino intrecciato (Twisted Pair)</h3>
+<h3 id="doppino-intrecciato-twisted-pair"><a class="header-anchor" href="#doppino-intrecciato-twisted-pair"><i class="bi bi-link-45deg"></i></a> Doppino intrecciato (Twisted Pair)</h3>
 <p>Il <strong>doppino intrecciato</strong> è il tipo di cablaggio più comune nelle reti Ethernet moderne. I conduttori sono organizzati in coppie, intrecciate l'una sull'altra a passo regolare: l'intreccio riduce l'<strong>interferenza elettromagnetica (EMI)</strong> e il <strong>crosstalk</strong> (la diafonia tra coppie adiacenti), fenomeni che degradano il segnale su distanze crescenti.</p>
 <p>La codifica cromatica dei conduttori — un filo a tinta unita e il suo partner striato sullo sfondo bianco — consente di identificare univocamente ogni coppia a entrambe le estremità del cavo, semplificando la terminazione e la diagnostica.</p>
 <p>Esistono due varianti principali:</p>
@@ -270,7 +380,7 @@
   </table>
 </div>
 <p>Il cavo Cat6a è oggi lo standard raccomandato per i nuovi impianti di cablaggio strutturato, in quanto supporta pienamente 10 Gbps su 100 m e garantisce un margine di futuro adeguato per applicazioni come il <strong>Power over Ethernet (PoE++)</strong>, utilizzato per alimentare access point Wi-Fi 6, telefoni IP e telecamere IP ad alta risoluzione.</p>
-<h3>Cavo coassiale</h3>
+<h3 id="cavo-coassiale"><a class="header-anchor" href="#cavo-coassiale"><i class="bi bi-link-45deg"></i></a> Cavo coassiale</h3>
 <p>Il <strong>cavo coassiale</strong> è stato uno dei primi media adottati nelle reti informatiche, con un ruolo centrale negli standard Ethernet storici come 10BASE2 (Thinnet) e 10BASE5 (Thicknet), oggi completamente dismessi. La sua architettura è composta da un nucleo rigido in rame, avvolto da uno strato di isolante dielettrico, da una calza metallica intrecciata che funge da schermatura e da una guaina esterna protettiva.</p>
 <p>Nelle infrastrutture di rete moderne, il coassiale non è più utilizzato per il cablaggio LAN, ma mantiene rilevanza in due contesti specifici:</p>
 <ul>
@@ -278,10 +388,10 @@
 <li><strong>Sistemi di comunicazione satellitare e TV:</strong> il coassiale è lo standard per il collegamento tra antenne, LNB e decoder/ricevitori.</li>
 </ul>
 <p>Grazie alla sua struttura coassiale — nucleo e schermatura condividono lo stesso asse geometrico — offre elevata immunità alle interferenze esterne ed è idoneo al trasporto di segnali ad alta frequenza e a larga banda.</p>
-<h2>Il cavo in fibra ottica</h2>
+<h2 id="il-cavo-in-fibra-ottica"><a class="header-anchor" href="#il-cavo-in-fibra-ottica"><i class="bi bi-link-45deg"></i></a> Il cavo in fibra ottica</h2>
 <p>La <strong>fibra ottica</strong> rappresenta la tecnologia trasmissiva ad alte prestazioni per eccellenza. Il principio fisico è la <strong>riflessione totale interna</strong>: gli impulsi di luce, una volta iniettati nel nucleo della fibra (di diametro paragonabile a quello di un capello umano), si propagano per riflessione ripetuta sulle pareti senza dispersione significativa, consentendo di raggiungere distanze e velocità irraggiungibili con il rame.</p>
 <p>Poiché il segnale è luminoso e non elettrico, la fibra è intrinsecamente immune all'interferenza elettromagnetica e al crosstalk, caratteristica decisiva in ambienti ostili o per collegamenti che attraversano aree con forti disturbi industriali.</p>
-<h3>Fibra Monomodale (SMF) e Multimodale (MMF)</h3>
+<h3 id="fibra-monomodale-smf-e-multimodale-mmf"><a class="header-anchor" href="#fibra-monomodale-smf-e-multimodale-mmf"><i class="bi bi-link-45deg"></i></a> Fibra Monomodale (SMF) e Multimodale (MMF)</h3>
 <p>La distinzione fondamentale nella fibra ottica riguarda il numero di <strong>modi di propagazione</strong> della luce all'interno del nucleo:</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -316,7 +426,7 @@
   </table>
 </div>
 <p>La <strong>SMF</strong> è lo standard nelle infrastrutture carrier, nelle dorsali metropolitane (MAN) e nei data center geograficamente distribuiti. La <strong>MMF</strong> è invece preferita nei cablaggi intra-edificio e nei data center di medie dimensioni, dove la minore distanza consente di sfruttare sorgenti LED o VCSEL meno costose rispetto ai laser ad alta precisione richiesti dalla SMF.</p>
-<h3>Ambiti di applicazione della fibra</h3>
+<h3 id="ambiti-di-applicazione-della-fibra"><a class="header-anchor" href="#ambiti-di-applicazione-della-fibra"><i class="bi bi-link-45deg"></i></a> Ambiti di applicazione della fibra</h3>
 <p>Oltre alla trasmissione dati, la fibra ottica trova impiego in settori trasversali:</p>
 <ul>
 <li><strong>Imaging medicale e chirurgia laser:</strong> endoscopi e sonde intraoperatorie.</li>
@@ -324,9 +434,9 @@
 <li><strong>Sensoristica distribuita:</strong> rilevamento di temperatura e pressione in infrastrutture critiche (oleodotti, ponti, tunnel).</li>
 </ul>
 <p>Nel contesto IT, la fibra è la scelta dominante per backbone aziendali, interconnessioni tra data center, reti FTTH/FTTB degli operatori e uplink di alta capacità negli ambienti cloud.</p>
-<h2>La trasmissione wireless</h2>
+<h2 id="la-trasmissione-wireless"><a class="header-anchor" href="#la-trasmissione-wireless"><i class="bi bi-link-45deg"></i></a> La trasmissione wireless</h2>
 <p>La trasmissione <strong>wireless</strong> codifica i dati modulando onde elettromagnetiche su specifiche frequenze dello spettro radio. Anziché un canale fisico dedicato, il segnale si propaga nello spazio, consentendo la mobilità dei dispositivi ma introducendo sfide legate alla condivisione del mezzo, all'attenuazione e alle interferenze.</p>
-<h3>Standard Wi-Fi: dall'802.11n al Wi-Fi 7</h3>
+<h3 id="standard-wi-fi-dall80211n-al-wi-fi-7"><a class="header-anchor" href="#standard-wi-fi-dall80211n-al-wi-fi-7"><i class="bi bi-link-45deg"></i></a> Standard Wi-Fi: dall'802.11n al Wi-Fi 7</h3>
 <p>L'evoluzione degli standard <strong>IEEE 802.11</strong> ha progressivamente ridotto il divario prestazionale tra wireless e cablato:</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -373,7 +483,7 @@
 </div>
 <p>Il <strong>Wi-Fi 6E</strong> ha introdotto l'accesso alla banda a <strong>6 GHz</strong>, fino ad allora riservata ad applicazioni industriali e governative: uno spettro più ampio, meno congestionato, che consente throughput elevati e latenze ridotte in ambienti ad alta densità di dispositivi. Il <strong>Wi-Fi 7</strong> (802.11be), attualmente in fase di adozione nei dispositivi consumer e enterprise di fascia alta, introduce la <strong>Multi-Link Operation (MLO)</strong> — la capacità di aggregare simultaneamente più bande e canali — avvicinando ulteriormente le prestazioni wireless a quelle del cablato Ethernet.</p>
 <p>Il wireless è oggi la soluzione architettonica primaria per scenari IoT, ambienti BYOD, edifici storici dove il cablaggio è proibitivo e deployment mobili.</p>
-<h2>Confronto Generale tra i Media Trasmissivi</h2>
+<h2 id="confronto-generale-tra-i-media-trasmissivi"><a class="header-anchor" href="#confronto-generale-tra-i-media-trasmissivi"><i class="bi bi-link-45deg"></i></a> Confronto Generale tra i Media Trasmissivi</h2>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
     <thead class="table-dark">
@@ -424,7 +534,7 @@
     </tbody>
   </table>
 </div>
-<h2>Criteri di Scelta del Media Trasmissivo</h2>
+<h2 id="criteri-di-scelta-del-media-trasmissivo"><a class="header-anchor" href="#criteri-di-scelta-del-media-trasmissivo"><i class="bi bi-link-45deg"></i></a> Criteri di Scelta del Media Trasmissivo</h2>
 <p>La selezione del media più adeguato non è una scelta estetica, ma una decisione architetturale che impatta direttamente le prestazioni, i costi operativi e la scalabilità futura dell'infrastruttura. Le variabili principali da considerare sono:</p>
 <ul>
 <li><strong>Distanza:</strong> per collegamenti superiori ai 100 m o tra edifici distinti, la fibra ottica è l'unica scelta praticabile senza l'introduzione di ripetitori attivi.</li>
@@ -434,63 +544,74 @@
 <li><strong>Budget e vincoli infrastrutturali:</strong> il doppino UTP Cat6a rimane il miglior compromesso costo/prestazioni per il cablaggio orizzontale in edifici nuovi o in ristrutturazione; la fibra è preferibile per le dorsali verticali e inter-edificio, dove l'investimento iniziale è ammortizzato dalla longevità dell'impianto.</li>
 </ul>
 
-  </section>
+    </section>
 
-  <div class="section-divider mt-5 mb-4">Commenti</div>
+    <div class="section-divider mt-5 mb-4">Commenti</div>
 
-  <section aria-label="Commenti e reazioni">
-    <script>
-      (function () {
-        const saved = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
-        const script = document.createElement('script');
-        script.src = 'https://giscus.app/client.js';
-        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
-        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
-        script.setAttribute('data-category', 'Announcements');
-        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
-        script.setAttribute('data-mapping', 'pathname');
-        script.setAttribute('data-strict', '0');
-        script.setAttribute('data-reactions-enabled', '1');
-        script.setAttribute('data-emit-metadata', '0');
-        script.setAttribute('data-input-position', 'top');
-        script.setAttribute('data-theme', theme);
-        script.setAttribute('data-lang', 'it');
-        script.setAttribute('data-loading', 'lazy');
-        script.setAttribute('crossorigin', 'anonymous');
-        script.async = true;
-        document.currentScript.replaceWith(script);
-      })();
-    </script>
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
 
-    <noscript>
-      <div class="text-center py-4 text-muted">
-        <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
-        <p class="small mb-0">
-          Per visualizzare i commenti è necessario abilitare JavaScript.
-          <br>
-          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
-            Discuti su GitHub Discussions →
-          </a>
-        </p>
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
       </div>
-    </noscript>
-  </section>
-</article>
+    </nav>
+  </aside>
+</div>
+
     </main>
 
     <footer class="border-top mt-auto py-5">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-md-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
         <h5 class="fw-bold mb-3">
           <span class="text-primary">dino</span>-996
         </h5>
-        <p class="text-muted small mb-3" style="max-width: 320px;">
+        <p class="text-muted small mb-3">
           Developer portfolio e blog tecnico
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex justify-content-center gap-3 mb-0">
           <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
              class="text-muted" aria-label="GitHub">
             <i class="bi bi-github fs-5"></i>
@@ -503,33 +624,6 @@
             <i class="bi bi-rss fs-5"></i>
           </a>
         </div>
-      </div>
-
-      <div class="col-6 col-md-3 offset-md-1">
-        <h6 class="fw-bold mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/" class="text-muted text-decoration-none small">Home</a>
-          </li>
-          <li class="mb-2">
-            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
-          </li>
-          <li class="mb-2">
-            <a href="/about/" class="text-muted text-decoration-none small">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <h6 class="fw-bold mb-3">Risorse</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/tags/" class="text-muted text-decoration-none small">Tag</a>
-          </li>
-          <li class="mb-2">
-            <a href="/feed.xml" class="text-muted text-decoration-none small">RSS Feed</a>
-          </li>
-        </ul>
       </div>
     </div>
 

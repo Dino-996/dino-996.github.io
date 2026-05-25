@@ -82,30 +82,34 @@
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
-    
-    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <i class="bi bi-grid-3x3-gap fs-4"></i>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/blog/">
-            Blog
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">
-            About
-          </a>
-        </li>
 
-        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
           <div class="theme-toggle" role="group" aria-label="Toggle tema">
             <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
               <i class="bi bi-sun"></i>
@@ -116,7 +120,6 @@
             <div class="theme-toggle-slider"></div>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -124,32 +127,65 @@
   
     <main class="container my-5 flex-grow-1">
       
-<article class="mx-auto" style="max-width: 800px;">
-  <header class="mb-4">
-    <h1 class="fw-bold mb-3">Reti wireless e mobili</h1>
-
-    <div class="author-card mb-4">
-      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" loading="lazy">
-      <div class="flex-grow-1">
-        <div class="author-name">Davide Sabia</div>
-        <div class="author-meta">
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
           <time datetime="2026-05-17T00:00:00.000Z">
             <i class="bi bi-calendar3 me-1"></i>17 maggio 2026
           </time>
-          <span class="mx-1">·</span>
-          <span class="reading-time"></span>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-05-22T11:46:24.000Z">
+                <i class="bi bi-pencil me-1"></i>22 maggio 2026
+              </time>
+            </span>
+          
         </div>
-        <div class="tags-container d-flex flex-wrap gap-1 mt-2">
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Freti-wireless-mobile%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Reti%20wireless%20e%20mobili&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Freti-wireless-mobile%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Freti-wireless-mobile%2F&title=Reti%20wireless%20e%20mobili"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Freti-wireless-mobile%2F&t=Reti%20wireless%20e%20mobili"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
           
           
-          
-            
-            
           
             
             
               <a href="/tags/reti/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 reti
               </a>
@@ -158,7 +194,7 @@
             
             
               <a href="/tags/wireless/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 wireless
               </a>
@@ -167,7 +203,7 @@
             
             
               <a href="/tags/mobile/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 mobile
               </a>
@@ -175,36 +211,101 @@
           
         </div>
       </div>
-    </div>
-  </header>
-
-  
-    <div class="alert alert-primary border-start mb-4" role="note">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <span class="d-flex align-items-center justify-content-center rounded"
-              style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
-          <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
-        </span>
-        <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small lh-lg">I dispositivi mobili sfruttano quattro famiglie di reti wireless (Cellulare, Wi-Fi, Bluetooth, NFC) e il GPS, ognuna ottimizzata per specifici scenari d&#39;uso e raggio d&#39;azione, spesso coesistenti sullo stesso device. Il GPS, basato su segnali satellitari, offre funzionalità di geolocalizzazione supportate da sistemi assistiti e integrazione con altre reti per migliorare la precisione e la disponibilità.</p>
     </div>
-  
+  </aside>
 
-  
-    <figure class="mb-4">
-      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
-           alt="Immagine generata con IA"
-           class="img-fluid rounded w-100"
-           style="max-height: 420px; object-fit: cover;">
-      
-        <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
-      
-    </figure>
-  
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Reti wireless e mobili</h1>
 
-  <section class="content">
-    <h2>Panoramica delle reti wireless</h2>
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2026-05-17T00:00:00.000Z">17 maggio 2026</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/reti/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              reti
+            </a>
+          
+        
+          
+          
+            <a href="/tags/wireless/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              wireless
+            </a>
+          
+        
+          
+          
+            <a href="/tags/mobile/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              mobile
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">I dispositivi mobili sfruttano quattro famiglie di reti wireless (Cellulare, Wi-Fi, Bluetooth, NFC) e il GPS, ognuna ottimizzata per specifici scenari d&#39;uso e raggio d&#39;azione, spesso coesistenti sullo stesso device. Il GPS, basato su segnali satellitari, offre funzionalità di geolocalizzazione supportate da sistemi assistiti e integrazione con altre reti per migliorare la precisione e la disponibilità.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h2 id="panoramica-delle-reti-wireless"><a class="header-anchor" href="#panoramica-delle-reti-wireless"><i class="bi bi-link-45deg"></i></a> Panoramica delle reti wireless</h2>
 <p>I dispositivi mobili comunicano attraverso quattro famiglie principali di reti wireless, ognuna ottimizzata per un diverso scenario operativo:</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -247,14 +348,14 @@
 <blockquote>
 <p><strong>Nota:</strong> Tutte queste funzionalità coesistono nello stesso dispositivo. Un telefono moderno può, simultaneamente, ricevere segnali GPS, trasmettere dati LTE, mantenere una connessione Bluetooth con un auricolare e scambiare dati NFC con un terminale POS.</p>
 </blockquote>
-<h2>GPS (Global Positioning System)</h2>
+<h2 id="gps-global-positioning-system"><a class="header-anchor" href="#gps-global-positioning-system"><i class="bi bi-link-45deg"></i></a> GPS (Global Positioning System)</h2>
 <p>Il <strong>GPS</strong> è un sistema di posizionamento basato su una costellazione di satelliti in orbita che trasmettono segnali radio a bassa potenza verso la superficie terrestre. Il ricevitore GPS del dispositivo — che opera in sola ricezione, senza trasmettere — calcola la propria posizione triangolando i segnali di almeno quattro satelliti visibili.</p>
 <p>Con condizioni ottimali (cielo aperto, assenza di ostacoli), la precisione raggiunge i <strong>10 metri</strong> per i sistemi GPS civili standard. Tecnologie ibride come l'<strong>A-GPS</strong> (Assisted GPS) e il <strong>GNSS</strong> (che integra sistemi russi GLONASS, europei Galileo e cinesi BeiDou) migliorano ulteriormente precisione e velocità di acquisizione.</p>
 <p>I servizi di localizzazione dei dispositivi moderni integrano GPS, dati Wi-Fi e triangolazione cellulare per garantire la posizione anche in ambienti urbani chiusi dove il segnale satellite è degradato.</p>
-<h2>Wi-Fi</h2>
-<h3>Come funziona</h3>
+<h2 id="wi-fi"><a class="header-anchor" href="#wi-fi"><i class="bi bi-link-45deg"></i></a> Wi-Fi</h2>
+<h3 id="come-funziona"><a class="header-anchor" href="#come-funziona"><i class="bi bi-link-45deg"></i></a> Come funziona</h3>
 <p>Il Wi-Fi consente ai dispositivi di connettersi a reti locali e a Internet tramite onde radio. La connessione avviene attraverso un <strong>Access Point (AP)</strong> — tipicamente il router domestico o un hotspot pubblico — che trasmette il proprio identificatore di rete (<strong>SSID</strong>) nell'area circostante. Per ricevere e trasmettere dati, il dispositivo deve trovarsi entro il raggio di copertura del segnale.</p>
-<h3>Standard Wi-Fi</h3>
+<h3 id="standard-wi-fi"><a class="header-anchor" href="#standard-wi-fi"><i class="bi bi-link-45deg"></i></a> Standard Wi-Fi</h3>
 <p>Lo standard Wi-Fi è definito dall'IEEE e identificato con la denominazione 802.11. Nel tempo si sono succedute diverse generazioni, ognuna con miglioramenti significativi in termini di banda, velocità e gestione della congestione:</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -307,14 +408,14 @@
   </table>
 </div>
 <p>Wi-Fi 6 e Wi-Fi 6E introducono tecnologie come <strong>OFDMA</strong> e <strong>BSS Coloring</strong> che riducono la congestione nei contesti ad alta densità (aeroporti, stadi, open space aziendali).</p>
-<h3>Tipologie di reti Wi-Fi</h3>
+<h3 id="tipologie-di-reti-wi-fi"><a class="header-anchor" href="#tipologie-di-reti-wi-fi"><i class="bi bi-link-45deg"></i></a> Tipologie di reti Wi-Fi</h3>
 <p>Le reti Wi-Fi possono essere:</p>
 <ul>
 <li><strong>Private</strong>: reti domestiche o aziendali protette da password.</li>
 <li><strong>Hotspot pubblici</strong>: punti di accesso aperti o semi-aperti in luoghi come caffè, aeroporti, hotel. Offrono connettività ma richiedono attenzione alla sicurezza.</li>
 <li><strong>Reti guest</strong>: segmenti isolati della rete principale, pensati per visitatori o dispositivi IoT, che impediscono l'accesso alle risorse interne.</li>
 </ul>
-<h3>Sicurezza sulle reti Wi-Fi mobili</h3>
+<h3 id="sicurezza-sulle-reti-wi-fi-mobili"><a class="header-anchor" href="#sicurezza-sulle-reti-wi-fi-mobili"><i class="bi bi-link-45deg"></i></a> Sicurezza sulle reti Wi-Fi mobili</h3>
 <p>La connessione a reti Wi-Fi pubbliche espone i dispositivi a rischi significativi come attacchi <strong>man-in-the-middle</strong>, <strong>rogue AP</strong> e sniffing del traffico. Le best practice da seguire sono:</p>
 <ul>
 <li>Non trasmettere mai credenziali o dati sensibili su connessioni non cifrate (HTTP puro).</li>
@@ -323,9 +424,9 @@
 <li>Disabilitare la connessione automatica alle reti Wi-Fi aperte nelle impostazioni del dispositivo.</li>
 <li>Segmentare la rete domestica: dispositivi IoT su VLAN o rete guest separata.</li>
 </ul>
-<h2>Rete cellulare</h2>
+<h2 id="rete-cellulare"><a class="header-anchor" href="#rete-cellulare"><i class="bi bi-link-45deg"></i></a> Rete cellulare</h2>
 <p>La rete cellulare è l'infrastruttura gestita dagli operatori di telefonia mobile che permette voce e dati quando non è disponibile una rete Wi-Fi. Il dispositivo si connette alle <strong>BTS</strong> (Base Transceiver Station) — le torri cellulari — che coprono aree geografiche definite (<strong>celle</strong>).</p>
-<h3>Evoluzione delle generazioni cellulari</h3>
+<h3 id="evoluzione-delle-generazioni-cellulari"><a class="header-anchor" href="#evoluzione-delle-generazioni-cellulari"><i class="bi bi-link-45deg"></i></a> Evoluzione delle generazioni cellulari</h3>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
     <thead class="table-dark">
@@ -363,10 +464,10 @@
   </table>
 </div>
 <p>Il <strong>5G</strong> introduce due bande operative principali: la banda <strong>sub-6 GHz</strong> (copertura ampia, prestazioni elevate) e la banda <strong>mmWave</strong> (millimeter wave, &gt; 24 GHz) per ambienti ad altissima densità con velocità teoriche di decine di Gbps ma raggio d'azione molto limitato.</p>
-<h3>Transizione automatica tra reti</h3>
+<h3 id="transizione-automatica-tra-reti"><a class="header-anchor" href="#transizione-automatica-tra-reti"><i class="bi bi-link-45deg"></i></a> Transizione automatica tra reti</h3>
 <p>I dispositivi mobili gestiscono la transizione tra reti in modo trasparente per l'utente. Quando un dispositivo si sposta da un'area 4G LTE a una zona con solo copertura 3G, la radio 4G si disattiva e si attiva quella 3G senza interruzione delle sessioni attive. Analogamente, quando disponibile, il dispositivo preferisce automaticamente il Wi-Fi alla rete cellulare per il traffico dati, riducendo il consumo del piano dati e la batteria (le radio Wi-Fi consumano meno delle radio cellulari).</p>
-<h2>Bluetooth</h2>
-<h3>Caratteristiche generali</h3>
+<h2 id="bluetooth"><a class="header-anchor" href="#bluetooth"><i class="bi bi-link-45deg"></i></a> Bluetooth</h2>
+<h3 id="caratteristiche-generali"><a class="header-anchor" href="#caratteristiche-generali"><i class="bi bi-link-45deg"></i></a> Caratteristiche generali</h3>
 <p>Bluetooth è una tecnologia radio a corto raggio progettata per sostituire i cavi nelle connessioni tra dispositivi vicini. Opera nella banda <strong>2.4 GHz ISM</strong> (la stessa del Wi-Fi 2.4 GHz) usando la tecnica <strong>FHSS</strong> (Frequency Hopping Spread Spectrum) per minimizzare le interferenze.</p>
 <p>Casi d'uso comuni:</p>
 <ul>
@@ -377,7 +478,7 @@
 <li>Tethering e condivisione della connessione</li>
 <li>Connessione tra dispositivi mobili per trasferimento file (OBEX)</li>
 </ul>
-<h3>Classic Bluetooth vs Bluetooth Low Energy (BLE)</h3>
+<h3 id="classic-bluetooth-vs-bluetooth-low-energy-ble"><a class="header-anchor" href="#classic-bluetooth-vs-bluetooth-low-energy-ble"><i class="bi bi-link-45deg"></i></a> Classic Bluetooth vs Bluetooth Low Energy (BLE)</h3>
 <p>A partire da Bluetooth 4.0, la specifica introduce il profilo <strong>BLE (Bluetooth Low Energy)</strong>, progettato per dispositivi alimentati a batteria che trasmettono dati sporadicamente:</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -419,7 +520,7 @@
 </div>
 <p><strong>Bluetooth 5.x</strong> (attuale in tutti i dispositivi moderni) raddoppia la velocità e quadruplica il raggio rispetto a BT 4.2, con miglioramenti rilevanti per applicazioni IoT, beacon di localizzazione indoor e mesh networking.</p>
 <p>Il limite di <strong>8 dispositivi connessi simultaneamente</strong> si applica alla topologia <strong>piconet</strong> del Classic Bluetooth. Con BLE e le implementazioni moderne, le architetture supportate sono differenti e possono gestire un numero maggiore di connessioni a basso consumo.</p>
-<h3>Accoppiamento Bluetooth (Pairing)</h3>
+<h3 id="accoppiamento-bluetooth-pairing"><a class="header-anchor" href="#accoppiamento-bluetooth-pairing"><i class="bi bi-link-45deg"></i></a> Accoppiamento Bluetooth (Pairing)</h3>
 <p>Il pairing è il processo con cui due dispositivi Bluetooth stabiliscono una connessione sicura e memorizzano reciprocamente le credenziali per riconnettersi automaticamente in futuro.</p>
 <p>Il flusso di pairing avviene in questi passi:</p>
 <ol>
@@ -453,16 +554,16 @@
 <p>Metodo 2 — tramite Impostazioni: <code>Start &gt; Impostazioni &gt; Bluetooth e dispositivi &gt; Aggiungi dispositivo &gt; Bluetooth</code>.</p>
 <p>Metodo 3 — tramite Pannello di controllo (percorso legacy): <code>Start &gt; Pannello di controllo &gt; Hardware e suoni &gt; Aggiungi dispositivo</code>.</p>
 <p>Una volta che Windows ha rilevato il dispositivo (che deve essere in modalità pairing, indicata tipicamente da un LED che lampeggia in rosso e blu alternati), selezionarlo dall'elenco, completare l'abbinamento e cliccare su &quot;Fine&quot;. Il dispositivo apparirà nell'Action Center come connesso. Alla successiva accensione del dispositivo Bluetooth, la riconnessione avviene automaticamente se il Bluetooth del computer è attivo.</p>
-<h2>NFC (Near Field Communication)</h2>
+<h2 id="nfc-near-field-communication"><a class="header-anchor" href="#nfc-near-field-communication"><i class="bi bi-link-45deg"></i></a> NFC (Near Field Communication)</h2>
 <p>NFC è una tecnologia di comunicazione wireless a cortissimo raggio (generalmente meno di <strong>4 cm</strong>) basata sugli standard <strong>ISO/IEC 14443</strong> e <strong>ISO/IEC 18092</strong>. Opera alla frequenza di <strong>13.56 MHz</strong> e consente lo scambio di piccole quantità di dati a bassa velocità (106–424 kbps).</p>
-<h3>Modalità operative</h3>
+<h3 id="modalita-operative"><a class="header-anchor" href="#modalita-operative"><i class="bi bi-link-45deg"></i></a> Modalità operative</h3>
 <p>Un dispositivo NFC può operare in tre modalità:</p>
 <ul>
 <li><strong>Card Emulation</strong>: il dispositivo si comporta come una smart card contactless (es. carta di credito). Usato per pagamenti mobili come Apple Pay, Google Pay, Samsung Pay. La variante <strong>HCE (Host Card Emulation)</strong> consente l'emulazione via software senza chip NFC dedicato.</li>
 <li><strong>Reader/Writer</strong>: il dispositivo legge o scrive tag NFC passivi (es. etichette NFC su prodotti, poster o biglietti da visita smart).</li>
 <li><strong>Peer-to-Peer (P2P)</strong>: due dispositivi NFC si scambiano dati direttamente (es. Android Beam, ora sostituito da tecnologie come Nearby Share).</li>
 </ul>
-<h3>Casi d'uso comuni</h3>
+<h3 id="casi-duso-comuni"><a class="header-anchor" href="#casi-duso-comuni"><i class="bi bi-link-45deg"></i></a> Casi d'uso comuni</h3>
 <ul>
 <li>Pagamenti contactless nei negozi fisici</li>
 <li>Accesso a edifici e controllo presenze (badge NFC)</li>
@@ -470,7 +571,7 @@
 <li>Verifica autenticità di prodotti (supply chain anti-contraffazione)</li>
 <li>Trasporto pubblico (biglietti e abbonamenti digitali)</li>
 </ul>
-<h2>Connettività Mobile</h2>
+<h2 id="connettivita-mobile"><a class="header-anchor" href="#connettivita-mobile"><i class="bi bi-link-45deg"></i></a> Connettività Mobile</h2>
 <p>Un dispositivo mobile moderno orchestra in modo trasparente tutte queste tecnologie. Ecco uno scenario tipico di una giornata lavorativa:</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -515,10 +616,10 @@
     </tbody>
   </table>
 </div>
-<h2>Configurare la Connettività Wi-Fi sui Dispositivi Mobili</h2>
-<h3>Connessione a una rete Wi-Fi nota</h3>
+<h2 id="configurare-la-connettivita-wi-fi-sui-dispositivi-mobili"><a class="header-anchor" href="#configurare-la-connettivita-wi-fi-sui-dispositivi-mobili"><i class="bi bi-link-45deg"></i></a> Configurare la Connettività Wi-Fi sui Dispositivi Mobili</h2>
+<h3 id="connessione-a-una-rete-wi-fi-nota"><a class="header-anchor" href="#connessione-a-una-rete-wi-fi-nota"><i class="bi bi-link-45deg"></i></a> Connessione a una rete Wi-Fi nota</h3>
 <p>Su Android e iOS, attivare il Wi-Fi tramite il pannello delle impostazioni rapide (o <code>Impostazioni &gt; Wi-Fi</code>). Il dispositivo scansiona automaticamente le reti disponibili e le mostra in un elenco. Selezionare la rete desiderata, inserire la password se richiesta e attendere la connessione.</p>
-<h3>Connessione manuale a reti con SSID nascosto</h3>
+<h3 id="connessione-manuale-a-reti-con-ssid-nascosto"><a class="header-anchor" href="#connessione-manuale-a-reti-con-ssid-nascosto"><i class="bi bi-link-45deg"></i></a> Connessione manuale a reti con SSID nascosto</h3>
 <p>Se il router ha la trasmissione SSID disabilitata (configurazione di sicurezza comune in ambienti aziendali), il dispositivo non visualizzerà automaticamente la rete. Occorre aggiungere la rete manualmente specificando:</p>
 <ul>
 <li><strong>SSID</strong>: il nome esatto della rete (case sensitive).</li>
@@ -526,7 +627,7 @@
 <li><strong>Password / Passphrase</strong>: inserita esattamente come configurata nel router.</li>
 </ul>
 <p>Un carattere errato — anche solo un diverso uso di maiuscole — impedirà la connessione.</p>
-<h3>Configurare i Dati Cellulari</h3>
+<h3 id="configurare-i-dati-cellulari"><a class="header-anchor" href="#configurare-i-dati-cellulari"><i class="bi bi-link-45deg"></i></a> Configurare i Dati Cellulari</h3>
 <p>I piani dati mobili sono offerti dagli operatori con limiti di larghezza di banda e soglie di consumo variabili. Per ottimizzare l'utilizzo:</p>
 <ul>
 <li>Preferire il Wi-Fi quando disponibile: riduce consumo del piano dati e batteria.</li>
@@ -535,63 +636,74 @@
 </ul>
 <p>Su iOS e Android è possibile abilitare/disabilitare selettivamente l'accesso alla rete cellulare per ogni singola applicazione installata, offrendo un controllo granulare particolarmente utile in roaming internazionale.</p>
 
-  </section>
+    </section>
 
-  <div class="section-divider mt-5 mb-4">Commenti</div>
+    <div class="section-divider mt-5 mb-4">Commenti</div>
 
-  <section aria-label="Commenti e reazioni">
-    <script>
-      (function () {
-        const saved = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
-        const script = document.createElement('script');
-        script.src = 'https://giscus.app/client.js';
-        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
-        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
-        script.setAttribute('data-category', 'Announcements');
-        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
-        script.setAttribute('data-mapping', 'pathname');
-        script.setAttribute('data-strict', '0');
-        script.setAttribute('data-reactions-enabled', '1');
-        script.setAttribute('data-emit-metadata', '0');
-        script.setAttribute('data-input-position', 'top');
-        script.setAttribute('data-theme', theme);
-        script.setAttribute('data-lang', 'it');
-        script.setAttribute('data-loading', 'lazy');
-        script.setAttribute('crossorigin', 'anonymous');
-        script.async = true;
-        document.currentScript.replaceWith(script);
-      })();
-    </script>
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
 
-    <noscript>
-      <div class="text-center py-4 text-muted">
-        <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
-        <p class="small mb-0">
-          Per visualizzare i commenti è necessario abilitare JavaScript.
-          <br>
-          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
-            Discuti su GitHub Discussions →
-          </a>
-        </p>
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
       </div>
-    </noscript>
-  </section>
-</article>
+    </nav>
+  </aside>
+</div>
+
     </main>
 
     <footer class="border-top mt-auto py-5">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-md-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
         <h5 class="fw-bold mb-3">
           <span class="text-primary">dino</span>-996
         </h5>
-        <p class="text-muted small mb-3" style="max-width: 320px;">
+        <p class="text-muted small mb-3">
           Developer portfolio e blog tecnico
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex justify-content-center gap-3 mb-0">
           <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
              class="text-muted" aria-label="GitHub">
             <i class="bi bi-github fs-5"></i>
@@ -604,33 +716,6 @@
             <i class="bi bi-rss fs-5"></i>
           </a>
         </div>
-      </div>
-
-      <div class="col-6 col-md-3 offset-md-1">
-        <h6 class="fw-bold mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/" class="text-muted text-decoration-none small">Home</a>
-          </li>
-          <li class="mb-2">
-            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
-          </li>
-          <li class="mb-2">
-            <a href="/about/" class="text-muted text-decoration-none small">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <h6 class="fw-bold mb-3">Risorse</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/tags/" class="text-muted text-decoration-none small">Tag</a>
-          </li>
-          <li class="mb-2">
-            <a href="/feed.xml" class="text-muted text-decoration-none small">RSS Feed</a>
-          </li>
-        </ul>
       </div>
     </div>
 

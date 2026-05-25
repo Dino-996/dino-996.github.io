@@ -82,30 +82,34 @@
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
-    
-    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <i class="bi bi-grid-3x3-gap fs-4"></i>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/blog/">
-            Blog
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">
-            About
-          </a>
-        </li>
 
-        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
           <div class="theme-toggle" role="group" aria-label="Toggle tema">
             <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
               <i class="bi bi-sun"></i>
@@ -116,7 +120,6 @@
             <div class="theme-toggle-slider"></div>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -124,29 +127,65 @@
   
     <main class="container my-5 flex-grow-1">
       
-<article class="mx-auto" style="max-width: 800px;">
-  <header class="mb-4">
-    <h1 class="fw-bold mb-3">Struttura dei sistemi operativi</h1>
-
-    <div class="author-card mb-4">
-      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" loading="lazy">
-      <div class="flex-grow-1">
-        <div class="author-name">Davide Sabia</div>
-        <div class="author-meta">
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
           <time datetime="2020-02-14T00:00:00.000Z">
             <i class="bi bi-calendar3 me-1"></i>14 febbraio 2020
           </time>
-          <span class="mx-1">·</span>
-          <span class="reading-time"></span>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-05-08T07:49:55.000Z">
+                <i class="bi bi-pencil me-1"></i>08 maggio 2026
+              </time>
+            </span>
+          
         </div>
-        <div class="tags-container d-flex flex-wrap gap-1 mt-2">
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fstruttura-dei-sistemi-operativi%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Struttura%20dei%20sistemi%20operativi&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fstruttura-dei-sistemi-operativi%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fstruttura-dei-sistemi-operativi%2F&title=Struttura%20dei%20sistemi%20operativi"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fstruttura-dei-sistemi-operativi%2F&t=Struttura%20dei%20sistemi%20operativi"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
           
           
           
             
             
               <a href="/tags/sistemi-operativi/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 sistemi operativi
               </a>
@@ -155,7 +194,7 @@
             
             
               <a href="/tags/struttura/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 struttura
               </a>
@@ -163,36 +202,92 @@
           
         </div>
       </div>
-    </div>
-  </header>
-
-  
-    <div class="alert alert-primary border-start mb-4" role="note">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <span class="d-flex align-items-center justify-content-center rounded"
-              style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
-          <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
-        </span>
-        <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small lh-lg">Il sistema operativo espone servizi tramite chiamate di sistema e API per la gestione di risorse, I/O e file system, interfacciandosi con l&#39;utente tramite CLI, GUI o touch. Il kernel, cuore del SO, gestisce l&#39;hardware, i processi, la memoria e i file system, facilitando l&#39;esecuzione delle applicazioni che vengono preparate da linker e loader.</p>
     </div>
-  
+  </aside>
 
-  
-    <figure class="mb-4">
-      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp"
-           alt="Immagine generata con IA"
-           class="img-fluid rounded w-100"
-           style="max-height: 420px; object-fit: cover;">
-      
-        <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
-      
-    </figure>
-  
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Struttura dei sistemi operativi</h1>
 
-  <section class="content">
-    <h2>Servizi e Interfacce del Sistema Operativo</h2>
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2020-02-14T00:00:00.000Z">14 febbraio 2020</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/sistemi-operativi/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/struttura/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              struttura
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">Il sistema operativo espone servizi tramite chiamate di sistema e API per la gestione di risorse, I/O e file system, interfacciandosi con l&#39;utente tramite CLI, GUI o touch. Il kernel, cuore del SO, gestisce l&#39;hardware, i processi, la memoria e i file system, facilitando l&#39;esecuzione delle applicazioni che vengono preparate da linker e loader.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h2 id="servizi-e-interfacce-del-sistema-operativo"><a class="header-anchor" href="#servizi-e-interfacce-del-sistema-operativo"><i class="bi bi-link-45deg"></i></a> Servizi e Interfacce del Sistema Operativo</h2>
 <p>Il sistema operativo (<strong>SO</strong>) fornisce un ambiente per l'esecuzione dei programmi, offrendo servizi essenziali quali l'<strong>esecuzione di programmi</strong>, operazioni di <strong>I/O</strong>, gestione del <strong>file system</strong>, comunicazioni, rilevamento di errori e allocazione delle risorse.</p>
 <p>L'interazione con l'utente avviene attraverso tre modalità principali:</p>
 <ul>
@@ -200,7 +295,7 @@
 <li><strong>Interfaccia grafica (GUI):</strong> basata sulla metafora del desktop, icone e puntatori.</li>
 <li><strong>Interfaccia touch screen:</strong> basata su gesti (gesture) direttamente sullo schermo.</li>
 </ul>
-<h2>Interfaccia di Programmazione - System Call e API</h2>
+<h2 id="interfaccia-di-programmazione-system-call-e-api"><a class="header-anchor" href="#interfaccia-di-programmazione-system-call-e-api"><i class="bi bi-link-45deg"></i></a> Interfaccia di Programmazione - System Call e API</h2>
 <p>Le <strong>chiamate di sistema (system call)</strong> rappresentano l'interfaccia verso i servizi resi disponibili dal SO.<br>
 Spesso i programmatori non invocano direttamente le system call, ma utilizzano le <strong>Application Programming Interface (API)</strong>, come le API di Windows, POSIX (per Unix, Linux, macOS) o le API Java. Questo garantisce la <strong>portabilità delle applicazioni</strong>.</p>
 <p>Per passare i parametri al sistema operativo durante una chiamata, si utilizzano tre metodi principali:</p>
@@ -209,14 +304,14 @@ Spesso i programmatori non invocano direttamente le system call, ma utilizzano l
 <li>In un <strong>blocco o tabella di memoria</strong>, passando l'indirizzo del blocco in un registro.</li>
 <li>Nello <strong>stack</strong>, dove i parametri vengono inseriti (<strong>push</strong>) e poi prelevati dal SO (<strong>pop</strong>).</li>
 </ul>
-<h2>Sviluppo ed Esecuzione delle Applicazioni</h2>
+<h2 id="sviluppo-ed-esecuzione-delle-applicazioni"><a class="header-anchor" href="#sviluppo-ed-esecuzione-delle-applicazioni"><i class="bi bi-link-45deg"></i></a> Sviluppo ed Esecuzione delle Applicazioni</h2>
 <p>Il processo che porta un codice sorgente alla sua esecuzione prevede due figure chiave:</p>
 <ul>
 <li><strong>Linker:</strong> combina file oggetto rilocabili in un unico <strong>file binario</strong> eseguibile, includendo eventuali librerie (es. la libreria standard C).</li>
 <li><strong>Loader:</strong> carica il file eseguibile in memoria, assegnando gli indirizzi definitivi (<strong>relocation</strong>) per permettere l'esecuzione sul core della CPU.</li>
 </ul>
 <p>Le applicazioni sono generalmente dipendenti dal SO, poiché ogni sistema fornisce un insieme univoco di chiamate di sistema.</p>
-<h2>Kernel</h2>
+<h2 id="kernel"><a class="header-anchor" href="#kernel"><i class="bi bi-link-45deg"></i></a> Kernel</h2>
 <p>Il kernel è responsabile della gestione delle risorse hardware e dei servizi di base del sistema. Le sue attività principali includono:</p>
 <ul>
 <li><strong>Inizializzazione dell'hardware:</strong> durante il processo di avvio (<strong>boot</strong>), il kernel viene caricato in memoria e prepara i componenti fisici del computer per l'uso.</li>
@@ -225,23 +320,23 @@ Spesso i programmatori non invocano direttamente le system call, ma utilizzano l
 <li><strong>Gestione dei file e dei dispositivi:</strong> amministra il <strong>file system</strong> (montando il root file system all'avvio) e i driver necessari per interagire con periferiche, dischi e reti.</li>
 <li><strong>Interfaccia per le chiamate di sistema:</strong> fornisce un'interfaccia protetta tramite la quale le applicazioni possono richiedere servizi al sistema operativo usando le <strong>system call</strong>.</li>
 </ul>
-<h3>Modalità di Esecuzione</h3>
+<h3 id="modalita-di-esecuzione"><a class="header-anchor" href="#modalita-di-esecuzione"><i class="bi bi-link-45deg"></i></a> Modalità di Esecuzione</h3>
 <p>Il kernel opera in uno spazio di memoria protetto chiamato <strong>kernel space</strong> (o modalità kernel), distinto dallo spazio utente dove girano le normali applicazioni.<br>
 Questa separazione garantisce la stabilità del sistema: un errore critico all'interno del kernel provoca un <strong>crash di sistema</strong>, non un semplice bug applicativo.</p>
-<h3>Tipologie di Architettura del Kernel</h3>
+<h3 id="tipologie-di-architettura-del-kernel"><a class="header-anchor" href="#tipologie-di-architettura-del-kernel"><i class="bi bi-link-45deg"></i></a> Tipologie di Architettura del Kernel</h3>
 <p>Ci sono diversi approcci utilizzati per la progettazione di un kernel:</p>
 <ul>
 <li><strong>Kernel Monolitico:</strong> tutte le funzioni del sistema risiedono in un <strong>unico spazio di indirizzamento</strong>. Questo approccio (usato da <strong>Unix</strong> e <strong>Linux</strong>) offre prestazioni elevate grazie alla comunicazione interna veloce, anche se può risultare più difficile da estendere. Molti kernel monolitici moderni sono comunque <strong>modulari</strong>, permettendo di caricare funzionalità aggiuntive dinamicamente.</li>
 <li><strong>Microkernel</strong> (es. <strong>Mach</strong>): fornisce solo le funzioni minime necessarie (come la comunicazione tra processi). La maggior parte dei servizi del sistema operativo viene spostata nello spazio utente per aumentare la modularità e la flessibilità.</li>
 <li><strong>Sistemi Ibridi:</strong> come <strong>Darwin</strong> (il cuore di macOS e iOS), che combina la struttura a microkernel di Mach con parti del kernel BSD Unix.</li>
 </ul>
-<h2>Esempi Specifici</h2>
+<h2 id="esempi-specifici"><a class="header-anchor" href="#esempi-specifici"><i class="bi bi-link-45deg"></i></a> Esempi Specifici</h2>
 <ul>
 <li><strong>Linux:</strong> un kernel monolitico ampiamente personalizzabile. Progetti come <em>Linux From Scratch</em> mostrano come compilare il proprio kernel partendo dal codice sorgente.</li>
 <li><strong>Android:</strong> utilizza un kernel Linux, ma aggiunge uno strato chiamato <strong>HAL</strong> (Hardware Abstraction Layer) per poter girare su una vasta gamma di dispositivi hardware diversi.</li>
 <li><strong>Darwin:</strong> il kernel alla base dei sistemi Apple, rilasciato come software open-source.</li>
 </ul>
-<h2>Generazione, Avvio e Debugging</h2>
+<h2 id="generazione-avvio-e-debugging"><a class="header-anchor" href="#generazione-avvio-e-debugging"><i class="bi bi-link-45deg"></i></a> Generazione, Avvio e Debugging</h2>
 <p>Il processo di avvio (<strong>boot</strong>) segue solitamente questi passaggi:</p>
 <ol>
 <li>Un <strong>programma di bootstrap</strong> (nel firmware BIOS o UEFI) individua e carica il kernel.</li>
@@ -256,63 +351,74 @@ I sistemi operativi facilitano questo compito tramite:</p>
 <li>strumenti di <strong>tracing</strong> e <strong>contatori</strong> per monitorare gli eventi e le chiamate di sistema</li>
 </ul>
 
-  </section>
+    </section>
 
-  <div class="section-divider mt-5 mb-4">Commenti</div>
+    <div class="section-divider mt-5 mb-4">Commenti</div>
 
-  <section aria-label="Commenti e reazioni">
-    <script>
-      (function () {
-        const saved = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
-        const script = document.createElement('script');
-        script.src = 'https://giscus.app/client.js';
-        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
-        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
-        script.setAttribute('data-category', 'Announcements');
-        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
-        script.setAttribute('data-mapping', 'pathname');
-        script.setAttribute('data-strict', '0');
-        script.setAttribute('data-reactions-enabled', '1');
-        script.setAttribute('data-emit-metadata', '0');
-        script.setAttribute('data-input-position', 'top');
-        script.setAttribute('data-theme', theme);
-        script.setAttribute('data-lang', 'it');
-        script.setAttribute('data-loading', 'lazy');
-        script.setAttribute('crossorigin', 'anonymous');
-        script.async = true;
-        document.currentScript.replaceWith(script);
-      })();
-    </script>
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
 
-    <noscript>
-      <div class="text-center py-4 text-muted">
-        <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
-        <p class="small mb-0">
-          Per visualizzare i commenti è necessario abilitare JavaScript.
-          <br>
-          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
-            Discuti su GitHub Discussions →
-          </a>
-        </p>
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
       </div>
-    </noscript>
-  </section>
-</article>
+    </nav>
+  </aside>
+</div>
+
     </main>
 
     <footer class="border-top mt-auto py-5">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-md-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
         <h5 class="fw-bold mb-3">
           <span class="text-primary">dino</span>-996
         </h5>
-        <p class="text-muted small mb-3" style="max-width: 320px;">
+        <p class="text-muted small mb-3">
           Developer portfolio e blog tecnico
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex justify-content-center gap-3 mb-0">
           <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
              class="text-muted" aria-label="GitHub">
             <i class="bi bi-github fs-5"></i>
@@ -325,33 +431,6 @@ I sistemi operativi facilitano questo compito tramite:</p>
             <i class="bi bi-rss fs-5"></i>
           </a>
         </div>
-      </div>
-
-      <div class="col-6 col-md-3 offset-md-1">
-        <h6 class="fw-bold mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/" class="text-muted text-decoration-none small">Home</a>
-          </li>
-          <li class="mb-2">
-            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
-          </li>
-          <li class="mb-2">
-            <a href="/about/" class="text-muted text-decoration-none small">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <h6 class="fw-bold mb-3">Risorse</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/tags/" class="text-muted text-decoration-none small">Tag</a>
-          </li>
-          <li class="mb-2">
-            <a href="/feed.xml" class="text-muted text-decoration-none small">RSS Feed</a>
-          </li>
-        </ul>
       </div>
     </div>
 

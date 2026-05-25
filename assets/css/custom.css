@@ -453,9 +453,52 @@ blockquote p:last-child {
 /* ========================================
    Pagination
    ======================================== */
-.pagination-nav .btn {
+.pagination-bar {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--card-radius);
+  padding: 0.75rem 1rem;
+}
+
+.pagination-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   border-radius: 50px;
-  padding: 0.5rem 1.25rem;
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.pagination-info {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
+[data-bs-theme="dark"] .pagination-bar {
+  background: rgba(45, 55, 72, 0.6);
+  border-color: rgba(74, 85, 104, 0.4);
+}
+
+@media (max-width: 576px) {
+  .pagination-btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+  }
+
+  .pagination-btn span {
+    display: none;
+  }
+
+  .pagination-btn i {
+    font-size: 1.1rem;
+  }
+
+  .pagination-info {
+    font-size: 0.75rem;
+  }
 }
 
 /* ========================================
@@ -516,6 +559,94 @@ blockquote p:last-child {
 }
 
 /* ========================================
+   Three-Column Layout
+   ======================================== */
+
+/* Sidebar card */
+.sidebar-card {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--card-radius);
+  padding: 0.85rem 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.toc-card {
+  padding: 1rem 0.85rem;
+}
+
+[data-bs-theme="dark"] .sidebar-card {
+  background: rgba(45, 55, 72, 0.6);
+  border-color: rgba(74, 85, 104, 0.4);
+}
+
+/* Left sidebar */
+.post-left-sticky {
+  position: sticky;
+  top: 100px;
+}
+
+.post-left-section {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.post-left-section-last,
+.post-left-section:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.post-share-vertical {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.post-left-meta {
+  font-size: 0.75rem;
+  color: var(--bs-secondary-color);
+  line-height: 1.7;
+}
+
+.post-left-meta i {
+  margin-right: 0.3em;
+}
+
+.post-left-tags .badge {
+  font-size: 0.72rem;
+}
+
+/* Share buttons (used in both left sidebar and old horizontal bar) */
+.share-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--bs-body-color);
+  text-decoration: none;
+  transition: var(--transition);
+  font-size: 1rem;
+  border: 1px solid var(--border-color);
+  background: transparent;
+}
+
+.share-btn:hover {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+  background: var(--primary-light);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ========================================
    Post Content
    ======================================== */
 .content {
@@ -528,6 +659,8 @@ blockquote p:last-child {
 }
 
 .content img {
+  max-width: 100%;
+  height: auto;
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-md);
 }
@@ -646,9 +779,18 @@ footer hr {
   transform: scale(0.95);
 }
 
+@media (max-width: 576px) {
+  .ai-btn-pulse {
+    width: 44px;
+    height: 44px;
+    font-size: 1.2rem;
+  }
+}
+
 /* Chat card */
 .ai-card {
   width: 360px;
+  max-width: calc(100vw - 3rem);
   max-height: 520px;
   background: #fff;
   border-radius: 16px;
@@ -911,6 +1053,44 @@ hr {
     font-size: 1rem;
     padding: 0.5rem 1rem;
   }
+
+  .post-left {
+    display: none !important;
+  }
+
+  .toc-sidebar {
+    display: none !important;
+  }
+}
+
+@media (max-width: 375px) {
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+
+  .footer-credit {
+    font-size: 0.75rem;
+  }
+}
+
+/* Safe area padding for notched phones */
+@supports (padding-top: env(safe-area-inset-top)) {
+  .navbar.sticky-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .ai-assistant-wrapper {
+    bottom: calc(1.5rem + env(safe-area-inset-bottom));
+    right: calc(1.5rem + env(safe-area-inset-right));
+  }
 }
 
 @keyframes slideUp {
@@ -1006,6 +1186,157 @@ hr {
 }
 
 /* ========================================
+   Reading Progress Bar
+   ======================================== */
+.reading-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), #0b5ed7);
+  z-index: 9999;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 8px rgba(var(--primary-rgb), 0.4);
+}
+
+/* ========================================
+   Table of Contents (Sidebar)
+   ======================================== */
+.toc-sidebar {
+  position: relative;
+}
+
+.toc-sticky {
+  position: sticky;
+  top: 100px;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.toc-sticky::-webkit-scrollbar {
+  width: 3px;
+}
+
+.toc-sticky::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+.toc-title {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--bs-secondary-color);
+  margin-bottom: 0.75rem;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-item {
+  margin-bottom: 0.25rem;
+}
+
+.toc-h2 {
+  font-size: 0.82rem;
+}
+
+.toc-h3 {
+  font-size: 0.78rem;
+  padding-left: 0.75rem;
+}
+
+.toc-sublist {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.15rem;
+}
+
+.toc-link {
+  display: block;
+  padding: 0.25rem 0.5rem;
+  color: var(--bs-body-color);
+  text-decoration: none;
+  border-radius: 6px;
+  transition: var(--transition);
+  opacity: 0.65;
+  border-left: 2px solid transparent;
+}
+
+.toc-link:hover {
+  opacity: 1;
+  color: var(--primary-color);
+  background: rgba(var(--primary-rgb), 0.1);
+}
+
+.toc-link.active {
+  opacity: 1;
+  color: var(--primary-color);
+  border-left-color: var(--primary-color);
+  background: var(--primary-light);
+}
+
+/* Permalink anchor icon styling */
+.header-anchor {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  text-decoration: none;
+  color: inherit;
+  margin-right: 0.3em;
+  font-size: 0.75em;
+  vertical-align: middle;
+}
+
+h2:hover .header-anchor,
+h3:hover .header-anchor,
+h4:hover .header-anchor {
+  opacity: 0.5;
+}
+
+.header-anchor:hover {
+  opacity: 1 !important;
+  color: var(--primary-color);
+}
+
+/* Post layout responsive */
+.post-content {
+  min-width: 0;
+  width: 100%;
+}
+
+@media (max-width: 1199.98px) {
+  .toc-sidebar {
+    display: none !important;
+  }
+}
+
+/* ========================================
+   Mobile To Toggle
+   ======================================== */
+#toc-mobile-collapse .sidebar-card {
+  border-radius: 8px;
+  background: var(--bs-body-bg);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-color: var(--bs-border-color);
+}
+
+[data-bs-theme="dark"] #toc-mobile-collapse .sidebar-card {
+  background: #2d3748;
+  border-color: #4a5568;
+}
+
+#toc-mobile-collapse .toc-list {
+  padding: 0;
+}
+
+/* ========================================
    Dark Mode Improvements
    ======================================== */
 [data-bs-theme="dark"] .card {
@@ -1044,6 +1375,8 @@ hr {
   background: rgba(45, 55, 72, 0.6);
   border-color: rgba(74, 85, 104, 0.4);
 }
+
+
 
 [data-bs-theme="dark"] blockquote {
   background: rgba(var(--primary-rgb), 0.08);

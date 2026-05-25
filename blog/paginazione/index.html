@@ -82,30 +82,34 @@
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
-    
-    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <i class="bi bi-grid-3x3-gap fs-4"></i>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/blog/">
-            Blog
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">
-            About
-          </a>
-        </li>
 
-        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
           <div class="theme-toggle" role="group" aria-label="Toggle tema">
             <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
               <i class="bi bi-sun"></i>
@@ -116,7 +120,6 @@
             <div class="theme-toggle-slider"></div>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -124,29 +127,65 @@
   
     <main class="container my-5 flex-grow-1">
       
-<article class="mx-auto" style="max-width: 800px;">
-  <header class="mb-4">
-    <h1 class="fw-bold mb-3">Paginazione</h1>
-
-    <div class="author-card mb-4">
-      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" loading="lazy">
-      <div class="flex-grow-1">
-        <div class="author-name">Davide Sabia</div>
-        <div class="author-meta">
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
           <time datetime="2020-02-04T00:00:00.000Z">
             <i class="bi bi-calendar3 me-1"></i>04 febbraio 2020
           </time>
-          <span class="mx-1">·</span>
-          <span class="reading-time"></span>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-05-08T07:44:56.000Z">
+                <i class="bi bi-pencil me-1"></i>08 maggio 2026
+              </time>
+            </span>
+          
         </div>
-        <div class="tags-container d-flex flex-wrap gap-1 mt-2">
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fpaginazione%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Paginazione&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fpaginazione%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fpaginazione%2F&title=Paginazione"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fpaginazione%2F&t=Paginazione"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
           
           
           
             
             
               <a href="/tags/sistemi-operativi/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 sistemi operativi
               </a>
@@ -155,7 +194,7 @@
             
             
               <a href="/tags/paginazione/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 paginazione
               </a>
@@ -163,38 +202,94 @@
           
         </div>
       </div>
-    </div>
-  </header>
-
-  
-    <div class="alert alert-primary border-start mb-4" role="note">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <span class="d-flex align-items-center justify-content-center rounded"
-              style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
-          <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
-        </span>
-        <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small lh-lg">La MMU traduce indirizzi logici in fisici tramite paginazione, utilizzando il TLB per velocizzare il processo e supportando varie configurazioni di tabelle delle pagine, meccanismi di protezione e condivisione del codice. L&#39;articolo esplora anche le differenze tra swapping standard e mobile, illustrando implementazioni su architetture Intel e ARMv8.</p>
     </div>
-  
+  </aside>
 
-  
-    <figure class="mb-4">
-      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp"
-           alt="Immagine generata con IA"
-           class="img-fluid rounded w-100"
-           style="max-height: 420px; object-fit: cover;">
-      
-        <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
-      
-    </figure>
-  
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Paginazione</h1>
 
-  <section class="content">
-    <h1>Introduzione</h1>
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2020-02-04T00:00:00.000Z">04 febbraio 2020</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/sistemi-operativi/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/paginazione/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              paginazione
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">La MMU traduce indirizzi logici in fisici tramite paginazione, utilizzando il TLB per velocizzare il processo e supportando varie configurazioni di tabelle delle pagine, meccanismi di protezione e condivisione del codice. L&#39;articolo esplora anche le differenze tra swapping standard e mobile, illustrando implementazioni su architetture Intel e ARMv8.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h1 id="introduzione"><a class="header-anchor" href="#introduzione"><i class="bi bi-link-45deg"></i></a> Introduzione</h1>
 <p>In questo articolo si descrive come la <strong>Memory Management Unit (MMU)</strong> converta gli indirizzi logici in fisici suddividendo la memoria in pagine e frame, supportata da strutture hardware come il <strong>TLB</strong> per accelerare le traduzioni. Vengono esaminate diverse configurazioni delle tabelle delle pagine, incluse quelle gerarchiche, invertite e basate su hash, insieme ai meccanismi di protezione e condivisione del codice. Approfondiamo inoltre il concetto di <strong>swapping</strong>, analizzando le differenze tra l'approccio standard e quello utilizzato nei sistemi mobili come <strong>iOS</strong> e <strong>Android</strong>, con esempi concreti di implementazione nelle architetture <strong>Intel IA-32</strong>, <strong>x86-64</strong> e <strong>ARMv8</strong>, evidenziandone le specifiche granularità e i livelli di traduzione.</p>
-<h2>Concetti Fondamentali e Meccanismo di Traduzione</h2>
+<h2 id="concetti-fondamentali-e-meccanismo-di-traduzione"><a class="header-anchor" href="#concetti-fondamentali-e-meccanismo-di-traduzione"><i class="bi bi-link-45deg"></i></a> Concetti Fondamentali e Meccanismo di Traduzione</h2>
 <p>L'architettura della paginazione suddivide la memoria in blocchi di dimensione fissa:</p>
 <ul>
 <li><strong>Pagine</strong>: blocchi di dimensione fissa nello spazio di indirizzamento <em>logico</em> del processo.</li>
@@ -253,7 +348,7 @@ il numero di frame <code>f</code> dalla tabella delle pagine e concatenandolo co
 <p>La dimensione delle pagine è definita dall'hardware e corrisponde sempre a una potenza<br>
 di 2 (tipicamente tra <strong>4 KB e 1 GB</strong>), il che semplifica il calcolo degli indirizzi a<br>
 operazioni di shift e mask sui bit.</p>
-<h2>Frammentazione e Condivisione del Codice</h2>
+<h2 id="frammentazione-e-condivisione-del-codice"><a class="header-anchor" href="#frammentazione-e-condivisione-del-codice"><i class="bi bi-link-45deg"></i></a> Frammentazione e Condivisione del Codice</h2>
 <p>La paginazione <strong>elimina la frammentazione esterna</strong>: qualsiasi frame libero può essere<br>
 assegnato a un processo indipendentemente dalla sua posizione fisica. Introduce però la<br>
 <strong>frammentazione interna</strong>: se la memoria richiesta non è multiplo esatto della dimensione<br>
@@ -262,7 +357,7 @@ della pagina, l'ultimo frame assegnato risulta parzialmente inutilizzato.</p>
 possibile mantenere in memoria una sola copia di librerie condivise (es. <code>libc</code>).<br>
 Le tabelle delle pagine di processi distinti puntano agli stessi frame marcati come<br>
 <em>read-only</em>, garantendo protezione e risparmio di memoria.</p>
-<h2>Supporto Hardware: il TLB</h2>
+<h2 id="supporto-hardware-il-tlb"><a class="header-anchor" href="#supporto-hardware-il-tlb"><i class="bi bi-link-45deg"></i></a> Supporto Hardware: il TLB</h2>
 <p>Poiché la tabella delle pagine risiede in memoria principale, senza ottimizzazioni ogni<br>
 accesso ai dati richiederebbe <strong>due accessi in memoria</strong> (uno per la tabella, uno per il<br>
 dato). Il <strong>TLB (Translation Lookaside Buffer)</strong> è una piccola cache hardware ad<br>
@@ -308,7 +403,7 @@ altissima velocità che risolve questo problema.</p>
 <li><strong>TLB hit</strong>: il numero di frame è immediatamente disponibile, nessun accesso extra.</li>
 <li><strong>TLB miss</strong>: si consulta la tabella in memoria, con penalità di latenza.</li>
 </ul>
-<h3>Calcolo del Tempo di Accesso Effettivo (EAT)</h3>
+<h3 id="calcolo-del-tempo-di-accesso-effettivo-eat"><a class="header-anchor" href="#calcolo-del-tempo-di-accesso-effettivo-eat"><i class="bi bi-link-45deg"></i></a> Calcolo del Tempo di Accesso Effettivo (EAT)</h3>
 <p>Dato un hit ratio $h$ e un tempo di accesso alla memoria $t$:</p>
 <p>$\text{EAT}=ht+(1-h)2t=t(2-h)$</p>
 <p>Con $h=0.99$ e $t = 100 \text{ns}$:</p>
@@ -316,42 +411,42 @@ altissima velocità che risolve questo problema.</p>
 <p>Alcuni TLB utilizzano gli <strong>ASID (Address-Space Identifiers)</strong> per taggare le entry per<br>
 processo, evitando il flush completo della cache a ogni cambio di contesto e migliorando<br>
 sensibilmente le prestazioni in sistemi multiprocesso.</p>
-<h2>Struttura delle Tabelle delle Pagine</h2>
+<h2 id="struttura-delle-tabelle-delle-pagine"><a class="header-anchor" href="#struttura-delle-tabelle-delle-pagine"><i class="bi bi-link-45deg"></i></a> Struttura delle Tabelle delle Pagine</h2>
 <p>Con spazi di indirizzamento a 64 bit, una tabella delle pagine piatta occuperebbe<br>
 quantità di memoria proibitive. Si adottano quindi strutture alternative:</p>
-<h3>Paginazione Gerarchica</h3>
+<h3 id="paginazione-gerarchica"><a class="header-anchor" href="#paginazione-gerarchica"><i class="bi bi-link-45deg"></i></a> Paginazione Gerarchica</h3>
 <p>La tabella stessa viene paginata su più livelli (tipicamente 2–4). Su x86-64 si usano<br>
 4 livelli: PML4 → PDPT → PD → PT. Il registro <strong>CR3</strong> punta alla tabella di livello<br>
 superiore (PML4).</p>
-<h3>Tabelle Hash</h3>
+<h3 id="tabelle-hash"><a class="header-anchor" href="#tabelle-hash"><i class="bi bi-link-45deg"></i></a> Tabelle Hash</h3>
 <p>Comuni per spazi di indirizzamento superiori a 32 bit. Ogni entry contiene una lista<br>
 concatenata per gestire le collisioni. Variante comune: <strong>clustered page tables</strong>, che<br>
 mappano più pagine per entry.</p>
-<h3>Tabella Invertita</h3>
+<h3 id="tabella-invertita"><a class="header-anchor" href="#tabella-invertita"><i class="bi bi-link-45deg"></i></a> Tabella Invertita</h3>
 <p>Un'unica tabella di sistema con un'entry per ogni <strong>frame fisico</strong> (anziché per ogni<br>
 pagina logica). Riduce drasticamente l'occupazione di memoria, ma complica la ricerca<br>
 (spesso si affianca una hash table per accelerarla).</p>
-<h2>Huge Pages: un'Ottimizzazione per Sistemi Moderni</h2>
+<h2 id="huge-pages-unottimizzazione-per-sistemi-moderni"><a class="header-anchor" href="#huge-pages-unottimizzazione-per-sistemi-moderni"><i class="bi bi-link-45deg"></i></a> Huge Pages: un'Ottimizzazione per Sistemi Moderni</h2>
 <p>In scenari ad alte prestazioni (database, JVM, ambienti cloud-native), si utilizzano<br>
 <strong>Huge Pages</strong> (2 MB o 1 GB su x86-64) per ridurre il numero di entry nella tabella<br>
 delle pagine e aumentare l'hit rate del TLB.</p>
 <p>Su Linux è possibile abilitarle tramite:</p>
 <pre><code class="language-bash"># Verifica disponibilità
 grep -i hugepages /proc/meminfo
-<h1>Allocazione di 512 huge pages da 2MB (= 1GB)</h1>
+<h1 id="allocazione-di-512-huge-pages-da-2mb-1gb"><a class="header-anchor" href="#allocazione-di-512-huge-pages-da-2mb-1gb"><i class="bi bi-link-45deg"></i></a> Allocazione di 512 huge pages da 2MB (= 1GB)</h1>
 <p>echo 512 &gt; /proc/sys/vm/nr_hugepages<br>
 </code></pre></p>
 <p>Framework come <strong>Java HotSpot</strong> (<code>-XX:+UseHugePages</code>) e <strong>DPDK</strong> le sfruttano<br>
 attivamente per ridurre la latenza.</p>
-<h2>Swapping e Memoria Ausiliaria</h2>
+<h2 id="swapping-e-memoria-ausiliaria"><a class="header-anchor" href="#swapping-e-memoria-ausiliaria"><i class="bi bi-link-45deg"></i></a> Swapping e Memoria Ausiliaria</h2>
 <p>Lo swapping consente di spostare temporaneamente pagine o interi processi dalla RAM a<br>
 una <strong>memoria ausiliaria (backing store)</strong>, estendendo virtualmente la memoria disponibile.</p>
-<h3>Desktop e Server (Linux/Windows)</h3>
+<h3 id="desktop-e-server-linuxwindows"><a class="header-anchor" href="#desktop-e-server-linuxwindows"><i class="bi bi-link-45deg"></i></a> Desktop e Server (Linux/Windows)</h3>
 <p>Supportano lo swapping standard e lo <strong>swapping con paginazione</strong> (demand paging).<br>
 Su Linux, strumenti moderni come <strong><code>zswap</code></strong> e <strong><code>zram</code></strong> comprimono le pagine prima<br>
 di scriverle su disco, riducendo la latenza e l'usura degli SSD — particolarmente<br>
 rilevante in ambienti containerizzati (Docker, Kubernetes).</p>
-<h3>Sistemi Mobili (iOS / Android)</h3>
+<h3 id="sistemi-mobili-ios-android"><a class="header-anchor" href="#sistemi-mobili-ios-android"><i class="bi bi-link-45deg"></i></a> Sistemi Mobili (iOS / Android)</h3>
 <p>Le memorie flash hanno cicli di scrittura limitati e latenze non trascurabili, quindi:</p>
 <ul>
 <li><strong>iOS</strong> non implementa swapping tradizionale: notifica alle app di liberare memoria<br>
@@ -359,20 +454,20 @@ volontariamente tramite i <em>memory pressure notifications</em>.</li>
 <li><strong>Android</strong> salva lo stato dell'app nello storage prima di terminarla (<em>killed process</em>),<br>
 consentendo un riavvio rapido con ripristino dello stato.</li>
 </ul>
-<h2>Architetture Reali a Confronto</h2>
-<h3>Intel IA-32</h3>
+<h2 id="architetture-reali-a-confronto"><a class="header-anchor" href="#architetture-reali-a-confronto"><i class="bi bi-link-45deg"></i></a> Architetture Reali a Confronto</h2>
+<h3 id="intel-ia-32"><a class="header-anchor" href="#intel-ia-32"><i class="bi bi-link-45deg"></i></a> Intel IA-32</h3>
 <p>Utilizza un sistema misto <strong>segmentazione + paginazione a due livelli</strong>. L'estensione<br>
 <strong>PAE (Physical Address Extension)</strong> espande gli indirizzi fisici da 32 a <strong>36 bit</strong>,<br>
 permettendo ai processori a 32 bit di indirizzare fino a <strong>64 GB</strong> di RAM fisica (pur<br>
 mantenendo uno spazio virtuale per processo di 4 GB).</p>
-<h3>Intel x86-64</h3>
+<h3 id="intel-x86-64"><a class="header-anchor" href="#intel-x86-64"><i class="bi bi-link-45deg"></i></a> Intel x86-64</h3>
 <p>Adotta una struttura a <strong>4 livelli</strong> (estendibile a 5 con LA57), gestita dal registro<br>
 <strong>CR3</strong>. Supporta pagine da 4 KB, 2 MB (Large Pages) e 1 GB (Huge Pages).</p>
-<h3>ARMv8 / AArch64</h3>
+<h3 id="armv8-aarch64"><a class="header-anchor" href="#armv8-aarch64"><i class="bi bi-link-45deg"></i></a> ARMv8 / AArch64</h3>
 <p>Supporta granularità di traduzione di <strong>4 KB, 16 KB e 64 KB</strong> con fino a <strong>4 livelli</strong><br>
 di paginazione. Il registro <strong>TTBR0</strong> punta alla tabella del processo utente, <strong>TTBR1</strong><br>
 a quella del kernel, separando nettamente i due spazi di indirizzamento.</p>
-<h2>Best Practice per gli Sviluppatori</h2>
+<h2 id="best-practice-per-gli-sviluppatori"><a class="header-anchor" href="#best-practice-per-gli-sviluppatori"><i class="bi bi-link-45deg"></i></a> Best Practice per gli Sviluppatori</h2>
 <p><strong>Perché un dev dovrebbe preoccuparsene?</strong> Le scelte di allocazione impattano direttamente le performance a causa dell'interazione con la paginazione.</p>
 <ul>
 <li><strong>Evita allocazioni frammentate</strong>: preferisci buffer contigui (array vs linked list)<br>
@@ -384,63 +479,74 @@ e possono ridurre le copie di dati tra kernel e userspace.</li>
 di ottimizzare prematuramente.</li>
 </ul>
 
-  </section>
+    </section>
 
-  <div class="section-divider mt-5 mb-4">Commenti</div>
+    <div class="section-divider mt-5 mb-4">Commenti</div>
 
-  <section aria-label="Commenti e reazioni">
-    <script>
-      (function () {
-        const saved = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
-        const script = document.createElement('script');
-        script.src = 'https://giscus.app/client.js';
-        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
-        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
-        script.setAttribute('data-category', 'Announcements');
-        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
-        script.setAttribute('data-mapping', 'pathname');
-        script.setAttribute('data-strict', '0');
-        script.setAttribute('data-reactions-enabled', '1');
-        script.setAttribute('data-emit-metadata', '0');
-        script.setAttribute('data-input-position', 'top');
-        script.setAttribute('data-theme', theme);
-        script.setAttribute('data-lang', 'it');
-        script.setAttribute('data-loading', 'lazy');
-        script.setAttribute('crossorigin', 'anonymous');
-        script.async = true;
-        document.currentScript.replaceWith(script);
-      })();
-    </script>
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
 
-    <noscript>
-      <div class="text-center py-4 text-muted">
-        <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
-        <p class="small mb-0">
-          Per visualizzare i commenti è necessario abilitare JavaScript.
-          <br>
-          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
-            Discuti su GitHub Discussions →
-          </a>
-        </p>
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
       </div>
-    </noscript>
-  </section>
-</article>
+    </nav>
+  </aside>
+</div>
+
     </main>
 
     <footer class="border-top mt-auto py-5">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-md-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
         <h5 class="fw-bold mb-3">
           <span class="text-primary">dino</span>-996
         </h5>
-        <p class="text-muted small mb-3" style="max-width: 320px;">
+        <p class="text-muted small mb-3">
           Developer portfolio e blog tecnico
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex justify-content-center gap-3 mb-0">
           <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
              class="text-muted" aria-label="GitHub">
             <i class="bi bi-github fs-5"></i>
@@ -453,33 +559,6 @@ di ottimizzare prematuramente.</li>
             <i class="bi bi-rss fs-5"></i>
           </a>
         </div>
-      </div>
-
-      <div class="col-6 col-md-3 offset-md-1">
-        <h6 class="fw-bold mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/" class="text-muted text-decoration-none small">Home</a>
-          </li>
-          <li class="mb-2">
-            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
-          </li>
-          <li class="mb-2">
-            <a href="/about/" class="text-muted text-decoration-none small">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <h6 class="fw-bold mb-3">Risorse</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/tags/" class="text-muted text-decoration-none small">Tag</a>
-          </li>
-          <li class="mb-2">
-            <a href="/feed.xml" class="text-muted text-decoration-none small">RSS Feed</a>
-          </li>
-        </ul>
       </div>
     </div>
 

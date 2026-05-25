@@ -82,30 +82,34 @@
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
-    
-    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <i class="bi bi-grid-3x3-gap fs-4"></i>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/blog/">
-            Blog
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">
-            About
-          </a>
-        </li>
 
-        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
           <div class="theme-toggle" role="group" aria-label="Toggle tema">
             <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
               <i class="bi bi-sun"></i>
@@ -116,7 +120,6 @@
             <div class="theme-toggle-slider"></div>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -124,29 +127,65 @@
   
     <main class="container my-5 flex-grow-1">
       
-<article class="mx-auto" style="max-width: 800px;">
-  <header class="mb-4">
-    <h1 class="fw-bold mb-3">Memoria centrale</h1>
-
-    <div class="author-card mb-4">
-      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" loading="lazy">
-      <div class="flex-grow-1">
-        <div class="author-name">Davide Sabia</div>
-        <div class="author-meta">
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
           <time datetime="2022-02-02T00:00:00.000Z">
             <i class="bi bi-calendar3 me-1"></i>02 febbraio 2022
           </time>
-          <span class="mx-1">·</span>
-          <span class="reading-time"></span>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-05-08T07:46:40.000Z">
+                <i class="bi bi-pencil me-1"></i>08 maggio 2026
+              </time>
+            </span>
+          
         </div>
-        <div class="tags-container d-flex flex-wrap gap-1 mt-2">
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fmemoria-centrale%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Memoria%20centrale&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fmemoria-centrale%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fmemoria-centrale%2F&title=Memoria%20centrale"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fmemoria-centrale%2F&t=Memoria%20centrale"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
           
           
           
             
             
               <a href="/tags/sistemi-operativi/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 sistemi operativi
               </a>
@@ -155,7 +194,7 @@
             
             
               <a href="/tags/memoria-centrale/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 memoria centrale
               </a>
@@ -163,36 +202,92 @@
           
         </div>
       </div>
-    </div>
-  </header>
-
-  
-    <div class="alert alert-primary border-start mb-4" role="note">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <span class="d-flex align-items-center justify-content-center rounded"
-              style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
-          <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
-        </span>
-        <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small lh-lg">La memoria centrale, comprendente ROM, RAM e cache, è essenziale per l&#39;esecuzione dei programmi e la gestione dei dati, con ottimizzazioni suggerite per linguaggi come Python e Java. La protezione della memoria, gestita dall&#39;hardware tramite registri base/limite e eccezioni, isola i processi, mentre la traduzione dinamica degli indirizzi logici in fisici è affidata alla MMU, supportando tecniche avanzate come paginazione e segmentazione per la gestione di ampi spazi di indirizzamento.</p>
     </div>
-  
+  </aside>
 
-  
-    <figure class="mb-4">
-      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp"
-           alt="Immagine generata con IA"
-           class="img-fluid rounded w-100"
-           style="max-height: 420px; object-fit: cover;">
-      
-        <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
-      
-    </figure>
-  
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Memoria centrale</h1>
 
-  <section class="content">
-    <h2>Fondamenti della Memoria Centrale</h2>
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2022-02-02T00:00:00.000Z">02 febbraio 2022</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/sistemi-operativi/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/memoria-centrale/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              memoria centrale
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">La memoria centrale, comprendente ROM, RAM e cache, è essenziale per l&#39;esecuzione dei programmi e la gestione dei dati, con ottimizzazioni suggerite per linguaggi come Python e Java. La protezione della memoria, gestita dall&#39;hardware tramite registri base/limite e eccezioni, isola i processi, mentre la traduzione dinamica degli indirizzi logici in fisici è affidata alla MMU, supportando tecniche avanzate come paginazione e segmentazione per la gestione di ampi spazi di indirizzamento.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h2 id="fondamenti-della-memoria-centrale"><a class="header-anchor" href="#fondamenti-della-memoria-centrale"><i class="bi bi-link-45deg"></i></a> Fondamenti della Memoria Centrale</h2>
 <p>Per essere eseguiti, i programmi e i dati devono risiedere, almeno in parte, nella memoria centrale. Le principali tipologie di memoria includono:</p>
 <ul>
 <li><strong>ROM (Read-Only Memory):</strong> Memoria non volatile che mantiene i dati anche senza alimentazione.</li>
@@ -200,14 +295,14 @@
 <li><strong>Cache:</strong> Memoria volatile molto più veloce della RAM, posta tra CPU e RAM per ottimizzare le prestazioni.</li>
 </ul>
 <p><strong>Best practice:</strong> In applicazioni Python o Java, un uso attento delle strutture dati e della gestione della memoria heap può ridurre il carico sulla RAM e migliorare la scalabilità.</p>
-<h2>Protezione della Memoria</h2>
+<h2 id="protezione-della-memoria"><a class="header-anchor" href="#protezione-della-memoria"><i class="bi bi-link-45deg"></i></a> Protezione della Memoria</h2>
 <p>Il sistema operativo deve garantire che i processi utente siano isolati tra loro e protetti dagli accessi non autorizzati. La protezione avviene a <strong>livello hardware</strong>, riducendo l’impatto sulle prestazioni. I meccanismi principali sono:</p>
 <ul>
 <li><strong>Registro Base:</strong> Contiene l’indirizzo fisico più basso accessibile a un processo.</li>
 <li><strong>Registro Limite:</strong> Definisce l’intervallo massimo di indirizzi utilizzabili.</li>
 <li><strong>Eccezioni/Trap:</strong> Tentativi di accesso non autorizzato generano errori hardware che riportano il controllo al sistema operativo.</li>
 </ul>
-<h2>Associazione degli Indirizzi (Binding)</h2>
+<h2 id="associazione-degli-indirizzi-binding"><a class="header-anchor" href="#associazione-degli-indirizzi-binding"><i class="bi bi-link-45deg"></i></a> Associazione degli Indirizzi (Binding)</h2>
 <p>Gli indirizzi di memoria di un programma evolvono lungo le fasi di esecuzione:</p>
 <ul>
 <li><strong>Indirizzi simbolici:</strong> Nomi di variabili nel codice sorgente.</li>
@@ -215,7 +310,7 @@
 <li><strong>Codice assoluto:</strong> Se la posizione è nota in fase di compilazione.</li>
 <li><strong>Associazione a runtime:</strong> Necessaria quando un processo può essere spostato durante l’esecuzione.</li>
 </ul>
-<h2>Spazi di Indirizzamento e MMU</h2>
+<h2 id="spazi-di-indirizzamento-e-mmu"><a class="header-anchor" href="#spazi-di-indirizzamento-e-mmu"><i class="bi bi-link-45deg"></i></a> Spazi di Indirizzamento e MMU</h2>
 <p>Esiste una distinzione fondamentale tra <strong>indirizzo virtuale/logico</strong> (generato dalla CPU) e <strong>indirizzo fisico</strong> (usato dalla RAM). La <strong>MMU (Memory Management Unit)</strong> effettua la traduzione dinamica degli indirizzi logici in fisici, spesso sommando un registro di rilocazione.</p>
 <div class="d-flex align-items-center gap-2 flex-wrap my-4">
   <div class="border rounded px-3 py-2 bg-body text-center fw-bold">
@@ -237,7 +332,7 @@
   </div>
 </div>
 <p>Nei sistemi moderni, la MMU supporta paginazione a più livelli e segmentazione, fondamentali per la gestione di grandi spazi di memoria in ambienti cloud.</p>
-<h2>Allocazione Contigua della Memoria</h2>
+<h2 id="allocazione-contigua-della-memoria"><a class="header-anchor" href="#allocazione-contigua-della-memoria"><i class="bi bi-link-45deg"></i></a> Allocazione Contigua della Memoria</h2>
 <p>Nell’<strong>allocazione contigua</strong>, ogni processo riceve un blocco unico e continuo di memoria fisica. Questo approccio è semplice e veloce, poiché il calcolo dell’indirizzo fisico è diretto (basta sommare un offset), ma può generare inefficienze se la memoria si frammenta nel tempo.</p>
 <p>Gli algoritmi principali per scegliere quale porzione di memoria assegnare a un processo sono:</p>
 <ul>
@@ -246,7 +341,7 @@
 <li><strong>Worst-fit:</strong> Assegna lo spazio più grande disponibile. L’idea è che i blocchi residui possano ancora servire ad altri processi. Svantaggio: spesso spreca memoria e non è comune nei sistemi moderni.</li>
 </ul>
 <p><strong>Approfondimento pratico:</strong> Nei linguaggi gestiti come Java, il garbage collector e lo heap gestiscono automaticamente l’allocazione contigua interna degli oggetti, riducendo la complessità per lo sviluppatore, ma la frammentazione può comunque influire sulle performance.</p>
-<h2>Frammentazione della Memoria</h2>
+<h2 id="frammentazione-della-memoria"><a class="header-anchor" href="#frammentazione-della-memoria"><i class="bi bi-link-45deg"></i></a> Frammentazione della Memoria</h2>
 <p>L’allocazione contigua può portare a due tipi principali di inefficienza:</p>
 <ul>
 <li>
@@ -257,7 +352,7 @@
 </li>
 </ul>
 <p><strong>Nota tecnica:</strong> Nei sistemi moderni, la frammentazione interna può essere mitigata tramite <strong>heap dinamici</strong>, <strong>pool di oggetti</strong> o allocatori di memoria slab (come quelli usati in kernel Linux) che riducono gli sprechi nei blocchi di piccola dimensione.</p>
-<h2>Soluzioni alla Frammentazione</h2>
+<h2 id="soluzioni-alla-frammentazione"><a class="header-anchor" href="#soluzioni-alla-frammentazione"><i class="bi bi-link-45deg"></i></a> Soluzioni alla Frammentazione</h2>
 <p>Per ridurre le inefficienze causate dalla frammentazione, i sistemi operativi adottano tecniche avanzate:</p>
 <ul>
 <li>
@@ -272,63 +367,74 @@
 </ul>
 <p><strong>Esempio pratico:</strong> Nei container Docker, la memoria può essere limitata tramite flag <code>--memory</code> e monitorata da strumenti come cAdvisor, permettendo ai sistemi di orchestrazione di ribilanciare carichi e ridurre sprechi dovuti a frammentazione.</p>
 
-  </section>
+    </section>
 
-  <div class="section-divider mt-5 mb-4">Commenti</div>
+    <div class="section-divider mt-5 mb-4">Commenti</div>
 
-  <section aria-label="Commenti e reazioni">
-    <script>
-      (function () {
-        const saved = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
-        const script = document.createElement('script');
-        script.src = 'https://giscus.app/client.js';
-        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
-        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
-        script.setAttribute('data-category', 'Announcements');
-        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
-        script.setAttribute('data-mapping', 'pathname');
-        script.setAttribute('data-strict', '0');
-        script.setAttribute('data-reactions-enabled', '1');
-        script.setAttribute('data-emit-metadata', '0');
-        script.setAttribute('data-input-position', 'top');
-        script.setAttribute('data-theme', theme);
-        script.setAttribute('data-lang', 'it');
-        script.setAttribute('data-loading', 'lazy');
-        script.setAttribute('crossorigin', 'anonymous');
-        script.async = true;
-        document.currentScript.replaceWith(script);
-      })();
-    </script>
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
 
-    <noscript>
-      <div class="text-center py-4 text-muted">
-        <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
-        <p class="small mb-0">
-          Per visualizzare i commenti è necessario abilitare JavaScript.
-          <br>
-          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
-            Discuti su GitHub Discussions →
-          </a>
-        </p>
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
       </div>
-    </noscript>
-  </section>
-</article>
+    </nav>
+  </aside>
+</div>
+
     </main>
 
     <footer class="border-top mt-auto py-5">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-md-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
         <h5 class="fw-bold mb-3">
           <span class="text-primary">dino</span>-996
         </h5>
-        <p class="text-muted small mb-3" style="max-width: 320px;">
+        <p class="text-muted small mb-3">
           Developer portfolio e blog tecnico
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex justify-content-center gap-3 mb-0">
           <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
              class="text-muted" aria-label="GitHub">
             <i class="bi bi-github fs-5"></i>
@@ -341,33 +447,6 @@
             <i class="bi bi-rss fs-5"></i>
           </a>
         </div>
-      </div>
-
-      <div class="col-6 col-md-3 offset-md-1">
-        <h6 class="fw-bold mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/" class="text-muted text-decoration-none small">Home</a>
-          </li>
-          <li class="mb-2">
-            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
-          </li>
-          <li class="mb-2">
-            <a href="/about/" class="text-muted text-decoration-none small">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <h6 class="fw-bold mb-3">Risorse</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/tags/" class="text-muted text-decoration-none small">Tag</a>
-          </li>
-          <li class="mb-2">
-            <a href="/feed.xml" class="text-muted text-decoration-none small">RSS Feed</a>
-          </li>
-        </ul>
       </div>
     </div>
 

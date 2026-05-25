@@ -82,30 +82,34 @@
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
-    
-    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <i class="bi bi-grid-3x3-gap fs-4"></i>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/blog/">
-            Blog
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">
-            About
-          </a>
-        </li>
 
-        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
           <div class="theme-toggle" role="group" aria-label="Toggle tema">
             <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
               <i class="bi bi-sun"></i>
@@ -116,7 +120,6 @@
             <div class="theme-toggle-slider"></div>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -124,32 +127,65 @@
   
     <main class="container my-5 flex-grow-1">
       
-<article class="mx-auto" style="max-width: 800px;">
-  <header class="mb-4">
-    <h1 class="fw-bold mb-3">Le reti</h1>
-
-    <div class="author-card mb-4">
-      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" loading="lazy">
-      <div class="flex-grow-1">
-        <div class="author-name">Davide Sabia</div>
-        <div class="author-meta">
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
           <time datetime="2026-05-06T00:00:00.000Z">
             <i class="bi bi-calendar3 me-1"></i>06 maggio 2026
           </time>
-          <span class="mx-1">·</span>
-          <span class="reading-time"></span>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-05-22T10:56:34.000Z">
+                <i class="bi bi-pencil me-1"></i>22 maggio 2026
+              </time>
+            </span>
+          
         </div>
-        <div class="tags-container d-flex flex-wrap gap-1 mt-2">
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fle-reti%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Le%20reti&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fle-reti%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fle-reti%2F&title=Le%20reti"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fle-reti%2F&t=Le%20reti"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
           
           
-          
-            
-            
           
             
             
               <a href="/tags/reti/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 reti
               </a>
@@ -158,7 +194,7 @@
             
             
               <a href="/tags/networking/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 networking
               </a>
@@ -166,38 +202,94 @@
           
         </div>
       </div>
-    </div>
-  </header>
-
-  
-    <div class="alert alert-primary border-start mb-4" role="note">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <span class="d-flex align-items-center justify-content-center rounded"
-              style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
-          <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
-        </span>
-        <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small lh-lg">La connettività di rete è un&#39;infrastruttura critica che abilita lo scambio di dati attraverso protocolli comuni su vari mezzi fisici. Le reti locali (LAN), comprese le configurazioni SOHO e aziendali, forniscono connessioni ad alta velocità e bassa latenza all&#39;interno di aree geografiche limitate, facilitando la condivisione di risorse e la comunicazione.</p>
     </div>
-  
+  </aside>
 
-  
-    <figure class="mb-4">
-      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
-           alt="Immagine generata con IA"
-           class="img-fluid rounded w-100"
-           style="max-height: 420px; object-fit: cover;">
-      
-        <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
-      
-    </figure>
-  
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Le reti</h1>
 
-  <section class="content">
-    <h1>Tutto è in rete</h1>
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2026-05-06T00:00:00.000Z">06 maggio 2026</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/reti/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              reti
+            </a>
+          
+        
+          
+          
+            <a href="/tags/networking/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              networking
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">La connettività di rete è un&#39;infrastruttura critica che abilita lo scambio di dati attraverso protocolli comuni su vari mezzi fisici. Le reti locali (LAN), comprese le configurazioni SOHO e aziendali, forniscono connessioni ad alta velocità e bassa latenza all&#39;interno di aree geografiche limitate, facilitando la condivisione di risorse e la comunicazione.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h1 id="tutto-e-in-rete"><a class="header-anchor" href="#tutto-e-in-rete"><i class="bi bi-link-45deg"></i></a> Tutto è in rete</h1>
 <p>Oggi non ci chiediamo più <em>se</em> siamo connessi a Internet: la connettività è diventata un'infrastruttura critica, al pari dell'elettricità o dell'acqua corrente. Comprendere come funzionano le reti non è più prerogativa esclusiva degli ingegneri: è una competenza fondamentale per chiunque lavori nel mondo digitale, dallo sviluppatore all'IT Manager.</p>
-<h2>Chi possiede internet?</h2>
+<h2 id="chi-possiede-internet"><a class="header-anchor" href="#chi-possiede-internet"><i class="bi bi-link-45deg"></i></a> Chi possiede internet?</h2>
 <p>Internet non appartiene a nessun singolo gruppo, azienda o governo. È il risultato dell'interconnessione di migliaia di reti autonome che cooperano attraverso <strong>standard e protocolli comuni</strong> (come <strong>TCP/IP</strong>) per scambiarsi informazioni.</p>
 <p>Le informazioni viaggiano attraverso una varietà di mezzi fisici:</p>
 <ul>
@@ -206,7 +298,7 @@
 <li><strong>Connessioni wireless</strong> (Wi-Fi, 4G/5G, satellite)</li>
 </ul>
 <p>I dati scambiati possono assumere forme diverse: testo, video, audio, immagini, telemetria IoT e molto altro.</p>
-<h2>Reti Locali (LAN)</h2>
+<h2 id="reti-locali-lan"><a class="header-anchor" href="#reti-locali-lan"><i class="bi bi-link-45deg"></i></a> Reti Locali (LAN)</h2>
 <p>Le reti locali <strong>LAN</strong> (<strong>Local Area Network</strong>) esistono in tutte le dimensioni e configurazioni.<br>
 Una <strong>LAN</strong> è una rete locale che collega dispositivi informatici e periferiche in un'area geografica limitata, come una casa, un ufficio o una scuola. Questo tipo di rete permette la condivisione di risorse (stampanti, file, connessioni internet) e la comunicazione ad alta velocità tra i dispositivi connessi.</p>
 <p>Le caratteristiche principali delle reti LAN includono:</p>
@@ -217,12 +309,12 @@ Una <strong>LAN</strong> è una rete locale che collega dispositivi informatici 
 <li><strong>Componenti</strong>: Utilizza cavi Ethernet (rame o fibra ottica) o connessioni wireless (Wi-Fi) e dispositivi attivi come switch e router.</li>
 <li>A differenza delle <strong>MAN</strong> (reti metropolitane) e delle <strong>WAN</strong> (reti geografiche), la <strong>LAN</strong> non copre città o paesi. Inoltre offre prestazioni superiori in termini di velocità e costi di implementazione inferiori per ambiti locali.</li>
 </ul>
-<h3>Reti SOHO (Small Office / Home Office)</h3>
+<h3 id="reti-soho-small-office-home-office"><a class="header-anchor" href="#reti-soho-small-office-home-office"><i class="bi bi-link-45deg"></i></a> Reti SOHO (Small Office / Home Office)</h3>
 <p>Le reti <strong>SOHO</strong> collegano un numero ridotto di dispositivi (da 2 a qualche decina) e<br>
 consentono la condivisione di risorse come stampanti, file, musica e connessione<br>
 Internet. Sono tipicamente basate su un <strong>router</strong> consumer con funzionalità Wi-Fi<br>
 integrate.</p>
-<h3>Reti Aziendali</h3>
+<h3 id="reti-aziendali"><a class="header-anchor" href="#reti-aziendali"><i class="bi bi-link-45deg"></i></a> Reti Aziendali</h3>
 <p>Le <strong>reti aziendali</strong> possono connettere centinaia di migliaia di dispositivi distribuiti<br>
 su più sedi geografiche. Supportano applicazioni critiche come:</p>
 <ul>
@@ -235,13 +327,13 @@ su più sedi geografiche. Supportano applicazioni critiche come:</p>
 canali tradizionali. Le reti aziendali e SOHO forniscono tipicamente una <strong>connessione<br>
 condivisa a Internet</strong>, motivo per cui Internet viene spesso definita una<br>
 <strong>&quot;rete di reti&quot;</strong> (<em>network of networks</em>).</p>
-<h2>Dispositivi Mobili e IoT</h2>
+<h2 id="dispositivi-mobili-e-iot"><a class="header-anchor" href="#dispositivi-mobili-e-iot"><i class="bi bi-link-45deg"></i></a> Dispositivi Mobili e IoT</h2>
 <p>Internet connette oggi miliardi di dispositivi che vanno ben oltre i tradizionali<br>
 computer desktop e laptop.</p>
-<h3>Dispositivi Mobili</h3>
+<h3 id="dispositivi-mobili"><a class="header-anchor" href="#dispositivi-mobili"><i class="bi bi-link-45deg"></i></a> Dispositivi Mobili</h3>
 <p>Smartphone, tablet e wearable (smartwatch, fitness tracker) sono oggi tra i<br>
 principali produttori e consumatori di traffico Internet mondiale.</p>
-<h3>Internet of Things (IoT)</h3>
+<h3 id="internet-of-things-iot"><a class="header-anchor" href="#internet-of-things-iot"><i class="bi bi-link-45deg"></i></a> Internet of Things (IoT)</h3>
 <p>L'<strong>IoT (Internet of Things)</strong> rappresenta l'ecosistema di oggetti fisici dotati di<br>
 sensori, software e connettività di rete. L'architettura IoT si articola tipicamente<br>
 su tre livelli:</p>
@@ -291,7 +383,7 @@ su tre livelli:</p>
 (publish/subscribe, leggero, ideale per connessioni instabili) e <strong>CoAP</strong><br>
 (ottimizzato per dispositivi con risorse limitate). Entrambi operano sopra TCP/IP.</p>
 </blockquote>
-<h2>Il Bit: L'Unità Fondamentale dell'Informazione</h2>
+<h2 id="il-bit-lunita-fondamentale-dellinformazione"><a class="header-anchor" href="#il-bit-lunita-fondamentale-dellinformazione"><i class="bi bi-link-45deg"></i></a> Il Bit: L'Unità Fondamentale dell'Informazione</h2>
 <p>I computer e le reti operano esclusivamente con <strong>cifre binarie</strong>: zeri e uno.<br>
 Il termine <strong>bit</strong> (abbreviazione di <em>binary digit</em>) rappresenta la più piccola<br>
 unità di informazione digitale.</p>
@@ -316,7 +408,7 @@ unità di informazione digitale.</p>
     </tbody>
   </table>
 </div>
-<h3>Byte e Codifica dei Caratteri</h3>
+<h3 id="byte-e-codifica-dei-caratteri"><a class="header-anchor" href="#byte-e-codifica-dei-caratteri"><i class="bi bi-link-45deg"></i></a> Byte e Codifica dei Caratteri</h3>
 <p>Otto bit formano un <strong>byte</strong>, l'unità standard per rappresentare un singolo carattere<br>
 o valore.</p>
 <p><strong>ASCII e Unicode</strong></p>
@@ -366,7 +458,7 @@ internazionali, si utilizza <strong>Unicode</strong> (standard UTF-8), che suppo
     </tbody>
   </table>
 </div>
-<h3>Esempio Pratico: Conversione Binaria in Python</h3>
+<h3 id="esempio-pratico-conversione-binaria-in-python"><a class="header-anchor" href="#esempio-pratico-conversione-binaria-in-python"><i class="bi bi-link-45deg"></i></a> Esempio Pratico: Conversione Binaria in Python</h3>
 <pre><code class="language-python"># Conversione tra carattere, decimale e binario in Python
 carattere = 'A'
 # Ottieni il valore decimale (code point Unicode)
@@ -382,13 +474,13 @@ print(f&quot;Byte      : {binario_8bit}&quot;)      # Output: 01000001
 valore = int('01000001', 2)
 print(f&quot;Da bin a char: {chr(valore)}&quot;)    # Output: A
 </code></pre>
-<h2>Metodi di Trasmissione dei Dati</h2>
+<h2 id="metodi-di-trasmissione-dei-dati"><a class="header-anchor" href="#metodi-di-trasmissione-dei-dati"><i class="bi bi-link-45deg"></i></a> Metodi di Trasmissione dei Dati</h2>
 <p>Dopo che le informazioni sono state convertite in bit, devono essere trasformate in <strong>segnali fisici</strong> trasmissibili attraverso un mezzo (<em>medium</em>). Esistono tre metodi principali:</p>
-<h3>1. Segnali Elettrici</h3>
+<h3 id="1-segnali-elettrici"><a class="header-anchor" href="#1-segnali-elettrici"><i class="bi bi-link-45deg"></i></a> 1. Segnali Elettrici</h3>
 <p>Trasmissione tramite impulsi di tensione su <strong>cavi in rame</strong> (es. cavo Cat5e/Cat6 per reti Ethernet). Economici e diffusi, ma soggetti a interferenze elettromagnetiche (EMI) e attenuazione sul lungo raggio.</p>
-<h3>2. Segnali Ottici</h3>
+<h3 id="2-segnali-ottici"><a class="header-anchor" href="#2-segnali-ottici"><i class="bi bi-link-45deg"></i></a> 2. Segnali Ottici</h3>
 <p>Trasmissione tramite <strong>impulsi luminosi</strong> su cavi in fibra ottica (single-mode o multi-mode). Offrono larghezza di banda elevatissima, immunità alle interferenze e distanze di trasmissione fino a centinaia di chilometri.</p>
-<h3>3. Segnali Wireless</h3>
+<h3 id="3-segnali-wireless"><a class="header-anchor" href="#3-segnali-wireless"><i class="bi bi-link-45deg"></i></a> 3. Segnali Wireless</h3>
 <p>Trasmissione tramite <strong>onde elettromagnetiche</strong> (radio, microonde, infrarossi). Elimina la necessità di cablaggio fisico ma è soggetto a interferenze, ostacoli fisici e limitazioni di sicurezza.</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -438,11 +530,11 @@ print(f&quot;Da bin a char: {chr(valore)}&quot;)    # Output: A
 (es. elettrico → ottico → wireless) attraverso dispositivi come convertitori<br>
 di media (<em>media converters</em>) e access point.</p>
 </blockquote>
-<h2>Larghezza di Banda, Throughput, Latenza e Jitter</h2>
+<h2 id="larghezza-di-banda-throughput-latenza-e-jitter"><a class="header-anchor" href="#larghezza-di-banda-throughput-latenza-e-jitter"><i class="bi bi-link-45deg"></i></a> Larghezza di Banda, Throughput, Latenza e Jitter</h2>
 <p>Questi quattro parametri sono fondamentali per valutare le <strong>prestazioni di una rete</strong>. Vengono spesso confusi: ecco le distinzioni precise.</p>
-<h3>Bandwidth (Larghezza di Banda)</h3>
+<h3 id="bandwidth-larghezza-di-banda"><a class="header-anchor" href="#bandwidth-larghezza-di-banda"><i class="bi bi-link-45deg"></i></a> Bandwidth (Larghezza di Banda)</h3>
 <p>La <strong>bandwidth</strong> rappresenta la <em>capacità teorica massima</em> di un collegamento, ovvero quanti bit possono essere trasmessi per unità di tempo in condizioni ideali. È una proprietà del mezzo fisico e dell'infrastruttura.</p>
-<h3>Throughput (Velocità Effettiva)</h3>
+<h3 id="throughput-velocita-effettiva"><a class="header-anchor" href="#throughput-velocita-effettiva"><i class="bi bi-link-45deg"></i></a> Throughput (Velocità Effettiva)</h3>
 <p>Il <strong>throughput</strong> misura la quantità di dati <em>effettivamente</em> trasferiti in un dato<br>
 intervallo di tempo. È quasi sempre inferiore alla bandwidth dichiarata, a causa di:</p>
 <ul>
@@ -451,7 +543,7 @@ intervallo di tempo. È quasi sempre inferiore alla bandwidth dichiarata, a caus
 <li>Qualità del collegamento fisico</li>
 <li>Limitazioni hardware dei dispositivi intermedi</li>
 </ul>
-<h3>Latenza</h3>
+<h3 id="latenza"><a class="header-anchor" href="#latenza"><i class="bi bi-link-45deg"></i></a> Latenza</h3>
 <p>La <strong>latenza</strong> è il tempo necessario affinché un pacchetto viaggi dalla sorgente alla destinazione. Si misura tipicamente in millisecondi (ms) tramite il comando <code>ping</code>. È critica per applicazioni <strong>real-time</strong> come VoIP, gaming online e videoconferenze.</p>
 <pre><code class="language-bash"># Misurazione latenza verso un host remoto
 ping -c 4 8.8.8.8
@@ -460,12 +552,12 @@ ping -c 4 8.8.8.8
 # 64 bytes from 8.8.8.8: icmp_seq=2 ttl=118 time=11.8 ms
 # round-trip min/avg/max/stddev = 11.8/12.1/12.4/0.3 ms
 </code></pre>
-<h3>Jitter</h3>
+<h3 id="jitter"><a class="header-anchor" href="#jitter"><i class="bi bi-link-45deg"></i></a> Jitter</h3>
 <p>Il <strong>jitter</strong> è la <em>variazione</em> della latenza nel tempo (la deviazione standard della latenza). Un jitter elevato causa degrado della qualità audio/video nelle comunicazioni real-time, anche quando la latenza media è accettabile.</p>
 <pre><code>Latenza ideale:  10ms — 10ms — 10ms — 10ms  (jitter ≈ 0)
 Latenza reale:   10ms — 25ms —  8ms — 30ms  (jitter elevato → qualità VoIP scarsa)
 </code></pre>
-<h3>Tabella Unità di Misura della Bandwidth</h3>
+<h3 id="tabella-unita-di-misura-della-bandwidth"><a class="header-anchor" href="#tabella-unita-di-misura-della-bandwidth"><i class="bi bi-link-45deg"></i></a> Tabella Unità di Misura della Bandwidth</h3>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
     <thead class="table-dark">
@@ -514,13 +606,13 @@ Latenza reale:   10ms — 25ms —  8ms — 30ms  (jitter elevato → qualità V
 (megabit), mentre i sistemi operativi mostrano spesso la velocità di download<br>
 in <strong>MB/s</strong> (megabyte). Ricorda: 1 byte = 8 bit → 100 Mbps ≈ 12.5 MB/s.</p>
 </blockquote>
-<h3>Il Collo di Bottiglia (<em>Bottleneck</em>)</h3>
+<h3 id="il-collo-di-bottiglia-bottleneck"><a class="header-anchor" href="#il-collo-di-bottiglia-bottleneck"><i class="bi bi-link-45deg"></i></a> Il Collo di Bottiglia (<em>Bottleneck</em>)</h3>
 <p>In una rete con più segmenti, la <strong>velocità massima effettiva è limitata dal segmento più lento</strong> del percorso — il cosiddetto <em>bottleneck</em>. Questo principio, noto come <strong>legge dell'anello debole</strong>, è fondamentale nell'ottimizzazione delle prestazioni di rete in contesti Cloud e DevOps.</p>
 <pre><code>Client (1 Gbps) ──→ Switch (10 Gbps) ──→ Router WAN (100 Mbps) ──→ Server
                                                ↑
                                      BOTTLENECK: throughput massimo = 100 Mbps
 </code></pre>
-<h2>Best Practice: Ottimizzazione delle Performance di Rete</h2>
+<h2 id="best-practice-ottimizzazione-delle-performance-di-rete"><a class="header-anchor" href="#best-practice-ottimizzazione-delle-performance-di-rete"><i class="bi bi-link-45deg"></i></a> Best Practice: Ottimizzazione delle Performance di Rete</h2>
 <blockquote>
 <p>💡 <strong>Per IT Manager e DevOps Engineer</strong></p>
 </blockquote>
@@ -545,7 +637,7 @@ iperf3 -c &lt;IP_SERVER&gt; -t 10 -P 4
 # -t 10 = durata 10 secondi
 # -P 4  = 4 stream paralleli
 </code></pre>
-<h2>Il Modello OSI</h2>
+<h2 id="il-modello-osi"><a class="header-anchor" href="#il-modello-osi"><i class="bi bi-link-45deg"></i></a> Il Modello OSI</h2>
 <p>Tutti i concetti trattati in questo modulo — trasmissione dei dati, segnali, larghezza di banda — trovano una collocazione precisa nel <strong>Modello OSI</strong> (Open Systems Interconnection), il framework a 7 livelli che descrive come i dati viaggiano da un'applicazione su un dispositivo a un'altra applicazione su un dispositivo remoto.</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -604,63 +696,74 @@ iperf3 -c &lt;IP_SERVER&gt; -t 10 -P 4
 <li>Nella tabella dei <strong>mezzi di trasmissione</strong> ho usato <code>&amp;ndash;</code> per i trattini lunghi nei range e <code>&amp;le;</code> per il simbolo ≤.</li>
 </ul>
 
-  </section>
+    </section>
 
-  <div class="section-divider mt-5 mb-4">Commenti</div>
+    <div class="section-divider mt-5 mb-4">Commenti</div>
 
-  <section aria-label="Commenti e reazioni">
-    <script>
-      (function () {
-        const saved = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
-        const script = document.createElement('script');
-        script.src = 'https://giscus.app/client.js';
-        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
-        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
-        script.setAttribute('data-category', 'Announcements');
-        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
-        script.setAttribute('data-mapping', 'pathname');
-        script.setAttribute('data-strict', '0');
-        script.setAttribute('data-reactions-enabled', '1');
-        script.setAttribute('data-emit-metadata', '0');
-        script.setAttribute('data-input-position', 'top');
-        script.setAttribute('data-theme', theme);
-        script.setAttribute('data-lang', 'it');
-        script.setAttribute('data-loading', 'lazy');
-        script.setAttribute('crossorigin', 'anonymous');
-        script.async = true;
-        document.currentScript.replaceWith(script);
-      })();
-    </script>
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
 
-    <noscript>
-      <div class="text-center py-4 text-muted">
-        <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
-        <p class="small mb-0">
-          Per visualizzare i commenti è necessario abilitare JavaScript.
-          <br>
-          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
-            Discuti su GitHub Discussions →
-          </a>
-        </p>
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
       </div>
-    </noscript>
-  </section>
-</article>
+    </nav>
+  </aside>
+</div>
+
     </main>
 
     <footer class="border-top mt-auto py-5">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-md-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
         <h5 class="fw-bold mb-3">
           <span class="text-primary">dino</span>-996
         </h5>
-        <p class="text-muted small mb-3" style="max-width: 320px;">
+        <p class="text-muted small mb-3">
           Developer portfolio e blog tecnico
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex justify-content-center gap-3 mb-0">
           <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
              class="text-muted" aria-label="GitHub">
             <i class="bi bi-github fs-5"></i>
@@ -673,33 +776,6 @@ iperf3 -c &lt;IP_SERVER&gt; -t 10 -P 4
             <i class="bi bi-rss fs-5"></i>
           </a>
         </div>
-      </div>
-
-      <div class="col-6 col-md-3 offset-md-1">
-        <h6 class="fw-bold mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/" class="text-muted text-decoration-none small">Home</a>
-          </li>
-          <li class="mb-2">
-            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
-          </li>
-          <li class="mb-2">
-            <a href="/about/" class="text-muted text-decoration-none small">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <h6 class="fw-bold mb-3">Risorse</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/tags/" class="text-muted text-decoration-none small">Tag</a>
-          </li>
-          <li class="mb-2">
-            <a href="/feed.xml" class="text-muted text-decoration-none small">RSS Feed</a>
-          </li>
-        </ul>
       </div>
     </div>
 

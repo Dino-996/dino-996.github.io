@@ -80,30 +80,34 @@
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
-    
-    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <i class="bi bi-grid-3x3-gap fs-4"></i>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link active" href="/">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/blog/">
-            Blog
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">
-            About
-          </a>
-        </li>
 
-        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link active" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
           <div class="theme-toggle" role="group" aria-label="Toggle tema">
             <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
               <i class="bi bi-sun"></i>
@@ -114,7 +118,6 @@
             <div class="theme-toggle-slider"></div>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -124,18 +127,23 @@
       
 
 <!-- Hero -->
-<div class="hero-section text-center py-5 px-3 mb-5">
-  <div class="position-relative">
-    <img src="https://github.com/Dino-996.png" alt="Davide Sabia"
-         class="rounded-circle border border-3 border-primary shadow mb-3"
-         width="80" height="80" style="object-fit: cover;">
-    <h1 class="display-4 fw-bold mb-3">
-      Ciao, sono <span class="text-primary">Davide</span>
-    </h1>
-    <p class="lead text-muted mx-auto mb-4" style="max-width: 600px;">
-      Informatico appassionato di tecnologie moderne. Condivido qui progetti e articoli su programmazione e sicurezza informatica.
-    </p>
-    <div class="d-flex gap-3 justify-content-center flex-wrap">
+<div class="hero-section py-5 mb-5">
+  <div class="d-flex flex-column align-items-center text-center">
+    <div class="d-flex align-items-center gap-4 mb-4">
+      <div class="d-inline-flex align-items-center justify-content-center rounded-4 flex-shrink-0"
+           style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-color), #0b5ed7);">
+        <span class="fw-bold text-white" style="font-size: 2rem; font-family: monospace;">&lt;/&gt;</span>
+      </div>
+      <div class="text-start">
+        <h1 class="display-4 fw-bold mb-2">
+          Ciao, sono <span class="text-primary">Davide</span>
+        </h1>
+        <p class="lead text-muted mb-0" style="max-width: 600px;">
+          Informatico appassionato di tecnologie moderne. Condivido qui progetti e articoli su programmazione e sicurezza informatica.
+        </p>
+      </div>
+    </div>
+    <div class="d-flex gap-3 flex-wrap justify-content-center">
       <a href="/blog/" class="btn btn-primary btn-lg px-4">
         <i class="bi bi-journal-text me-2"></i>Blog
       </a>
@@ -244,8 +252,52 @@
 <!-- Ultimi articoli -->
 <section class="row g-4">
   
+    <div class="col-12 col-md-6 col-lg-4">
+      <article class="card h-100 overflow-hidden border">
+        <div class="row g-0 h-100">
+          
+          <div class="col-12 overflow-hidden">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
+                 alt="Immagine generata con IA"
+                 class="card-img-top w-100"
+                 style="object-fit: cover; height: 200px;">
+          </div>
+          
+          <div class="col-12">
+            <div class="card-body d-flex flex-column p-4">
+              <div>
+                <h2 class="h5 card-title mb-2">
+                  <a href="/blog/livello-di-rete/">Livello di rete e IPV4</a>
+                </h2>
+                <div class="d-flex align-items-center gap-3 mb-3">
+                  <time class="text-muted small" datetime="2026-05-25T00:00:00.000Z">
+                    <i class="bi bi-calendar3 me-1"></i>25 maggio 2026
+                  </time>
+                  
+                    
+                    
+                      <a href="/tags/reti/" class="badge border text-decoration-none"
+                         style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                        reti
+                      </a>
+                    
+                  
+                </div>
+                
+                <p class="card-text text-muted small">Scopri come funziona l'indirizzamento IPv4: dalla struttura a 32 bit alla notazione CIDR, fino alle subnet mask e alla...</p>
+                
+              </div>
+              <div class="mt-auto pt-3 text-end">
+                <a href="/blog/livello-di-rete/" class="btn btn-primary btn-sm rounded">
+                  Leggi <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
   
-    
     <div class="col-12 col-md-6 col-lg-4">
       <article class="card h-100 overflow-hidden border">
         <div class="row g-0 h-100">
@@ -291,10 +343,8 @@
         </div>
       </article>
     </div>
-    
   
-    
-    <div class="col-12 col-md-6 col-lg-4">
+    <div class="col-12 col-md-12 col-lg-4">
       <article class="card h-100 overflow-hidden border">
         <div class="row g-0 h-100">
           
@@ -318,10 +368,15 @@
                   
                     
                     
+                      <a href="/tags/reti/" class="badge border text-decoration-none"
+                         style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                        reti
+                      </a>
+                    
                   
                 </div>
                 
-                <p class="card-text text-muted small">Alla scoperta dei media di rete: analizziamo differenze, vantaggi e scenari d&#39;uso di cavi in rame (UTP/STP), fibra...</p>
+                <p class="card-text text-muted small">Alla scoperta dei media di rete: analizziamo differenze, vantaggi e scenari d'uso di cavi in rame (UTP/STP), fibra...</p>
                 
               </div>
               <div class="mt-auto pt-3 text-end">
@@ -334,103 +389,21 @@
         </div>
       </article>
     </div>
-    
-  
-    
-    <div class="col-12 col-md-6 col-lg-4">
-      <article class="card h-100 overflow-hidden border">
-        <div class="row g-0 h-100">
-          
-          <div class="col-12 overflow-hidden">
-            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
-                 alt="Immagine generata con IA"
-                 class="card-img-top w-100"
-                 style="object-fit: cover; height: 200px;">
-          </div>
-          
-          <div class="col-12">
-            <div class="card-body d-flex flex-column p-4">
-              <div>
-                <h2 class="h5 card-title mb-2">
-                  <a href="/blog/reti-wireless-mobile/">Reti wireless e mobili</a>
-                </h2>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <time class="text-muted small" datetime="2026-05-17T00:00:00.000Z">
-                    <i class="bi bi-calendar3 me-1"></i>17 maggio 2026
-                  </time>
-                  
-                    
-                    
-                  
-                </div>
-                
-                <p class="card-text text-muted small">Questo articolo esplora le principali tecnologie di connettività wireless presenti nei dispositivi mobili: come...</p>
-                
-              </div>
-              <div class="mt-auto pt-3 text-end">
-                <a href="/blog/reti-wireless-mobile/" class="btn btn-primary btn-sm rounded">
-                  Leggi <i class="bi bi-arrow-right ms-1"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
   
 </section>
     </main>
 
     <footer class="border-top mt-auto py-5">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-md-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
         <h5 class="fw-bold mb-3">
           <span class="text-primary">dino</span>-996
         </h5>
-        <p class="text-muted small mb-3" style="max-width: 320px;">
+        <p class="text-muted small mb-3">
           Developer portfolio e blog tecnico
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex justify-content-center gap-3 mb-0">
           <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
              class="text-muted" aria-label="GitHub">
             <i class="bi bi-github fs-5"></i>
@@ -443,33 +416,6 @@
             <i class="bi bi-rss fs-5"></i>
           </a>
         </div>
-      </div>
-
-      <div class="col-6 col-md-3 offset-md-1">
-        <h6 class="fw-bold mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/" class="text-muted text-decoration-none small">Home</a>
-          </li>
-          <li class="mb-2">
-            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
-          </li>
-          <li class="mb-2">
-            <a href="/about/" class="text-muted text-decoration-none small">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <h6 class="fw-bold mb-3">Risorse</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/tags/" class="text-muted text-decoration-none small">Tag</a>
-          </li>
-          <li class="mb-2">
-            <a href="/feed.xml" class="text-muted text-decoration-none small">RSS Feed</a>
-          </li>
-        </ul>
       </div>
     </div>
 

@@ -80,30 +80,34 @@
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
-    
-    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <i class="bi bi-grid-3x3-gap fs-4"></i>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/blog/">
-            Blog
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">
-            About
-          </a>
-        </li>
 
-        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
           <div class="theme-toggle" role="group" aria-label="Toggle tema">
             <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
               <i class="bi bi-sun"></i>
@@ -114,7 +118,6 @@
             <div class="theme-toggle-slider"></div>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -123,13 +126,13 @@
     <main class="container my-5 flex-grow-1">
       
 
-<div class="d-flex align-items-center gap-3 mb-4">
-  <div class="d-flex align-items-center justify-content-center rounded-3"
-       style="width: 48px; height: 48px; background: var(--primary-light);">
-    <i class="bi bi-journal-text fs-4 text-primary"></i>
+<div class="d-flex align-items-center gap-4 mb-4">
+  <div class="d-inline-flex align-items-center justify-content-center rounded-4 flex-shrink-0"
+       style="width: 72px; height: 72px; background: linear-gradient(135deg, var(--primary-color), #0b5ed7);">
+    <span class="fw-bold text-white" style="font-size: 1.6rem; font-family: monospace;">[ ]</span>
   </div>
   <div>
-    <h1 class="fw-bold mb-0">Blog</h1>
+    <h1 class="fw-bold mb-1">Blog</h1>
     <p class="text-muted small mb-0">Esplora tutti gli articoli</p>
   </div>
 </div>
@@ -154,6 +157,66 @@
 
 <!-- Post list -->
 <section id="posts-list" class="row g-4">
+  
+  <div class="col-12">
+    <article class="card h-100 overflow-hidden border">
+      <div class="row g-0 h-100">
+        
+        <div class="col-md-4 overflow-hidden">
+          <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
+               alt="Immagine generata con IA"
+               class="img-fluid w-100 h-100"
+               style="object-fit: cover; min-height: 240px;">
+        </div>
+        <div class="col-md-8">
+        
+          <div class="card-body d-flex flex-column p-4">
+            <div>
+              <h2 class="h4 card-title mb-2">
+                <a href="/blog/le-reti/">Le reti</a>
+              </h2>
+              <time class="text-muted small d-block mb-3" datetime="2026-05-06T00:00:00.000Z">
+                <i class="bi bi-calendar3 me-1"></i>06 maggio 2026
+              </time>
+              
+                <p class="text-muted small mb-3">
+                  La connettività è l&#39;infrastruttura critica del mondo moderno. Scopri come funzionano le reti, dai protocolli fondamentali ai dispositivi IoT, e impara a misurare e ottimizzare le performance di rete come un professionista.
+                </p>
+              
+              
+                <div class="d-flex flex-wrap gap-1 mb-3">
+                  
+                    
+                    
+                      <a href="/tags/reti/"
+                         class="badge border text-decoration-none"
+                         style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                        reti
+                      </a>
+                    
+                  
+                    
+                    
+                      <a href="/tags/networking/"
+                         class="badge border text-decoration-none"
+                         style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                        networking
+                      </a>
+                    
+                  
+                </div>
+              
+            </div>
+            <div class="mt-auto text-end">
+              <a href="/blog/le-reti/" class="btn btn-primary btn-sm rounded">
+                Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
   
   <div class="col-12">
     <article class="card h-100 overflow-hidden border">
@@ -422,85 +485,27 @@
     </article>
   </div>
   
-  <div class="col-12">
-    <article class="card h-100 overflow-hidden border">
-      <div class="row g-0 h-100">
-        
-        <div class="col-md-4 overflow-hidden">
-          <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947642/java_244fcc2772.webp"
-               alt="Immagine generata con IA"
-               class="img-fluid w-100 h-100"
-               style="object-fit: cover; min-height: 240px;">
-        </div>
-        <div class="col-md-8">
-        
-          <div class="card-body d-flex flex-column p-4">
-            <div>
-              <h2 class="h4 card-title mb-2">
-                <a href="/blog/tecniche-algoritmiche-java/">Tecniche algoritmiche per dev Java</a>
-              </h2>
-              <time class="text-muted small d-block mb-3" datetime="2026-03-05T00:00:00.000Z">
-                <i class="bi bi-calendar3 me-1"></i>05 marzo 2026
-              </time>
-              
-                <p class="text-muted small mb-3">
-                  Questa guida raccoglie le tecniche algoritmiche più comuni utilizzate nello sviluppo software quotidiano. Le seguenti tecniche sono descritte il linguaggio Java.
-                </p>
-              
-              
-                <div class="d-flex flex-wrap gap-1 mb-3">
-                  
-                    
-                    
-                      <a href="/tags/algoritmi/"
-                         class="badge border text-decoration-none"
-                         style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
-                        algoritmi
-                      </a>
-                    
-                  
-                    
-                    
-                      <a href="/tags/java/"
-                         class="badge border text-decoration-none"
-                         style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
-                        java
-                      </a>
-                    
-                  
-                </div>
-              
-            </div>
-            <div class="mt-auto text-end">
-              <a href="/blog/tecniche-algoritmiche-java/" class="btn btn-primary btn-sm rounded">
-                Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </article>
-  </div>
-  
 </section>
 
 <!-- Pagination -->
-<nav id="pagination" class="pagination-nav mt-5" aria-label="Navigazione pagine blog">
-  <div class="d-flex justify-content-between align-items-center">
-    <div>
+<nav id="pagination" class="mt-5" aria-label="Navigazione pagine blog">
+  <div class="pagination-bar d-flex align-items-center gap-2">
+    <div class="flex-grow-1">
       
-        <a href="/blog/" class="btn btn-outline-primary">
-          <i class="bi bi-arrow-left me-1"></i>Precedente
+        <a href="/blog/" class="btn btn-primary pagination-btn">
+          <i class="bi bi-arrow-left"></i>
+          <span>Precedente</span>
         </a>
       
     </div>
-    <div class="text-muted small fw-medium">
-      Pagina 2 di 5
+    <div class="pagination-info text-muted small fw-medium text-nowrap">
+      2 / 5
     </div>
-    <div>
+    <div class="flex-grow-1 text-end">
       
-        <a href="/blog/page/3/" class="btn btn-outline-primary">
-          Successivo <i class="bi bi-arrow-right ms-1"></i>
+        <a href="/blog/page/3/" class="btn btn-primary pagination-btn">
+          <span>Successivo</span>
+          <i class="bi bi-arrow-right"></i>
         </a>
       
     </div>
@@ -510,15 +515,15 @@
 
     <footer class="border-top mt-auto py-5">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-md-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
         <h5 class="fw-bold mb-3">
           <span class="text-primary">dino</span>-996
         </h5>
-        <p class="text-muted small mb-3" style="max-width: 320px;">
+        <p class="text-muted small mb-3">
           Developer portfolio e blog tecnico
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex justify-content-center gap-3 mb-0">
           <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
              class="text-muted" aria-label="GitHub">
             <i class="bi bi-github fs-5"></i>
@@ -531,33 +536,6 @@
             <i class="bi bi-rss fs-5"></i>
           </a>
         </div>
-      </div>
-
-      <div class="col-6 col-md-3 offset-md-1">
-        <h6 class="fw-bold mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/" class="text-muted text-decoration-none small">Home</a>
-          </li>
-          <li class="mb-2">
-            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
-          </li>
-          <li class="mb-2">
-            <a href="/about/" class="text-muted text-decoration-none small">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <h6 class="fw-bold mb-3">Risorse</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/tags/" class="text-muted text-decoration-none small">Tag</a>
-          </li>
-          <li class="mb-2">
-            <a href="/feed.xml" class="text-muted text-decoration-none small">RSS Feed</a>
-          </li>
-        </ul>
       </div>
     </div>
 

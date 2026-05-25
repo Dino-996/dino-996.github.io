@@ -82,30 +82,34 @@
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
-    
-    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <i class="bi bi-grid-3x3-gap fs-4"></i>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/blog/">
-            Blog
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">
-            About
-          </a>
-        </li>
 
-        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
           <div class="theme-toggle" role="group" aria-label="Toggle tema">
             <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
               <i class="bi bi-sun"></i>
@@ -116,7 +120,6 @@
             <div class="theme-toggle-slider"></div>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -124,29 +127,65 @@
   
     <main class="container my-5 flex-grow-1">
       
-<article class="mx-auto" style="max-width: 800px;">
-  <header class="mb-4">
-    <h1 class="fw-bold mb-3">Guida completa a powershell</h1>
-
-    <div class="author-card mb-4">
-      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" loading="lazy">
-      <div class="flex-grow-1">
-        <div class="author-name">Davide Sabia</div>
-        <div class="author-meta">
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
           <time datetime="2026-01-01T00:00:00.000Z">
             <i class="bi bi-calendar3 me-1"></i>01 gennaio 2026
           </time>
-          <span class="mx-1">·</span>
-          <span class="reading-time"></span>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-05-06T09:36:11.000Z">
+                <i class="bi bi-pencil me-1"></i>06 maggio 2026
+              </time>
+            </span>
+          
         </div>
-        <div class="tags-container d-flex flex-wrap gap-1 mt-2">
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fpost%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Guida%20completa%20a%20powershell&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fpost%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fpost%2F&title=Guida%20completa%20a%20powershell"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fpost%2F&t=Guida%20completa%20a%20powershell"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
           
           
           
             
             
               <a href="/tags/powershell/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 powershell
               </a>
@@ -154,40 +193,87 @@
           
         </div>
       </div>
-    </div>
-  </header>
-
-  
-    <div class="alert alert-primary border-start mb-4" role="note">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <span class="d-flex align-items-center justify-content-center rounded"
-              style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
-          <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
-        </span>
-        <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small lh-lg">PowerShell è una shell e un linguaggio di scripting orientato agli oggetti per l&#39;automazione e la gestione di sistemi, offrendo un&#39;efficienza notevole rispetto alle tradizionali shell testuali. La versione moderna PowerShell 7+ è open source, cross-platform e basata su .NET, rappresentando lo standard enterprise raccomandato per la gestione di Azure e Microsoft 365.</p>
     </div>
-  
+  </aside>
 
-  
-    <figure class="mb-4">
-      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947841/powershell_0cea247545.webp"
-           alt="Immagine generata con IA"
-           class="img-fluid rounded w-100"
-           style="max-height: 420px; object-fit: cover;">
-      
-        <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
-      
-    </figure>
-  
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Guida completa a powershell</h1>
 
-  <section class="content">
-    <h1>Introduzione</h1>
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2026-01-01T00:00:00.000Z">01 gennaio 2026</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/powershell/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              powershell
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">PowerShell è una shell e un linguaggio di scripting orientato agli oggetti per l&#39;automazione e la gestione di sistemi, offrendo un&#39;efficienza notevole rispetto alle tradizionali shell testuali. La versione moderna PowerShell 7+ è open source, cross-platform e basata su .NET, rappresentando lo standard enterprise raccomandato per la gestione di Azure e Microsoft 365.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947841/powershell_0cea247545.webp"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h1 id="introduzione"><a class="header-anchor" href="#introduzione"><i class="bi bi-link-45deg"></i></a> Introduzione</h1>
 <p>In questo guida per tutti troverete spiegazioni chiare, esempi pratici e suggerimenti per l'autoapprendimento.</p>
-<h2>Che cos'è PowerShell?</h2>
+<h2 id="che-cose-powershell"><a class="header-anchor" href="#che-cose-powershell"><i class="bi bi-link-45deg"></i></a> Che cos'è PowerShell?</h2>
 <p>​PowerShell è una​ <strong>​shell di scripting</strong>​ ​e un ​​<strong>linguaggio ​​di scripting</strong> ​​sviluppato da Microsoft. A​ ​differenza delle tradizionali shell a riga di comando che si basano sul testo PowerShell è​ <strong>​orientato agli oggetti</strong>​. Ciò significa che i comandi​​ (chiamati <strong>​​cmdlet</strong>​) manipolano <strong>​​oggetti​ ​strutturati</strong>, non solo stringhe di testo. Questa caratteristica lo rende estremamente potente​ per l'automazione, la gestione di sistemi e la configurazione.​</p>
-<h3>Windows PowerShell vs PowerShell 7+</h3>
+<h3 id="windows-powershell-vs-powershell-7"><a class="header-anchor" href="#windows-powershell-vs-powershell-7"><i class="bi bi-link-45deg"></i></a> Windows PowerShell vs PowerShell 7+</h3>
 <blockquote>
 <p>Distinzione fondamentale che molti ignorano.</p>
 </blockquote>
@@ -238,14 +324,14 @@
 </div>
 <br>
 <p><strong>Raccomandazione:</strong> Usa sempre <strong>PowerShell 7+</strong> (<code>pwsh</code>) per i nuovi progetti.</p>
-<h3>Perché usare PowerShell</h3>
+<h3 id="perche-usare-powershell"><a class="header-anchor" href="#perche-usare-powershell"><i class="bi bi-link-45deg"></i></a> Perché usare PowerShell</h3>
 <ul>
 <li><strong>Automazione:</strong> Elimina attività manuali ripetitive — gestione file, provisioning utenti, deployment applicazioni.</li>
 <li><strong>Gestione dei sistemi:</strong> Strumento fondamentale per l'amministrazione Windows, usato sempre più anche su Linux e macOS.</li>
 <li><strong>Efficienza:</strong> Operazioni complesse in poche righe grazie alla pipeline orientata agli oggetti.</li>
 <li><strong>Standard enterprise:</strong> È lo strumento ufficiale per la gestione di <strong>Microsoft Azure</strong> e dell'ecosistema Microsoft 365.</li>
 </ul>
-<h3>Differenze tra PowerShell, CMD e Bash</h3>
+<h3 id="differenze-tra-powershell-cmd-e-bash"><a class="header-anchor" href="#differenze-tra-powershell-cmd-e-bash"><i class="bi bi-link-45deg"></i></a> Differenze tra PowerShell, CMD e Bash</h3>
 <div class="container mb-3">
   <div class="table-responsive shadow-sm rounded">
     <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -298,8 +384,8 @@
     </table>
   </div>
 </div>
-<h2>Installazione e Configurazione</h2>
-<h3>Windows</h3>
+<h2 id="installazione-e-configurazione"><a class="header-anchor" href="#installazione-e-configurazione"><i class="bi bi-link-45deg"></i></a> Installazione e Configurazione</h2>
+<h3 id="windows"><a class="header-anchor" href="#windows"><i class="bi bi-link-45deg"></i></a> Windows</h3>
 <p>Windows 10/11 include <strong>Windows PowerShell 5.1</strong> (legacy). Per installare <strong>PowerShell 7+</strong>:</p>
 <p><strong>Metodo 1: Windows Package Manager (winget)</strong></p>
 <pre><code class="language-powershell">winget install --id Microsoft.Powershell --source winget
@@ -308,7 +394,7 @@
 <pre><code class="language-bash">https://github.com/PowerShell/PowerShell/releases
 </code></pre>
 <p>Dopo l'installazione, avvia PowerShell 7 con il comando <code>pwsh</code> nel terminale.</p>
-<h3>macOS</h3>
+<h3 id="macos"><a class="header-anchor" href="#macos"><i class="bi bi-link-45deg"></i></a> macOS</h3>
 <pre><code class="language-bash"># Installa Homebrew se non presente
 /bin/bash -c &quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)&quot;
 # Installa PowerShell
@@ -316,7 +402,7 @@ brew install --cask powershell
 # Avvia PowerShell
 pwsh
 </code></pre>
-<h3>Linux (Ubuntu/Debian)</h3>
+<h3 id="linux-ubuntudebian"><a class="header-anchor" href="#linux-ubuntudebian"><i class="bi bi-link-45deg"></i></a> Linux (Ubuntu/Debian)</h3>
 <pre><code class="language-bash"># Importa la chiave Microsoft
 curl -sSL https://packages.microsoft.com/keys/microsoft.asc | sudo tee /etc/apt/trusted.gpg.d/microsoft.asc
 # Aggiungi il repository
@@ -328,7 +414,7 @@ pwsh
 </code></pre>
 <br>
 <p>Per altre distribuzioni (RHEL, Fedora, openSUSE), consulta la <a href="https://learn.microsoft.com/powershell/scripting/install/installing-powershell" target="_blank" rel="noopener noreferer">documentazione ufficiale</a>.</p>
-<h3>Editor consigliato: Visual Studio Code</h3>
+<h3 id="editor-consigliato-visual-studio-code"><a class="header-anchor" href="#editor-consigliato-visual-studio-code"><i class="bi bi-link-45deg"></i></a> Editor consigliato: Visual Studio Code</h3>
 <blockquote>
 <p><strong>PowerShell ISE è ufficialmente deprecato.</strong> Microsoft raccomanda <strong>Visual Studio Code</strong> con l'estensione PowerShell.</p>
 </blockquote>
@@ -336,7 +422,7 @@ pwsh
 <pre><code>Ctrl+P → ext install ms-vscode.PowerShell
 </code></pre>
 <p>L'estensione offre: IntelliSense, debugging integrato, esecuzione di selezioni di codice e integrazione con PSScriptAnalyzer.</p>
-<h3>Configurazione di Base</h3>
+<h3 id="configurazione-di-base"><a class="header-anchor" href="#configurazione-di-base"><i class="bi bi-link-45deg"></i></a> Configurazione di Base</h3>
 <p><strong>Profilo PowerShell</strong> — script eseguito automaticamente all'avvio:</p>
 <pre><code class="language-powershell"># Visualizza il percorso del profilo
 $PROFILE
@@ -359,8 +445,8 @@ Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
 # Unrestricted  → Tutti gli script (non consigliato in produzione)
 # AllSigned     → Solo script con firma digitale (massima sicurezza)
 </code></pre>
-<h2>Concetti Fondamentali</h2>
-<h3>Sintassi: Verb-Noun</h3>
+<h2 id="concetti-fondamentali"><a class="header-anchor" href="#concetti-fondamentali"><i class="bi bi-link-45deg"></i></a> Concetti Fondamentali</h2>
+<h3 id="sintassi-verb-noun"><a class="header-anchor" href="#sintassi-verb-noun"><i class="bi bi-link-45deg"></i></a> Sintassi: Verb-Noun</h3>
 <p>Tutti i cmdlet seguono la convenzione <code>Verbo-Sostantivo</code>:</p>
 <pre><code class="language-powershell">Get-Process        # Recupera informazioni sui processi
 Stop-Service       # Arresta un servizio
@@ -372,7 +458,7 @@ Set-Location       # Cambia directory
 <p>I verbi approvati da Microsoft garantiscono coerenza. Per vederli tutti:</p>
 <pre><code class="language-powershell">Get-Verb | Sort-Object Verb
 </code></pre>
-<h3>Il Sistema di Help</h3>
+<h3 id="il-sistema-di-help"><a class="header-anchor" href="#il-sistema-di-help"><i class="bi bi-link-45deg"></i></a> Il Sistema di Help</h3>
 <p>La documentazione integrata è uno dei punti di forza di PowerShell:</p>
 <pre><code class="language-powershell"># Aggiorna l'help (eseguire come amministratore)
 Update-Help
@@ -385,15 +471,15 @@ Get-Help Get-Process -Full
 # Apre la documentazione online
 Get-Help Get-Process -Online
 </code></pre>
-<h3>Cmdlet Essenziali</h3>
+<h3 id="cmdlet-essenziali"><a class="header-anchor" href="#cmdlet-essenziali"><i class="bi bi-link-45deg"></i></a> Cmdlet Essenziali</h3>
 <pre><code class="language-powershell">Get-Command               # Elenca tutti i cmdlet disponibili
 Get-Command -Verb Get     # Filtra per verbo
 Get-Command *process*     # Ricerca per nome
 Get-Member                # Mostra proprietà e metodi di un oggetto
 Get-Process | Get-Member  # Esempio: scopri cosa puoi fare con un processo
 </code></pre>
-<h2>Variabili e Tipi di Dati</h2>
-<h3>Variabili</h3>
+<h2 id="variabili-e-tipi-di-dati"><a class="header-anchor" href="#variabili-e-tipi-di-dati"><i class="bi bi-link-45deg"></i></a> Variabili e Tipi di Dati</h2>
+<h3 id="variabili"><a class="header-anchor" href="#variabili"><i class="bi bi-link-45deg"></i></a> Variabili</h3>
 <p>Le variabili iniziano con <code>$</code>. PowerShell è <strong>tipizzato dinamicamente</strong>, ma è possibile (e consigliato per script professionali) dichiarare il tipo esplicitamente:</p>
 <pre><code class="language-powershell"># Tipizzazione implicita
 $nome = &quot;Mario&quot;
@@ -405,7 +491,7 @@ $attivo = $true
 [bool]$attivo = $true
 [datetime]$oggi = Get-Date
 </code></pre>
-<h3>Stringhe</h3>
+<h3 id="stringhe"><a class="header-anchor" href="#stringhe"><i class="bi bi-link-45deg"></i></a> Stringhe</h3>
 <pre><code class="language-powershell"># Virgolette doppie: interpolazione variabili
 $nome = &quot;Mario&quot;
 $saluto = &quot;Ciao, $nome!&quot;           # → &quot;Ciao, Mario!&quot;
@@ -421,7 +507,7 @@ su più righe con variabili: $nome
 &quot;  testo  &quot;.Trim()                 # → &quot;testo&quot;
 &quot;ciao mondo&quot;.Split(&quot; &quot;)           # → @(&quot;ciao&quot;, &quot;mondo&quot;)
 </code></pre>
-<h3>Array e HashTable</h3>
+<h3 id="array-e-hashtable"><a class="header-anchor" href="#array-e-hashtable"><i class="bi bi-link-45deg"></i></a> Array e HashTable</h3>
 <pre><code class="language-powershell"># Array
 $frutti = &quot;mela&quot;, &quot;banana&quot;, &quot;arancia&quot;
 $numeri = 1..10                    # Range: da 1 a 10
@@ -437,7 +523,7 @@ $persona[&quot;Nome&quot;]                   # → &quot;Mario&quot;
 $persona.Eta                       # → 30
 $persona.Keys                      # → Nome, Cognome, Eta
 </code></pre>
-<h3>Variabili Automatiche</h3>
+<h3 id="variabili-automatiche"><a class="header-anchor" href="#variabili-automatiche"><i class="bi bi-link-45deg"></i></a> Variabili Automatiche</h3>
 <p>PowerShell fornisce variabili speciali predefinite:</p>
 <pre><code class="language-powershell">$_             # (alias: $PSItem) L'oggetto corrente nella pipeline
 $?             # True se l'ultimo comando ha avuto successo
@@ -447,7 +533,7 @@ $HOME          # Directory home dell'utente
 $PSVersionTable  # Informazioni sulla versione di PowerShell
 $PROFILE       # Percorso del profilo utente
 </code></pre>
-<h3>Operatori</h3>
+<h3 id="operatori"><a class="header-anchor" href="#operatori"><i class="bi bi-link-45deg"></i></a> Operatori</h3>
 <pre><code class="language-powershell"># Aritmetici
 5 + 3      # 8
 10 % 3     # 1 (modulo)
@@ -464,7 +550,7 @@ $true -and $false   # False
 $true -or $false    # True
 -not $true          # False
 </code></pre>
-<h2>La Pipeline</h2>
+<h2 id="la-pipeline"><a class="header-anchor" href="#la-pipeline"><i class="bi bi-link-45deg"></i></a> La Pipeline</h2>
 <p>La <strong>pipeline</strong> (<code>|</code>) è il cuore di PowerShell. Passa <strong>oggetti interi</strong> (non testo) tra i comandi, preservando tutte le proprietà.</p>
 <pre><code class="language-powershell"># Esempio base: filtra i processi che usano più di 100MB di RAM
 Get-Process | Where-Object { $_.WorkingSet -gt 100MB }
@@ -477,7 +563,7 @@ Get-Process |
     Select-Object Name, CPU, Id -First 10 |
     Format-Table -AutoSize
 </code></pre>
-<h3>Cmdlet Fondamentali per la Pipeline</h3>
+<h3 id="cmdlet-fondamentali-per-la-pipeline"><a class="header-anchor" href="#cmdlet-fondamentali-per-la-pipeline"><i class="bi bi-link-45deg"></i></a> Cmdlet Fondamentali per la Pipeline</h3>
 <pre><code class="language-powershell"># Filtra oggetti
 Get-Service | Where-Object { $_.Status -eq &quot;Running&quot; }
 # Ordina
@@ -495,15 +581,15 @@ Get-Process | ConvertTo-Csv | Out-File processi.csv
 Get-Process | Format-Table Name, CPU -AutoSize
 Get-Process | Format-List *
 </code></pre>
-<h2>Gestione File e Directory</h2>
-<h3>Navigazione</h3>
+<h2 id="gestione-file-e-directory"><a class="header-anchor" href="#gestione-file-e-directory"><i class="bi bi-link-45deg"></i></a> Gestione File e Directory</h2>
+<h3 id="navigazione"><a class="header-anchor" href="#navigazione"><i class="bi bi-link-45deg"></i></a> Navigazione</h3>
 <pre><code class="language-powershell">Get-Location              # Directory corrente (alias: pwd)
 Set-Location C:\Projects  # Cambia directory (alias: cd)
 Set-Location ..           # Vai alla directory padre
 Get-PSDrive               # Mostra tutti i &quot;drive&quot; disponibili (C:, D:, HKLM:, Env:, ecc.)
 Set-Location HKLM:        # PowerShell può navigare anche nel Registry!
 </code></pre>
-<h3>Operazioni sui File</h3>
+<h3 id="operazioni-sui-file"><a class="header-anchor" href="#operazioni-sui-file"><i class="bi bi-link-45deg"></i></a> Operazioni sui File</h3>
 <pre><code class="language-powershell"># Elenca contenuto
 Get-ChildItem             # (alias: ls, dir)
 Get-ChildItem -Recurse    # Ricorsivo
@@ -524,8 +610,8 @@ Move-Item .\old.txt .\new.txt
 Remove-Item .\file.txt
 Remove-Item .\cartella -Recurse  # Elimina cartella con contenuto
 </code></pre>
-<h2>Strutture di Controllo</h2>
-<h3>Condizionali</h3>
+<h2 id="strutture-di-controllo"><a class="header-anchor" href="#strutture-di-controllo"><i class="bi bi-link-45deg"></i></a> Strutture di Controllo</h2>
+<h3 id="condizionali"><a class="header-anchor" href="#condizionali"><i class="bi bi-link-45deg"></i></a> Condizionali</h3>
 <pre><code class="language-powershell"># If / ElseIf / Else
 $temperatura = 25
 if ($temperatura -gt 30) {
@@ -545,7 +631,7 @@ switch ($giorno) {
     default     { Write-Host &quot;Giorno lavorativo&quot; }
 }
 </code></pre>
-<h3>Loop</h3>
+<h3 id="loop"><a class="header-anchor" href="#loop"><i class="bi bi-link-45deg"></i></a> Loop</h3>
 <pre><code class="language-powershell"># For classico
 for ($i = 0; $i -lt 5; $i++) {
     Write-Host &quot;Iterazione: $i&quot;
@@ -564,7 +650,7 @@ while ($contatore -lt 3) {
     $contatore++
 }
 </code></pre>
-<h3>Gestione Errori</h3>
+<h3 id="gestione-errori"><a class="header-anchor" href="#gestione-errori"><i class="bi bi-link-45deg"></i></a> Gestione Errori</h3>
 <pre><code class="language-powershell"># $ErrorActionPreference controlla il comportamento globale degli errori
 $ErrorActionPreference = &quot;Stop&quot;  # Trasforma tutti gli errori in eccezioni terminanti
 try {
@@ -583,8 +669,8 @@ finally {
     Write-Host &quot;Operazione completata.&quot;
 }
 </code></pre>
-<h2>Funzioni e Moduli</h2>
-<h3>Funzioni Base</h3>
+<h2 id="funzioni-e-moduli"><a class="header-anchor" href="#funzioni-e-moduli"><i class="bi bi-link-45deg"></i></a> Funzioni e Moduli</h2>
+<h3 id="funzioni-base"><a class="header-anchor" href="#funzioni-base"><i class="bi bi-link-45deg"></i></a> Funzioni Base</h3>
 <pre><code class="language-powershell">function Get-Saluto {
     param(
         [string]$Nome = &quot;Mondo&quot;,   # Parametro con valore di default
@@ -597,7 +683,7 @@ finally {
 # Chiamata
 Get-Saluto -Nome &quot;Mario&quot; -Ripetizioni 3
 </code></pre>
-<h3>Funzioni Avanzate (Advanced Functions)</h3>
+<h3 id="funzioni-avanzate-advanced-functions"><a class="header-anchor" href="#funzioni-avanzate-advanced-functions"><i class="bi bi-link-45deg"></i></a> Funzioni Avanzate (Advanced Functions)</h3>
 <p>Per script professionali, usa <code>CmdletBinding</code> per ottenere comportamenti da cmdlet nativi (supporto <code>-Verbose</code>, <code>-WhatIf</code>, <code>-ErrorAction</code>, ecc.):</p>
 <pre><code class="language-powershell">function Invoke-Backup {
     [CmdletBinding(SupportsShouldProcess)]
@@ -621,7 +707,7 @@ Invoke-Backup -SourcePath &quot;C:\dati&quot; -DestinationPath &quot;D:\backup&q
 # Uso con -Verbose per logging dettagliato
 Invoke-Backup -SourcePath &quot;C:\dati&quot; -DestinationPath &quot;D:\backup&quot; -Verbose
 </code></pre>
-<h3>Gestione Moduli</h3>
+<h3 id="gestione-moduli"><a class="header-anchor" href="#gestione-moduli"><i class="bi bi-link-45deg"></i></a> Gestione Moduli</h3>
 <pre><code class="language-powershell"># Trova moduli disponibili nel repository PSGallery
 Find-Module -Name *Azure*
 # Installa un modulo
@@ -633,14 +719,14 @@ Get-Module -ListAvailable
 # Elenca i cmdlet di un modulo specifico
 Get-Command -Module Az.Compute
 </code></pre>
-<h2>Amministrazione di Sistema</h2>
-<h3>Utenti Locali</h3>
+<h2 id="amministrazione-di-sistema"><a class="header-anchor" href="#amministrazione-di-sistema"><i class="bi bi-link-45deg"></i></a> Amministrazione di Sistema</h2>
+<h3 id="utenti-locali"><a class="header-anchor" href="#utenti-locali"><i class="bi bi-link-45deg"></i></a> Utenti Locali</h3>
 <pre><code class="language-powershell">Get-LocalUser
 New-LocalUser -Name &quot;mario&quot; -Password (ConvertTo-SecureString &quot;P@ss!&quot; -AsPlainText -Force) -FullName &quot;Mario Rossi&quot;
 Add-LocalGroupMember -Group &quot;Administrators&quot; -Member &quot;mario&quot;
 Remove-LocalUser -Name &quot;mario&quot;
 </code></pre>
-<h3>Servizi</h3>
+<h3 id="servizi"><a class="header-anchor" href="#servizi"><i class="bi bi-link-45deg"></i></a> Servizi</h3>
 <pre><code class="language-powershell">Get-Service
 Get-Service -Name &quot;wuauserv&quot;           # Windows Update
 Start-Service -Name &quot;wuauserv&quot;
@@ -648,12 +734,12 @@ Stop-Service -Name &quot;wuauserv&quot;
 Restart-Service -Name &quot;wuauserv&quot;
 Set-Service -Name &quot;wuauserv&quot; -StartupType Disabled
 </code></pre>
-<h3>Processi</h3>
+<h3 id="processi"><a class="header-anchor" href="#processi"><i class="bi bi-link-45deg"></i></a> Processi</h3>
 <pre><code class="language-powershell">Get-Process | Sort-Object CPU -Descending | Select-Object -First 10
 Stop-Process -Name &quot;notepad&quot; -Confirm
 Start-Process &quot;notepad.exe&quot;
 </code></pre>
-<h3>Registro di Sistema</h3>
+<h3 id="registro-di-sistema"><a class="header-anchor" href="#registro-di-sistema"><i class="bi bi-link-45deg"></i></a> Registro di Sistema</h3>
 <pre><code class="language-powershell"># Naviga nel registro come se fosse un filesystem
 Set-Location HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion
 Get-ItemProperty -Path &quot;HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion&quot; -Name &quot;ProductName&quot;
@@ -661,9 +747,9 @@ Set-ItemProperty -Path &quot;HKCU:\Software\MyApp&quot; -Name &quot;Debug&quot; 
 New-Item -Path &quot;HKCU:\Software\MyApp&quot;
 Remove-Item -Path &quot;HKCU:\Software\MyApp&quot; -Recurse
 </code></pre>
-<h2>PowerShell Remoting</h2>
+<h2 id="powershell-remoting"><a class="header-anchor" href="#powershell-remoting"><i class="bi bi-link-45deg"></i></a> PowerShell Remoting</h2>
 <p>PowerShell Remoting consente di eseguire comandi su computer remoti.</p>
-<h3>Tramite WinRM (Windows)</h3>
+<h3 id="tramite-winrm-windows"><a class="header-anchor" href="#tramite-winrm-windows"><i class="bi bi-link-45deg"></i></a> Tramite WinRM (Windows)</h3>
 <pre><code class="language-powershell"># Abilita il remoting (da eseguire come amministratore)
 Enable-PSRemoting -Force
 # Sessione interattiva
@@ -679,15 +765,15 @@ $sessione = New-PSSession -ComputerName Server01 -Credential (Get-Credential)
 Invoke-Command -Session $sessione -ScriptBlock { Get-Process }
 Remove-PSSession $sessione
 </code></pre>
-<h3>Tramite SSH (Cross-Platform, PowerShell 7+)</h3>
+<h3 id="tramite-ssh-cross-platform-powershell-7"><a class="header-anchor" href="#tramite-ssh-cross-platform-powershell-7"><i class="bi bi-link-45deg"></i></a> Tramite SSH (Cross-Platform, PowerShell 7+)</h3>
 <pre><code class="language-powershell"># Connessione SSH a un server Linux
 Enter-PSSession -HostName ubuntu-server -UserName admin -SSHTransport
 # Esegui comandi remoti via SSH
 Invoke-Command -HostName ubuntu-server -UserName admin -ScriptBlock { uname -a }
 </code></pre>
-<h2>Sicurezza in PowerShell</h2>
+<h2 id="sicurezza-in-powershell"><a class="header-anchor" href="#sicurezza-in-powershell"><i class="bi bi-link-45deg"></i></a> Sicurezza in PowerShell</h2>
 <p>La sicurezza è una priorità per qualsiasi script destinato a produzione o ambienti aziendali.</p>
-<h3>Firma Digitale degli Script (Code Signing)</h3>
+<h3 id="firma-digitale-degli-script-code-signing"><a class="header-anchor" href="#firma-digitale-degli-script-code-signing"><i class="bi bi-link-45deg"></i></a> Firma Digitale degli Script (Code Signing)</h3>
 <p>In ambienti con policy <code>AllSigned</code>, gli script devono essere firmati:</p>
 <pre><code class="language-powershell"># Ottieni il certificato di firma (da un'autorità di certificazione aziendale o auto-firmato)
 $cert = Get-ChildItem Cert:\CurrentUser\My -CodeSigningCert
@@ -696,7 +782,7 @@ Set-AuthenticodeSignature -FilePath .\script.ps1 -Certificate $cert
 # Verifica la firma
 Get-AuthenticodeSignature .\script.ps1
 </code></pre>
-<h3>Gestione Sicura delle Credenziali</h3>
+<h3 id="gestione-sicura-delle-credenziali"><a class="header-anchor" href="#gestione-sicura-delle-credenziali"><i class="bi bi-link-45deg"></i></a> Gestione Sicura delle Credenziali</h3>
 <blockquote>
 <p>Non inserire mai password in chiaro negli script!</p>
 </blockquote>
@@ -709,20 +795,20 @@ $passwordCifrata | Out-File .\password.enc  # Salva cifrata su disco
 # Ricarica la password
 $passwordCifrata = Get-Content .\password.enc | ConvertTo-SecureString
 </code></pre>
-<h3>Script Block Logging e Auditing</h3>
+<h3 id="script-block-logging-e-auditing"><a class="header-anchor" href="#script-block-logging-e-auditing"><i class="bi bi-link-45deg"></i></a> Script Block Logging e Auditing</h3>
 <p>Per ambienti aziendali, abilita la registrazione degli script tramite Group Policy:</p>
 <pre><code>Computer Configuration → Administrative Templates → Windows Components →
 Windows PowerShell → Turn on Script Block Logging → Enabled
 </code></pre>
 <p>Gli script eseguiti vengono registrati nel <strong>Windows Event Log</strong> (Event ID 4104), fondamentale per audit e incident response.</p>
-<h3>Constrained Language Mode</h3>
+<h3 id="constrained-language-mode"><a class="header-anchor" href="#constrained-language-mode"><i class="bi bi-link-45deg"></i></a> Constrained Language Mode</h3>
 <p>Limita le funzionalità di PowerShell per ridurre la superficie d'attacco:</p>
 <pre><code class="language-powershell"># Verifica la modalità corrente
 $ExecutionContext.SessionState.LanguageMode
 # In CLM, tipi .NET arbitrari e COM objects sono bloccati
 # Viene tipicamente applicato tramite AppLocker o WDAC
 </code></pre>
-<h2>PowerShell e il Cloud</h2>
+<h2 id="powershell-e-il-cloud"><a class="header-anchor" href="#powershell-e-il-cloud"><i class="bi bi-link-45deg"></i></a> PowerShell e il Cloud</h2>
 <p>PowerShell è lo strumento ufficiale per gestire <strong>Microsoft Azure</strong>:</p>
 <pre><code class="language-powershell"># Installa il modulo Az
 Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
@@ -736,8 +822,8 @@ Get-AzVM -ResourceGroupName &quot;MyRG&quot; -Status |
     Where-Object { $_.PowerState -eq &quot;VM deallocated&quot; } |
     ForEach-Object { Start-AzVM -ResourceGroupName &quot;MyRG&quot; -Name $_.Name }
 </code></pre>
-<h2>Best Practice per Script Professionali</h2>
-<h3>Qualità del Codice con PSScriptAnalyzer</h3>
+<h2 id="best-practice-per-script-professionali"><a class="header-anchor" href="#best-practice-per-script-professionali"><i class="bi bi-link-45deg"></i></a> Best Practice per Script Professionali</h2>
+<h3 id="qualita-del-codice-con-psscriptanalyzer"><a class="header-anchor" href="#qualita-del-codice-con-psscriptanalyzer"><i class="bi bi-link-45deg"></i></a> Qualità del Codice con PSScriptAnalyzer</h3>
 <p><strong>PSScriptAnalyzer</strong> è il linter ufficiale per PowerShell:</p>
 <pre><code class="language-powershell"># Installa
 Install-Module -Name PSScriptAnalyzer -Scope CurrentUser
@@ -746,7 +832,7 @@ Invoke-ScriptAnalyzer -Path .\script.ps1
 # Analizza una directory intera
 Invoke-ScriptAnalyzer -Path .\scripts\ -Recurse
 </code></pre>
-<h3>Testing con Pester</h3>
+<h3 id="testing-con-pester"><a class="header-anchor" href="#testing-con-pester"><i class="bi bi-link-45deg"></i></a> Testing con Pester</h3>
 <p><strong>Pester</strong> è il framework di testing standard per PowerShell:</p>
 <pre><code class="language-powershell"># Installa Pester
 Install-Module -Name Pester -Scope CurrentUser -Force
@@ -763,7 +849,7 @@ Describe &quot;Get-Saluto&quot; {
 # Esegui i test
 Invoke-Pester .\Get-Saluto.Tests.ps1
 </code></pre>
-<h3>Checklist Best Practice</h3>
+<h3 id="checklist-best-practice"><a class="header-anchor" href="#checklist-best-practice"><i class="bi bi-link-45deg"></i></a> Checklist Best Practice</h3>
 <ul>
 <li><strong>Usa <code>CmdletBinding</code></strong> nelle funzioni per supportare <code>-Verbose</code>, <code>-WhatIf</code>, <code>-ErrorAction</code></li>
 <li><strong>Tipizza i parametri</strong> esplicitamente (<code>[string]</code>, <code>[int]</code>, <code>[Parameter(Mandatory)]</code>)</li>
@@ -776,7 +862,7 @@ Invoke-Pester .\Get-Saluto.Tests.ps1
 <li><strong>Scrivi test con Pester</strong> per gli script riutilizzati in produzione</li>
 <li><strong>Controlla la Execution Policy</strong> prima del deployment</li>
 </ul>
-<h2>Risorse Utili</h2>
+<h2 id="risorse-utili"><a class="header-anchor" href="#risorse-utili"><i class="bi bi-link-45deg"></i></a> Risorse Utili</h2>
 <p><strong>Documentazione ufficiale:</strong></p>
 <ul>
 <li><a href="https://learn.microsoft.com/powershell" target="_blank" rel="noopener noreferer">Microsoft Learn – PowerShell</a></li>
@@ -789,63 +875,74 @@ Invoke-Pester .\Get-Saluto.Tests.ps1
 <li><a href="https://reddit.com/r/PowerShell" target="_blank" rel="noopener noreferer">r/PowerShell su Reddit</a></li>
 </ul>
 
-  </section>
+    </section>
 
-  <div class="section-divider mt-5 mb-4">Commenti</div>
+    <div class="section-divider mt-5 mb-4">Commenti</div>
 
-  <section aria-label="Commenti e reazioni">
-    <script>
-      (function () {
-        const saved = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
-        const script = document.createElement('script');
-        script.src = 'https://giscus.app/client.js';
-        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
-        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
-        script.setAttribute('data-category', 'Announcements');
-        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
-        script.setAttribute('data-mapping', 'pathname');
-        script.setAttribute('data-strict', '0');
-        script.setAttribute('data-reactions-enabled', '1');
-        script.setAttribute('data-emit-metadata', '0');
-        script.setAttribute('data-input-position', 'top');
-        script.setAttribute('data-theme', theme);
-        script.setAttribute('data-lang', 'it');
-        script.setAttribute('data-loading', 'lazy');
-        script.setAttribute('crossorigin', 'anonymous');
-        script.async = true;
-        document.currentScript.replaceWith(script);
-      })();
-    </script>
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
 
-    <noscript>
-      <div class="text-center py-4 text-muted">
-        <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
-        <p class="small mb-0">
-          Per visualizzare i commenti è necessario abilitare JavaScript.
-          <br>
-          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
-            Discuti su GitHub Discussions →
-          </a>
-        </p>
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
       </div>
-    </noscript>
-  </section>
-</article>
+    </nav>
+  </aside>
+</div>
+
     </main>
 
     <footer class="border-top mt-auto py-5">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-md-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
         <h5 class="fw-bold mb-3">
           <span class="text-primary">dino</span>-996
         </h5>
-        <p class="text-muted small mb-3" style="max-width: 320px;">
+        <p class="text-muted small mb-3">
           Developer portfolio e blog tecnico
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex justify-content-center gap-3 mb-0">
           <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
              class="text-muted" aria-label="GitHub">
             <i class="bi bi-github fs-5"></i>
@@ -858,33 +955,6 @@ Invoke-Pester .\Get-Saluto.Tests.ps1
             <i class="bi bi-rss fs-5"></i>
           </a>
         </div>
-      </div>
-
-      <div class="col-6 col-md-3 offset-md-1">
-        <h6 class="fw-bold mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/" class="text-muted text-decoration-none small">Home</a>
-          </li>
-          <li class="mb-2">
-            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
-          </li>
-          <li class="mb-2">
-            <a href="/about/" class="text-muted text-decoration-none small">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <h6 class="fw-bold mb-3">Risorse</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/tags/" class="text-muted text-decoration-none small">Tag</a>
-          </li>
-          <li class="mb-2">
-            <a href="/feed.xml" class="text-muted text-decoration-none small">RSS Feed</a>
-          </li>
-        </ul>
       </div>
     </div>
 

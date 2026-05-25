@@ -1,5 +1,11 @@
 [
   {
+    "title": "Livello di rete e IPV4",
+    "url": "/blog/livello-di-rete/",
+    "description": "Scopri come funziona l&#39;indirizzamento IPv4: dalla struttura a 32 bit alla notazione CIDR, fino alle subnet mask e alla differenza tra IP pubblici e privati (RFC 1918). Una guida fondamentale per professionisti IT, Cloud e DevOps.",
+    "date": "2026-05-25T00:00:00.000Z"
+  },
+  {
     "title": "Il livello di collegamento dati e Ethernet",
     "url": "/blog/livello-di-collegamento/",
     "description": "Esplora il livello di collegamento dati (Data Link Layer): scopri il funzionamento dei frame Ethernet, il ruolo degli switch, l&#39;indirizzamento MAC e le tecnologie moderne come VLAN e VXLAN.",
@@ -58,6 +64,12 @@
     "url": "/blog/tecniche-algoritmiche-java/",
     "description": "Questa guida raccoglie le tecniche algoritmiche più comuni utilizzate nello sviluppo software quotidiano. Le seguenti tecniche sono descritte il linguaggio Java.",
     "date": "2026-03-05T00:00:00.000Z"
+  },
+  {
+    "title": "Fondamenti di informatica",
+    "url": "/blog/fondamenti-di-informatica/",
+    "description": "Una guida completa ai fondamenti dell&#39;informatica per professionisti. Scopri come funzionano hardware, CPU multi-core, memorie (RAM, SSD NVMe), sistemi operativi, licenze software e le basi della sicurezza informatica.",
+    "date": "2026-02-04T00:00:00.000Z"
   },
   {
     "title": "Guida completa a powershell",

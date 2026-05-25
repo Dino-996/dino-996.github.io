@@ -82,30 +82,34 @@
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
-    
-    <button class="navbar-toggler border-0 p-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <i class="bi bi-grid-3x3-gap fs-4"></i>
-    </button>
-    
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="/">
-            Home
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/blog/">
-            Blog
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">
-            About
-          </a>
-        </li>
 
-        <li class="nav-item mode-switch ms-sm-0 ms-lg-2">
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
           <div class="theme-toggle" role="group" aria-label="Toggle tema">
             <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
               <i class="bi bi-sun"></i>
@@ -116,7 +120,6 @@
             <div class="theme-toggle-slider"></div>
           </div>
         </li>
-
       </ul>
     </div>
   </div>
@@ -124,29 +127,65 @@
   
     <main class="container my-5 flex-grow-1">
       
-<article class="mx-auto" style="max-width: 800px;">
-  <header class="mb-4">
-    <h1 class="fw-bold mb-3">Stallo dei processi</h1>
-
-    <div class="author-card mb-4">
-      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" loading="lazy">
-      <div class="flex-grow-1">
-        <div class="author-name">Davide Sabia</div>
-        <div class="author-meta">
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
           <time datetime="2020-02-01T00:00:00.000Z">
             <i class="bi bi-calendar3 me-1"></i>01 febbraio 2020
           </time>
-          <span class="mx-1">·</span>
-          <span class="reading-time"></span>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-05-06T09:34:58.000Z">
+                <i class="bi bi-pencil me-1"></i>06 maggio 2026
+              </time>
+            </span>
+          
         </div>
-        <div class="tags-container d-flex flex-wrap gap-1 mt-2">
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fstallo-dei-processi%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Stallo%20dei%20processi&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fstallo-dei-processi%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fstallo-dei-processi%2F&title=Stallo%20dei%20processi"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fstallo-dei-processi%2F&t=Stallo%20dei%20processi"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
           
           
           
             
             
               <a href="/tags/sistemi-operativi/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 sistemi operativi
               </a>
@@ -155,7 +194,7 @@
             
             
               <a href="/tags/processi/"
-                 class="badge border text-decoration-none"
+                 class="badge border text-decoration-none d-inline-block mb-1"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
                 processi
               </a>
@@ -163,39 +202,95 @@
           
         </div>
       </div>
-    </div>
-  </header>
-
-  
-    <div class="alert alert-primary border-start mb-4" role="note">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <span class="d-flex align-items-center justify-content-center rounded"
-              style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
-          <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
-        </span>
-        <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small lh-lg">L&#39;articolo analizza le quattro condizioni necessarie per il deadlock, distinguendolo da livelock e starvation, e illustra l&#39;uso del Resource Allocation Graph per la diagnostica.
-Per prevenire e gestire il deadlock, vengono discusse strategie come l&#39;algoritmo del banchiere e tecniche di ripristino come la terminazione o la prelazione delle risorse.</p>
     </div>
-  
+  </aside>
 
-  
-    <figure class="mb-4">
-      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp"
-           alt="Immagine generata con IA"
-           class="img-fluid rounded w-100"
-           style="max-height: 420px; object-fit: cover;">
-      
-        <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
-      
-    </figure>
-  
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Stallo dei processi</h1>
 
-  <section class="content">
-    <h1>Introduzione</h1>
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2020-02-01T00:00:00.000Z">01 febbraio 2020</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/sistemi-operativi/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/processi/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              processi
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">L&#39;articolo analizza le quattro condizioni necessarie per il deadlock, distinguendolo da livelock e starvation, e illustra l&#39;uso del Resource Allocation Graph per la diagnostica.
+Per prevenire e gestire il deadlock, vengono discusse strategie come l&#39;algoritmo del banchiere e tecniche di ripristino come la terminazione o la prelazione delle risorse.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947830/sistemi_operativi_4c6b6e85c9.webp"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h1 id="introduzione"><a class="header-anchor" href="#introduzione"><i class="bi bi-link-45deg"></i></a> Introduzione</h1>
 <p>In questo articolo approfondiamo le quattro condizioni necessarie affinché si verifichi un blocco totale, distinguendo tra il classico deadlock e il livelock, o stallo attivo. Vengono illustrati diversi strumenti diagnostici, come il grafo di assegnazione delle risorse, e algoritmi complessi come quello del banchiere per garantire uno stato di esecuzione sicuro. Infine, vengono descritte le tecniche di ripristino, che includono la terminazione forzata dei processi o la prelazione delle risorse per interrompere i cicli di attesa circolare.</p>
-<h2>Deadlock</h2>
+<h2 id="deadlock"><a class="header-anchor" href="#deadlock"><i class="bi bi-link-45deg"></i></a> Deadlock</h2>
 <p>Lo <strong>stallo (deadlock)</strong> è una condizione in cui un insieme di thread o processi rimane bloccato perché ciascuno attende una risorsa detenuta da un altro elemento del gruppo.</p>
 <p>In un sistema con multiprogrammazione, le entità concorrenti competono per un numero finito di <strong>risorse</strong> (CPU, memoria, file, socket, lock, connessioni database). Una risorsa viene:</p>
 <ol>
@@ -205,7 +300,7 @@ Per prevenire e gestire il deadlock, vengono discusse strategie come l&#39;algor
 <li>Rilasciata</li>
 </ol>
 <p>Se una risorsa è già assegnata, il richiedente entra in stato di attesa. In determinate condizioni, questa attesa può diventare permanente.</p>
-<h2>Le quattro condizioni necessarie allo stallo</h2>
+<h2 id="le-quattro-condizioni-necessarie-allo-stallo"><a class="header-anchor" href="#le-quattro-condizioni-necessarie-allo-stallo"><i class="bi bi-link-45deg"></i></a> Le quattro condizioni necessarie allo stallo</h2>
 <p>Affinché si verifichi un deadlock, devono coesistere simultaneamente quattro condizioni (Coffman conditions):</p>
 <ol>
 <li><strong>Mutua esclusione</strong><br>
@@ -218,7 +313,7 @@ Le risorse non possono essere sottratte forzatamente; devono essere rilasciate v
 Esiste una catena chiusa di attese tra thread/processi.</li>
 </ol>
 <p>Rimuovere anche solo una di queste condizioni impedisce il verificarsi dello stallo.</p>
-<h2>Deadlock, Livelock e Starvation</h2>
+<h2 id="deadlock-livelock-e-starvation"><a class="header-anchor" href="#deadlock-livelock-e-starvation"><i class="bi bi-link-45deg"></i></a> Deadlock, Livelock e Starvation</h2>
 <p>È essenziale distinguere tre fenomeni diversi:</p>
 <ul>
 <li><strong>Deadlock</strong>: blocco permanente.</li>
@@ -226,7 +321,7 @@ Esiste una catena chiusa di attese tra thread/processi.</li>
 <li><strong>Starvation</strong>: un thread non ottiene mai una risorsa a causa di politiche di scheduling sbilanciate.</li>
 </ul>
 <p>In sistemi ad alta concorrenza, la starvation è spesso più subdola del deadlock.</p>
-<h2>Grafo di Assegnazione delle Risorse (RAG)</h2>
+<h2 id="grafo-di-assegnazione-delle-risorse-rag"><a class="header-anchor" href="#grafo-di-assegnazione-delle-risorse-rag"><i class="bi bi-link-45deg"></i></a> Grafo di Assegnazione delle Risorse (RAG)</h2>
 <p>Le situazioni di stallo possono essere modellate tramite un <strong>Resource Allocation Graph</strong>:</p>
 <ul>
 <li>Nodi circolari → thread/processi</li>
@@ -234,22 +329,22 @@ Esiste una catena chiusa di attese tra thread/processi.</li>
 <li>Arco da thread a risorsa → richiesta</li>
 <li>Arco da risorsa a thread → assegnazione</li>
 </ul>
-<h3>Proprietà fondamentali</h3>
+<h3 id="proprieta-fondamentali"><a class="header-anchor" href="#proprieta-fondamentali"><i class="bi bi-link-45deg"></i></a> Proprietà fondamentali</h3>
 <ul>
 <li><strong>Nessun ciclo → nessun deadlock</strong></li>
 <li><strong>Ciclo con una sola istanza per risorsa → deadlock certo</strong></li>
 <li><strong>Ciclo con più istanze → condizione necessaria ma non sufficiente</strong></li>
 </ul>
 <p>Nel caso di risorse con singola istanza, si utilizza spesso il <strong>grafo di attesa</strong>, più semplice da analizzare.</p>
-<h2>Strategie di Gestione dello Stallo</h2>
-<h3>Ignorare il problema (Approccio “Ostrich”)</h3>
+<h2 id="strategie-di-gestione-dello-stallo"><a class="header-anchor" href="#strategie-di-gestione-dello-stallo"><i class="bi bi-link-45deg"></i></a> Strategie di Gestione dello Stallo</h2>
+<h3 id="ignorare-il-problema-approccio-ostrich"><a class="header-anchor" href="#ignorare-il-problema-approccio-ostrich"><i class="bi bi-link-45deg"></i></a> Ignorare il problema (Approccio “Ostrich”)</h3>
 <p>Sistemi come Microsoft Windows e Linux non implementano meccanismi generali di prevenzione del deadlock a livello kernel per tutte le risorse applicative.</p>
 <p>La responsabilità è delegata allo sviluppatore. È una scelta pragmatica: prevenzione ed evitamento hanno costi computazionali elevati.</p>
-<h3>Prevenzione</h3>
+<h3 id="prevenzione"><a class="header-anchor" href="#prevenzione"><i class="bi bi-link-45deg"></i></a> Prevenzione</h3>
 <p>Consiste nell’eliminare una delle quattro condizioni necessarie. Un esempio pratico può essere quello di prevenire l’attesa circolare imponendo un <strong>ordinamento globale dei lock</strong>. Se ogni thread acquisisce sempre le risorse nello stesso ordine, il ciclo non può formarsi.</p>
-<h3>Evitamento</h3>
+<h3 id="evitamento"><a class="header-anchor" href="#evitamento"><i class="bi bi-link-45deg"></i></a> Evitamento</h3>
 <p>Richiede conoscenza preventiva delle richieste massime di risorse. L’<strong>algoritmo del banchiere</strong> verifica che ogni assegnazione mantenga il sistema in uno <strong>stato sicuro</strong>, ossia uno stato da cui esiste almeno una sequenza di completamento per tutti i processi. È elegante dal punto di vista teorico, ma raramente applicato nei sistemi general-purpose moderni a causa dell’overhead e della necessità di informazioni complete.</p>
-<h4>Algoritmo del banchiere</h4>
+<h4 id="algoritmo-del-banchiere"><a class="header-anchor" href="#algoritmo-del-banchiere"><i class="bi bi-link-45deg"></i></a> Algoritmo del banchiere</h4>
 <p>La complessità di questo algoritmo è $O(n^2 m)$, dove $n$ è il numero di processi e $m$ il numero di tipi di risorse.</p>
 <p>Supponiamo:</p>
 <ul>
@@ -257,7 +352,7 @@ Esiste una catena chiusa di attese tra thread/processi.</li>
 <li>3 tipi di risorse: $A, B, C$</li>
 </ul>
 <p>Risorse totali disponibili: $\text{Avaible} = [3,3,2]$</p>
-<h5>Matrice delle richieste massime:</h5>
+<h5 id="matrice-delle-richieste-massime"><a class="header-anchor" href="#matrice-delle-richieste-massime"><i class="bi bi-link-45deg"></i></a> Matrice delle richieste massime:</h5>
 <div class="mb-2">
 $
 \text{Max}=
@@ -271,7 +366,7 @@ $
 <ul>
 <li>indica il <strong>massimo</strong> che ogni processo potrebbe richiedere per ciascuna risorsa. Ad esempio, $P_0$ potrebbe richiedere al massimo 7 unità di $A$, 5 di $B$ e 3 di $C$.</li>
 </ul>
-<h5>Risorse già assegnate:</h5>
+<h5 id="risorse-gia-assegnate"><a class="header-anchor" href="#risorse-gia-assegnate"><i class="bi bi-link-45deg"></i></a> Risorse già assegnate:</h5>
 <div class="mb-2">
 $
 \text{Allocation}=
@@ -285,7 +380,7 @@ $
 <ul>
 <li>indica quante risorse sono <strong>già state date</strong> a ciascun processo. Ad esempio, $P_1$ ha già ricevuto 2 unità di $A$, 0 di $B$ e 0 di $C$.</li>
 </ul>
-<h5>Calcolo delle risorse ancora necessarie:</h5>
+<h5 id="calcolo-delle-risorse-ancora-necessarie"><a class="header-anchor" href="#calcolo-delle-risorse-ancora-necessarie"><i class="bi bi-link-45deg"></i></a> Calcolo delle risorse ancora necessarie:</h5>
 <div class="mb-2">
 $
 \text{Need}=\text{Max - Allocation}=
@@ -299,7 +394,7 @@ $
 <ul>
 <li>Si ottiene sottraendo riga per riga: ad esempio per $P_0$, $\text{Need}[0] = [7,5,3] - [0,1,0] = [7,4,3]$. Rappresenta quante risorse mancano ancora a ciascun processo per completare la propria esecuzione.</li>
 </ul>
-<h5>Verifica dello stato sicuro</h5>
+<h5 id="verifica-dello-stato-sicuro"><a class="header-anchor" href="#verifica-dello-stato-sicuro"><i class="bi bi-link-45deg"></i></a> Verifica dello stato sicuro</h5>
 <p>L'algoritmo cerca iterativamente un processo $P_i$ che soddisfi la condizione $\text{Need}[i] \leq \text{Avaible}$, ovvero un processo che possa essere eseguito con le risorse attualmente disponibili. Se lo trova, simula la sua esecuzione: le risorse che gli erano state assegnate vengono &quot;liberate&quot; e aggiunte ad $\text{Avaible}$. Si ripete finché tutti i processi sono stati eseguiti (stato sicuro) oppure non si trova più nessun processo eseguibile (stato non sicuro).</p>
 <p>Partendo da $P_0$ con $\text{Avaible} = [3,3,2]$:</p>
 <ul>
@@ -324,7 +419,7 @@ $
 <li>$P_2 \text{: } \text{Need[2]} = [6,0,0] \to \text{Soddisfa le condizioni: } 6 \leq 12, 0 \leq 6, 0 \leq 7. \quad \text{Avaible} = [12,6,7] + [3,0,2] = [15,6,9]$</li>
 </ul>
 <p><strong>Sequenza sicura</strong>: $P_0 \to P_1 \to P_2$</p>
-<h3>Rilevamento e Ripristino</h3>
+<h3 id="rilevamento-e-ripristino"><a class="header-anchor" href="#rilevamento-e-ripristino"><i class="bi bi-link-45deg"></i></a> Rilevamento e Ripristino</h3>
 <p>Utilizzato soprattutto nei database e nei sistemi transazionali.</p>
 <ul>
 <li>Rilevamento periodico tramite analisi del grafo di attesa.</li>
@@ -336,8 +431,8 @@ $
 </ul>
 </li>
 </ul>
-<h1>Deadlock nella pratica: esempi concreti</h1>
-<h2>Esempio in Python</h2>
+<h1 id="deadlock-nella-pratica-esempi-concreti"><a class="header-anchor" href="#deadlock-nella-pratica-esempi-concreti"><i class="bi bi-link-45deg"></i></a> Deadlock nella pratica: esempi concreti</h1>
+<h2 id="esempio-in-python"><a class="header-anchor" href="#esempio-in-python"><i class="bi bi-link-45deg"></i></a> Esempio in Python</h2>
 <pre><code class="language-python">import threading
 import time
 lock1 = threading.Lock()
@@ -364,9 +459,9 @@ t2.start()
 <li>Entrambi attendono il lock detenuto dall’altro</li>
 </ul>
 <p>Deadlock perfetto.</p>
-<h3>Soluzione</h3>
+<h3 id="soluzione"><a class="header-anchor" href="#soluzione"><i class="bi bi-link-45deg"></i></a> Soluzione</h3>
 <p>Imporre un ordine globale di acquisizione dei lock.</p>
-<h2>Esempio in Java</h2>
+<h2 id="esempio-in-java"><a class="header-anchor" href="#esempio-in-java"><i class="bi bi-link-45deg"></i></a> Esempio in Java</h2>
 <pre><code class="language-java">public class DeadlockExample {
     private static final Object lock1 = new Object();
     private static final Object lock2 = new Object();
@@ -393,7 +488,7 @@ t2.start()
 }
 </code></pre>
 <p>In ambienti enterprise basati su Java, questo errore può compromettere interi application server.</p>
-<h1>Deadlock e Cloud Native</h1>
+<h1 id="deadlock-e-cloud-native"><a class="header-anchor" href="#deadlock-e-cloud-native"><i class="bi bi-link-45deg"></i></a> Deadlock e Cloud Native</h1>
 <p>Nel paradigma <strong>Cloud Native</strong>, il deadlock non riguarda solo thread locali.</p>
 <p>Può emergere tra:</p>
 <ul>
@@ -410,63 +505,74 @@ t2.start()
 </ul>
 <p>Qui il problema diventa anche di <strong>sicurezza e resilienza operativa</strong>.</p>
 
-  </section>
+    </section>
 
-  <div class="section-divider mt-5 mb-4">Commenti</div>
+    <div class="section-divider mt-5 mb-4">Commenti</div>
 
-  <section aria-label="Commenti e reazioni">
-    <script>
-      (function () {
-        const saved = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
-        const script = document.createElement('script');
-        script.src = 'https://giscus.app/client.js';
-        script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
-        script.setAttribute('data-repo-id', 'R_kgDORNULOw');
-        script.setAttribute('data-category', 'Announcements');
-        script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
-        script.setAttribute('data-mapping', 'pathname');
-        script.setAttribute('data-strict', '0');
-        script.setAttribute('data-reactions-enabled', '1');
-        script.setAttribute('data-emit-metadata', '0');
-        script.setAttribute('data-input-position', 'top');
-        script.setAttribute('data-theme', theme);
-        script.setAttribute('data-lang', 'it');
-        script.setAttribute('data-loading', 'lazy');
-        script.setAttribute('crossorigin', 'anonymous');
-        script.async = true;
-        document.currentScript.replaceWith(script);
-      })();
-    </script>
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
 
-    <noscript>
-      <div class="text-center py-4 text-muted">
-        <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
-        <p class="small mb-0">
-          Per visualizzare i commenti è necessario abilitare JavaScript.
-          <br>
-          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
-            Discuti su GitHub Discussions →
-          </a>
-        </p>
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
       </div>
-    </noscript>
-  </section>
-</article>
+    </nav>
+  </aside>
+</div>
+
     </main>
 
     <footer class="border-top mt-auto py-5">
   <div class="container">
-    <div class="row g-4">
-      <div class="col-md-5">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
         <h5 class="fw-bold mb-3">
           <span class="text-primary">dino</span>-996
         </h5>
-        <p class="text-muted small mb-3" style="max-width: 320px;">
+        <p class="text-muted small mb-3">
           Developer portfolio e blog tecnico
         </p>
-        <div class="d-flex gap-3">
+        <div class="d-flex justify-content-center gap-3 mb-0">
           <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
              class="text-muted" aria-label="GitHub">
             <i class="bi bi-github fs-5"></i>
@@ -479,33 +585,6 @@ t2.start()
             <i class="bi bi-rss fs-5"></i>
           </a>
         </div>
-      </div>
-
-      <div class="col-6 col-md-3 offset-md-1">
-        <h6 class="fw-bold mb-3">Navigazione</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/" class="text-muted text-decoration-none small">Home</a>
-          </li>
-          <li class="mb-2">
-            <a href="/blog/" class="text-muted text-decoration-none small">Blog</a>
-          </li>
-          <li class="mb-2">
-            <a href="/about/" class="text-muted text-decoration-none small">About</a>
-          </li>
-        </ul>
-      </div>
-
-      <div class="col-6 col-md-3">
-        <h6 class="fw-bold mb-3">Risorse</h6>
-        <ul class="list-unstyled">
-          <li class="mb-2">
-            <a href="/tags/" class="text-muted text-decoration-none small">Tag</a>
-          </li>
-          <li class="mb-2">
-            <a href="/feed.xml" class="text-muted text-decoration-none small">RSS Feed</a>
-          </li>
-        </ul>
       </div>
     </div>
 

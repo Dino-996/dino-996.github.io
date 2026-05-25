@@ -1,0 +1,1284 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Fondamenti di informatica · dino-996 blog
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Una guida completa ai fondamenti dell&amp;#39;informatica per professionisti. Scopri come funzionano hardware, CPU multi-core, memorie (RAM, SSD NVMe), sistemi operativi, licenze software e le basi della sicurezza informatica." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/fondamenti-di-informatica/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/fondamenti-di-informatica/" />
+
+<meta property="og:title" content="Fondamenti di informatica" />
+<meta property="og:description" content="Una guida completa ai fondamenti dell&amp;#39;informatica per professionisti. Scopri come funzionano hardware, CPU multi-core, memorie (RAM, SSD NVMe), sistemi operativi, licenze software e le basi della sicurezza informatica." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1779707932/Informatica_di_base_2ca3d9ae32.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/fondamenti-di-informatica/" />
+
+<meta name="twitter:title" content="Fondamenti di informatica" />
+<meta name="twitter:description" content="Una guida completa ai fondamenti dell&amp;#39;informatica per professionisti. Scopri come funzionano hardware, CPU multi-core, memorie (RAM, SSD NVMe), sistemi operativi, licenze software e le basi della sicurezza informatica." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1779707932/Informatica_di_base_2ca3d9ae32.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Bootstrap icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
+          <div class="theme-toggle" role="group" aria-label="Toggle tema">
+            <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-sun"></i>
+            </button>
+            <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-moon"></i>
+            </button>
+            <div class="theme-toggle-slider"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+    <main class="container my-5 flex-grow-1">
+      
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
+          <time datetime="2026-02-04T00:00:00.000Z">
+            <i class="bi bi-calendar3 me-1"></i>04 febbraio 2026
+          </time>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-05-25T11:19:35.000Z">
+                <i class="bi bi-pencil me-1"></i>25 maggio 2026
+              </time>
+            </span>
+          
+        </div>
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Ffondamenti-di-informatica%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Fondamenti%20di%20informatica&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Ffondamenti-di-informatica%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Ffondamenti-di-informatica%2F&title=Fondamenti%20di%20informatica"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Ffondamenti-di-informatica%2F&t=Fondamenti%20di%20informatica"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
+          
+          
+          
+            
+            
+              <a href="/tags/informatica-di-base/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                informatica di base
+              </a>
+            
+          
+            
+            
+              <a href="/tags/fondamenti-di-informatica/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                fondamenti di informatica
+              </a>
+            
+          
+            
+            
+              <a href="/tags/ict/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                ICT
+              </a>
+            
+          
+            
+            
+              <a href="/tags/storage/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                storage
+              </a>
+            
+          
+            
+            
+              <a href="/tags/sistemi-operativi/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                sistemi operativi
+              </a>
+            
+          
+            
+            
+              <a href="/tags/hardware/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                hardware
+              </a>
+            
+          
+            
+            
+              <a href="/tags/software/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                software
+              </a>
+            
+          
+        </div>
+      </div>
+      </div>
+    </div>
+  </aside>
+
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Fondamenti di informatica</h1>
+
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2026-02-04T00:00:00.000Z">04 febbraio 2026</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/informatica-di-base/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              informatica di base
+            </a>
+          
+        
+          
+          
+            <a href="/tags/fondamenti-di-informatica/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              fondamenti di informatica
+            </a>
+          
+        
+          
+          
+            <a href="/tags/ict/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              ICT
+            </a>
+          
+        
+          
+          
+            <a href="/tags/storage/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              storage
+            </a>
+          
+        
+          
+          
+            <a href="/tags/sistemi-operativi/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              sistemi operativi
+            </a>
+          
+        
+          
+          
+            <a href="/tags/hardware/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              hardware
+            </a>
+          
+        
+          
+          
+            <a href="/tags/software/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              software
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">Le ICT definiscono l&#39;infrastruttura digitale essenziale per ogni organizzazione moderna, coprendo un&#39;ampia gamma di servizi e applicazioni, mentre l&#39;hardware rappresenta la componente fisica dei sistemi informatici, con diverse tipologie come supercomputer, mainframe, server, workstation e PC, ognuna ottimizzata per specifici scenari d&#39;uso.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1779707932/Informatica_di_base_2ca3d9ae32.png"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h1 id="fondamenti-di-informatica-per-il-professionista-moderno"><a class="header-anchor" href="#fondamenti-di-informatica-per-il-professionista-moderno"><i class="bi bi-link-45deg"></i></a> Fondamenti di Informatica per il Professionista Moderno</h1>
+<h2 id="ict"><a class="header-anchor" href="#ict"><i class="bi bi-link-45deg"></i></a> ICT</h2>
+<p>Con il termine <strong>ICT</strong> (Information and Communication Technology — Tecnologie dell'Informazione e della Comunicazione) si intende l'insieme dei metodi, delle tecnologie e degli strumenti utilizzati per raccogliere, elaborare, memorizzare, trasmettere e presentare informazioni in formato digitale.</p>
+<p>L'ICT non è un dominio astratto: è la spina dorsale di ogni organizzazione moderna. I principali ambiti applicativi includono:</p>
+<ul>
+<li><strong>Servizi Internet</strong>: navigazione web, motori di ricerca, streaming, cloud</li>
+<li><strong>E-commerce</strong>: vendita e acquisto digitale di beni e servizi (Amazon, eBay, shop online)</li>
+<li><strong>E-banking</strong>: gestione di conti correnti, pagamenti e investimenti online</li>
+<li><strong>E-government</strong>: servizi della pubblica amministrazione digitale (SPID, fascicolo sanitario, dichiarazione dei redditi online)</li>
+<li><strong>E-learning</strong>: formazione a distanza, piattaforme didattiche, video-lezioni</li>
+<li><strong>Comunicazione</strong>: email, messaggistica istantanea (IM), VoIP, videoconferenza</li>
+<li><strong>IoT (Internet of Things)</strong>: oggetti di uso quotidiano connessi a Internet (smartwatch, termostati intelligenti, assistenti vocali, veicoli connessi)</li>
+</ul>
+<h2 id="hardware"><a class="header-anchor" href="#hardware"><i class="bi bi-link-45deg"></i></a> Hardware</h2>
+<p>Con <strong>hardware</strong> si intende la componente fisica di un sistema informatico — tutto ciò che è tangibile: processori, schede, cavi, display, dispositivi di input e output. L'hardware esiste in simbiosi con il software: nessuno dei due è operativo senza l'altro.</p>
+<blockquote>
+<p><em>HARD = rigido, duro / WARE = materiale</em></p>
+</blockquote>
+<h3 id="tipologie-di-computer"><a class="header-anchor" href="#tipologie-di-computer"><i class="bi bi-link-45deg"></i></a> Tipologie di computer</h3>
+<p>I computer si presentano in forme molto diverse, ottimizzate per casi d'uso specifici.</p>
+<p><strong>Supercomputer</strong></p>
+<p>Macchine ad altissime prestazioni che sfruttano migliaia di processori in parallelo e tecnologie avanzatissime. Utilizzati per simulazioni climatiche, ricerca scientifica, calcolo astronomico e intelligenza artificiale su larga scala.</p>
+<p><strong>Mainframe</strong></p>
+<p>Sistemi di grandi dimensioni con enormi capacità di memoria e processori multipli, progettati per gestire milioni di transazioni simultanee con altissima affidabilità. Ancora oggi il backbone di banche, compagnie assicurative e amministrazioni pubbliche. I terminali collegati a un mainframe senza risorse proprie sono detti <strong>thin client</strong> (o storicamente &quot;terminali stupidi&quot;).</p>
+<p><strong>Server</strong></p>
+<p>L'evoluzione moderna del minicomputer. Una macchina a cui altri dispositivi si collegano in rete per richiedere servizi: condivisione di file, siti web, posta elettronica, gestione degli accessi aziendali. I server si trovano sia in data center fisici (on-premise) sia ospitati da grandi fornitori nel cloud.</p>
+<p><strong>Workstation</strong></p>
+<p>PC ad alte prestazioni pensati per carichi di lavoro intensivi: rendering 3D, editing video 4K/8K, progettazione CAD, simulazioni scientifiche. Montano componenti professionali con prestazioni superiori a un normale PC da ufficio.</p>
+<p><strong>Personal Computer (PC Desktop)</strong></p>
+<p>Il computer da scrivania: non facilmente trasportabile, collegato stabilmente alla rete elettrica e a Internet. Offre il miglior rapporto prestazioni/prezzo e la maggiore possibilità di espansione. I form factor più comuni sono: Tower, Mini Tower, Desktop orizzontale e All-in-One (case integrato nel monitor).</p>
+<p><strong>Laptop / Notebook</strong></p>
+<p>Computer portatile a forma di &quot;libro&quot; con monitor piatto e tastiera integrata, alimentato da una batteria agli ioni di litio. I componenti sono miniaturizzati e ottimizzati per l'efficienza energetica. Le categorie principali sono:</p>
+<ul>
+<li><strong>Notebook tradizionale</strong>: equilibrio tra prestazioni e autonomia</li>
+<li><strong>Ultrabook</strong>: design sottile e leggero (meno di 1,5 kg), avvio rapido, batteria a lunga durata</li>
+<li><strong>Chromebook</strong>: laptop pensato per lavorare principalmente online, diffuso nell'istruzione</li>
+<li><strong>Gaming laptop</strong>: scheda grafica dedicata potente, display ad alta frequenza di aggiornamento</li>
+</ul>
+<p><strong>Tablet</strong></p>
+<p>Dispositivo portatile con schermo touchscreen (tipicamente 8-13 pollici), senza tastiera fisica integrata. Utilizza sistemi operativi come iPadOS, Android o Windows. Può essere abbinato a una tastiera esterna per un uso più produttivo.</p>
+<p><strong>Smartphone</strong></p>
+<p>Telefono di nuova generazione con sistema operativo completo (Android, iOS), connettività avanzata (5G, Wi-Fi, Bluetooth, NFC, GPS) e fotocamere multi-sensore. I moderni chip mobili integrano in un unico circuito CPU, GPU e modulo per la connettività di rete.</p>
+<p><strong>Dispositivi IoT (Internet of Things)</strong></p>
+<p>Una categoria in forte crescita che comprende qualsiasi oggetto fisico dotato di sensori, connettività e capacità di elaborazione: smartwatch, termostati intelligenti, telecamere IP, elettrodomestici connessi, assistenti vocali (Alexa, Google Home), veicoli autonomi, dispositivi medici connessi. Il filo comune è la capacità di raccogliere dati e comunicare con altri dispositivi tramite Internet.</p>
+<h3 id="il-processore-cpu"><a class="header-anchor" href="#il-processore-cpu"><i class="bi bi-link-45deg"></i></a> Il processore (CPU)</h3>
+<p>La <strong>CPU</strong> (Central Processing Unit) è il cervello del computer: legge ed esegue le istruzioni dei programmi, coordina tutti gli altri componenti e gestisce il flusso dei dati.</p>
+<p><strong>Struttura interna della CPU</strong></p>
+<p>Una CPU è composta da:</p>
+<ul>
+<li><strong>CU (Control Unit)</strong>: acquisisce le istruzioni dalla memoria, le decodifica e coordina l'esecuzione</li>
+<li><strong>ALU (Arithmetic Logic Unit)</strong>: esegue le operazioni aritmetiche (addizione, sottrazione, moltiplicazione) e logiche (confronti, AND, OR)</li>
+<li><strong>Registri</strong>: piccole memorie ultrarapide integrate nella CPU, contengono i dati in lavorazione immediata</li>
+<li><strong>Cache L1/L2/L3</strong>: livelli di memoria tampone integrati nella CPU (approfonditi nella sezione dedicata)</li>
+</ul>
+<p><strong>Frequenza di clock</strong></p>
+<p>La velocità della CPU si misura in <strong>Hz (Hertz)</strong>, ovvero cicli al secondo. I valori attuali sono:</p>
+<ul>
+<li><strong>MHz (Megahertz)</strong>: milioni di cicli al secondo — tipico dei processori degli anni '90-2000</li>
+<li><strong>GHz (Gigahertz)</strong>: miliardi di cicli al secondo — standard attuale (da 3 a 5+ GHz per CPU desktop)</li>
+</ul>
+<blockquote>
+<p>La frequenza da sola non basta a misurare le prestazioni reali: contano anche quante istruzioni il processore riesce a completare in ogni ciclo, il numero di core e l'architettura generale del chip.</p>
+</blockquote>
+<p><strong>Processori multi-core</strong></p>
+<p>I processori moderni integrano più <strong>core</strong> (nuclei di elaborazione) nello stesso chip. Avere più core significa poter eseguire più operazioni in parallelo: un core gestisce il programma che stai usando in primo piano, gli altri tengono attivi i programmi in background senza rallentare il sistema.</p>
+<table>
+<thead>
+<tr>
+<th>Tipo di sistema</th>
+<th>Core tipici</th>
+<th>Uso principale</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PC consumer (desktop/laptop)</td>
+<td>4–16 core</td>
+<td>Produttività, navigazione, giochi</td>
+</tr>
+<tr>
+<td>Workstation professionale</td>
+<td>8–32 core</td>
+<td>Rendering, video, progettazione</td>
+</tr>
+<tr>
+<td>Server aziendale</td>
+<td>16–64+ core</td>
+<td>Database, siti web, servizi aziendali</td>
+</tr>
+<tr>
+<td>Smartphone</td>
+<td>6–12 core</td>
+<td>Uso mobile quotidiano</td>
+</tr>
+</tbody>
+</table>
+<p>I primi processori dual core sono apparsi intorno al 2005; i quad core nel 2007-2008. Oggi anche i laptop di fascia media montano processori con 8, 10 o 12 core.</p>
+<p><strong>Architetture x86-64 e ARM</strong></p>
+<p>Esistono due grandi famiglie di processori:</p>
+<ul>
+<li><strong>x86-64</strong> (prodotti da Intel e AMD): architettura dominante nei PC desktop, laptop e server tradizionali. Alta compatibilità con tutto il software Windows e Linux esistente.</li>
+<li><strong>ARM</strong>: architettura nata per dispositivi mobili, oggi presente anche nei PC grazie ai chip Apple M-series (M1, M2, M3, M4) e a processori Qualcomm per laptop Windows. Il punto di forza è l'efficienza energetica: alte prestazioni con consumi molto ridotti, ideale per laptop con lunga autonomia e smartphone.</li>
+</ul>
+<h3 id="memoria-centrale"><a class="header-anchor" href="#memoria-centrale"><i class="bi bi-link-45deg"></i></a> Memoria centrale</h3>
+<p><strong>RAM (Random Access Memory)</strong></p>
+<p>La RAM è la memoria di lavoro del computer: contiene tutti i dati e i programmi attualmente in uso. È una memoria <strong>volatile</strong>, il suo contenuto viene azzerato allo spegnimento della macchina.</p>
+<p>Il termine &quot;accesso casuale&quot; indica che il processore può accedere direttamente a qualsiasi cella di memoria in tempo costante, senza scorrere i dati uno per uno. Avere più RAM significa poter caricare più programmi contemporaneamente senza rallentamenti: il computer non è costretto a &quot;appoggiarsi&quot; al disco rigido (operazione molto più lenta) per trovare i dati di cui ha bisogno.</p>
+<p><strong>ROM (Read Only Memory)</strong></p>
+<p>La ROM è una memoria <strong>non volatile</strong> (mantiene il suo contenuto anche senza alimentazione) e di sola lettura. Contiene le istruzioni necessarie all'avvio del sistema.</p>
+<p>Il software implementato direttamente nel circuito hardware dal produttore prende il nome di <strong>firmware</strong>, un ibrido tra hardware e software. Il firmware tradizionale si chiama <strong>BIOS</strong>; il suo successore moderno è <strong>UEFI</strong>.</p>
+<p><strong>BIOS e UEFI</strong></p>
+<table>
+<thead>
+<tr>
+<th>Caratteristica</th>
+<th>BIOS (legacy)</th>
+<th>UEFI (moderno)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Interfaccia di configurazione</td>
+<td>Testuale</td>
+<td>Grafica, con mouse</td>
+</tr>
+<tr>
+<td>Dimensione massima disco supportata</td>
+<td>2 TB</td>
+<td>Praticamente illimitata</td>
+</tr>
+<tr>
+<td>Velocità di avvio</td>
+<td>Più lenta</td>
+<td>Più rapida (Fast Boot)</td>
+</tr>
+<tr>
+<td>Sicurezza</td>
+<td>Assente</td>
+<td><strong>Secure Boot</strong> integrato</td>
+</tr>
+<tr>
+<td>Aggiornamenti</td>
+<td>Complessi</td>
+<td>Semplificati</td>
+</tr>
+</tbody>
+</table>
+<p>I PC venduti negli ultimi anni montano tutti UEFI. <strong>Secure Boot</strong> è una funzione UEFI che verifica la firma digitale del sistema operativo prima di avviarlo, impedendo l'esecuzione di software dannoso durante la fase di accensione. Windows 11 richiede obbligatoriamente UEFI con Secure Boot attivo.</p>
+<h3 id="memoria-cache"><a class="header-anchor" href="#memoria-cache"><i class="bi bi-link-45deg"></i></a> Memoria cache</h3>
+<p>La cache è una memoria ad accesso ultraveloce posizionata tra la CPU e la RAM. Serve a ridurre il &quot;collo di bottiglia&quot; causato dalla differenza di velocità tra il processore (velocissimo) e la RAM (decisamente più lenta).</p>
+<p>Funziona su un principio semplice: i dati usati di recente o più frequentemente vengono tenuti &quot;a portata di mano&quot; nella cache. Se il processore trova lì il dato che cerca (cache hit), lo ottiene in pochissimo tempo; altrimenti deve andare a recuperarlo dalla RAM (cache miss), con un piccolo ritardo.</p>
+<p>I livelli di cache:</p>
+<ul>
+<li><strong>L1</strong>: la più veloce, integrata direttamente in ogni core (poche decine di KB)</li>
+<li><strong>L2</strong>: più capiente, tipicamente per singolo core (da 256 KB a 1 MB)</li>
+<li><strong>L3</strong>: condivisa tra tutti i core, la più capiente (da 8 a 64 MB nei processori consumer)</li>
+</ul>
+<h3 id="storage-memorie-di-massa"><a class="header-anchor" href="#storage-memorie-di-massa"><i class="bi bi-link-45deg"></i></a> Storage: Memorie di Massa</h3>
+<p>Lo storage permanente conserva dati e programmi anche in assenza di alimentazione. I principali tipi sono:</p>
+<p><strong>HDD (Hard Disk Drive)</strong></p>
+<p>Il disco fisso tradizionale: un dispositivo meccanico composto da <strong>piatti magnetici</strong> che ruotano ad alta velocità e da <strong>testine di lettura/scrittura</strong> che si spostano sulla loro superficie senza toccarla direttamente, rilevando o modificando i segnali magnetici.</p>
+<p>Ogni punto della superficie può essere magnetizzato in un verso o nell'altro: questo corrisponde a un <strong>bit</strong> (0 o 1). I dati sono organizzati in strutture concentriche chiamate <strong>tracce</strong>, suddivise in <strong>settori</strong>, raggruppati in <strong>cluster</strong>.</p>
+<p>Gli HDD offrono grandi capacità a costi contenuti (anche 10-20 TB per uso consumer) ma sono più lenti degli SSD e sensibili agli urti fisici, proprio perché hanno parti meccaniche in movimento.</p>
+<p><strong>SSD (Solid State Drive)</strong></p>
+<p>Lo standard attuale per i sistemi operativi e i programmi. Utilizza <strong>memoria NAND flash</strong> — la stessa tecnologia delle chiavette USB, ma con un controller molto più sofisticato — senza alcuna parte meccanica in movimento. Il risultato è una velocità di accesso enormemente superiore rispetto all'HDD, maggiore resistenza agli urti e consumi energetici ridotti.</p>
+<p>Esistono due interfacce principali:</p>
+<ul>
+<li><strong>SSD SATA</strong>: usa lo stesso connettore degli HDD tradizionali, velocità massima ~550 MB/s</li>
+<li><strong>SSD NVMe</strong> (via slot M.2): sfrutta il bus PCIe direttamente sulla scheda madre, con velocità che arrivano a 3.500–7.000 MB/s nei modelli consumer e oltre negli SSD professionali</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Parametro</th>
+<th>HDD</th>
+<th>SSD SATA</th>
+<th>SSD NVMe</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Velocità di lettura</td>
+<td>~150 MB/s</td>
+<td>~550 MB/s</td>
+<td>fino a 7.000 MB/s</td>
+</tr>
+<tr>
+<td>Tempo di risposta</td>
+<td>3–10 ms</td>
+<td>~0,1 ms</td>
+<td>~0,02 ms</td>
+</tr>
+<tr>
+<td>Capacità tipica</td>
+<td>1–20 TB</td>
+<td>500 GB–4 TB</td>
+<td>500 GB–8 TB</td>
+</tr>
+<tr>
+<td>Resistenza agli urti</td>
+<td>Bassa</td>
+<td>Alta</td>
+<td>Alta</td>
+</tr>
+<tr>
+<td>Consumo energetico</td>
+<td>Più alto</td>
+<td>Medio</td>
+<td>Medio-basso</td>
+</tr>
+<tr>
+<td>Costo per GB</td>
+<td>Basso</td>
+<td>Medio</td>
+<td>Medio-alto</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Memorie rimovibili</strong></p>
+<ul>
+<li><strong>Chiavetta USB (USB key)</strong>: memoria flash trasportabile collegata tramite porta USB. Le capacità attuali arrivano a <strong>2 TB</strong>, con velocità di trasferimento fino a diverse centinaia di MB/s sulle versioni USB 3.x</li>
+<li><strong>Schede di memoria SD / microSD</strong>: usate in fotocamere, smartphone, videocamere e droni. Lo standard attuale arriva a <strong>1 TB</strong> (SDUC). Da non confondere con gli SSD: SD card e SSD usano entrambi memoria NAND flash, ma sono progettate per scopi e velocità molto diversi</li>
+<li><strong>Floppy disk</strong>: memoria magnetica rimovibile nata con i primi PC, ormai del tutto obsoleta. Esistevano in formato da 5¼ pollici e poi 3½ pollici; la lettera &quot;A&quot; che nei vecchi PC indicava la prima unità disco si riferisce proprio al floppy. Le chiavette USB ne hanno sancito la definitiva scomparsa</li>
+<li><strong>CD, DVD, Blu-ray</strong>: supporti ottici su cui i dati vengono incisi da un raggio laser. Il CD contiene fino a 700 MB; il DVD da 4,7 GB a 17 GB (in versione dual-layer dual-side); il Blu-ray da 25 GB a 100 GB, grazie a un laser a luce blu con lunghezza d'onda minore che permette di incidere solchi più piccoli e più ravvicinati</li>
+</ul>
+<p><strong>Cloud Storage</strong></p>
+<p>Il cloud storage permette di salvare file su server remoti accessibili da qualsiasi dispositivo connesso a Internet. Non è più una semplice curiosità: oggi è lo strumento principale con cui milioni di persone e aziende conservano, sincronizzano e condividono i propri dati.</p>
+<p>I servizi più diffusi per uso personale e professionale sono Google Drive, Microsoft OneDrive, Apple iCloud e Dropbox. I vantaggi principali sono: accesso da qualsiasi dispositivo, sincronizzazione automatica tra più dispositivi, condivisione semplice con altri utenti e protezione dai guasti hardware locali.</p>
+<p>Una buona pratica per proteggere i dati importanti è la regola <strong>3-2-1</strong>:</p>
+<ul>
+<li><strong>3</strong> copie dei dati</li>
+<li>su <strong>2</strong> supporti diversi (ad esempio disco interno + disco esterno)</li>
+<li>con <strong>1</strong> copia conservata in una posizione diversa (cloud o sede separata)</li>
+</ul>
+<h3 id="connettivita-e-porte"><a class="header-anchor" href="#connettivita-e-porte"><i class="bi bi-link-45deg"></i></a> Connettività e porte</h3>
+<p>Le porte di connessione collegano le periferiche esterne alla scheda madre.</p>
+<p><strong>Porte fisiche principali</strong></p>
+<ul>
+<li><strong>USB-A</strong> (rettangolare, la classica): la porta USB più diffusa. Le versioni USB 3.x raggiungono velocità di trasferimento fino a 10 Gbps</li>
+<li><strong>USB-C</strong>: connettore reversibile (funziona in entrambi i versi), sempre più comune su laptop e smartphone. Può trasportare dati, video e alimentazione elettrica sullo stesso cavo. Nei laptop moderni può sostituire decine di porte diverse con un unico connettore compatto</li>
+<li><strong>Thunderbolt 3/4</strong>: usa lo stesso connettore USB-C ma con prestazioni molto superiori (fino a 40 Gbps). Permette di collegare monitor ad alta risoluzione, storage esterno veloce e altri accessori attraverso un unico cavo</li>
+<li><strong>HDMI</strong>: porta standard per collegare monitor, televisori e proiettori. Le versioni recenti supportano risoluzioni fino a 8K e frequenze di aggiornamento elevate</li>
+<li><strong>Ethernet (RJ-45)</strong>: porta di rete via cavo, offre connessione stabile e veloce (1 Gbps standard, fino a 2,5-10 Gbps sulle versioni più recenti)</li>
+<li><strong>Porte legacy</strong> (seriale, parallela, VGA): praticamente scomparse dai sistemi consumer moderni, ancora presenti in ambienti industriali e su macchinari specifici</li>
+</ul>
+<p><strong>Connettività senza fili</strong></p>
+<ul>
+<li><strong>Wi-Fi 5 / Wi-Fi 6 / Wi-Fi 6E</strong>: connessione wireless a Internet e reti locali. Il Wi-Fi 6 (802.11ax) offre maggiore velocità e migliore gestione di molti dispositivi connessi contemporaneamente rispetto alle versioni precedenti</li>
+<li><strong>Bluetooth 5.x</strong>: connessione wireless a corto raggio per cuffie, tastiere, mouse, speaker e altri accessori</li>
+<li><strong>5G</strong>: quinta generazione della connettività mobile, con velocità molto superiori al 4G e latenza ridotta. Fondamentale per gli smartphone di ultima generazione e per i dispositivi IoT</li>
+</ul>
+<h3 id="periferiche-di-input-output-e-miste"><a class="header-anchor" href="#periferiche-di-input-output-e-miste"><i class="bi bi-link-45deg"></i></a> Periferiche di input, output e miste</h3>
+<p>Le <strong>periferiche</strong> sono i dispositivi che permettono all'utente di interagire con il computer.</p>
+<p><strong>Periferiche di input</strong> (inviano dati al computer)</p>
+<ul>
+<li><strong>Tastiera</strong>: principale periferica di inserimento di testo e comandi. Si divide in aree funzionali: tasti alfanumerici, tasti funzione (F1-F12), tasti di navigazione, tastierino numerico e tasti di controllo (Ctrl, Alt, Shift, etc.)</li>
+<li><strong>Mouse</strong>: dispositivo di puntamento che traduce il movimento della mano in un corrispondente spostamento del cursore sullo schermo. Il tasto sinistro seleziona e apre; il tasto destro apre il menu contestuale; la rotellina centrale scorre le pagine</li>
+<li><strong>Trackpad</strong>: superficie sensibile al tocco integrata nei laptop, sostituisce il mouse. I trackpad moderni supportano gesture con più dita (scorrimento, zoom, rotazione)</li>
+<li><strong>Trackball</strong>: simile al mouse ma con una sfera girevole esposta; il cursore si muove ruotando la sfera con le dita senza spostare il dispositivo</li>
+<li><strong>Joystick</strong>: leva di controllo direzionale, principalmente usata nei videogiochi e nei simulatori di volo</li>
+<li><strong>Scanner</strong>: acquisisce immagini da documenti cartacei convertendole in file digitali. Con software OCR (Optical Character Recognition) può trasformare il testo fotografato in testo modificabile. La qualità dipende dalla risoluzione, misurata in ppi (pixel per pollice): almeno 600 ppi per documenti di buona qualità</li>
+<li><strong>Webcam</strong>: piccola telecamera che acquisisce video in tempo reale per videochiamate e videoconferenze. Sempre più spesso integrata direttamente nello schermo dei laptop</li>
+<li><strong>Microfono</strong>: converte le onde sonore in segnale digitale, usato per registrare audio, videochiamate e comandi vocali</li>
+<li><strong>Fotocamera digitale</strong>: al posto della pellicola usa un sensore (CCD o CMOS) che converte la luce in impulsi elettrici. L'immagine viene salvata su <strong>schede di memoria flash SD/microSD</strong>. La qualità dell'immagine dipende dal numero di pixel del sensore (megapixel)</li>
+<li><strong>Touchscreen</strong>: schermo sensibile al tocco che funge sia da display che da superficie di input. I touchscreen capacitivi proiettivi, usati su tutti gli smartphone e tablet moderni, rilevano anche il tocco di più dita contemporaneamente (multi-touch)</li>
+</ul>
+<p><strong>Periferiche di Output</strong> (restituiscono risultati all'utente)</p>
+<ul>
+<li><strong>Monitor</strong>: la periferica di output principale. Le tecnologie attuali sono LCD, IPS, OLED e QLED. Le risoluzioni vanno da Full HD (1920×1080) a 4K (3840×2160). I vecchi monitor a tubo catodico (CRT) sono tecnologia ormai scomparsa, dismessa nei primi anni 2000</li>
+<li><strong>Stampante</strong>: trasferisce i risultati su carta. Le stampanti <strong>laser</strong> (che usano toner in polvere) sono preferite in ufficio per velocità e costo per pagina; le stampanti <strong>inkjet</strong> (a getto d'inchiostro) per qualità fotografica. Le stampanti <strong>3D</strong> producono oggetti fisici tridimensionali depositando materiale strato per strato, partendo da un modello digitale</li>
+<li><strong>Altoparlanti e cuffie</strong>: output audio. Una coppia di casse acustiche o cuffie si collega alla scheda audio del computer; le versioni Bluetooth eliminano il cavo fisico</li>
+<li><strong>Plotter</strong>: stampante specializzata per disegno tecnico di grandi dimensioni, usata in ambito architettonico, meccanico e cartografico</li>
+</ul>
+<p><strong>Periferiche di Input/Output</strong></p>
+<ul>
+<li><strong>Touchscreen e LIM (Lavagna Interattiva Multimediale)</strong>: fungono sia da display (output) che da superficie di input tramite tocco o stilo</li>
+<li><strong>Modem / Router</strong>: il modem (MOdulatore-DEModulatore) converte il segnale della linea telefonica o fibra ottica in dati digitali e viceversa. I router domestici moderni integrano modem, switch di rete e access point Wi-Fi in un unico dispositivo</li>
+<li><strong>Docking Station</strong>: base di espansione per laptop che aggiunge porte USB, Ethernet, HDMI e altri connettori, trasformando il portatile in una postazione da scrivania completa</li>
+</ul>
+<h2 id="software-licenze-e-sistemi-operativi"><a class="header-anchor" href="#software-licenze-e-sistemi-operativi"><i class="bi bi-link-45deg"></i></a> Software, licenze e sistemi operativi</h2>
+<p>Il <strong>software</strong> è la componente logica del sistema informatico: l'insieme delle istruzioni (programmi) che dicono all'hardware cosa fare. Un programma in esecuzione è detto <strong>processo</strong>.</p>
+<p>Il software si suddivide in due grandi categorie:</p>
+<ul>
+<li><strong>Software di base (di sistema)</strong>: gestisce direttamente l'hardware e fornisce i servizi fondamentali. Il principale è il Sistema Operativo</li>
+<li><strong>Software applicativo</strong>: risolve esigenze specifiche dell'utente e si appoggia al software di sistema per operare</li>
+</ul>
+<h3 id="il-sistema-operativo"><a class="header-anchor" href="#il-sistema-operativo"><i class="bi bi-link-45deg"></i></a> Il Sistema Operativo</h3>
+<p>Il <strong>sistema operativo</strong> (SO) è il software fondamentale che:</p>
+<ul>
+<li>gestisce le risorse hardware (CPU, RAM, storage, periferiche)</li>
+<li>fornisce l'interfaccia tra l'utente e la macchina (grafica o testuale)</li>
+<li>controlla l'esecuzione di tutti i programmi attivi</li>
+<li>gestisce sicurezza, accessi e permessi degli utenti</li>
+</ul>
+<p><strong>Interfaccia testuale (CLI — Command Line Interface)</strong></p>
+<p>L'utente interagisce con il computer digitando comandi testuali secondo una sintassi precisa. È lo strumento preferito da chi gestisce sistemi e scrive programmi, perché consente un controllo molto granulare e permette di automatizzare operazioni ripetitive.</p>
+<p>Esempio di comandi base in un terminale Linux o macOS:</p>
+<pre><code class="language-bash">ls                    # elenca i file nella cartella corrente
+cd Documenti          # entra nella cartella &quot;Documenti&quot;
+cat appunti.txt       # mostra il contenuto del file appunti.txt
+mkdir nuova-cartella  # crea una nuova cartella
+cp file.txt backup/   # copia un file nella cartella backup
+</code></pre>
+<p>Equivalenti in PowerShell su Windows:</p>
+<pre><code class="language-powershell">Get-ChildItem                        # elenca i file nella cartella corrente
+Set-Location Documenti               # entra nella cartella &quot;Documenti&quot;
+Get-Content appunti.txt              # mostra il contenuto del file
+New-Item -ItemType Directory nuova   # crea una nuova cartella
+Copy-Item file.txt backup\           # copia un file nella cartella backup
+</code></pre>
+<p><strong>Interfaccia grafica (GUI — Graphical User Interface)</strong></p>
+<p>L'utente interagisce con il computer tramite icone, finestre, menu e pulsanti. È molto più accessibile per l'utente generico, perché non richiede di memorizzare comandi. Il desktop, le cartelle, il cestino e la barra delle applicazioni sono tutti elementi della GUI.</p>
+<p><strong>Principali sistemi operativi</strong></p>
+<table>
+<thead>
+<tr>
+<th>Sistema Operativo</th>
+<th>Produttore</th>
+<th>Piattaforma</th>
+<th>Uso tipico</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Windows 11</strong></td>
+<td>Microsoft</td>
+<td>PC desktop e laptop</td>
+<td>Standard in aziende, uffici e uso domestico</td>
+</tr>
+<tr>
+<td><strong>macOS Sequoia</strong></td>
+<td>Apple</td>
+<td>Mac (chip Intel o M-series)</td>
+<td>Creativi, professionisti, sviluppatori</td>
+</tr>
+<tr>
+<td><strong>Ubuntu 24.04 LTS</strong></td>
+<td>Canonical</td>
+<td>PC e server</td>
+<td>Utenti avanzati, tecnici IT</td>
+</tr>
+<tr>
+<td><strong>Android 15</strong></td>
+<td>Google</td>
+<td>Smartphone e tablet</td>
+<td>Dispositivi mobili (mercato dominante)</td>
+</tr>
+<tr>
+<td><strong>iOS / iPadOS 18</strong></td>
+<td>Apple</td>
+<td>iPhone e iPad</td>
+<td>Ecosistema Apple, alta sicurezza</td>
+</tr>
+</tbody>
+</table>
+<h3 id="software-applicativo"><a class="header-anchor" href="#software-applicativo"><i class="bi bi-link-45deg"></i></a> Software Applicativo</h3>
+<p><strong>Software a scopo generale (General Purpose)</strong></p>
+<p>Programmi per attività quotidiane accessibili a qualsiasi utente:</p>
+<ul>
+<li><strong>Suite per ufficio</strong>: Microsoft 365, LibreOffice, Google Workspace (Docs, Sheets, Slides)</li>
+<li><strong>Browser web</strong>: Google Chrome, Mozilla Firefox, Microsoft Edge, Safari</li>
+<li><strong>Client email</strong>: Outlook, Thunderbird, Gmail</li>
+<li><strong>Comunicazione e videoconferenze</strong>: Microsoft Teams, Zoom, WhatsApp, Skype</li>
+<li><strong>Editing foto e video</strong>: Adobe Photoshop, GIMP, DaVinci Resolve</li>
+</ul>
+<p><strong>Software a scopo specifico (Special Purpose)</strong></p>
+<p>Programmi per esigenze verticali e specialistiche:</p>
+<ul>
+<li><strong>ERP / Gestionali</strong>: SAP, Oracle, Microsoft Dynamics — gestione aziendale integrata (magazzino, contabilità, personale)</li>
+<li><strong>EIS / MIS</strong>: software per fornire quadri sintetici o simulazioni sull'andamento aziendale</li>
+<li><strong>DBMS</strong>: MySQL, PostgreSQL, Microsoft Access — gestione di archivi e basi di dati</li>
+<li><strong>CAD</strong>: AutoCAD, SolidWorks — progettazione tecnica (elettronica, meccanica, edilizia)</li>
+<li><strong>CBT / LMS</strong>: Moodle, Coursera, Khan Academy — formazione digitale e autoapprendimento</li>
+<li><strong>Elaborazione immagini</strong>: Adobe Photoshop, GIMP, Lightroom</li>
+</ul>
+<p><strong>Versioni del software</strong></p>
+<p>Accanto al nome di un programma compare spesso un numero di versione, ad esempio &quot;Firefox 128.0&quot;. Il numero indica a quale aggiornamento corrisponde quella versione. Le versioni con numero intero (1.0, 2.0, 3.0) indicano cambiamenti sostanziali del programma; i numeri decimali (1.1, 1.2) indicano correzioni di errori e piccoli miglioramenti. Gli errori nel software si chiamano <strong>bug</strong>.</p>
+<p><strong>Linguaggi di programmazione</strong></p>
+<p>I linguaggi di programmazione permettono agli sviluppatori di scrivere i programmi che tutti usiamo. I più diffusi oggi sono:</p>
+<ul>
+<li><strong>Python</strong>: semplice da imparare, usato in analisi dei dati, intelligenza artificiale e automazione</li>
+<li><strong>JavaScript</strong>: fondamentale per il web, gira sia nelle pagine dei browser che nei server</li>
+<li><strong>Java</strong>: molto usato in grandi aziende e nello sviluppo di app Android</li>
+<li><strong>C / C++</strong>: linguaggi storici e potentissimi, alla base di sistemi operativi, videogiochi e software embedded</li>
+<li><strong>Swift / Kotlin</strong>: linguaggi moderni per lo sviluppo di app iOS (Swift) e Android (Kotlin)</li>
+</ul>
+<p><strong>SaaS — Software as a Service</strong></p>
+<p>Sempre più spesso i programmi non si installano più sul proprio computer: vengono erogati direttamente via browser come servizio in abbonamento. Questo modello si chiama <strong>SaaS</strong> (Software as a Service). Esempi sono Google Workspace, Microsoft 365 Online, Notion, Figma e molti software gestionali aziendali. Vantaggi: nessuna installazione, aggiornamenti automatici, accesso da qualsiasi dispositivo. Svantaggi: dipendenza dalla connessione Internet e dati conservati su server di terzi.</p>
+<h3 id="licenze-software"><a class="header-anchor" href="#licenze-software"><i class="bi bi-link-45deg"></i></a> Licenze software</h3>
+<p>Ogni software è tutelato dalla legge sul <strong>diritto d'autore (copyright)</strong>. Acquistare un programma non trasferisce la proprietà intellettuale: si acquisisce solo il diritto d'uso, regolato dalla <strong>licenza</strong> (EULA — End User License Agreement, ovvero accordo di licenza con l'utente finale).</p>
+<p><strong>Tipologie di licenza</strong></p>
+<table>
+<thead>
+<tr>
+<th>Tipo</th>
+<th>Costo</th>
+<th>Codice sorgente</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Proprietario / Commerciale</strong></td>
+<td>A pagamento</td>
+<td>Chiuso</td>
+<td>Non si può modificare né redistribuire</td>
+</tr>
+<tr>
+<td><strong>Freeware</strong></td>
+<td>Gratuito</td>
+<td>Chiuso</td>
+<td>Uso gratuito, ma non modificabile</td>
+</tr>
+<tr>
+<td><strong>Shareware / Freemium</strong></td>
+<td>Prova gratuita</td>
+<td>Chiuso</td>
+<td>Funzionalità limitate o tempo di prova; richiede acquisto per uso completo</td>
+</tr>
+<tr>
+<td><strong>Open Source (GPL)</strong></td>
+<td>Gratuito</td>
+<td>Aperto</td>
+<td>Modificabile e redistribuibile, ma i derivati devono avere la stessa licenza</td>
+</tr>
+<tr>
+<td><strong>Open Source (MIT / Apache)</strong></td>
+<td>Gratuito</td>
+<td>Aperto</td>
+<td>Modificabile e redistribuibile anche in prodotti commerciali</td>
+</tr>
+<tr>
+<td><strong>Public Domain</strong></td>
+<td>Gratuito</td>
+<td>Aperto o chiuso</td>
+<td>Nessuna restrizione d'uso</td>
+</tr>
+<tr>
+<td><strong>SaaS / Abbonamento</strong></td>
+<td>Canone periodico</td>
+<td>Chiuso</td>
+<td>Si paga per l'accesso al servizio, non per il programma</td>
+</tr>
+</tbody>
+</table>
+<p>Il software <strong>open source</strong> mette a disposizione di chiunque il codice sorgente: non solo il programma funzionante, ma anche le istruzioni con cui è stato scritto. Questo permette a chiunque di studiarlo, migliorarlo e adattarlo alle proprie esigenze, nel rispetto dei termini della licenza specifica.</p>
+<p><strong>È reato:</strong></p>
+<ul>
+<li>Installare lo stesso software commerciale su più computer senza licenza adeguata</li>
+<li>Possedere o distribuire copie non autorizzate (software pirata)</li>
+<li>Scaricare musica, film o testi protetti da copyright senza autorizzazione</li>
+<li>Distribuire software modificato attribuendosene falsamente la paternità</li>
+</ul>
+<p><strong>Come verificare che un software sia regolarmente licenziato:</strong> controllare il codice prodotto (Product Key), il certificato di autenticità o la licenza digitale associata all'account utente.</p>
+<h2 id="bootstrap-il-processo-di-avvio"><a class="header-anchor" href="#bootstrap-il-processo-di-avvio"><i class="bi bi-link-45deg"></i></a> Bootstrap: il Processo di avvio</h2>
+<p>Il termine <strong>bootstrap</strong> deriva dall'espressione inglese &quot;to pull oneself up by one's bootstraps&quot; — tirarsi su da soli allacciandosi gli stivali. In informatica descrive il processo con cui il computer si avvia autonomamente, senza intervento esterno, partendo da un programma minimo (il firmware) che carica progressivamente tutto il sistema.</p>
+<p><strong>Le fasi del bootstrap:</strong></p>
+<p><strong>Fase 1: Power-On Self-Test (POST)</strong><br>
+All'accensione, il firmware UEFI/BIOS esegue un'autodiagnosi dell'hardware: verifica che CPU, RAM, dischi e periferiche siano presenti e funzionanti. Se rileva un problema grave, emette segnali acustici (beep) o mostra un messaggio di errore prima ancora che lo schermo mostri qualcosa.</p>
+<p><strong>Fase 2: Identificazione e attivazione dell'hardware</strong><br>
+Il firmware riconosce tutti i dispositivi collegati, li inizializza e prepara l'ambiente per caricare il sistema operativo.</p>
+<p><strong>Fase 3: Caricamento del sistema operativo</strong><br>
+Il firmware individua il dispositivo di avvio (SSD, HDD, chiavetta USB) e carica in memoria il sistema operativo.</p>
+<p><strong>Fase 4: Login</strong><br>
+Il sistema operativo avvia tutti i suoi servizi e presenta la schermata di accesso (login), dove l'utente inserisce nome utente e password.</p>
+<p><strong>Modalità di spegnimento e sospensione</strong></p>
+<table>
+<thead>
+<tr>
+<th>Modalità</th>
+<th>Cosa succede</th>
+<th>Riavvio</th>
+<th>Consumo</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Spegnimento (Shutdown)</strong></td>
+<td>Tutto chiuso, RAM svuotata</td>
+<td>Completo (circa 30-60 sec)</td>
+<td>Zero</td>
+</tr>
+<tr>
+<td><strong>Ibernazione (Hibernate)</strong></td>
+<td>Contenuto RAM salvato su disco</td>
+<td>Rapido (carica da disco)</td>
+<td>Zero</td>
+</tr>
+<tr>
+<td><strong>Sospensione (Sleep/Standby)</strong></td>
+<td>RAM mantenuta alimentata</td>
+<td>Immediato</td>
+<td>Minimo</td>
+</tr>
+<tr>
+<td><strong>Avvio rapido (Fast Startup)</strong></td>
+<td>Parte del sistema salvata su disco</td>
+<td>Molto rapido</td>
+<td>Zero</td>
+</tr>
+</tbody>
+</table>
+<p>Prima di spegnere, il sistema operativo esegue operazioni essenziali: chiude i programmi attivi, salva i file non salvati, scrive i file di log (diari delle operazioni), libera la memoria. Lo spegnimento forzato — tenendo premuto il pulsante di accensione — salta tutte queste fasi e può causare la perdita di dati non salvati o, in casi rari, la corruzione del filesystem.</p>
+<p><strong>Gestione dei programmi bloccati</strong></p>
+<p>Quando un programma smette di rispondere, è possibile chiuderlo forzatamente senza riavviare l'intero computer aprendo il <strong>Task Manager</strong> di Windows:</p>
+<ul>
+<li><strong>CTRL+SHIFT+ESC</strong>: apre direttamente il Task Manager</li>
+<li><strong>CTRL+ALT+CANC</strong> → poi scegliere &quot;Gestione Attività&quot;</li>
+<li>Tasto destro sulla barra delle applicazioni → &quot;Gestione Attività&quot;</li>
+</ul>
+<p>Nella scheda &quot;Processi&quot; si seleziona il programma bloccato e si clicca &quot;Termina operazione&quot;. Il resto del sistema e degli altri programmi aperti rimane intatto.</p>
+<h2 id="sicurezza-informatica-e-green-computing"><a class="header-anchor" href="#sicurezza-informatica-e-green-computing"><i class="bi bi-link-45deg"></i></a> Sicurezza informatica e Green Computing</h2>
+<h3 id="proteggere-dati-e-dispositivi"><a class="header-anchor" href="#proteggere-dati-e-dispositivi"><i class="bi bi-link-45deg"></i></a> Proteggere dati e dispositivi</h3>
+<p>La sicurezza informatica riguarda chiunque utilizzi un computer o uno smartphone, non solo i tecnici. Le minacce principali e le contromisure essenziali:</p>
+<p><strong>Principali tipologie di minacce</strong></p>
+<ul>
+<li><strong>Virus e malware</strong>: software dannoso che si installa di nascosto per danneggiare il sistema, rubare dati o bloccare l'accesso ai file chiedendo un riscatto (ransomware)</li>
+<li><strong>Phishing</strong>: messaggi email o SMS che imitano comunicazioni di banche, corrieri o servizi noti per indurre l'utente a cliccare su link falsi e inserire le proprie credenziali</li>
+<li><strong>Spyware</strong>: programmi che si installano silenziosamente e raccolgono informazioni sull'utente (password, abitudini di navigazione) inviandole a terzi</li>
+<li><strong>Accesso non autorizzato</strong>: tentativi di indovinare la password di un account o di sfruttare credenziali rubate per accedere a sistemi altrui</li>
+</ul>
+<p><strong>Misure di protezione fondamentali</strong></p>
+<ul>
+<li><strong>Mantenere il sistema aggiornato</strong>: la maggior parte degli attacchi sfrutta vulnerabilità già note per cui esiste un aggiornamento correttivo. Installare gli aggiornamenti tempestivamente è la misura di sicurezza più efficace</li>
+<li><strong>Password robuste e uniche</strong>: una buona password è lunga (almeno 12 caratteri), mescola lettere maiuscole e minuscole, numeri e simboli e non è uguale per più servizi diversi. Un gestore di password (come Bitwarden o KeePass) aiuta a generarle e ricordarle</li>
+<li><strong>Autenticazione a due fattori (2FA)</strong>: aggiunge un secondo livello di verifica oltre alla password, ad esempio un codice temporaneo inviato via SMS o generato da un'app. Anche se qualcuno scopre la password, senza il secondo fattore non può accedere</li>
+<li><strong>Backup regolari</strong>: copiare periodicamente i propri file su un disco esterno o nel cloud. Se un virus distrugge o blocca i dati, il backup permette di ripristinarli. Applicare la regola <strong>3-2-1</strong>: 3 copie, su 2 supporti diversi, con 1 copia fuori casa o nel cloud</li>
+<li><strong>Antivirus aggiornato</strong>: un buon software antivirus rileva e blocca la maggior parte dei malware noti. Su Windows, Windows Defender offre una protezione di base integrata e sempre aggiornata</li>
+</ul>
+<h3 id="green-computing"><a class="header-anchor" href="#green-computing"><i class="bi bi-link-45deg"></i></a> Green Computing</h3>
+<p>Il settore informatico consuma globalmente una quota significativa dell'energia elettrica mondiale. Il <strong>green computing</strong> comprende tutte le pratiche orientate a ridurre l'impatto ambientale dell'uso della tecnologia:</p>
+<ul>
+<li>Spegnere i dispositivi (monitor, PC, stampanti) quando non sono in uso, invece di lasciarli in standby a lungo</li>
+<li>Preferire la modalità di sospensione per brevi interruzioni e lo spegnimento completo per assenze prolungate</li>
+<li>Scegliere hardware con certificazioni di efficienza energetica (Energy Star)</li>
+<li>Prolungare la vita dei dispositivi con aggiornamenti software e manutenzione, riducendo la produzione di rifiuti elettronici (RAEE)</li>
+<li>Riciclare correttamente i dispositivi dismessi presso i punti di raccolta autorizzati; le componenti elettroniche contengono materiali preziosi e potenzialmente inquinanti</li>
+</ul>
+<h2 id="il-cloud"><a class="header-anchor" href="#il-cloud"><i class="bi bi-link-45deg"></i></a> Il Cloud</h2>
+<p>Il <strong>cloud computing</strong> è il modello con cui oggi la maggior parte di servizi, applicazioni e dati vengono erogati via Internet, senza che l'utente debba installare nulla o preoccuparsi dell'infrastruttura sottostante.</p>
+<p>Il termine &quot;cloud&quot; (nuvola) è una metafora: indica che le risorse informatiche — spazio di archiviazione, potenza di calcolo, programmi — si trovano &quot;da qualche parte in rete&quot; e sono accessibili su richiesta, come l'acqua da un rubinetto.</p>
+<p><strong>Esempi concreti di cloud nella vita quotidiana</strong></p>
+<ul>
+<li>Salvare foto su Google Foto o iCloud significa affidarle a server remoti accessibili da qualsiasi dispositivo</li>
+<li>Usare Gmail o <a href="http://Outlook.com" target="_blank" rel="noopener noreferer">Outlook.com</a> significa che le email non risiedono sul tuo computer ma su server di Google o Microsoft</li>
+<li>Guardare un film su Netflix significa riceverlo in streaming da server distribuiti geograficamente, senza scaricarlo</li>
+<li>Lavorare su un documento in Google Docs significa che il file esiste sul cloud ed è modificabile da più persone contemporaneamente, da dispositivi diversi</li>
+</ul>
+<p><strong>I tre modelli principali del cloud</strong></p>
+<table>
+<thead>
+<tr>
+<th>Modello</th>
+<th>Cosa fornisce il provider</th>
+<th>Esempio</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>IaaS</strong> (Infrastructure as a Service)</td>
+<td>Server, rete, storage virtuali</td>
+<td>Amazon Web Services, Microsoft Azure</td>
+</tr>
+<tr>
+<td><strong>PaaS</strong> (Platform as a Service)</td>
+<td>Ambiente per sviluppare ed eseguire applicazioni</td>
+<td>Google App Engine, Heroku</td>
+</tr>
+<tr>
+<td><strong>SaaS</strong> (Software as a Service)</td>
+<td>Programmi pronti all'uso via browser</td>
+<td>Gmail, Microsoft 365, Dropbox</td>
+</tr>
+</tbody>
+</table>
+<p>Per la maggior parte degli utenti e delle piccole aziende, il contatto con il cloud avviene principalmente a livello SaaS: si usa un programma senza installarlo, pagando un abbonamento mensile o annuale, con aggiornamenti automatici inclusi.</p>
+<h2 id="mappa-concettuale"><a class="header-anchor" href="#mappa-concettuale"><i class="bi bi-link-45deg"></i></a> Mappa concettuale</h2>
+<pre><code>SISTEMA INFORMATICO
+├── HARDWARE (la parte fisica)
+│   ├── CPU — il processore (x86-64 o ARM, multi-core)
+│   ├── Memoria centrale (RAM volatile + ROM/firmware UEFI)
+│   ├── Memoria cache (L1, L2, L3 — tampone CPU-RAM)
+│   ├── Storage (HDD magnetico, SSD flash, USB, SD, Cloud)
+│   ├── Connettività (USB-C, Wi-Fi 6, 5G, Ethernet, Bluetooth)
+│   └── Periferiche (Input / Output / Miste)
+│
+└── SOFTWARE (la parte logica)
+    ├── Firmware (BIOS → UEFI, Secure Boot)
+    ├── Sistema Operativo (Windows 11, macOS, Linux, Android/iOS)
+    │   ├── Interfaccia grafica (GUI)
+    │   └── Interfaccia testuale (CLI — terminale)
+    ├── Software Applicativo
+    │   ├── Scopo generale (Office, Browser, Email, Comunicazione)
+    │   └── Scopo specifico (ERP, CAD, DBMS, LMS)
+    └── Licenze (Commerciale, Freeware, Open Source, SaaS)
+<p>TEMI TRASVERSALI<br>
+├── Cloud Storage (Google Drive, OneDrive, iCloud, Dropbox)<br>
+├── Sicurezza (aggiornamenti, password, 2FA, backup, antivirus)<br>
+└── Green Computing (efficienza energetica, riciclo RAEE)<br>
+</code></pre></p>
+<hr>
+<p><em>Articolo redatto per utenti alle prime armi, studenti e appassionati di tecnologia. Basato sul Syllabus ECDL/ICDL Computer Essentials 5.0, aggiornato al 2025.</em></p>
+
+    </section>
+
+    <div class="section-divider mt-5 mb-4">Commenti</div>
+
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
+      </div>
+    </nav>
+  </aside>
+</div>
+
+    </main>
+
+    <footer class="border-top mt-auto py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <h5 class="fw-bold mb-3">
+          <span class="text-primary">dino</span>-996
+        </h5>
+        <p class="text-muted small mb-3">
+          Developer portfolio e blog tecnico
+        </p>
+        <div class="d-flex justify-content-center gap-3 mb-0">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
+             class="text-muted" aria-label="GitHub">
+            <i class="bi bi-github fs-5"></i>
+          </a>
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer"
+             class="text-muted" aria-label="LinkedIn">
+            <i class="bi bi-linkedin fs-5"></i>
+          </a>
+          <a href="/feed.xml" class="text-muted" aria-label="Feed RSS" target="_blank">
+            <i class="bi bi-rss fs-5"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="text-center">
+      <p class="text-muted small mb-0 d-flex align-items-center justify-content-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 75 65" fill="currentColor">
+          <path d="M37.443-3.5c8.988,0,16.57,3.085,22.742,9.257C66.393,11.967,69.5,19.548,69.5,28.5c0,8.991-3.049,16.476-9.145,22.456    C53.879,57.319,46.242,60.5,37.443,60.5c-8.649,0-16.153-3.144-22.514-9.43C8.644,44.784,5.5,37.262,5.5,28.5    c0-8.761,3.144-16.342,9.429-22.742C21.101-0.415,28.604-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.553-18.457,7.657    c-5.22,5.334-7.829,11.525-7.829,18.572c0,7.086,2.59,13.22,7.77,18.398c5.181,5.182,11.352,7.771,18.514,7.771    c7.123,0,13.334-2.607,18.629-7.828c5.029-4.838,7.543-10.952,7.543-18.343c0-7.276-2.553-13.465-7.656-18.571    C50.967,4.824,44.795,2.272,37.557,2.272z M46.129,20.557v13.085h-3.656v15.542h-9.944V33.643h-3.656V20.557    c0-0.572,0.2-1.057,0.599-1.457c0.401-0.399,0.887-0.6,1.457-0.6h13.144c0.533,0,1.01,0.2,1.428,0.6    C45.918,19.5,46.129,19.986,46.129,20.557z M33.042,12.329c0-3.008,1.485-4.514,4.458-4.514s4.457,1.504,4.457,4.514    c0,2.971-1.486,4.457-4.457,4.457S33.042,15.3,33.042,12.329z"/>
+        </svg>
+        Realizzato con <span class="text-danger">❤️</span> usando
+        <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-medium">Eleventy</a>
+        e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-medium">Bootstrap</a>
+      </p>
+    </div>
+  </div>
+</footer>
+      <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      window.pathPrefix = ".";
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send"><i class="bi bi-arrow-up"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js"></script>
+  </body>
+  
+</html>
