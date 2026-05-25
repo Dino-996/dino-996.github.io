@@ -15,8 +15,8 @@ layout: base.njk
       <div class="sidebar-card">
       <div class="post-left-section">
         <div class="d-flex align-items-center gap-2 mb-2">
-          <img src="/assets/img/avatar/dino-996-32.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
-          <span class="fw-semibold small">Davide Sabia</span>
+          <img src="{{ authorAvatar | default('/assets/img/avatar/dino-996-32.png') }}" alt="{{ author }}" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">{{ author | default('Davide Sabia') }}</span>
         </div>
         <div class="post-left-meta">
           <time datetime="{{ postDate | dateIso }}">
@@ -84,9 +84,9 @@ layout: base.njk
     <!-- Mobile author bar (visible below lg) -->
     <div class="d-lg-none mb-3">
       <div class="d-flex align-items-center gap-2 mb-2">
-        <img src="/assets/img/avatar/dino-996-32.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <img src="{{ authorAvatar | default('/assets/img/avatar/dino-996-32.png') }}" alt="{{ author }}" class="rounded-circle" width="28" height="28">
         <div>
-          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="fw-semibold small">{{ author | default('Davide Sabia') }}</div>
           <div class="text-muted small">
             <time datetime="{{ postDate | dateIso }}">{{ postDate | dateHuman }}</time>
             <span class="mx-1">·</span>

@@ -51,6 +51,14 @@ export default async function () {
                 excerpt: a.excerpt ?? '',
                 slug: a.slug ?? `post-${item.id}`,
                 content: a.content ?? '',
+                author: a.author ?? 'Davide Sabia',
+                authorAvatar: a.authorAvatar?.url
+                    ? a.authorAvatar.url
+                    : a.authorAvatar?.data?.attributes?.url
+                        ? (a.authorAvatar.data.attributes.url.startsWith('http')
+                            ? a.authorAvatar.data.attributes.url
+                            : `${STRAPI_URL}${a.authorAvatar.data.attributes.url}`)
+                        : null,
                 image: a.image?.url
                     ? a.image.url
                     : a.image?.data?.attributes?.url
