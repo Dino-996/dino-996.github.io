@@ -73,13 +73,14 @@
 
 <!-- Katex -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+    
   </head>
 
   <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
   <div class="container">
     <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
-      <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;" loading="lazy">
+      <img src="/assets/img/avatar/dino-996-32.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;">
       <span><span class="text-primary">dino</span>-996</span>
     </a>
 
@@ -127,6 +128,12 @@
   
     <main class="container my-5 flex-grow-1">
       
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947641/gnu_linux_1b34ec4ff7.webp" as="image" fetchpriority="high">
+  
+
+
 <div class="reading-progress-bar" id="reading-progress-bar"></div>
 <div class="post-layout d-flex gap-4 justify-content-center">
   <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
@@ -134,8 +141,8 @@
       <div class="sidebar-card">
       <div class="post-left-section">
         <div class="d-flex align-items-center gap-2 mb-2">
-          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
-          <span class="fw-semibold small">Davide Sabia</span>
+<img src="/assets/img/avatar/dino-996-32.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+
         </div>
         <div class="post-left-meta">
           <time datetime="2026-03-18T00:00:00.000Z">
@@ -221,7 +228,7 @@
     <!-- Mobile author bar (visible below lg) -->
     <div class="d-lg-none mb-3">
       <div class="d-flex align-items-center gap-2 mb-2">
-        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <img src="/assets/img/avatar/dino-996-32.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
         <div>
           <div class="fw-semibold small">Davide Sabia</div>
           <div class="text-muted small">
@@ -297,6 +304,7 @@
         <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947641/gnu_linux_1b34ec4ff7.webp"
              alt="Immagine generata con IA"
              class="img-fluid rounded w-100"
+             width="800" height="420" fetchpriority="high"
              style="max-height: 420px; object-fit: cover;">
         
           <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
@@ -751,7 +759,7 @@ mount /dev/sdb1 /mnt/chiavetta
     </script>
 
     <!-- main.js -->
-    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/main.js" defer></script>
   </body>
   
 </html>
