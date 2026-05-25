@@ -62,5 +62,29 @@
   "Le reti": {
     "tldr": "Internet è un sistema decentralizzato di reti interconnesse che utilizzano standard comuni come TCP/IP per lo scambio di dati su vari mezzi fisici, diventando un'infrastruttura critica fondamentale. Le Reti Locali (LAN), che includono configurazioni SOHO e aziendali, collegano dispositivi in aree geografiche limitate per la condivisione di risorse e comunicazioni ad alta velocità, gestite autonomamente dagli organizzazioni proprietarie.",
     "hash": "18243"
+  },
+  "Allocazione della memoria": {
+    "tldr": "Le strategie di allocazione dei frame, che includono modelli uniformi o proporzionali e politiche di sostituzione globali o locali, sono cruciali per bilanciare equità, priorità e throughput del sistema, evitando il collasso dovuto al thrashing. Per prevenire il thrashing, i sistemi moderni utilizzano il modello del Working Set basato sulla località e la politica di Frequenza dei Page Fault (PFF) per gestire dinamicamente i frame assegnati ai processi.",
+    "hash": "5045"
+  },
+  "Algoritmo di Luhn": {
+    "tldr": "L'algoritmo di Luhn è un semplice checksum matematico utilizzato per la validazione di numeri identificativi, progettato per rilevare errori di battitura come singole cifre errate o inversioni di cifre adiacenti. Nonostante la sua semplicità, è ancora ampiamente impiegato per la rapida verifica di codici come quelli delle carte di credito e IMEI, ma non offre alcuna protezione contro frodi.",
+    "hash": "3820"
+  },
+  "Componenti, tipi e connessioni di rete": {
+    "tldr": "L'architettura client-server tradizionale separa rigidamente i ruoli, mentre il modello P2P consente ai nodi di fungere sia da client che da server, offrendo decentralizzazione e ridotti costi infrastrutturali ma introducendo complessità di gestione. I sistemi moderni combinano questi approcci, con microservizi che comunicano in modo bidirezionale e applicazioni P2P ibride che utilizzano server indice per migliorare la localizzazione delle risorse.",
+    "hash": "12066"
+  },
+  "Reti wireless e mobili": {
+    "tldr": "Le reti wireless per dispositivi mobili includono reti cellulari per copertura estesa, Wi-Fi per connessioni locali ad alta velocità, Bluetooth per comunicazioni a corto raggio e NFC per interazioni a prossimità immediata. Sistemi come GPS, A-GPS e GNSS, spesso integrati con dati Wi-Fi e cellulari, forniscono capacità di geolocalizzazione avanzate e flessibili.",
+    "hash": "18145"
+  },
+  "Il livello di collegamento dati e Ethernet": {
+    "tldr": "Il livello di collegamento dati gestisce il trasferimento affidabile dei dati tra nodi connessi, articolandosi nei sotto-livelli LLC e MAC; Ethernet (IEEE 802.3) è il protocollo di livello 2 predominante per le LAN, che incapsula i dati in frame con campi specifici per indirizzamento e controllo. La struttura del frame Ethernet include campi come Preambolo, SFD, MAC di destinazione e origine, EtherType/Lunghezza e Payload, ciascuno con funzioni essenziali per la corretta trasmissione e ricezione dei dati sulla rete locale.",
+    "hash": "12977"
+  },
+  "Mezzi trasmissivi": {
+    "tldr": "Le reti moderne utilizzano cavi in rame, fibra ottica o trasmissione wireless, ciascuno con compromessi unici in termini di prestazioni, distanza e costo. Il doppino intrecciato in rame, in particolare UTP e STP, rimane prevalente nelle LAN per la sua convenienza e semplicità d'uso su distanze limitate, con standard come Cat5e e Cat6 che offrono velocità fino a 1 Gbps/10 Gbps su 100m.",
+    "hash": "13053"
   }
 }
