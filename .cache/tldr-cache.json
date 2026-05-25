@@ -86,5 +86,13 @@
   "Mezzi trasmissivi": {
     "tldr": "Le reti moderne utilizzano cavi in rame, fibra ottica o trasmissione wireless, ciascuno con compromessi unici in termini di prestazioni, distanza e costo. Il doppino intrecciato in rame, in particolare UTP e STP, rimane prevalente nelle LAN per la sua convenienza e semplicità d'uso su distanze limitate, con standard come Cat5e e Cat6 che offrono velocità fino a 1 Gbps/10 Gbps su 100m.",
     "hash": "13053"
+  },
+  "Livello di rete e IPV4": {
+    "tldr": "Gli indirizzi IPv4 sono identificatori logici a 32 bit, rappresentati in notazione decimale puntata, che consentono il routing dei pacchetti attraverso reti eterogenee. La loro struttura gerarchica, definita dalla subnet mask, separa la porzione di rete da quella host per facilitare la comunicazione e l'organizzazione delle reti.",
+    "hash": "11718"
+  },
+  "Fondamenti di informatica": {
+    "tldr": "Le ICT, la spina dorsale delle organizzazioni moderne, comprendono tecnologie per la gestione digitale delle informazioni attraverso servizi internet, e-commerce, e-banking, e-government, e-learning, comunicazione e IoT. L'hardware, componente fisica tangibile dei sistemi informatici come processori e display, è inscindibile dal software per la funzionalità, evolvendosi in tipologie diverse dai supercomputer ai PC, ognuno ottimizzato per specifici carichi di lavoro.",
+    "hash": "35707"
   }
 }

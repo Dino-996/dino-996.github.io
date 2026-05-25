@@ -32,18 +32,21 @@ export default async function () {
             const a = item;
             const tagsArray = Array.isArray(a.tags) ? a.tags : [];
             const flatTags = tagsArray.flatMap(t => typeof t === "string" ? t.split(",").map(s => s.trim()).filter(Boolean) : [t]);
+            const displayFlatTags = flatTags.filter(t => t !== "posts");
+            const postDate = (() => {
+                if (a.date) return new Date(a.date);
+                if (a.publishedAt) return new Date(a.publishedAt);
+                return new Date();
+            })();
 
             return {
                 layout: 'layouts/post.njk',
                 title: a.title ?? 'Senza Titolo',
                 description: a.description ?? '',
                 tags: ['posts', ...flatTags],
-                strapiTags: flatTags.join(","),
-                date: (() => {
-                    if (a.date) return new Date(a.date);
-                    if (a.publishedAt) return new Date(a.publishedAt);
-                    return new Date();
-                })(),
+                strapiTags: displayFlatTags.join(","),
+                displayTags: displayFlatTags.join(","),
+                date: postDate,
                 updatedAt: a.updatedAt ? new Date(a.updatedAt) : null,
                 excerpt: a.excerpt ?? '',
                 slug: a.slug ?? `post-${item.id}`,
@@ -58,7 +61,7 @@ export default async function () {
                 imageAlt: a.imageAlt ?? 'Immagine di copertina',
                 url: `/blog/${a.slug ?? item.id}/`,
             };
-        });
+        }).sort((a, b) => b.date - a.date);
 
         return data_map;
 

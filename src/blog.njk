@@ -9,13 +9,13 @@ pagination:
 permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumber + 1 }}/index.html{% else %}/blog/index.html{% endif %}"
 ---
 
-<div class="d-flex align-items-center gap-3 mb-4">
-  <div class="d-flex align-items-center justify-content-center rounded-3"
-       style="width: 48px; height: 48px; background: var(--primary-light);">
-    <i class="bi bi-journal-text fs-4 text-primary"></i>
+<div class="d-flex align-items-center gap-4 mb-4">
+  <div class="d-inline-flex align-items-center justify-content-center rounded-4 flex-shrink-0"
+       style="width: 72px; height: 72px; background: linear-gradient(135deg, var(--primary-color), #0b5ed7);">
+    <span class="fw-bold text-white" style="font-size: 1.6rem; font-family: monospace;">[ ]</span>
   </div>
   <div>
-    <h1 class="fw-bold mb-0">{{ title }}</h1>
+    <h1 class="fw-bold mb-1">{{ title }}</h1>
     <p class="text-muted small mb-0">Esplora tutti gli articoli</p>
   </div>
 </div>
@@ -97,27 +97,25 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
 </section>
 
 <!-- Pagination -->
-<nav id="pagination" class="pagination-nav mt-5" aria-label="Navigazione pagine blog">
-  <div class="d-flex justify-content-between align-items-center">
-    <div>
+<nav id="pagination" class="mt-5" aria-label="Navigazione pagine blog">
+  <div class="pagination-bar d-flex align-items-center gap-2">
+    <div class="flex-grow-1">
       {% if pagination.previousPageHref %}
-        <a href="{{ pagination.previousPageHref }}" class="btn btn-outline-primary">
-          <i class="bi bi-arrow-left me-1"></i>Precedente
+        <a href="{{ pagination.previousPageHref }}" class="btn btn-primary pagination-btn">
+          <i class="bi bi-arrow-left"></i>
+          <span>Precedente</span>
         </a>
-      {% else %}
-        <span></span>
       {% endif %}
     </div>
-    <div class="text-muted small fw-medium">
-      Pagina {{ pagination.pageNumber + 1 }} di {{ pagination.pages.length }}
+    <div class="pagination-info text-muted small fw-medium text-nowrap">
+      {{ pagination.pageNumber + 1 }} / {{ pagination.pages.length }}
     </div>
-    <div>
+    <div class="flex-grow-1 text-end">
       {% if pagination.nextPageHref %}
-        <a href="{{ pagination.nextPageHref }}" class="btn btn-outline-primary">
-          Successivo <i class="bi bi-arrow-right ms-1"></i>
+        <a href="{{ pagination.nextPageHref }}" class="btn btn-primary pagination-btn">
+          <span>Successivo</span>
+          <i class="bi bi-arrow-right"></i>
         </a>
-      {% else %}
-        <span></span>
       {% endif %}
     </div>
   </div>
