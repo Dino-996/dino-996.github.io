@@ -14,6 +14,12 @@ layout: base.njk
           <time datetime="{{ postDate | dateIso }}">
             <i class="bi bi-calendar3 me-1"></i>{{ postDate | dateHuman }}
           </time>
+          {% if updatedAt and (updatedAt | dateIso) != (postDate | dateIso) %}
+            <span class="mx-1">·</span>
+            <time datetime="{{ updatedAt | dateIso }}">
+              <i class="bi bi-pencil me-1"></i>Aggiornato il {{ updatedAt | dateHuman }}
+            </time>
+          {% endif %}
           <span class="mx-1">·</span>
           <span class="reading-time"></span>
         </div>

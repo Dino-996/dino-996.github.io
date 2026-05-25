@@ -44,6 +44,7 @@ export default async function () {
                     if (a.publishedAt) return new Date(a.publishedAt);
                     return new Date();
                 })(),
+                updatedAt: a.updatedAt ? new Date(a.updatedAt) : null,
                 excerpt: a.excerpt ?? '',
                 slug: a.slug ?? `post-${item.id}`,
                 content: a.content ?? '',
