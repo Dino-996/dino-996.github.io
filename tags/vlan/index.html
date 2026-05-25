@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  Home · dino-996 blog
+  Tag: {{ tag }} · dino-996 blog
 </title>
 
 <!-- SEO meta tags -->
@@ -16,15 +16,15 @@
 
 <!-- Canonical URL -->
 
-<link rel="canonical" href="https://dino-996.github.io/" />
+<link rel="canonical" href="https://dino-996.github.io/tags/vlan/" />
 
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="website" />
 
-<meta property="og:url" content="https://dino-996.github.io/" />
+<meta property="og:url" content="https://dino-996.github.io/tags/vlan/" />
 
-<meta property="og:title" content="Home" />
+<meta property="og:title" content="Tag: {{ tag }}" />
 <meta property="og:description" content="Developer portfolio e blog tecnico" />
 <meta property="og:site_name" content="dino-996 blog" />
 
@@ -34,9 +34,9 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 
-<meta name="twitter:url" content="https://dino-996.github.io/" />
+<meta name="twitter:url" content="https://dino-996.github.io/tags/vlan/" />
 
-<meta name="twitter:title" content="Home" />
+<meta name="twitter:title" content="Tag: {{ tag }}" />
 <meta name="twitter:description" content="Developer portfolio e blog tecnico" />
 
 
@@ -88,7 +88,7 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ms-auto">
         <li class="nav-item">
-          <a class="nav-link active" href="/">
+          <a class="nav-link" href="/">
             Home
           </a>
         </li>
@@ -123,301 +123,188 @@
     <main class="container my-5 flex-grow-1">
       
 
-<!-- Hero -->
-<div class="hero-section text-center py-5 px-3 mb-5">
-  <div class="position-relative">
-    <img src="https://github.com/Dino-996.png" alt="Davide Sabia"
-         class="rounded-circle border border-3 border-primary shadow mb-3"
-         width="80" height="80" style="object-fit: cover;">
-    <h1 class="display-4 fw-bold mb-3">
-      Ciao, sono <span class="text-primary">Davide</span>
+<div class="d-flex align-items-center gap-3 mb-4">
+  <div class="d-flex align-items-center justify-content-center rounded-3"
+       style="width: 48px; height: 48px; background: var(--primary-light);">
+    <i class="bi bi-tag-fill fs-4 text-primary"></i>
+  </div>
+  <div>
+    <h1 class="fw-bold mb-1">
+      Tag: <span class="text-primary">VLAN</span>
     </h1>
-    <p class="lead text-muted mx-auto mb-4" style="max-width: 600px;">
-      Informatico appassionato di tecnologie moderne. Condivido qui progetti e articoli su programmazione e sicurezza informatica.
-    </p>
-    <div class="d-flex gap-3 justify-content-center flex-wrap">
-      <a href="/blog/" class="btn btn-primary btn-lg px-4">
-        <i class="bi bi-journal-text me-2"></i>Blog
-      </a>
-      <a href="/about/" class="btn btn-outline-primary btn-lg px-4">
-        <i class="bi bi-person me-2"></i>About
-      </a>
-    </div>
+    <p class="text-muted small mb-0">Post con tag "VLAN"</p>
   </div>
 </div>
 
-<div class="section-divider">Progetti recenti</div>
-
-<!-- Progetti -->
-<section class="row g-4 mb-5">
-  <div class="col-12 col-md-6 col-lg-4">
-    <div class="card h-100 border">
-      <div class="card-body d-flex flex-column p-4">
-        <div class="d-flex align-items-center gap-3 mb-3">
-          <div class="d-flex align-items-center justify-content-center rounded-3"
-               style="width: 44px; height: 44px; background: var(--primary-light);">
-            <i class="bi bi-github fs-4 text-primary"></i>
-          </div>
-          <h3 class="h5 card-title mb-0">Personal Blog</h3>
-        </div>
-        <p class="card-text text-muted small">
-          Blog realizzato con Eleventy e Bootstrap. Sistema di tag, paginazione, dark mode, AI chatbot e TL;DR con Gemini.
-        </p>
-        <div class="mb-3 d-flex flex-wrap gap-1">
-          <span class="badge bg-light text-body border pe-none">Eleventy</span>
-          <span class="badge bg-light text-body border pe-none">Bootstrap</span>
-          <span class="badge bg-light text-body border pe-none">Nunjucks</span>
-          <span class="badge bg-light text-body border pe-none">Strapi</span>
-        </div>
-        <div class="mt-auto d-grid gap-2">
-          <a href="https://github.com/Dino-996/dino-996.github.io" target="_blank" class="btn btn-primary btn-sm rounded">
-            <i class="bi bi-github me-1"></i>Vedi su GitHub
-          </a>
-          <span class="badge bg-success pe-none text-start">
-            <i class="bi bi-check-circle me-1"></i>Completato
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-12 col-md-6 col-lg-4">
-    <div class="card h-100 border">
-      <div class="card-body d-flex flex-column p-4">
-        <div class="d-flex align-items-center gap-3 mb-3">
-          <div class="d-flex align-items-center justify-content-center rounded-3"
-               style="width: 44px; height: 44px; background: var(--primary-light);">
-            <i class="bi bi-file-earmark-text fs-4 text-primary"></i>
-          </div>
-          <h3 class="h5 card-title mb-0">GLM-OCR</h3>
-        </div>
-        <p class="card-text text-muted small">
-          Trasforma PDF sporchi, scansioni e immagini in Markdown pulito e strutturato, usando il modello GLM-OCR in esecuzione tramite Ollama tutto sul tuo host locale.
-        </p>
-        <div class="mb-3 d-flex flex-wrap gap-1">
-          <span class="badge bg-light text-body border pe-none">markdown</span>
-          <span class="badge bg-light text-body border pe-none">knowledge-base</span>
-          <span class="badge bg-light text-body border pe-none">ollama</span>
-          <span class="badge bg-light text-body border pe-none">glm-ocr</span>
-        </div>
-        <div class="mt-auto d-grid gap-2">
-          <a href="https://github.com/Dino-996/glm-ocr" target="_blank" class="btn btn-primary btn-sm rounded">
-            <i class="bi bi-github me-1"></i>Vedi su GitHub
-          </a>
-          <span class="badge bg-success pe-none text-start">
-            <i class="bi bi-check-circle me-1"></i>Completato
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-12 col-md-12 col-lg-4">
-    <div class="card h-100 border">
-      <div class="card-body d-flex flex-column p-4">
-        <div class="d-flex align-items-center gap-3 mb-3">
-          <div class="d-flex align-items-center justify-content-center rounded-3"
-               style="width: 44px; height: 44px; background: rgba(255, 193, 7, 0.12);">
-            <i class="bi bi-lightbulb fs-4 text-warning"></i>
-          </div>
-          <h3 class="h5 card-title mb-0">Prossimamente</h3>
-        </div>
-        <p class="card-text text-muted small">
-          Sto lavorando a un progetto di cyber security. Torna a controllare tra qualche settimana!
-        </p>
-        <div class="mb-3 d-flex flex-wrap gap-1">
-          <span class="badge bg-light text-body border pe-none">In sviluppo</span>
-        </div>
-        <div class="mt-auto d-grid gap-2">
-          <button class="btn btn-secondary btn-sm rounded" disabled>
-            <i class="bi bi-hourglass-split me-1"></i>Coming Soon
-          </button>
-          <span class="badge bg-warning text-dark pe-none text-start">
-            <i class="bi bi-gear-fill me-1"></i>In corso
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<div class="section-divider">Ultimi articoli</div>
-
-<!-- Ultimi articoli -->
-<section class="row g-4">
+<ul class="list-unstyled">
   
   
     
-    <div class="col-12 col-md-6 col-lg-4">
-      <article class="card h-100 overflow-hidden border">
-        <div class="row g-0 h-100">
-          
-          <div class="col-12 overflow-hidden">
-            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
-                 alt="Immagine generata con IA"
-                 class="card-img-top w-100"
-                 style="object-fit: cover; height: 200px;">
-          </div>
-          
-          <div class="col-12">
-            <div class="card-body d-flex flex-column p-4">
-              <div>
-                <h2 class="h5 card-title mb-2">
-                  <a href="/blog/livello-di-collegamento/">Il livello di collegamento dati e Ethernet</a>
-                </h2>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <time class="text-muted small" datetime="2026-05-24T00:00:00.000Z">
-                    <i class="bi bi-calendar3 me-1"></i>24 maggio 2026
-                  </time>
-                  
-                    
-                    
-                      <a href="/tags/reti/" class="badge border text-decoration-none"
-                         style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
-                        reti
-                      </a>
-                    
-                  
-                </div>
+    
+      
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+    
+    
+  
+
+  
+    
+      <li class="mb-4">
+        <article class="card border">
+          <div class="card-body p-4">
+            <h2 class="h5 card-title mb-2">
+              <a href="/blog/livello-di-collegamento/">Il livello di collegamento dati e Ethernet</a>
+            </h2>
+            <time class="text-muted small d-block mb-3" datetime="2026-05-24T00:00:00.000Z">
+              <i class="bi bi-calendar3 me-1"></i>24 maggio 2026
+            </time>
+            
+              <p class="text-muted small mb-3">Esplora il livello di collegamento dati (Data Link Layer): scopri il funzionamento dei frame Ethernet, il ruolo degli switch, l&amp;#39;indirizzamento MAC e le tecnologie moderne come VLAN e VXLAN.</p>
+            
+            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
+              <span class="small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.05em;">Altri tag:</span>
+              
+              
                 
-                <p class="card-text text-muted small">Esplora il livello di collegamento dati (Data Link Layer): scopri il funzionamento dei frame Ethernet, il ruolo degli...</p>
                 
-              </div>
-              <div class="mt-auto pt-3 text-end">
-                <a href="/blog/livello-di-collegamento/" class="btn btn-primary btn-sm rounded">
-                  Leggi <i class="bi bi-arrow-right ms-1"></i>
-                </a>
-              </div>
+                  <a href="/tags/reti/" class="badge border text-decoration-none"
+                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                    reti
+                  </a>
+                
+              
+                
+                
+                  <a href="/tags/networking/" class="badge border text-decoration-none"
+                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                    networking
+                  </a>
+                
+              
+                
+                
+                  <a href="/tags/data-link-layer/" class="badge border text-decoration-none"
+                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                    data link layer
+                  </a>
+                
+              
+                
+                
+                  <a href="/tags/livello-di-collegamento/" class="badge border text-decoration-none"
+                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                    livello di collegamento
+                  </a>
+                
+              
+                
+                
+                  <a href="/tags/hub/" class="badge border text-decoration-none"
+                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                    hub
+                  </a>
+                
+              
+                
+                
+                  <a href="/tags/switch/" class="badge border text-decoration-none"
+                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                    switch
+                  </a>
+                
+              
+                
+                
+                  <a href="/tags/ethernet/" class="badge border text-decoration-none"
+                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                    ethernet
+                  </a>
+                
+              
+                
+                
+                  <a href="/tags/frame/" class="badge border text-decoration-none"
+                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                    frame
+                  </a>
+                
+              
+                
+                
+              
+            </div>
+            <div>
+              <a href="/blog/livello-di-collegamento/" class="btn btn-primary btn-sm rounded">
+                Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
+              </a>
             </div>
           </div>
-        </div>
-      </article>
-    </div>
+        </article>
+      </li>
     
   
-    
-    <div class="col-12 col-md-6 col-lg-4">
-      <article class="card h-100 overflow-hidden border">
-        <div class="row g-0 h-100">
-          
-          <div class="col-12 overflow-hidden">
-            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
-                 alt="Immagine generata con IA"
-                 class="card-img-top w-100"
-                 style="object-fit: cover; height: 200px;">
-          </div>
-          
-          <div class="col-12">
-            <div class="card-body d-flex flex-column p-4">
-              <div>
-                <h2 class="h5 card-title mb-2">
-                  <a href="/blog/mezzi-trasmissivi/">Mezzi trasmissivi</a>
-                </h2>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <time class="text-muted small" datetime="2026-05-23T00:00:00.000Z">
-                    <i class="bi bi-calendar3 me-1"></i>23 maggio 2026
-                  </time>
-                  
-                    
-                    
-                  
-                </div>
-                
-                <p class="card-text text-muted small">Alla scoperta dei media di rete: analizziamo differenze, vantaggi e scenari d&#39;uso di cavi in rame (UTP/STP), fibra...</p>
-                
-              </div>
-              <div class="mt-auto pt-3 text-end">
-                <a href="/blog/mezzi-trasmissivi/" class="btn btn-primary btn-sm rounded">
-                  Leggi <i class="bi bi-arrow-right ms-1"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-    
-  
-    
-    <div class="col-12 col-md-6 col-lg-4">
-      <article class="card h-100 overflow-hidden border">
-        <div class="row g-0 h-100">
-          
-          <div class="col-12 overflow-hidden">
-            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
-                 alt="Immagine generata con IA"
-                 class="card-img-top w-100"
-                 style="object-fit: cover; height: 200px;">
-          </div>
-          
-          <div class="col-12">
-            <div class="card-body d-flex flex-column p-4">
-              <div>
-                <h2 class="h5 card-title mb-2">
-                  <a href="/blog/reti-wireless-mobile/">Reti wireless e mobili</a>
-                </h2>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <time class="text-muted small" datetime="2026-05-17T00:00:00.000Z">
-                    <i class="bi bi-calendar3 me-1"></i>17 maggio 2026
-                  </time>
-                  
-                    
-                    
-                  
-                </div>
-                
-                <p class="card-text text-muted small">Questo articolo esplora le principali tecnologie di connettività wireless presenti nei dispositivi mobili: come...</p>
-                
-              </div>
-              <div class="mt-auto pt-3 text-end">
-                <a href="/blog/reti-wireless-mobile/" class="btn btn-primary btn-sm rounded">
-                  Leggi <i class="bi bi-arrow-right ms-1"></i>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </article>
-    </div>
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-    
-  
-</section>
+</ul>
     </main>
 
     <footer class="border-top mt-auto py-5">

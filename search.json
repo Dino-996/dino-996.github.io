@@ -1,5 +1,17 @@
 [
   {
+    "title": "Il livello di collegamento dati e Ethernet",
+    "url": "/blog/livello-di-collegamento/",
+    "description": "Esplora il livello di collegamento dati (Data Link Layer): scopri il funzionamento dei frame Ethernet, il ruolo degli switch, l&#39;indirizzamento MAC e le tecnologie moderne come VLAN e VXLAN.",
+    "date": "2026-05-24T00:00:00.000Z"
+  },
+  {
+    "title": "Mezzi trasmissivi",
+    "url": "/blog/mezzi-trasmissivi/",
+    "description": "Alla scoperta dei media di rete: analizziamo differenze, vantaggi e scenari d&#39;uso di cavi in rame (UTP/STP), fibra ottica (SMF/MMF) e tecnologie wireless dal Wi-Fi 6 al Wi-Fi 7.",
+    "date": "2026-05-23T00:00:00.000Z"
+  },
+  {
     "title": "Reti wireless e mobili",
     "url": "/blog/reti-wireless-mobile/",
     "description": "Questo articolo esplora le principali tecnologie di connettività wireless presenti nei dispositivi mobili: come funzionano, come si configurano e come si integrano nell&#39;ecosistema digitale contemporaneo.",

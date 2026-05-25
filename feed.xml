@@ -15,6 +15,522 @@
 
   
   <entry>
+    <title>Il livello di collegamento dati e Ethernet</title>
+    <link href="https://dino-996.github.io/blog/livello-di-collegamento/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/livello-di-collegamento/</id>
+    <published></published>
+    <updated></updated>
+    
+    <summary>Esplora il livello di collegamento dati (Data Link Layer): scopri il funzionamento dei frame Ethernet, il ruolo degli switch, l&amp;#39;indirizzamento MAC e le tecnologie moderne come VLAN e VXLAN.</summary>
+    
+    
+    <content type="html"><![CDATA[
+&lt;h2&gt;Il livello di collegamento dati e Ethernet&lt;/h2&gt;
+&lt;p&gt;Il &lt;strong&gt;livello di collegamento dati&lt;/strong&gt; (Data Link Layer) è il secondo livello del modello OSI. Il suo compito è garantire un trasferimento affidabile dei dati tra due nodi direttamente connessi sulla stessa rete fisica, gestendo l&#39;accesso al mezzo trasmissivo e il rilevamento degli errori.&lt;/p&gt;
+&lt;p&gt;!&lt;a href=&quot;https://res.cloudinary.com/dcro2pbqr/image/upload/v1779532152/Modello_ISO_OSI_f2aaeb41f6.svg&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;Modello ISO-OSI.svg&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Dal punto di vista architetturale, il livello 2 si divide in due sotto-livelli distinti:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;LLC (Logical Link Control):&lt;/strong&gt; gestisce il controllo del flusso e il multiplexing dei protocolli di livello superiore.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MAC (Media Access Control):&lt;/strong&gt; gestisce l&#39;indirizzamento fisico e l&#39;accesso al mezzo condiviso.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ethernet, definito dallo standard IEEE 802.3, è il protocollo di livello 2 più diffuso nelle reti locali (LAN). Opera scheda di rete per scheda di rete (NIC-to-NIC) all&#39;interno dello stesso dominio di broadcast, incapsulando i dati in unità chiamate &lt;strong&gt;frame&lt;/strong&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;NIC (Network Interface Card), o scheda di interfaccia di rete.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;La struttura del frame Ethernet&lt;/h2&gt;
+&lt;p&gt;Ogni comunicazione Ethernet avviene attraverso frame strutturati. Ogni campo ha una dimensione precisa e una funzione specifica nel processo di consegna e verifica dei dati.&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Campo&lt;/th&gt;
+        &lt;th&gt;Dimensione&lt;/th&gt;
+        &lt;th&gt;Funzione&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Preambolo&lt;/td&gt;
+        &lt;td&gt;7 byte&lt;/td&gt;
+        &lt;td&gt;Sequenza alternata di 0 e 1 (10101010×7) usata per sincronizzare l&#39;orologio della NIC ricevente con il segnale in arrivo.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;SFD (Start Frame Delimiter)&lt;/td&gt;
+        &lt;td&gt;1 byte&lt;/td&gt;
+        &lt;td&gt;Byte &lt;code&gt;10101011&lt;/code&gt; che segnala la fine del preambolo e l&#39;inizio immediato del frame effettivo.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;MAC di destinazione&lt;/td&gt;
+        &lt;td&gt;6 byte&lt;/td&gt;
+        &lt;td&gt;Indirizzo MAC della NIC di destinazione sulla rete locale. Determina chi deve ricevere il frame.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;MAC di origine&lt;/td&gt;
+        &lt;td&gt;6 byte&lt;/td&gt;
+        &lt;td&gt;Indirizzo MAC della NIC che ha generato il frame. Usato dallo switch per popolare la MAC address table.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;EtherType / Lunghezza&lt;/td&gt;
+        &lt;td&gt;2 byte&lt;/td&gt;
+        &lt;td&gt;Se il valore è ≥ 1536 (0x0600), indica il protocollo del payload (es. &lt;code&gt;0x0800&lt;/code&gt; = IPv4, &lt;code&gt;0x86DD&lt;/code&gt; = IPv6, &lt;code&gt;0x0806&lt;/code&gt; = ARP). Se &lt; 1536, rappresenta la lunghezza del payload in byte.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Payload (dati)&lt;/td&gt;
+        &lt;td&gt;46–1500 byte&lt;/td&gt;
+        &lt;td&gt;Dati incapsulati: tipicamente un pacchetto IP con le relative intestazioni di trasporto (TCP/UDP) e applicazione. Ethernet non interpreta il contenuto.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;FCS (Frame Check Sequence)&lt;/td&gt;
+        &lt;td&gt;4 byte&lt;/td&gt;
+        &lt;td&gt;Checksum CRC-32 calcolato sul frame. La NIC ricevente ricalcola il CRC: se non corrisponde, il frame viene scartato silenziosamente.&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Nota:&lt;/strong&gt; Il preambolo e l&#39;SFD (8 byte totali) vengono gestiti dall&#39;hardware della NIC e non compaiono nelle catture di pacchetti con strumenti come Wireshark, che mostrano il frame a partire dal campo MAC di destinazione.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2&gt;Gli indirizzi MAC&lt;/h2&gt;
+&lt;p&gt;Un indirizzo MAC (Media Access Control) è un identificatore hardware a &lt;strong&gt;48 bit (6 byte)&lt;/strong&gt;, rappresentato in notazione esadecimale. Esempio: &lt;code&gt;00:1A:2B:3C:4D:5E&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;L&#39;indirizzo è suddiviso in due blocchi:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;OUI (Organizationally Unique Identifier) — primi 3 byte:&lt;/strong&gt; assegnato dall&#39;IEEE al produttore della NIC. Ad esempio, &lt;code&gt;00:1A:2B&lt;/code&gt; identifica un vendor specifico.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;NIC ID — ultimi 3 byte:&lt;/strong&gt; assegnato dal produttore per distinguere ogni singola scheda prodotta.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Due bit del primo byte hanno significato speciale:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Bit I/G (Individual/Group):&lt;/strong&gt; se impostato a 1, l&#39;indirizzo è multicast o broadcast; se 0, è unicast.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Bit U/L (Universal/Local):&lt;/strong&gt; se 0, l&#39;indirizzo è assegnato globalmente dall&#39;IEEE (burned-in address); se 1, è stato assegnato localmente in modo amministrativo.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;L&#39;indirizzo &lt;code&gt;FF:FF:FF:FF:FF:FF&lt;/code&gt; è riservato al &lt;strong&gt;broadcast Ethernet&lt;/strong&gt;: il frame viene consegnato a tutti i dispositivi nel dominio di broadcast.&lt;/p&gt;
+&lt;h2&gt;Hub ed Ethernet switch: architetture a confronto&lt;/h2&gt;
+&lt;p&gt;Prima di analizzare il comportamento degli switch, è utile comprendere perché abbiano sostituito gli hub nelle reti moderne.&lt;/p&gt;
+&lt;h3&gt;Hub Ethernet&lt;/h3&gt;
+&lt;p&gt;Un hub è un dispositivo di livello fisico (Layer 1). Quando riceve un segnale su una porta, lo &lt;strong&gt;ripete su tutte le altre porte&lt;/strong&gt; indiscriminatamente, senza alcuna intelligenza di inoltro. Tutti i dispositivi connessi condividono lo stesso &lt;strong&gt;dominio di collisione&lt;/strong&gt;: se due host trasmettono simultaneamente, si verifica una collisione e i dati vanno persi. Per gestire questo problema, Ethernet su hub utilizza &lt;strong&gt;CSMA/CD (Carrier Sense Multiple Access with Collision Detection)&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Gli hub operano in modalità &lt;strong&gt;half-duplex&lt;/strong&gt;: un dispositivo può trasmettere o ricevere, ma non entrambe le operazioni contemporaneamente.&lt;/p&gt;
+&lt;h3&gt;Switch Ethernet&lt;/h3&gt;
+&lt;p&gt;Uno switch Ethernet opera al &lt;strong&gt;livello 2 del modello OSI&lt;/strong&gt;. A differenza dell&#39;hub, legge l&#39;intestazione di ogni frame Ethernet e prende decisioni di inoltro intelligenti basate sull&#39;indirizzo MAC di destinazione. Ogni porta dello switch costituisce un &lt;strong&gt;dominio di collisione separato&lt;/strong&gt;, eliminando le collisioni e consentendo comunicazioni &lt;strong&gt;full-duplex&lt;/strong&gt;.&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Caratteristica&lt;/th&gt;
+        &lt;th&gt;Hub&lt;/th&gt;
+        &lt;th&gt;Switch&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Livello OSI&lt;/td&gt;
+        &lt;td&gt;Layer 1 (Fisico)&lt;/td&gt;
+        &lt;td&gt;Layer 2 (Collegamento dati)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Dominio di collisione&lt;/td&gt;
+        &lt;td&gt;Unico per tutti i dispositivi&lt;/td&gt;
+        &lt;td&gt;Separato per ogni porta&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Modalità duplex&lt;/td&gt;
+        &lt;td&gt;Half-duplex&lt;/td&gt;
+        &lt;td&gt;Full-duplex&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Forwarding&lt;/td&gt;
+        &lt;td&gt;Broadcast su tutte le porte&lt;/td&gt;
+        &lt;td&gt;Selettivo per porta (basato su MAC)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Sicurezza&lt;/td&gt;
+        &lt;td&gt;Nessuna (traffico visibile a tutti)&lt;/td&gt;
+        &lt;td&gt;Traffico isolato per porta&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Scalabilità&lt;/td&gt;
+        &lt;td&gt;Bassa (le collisioni aumentano con i nodi)&lt;/td&gt;
+        &lt;td&gt;Alta (prestazioni indipendenti dal numero di porte)&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;h2&gt;Come funziona uno switch Ethernet&lt;/h2&gt;
+&lt;h3&gt;La MAC address table&lt;/h3&gt;
+&lt;p&gt;Il cuore operativo di uno switch è la &lt;strong&gt;MAC address table&lt;/strong&gt; (detta anche CAM table — Content Addressable Memory). Questa tabella associa ogni indirizzo MAC noto a una specifica porta fisica dello switch, permettendo l&#39;inoltro selettivo dei frame.&lt;/p&gt;
+&lt;p&gt;La tabella viene costruita dinamicamente attraverso un processo di apprendimento automatico. Ogni voce ha un &lt;strong&gt;timer di aging&lt;/strong&gt; (default: 300 secondi / 5 minuti): se non arriva traffico da un MAC entro questo intervallo, la voce viene rimossa per mantenere la tabella aggiornata.&lt;/p&gt;
+&lt;h3&gt;Il processo di learning e forwarding&lt;/h3&gt;
+&lt;p&gt;Il comportamento dello switch a ogni frame ricevuto segue tre fasi distinte.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Fase 1 — Learning (apprendimento):&lt;/strong&gt; Quando lo switch riceve un frame su una porta, esamina l&#39;indirizzo MAC di &lt;strong&gt;origine&lt;/strong&gt; e verifica se è già presente nella tabella. Se non lo è, aggiunge la coppia &lt;code&gt;{MAC sorgente → porta in ingresso}&lt;/code&gt;. Se è già presente, aggiorna il timer di aging.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Fase 2 — Lookup (ricerca della destinazione):&lt;/strong&gt; Lo switch cerca l&#39;indirizzo MAC di &lt;strong&gt;destinazione&lt;/strong&gt; nella tabella. Possono verificarsi due scenari:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;MAC di destinazione noto:&lt;/strong&gt; lo switch conosce la porta associata e inoltra il frame esclusivamente su quella porta (&lt;strong&gt;forwarding selettivo&lt;/strong&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;MAC di destinazione sconosciuto (unicast flooding):&lt;/strong&gt; il MAC non è nella tabella. Lo switch invia il frame su &lt;strong&gt;tutte le porte attive eccetto quella di ingresso&lt;/strong&gt;, comportandosi temporaneamente come un hub. Questo è detto &lt;strong&gt;unknown unicast flooding&lt;/strong&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Fase 3 — Filtering:&lt;/strong&gt; Una volta che entrambi i MAC (sorgente e destinazione) sono stati appresi, tutti i frame successivi tra quei due host vengono inoltrati solo sulla porta corretta, &lt;strong&gt;senza coinvolgere le altre porte&lt;/strong&gt;. Questo processo di filtraggio è la ragione principale per cui gli switch migliorano drasticamente l&#39;efficienza della rete rispetto agli hub.&lt;/p&gt;
+&lt;p&gt;Il diagramma seguente mostra l&#39;evoluzione della MAC address table durante una sequenza di scambi tipici:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;STATO INIZIALE — Tabella vuota
+┌───────────────────────────┐
+│ MAC Address Table         │
+│ (vuota)                   │
+└───────────────────────────┘
+H1 (AA:AA) ─── FA0/1 ┐
+H2 (BB:BB) ─── FA0/2 ├── [SWITCH]
+H3 (CC:CC) ─── FA0/3 ┤
+H4 (DD:DD) ─── FA0/4 ┘
+PASSO 1 — H1 invia frame a H4 (DD:DD sconosciuto)
+  → Learning: AA:AA appreso su FA0/1
+  → Flooding: frame inviato su FA0/2, FA0/3, FA0/4
+┌───────────────────────────┐
+│ MAC           │ Porta     │
+│ AA:AA         │ FA0/1     │
+└───────────────────────────┘
+PASSO 2 — H4 risponde a H1 (AA:AA già noto)
+  → Learning: DD:DD appreso su FA0/4
+  → Forwarding selettivo: frame inviato solo su FA0/1
+┌───────────────────────────┐
+│ MAC           │ Porta     │
+│ AA:AA         │ FA0/1     │
+│ DD:DD         │ FA0/4     │
+└───────────────────────────┘
+PASSO 3 — H1 invia di nuovo a H4 (entrambi noti)
+  → Forwarding selettivo diretto: solo FA0/4
+  → H2 e H3 non ricevono nulla
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2&gt;Ispezione pratica dei frame Ethernet&lt;/h2&gt;
+&lt;p&gt;In un contesto professionale, la verifica del comportamento Ethernet a livello di frame avviene tramite strumenti di cattura del traffico. I due più comuni negli ambienti Linux/DevOps sono &lt;code&gt;tcpdump&lt;/code&gt; e Wireshark.&lt;/p&gt;
+&lt;p&gt;Per catturare il traffico su un&#39;interfaccia specifica con &lt;code&gt;tcpdump&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;tcpdump -i eth0 -e -n ether host 00:1A:2B:3C:4D:5E
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il flag &lt;code&gt;-e&lt;/code&gt; mostra le intestazioni Ethernet (MAC sorgente e destinazione) nell&#39;output. Il flag &lt;code&gt;-n&lt;/code&gt; disabilita la risoluzione dei nomi per ottenere output più leggibile in ambienti di produzione.&lt;/p&gt;
+&lt;p&gt;Per filtrare solo i frame ARP (utile per il debug di problemi di risoluzione MAC):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;tcpdump -i eth0 -e arp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per catturare e salvare su file &lt;code&gt;.pcap&lt;/code&gt; per analisi successiva con Wireshark:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;tcpdump -i eth0 -w /tmp/capture.pcap
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Nei log di &lt;code&gt;tcpdump&lt;/code&gt; con il flag &lt;code&gt;-e&lt;/code&gt;, un frame Ethernet apparirà nel formato:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;HH:MM:SS.ffffff AA:AA:AA:AA:AA:AA &amp;gt; DD:DD:DD:DD:DD:DD ethertype IPv4 (0x0800), length 98
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Dove il campo &lt;code&gt;ethertype&lt;/code&gt; corrisponde direttamente al campo EtherType del frame descritto in precedenza.&lt;/p&gt;
+&lt;h2&gt;Ethernet nei contesti moderni: VLAN, data center e cloud&lt;/h2&gt;
+&lt;p&gt;I principi del livello 2 descritti fin qui sono la base di infrastrutture di rete molto più complesse. In ambienti professionali moderni, è fondamentale conoscere le seguenti estensioni.&lt;/p&gt;
+&lt;h3&gt;VLAN e 802.1Q tagging&lt;/h3&gt;
+&lt;p&gt;Lo standard &lt;strong&gt;IEEE 802.1Q&lt;/strong&gt; estende il frame Ethernet aggiungendo un &lt;strong&gt;tag di 4 byte&lt;/strong&gt; tra il campo MAC sorgente e il campo EtherType. Questo tag contiene un identificativo di VLAN (VLAN ID, da 0 a 4094) che permette di segmentare logicamente una rete fisica in più reti virtuali isolate. Gli switch gestiti (managed switch) utilizzano le VLAN per separare il traffico di reparti diversi sulla stessa infrastruttura fisica, migliorando sicurezza e gestione del broadcast.&lt;/p&gt;
+&lt;h3&gt;Topologie spine-leaf nei data center&lt;/h3&gt;
+&lt;p&gt;Nei data center moderni, la topologia classica a tre livelli (core-distribution-access) è stata largamente sostituita dalla topologia &lt;strong&gt;spine-leaf&lt;/strong&gt;. In questa architettura ogni switch leaf è connesso a tutti gli switch spine, garantendo percorsi a bassa latenza e alta ridondanza tra tutti i server. Gli switch operano ancora al livello 2 (e spesso anche al livello 3) ma su scala e velocità ordini di grandezza superiori rispetto alle LAN tradizionali.&lt;/p&gt;
+&lt;h3&gt;Overlay network e VXLAN&lt;/h3&gt;
+&lt;p&gt;In ambienti cloud e Kubernetes, i frame Ethernet tradizionali vengono spesso &lt;strong&gt;incapsulati all&#39;interno di pacchetti UDP&lt;/strong&gt; attraverso protocolli overlay come &lt;strong&gt;VXLAN (Virtual Extensible LAN)&lt;/strong&gt;, definito nell&#39;RFC 7348. VXLAN estende l&#39;indirizzamento VLAN da 4.094 a oltre 16 milioni di segmenti, indispensabile per la multi-tenancy nei cloud pubblici e privati. La comprensione del frame Ethernet di base rimane prerequisito essenziale per diagnosticare problemi di connettività anche in questi ambienti virtualizzati.&lt;/p&gt;
+]]></content>
+    
+    
+    
+      
+      
+    <category term="reti"/>
+      
+    
+      
+      
+    <category term="networking"/>
+      
+    
+      
+      
+    <category term="data link layer"/>
+      
+    
+      
+      
+    <category term="livello di collegamento"/>
+      
+    
+      
+      
+    <category term="hub"/>
+      
+    
+      
+      
+    <category term="switch"/>
+      
+    
+      
+      
+    <category term="ethernet"/>
+      
+    
+      
+      
+    <category term="frame"/>
+      
+    
+      
+      
+    <category term="VLAN"/>
+      
+    
+  </entry>
+  
+  <entry>
+    <title>Mezzi trasmissivi</title>
+    <link href="https://dino-996.github.io/blog/mezzi-trasmissivi/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/mezzi-trasmissivi/</id>
+    <published></published>
+    <updated></updated>
+    
+    <summary>Alla scoperta dei media di rete: analizziamo differenze, vantaggi e scenari d&amp;#39;uso di cavi in rame (UTP/STP), fibra ottica (SMF/MMF) e tecnologie wireless dal Wi-Fi 6 al Wi-Fi 7.</summary>
+    
+    
+    <content type="html"><![CDATA[
+&lt;h2&gt;Tipi di media di rete&lt;/h2&gt;
+&lt;p&gt;In una rete di comunicazione, il &lt;strong&gt;media&lt;/strong&gt; (o mezzo trasmissivo) è il canale fisico o elettromagnetico attraverso cui i dati viaggiano dalla sorgente alla destinazione. La scelta del media influenza direttamente larghezza di banda disponibile, distanza massima, immunità ai disturbi elettromagnetici, costo di installazione e manutenibilità dell&#39;infrastruttura.&lt;/p&gt;
+&lt;p&gt;Le reti moderne si basano su tre categorie principali di media trasmissivi:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cavi in rame:&lt;/strong&gt; i dati vengono codificati come variazioni di tensione elettrica (impulsi digitali o segnali analogici modulati).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cavi in fibra ottica:&lt;/strong&gt; i dati vengono codificati come impulsi di luce laser o LED, all&#39;interno di fibre di vetro o plastica.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Trasmissione wireless:&lt;/strong&gt; i dati vengono codificati modulando frequenze specifiche dello spettro elettromagnetico.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ciascun media presenta vantaggi e vincoli distinti, che ne determinano l&#39;idoneità a specifici scenari infrastrutturali.&lt;/p&gt;
+&lt;h2&gt;Il cavo in rame&lt;/h2&gt;
+&lt;p&gt;Il rame rimane il media più diffuso nelle reti locali (LAN) aziendali e residenziali, grazie al rapporto favorevole tra costo, semplicità di installazione e prestazioni nei collegamenti a breve-media distanza.&lt;/p&gt;
+&lt;h3&gt;Doppino intrecciato (Twisted Pair)&lt;/h3&gt;
+&lt;p&gt;Il &lt;strong&gt;doppino intrecciato&lt;/strong&gt; è il tipo di cablaggio più comune nelle reti Ethernet moderne. I conduttori sono organizzati in coppie, intrecciate l&#39;una sull&#39;altra a passo regolare: l&#39;intreccio riduce l&#39;&lt;strong&gt;interferenza elettromagnetica (EMI)&lt;/strong&gt; e il &lt;strong&gt;crosstalk&lt;/strong&gt; (la diafonia tra coppie adiacenti), fenomeni che degradano il segnale su distanze crescenti.&lt;/p&gt;
+&lt;p&gt;La codifica cromatica dei conduttori — un filo a tinta unita e il suo partner striato sullo sfondo bianco — consente di identificare univocamente ogni coppia a entrambe le estremità del cavo, semplificando la terminazione e la diagnostica.&lt;/p&gt;
+&lt;p&gt;Esistono due varianti principali:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;UTP (Unshielded Twisted Pair):&lt;/strong&gt; prive di schermatura metallica aggiuntiva, sono la scelta standard in uffici e ambienti con bassa densità di disturbi elettromagnetici.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;STP (Shielded Twisted Pair):&lt;/strong&gt; dotate di schermatura per singola coppia o per il fascio complessivo, sono indicate in ambienti industriali, sale server ad alta densità o in prossimità di macchinari che generano EMI elevata.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Le categorie più rilevanti per l&#39;infrastruttura aziendale moderna sono:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Categoria&lt;/th&gt;
+        &lt;th&gt;Larghezza di Banda&lt;/th&gt;
+        &lt;th&gt;Velocità Massima&lt;/th&gt;
+        &lt;th&gt;Distanza Max (segmento)&lt;/th&gt;
+        &lt;th&gt;Scenario Tipico&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Cat5e&lt;/td&gt;
+        &lt;td&gt;100 MHz&lt;/td&gt;
+        &lt;td&gt;1 Gbps&lt;/td&gt;
+        &lt;td&gt;100 m&lt;/td&gt;
+        &lt;td&gt;LAN ufficio, postazioni client standard&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Cat6&lt;/td&gt;
+        &lt;td&gt;250 MHz&lt;/td&gt;
+        &lt;td&gt;10 Gbps (fino a 55 m)&lt;/td&gt;
+        &lt;td&gt;100 m / 55 m a 10G&lt;/td&gt;
+        &lt;td&gt;Switch uplink, ambienti ad alta densità&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Cat6a&lt;/td&gt;
+        &lt;td&gt;500 MHz&lt;/td&gt;
+        &lt;td&gt;10 Gbps&lt;/td&gt;
+        &lt;td&gt;100 m&lt;/td&gt;
+        &lt;td&gt;Data center, dorsali di piano, PoE++&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Il cavo Cat6a è oggi lo standard raccomandato per i nuovi impianti di cablaggio strutturato, in quanto supporta pienamente 10 Gbps su 100 m e garantisce un margine di futuro adeguato per applicazioni come il &lt;strong&gt;Power over Ethernet (PoE++)&lt;/strong&gt;, utilizzato per alimentare access point Wi-Fi 6, telefoni IP e telecamere IP ad alta risoluzione.&lt;/p&gt;
+&lt;h3&gt;Cavo coassiale&lt;/h3&gt;
+&lt;p&gt;Il &lt;strong&gt;cavo coassiale&lt;/strong&gt; è stato uno dei primi media adottati nelle reti informatiche, con un ruolo centrale negli standard Ethernet storici come 10BASE2 (Thinnet) e 10BASE5 (Thicknet), oggi completamente dismessi. La sua architettura è composta da un nucleo rigido in rame, avvolto da uno strato di isolante dielettrico, da una calza metallica intrecciata che funge da schermatura e da una guaina esterna protettiva.&lt;/p&gt;
+&lt;p&gt;Nelle infrastrutture di rete moderne, il coassiale non è più utilizzato per il cablaggio LAN, ma mantiene rilevanza in due contesti specifici:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Reti HFC (Hybrid Fiber-Coaxial):&lt;/strong&gt; gli ISP che erogano connettività via cavo (es. DOCSIS 3.1/4.0) utilizzano la fibra ottica per il backbone e il coassiale per l&#39;ultimo chilometro e mezzo verso l&#39;utente finale.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sistemi di comunicazione satellitare e TV:&lt;/strong&gt; il coassiale è lo standard per il collegamento tra antenne, LNB e decoder/ricevitori.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Grazie alla sua struttura coassiale — nucleo e schermatura condividono lo stesso asse geometrico — offre elevata immunità alle interferenze esterne ed è idoneo al trasporto di segnali ad alta frequenza e a larga banda.&lt;/p&gt;
+&lt;h2&gt;Il cavo in fibra ottica&lt;/h2&gt;
+&lt;p&gt;La &lt;strong&gt;fibra ottica&lt;/strong&gt; rappresenta la tecnologia trasmissiva ad alte prestazioni per eccellenza. Il principio fisico è la &lt;strong&gt;riflessione totale interna&lt;/strong&gt;: gli impulsi di luce, una volta iniettati nel nucleo della fibra (di diametro paragonabile a quello di un capello umano), si propagano per riflessione ripetuta sulle pareti senza dispersione significativa, consentendo di raggiungere distanze e velocità irraggiungibili con il rame.&lt;/p&gt;
+&lt;p&gt;Poiché il segnale è luminoso e non elettrico, la fibra è intrinsecamente immune all&#39;interferenza elettromagnetica e al crosstalk, caratteristica decisiva in ambienti ostili o per collegamenti che attraversano aree con forti disturbi industriali.&lt;/p&gt;
+&lt;h3&gt;Fibra Monomodale (SMF) e Multimodale (MMF)&lt;/h3&gt;
+&lt;p&gt;La distinzione fondamentale nella fibra ottica riguarda il numero di &lt;strong&gt;modi di propagazione&lt;/strong&gt; della luce all&#39;interno del nucleo:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Tipo&lt;/th&gt;
+        &lt;th&gt;Standard&lt;/th&gt;
+        &lt;th&gt;Diametro Nucleo&lt;/th&gt;
+        &lt;th&gt;Sorgente Luminosa&lt;/th&gt;
+        &lt;th&gt;Distanza Tipica&lt;/th&gt;
+        &lt;th&gt;Scenario d&#39;Uso&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Monomodale (SMF)&lt;/td&gt;
+        &lt;td&gt;OS1, OS2&lt;/td&gt;
+        &lt;td&gt;9 µm&lt;/td&gt;
+        &lt;td&gt;Laser&lt;/td&gt;
+        &lt;td&gt;Fino a 100 km+&lt;/td&gt;
+        &lt;td&gt;Backbone metropolitano, WAN, reti carrier&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Multimodale (MMF)&lt;/td&gt;
+        &lt;td&gt;OM3, OM4, OM5&lt;/td&gt;
+        &lt;td&gt;50 / 62,5 µm&lt;/td&gt;
+        &lt;td&gt;LED o VCSEL&lt;/td&gt;
+        &lt;td&gt;Fino a 550 m (OM4, 10G)&lt;/td&gt;
+        &lt;td&gt;Dorsali intra-edificio, connessioni tra switch di piano, data center&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;La &lt;strong&gt;SMF&lt;/strong&gt; è lo standard nelle infrastrutture carrier, nelle dorsali metropolitane (MAN) e nei data center geograficamente distribuiti. La &lt;strong&gt;MMF&lt;/strong&gt; è invece preferita nei cablaggi intra-edificio e nei data center di medie dimensioni, dove la minore distanza consente di sfruttare sorgenti LED o VCSEL meno costose rispetto ai laser ad alta precisione richiesti dalla SMF.&lt;/p&gt;
+&lt;h3&gt;Ambiti di applicazione della fibra&lt;/h3&gt;
+&lt;p&gt;Oltre alla trasmissione dati, la fibra ottica trova impiego in settori trasversali:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Imaging medicale e chirurgia laser:&lt;/strong&gt; endoscopi e sonde intraoperatorie.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ispezioni industriali:&lt;/strong&gt; boroscopi per l&#39;analisi visiva di componenti meccanici inaccessibili.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sensoristica distribuita:&lt;/strong&gt; rilevamento di temperatura e pressione in infrastrutture critiche (oleodotti, ponti, tunnel).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Nel contesto IT, la fibra è la scelta dominante per backbone aziendali, interconnessioni tra data center, reti FTTH/FTTB degli operatori e uplink di alta capacità negli ambienti cloud.&lt;/p&gt;
+&lt;h2&gt;La trasmissione wireless&lt;/h2&gt;
+&lt;p&gt;La trasmissione &lt;strong&gt;wireless&lt;/strong&gt; codifica i dati modulando onde elettromagnetiche su specifiche frequenze dello spettro radio. Anziché un canale fisico dedicato, il segnale si propaga nello spazio, consentendo la mobilità dei dispositivi ma introducendo sfide legate alla condivisione del mezzo, all&#39;attenuazione e alle interferenze.&lt;/p&gt;
+&lt;h3&gt;Standard Wi-Fi: dall&#39;802.11n al Wi-Fi 7&lt;/h3&gt;
+&lt;p&gt;L&#39;evoluzione degli standard &lt;strong&gt;IEEE 802.11&lt;/strong&gt; ha progressivamente ridotto il divario prestazionale tra wireless e cablato:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Standard&lt;/th&gt;
+        &lt;th&gt;Denominazione&lt;/th&gt;
+        &lt;th&gt;Banda&lt;/th&gt;
+        &lt;th&gt;Velocità Teorica Max&lt;/th&gt;
+        &lt;th&gt;Caratteristica Chiave&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;802.11n&lt;/td&gt;
+        &lt;td&gt;Wi-Fi 4&lt;/td&gt;
+        &lt;td&gt;2,4 / 5 GHz&lt;/td&gt;
+        &lt;td&gt;600 Mbps&lt;/td&gt;
+        &lt;td&gt;MIMO, dual-band&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;802.11ac&lt;/td&gt;
+        &lt;td&gt;Wi-Fi 5&lt;/td&gt;
+        &lt;td&gt;5 GHz&lt;/td&gt;
+        &lt;td&gt;3,5 Gbps&lt;/td&gt;
+        &lt;td&gt;MU-MIMO, beamforming&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;802.11ax&lt;/td&gt;
+        &lt;td&gt;Wi-Fi 6 / 6E&lt;/td&gt;
+        &lt;td&gt;2,4 / 5 / 6 GHz&lt;/td&gt;
+        &lt;td&gt;9,6 Gbps&lt;/td&gt;
+        &lt;td&gt;OFDMA, BSS Coloring, banda a 6 GHz (6E)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;802.11be&lt;/td&gt;
+        &lt;td&gt;Wi-Fi 7&lt;/td&gt;
+        &lt;td&gt;2,4 / 5 / 6 GHz&lt;/td&gt;
+        &lt;td&gt;46 Gbps&lt;/td&gt;
+        &lt;td&gt;Multi-Link Operation (MLO), canali da 320 MHz&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Il &lt;strong&gt;Wi-Fi 6E&lt;/strong&gt; ha introdotto l&#39;accesso alla banda a &lt;strong&gt;6 GHz&lt;/strong&gt;, fino ad allora riservata ad applicazioni industriali e governative: uno spettro più ampio, meno congestionato, che consente throughput elevati e latenze ridotte in ambienti ad alta densità di dispositivi. Il &lt;strong&gt;Wi-Fi 7&lt;/strong&gt; (802.11be), attualmente in fase di adozione nei dispositivi consumer e enterprise di fascia alta, introduce la &lt;strong&gt;Multi-Link Operation (MLO)&lt;/strong&gt; — la capacità di aggregare simultaneamente più bande e canali — avvicinando ulteriormente le prestazioni wireless a quelle del cablato Ethernet.&lt;/p&gt;
+&lt;p&gt;Il wireless è oggi la soluzione architettonica primaria per scenari IoT, ambienti BYOD, edifici storici dove il cablaggio è proibitivo e deployment mobili.&lt;/p&gt;
+&lt;h2&gt;Confronto Generale tra i Media Trasmissivi&lt;/h2&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Caratteristica&lt;/th&gt;
+        &lt;th&gt;Doppino Intrecciato (UTP/STP)&lt;/th&gt;
+        &lt;th&gt;Cavo Coassiale&lt;/th&gt;
+        &lt;th&gt;Fibra Ottica&lt;/th&gt;
+        &lt;th&gt;Wireless (Wi-Fi 6/6E)&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Larghezza di Banda&lt;/td&gt;
+        &lt;td&gt;Fino a 10 Gbps (Cat6a)&lt;/td&gt;
+        &lt;td&gt;Fino a ~10 Gbps (DOCSIS 4.0)&lt;/td&gt;
+        &lt;td&gt;Tbps (SMF con WDM)&lt;/td&gt;
+        &lt;td&gt;Fino a 9,6 Gbps (teorico)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Distanza Tipica&lt;/td&gt;
+        &lt;td&gt;100 m per segmento&lt;/td&gt;
+        &lt;td&gt;500 m – diversi km&lt;/td&gt;
+        &lt;td&gt;Fino a 100 km+ (SMF)&lt;/td&gt;
+        &lt;td&gt;~30–100 m (indoor)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Immunità EMI&lt;/td&gt;
+        &lt;td&gt;Media (STP alta)&lt;/td&gt;
+        &lt;td&gt;Alta&lt;/td&gt;
+        &lt;td&gt;Totale&lt;/td&gt;
+        &lt;td&gt;Bassa (condivide lo spettro)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Costo Relativo&lt;/td&gt;
+        &lt;td&gt;Basso&lt;/td&gt;
+        &lt;td&gt;Medio&lt;/td&gt;
+        &lt;td&gt;Alto&lt;/td&gt;
+        &lt;td&gt;Medio (infrastruttura AP)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Scenario Primario&lt;/td&gt;
+        &lt;td&gt;LAN aziendale, postazioni fisse&lt;/td&gt;
+        &lt;td&gt;HFC (ISP), sistemi RF&lt;/td&gt;
+        &lt;td&gt;Backbone, WAN, data center&lt;/td&gt;
+        &lt;td&gt;Mobilità, IoT, ambienti BYOD&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;h2&gt;Criteri di Scelta del Media Trasmissivo&lt;/h2&gt;
+&lt;p&gt;La selezione del media più adeguato non è una scelta estetica, ma una decisione architetturale che impatta direttamente le prestazioni, i costi operativi e la scalabilità futura dell&#39;infrastruttura. Le variabili principali da considerare sono:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Distanza:&lt;/strong&gt; per collegamenti superiori ai 100 m o tra edifici distinti, la fibra ottica è l&#39;unica scelta praticabile senza l&#39;introduzione di ripetitori attivi.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Larghezza di banda richiesta:&lt;/strong&gt; workload a 10 Gbps o superiori su brevi distanze richiedono Cat6a o fibra MMF; backbone ad altissima capacità richiedono SMF con multiplexing WDM.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ambiente fisico:&lt;/strong&gt; la presenza di macchinari industriali, motori elettrici o sistemi ad alta tensione nelle vicinanze impone l&#39;uso di fibra ottica o, almeno, di cavi STP.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mobilità dei dispositivi:&lt;/strong&gt; endpoint mobili, dispositivi IoT, stampanti wireless e ambienti BYOD rendono il wireless la soluzione naturale e spesso l&#39;unica architetturalmente sostenibile.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Budget e vincoli infrastrutturali:&lt;/strong&gt; il doppino UTP Cat6a rimane il miglior compromesso costo/prestazioni per il cablaggio orizzontale in edifici nuovi o in ristrutturazione; la fibra è preferibile per le dorsali verticali e inter-edificio, dove l&#39;investimento iniziale è ammortizzato dalla longevità dell&#39;impianto.&lt;/li&gt;
+&lt;/ul&gt;
+]]></content>
+    
+    
+    
+      
+      
+    
+      
+      
+    <category term="reti"/>
+      
+    
+      
+      
+    <category term="livello 7"/>
+      
+    
+      
+      
+    <category term="livello fisico"/>
+      
+    
+      
+      
+    <category term="mezzi trasmissivi"/>
+      
+    
+  </entry>
+  
+  <entry>
     <title>Reti wireless e mobili</title>
     <link href="https://dino-996.github.io/blog/reti-wireless-mobile/" rel="alternate" type="text/html"/>
     <id>https://dino-996.github.io/blog/reti-wireless-mobile/</id>

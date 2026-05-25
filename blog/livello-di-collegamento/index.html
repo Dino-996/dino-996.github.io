@@ -6,26 +6,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  Componenti, tipi e connessioni di rete · dino-996 blog
+  Il livello di collegamento dati e Ethernet · dino-996 blog
 </title>
 
 <!-- SEO meta tags -->
-<meta name="description" content="Esplora le architetture Client-Server e P2P, scopri come sono strutturate le moderne infrastrutture di rete e approfondisci le tecnologie di accesso a banda larga (FTTH, 5G, LEO) e le strategie di sicurezza per connettività SOHO e aziendali." />
+<meta name="description" content="Esplora il livello di collegamento dati (Data Link Layer): scopri il funzionamento dei frame Ethernet, il ruolo degli switch, l&amp;#39;indirizzamento MAC e le tecnologie moderne come VLAN e VXLAN." />
 <meta name="author" content="Davide Sabia" />
 <meta name="robots" content="index, follow" />
 
 <!-- Canonical URL -->
 
-<link rel="canonical" href="https://dino-996.github.io/blog/componenti-tipi-e-connessioni-di-rete/" />
+<link rel="canonical" href="https://dino-996.github.io/blog/livello-di-collegamento/" />
 
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content="article" />
 
-<meta property="og:url" content="https://dino-996.github.io/blog/componenti-tipi-e-connessioni-di-rete/" />
+<meta property="og:url" content="https://dino-996.github.io/blog/livello-di-collegamento/" />
 
-<meta property="og:title" content="Componenti, tipi e connessioni di rete" />
-<meta property="og:description" content="Esplora le architetture Client-Server e P2P, scopri come sono strutturate le moderne infrastrutture di rete e approfondisci le tecnologie di accesso a banda larga (FTTH, 5G, LEO) e le strategie di sicurezza per connettività SOHO e aziendali." />
+<meta property="og:title" content="Il livello di collegamento dati e Ethernet" />
+<meta property="og:description" content="Esplora il livello di collegamento dati (Data Link Layer): scopri il funzionamento dei frame Ethernet, il ruolo degli switch, l&amp;#39;indirizzamento MAC e le tecnologie moderne come VLAN e VXLAN." />
 <meta property="og:site_name" content="dino-996 blog" />
 
 <meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp" />
@@ -34,10 +34,10 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
 
-<meta name="twitter:url" content="https://dino-996.github.io/blog/componenti-tipi-e-connessioni-di-rete/" />
+<meta name="twitter:url" content="https://dino-996.github.io/blog/livello-di-collegamento/" />
 
-<meta name="twitter:title" content="Componenti, tipi e connessioni di rete" />
-<meta name="twitter:description" content="Esplora le architetture Client-Server e P2P, scopri come sono strutturate le moderne infrastrutture di rete e approfondisci le tecnologie di accesso a banda larga (FTTH, 5G, LEO) e le strategie di sicurezza per connettività SOHO e aziendali." />
+<meta name="twitter:title" content="Il livello di collegamento dati e Ethernet" />
+<meta name="twitter:description" content="Esplora il livello di collegamento dati (Data Link Layer): scopri il funzionamento dei frame Ethernet, il ruolo degli switch, l&amp;#39;indirizzamento MAC e le tecnologie moderne come VLAN e VXLAN." />
 
 <meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp" />
 
@@ -126,15 +126,15 @@
       
 <article class="mx-auto" style="max-width: 800px;">
   <header class="mb-4">
-    <h1 class="fw-bold mb-3">Componenti, tipi e connessioni di rete</h1>
+    <h1 class="fw-bold mb-3">Il livello di collegamento dati e Ethernet</h1>
 
     <div class="author-card mb-4">
       <img src="https://github.com/Dino-996.png" alt="Davide Sabia" loading="lazy">
       <div class="flex-grow-1">
         <div class="author-name">Davide Sabia</div>
         <div class="author-meta">
-          <time datetime="2026-05-08T00:00:00.000Z">
-            <i class="bi bi-calendar3 me-1"></i>08 maggio 2026
+          <time datetime="2026-05-24T00:00:00.000Z">
+            <i class="bi bi-calendar3 me-1"></i>24 maggio 2026
           </time>
           <span class="mx-1">·</span>
           <span class="reading-time"></span>
@@ -142,9 +142,6 @@
         <div class="tags-container d-flex flex-wrap gap-1 mt-2">
           
           
-          
-            
-            
           
             
             
@@ -157,10 +154,73 @@
           
             
             
-              <a href="/tags/connessioni-di-rete/"
+              <a href="/tags/networking/"
                  class="badge border text-decoration-none"
                  style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
-                connessioni di rete
+                networking
+              </a>
+            
+          
+            
+            
+              <a href="/tags/data-link-layer/"
+                 class="badge border text-decoration-none"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                data link layer
+              </a>
+            
+          
+            
+            
+              <a href="/tags/livello-di-collegamento/"
+                 class="badge border text-decoration-none"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                livello di collegamento
+              </a>
+            
+          
+            
+            
+              <a href="/tags/hub/"
+                 class="badge border text-decoration-none"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                hub
+              </a>
+            
+          
+            
+            
+              <a href="/tags/switch/"
+                 class="badge border text-decoration-none"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                switch
+              </a>
+            
+          
+            
+            
+              <a href="/tags/ethernet/"
+                 class="badge border text-decoration-none"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                ethernet
+              </a>
+            
+          
+            
+            
+              <a href="/tags/frame/"
+                 class="badge border text-decoration-none"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                frame
+              </a>
+            
+          
+            
+            
+              <a href="/tags/vlan/"
+                 class="badge border text-decoration-none"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                VLAN
               </a>
             
           
@@ -178,7 +238,7 @@
         </span>
         <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
       </div>
-      <p class="mb-0 small lh-lg">L&#39;architettura client-server classica impiega ruoli distinti per erogare e consumare servizi, garantendo ottimizzazione e scalabilità, mentre il modello P2P distribuisce queste funzioni tra nodi interconnessi, offrendo resilienza ma con sfide nella gestione e scalabilità. Le evoluzioni moderne integrano modelli ibridi e soluzioni distribuite come Blockchain e IPFS.</p>
+      <p class="mb-0 small lh-lg">Il livello di collegamento dati gestisce l&#39;accesso al mezzo e la trasmissione affidabile dei dati tramite frame Ethernet, che includono campi essenziali come gli indirizzi MAC e l&#39;EtherType per l&#39;instradamento e l&#39;identificazione del protocollo. Ethernet, uno standard IEEE 802.3, opera a questo livello dividendo le funzioni tra LLC e MAC per un efficiente trasferimento NIC-to-NIC all&#39;interno delle LAN.</p>
     </div>
   
 
@@ -195,215 +255,201 @@
   
 
   <section class="content">
-    <h2>Architettura Client e Server</h2>
-<p>Tutti i dispositivi connessi a una rete che partecipano attivamente alla comunicazione sono classificati come <strong>host</strong>. Nelle reti moderne, un host può assumere il ruolo di client, di server o di entrambi simultaneamente: è il software installato a determinarne il comportamento.</p>
-<p>I <strong>server</strong> sono host equipaggiati con software dedicato a erogare servizi — pagine web, email, autenticazione, database. Ogni servizio richiede un processo server specifico: un host che eroga sia un sito web che la posta elettronica esegue in parallelo un web server (ad esempio Nginx o Apache) e un mail server (ad esempio Postfix).</p>
-<p>I <strong>client</strong> sono host su cui è installato software in grado di richiedere e consumare tali servizi: un browser web, un client di posta, un'applicazione mobile. In un'architettura client-server classica i ruoli sono distinti e stabili, il che consente ottimizzazione delle risorse, scalabilità orizzontale e gestione centralizzata della sicurezza — principi fondanti nell'ingegneria di sistemi distribuiti e nei microservizi.</p>
+    <h2>Il livello di collegamento dati e Ethernet</h2>
+<p>Il <strong>livello di collegamento dati</strong> (Data Link Layer) è il secondo livello del modello OSI. Il suo compito è garantire un trasferimento affidabile dei dati tra due nodi direttamente connessi sulla stessa rete fisica, gestendo l'accesso al mezzo trasmissivo e il rilevamento degli errori.</p>
+<p>!<a href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1779532152/Modello_ISO_OSI_f2aaeb41f6.svg" target="_blank" rel="noopener noreferer">Modello ISO-OSI.svg</a></p>
+<p>Dal punto di vista architetturale, il livello 2 si divide in due sotto-livelli distinti:</p>
+<ul>
+<li><strong>LLC (Logical Link Control):</strong> gestisce il controllo del flusso e il multiplexing dei protocolli di livello superiore.</li>
+<li><strong>MAC (Media Access Control):</strong> gestisce l'indirizzamento fisico e l'accesso al mezzo condiviso.</li>
+</ul>
+<p>Ethernet, definito dallo standard IEEE 802.3, è il protocollo di livello 2 più diffuso nelle reti locali (LAN). Opera scheda di rete per scheda di rete (NIC-to-NIC) all'interno dello stesso dominio di broadcast, incapsulando i dati in unità chiamate <strong>frame</strong>.</p>
 <blockquote>
-<p><strong>In produzione</strong>: nei sistemi cloud-native (AWS, GCP, Azure) l'architettura client-server si estende al modello <strong>east-west traffic</strong>, dove i microservizi comunicano tra loro come client e server reciprocamente, spesso attraverso API REST o gRPC.</p>
+<p>NIC (Network Interface Card), o scheda di interfaccia di rete.</p>
 </blockquote>
-<h2>Reti Peer-to-Peer (P2P)</h2>
-<p>Il software client e server può coesistere sullo stesso host. Questo schema prende il nome di <strong>rete peer-to-peer (P2P)</strong>: ogni nodo è al tempo stesso fornitore e consumatore di risorse.</p>
-<p>La forma più semplice di rete P2P è costituita da due computer collegati direttamente tramite cavo o wireless. Reti P2P più estese richiedono un dispositivo intermedio — tipicamente uno switch — per interconnettere i nodi.</p>
-<p><strong>Vantaggi delle reti P2P:</strong></p>
-<ul>
-<li>Nessun server centrale: eliminazione del single point of failure</li>
-<li>Costi di infrastruttura ridotti per ambienti SOHO (Small Office/Home Office)</li>
-<li>Configurazione rapida e semplice</li>
-</ul>
-<p><strong>Svantaggi:</strong></p>
-<ul>
-<li>Le prestazioni di un host degradano quando opera come client e server contemporaneamente</li>
-<li>Gestione della sicurezza e degli accessi più complessa senza un punto di controllo centralizzato</li>
-<li>Scarsa scalabilità oltre un certo numero di nodi</li>
-</ul>
-<h3>Architettura P2P Ibrida</h3>
-<p>Alcune applicazioni P2P adottano un modello <strong>ibrido</strong>: la condivisione delle risorse è decentralizzata, ma un server indice centralizzato tiene traccia della posizione delle risorse. Ogni peer interroga il server indice per localizzare la risorsa, poi la recupera direttamente dal peer che la ospita.</p>
-<p>Le evoluzioni moderne del modello P2P comprendono:</p>
-<ul>
-<li><strong>Reti BitTorrent</strong>: distribuzione di file tramite tracker e DHT (Distributed Hash Table)</li>
-<li><strong>Blockchain e reti DLT</strong>: ogni nodo mantiene una copia dell'intera catena di blocchi, rendendo il sistema resiliente e immutabile per design</li>
-<li><strong>IPFS (InterPlanetary File System)</strong>: file system distribuito che usa content-addressing invece di location-addressing</li>
-</ul>
-<h2>Ruoli multipli nella rete</h2>
-<p>Un host può eseguire simultaneamente più processi server. In un contesto SOHO è comune trovare un singolo server fisico (o una VM) che gestisce file sharing, web server e autenticazione di rete.</p>
-<p>Allo stesso modo, un client può connettersi contemporaneamente a più server: un browser apre connessioni HTTP/HTTPS verso decine di endpoint per caricare una singola pagina web (HTML, CSS, JS, immagini, font, API calls).</p>
-<p>Questo comportamento è alla base del modello <strong>multiplexing</strong> introdotto da HTTP/2 e HTTP/3, dove più richieste transitano su una singola connessione TCP (o QUIC), riducendo la latenza percepita.</p>
-<h2>Infrastruttura di rete</h2>
-<p>L'infrastruttura di rete è la piattaforma fisica e logica che supporta la comunicazione. Si compone di tre categorie di elementi hardware:</p>
+<h2>La struttura del frame Ethernet</h2>
+<p>Ogni comunicazione Ethernet avviene attraverso frame strutturati. Ogni campo ha una dimensione precisa e una funzione specifica nel processo di consegna e verifica dei dati.</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
     <thead class="table-dark">
       <tr>
-        <th>Categoria</th>
-        <th>Esempi</th>
+        <th>Campo</th>
+        <th>Dimensione</th>
+        <th>Funzione</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="fw-semibold">Dispositivi terminali<br><small class="text-muted fw-normal">End Device</small></td>
-        <td>PC, laptop, smartphone, stampanti, telecamere IP, sensori IoT</td>
+        <td class="fw-semibold">Preambolo</td>
+        <td>7 byte</td>
+        <td>Sequenza alternata di 0 e 1 (10101010×7) usata per sincronizzare l'orologio della NIC ricevente con il segnale in arrivo.</td>
       </tr>
       <tr>
-        <td class="fw-semibold">Dispositivi intermedi<br><small class="text-muted fw-normal">Intermediary Device</small></td>
-        <td>Switch, router, access point, firewall, load balancer</td>
+        <td class="fw-semibold">SFD (Start Frame Delimiter)</td>
+        <td>1 byte</td>
+        <td>Byte <code>10101011</code> che segnala la fine del preambolo e l'inizio immediato del frame effettivo.</td>
       </tr>
       <tr>
-        <td class="fw-semibold">Media di rete<br><small class="text-muted fw-normal">Network Media</small></td>
-        <td>Cavo UTP/STP, fibra ottica, onde radio (Wi-Fi, 4G/5G)</td>
+        <td class="fw-semibold">MAC di destinazione</td>
+        <td>6 byte</td>
+        <td>Indirizzo MAC della NIC di destinazione sulla rete locale. Determina chi deve ricevere il frame.</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">MAC di origine</td>
+        <td>6 byte</td>
+        <td>Indirizzo MAC della NIC che ha generato il frame. Usato dallo switch per popolare la MAC address table.</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">EtherType / Lunghezza</td>
+        <td>2 byte</td>
+        <td>Se il valore è ≥ 1536 (0x0600), indica il protocollo del payload (es. <code>0x0800</code> = IPv4, <code>0x86DD</code> = IPv6, <code>0x0806</code> = ARP). Se < 1536, rappresenta la lunghezza del payload in byte.</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Payload (dati)</td>
+        <td>46–1500 byte</td>
+        <td>Dati incapsulati: tipicamente un pacchetto IP con le relative intestazioni di trasporto (TCP/UDP) e applicazione. Ethernet non interpreta il contenuto.</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">FCS (Frame Check Sequence)</td>
+        <td>4 byte</td>
+        <td>Checksum CRC-32 calcolato sul frame. La NIC ricevente ricalcola il CRC: se non corrisponde, il frame viene scartato silenziosamente.</td>
       </tr>
     </tbody>
   </table>
 </div>
-<p>I dispositivi e i media rappresentano il livello fisico della rete. Fanno eccezione le reti wireless, dove il &quot;mezzo&quot; è lo spettro radio — invisibile ma soggetto a interferenze, attenuazione e congestione come qualsiasi medium fisico.</p>
-<h2>End Device (Dispositivi Terminali)</h2>
-<p>Gli end device sono i punti di origine e destinazione di ogni flusso di dati sulla rete. Per identificarli univocamente si utilizzano gli indirizzi: <strong>indirizzi IP</strong> a livello di rete (Layer 3) e <strong>indirizzi MAC</strong> a livello datalink (Layer 2).</p>
-<p>Esempi di dispositivi terminali moderni:</p>
-<ul>
-<li>Workstation e laptop (ambienti di sviluppo, operativi)</li>
-<li>Server fisici e virtuali (on-premise e cloud)</li>
-<li>Stampanti e dispositivi multifunzione di rete</li>
-<li>Telefoni VoIP e sistemi di videoconferenza</li>
-<li>Telecamere IP e sistemi di sorveglianza</li>
-<li>Dispositivi mobili: smartphone, tablet</li>
-<li>Dispositivi IoT: sensori industriali, attuatori, smart meter</li>
-</ul>
 <blockquote>
-<p><strong>Nota su IPv4 vs IPv6</strong>: l'esaurimento degli indirizzi IPv4 pubblici ha accelerato l'adozione di IPv6 (128 bit, ~3.4×10³⁸ indirizzi) e del NAT (Network Address Translation) per la condivisione di un singolo IP pubblico tra più host privati — meccanismo presente in ogni router domestico e aziendale.</p>
+<p><strong>Nota:</strong> Il preambolo e l'SFD (8 byte totali) vengono gestiti dall'hardware della NIC e non compaiono nelle catture di pacchetti con strumenti come Wireshark, che mostrano il frame a partire dal campo MAC di destinazione.</p>
 </blockquote>
-<h2>Servizi ISP</h2>
-<p>Un <strong>Internet Service Provider (ISP)</strong> è l'operatore che fornisce l'accesso a Internet collegando la rete dell'utente alla backbone globale. In Italia i principali operatori includono TIM, Vodafone, WINDTRE, Fastweb, Tiscali e diversi operatori virtuali (MVNO).</p>
-<p>Gli ISP offrono tipicamente:</p>
+<h2>Gli indirizzi MAC</h2>
+<p>Un indirizzo MAC (Media Access Control) è un identificatore hardware a <strong>48 bit (6 byte)</strong>, rappresentato in notazione esadecimale. Esempio: <code>00:1A:2B:3C:4D:5E</code>.</p>
+<p>L'indirizzo è suddiviso in due blocchi:</p>
 <ul>
-<li>Accesso a Internet (broadband, fibra, mobile)</li>
-<li>Indirizzi IP pubblici (statici o dinamici)</li>
-<li>DNS resolver</li>
-<li>Caselle email e storage cloud</li>
-<li>Web hosting e registrazione domini</li>
-<li>VoIP (Voice over IP)</li>
-<li>Supporto tecnico e SLA (Service Level Agreement) per utenze business</li>
+<li><strong>OUI (Organizationally Unique Identifier) — primi 3 byte:</strong> assegnato dall'IEEE al produttore della NIC. Ad esempio, <code>00:1A:2B</code> identifica un vendor specifico.</li>
+<li><strong>NIC ID — ultimi 3 byte:</strong> assegnato dal produttore per distinguere ogni singola scheda prodotta.</li>
 </ul>
-<h3>Gerarchia degli ISP</h3>
-<p>Gli ISP sono organizzati gerarchicamente in <strong>Tier 1, Tier 2 e Tier 3</strong>:</p>
+<p>Due bit del primo byte hanno significato speciale:</p>
+<ul>
+<li><strong>Bit I/G (Individual/Group):</strong> se impostato a 1, l'indirizzo è multicast o broadcast; se 0, è unicast.</li>
+<li><strong>Bit U/L (Universal/Local):</strong> se 0, l'indirizzo è assegnato globalmente dall'IEEE (burned-in address); se 1, è stato assegnato localmente in modo amministrativo.</li>
+</ul>
+<p>L'indirizzo <code>FF:FF:FF:FF:FF:FF</code> è riservato al <strong>broadcast Ethernet</strong>: il frame viene consegnato a tutti i dispositivi nel dominio di broadcast.</p>
+<h2>Hub ed Ethernet switch: architetture a confronto</h2>
+<p>Prima di analizzare il comportamento degli switch, è utile comprendere perché abbiano sostituito gli hub nelle reti moderne.</p>
+<h3>Hub Ethernet</h3>
+<p>Un hub è un dispositivo di livello fisico (Layer 1). Quando riceve un segnale su una porta, lo <strong>ripete su tutte le altre porte</strong> indiscriminatamente, senza alcuna intelligenza di inoltro. Tutti i dispositivi connessi condividono lo stesso <strong>dominio di collisione</strong>: se due host trasmettono simultaneamente, si verifica una collisione e i dati vanno persi. Per gestire questo problema, Ethernet su hub utilizza <strong>CSMA/CD (Carrier Sense Multiple Access with Collision Detection)</strong>.</p>
+<p>Gli hub operano in modalità <strong>half-duplex</strong>: un dispositivo può trasmettere o ricevere, ma non entrambe le operazioni contemporaneamente.</p>
+<h3>Switch Ethernet</h3>
+<p>Uno switch Ethernet opera al <strong>livello 2 del modello OSI</strong>. A differenza dell'hub, legge l'intestazione di ogni frame Ethernet e prende decisioni di inoltro intelligenti basate sull'indirizzo MAC di destinazione. Ogni porta dello switch costituisce un <strong>dominio di collisione separato</strong>, eliminando le collisioni e consentendo comunicazioni <strong>full-duplex</strong>.</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
     <thead class="table-dark">
       <tr>
-        <th>Tier</th>
-        <th>Descrizione</th>
-        <th>Esempi</th>
+        <th>Caratteristica</th>
+        <th>Hub</th>
+        <th>Switch</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="fw-semibold">Tier 1</td>
-        <td>Operatori backbone globali interconnessi <strong>senza costi di transito</strong></td>
-        <td><code>AT&T</code>, <code>Lumen</code>, <code>NTT</code>, <code>Telia</code></td>
+        <td class="fw-semibold">Livello OSI</td>
+        <td>Layer 1 (Fisico)</td>
+        <td>Layer 2 (Collegamento dati)</td>
       </tr>
       <tr>
-        <td class="fw-semibold">Tier 2</td>
-        <td>Operatori regionali/nazionali con accordi di <strong>peering e transito</strong></td>
-        <td><code>Fastweb</code>, <code>BT</code>, <code>Telecom Italia</code></td>
+        <td class="fw-semibold">Dominio di collisione</td>
+        <td>Unico per tutti i dispositivi</td>
+        <td>Separato per ogni porta</td>
       </tr>
       <tr>
-        <td class="fw-semibold">Tier 3</td>
-        <td>ISP locali che <strong>acquistano transito</strong> da Tier 1/2</td>
-        <td>Operatori locali, MVNO</td>
+        <td class="fw-semibold">Modalità duplex</td>
+        <td>Half-duplex</td>
+        <td>Full-duplex</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Forwarding</td>
+        <td>Broadcast su tutte le porte</td>
+        <td>Selettivo per porta (basato su MAC)</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Sicurezza</td>
+        <td>Nessuna (traffico visibile a tutti)</td>
+        <td>Traffico isolato per porta</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Scalabilità</td>
+        <td>Bassa (le collisioni aumentano con i nodi)</td>
+        <td>Alta (prestazioni indipendenti dal numero di porte)</td>
       </tr>
     </tbody>
   </table>
 </div>
-<p>La <strong>dorsale Internet</strong> (backbone) è composta da cavi in fibra ottica ad altissima capacità che collegano le principali aree metropolitane mondiali, inclusi i cavi sottomarini intercontinentali. La scelta del percorso ottimale per il traffico avviene tramite il protocollo <strong>BGP (Border Gateway Protocol)</strong>.</p>
-<blockquote>
-<p><strong>CDN e Edge Computing</strong>: per ridurre la latenza percepita dagli utenti finali, i grandi provider (Cloudflare, Akamai, AWS CloudFront) distribuiscono contenuti su nodi <strong>PoP (Point of Presence)</strong> geograficamente vicini all'utente — riducendo i round-trip e scaricando traffico dalla backbone.</p>
-</blockquote>
-<h2>Connessioni ISP</h2>
-<h3>Connessione con Modem Diretto (deprecata)</h3>
-<p>Un modem collegato direttamente al PC espone quest'ultimo a Internet senza alcun layer di sicurezza. Questa configurazione è <strong>fortemente sconsigliata</strong>: il dispositivo ottiene un IP pubblico senza firewall, NAT o filtraggio del traffico.</p>
-<h3>Connessione tramite Router (standard raccomandato)</h3>
-<p>Il router è il componente fondamentale di ogni rete domestica e aziendale. Un router moderno integra:</p>
+<h2>Come funziona uno switch Ethernet</h2>
+<h3>La MAC address table</h3>
+<p>Il cuore operativo di uno switch è la <strong>MAC address table</strong> (detta anche CAM table — Content Addressable Memory). Questa tabella associa ogni indirizzo MAC noto a una specifica porta fisica dello switch, permettendo l'inoltro selettivo dei frame.</p>
+<p>La tabella viene costruita dinamicamente attraverso un processo di apprendimento automatico. Ogni voce ha un <strong>timer di aging</strong> (default: 300 secondi / 5 minuti): se non arriva traffico da un MAC entro questo intervallo, la voce viene rimossa per mantenere la tabella aggiornata.</p>
+<h3>Il processo di learning e forwarding</h3>
+<p>Il comportamento dello switch a ogni frame ricevuto segue tre fasi distinte.</p>
+<p><strong>Fase 1 — Learning (apprendimento):</strong> Quando lo switch riceve un frame su una porta, esamina l'indirizzo MAC di <strong>origine</strong> e verifica se è già presente nella tabella. Se non lo è, aggiunge la coppia <code>{MAC sorgente → porta in ingresso}</code>. Se è già presente, aggiorna il timer di aging.</p>
+<p><strong>Fase 2 — Lookup (ricerca della destinazione):</strong> Lo switch cerca l'indirizzo MAC di <strong>destinazione</strong> nella tabella. Possono verificarsi due scenari:</p>
 <ul>
-<li><strong>Switch</strong> per le porte cablate (LAN)</li>
-<li><strong>Access Point</strong> Wi-Fi per i client wireless</li>
-<li><strong>DHCP server</strong> per l'assegnazione automatica degli indirizzi IP privati</li>
-<li><strong>NAT</strong> (Network Address Translation) per la condivisione dell'IP pubblico</li>
-<li><strong>Firewall</strong> con stateful packet inspection</li>
-<li><strong>DNS forwarder</strong></li>
+<li><strong>MAC di destinazione noto:</strong> lo switch conosce la porta associata e inoltra il frame esclusivamente su quella porta (<strong>forwarding selettivo</strong>).</li>
+<li><strong>MAC di destinazione sconosciuto (unicast flooding):</strong> il MAC non è nella tabella. Lo switch invia il frame su <strong>tutte le porte attive eccetto quella di ingresso</strong>, comportandosi temporaneamente come un hub. Questo è detto <strong>unknown unicast flooding</strong>.</li>
 </ul>
-<p>La combinazione NAT + firewall costituisce il perimetro di sicurezza minimo di ogni rete locale. In ambienti aziendali questo perimetro viene esteso con <strong>IDS/IPS</strong>, <strong>proxy</strong>, <strong>VPN gateway</strong> e <strong>segmentazione VLAN</strong>.</p>
-<h2>Tecnologie di Accesso a Banda Larga</h2>
-<p>La tabella seguente riassume le principali opzioni di connessione disponibili per utenze residenziali e SOHO:</p>
-<div class="table-responsive shadow-sm rounded mb-3">
-  <table class="table table-bordered table-striped table-hover align-middle mb-0">
-    <thead class="table-dark">
-      <tr>
-        <th>Tecnologia</th>
-        <th>Velocità Download</th>
-        <th>Velocità Upload</th>
-        <th>Latenza Tipica</th>
-        <th>Note</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="fw-semibold">ADSL2+</td>
-        <td>fino a <strong>24 Mbps</strong></td>
-        <td>fino a <strong>1 Mbps</strong></td>
-        <td><code>20–50 ms</code></td>
-        <td>Dipende dalla distanza dalla centrale</td>
-      </tr>
-      <tr>
-        <td class="fw-semibold">VDSL2</td>
-        <td>fino a <strong>100 Mbps</strong></td>
-        <td>fino a <strong>50 Mbps</strong></td>
-        <td><code>10–30 ms</code></td>
-        <td>Richiede armadio ottico vicino</td>
-      </tr>
-      <tr>
-        <td class="fw-semibold">FTTC <small class="text-muted fw-normal">(fibra mista rame)</small></td>
-        <td>fino a <strong>200 Mbps</strong></td>
-        <td>fino a <strong>20 Mbps</strong></td>
-        <td><code>10–20 ms</code></td>
-        <td>Comune in Italia con TIM/WINDTRE</td>
-      </tr>
-      <tr>
-        <td class="fw-semibold">FTTH/FTTB <small class="text-muted fw-normal">(fibra pura)</small></td>
-        <td><strong>1–10 Gbps</strong></td>
-        <td><strong>1–10 Gbps</strong></td>
-        <td><code>1–5 ms</code></td>
-        <td>Standard per nuove installazioni</td>
-      </tr>
-      <tr>
-        <td class="fw-semibold">4G FWA</td>
-        <td><strong>50–300 Mbps</strong></td>
-        <td><strong>20–100 Mbps</strong></td>
-        <td><code>20–50 ms</code></td>
-        <td>Alternativa dove la fibra non arriva</td>
-      </tr>
-      <tr>
-        <td class="fw-semibold">5G FWA</td>
-        <td><strong>200 Mbps – 2 Gbps</strong></td>
-        <td><strong>50–500 Mbps</strong></td>
-        <td><code>1–10 ms</code></td>
-        <td>Diffusione crescente nelle aree urbane</td>
-      </tr>
-      <tr>
-        <td class="fw-semibold">Satellite LEO <small class="text-muted fw-normal">(es. Starlink)</small></td>
-        <td><strong>50–250 Mbps</strong></td>
-        <td><strong>10–40 Mbps</strong></td>
-        <td><code>20–60 ms</code></td>
-        <td>Copertura globale, aree rurali</td>
-      </tr>
-      <tr>
-        <td class="fw-semibold">Satellite GEO <small class="text-muted fw-normal">(es. SES)</small></td>
-        <td><strong>20–100 Mbps</strong></td>
-        <td><strong>3–10 Mbps</strong></td>
-        <td><code>600–800 ms</code></td>
-        <td>Alta latenza, <strong>inadatto</strong> a VoIP/gaming</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+<p><strong>Fase 3 — Filtering:</strong> Una volta che entrambi i MAC (sorgente e destinazione) sono stati appresi, tutti i frame successivi tra quei due host vengono inoltrati solo sulla porta corretta, <strong>senza coinvolgere le altre porte</strong>. Questo processo di filtraggio è la ragione principale per cui gli switch migliorano drasticamente l'efficienza della rete rispetto agli hub.</p>
+<p>Il diagramma seguente mostra l'evoluzione della MAC address table durante una sequenza di scambi tipici:</p>
+<pre><code>STATO INIZIALE — Tabella vuota
+┌───────────────────────────┐
+│ MAC Address Table         │
+│ (vuota)                   │
+└───────────────────────────┘
+H1 (AA:AA) ─── FA0/1 ┐
+H2 (BB:BB) ─── FA0/2 ├── [SWITCH]
+H3 (CC:CC) ─── FA0/3 ┤
+H4 (DD:DD) ─── FA0/4 ┘
+PASSO 1 — H1 invia frame a H4 (DD:DD sconosciuto)
+  → Learning: AA:AA appreso su FA0/1
+  → Flooding: frame inviato su FA0/2, FA0/3, FA0/4
+┌───────────────────────────┐
+│ MAC           │ Porta     │
+│ AA:AA         │ FA0/1     │
+└───────────────────────────┘
+PASSO 2 — H4 risponde a H1 (AA:AA già noto)
+  → Learning: DD:DD appreso su FA0/4
+  → Forwarding selettivo: frame inviato solo su FA0/1
+┌───────────────────────────┐
+│ MAC           │ Porta     │
+│ AA:AA         │ FA0/1     │
+│ DD:DD         │ FA0/4     │
+└───────────────────────────┘
+PASSO 3 — H1 invia di nuovo a H4 (entrambi noti)
+  → Forwarding selettivo diretto: solo FA0/4
+  → H2 e H3 non ricevono nulla
+</code></pre>
+<h2>Ispezione pratica dei frame Ethernet</h2>
+<p>In un contesto professionale, la verifica del comportamento Ethernet a livello di frame avviene tramite strumenti di cattura del traffico. I due più comuni negli ambienti Linux/DevOps sono <code>tcpdump</code> e Wireshark.</p>
+<p>Per catturare il traffico su un'interfaccia specifica con <code>tcpdump</code>:</p>
+<pre><code class="language-bash">tcpdump -i eth0 -e -n ether host 00:1A:2B:3C:4D:5E
+</code></pre>
+<p>Il flag <code>-e</code> mostra le intestazioni Ethernet (MAC sorgente e destinazione) nell'output. Il flag <code>-n</code> disabilita la risoluzione dei nomi per ottenere output più leggibile in ambienti di produzione.</p>
+<p>Per filtrare solo i frame ARP (utile per il debug di problemi di risoluzione MAC):</p>
+<pre><code class="language-bash">tcpdump -i eth0 -e arp
+</code></pre>
+<p>Per catturare e salvare su file <code>.pcap</code> per analisi successiva con Wireshark:</p>
+<pre><code class="language-bash">tcpdump -i eth0 -w /tmp/capture.pcap
+</code></pre>
+<p>Nei log di <code>tcpdump</code> con il flag <code>-e</code>, un frame Ethernet apparirà nel formato:</p>
+<pre><code>HH:MM:SS.ffffff AA:AA:AA:AA:AA:AA &gt; DD:DD:DD:DD:DD:DD ethertype IPv4 (0x0800), length 98
+</code></pre>
+<p>Dove il campo <code>ethertype</code> corrisponde direttamente al campo EtherType del frame descritto in precedenza.</p>
+<h2>Ethernet nei contesti moderni: VLAN, data center e cloud</h2>
+<p>I principi del livello 2 descritti fin qui sono la base di infrastrutture di rete molto più complesse. In ambienti professionali moderni, è fondamentale conoscere le seguenti estensioni.</p>
+<h3>VLAN e 802.1Q tagging</h3>
+<p>Lo standard <strong>IEEE 802.1Q</strong> estende il frame Ethernet aggiungendo un <strong>tag di 4 byte</strong> tra il campo MAC sorgente e il campo EtherType. Questo tag contiene un identificativo di VLAN (VLAN ID, da 0 a 4094) che permette di segmentare logicamente una rete fisica in più reti virtuali isolate. Gli switch gestiti (managed switch) utilizzano le VLAN per separare il traffico di reparti diversi sulla stessa infrastruttura fisica, migliorando sicurezza e gestione del broadcast.</p>
+<h3>Topologie spine-leaf nei data center</h3>
+<p>Nei data center moderni, la topologia classica a tre livelli (core-distribution-access) è stata largamente sostituita dalla topologia <strong>spine-leaf</strong>. In questa architettura ogni switch leaf è connesso a tutti gli switch spine, garantendo percorsi a bassa latenza e alta ridondanza tra tutti i server. Gli switch operano ancora al livello 2 (e spesso anche al livello 3) ma su scala e velocità ordini di grandezza superiori rispetto alle LAN tradizionali.</p>
+<h3>Overlay network e VXLAN</h3>
+<p>In ambienti cloud e Kubernetes, i frame Ethernet tradizionali vengono spesso <strong>incapsulati all'interno di pacchetti UDP</strong> attraverso protocolli overlay come <strong>VXLAN (Virtual Extensible LAN)</strong>, definito nell'RFC 7348. VXLAN estende l'indirizzamento VLAN da 4.094 a oltre 16 milioni di segmenti, indispensabile per la multi-tenancy nei cloud pubblici e privati. La comprensione del frame Ethernet di base rimane prerequisito essenziale per diagnosticare problemi di connettività anche in questi ambienti virtualizzati.</p>
+
   </section>
 
   <div class="section-divider mt-5 mb-4">Commenti</div>
