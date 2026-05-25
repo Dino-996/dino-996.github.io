@@ -1,5 +1,6 @@
 import syntaxhighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import markdownit from "markdown-it";
+import markdownItAnchor from "markdown-it-anchor";
 import matter from "gray-matter";
 import slugify from "slugify";
 import path from "path";
@@ -43,6 +44,16 @@ export default function (eleventyConfig) {
         breaks: true,
         linkify: true
     }).disable("image");
+
+    md.use(markdownItAnchor, {
+        slugify: (s) => slugify(s, { lower: true, strict: true }),
+        tabIndex: false,
+        permalink: markdownItAnchor.permalink.linkInsideHeader({
+            symbol: '<i class="bi bi-link-45deg"></i>',
+            space: true,
+            placement: 'before'
+        })
+    });
 
     const defaultRender = md.renderer.rules.link_open || function (tokens, idx, options, env, self) {
         return self.renderToken(tokens, idx, options);
