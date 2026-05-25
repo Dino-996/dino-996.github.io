@@ -2,6 +2,12 @@
 layout: base.njk
 ---
 
+{% block head_extra %}
+  {% if image %}
+    <link rel="preload" href="{{ image }}" as="image" fetchpriority="high">
+  {% endif %}
+{% endblock %}
+
 <div class="reading-progress-bar" id="reading-progress-bar"></div>
 <div class="post-layout d-flex gap-4 justify-content-center">
   <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
@@ -9,8 +15,8 @@ layout: base.njk
       <div class="sidebar-card">
       <div class="post-left-section">
         <div class="d-flex align-items-center gap-2 mb-2">
-          <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
-          <span class="fw-semibold small">Davide Sabia</span>
+<img src="/assets/img/avatar/dino-996-32.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+
         </div>
         <div class="post-left-meta">
           <time datetime="{{ postDate | dateIso }}">
@@ -78,7 +84,7 @@ layout: base.njk
     <!-- Mobile author bar (visible below lg) -->
     <div class="d-lg-none mb-3">
       <div class="d-flex align-items-center gap-2 mb-2">
-        <img src="https://github.com/Dino-996.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <img src="/assets/img/avatar/dino-996-32.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
         <div>
           <div class="fw-semibold small">Davide Sabia</div>
           <div class="text-muted small">
@@ -136,6 +142,7 @@ layout: base.njk
         <img src="{{ image }}"
              alt="{{ imageAlt | default('Immagine di copertina') }}"
              class="img-fluid rounded w-100"
+             width="800" height="420" fetchpriority="high"
              style="max-height: 420px; object-fit: cover;">
         {% if imageAlt %}
           <figcaption class="text-muted small mt-2 text-center fst-italic">{{ imageAlt }}</figcaption>

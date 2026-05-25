@@ -160,12 +160,10 @@ export default function (eleventyConfig) {
     eleventyConfig.addCollection("tagList", function (collection) {
         const tagSet = new Set();
         collection.getAll().forEach(item => {
-            // Tags Eleventy
             const eleventyTags = item.data.tags ?? [];
             if (Array.isArray(eleventyTags)) {
                 eleventyTags.filter(t => t !== "posts").forEach(t => tagSet.add(t));
             }
-            // Tags Strapi
             const strapiTags = item.data.strapiTags ?? "";
             if (typeof strapiTags === "string" && strapiTags) {
                 strapiTags.split(",").map(t => t.trim()).filter(Boolean).forEach(t => tagSet.add(t));
@@ -182,9 +180,6 @@ export default function (eleventyConfig) {
         });
     });
 
-    // =========================================
-    // = SEARCH INDEX
-    // =========================================
     let searchIndexCache = [];
     eleventyConfig.addCollection("searchIndex", (collection) => {
         searchIndexCache = collection.getFilteredByTag("posts").map((post) => {
@@ -199,7 +194,44 @@ export default function (eleventyConfig) {
         return searchIndexCache;
     });
 
+    // =========================================
+    // = TRANSFORMS
+    // =========================================
+    eleventyConfig.addTransform("minify-css", async (content, outputPath) => {
+        if (outputPath && outputPath.endsWith(".css")) {
+            return content
+                .replace(/\/\*[\s\S]*?\*\//g, "")
+                .replace(/\s+/g, " ")
+                .replace(/\s*([{}:;,])\s*/g, "$1")
+                .replace(/;}/g, "}")
+                .trim();
+        }
+        return content;
+    });
+
+    // =========================================
+    // = POST-BUILD
+    // =========================================
     eleventyConfig.on("eleventy.after", () => {
+        // Minify CSS in dist
+        const cssDir = path.join("dist", "assets", "css");
+        if (fs.existsSync(cssDir)) {
+            const files = fs.readdirSync(cssDir).filter(f => f.endsWith(".css"));
+            for (const file of files) {
+                const filePath = path.join(cssDir, file);
+                let content = fs.readFileSync(filePath, "utf-8");
+                const minified = content
+                    .replace(/\/\*[\s\S]*?\*\//g, "")
+                    .replace(/\s+/g, " ")
+                    .replace(/\s*([{}:;,])\s*/g, "$1")
+                    .replace(/;}/g, "}")
+                    .trim();
+                fs.writeFileSync(filePath, minified, "utf-8");
+                const saved = content.length - minified.length;
+                console.log(`[minify] ${file}: ${content.length} → ${minified.length} bytes (-${saved})`);
+            }
+        }
+
         const outPath = path.join("dist", "search.json");
         fs.writeFileSync(outPath, JSON.stringify(searchIndexCache, null, 2), "utf-8");
         console.log(`[search] Scritti ${searchIndexCache.length} post in ${outPath}`);

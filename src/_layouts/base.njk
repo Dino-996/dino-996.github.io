@@ -3,6 +3,7 @@
 
   <head>
     {% include "head.njk" %}
+    {% block head_extra %}{% endblock %}
   </head>
 
   <body class="d-flex flex-column min-vh-100">
@@ -214,7 +215,7 @@
     </script>
 
     <!-- main.js -->
-    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/main.js" defer></script>
   </body>
   
 </html>

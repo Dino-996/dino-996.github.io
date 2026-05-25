@@ -49,6 +49,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
           <img src="{{ post.data.image }}"
                alt="{{ post.data.imageAlt if post.data.imageAlt else post.data.title }}"
                class="img-fluid w-100 h-100"
+               width="300" height="240" loading="lazy"
                style="object-fit: cover; min-height: 240px;">
         </div>
         <div class="col-md-8">

@@ -21,6 +21,10 @@
 }
 
 [data-bs-theme="dark"] {
+  --primary-color: #66b0ff;
+  --primary-rgb: 102, 176, 255;
+  --bs-primary: #66b0ff;
+  --bs-primary-rgb: 102, 176, 255;
   --glass-bg: rgba(26, 32, 44, 0.8);
   --glass-border: rgba(74, 85, 104, 0.4);
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.2);
