@@ -34,6 +34,12 @@ export default function (eleventyConfig) {
         autoescape: true, // abilita l'escape automatico per prevenire XSS (solo testo, non JS)
     });
 
+    eleventyConfig.addGlobalData('supabaseUrl', () => process.env.SUPABASE_URL || '');
+    eleventyConfig.addGlobalData('supabaseAnonKey', () => process.env.SUPABASE_ANON_KEY || '');
+    eleventyConfig.addGlobalData('emailjsPublicKey', () => process.env.EMAILJS_PUBLIC_KEY || '');
+    eleventyConfig.addGlobalData('emailjsServiceId', () => process.env.EMAILJS_SERVICE_ID || '');
+    eleventyConfig.addGlobalData('emailjsTemplateId', () => process.env.EMAILJS_TEMPLATE_ID || '');
+
     const repositoryName = "dino-996.github.io";
 
     // =========================================
@@ -142,6 +148,10 @@ export default function (eleventyConfig) {
             replacement: "-",
             trim: true
         });
+    });
+
+    eleventyConfig.addFilter("json", (value) => {
+        return JSON.stringify(value);
     });
 
     eleventyConfig.addFilter("limit", (arr, limit) => {

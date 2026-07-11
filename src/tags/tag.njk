@@ -9,71 +9,50 @@ pagination:
   alias: tag
 ---
 
-<div class="d-flex align-items-center gap-3 mb-4">
-  <div class="d-flex align-items-center justify-content-center rounded-3"
-       style="width: 48px; height: 48px; background: var(--primary-light);">
-    <i class="bi bi-tag-fill fs-4 text-primary"></i>
+<div class="mb-6">
+  <div class="mb-1">
+    <a href="/blog/" class="text-muted small" style="text-decoration: none;">← Torna al blog</a>
   </div>
-  <div>
-    <h1 class="fw-bold mb-1">
-      Tag: <span class="text-primary">{{ tag }}</span>
-    </h1>
-    <p class="text-muted small mb-0">Post con tag "{{ tag }}"</p>
-  </div>
+  <h1 class="font-headline-lg mb-1">
+    Tag: <span style="color: var(--primary);">{{ tag }}</span>
+  </h1>
+  <p class="text-muted small mb-0">Post con tag "{{ tag }}"</p>
 </div>
 
-<ul class="list-unstyled">
-  {% set taggedPosts = [] %}
-  {% for post in collections.posts %}
-    {% set allTags = (post.data.strapiTags or "").split(",") %}
-    {% if tag in allTags %}
-      {% set taggedPosts = (taggedPosts.push(post), taggedPosts) %}
-    {% endif %}
-  {% endfor %}
-
-  {% if taggedPosts.length > 0 %}
-    {% for post in taggedPosts %}
-      <li class="mb-4">
-        <article class="card border">
-          <div class="card-body p-4">
-            <h2 class="h5 card-title mb-2">
-              <a href="{{ post.url }}">{{ post.data.title }}</a>
-            </h2>
-            <time class="text-muted small d-block mb-3" datetime="{{ post.data.postDate | dateIso }}">
-              <i class="bi bi-calendar3 me-1"></i>{{ post.data.postDate | dateHuman }}
-            </time>
-            {% if post.data.description %}
-              <p class="text-muted small mb-3">{{ post.data.description | truncate(200) }}</p>
-            {% endif %}
-            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-              <span class="small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.05em;">Altri tag:</span>
-              {% set currentTags = (post.data.strapiTags or "").split(",") %}
-              {% for t in currentTags %}
-                {% set cleanTag = t | trim %}
-                {% if cleanTag != "posts" and cleanTag != tag and cleanTag != "" %}
-                  <a href="/tags/{{ cleanTag | slugify }}/" class="badge border text-decoration-none"
-                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
-                    {{ cleanTag }}
-                  </a>
-                {% endif %}
-              {% endfor %}
-            </div>
-            <div>
-              <a href="{{ post.url }}" class="btn btn-primary btn-sm rounded">
-                Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
-              </a>
-            </div>
-          </div>
-        </article>
-      </li>
-    {% endfor %}
-  {% else %}
-    <div class="text-center py-5">
-      <i class="bi bi-inbox fs-1 text-muted d-block mb-3"></i>
-      <p class="text-muted mb-3">Nessun articolo trovato per questo tag.</p>
-      <a href="/blog/" class="btn btn-outline-primary rounded">
-        <i class="bi bi-arrow-left me-1"></i> Torna al blog
-      </a>
-    </div>
+{% set taggedPosts = [] %}
+{% for post in collections.posts %}
+  {% set allTags = (post.data.strapiTags or "").split(",") %}
+  {% if tag in allTags %}
+    {% set taggedPosts = (taggedPosts.push(post), taggedPosts) %}
   {% endif %}
-</ul>
+{% endfor %}
+
+{% if taggedPosts.length > 0 %}
+  {% for post in taggedPosts %}
+    <article class="article-item" style="padding-left: 0; padding-right: 0;">
+      <h2 class="article-item-title" style="font-size: 1.125rem;">
+        <a href="{{ post.url }}">{{ post.data.title }}</a>
+      </h2>
+      {% if post.data.description %}
+      <p class="article-item-excerpt">{{ post.data.description | truncate(200) }}</p>
+      {% endif %}
+      <div class="article-item-meta">
+        <time datetime="{{ post.data.postDate | dateIso }}">{{ post.data.postDate | dateHuman }}</time>
+      </div>
+      <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+        {% set currentTags = (post.data.strapiTags or "").split(",") %}
+        {% for t in currentTags %}
+          {% set cleanTag = t | trim %}
+          {% if cleanTag != "posts" and cleanTag != tag and cleanTag != "" %}
+            <a href="/tags/{{ cleanTag | slugify }}/" class="badge badge-outline" style="font-size: 0.625rem;">{{ cleanTag }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </article>
+  {% endfor %}
+{% else %}
+  <div style="text-align: center; padding: 64px 16px;">
+    <p class="text-muted mb-3">Nessun articolo trovato per questo tag.</p>
+    <a href="/blog/" class="btn btn-outline">Torna al blog</a>
+  </div>
+{% endif %}

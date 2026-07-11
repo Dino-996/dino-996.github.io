@@ -9,200 +9,152 @@ layout: base.njk
 {% endblock %}
 
 <div class="reading-progress-bar" id="reading-progress-bar"></div>
-<div class="post-layout d-flex gap-4 justify-content-center">
-  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
-    <div class="post-left-sticky">
-      <div class="sidebar-card">
-      <div class="post-left-section">
-        <div class="d-flex align-items-center gap-2 mb-2">
-          <img src="{{ authorAvatar | default('/assets/img/avatar/dino-996-32.png') }}" alt="{{ author }}" class="rounded-circle" width="32" height="32">
-          <span class="fw-semibold small">{{ author | default('Davide Sabia') }}</span>
-        </div>
-        <div class="post-left-meta">
-          <time datetime="{{ postDate | dateIso }}">
-            <i class="bi bi-calendar3 me-1"></i>{{ postDate | dateHuman }}
-          </time>
-          <span class="d-block">
-            <span class="reading-time"></span>
-          </span>
-          {% if updatedAt and (updatedAt | dateIso) != (postDate | dateIso) %}
-            <span class="d-block">
-              <time datetime="{{ updatedAt | dateIso }}">
-                <i class="bi bi-pencil me-1"></i>{{ updatedAt | dateHuman }}
-              </time>
-            </span>
-          {% endif %}
-        </div>
-      </div>
 
-      <div class="post-left-section">
-        {% set shareUrl = site.url ~ page.url %}
-        {% set shareTitle = title %}
-        <div class="post-share-vertical">
-          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ shareUrl | urlencode }}"
-             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
-            <i class="bi bi-linkedin"></i>
-          </a>
-          <a href="https://twitter.com/intent/tweet?text={{ shareTitle | urlencode }}&url={{ shareUrl | urlencode }}"
-             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
-            <i class="bi bi-twitter-x"></i>
-          </a>
-          <a href="https://reddit.com/submit?url={{ shareUrl | urlencode }}&title={{ shareTitle | urlencode }}"
-             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
-            <i class="bi bi-reddit"></i>
-          </a>
-          <a href="https://news.ycombinator.com/submitlink?u={{ shareUrl | urlencode }}&t={{ shareTitle | urlencode }}"
-             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
-            <i class="bi bi-hash"></i>
-          </a>
-        </div>
-      </div>
-
-      <div class="post-left-section post-left-section-last">
-        <div class="post-left-tags">
-          {% set rawTags = strapiTags if strapiTags else "" %}
-          {% set tagList = rawTags.split(",") if rawTags is string else rawTags %}
-          {% for t in tagList %}
-            {% set cleanTag = t | trim %}
-            {% if cleanTag != "posts" and cleanTag != "" %}
-              <a href="/tags/{{ cleanTag | slugify }}/"
-                 class="badge border text-decoration-none d-inline-block mb-1"
-                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
-                {{ cleanTag }}
-              </a>
-            {% endif %}
-          {% endfor %}
-        </div>
-      </div>
-      </div>
-    </div>
-  </aside>
-
-  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
-    <h1 class="fw-bold mb-4">{{ title }}</h1>
-
-    <!-- Mobile author bar (visible below lg) -->
-    <div class="d-lg-none mb-3">
-      <div class="d-flex align-items-center gap-2 mb-2">
-        <img src="{{ authorAvatar | default('/assets/img/avatar/dino-996-32.png') }}" alt="{{ author }}" class="rounded-circle" width="28" height="28">
-        <div>
-          <div class="fw-semibold small">{{ author | default('Davide Sabia') }}</div>
-          <div class="text-muted small">
-            <time datetime="{{ postDate | dateIso }}">{{ postDate | dateHuman }}</time>
-            <span class="mx-1">·</span>
-            <span class="reading-time"></span>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex flex-wrap gap-1">
-        {% set rawTags = strapiTags if strapiTags else "" %}
-        {% set tagList = rawTags.split(",") if rawTags is string else rawTags %}
-        {% for t in tagList %}
-          {% set cleanTag = t | trim %}
-          {% if cleanTag != "posts" and cleanTag != "" %}
-            <a href="/tags/{{ cleanTag | slugify }}/"
-               class="badge border text-decoration-none"
-               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
-              {{ cleanTag }}
-            </a>
-          {% endif %}
-        {% endfor %}
-      </div>
-    </div>
-
-    <!-- Mobile ToC toggle (visible below xl) -->
-    <div class="d-xl-none mb-3">
-      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
-              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
-        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
-        <i class="bi bi-chevron-down"></i>
-      </button>
-      <div class="collapse" id="toc-mobile-collapse">
-        <div class="sidebar-card toc-card mt-2">
-          <ul class="toc-list" id="toc-list-mobile"></ul>
-        </div>
-      </div>
-    </div>
-
-    {% if tldr[title] %}
-      <div class="alert alert-primary border-start mb-4" role="note">
-        <div class="d-flex align-items-center gap-2 mb-2">
-          <span class="d-flex align-items-center justify-content-center rounded"
-                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
-            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
-          </span>
-          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
-        </div>
-        <p class="mb-0 small lh-lg">{{ tldr[title].tldr }}</p>
-      </div>
+<!-- Post Header -->
+<header class="post-header">
+  {% if strapiTags %}
+    {% set topTag = strapiTags.split(",") | first | trim %}
+    {% if topTag and topTag != "posts" %}
+    <span class="badge badge-category category">{{ topTag }}</span>
     {% endif %}
+  {% endif %}
+  <h1>{{ title }}</h1>
+  <div class="post-meta">
+    <img src="{{ authorAvatar | default('/assets/img/avatar/dino-996-32.png') }}" alt="{{ author }}" class="avatar" width="32" height="32">
+    <span>{{ author | default('Davide Sabia') }}</span>
+    <span>·</span>
+    <time datetime="{{ postDate | dateIso }}">{{ postDate | dateHuman }}</time>
+    <span class="reading-time"></span>
+    {% if updatedAt and (updatedAt | dateIso) != (postDate | dateIso) %}
+      <span>·</span>
+      <time datetime="{{ updatedAt | dateIso }}">Aggiornato: {{ updatedAt | dateHuman }}</time>
+    {% endif %}
+  </div>
+  {% if image %}
+  <img src="{{ image }}"
+       alt="{{ imageAlt | default('Immagine di copertina') }}"
+       class="post-image"
+       fetchpriority="high">
+  {% endif %}
+</header>
 
-    {% if image %}
-      <figure class="mb-4">
-        <img src="{{ image }}"
-             alt="{{ imageAlt | default('Immagine di copertina') }}"
-             class="img-fluid rounded w-100"
-             width="800" height="420" fetchpriority="high"
-             style="max-height: 420px; object-fit: cover;">
-        {% if imageAlt %}
-          <figcaption class="text-muted small mt-2 text-center fst-italic">{{ imageAlt }}</figcaption>
-        {% endif %}
-      </figure>
+<!-- Mobile ToC toggle -->
+<div class="post-layout" style="margin-bottom: 16px;">
+  <div class="hide-desktop">
+    <button id="toc-toggle" class="btn btn-outline btn-sm" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+      <span>Indice</span>
+      <span id="toc-chevron" style="transition: transform 0.2s;">▾</span>
+    </button>
+    <div id="toc-mobile" style="display: none; margin-top: 8px;">
+      <div class="toc-card">
+        <ul class="toc-list" id="toc-list-mobile"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="post-layout-wrapper">
+  <article class="post-layout">
+    {% if tldr[title] %}
+    <div class="tldr-box">
+      <div class="tldr-label">In breve</div>
+      <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">{{ tldr[title].tldr }}</p>
+    </div>
     {% endif %}
 
     <section class="content">
       {{ content | markdownBlock | safe }}
     </section>
-
-    <div class="section-divider mt-5 mb-4">Commenti</div>
-
-    <section aria-label="Commenti e reazioni">
-      <script>
-        (function () {
-          const saved = localStorage.getItem('bs-theme');
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
-          const script = document.createElement('script');
-          script.src = 'https://giscus.app/client.js';
-          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
-          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
-          script.setAttribute('data-category', 'Announcements');
-          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
-          script.setAttribute('data-mapping', 'pathname');
-          script.setAttribute('data-strict', '0');
-          script.setAttribute('data-reactions-enabled', '1');
-          script.setAttribute('data-emit-metadata', '0');
-          script.setAttribute('data-input-position', 'top');
-          script.setAttribute('data-theme', theme);
-          script.setAttribute('data-lang', 'it');
-          script.setAttribute('data-loading', 'lazy');
-          script.setAttribute('crossorigin', 'anonymous');
-          script.async = true;
-          document.currentScript.replaceWith(script);
-        })();
-      </script>
-
-      <noscript>
-        <div class="text-center py-4 text-muted">
-          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
-          <p class="small mb-0">
-            Per visualizzare i commenti è necessario abilitare JavaScript.
-            <br>
-            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
-              Discuti su GitHub Discussions →
-            </a>
-          </p>
-        </div>
-      </noscript>
-    </section>
   </article>
 
-  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
-    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
-      <div class="sidebar-card toc-card">
+  <aside class="toc-sidebar hide-mobile" id="toc-sidebar">
+    <div class="toc-card">
       <div class="toc-title">Indice</div>
       <ul class="toc-list" id="toc-list"></ul>
-      </div>
-    </nav>
+    </div>
   </aside>
+</div>
+
+<!-- Share & Tags -->
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+    <div class="d-flex flex-wrap gap-2">
+      {% if strapiTags %}
+        {% for t in strapiTags.split(",") %}
+          {% set cleanTag = t | trim %}
+          {% if cleanTag and cleanTag != "posts" %}
+          <a href="/tags/{{ cleanTag | slugify }}/" class="badge badge-outline">{{ cleanTag }}</a>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+    <div class="d-flex gap-2">
+      <span class="font-label-sm" style="color: var(--on-surface-variant);">Condividi</span>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url ~ page.url | urlencode }}" target="_blank" rel="noopener" aria-label="LinkedIn" style="color: var(--secondary);">in</a>
+      <a href="https://twitter.com/intent/tweet?text={{ title | urlencode }}&url={{ site.url ~ page.url | urlencode }}" target="_blank" rel="noopener" aria-label="X" style="color: var(--secondary);">𝕏</a>
+    </div>
+  </div>
+</div>
+
+<!-- Prev / Next -->
+{% set prevPostUrl = post.prevPostUrl %}
+{% set prevPostTitle = post.prevPostTitle %}
+{% set nextPostUrl = post.nextPostUrl %}
+{% set nextPostTitle = post.nextPostTitle %}
+{% if prevPostUrl or nextPostUrl %}
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <nav class="d-flex justify-content-between" aria-label="Navigazione articoli">
+    <div>
+      {% if prevPostUrl %}
+      <a href="{{ prevPostUrl }}" class="btn btn-outline btn-sm" style="text-align: left; max-width: 250px;">
+        <span class="d-block small">← Precedente</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ prevPostTitle }}</span>
+      </a>
+      {% endif %}
+    </div>
+    <div style="text-align: right;">
+      {% if nextPostUrl %}
+      <a href="{{ nextPostUrl }}" class="btn btn-outline btn-sm" style="text-align: right; max-width: 250px;">
+        <span class="d-block small">Successivo →</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ nextPostTitle }}</span>
+      </a>
+      {% endif %}
+    </div>
+  </nav>
+</div>
+{% endif %}
+
+<!-- Comments -->
+<div class="post-layout giscus-wrapper">
+  <script>
+    (function () {
+      const saved = localStorage.getItem('bs-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+      script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+      script.setAttribute('data-category', 'Announcements');
+      script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-theme', theme);
+      script.setAttribute('data-lang', 'it');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+      document.currentScript.replaceWith(script);
+    })();
+  </script>
+  <noscript>
+    <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+      Per visualizzare i commenti è necessario abilitare JavaScript.
+      <br>
+      <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+    </div>
+  </noscript>
 </div>

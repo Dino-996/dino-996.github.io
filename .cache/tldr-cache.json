@@ -76,8 +76,8 @@
     "hash": "12066"
   },
   "Reti wireless e mobili": {
-    "tldr": "Le reti wireless per dispositivi mobili includono reti cellulari per copertura estesa, Wi-Fi per connessioni locali ad alta velocità, Bluetooth per comunicazioni a corto raggio e NFC per interazioni a prossimità immediata. Sistemi come GPS, A-GPS e GNSS, spesso integrati con dati Wi-Fi e cellulari, forniscono capacità di geolocalizzazione avanzate e flessibili.",
-    "hash": "18145"
+    "tldr": "Le reti wireless mobili si dividono in quattro categorie principali: cellulare (decine di km, voce/dati), Wi-Fi (20-150m, internet/hotspot), Bluetooth (1-100m, accessori/IoT) e NFC (<10cm, pagamenti/autenticazione), con GPS che offre geolocalizzazione globale (sola ricezione). Queste tecnologie coesistono e si integrano, come nel caso del GPS assistito (A-GPS) o dell'integrazione con Wi-Fi e cellulare per una localizzazione più robusta.",
+    "hash": "18136"
   },
   "Il livello di collegamento dati e Ethernet": {
     "tldr": "Il livello di collegamento dati gestisce il trasferimento affidabile dei dati tra nodi connessi, articolandosi nei sotto-livelli LLC e MAC; Ethernet (IEEE 802.3) è il protocollo di livello 2 predominante per le LAN, che incapsula i dati in frame con campi specifici per indirizzamento e controllo. La struttura del frame Ethernet include campi come Preambolo, SFD, MAC di destinazione e origine, EtherType/Lunghezza e Payload, ciascuno con funzioni essenziali per la corretta trasmissione e ricezione dei dati sulla rete locale.",

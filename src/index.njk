@@ -3,177 +3,129 @@ layout: page.njk
 title: Home
 ---
 
-<!-- Hero -->
-<div class="hero-section py-5 mb-5">
-  <div class="d-flex flex-column align-items-center text-center">
-    <div class="d-flex align-items-center gap-4 mb-4">
-      <div class="d-inline-flex align-items-center justify-content-center rounded-4 flex-shrink-0"
-           style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--primary-color), #0b5ed7);">
-        <span class="fw-bold text-white" style="font-size: 2rem; font-family: monospace;">&lt;/&gt;</span>
-      </div>
-      <div class="text-start">
-        <h1 class="display-4 fw-bold mb-2">
-          Ciao, sono <span class="text-primary">Davide</span>
-        </h1>
-        <p class="lead text-muted mb-0" style="max-width: 600px;">
-          Informatico appassionato di tecnologie moderne. Condivido qui progetti e articoli su programmazione e sicurezza informatica.
-        </p>
-      </div>
-    </div>
-    <div class="d-flex gap-3 flex-wrap justify-content-center">
-      <a href="/blog/" class="btn btn-primary btn-lg px-4">
-        <i class="bi bi-journal-text me-2"></i>Blog
-      </a>
-      <a href="/about/" class="btn btn-outline-primary btn-lg px-4">
-        <i class="bi bi-person me-2"></i>About
-      </a>
-    </div>
-  </div>
-</div>
+<div class="grid-12">
+  <!-- Main content -->
+  <div class="md-col-span-9">
 
-<h2 class="section-divider">Progetti recenti</h2>
+    {% set allPosts = posts | default([]) %}
+    {% set firstPost = allPosts | first %}
 
-<!-- Progetti -->
-<section class="row g-4 mb-5">
-  <div class="col-12 col-md-6 col-lg-4">
-    <div class="card h-100 border">
-      <div class="card-body d-flex flex-column p-4">
-        <div class="d-flex align-items-center gap-3 mb-3">
-          <div class="d-flex align-items-center justify-content-center rounded-3"
-               style="width: 44px; height: 44px; background: var(--primary-light);">
-            <i class="bi bi-github fs-4 text-primary"></i>
-          </div>
-          <h2 class="h5 card-title mb-0">Personal Blog</h2>
-        </div>
-        <p class="card-text text-muted small">
-          Blog realizzato con Eleventy e Bootstrap. Sistema di tag, paginazione, dark mode, AI chatbot e TL;DR con Gemini.
-        </p>
-        <div class="mb-3 d-flex flex-wrap gap-1">
-          <span class="badge bg-light text-body border pe-none">Eleventy</span>
-          <span class="badge bg-light text-body border pe-none">Bootstrap</span>
-          <span class="badge bg-light text-body border pe-none">Nunjucks</span>
-          <span class="badge bg-light text-body border pe-none">Strapi</span>
-        </div>
-        <div class="mt-auto d-grid gap-2">
-          <a href="https://github.com/Dino-996/dino-996.github.io" target="_blank" class="btn btn-primary btn-sm rounded">
-            <i class="bi bi-github me-1"></i>Vedi su GitHub
-          </a>
-          <span class="badge bg-success pe-none text-start">
-            <i class="bi bi-check-circle me-1"></i>Completato
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-12 col-md-6 col-lg-4">
-    <div class="card h-100 border">
-      <div class="card-body d-flex flex-column p-4">
-        <div class="d-flex align-items-center gap-3 mb-3">
-          <div class="d-flex align-items-center justify-content-center rounded-3"
-               style="width: 44px; height: 44px; background: var(--primary-light);">
-            <i class="bi bi-file-earmark-text fs-4 text-primary"></i>
-          </div>
-          <h2 class="h5 card-title mb-0">GLM-OCR</h2>
-        </div>
-        <p class="card-text text-muted small">
-          Trasforma PDF sporchi, scansioni e immagini in Markdown pulito e strutturato, usando il modello GLM-OCR in esecuzione tramite Ollama tutto sul tuo host locale.
-        </p>
-        <div class="mb-3 d-flex flex-wrap gap-1">
-          <span class="badge bg-light text-body border pe-none">markdown</span>
-          <span class="badge bg-light text-body border pe-none">knowledge-base</span>
-          <span class="badge bg-light text-body border pe-none">ollama</span>
-          <span class="badge bg-light text-body border pe-none">glm-ocr</span>
-        </div>
-        <div class="mt-auto d-grid gap-2">
-          <a href="https://github.com/Dino-996/glm-ocr" target="_blank" class="btn btn-primary btn-sm rounded">
-            <i class="bi bi-github me-1"></i>Vedi su GitHub
-          </a>
-          <span class="badge bg-success pe-none text-start">
-            <i class="bi bi-check-circle me-1"></i>Completato
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-12 col-md-12 col-lg-4">
-    <div class="card h-100 border">
-      <div class="card-body d-flex flex-column p-4">
-        <div class="d-flex align-items-center gap-3 mb-3">
-          <div class="d-flex align-items-center justify-content-center rounded-3"
-               style="width: 44px; height: 44px; background: rgba(255, 193, 7, 0.12);">
-            <i class="bi bi-lightbulb fs-4 text-warning"></i>
-          </div>
-          <h2 class="h5 card-title mb-0">Prossimamente</h2>
-        </div>
-        <p class="card-text text-muted small">
-          Sto lavorando a un progetto di cyber security. Torna a controllare tra qualche settimana!
-        </p>
-        <div class="mb-3 d-flex flex-wrap gap-1">
-          <span class="badge bg-light text-body border pe-none">In sviluppo</span>
-        </div>
-        <div class="mt-auto d-grid gap-2">
-          <button class="btn btn-secondary btn-sm rounded" disabled>
-            <i class="bi bi-hourglass-split me-1"></i>Coming Soon
-          </button>
-          <span class="badge bg-warning text-dark pe-none text-start">
-            <i class="bi bi-gear-fill me-1"></i>In corso
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<h2 class="section-divider">Ultimi articoli</h2>
-
-<!-- Ultimi articoli -->
-<section class="row g-4">
-  {% for post in posts | limit(3) %}
-    <div class="col-12 col-md-{% if loop.last %}12{% else %}6{% endif %} col-lg-4">
-      <article class="card h-100 overflow-hidden border">
-        <div class="row g-0 h-100">
-          {% if post.image %}
-          <div class="col-12 overflow-hidden">
-            <img src="{{ post.image }}"
-                 alt="{% if post.imageAlt %}{{ post.imageAlt }}{% else %}{{ post.title }}{% endif %}"
-                 class="card-img-top w-100"
-                 width="400" height="200" loading="lazy"
-                 style="object-fit: cover; height: 200px;">
-          </div>
+    {% if firstPost %}
+    <!-- Featured Article -->
+    <article class="featured-article mb-6">
+      {% if firstPost.image %}
+      <img src="{{ firstPost.image }}"
+           alt="{{ firstPost.imageAlt | default(firstPost.title) }}"
+           class="featured-article-image"
+           loading="eager"
+           fetchpriority="high">
+      {% endif %}
+      <div class="featured-article-content">
+        {% if firstPost.displayTags %}
+          {% set topTag = firstPost.displayTags.split(",") | first | trim %}
+          {% if topTag and topTag != "posts" %}
+          <a href="/tags/{{ topTag | slugify }}/" class="badge badge-category" style="align-self: flex-start;">{{ topTag }}</a>
           {% endif %}
-          <div class="col-12">
-            <div class="card-body d-flex flex-column p-4">
-              <div>
-                <h2 class="h5 card-title mb-2">
-                  <a href="{{ post.url }}">{{ post.title }}</a>
-                </h2>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <time class="text-muted small" datetime="{{ post.date | dateIso }}">
-                    <i class="bi bi-calendar3 me-1"></i>{{ post.date | dateHuman }}
-                  </time>
-                  {% if post.displayTags %}
-                    {% set firstTag = post.displayTags.split(",") | first | trim %}
-                    {% if firstTag and firstTag != "posts" %}
-                      <a href="/tags/{{ firstTag | slug }}/" class="badge border text-decoration-none"
-                         style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
-                        {{ firstTag }}
-                      </a>
-                    {% endif %}
-                  {% endif %}
-                </div>
-                {% if post.description %}
-                <p class="card-text text-muted small">{{ post.description | truncate(120) | safe }}</p>
-                {% endif %}
-              </div>
-              <div class="mt-auto pt-3 text-end">
-                <a href="{{ post.url }}" class="btn btn-primary btn-sm rounded">
-                  Leggi <i class="bi bi-arrow-right ms-1"></i>
-                </a>
-              </div>
-            </div>
-          </div>
+        {% endif %}
+        <h1 class="featured-article-title">
+          <a href="{{ firstPost.url }}">{{ firstPost.title }}</a>
+        </h1>
+        {% if firstPost.description %}
+        <p class="featured-article-excerpt">{{ firstPost.description }}</p>
+        {% endif %}
+        <div class="article-item-meta">
+          <time datetime="{{ firstPost.date | dateIso }}">{{ firstPost.date | dateHuman }}</time>
+          {% if firstPost.author %}
+           · <span>{{ firstPost.author }}</span>
+          {% endif %}
         </div>
+      </div>
+    </article>
+    {% endif %}
+
+    {% if allPosts | length > 1 %}
+    <div class="section-divider">Ultimi articoli</div>
+
+    <div class="article-grid mb-6">
+      {% for post in allPosts %}
+      {% if loop.index0 >= 1 and loop.index0 < 9 %}
+      <article class="article-item">
+        {% if post.image %}
+        <div class="article-item-image-wrap">
+          <img src="{{ post.image }}"
+               alt="{{ post.imageAlt | default(post.title) }}"
+               class="article-item-image"
+               loading="lazy">
+        </div>
+        {% endif %}
+        {% if post.displayTags %}
+          {% set topTag = post.displayTags.split(",") | first | trim %}
+          {% if topTag and topTag != "posts" %}
+          <a href="/tags/{{ topTag | slugify }}/" class="badge badge-category article-item-category">{{ topTag }}</a>
+          {% endif %}
+        {% endif %}
+        <h2 class="article-item-title">
+          <a href="{{ post.url }}">{{ post.title }}</a>
+        </h2>
+        {% if post.description %}
+        <p class="article-item-excerpt">{{ post.description | truncate(120) }}</p>
+        {% endif %}
+        <div class="article-item-meta">{{ post.date | dateHuman }}</div>
       </article>
+      {% endif %}
+      {% endfor %}
     </div>
-  {% endfor %}
-</section>
+    {% endif %}
+
+    {% if allPosts | length == 0 %}
+    <div style="text-align: center; padding: 64px 16px;">
+      <p class="text-muted">Nessun articolo disponibile al momento.</p>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar-section md-col-span-3">
+    {% if allPosts | length > 0 %}
+    <!-- Intanto -->
+      <div class="sidebar-card">
+      <div class="sidebar-card-title" style="font-size: 1rem;">Intanto</div>
+      {% for post in allPosts %}
+      {% if loop.index0 < 4 %}
+      <div class="sidebar-news-item">
+        <a href="{{ post.url }}">{{ post.title }}</a>
+        <div class="date">{{ post.date | dateHuman }}</div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Newsletter -->
+    <div class="newsletter-box">
+      <div class="icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </div>
+      <h3>Newsletter</h3>
+      <p>Ricevi aggiornamenti sui nuovi articoli direttamente via email.</p>
+      <div class="newsletter-input">
+        <input type="email" placeholder="La tua email" id="newsletter-email">
+        <button class="btn btn-primary" id="newsletter-submit">Iscriviti</button>
+      </div>
+      <div id="newsletter-message" class="newsletter-message" hidden></div>
+    </div>
+
+    <!-- About CTA -->
+    <div class="cta-card">
+      <h3>Ciao, sono Davide</h3>
+      <p>Condivido qui articoli su development, networking e cybersecurity.</p>
+      <div class="d-flex gap-2" style="width: 100%;">
+        <a href="/about/" class="btn btn-primary" style="flex: 1;">Chi sono</a>
+        <a href="/courses/" class="btn btn-outline" style="flex: 1;">Percorsi</a>
+      </div>
+    </div>
+  </aside>
+</div>

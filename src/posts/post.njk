@@ -9,14 +9,14 @@ permalink: "blog/{{ post.slug | slugify }}/index.html"
 tags:
   - posts
 eleventyComputed:
-  title: "{{ post.title }}"
-  description: "{{ post.description }}"
+  title: "{{ post.title | safe }}"
+  description: "{{ post.description | safe }}"
   postDate: "{{ post.date }}"
   updatedAt: "{{ post.updatedAt }}"
   image: "{{ post.image }}"
   imageAlt: "{{ post.imageAlt }}"
-  strapiTags: "{{ post.strapiTags }}"
-  author: "{{ post.author }}"
+  strapiTags: "{{ post.strapiTags | safe }}"
+  author: "{{ post.author | safe }}"
   authorAvatar: "{{ post.authorAvatar }}"
 ---
 

@@ -5,51 +5,31 @@ permalink: /courses/index.html
 eleventyExcludeFromCollections: true
 ---
 
-<div class="d-flex align-items-center gap-3 mb-5">
-  <div class="d-flex align-items-center justify-content-center rounded-3"
-       style="width: 52px; height: 52px; background: #f0f0f0;">
-    <i class="bi bi-mortarboard-fill fs-3" style="color: #333;"></i>
-  </div>
-  <div>
-    <h1 class="fw-bold mb-1">Courses</h1>
-    <p class="text-muted mb-0">Percorsi didattici organizzati per argomento</p>
-  </div>
+<div class="mb-6">
+  <h1 class="font-headline-lg mb-2">Percorsi</h1>
+  <p class="text-muted mb-0">Percorsi didattici organizzati per argomento</p>
 </div>
 
 {% if courses.length > 0 %}
-  <div class="row g-4">
+  <div class="article-grid">
     {% for course in courses %}
-      <div class="col-12 col-sm-6 col-lg-4">
-        <article class="card border h-100" style="transition: box-shadow 0.2s ease;">
-          <div class="card-body p-4">
-            <div class="d-flex align-items-center gap-3 mb-3">
-              <div class="d-flex align-items-center justify-content-center rounded-2"
-                   style="width: 40px; height: 40px; background: #f0f0f0;">
-                <i class="bi bi-mortarboard-fill" style="color: #333;"></i>
-              </div>
-              <div>
-                <h2 class="h5 fw-bold mb-0">
-                  <a href="/courses/{{ course.slug }}/" class="text-decoration-none text-reset stretched-link">
-                    {{ course.name }}
-                  </a>
-                </h2>
-              </div>
-            </div>
-            <p class="text-muted small mb-0">{{ course.description }}</p>
-            <div class="mt-3 d-flex align-items-center gap-2">
-              <span class="badge bg-light text-dark rounded-pill" style="font-size: 0.8rem;">
-                <i class="bi bi-file-text me-1"></i>{{ course.postCount }} post
-              </span>
-            </div>
-          </div>
-        </article>
-      </div>
+      <article class="course-card">
+        <div class="d-flex align-items-center gap-3 mb-3">
+          <h3 class="mb-0" style="font-size: 1.125rem;">
+            <a href="/courses/{{ course.slug }}/">{{ course.name }}</a>
+          </h3>
+        </div>
+        <p class="text-muted small mb-3">{{ course.description }}</p>
+        <span class="badge badge-outline">{{ course.postCount }} post</span>
+      </article>
     {% endfor %}
   </div>
 {% else %}
-  <div class="text-center py-5">
-    <i class="bi bi-mortarboard-fill fs-1 text-muted d-block mb-3" style="opacity: 0.4;"></i>
-    <p class="text-muted mb-3">Nessun corso disponibile al momento.</p>
-    <p class="text-muted small">I corsi verranno visualizzati quando assegnerai il campo "course" ai tuoi post in Strapi.</p>
+  <div style="text-align: center; padding: 64px 16px;">
+    <div style="font-size: 3rem; margin-bottom: 16px; opacity: 0.3;">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/><path d="M12 14l9-5-9-5-9 5 9 5z" opacity="0.3"/></svg>
+    </div>
+    <p class="text-muted mb-2">Nessun percorso disponibile al momento.</p>
+    <p class="text-muted small">Sto preparando dei percorsi didattici per guidarti nello sviluppo, nel networking e nella cybersecurity. Ogni percorso raccoglierà una serie di articoli collegati tra loro, così da offrirti un apprendimento progressivo e strutturato. Torneranno presto, resta in attesa!</p>
   </div>
 {% endif %}

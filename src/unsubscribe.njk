@@ -1,0 +1,75 @@
+---
+layout: base.njk
+title: Disiscrizione newsletter
+permalink: /unsubscribe/
+---
+
+<div class="container" style="max-width: 640px; margin: 64px auto; text-align: center;">
+  <div id="unsubscribe-status">
+    <p style="font-size: 1.125rem; color: var(--secondary);">Elaborazione richiesta...</p>
+  </div>
+</div>
+
+<script>
+  (function() {
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const statusEl = document.getElementById('unsubscribe-status');
+
+    if (!token) {
+      statusEl.innerHTML = `
+        <h2 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--on-surface); margin-bottom: 16px;">Link non valido</h2>
+        <p style="color: var(--secondary);">Il link di disiscrizione non è valido o è scaduto.</p>
+      `;
+      return;
+    }
+
+    if (!window.supabase || !window.SUPABASE_URL || !window.SUPABASE_ANON_KEY) {
+      statusEl.innerHTML = `
+        <h2 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--on-surface); margin-bottom: 16px;">Servizio non disponibile</h2>
+        <p style="color: var(--secondary);">Riprova più tardi.</p>
+      `;
+      return;
+    }
+
+    const supabase = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+
+    supabase
+      .from('subscribers')
+      .update({ status: 'unsubscribed', unsubscribed_at: new Date().toISOString() })
+      .eq('unsubscribe_token', token)
+      .then(({ error }) => {
+        if (error) {
+          console.error('Unsubscribe error:', error);
+          statusEl.innerHTML = `
+            <h2 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--on-surface); margin-bottom: 16px;">Errore</h2>
+            <p style="color: var(--secondary);">Si è verificato un errore. Riprova più tardi o contattami direttamente.</p>
+          `;
+        } else {
+          statusEl.innerHTML = `
+            <h2 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--on-surface); margin-bottom: 16px;">Disiscrizione avvenuta con successo</h2>
+            <p style="color: var(--secondary);">Non riceverai più notifiche da questa newsletter.</p>
+            <p style="color: var(--secondary); font-size: 0.875rem; margin-top: 16px;">Reindirizzamento tra <strong id="countdown">5</strong> secondi...</p>
+            <a href="/" class="btn btn-primary" style="margin-top: 8px;">Torna subito alla home</a>
+          `;
+          let seconds = 5;
+          const cd = document.getElementById('countdown');
+          const interval = setInterval(() => {
+            seconds--;
+            if (cd) cd.textContent = seconds;
+            if (seconds <= 0) {
+              clearInterval(interval);
+              window.location.href = '/';
+            }
+          }, 1000);
+        }
+      })
+      .catch(err => {
+        console.error('Unsubscribe error:', err);
+        statusEl.innerHTML = `
+          <h2 style="font-family: var(--font-serif); font-size: 1.5rem; color: var(--on-surface); margin-bottom: 16px;">Errore</h2>
+          <p style="color: var(--secondary);">Si è verificato un errore. Riprova più tardi o contattami direttamente.</p>
+        `;
+      });
+  })();
+</script>
