@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -296,9 +304,9 @@ Per prevenire e gestire il deadlock, vengono discusse strategie come l&#39;algor
     
 
     <section class="content">
-      <h1 id="introduzione"><a class="header-anchor" href="#introduzione"><i class="bi bi-link-45deg"></i></a> Introduzione</h1>
+      <h1 id="introduzione">Introduzione</h1>
 <p>In questo articolo approfondiamo le quattro condizioni necessarie affinché si verifichi un blocco totale, distinguendo tra il classico deadlock e il livelock, o stallo attivo. Vengono illustrati diversi strumenti diagnostici, come il grafo di assegnazione delle risorse, e algoritmi complessi come quello del banchiere per garantire uno stato di esecuzione sicuro. Infine, vengono descritte le tecniche di ripristino, che includono la terminazione forzata dei processi o la prelazione delle risorse per interrompere i cicli di attesa circolare.</p>
-<h2 id="deadlock"><a class="header-anchor" href="#deadlock"><i class="bi bi-link-45deg"></i></a> Deadlock</h2>
+<h2 id="deadlock">Deadlock</h2>
 <p>Lo <strong>stallo (deadlock)</strong> è una condizione in cui un insieme di thread o processi rimane bloccato perché ciascuno attende una risorsa detenuta da un altro elemento del gruppo.</p>
 <p>In un sistema con multiprogrammazione, le entità concorrenti competono per un numero finito di <strong>risorse</strong> (CPU, memoria, file, socket, lock, connessioni database). Una risorsa viene:</p>
 <ol>
@@ -308,7 +316,7 @@ Per prevenire e gestire il deadlock, vengono discusse strategie come l&#39;algor
 <li>Rilasciata</li>
 </ol>
 <p>Se una risorsa è già assegnata, il richiedente entra in stato di attesa. In determinate condizioni, questa attesa può diventare permanente.</p>
-<h2 id="le-quattro-condizioni-necessarie-allo-stallo"><a class="header-anchor" href="#le-quattro-condizioni-necessarie-allo-stallo"><i class="bi bi-link-45deg"></i></a> Le quattro condizioni necessarie allo stallo</h2>
+<h2 id="le-quattro-condizioni-necessarie-allo-stallo">Le quattro condizioni necessarie allo stallo</h2>
 <p>Affinché si verifichi un deadlock, devono coesistere simultaneamente quattro condizioni (Coffman conditions):</p>
 <ol>
 <li><strong>Mutua esclusione</strong><br>
@@ -321,7 +329,7 @@ Le risorse non possono essere sottratte forzatamente; devono essere rilasciate v
 Esiste una catena chiusa di attese tra thread/processi.</li>
 </ol>
 <p>Rimuovere anche solo una di queste condizioni impedisce il verificarsi dello stallo.</p>
-<h2 id="deadlock-livelock-e-starvation"><a class="header-anchor" href="#deadlock-livelock-e-starvation"><i class="bi bi-link-45deg"></i></a> Deadlock, Livelock e Starvation</h2>
+<h2 id="deadlock-livelock-e-starvation">Deadlock, Livelock e Starvation</h2>
 <p>È essenziale distinguere tre fenomeni diversi:</p>
 <ul>
 <li><strong>Deadlock</strong>: blocco permanente.</li>
@@ -329,7 +337,7 @@ Esiste una catena chiusa di attese tra thread/processi.</li>
 <li><strong>Starvation</strong>: un thread non ottiene mai una risorsa a causa di politiche di scheduling sbilanciate.</li>
 </ul>
 <p>In sistemi ad alta concorrenza, la starvation è spesso più subdola del deadlock.</p>
-<h2 id="grafo-di-assegnazione-delle-risorse-rag"><a class="header-anchor" href="#grafo-di-assegnazione-delle-risorse-rag"><i class="bi bi-link-45deg"></i></a> Grafo di Assegnazione delle Risorse (RAG)</h2>
+<h2 id="grafo-di-assegnazione-delle-risorse-rag">Grafo di Assegnazione delle Risorse (RAG)</h2>
 <p>Le situazioni di stallo possono essere modellate tramite un <strong>Resource Allocation Graph</strong>:</p>
 <ul>
 <li>Nodi circolari → thread/processi</li>
@@ -337,22 +345,22 @@ Esiste una catena chiusa di attese tra thread/processi.</li>
 <li>Arco da thread a risorsa → richiesta</li>
 <li>Arco da risorsa a thread → assegnazione</li>
 </ul>
-<h3 id="proprieta-fondamentali"><a class="header-anchor" href="#proprieta-fondamentali"><i class="bi bi-link-45deg"></i></a> Proprietà fondamentali</h3>
+<h3 id="proprieta-fondamentali">Proprietà fondamentali</h3>
 <ul>
 <li><strong>Nessun ciclo → nessun deadlock</strong></li>
 <li><strong>Ciclo con una sola istanza per risorsa → deadlock certo</strong></li>
 <li><strong>Ciclo con più istanze → condizione necessaria ma non sufficiente</strong></li>
 </ul>
 <p>Nel caso di risorse con singola istanza, si utilizza spesso il <strong>grafo di attesa</strong>, più semplice da analizzare.</p>
-<h2 id="strategie-di-gestione-dello-stallo"><a class="header-anchor" href="#strategie-di-gestione-dello-stallo"><i class="bi bi-link-45deg"></i></a> Strategie di Gestione dello Stallo</h2>
-<h3 id="ignorare-il-problema-approccio-ostrich"><a class="header-anchor" href="#ignorare-il-problema-approccio-ostrich"><i class="bi bi-link-45deg"></i></a> Ignorare il problema (Approccio “Ostrich”)</h3>
+<h2 id="strategie-di-gestione-dello-stallo">Strategie di Gestione dello Stallo</h2>
+<h3 id="ignorare-il-problema-approccio-ostrich">Ignorare il problema (Approccio “Ostrich”)</h3>
 <p>Sistemi come Microsoft Windows e Linux non implementano meccanismi generali di prevenzione del deadlock a livello kernel per tutte le risorse applicative.</p>
 <p>La responsabilità è delegata allo sviluppatore. È una scelta pragmatica: prevenzione ed evitamento hanno costi computazionali elevati.</p>
-<h3 id="prevenzione"><a class="header-anchor" href="#prevenzione"><i class="bi bi-link-45deg"></i></a> Prevenzione</h3>
+<h3 id="prevenzione">Prevenzione</h3>
 <p>Consiste nell’eliminare una delle quattro condizioni necessarie. Un esempio pratico può essere quello di prevenire l’attesa circolare imponendo un <strong>ordinamento globale dei lock</strong>. Se ogni thread acquisisce sempre le risorse nello stesso ordine, il ciclo non può formarsi.</p>
-<h3 id="evitamento"><a class="header-anchor" href="#evitamento"><i class="bi bi-link-45deg"></i></a> Evitamento</h3>
+<h3 id="evitamento">Evitamento</h3>
 <p>Richiede conoscenza preventiva delle richieste massime di risorse. L’<strong>algoritmo del banchiere</strong> verifica che ogni assegnazione mantenga il sistema in uno <strong>stato sicuro</strong>, ossia uno stato da cui esiste almeno una sequenza di completamento per tutti i processi. È elegante dal punto di vista teorico, ma raramente applicato nei sistemi general-purpose moderni a causa dell’overhead e della necessità di informazioni complete.</p>
-<h4 id="algoritmo-del-banchiere"><a class="header-anchor" href="#algoritmo-del-banchiere"><i class="bi bi-link-45deg"></i></a> Algoritmo del banchiere</h4>
+<h4 id="algoritmo-del-banchiere">Algoritmo del banchiere</h4>
 <p>La complessità di questo algoritmo è $O(n^2 m)$, dove $n$ è il numero di processi e $m$ il numero di tipi di risorse.</p>
 <p>Supponiamo:</p>
 <ul>
@@ -360,7 +368,7 @@ Esiste una catena chiusa di attese tra thread/processi.</li>
 <li>3 tipi di risorse: $A, B, C$</li>
 </ul>
 <p>Risorse totali disponibili: $\text{Avaible} = [3,3,2]$</p>
-<h5 id="matrice-delle-richieste-massime"><a class="header-anchor" href="#matrice-delle-richieste-massime"><i class="bi bi-link-45deg"></i></a> Matrice delle richieste massime:</h5>
+<h5 id="matrice-delle-richieste-massime">Matrice delle richieste massime:</h5>
 <div class="mb-2">
 $
 \text{Max}=
@@ -374,7 +382,7 @@ $
 <ul>
 <li>indica il <strong>massimo</strong> che ogni processo potrebbe richiedere per ciascuna risorsa. Ad esempio, $P_0$ potrebbe richiedere al massimo 7 unità di $A$, 5 di $B$ e 3 di $C$.</li>
 </ul>
-<h5 id="risorse-gia-assegnate"><a class="header-anchor" href="#risorse-gia-assegnate"><i class="bi bi-link-45deg"></i></a> Risorse già assegnate:</h5>
+<h5 id="risorse-gia-assegnate">Risorse già assegnate:</h5>
 <div class="mb-2">
 $
 \text{Allocation}=
@@ -388,7 +396,7 @@ $
 <ul>
 <li>indica quante risorse sono <strong>già state date</strong> a ciascun processo. Ad esempio, $P_1$ ha già ricevuto 2 unità di $A$, 0 di $B$ e 0 di $C$.</li>
 </ul>
-<h5 id="calcolo-delle-risorse-ancora-necessarie"><a class="header-anchor" href="#calcolo-delle-risorse-ancora-necessarie"><i class="bi bi-link-45deg"></i></a> Calcolo delle risorse ancora necessarie:</h5>
+<h5 id="calcolo-delle-risorse-ancora-necessarie">Calcolo delle risorse ancora necessarie:</h5>
 <div class="mb-2">
 $
 \text{Need}=\text{Max - Allocation}=
@@ -402,7 +410,7 @@ $
 <ul>
 <li>Si ottiene sottraendo riga per riga: ad esempio per $P_0$, $\text{Need}[0] = [7,5,3] - [0,1,0] = [7,4,3]$. Rappresenta quante risorse mancano ancora a ciascun processo per completare la propria esecuzione.</li>
 </ul>
-<h5 id="verifica-dello-stato-sicuro"><a class="header-anchor" href="#verifica-dello-stato-sicuro"><i class="bi bi-link-45deg"></i></a> Verifica dello stato sicuro</h5>
+<h5 id="verifica-dello-stato-sicuro">Verifica dello stato sicuro</h5>
 <p>L'algoritmo cerca iterativamente un processo $P_i$ che soddisfi la condizione $\text{Need}[i] \leq \text{Avaible}$, ovvero un processo che possa essere eseguito con le risorse attualmente disponibili. Se lo trova, simula la sua esecuzione: le risorse che gli erano state assegnate vengono &quot;liberate&quot; e aggiunte ad $\text{Avaible}$. Si ripete finché tutti i processi sono stati eseguiti (stato sicuro) oppure non si trova più nessun processo eseguibile (stato non sicuro).</p>
 <p>Partendo da $P_0$ con $\text{Avaible} = [3,3,2]$:</p>
 <ul>
@@ -427,7 +435,7 @@ $
 <li>$P_2 \text{: } \text{Need[2]} = [6,0,0] \to \text{Soddisfa le condizioni: } 6 \leq 12, 0 \leq 6, 0 \leq 7. \quad \text{Avaible} = [12,6,7] + [3,0,2] = [15,6,9]$</li>
 </ul>
 <p><strong>Sequenza sicura</strong>: $P_0 \to P_1 \to P_2$</p>
-<h3 id="rilevamento-e-ripristino"><a class="header-anchor" href="#rilevamento-e-ripristino"><i class="bi bi-link-45deg"></i></a> Rilevamento e Ripristino</h3>
+<h3 id="rilevamento-e-ripristino">Rilevamento e Ripristino</h3>
 <p>Utilizzato soprattutto nei database e nei sistemi transazionali.</p>
 <ul>
 <li>Rilevamento periodico tramite analisi del grafo di attesa.</li>
@@ -439,8 +447,8 @@ $
 </ul>
 </li>
 </ul>
-<h1 id="deadlock-nella-pratica-esempi-concreti"><a class="header-anchor" href="#deadlock-nella-pratica-esempi-concreti"><i class="bi bi-link-45deg"></i></a> Deadlock nella pratica: esempi concreti</h1>
-<h2 id="esempio-in-python"><a class="header-anchor" href="#esempio-in-python"><i class="bi bi-link-45deg"></i></a> Esempio in Python</h2>
+<h1 id="deadlock-nella-pratica-esempi-concreti">Deadlock nella pratica: esempi concreti</h1>
+<h2 id="esempio-in-python">Esempio in Python</h2>
 <pre><code class="language-python">import threading
 import time
 lock1 = threading.Lock()
@@ -467,9 +475,9 @@ t2.start()
 <li>Entrambi attendono il lock detenuto dall’altro</li>
 </ul>
 <p>Deadlock perfetto.</p>
-<h3 id="soluzione"><a class="header-anchor" href="#soluzione"><i class="bi bi-link-45deg"></i></a> Soluzione</h3>
+<h3 id="soluzione">Soluzione</h3>
 <p>Imporre un ordine globale di acquisizione dei lock.</p>
-<h2 id="esempio-in-java"><a class="header-anchor" href="#esempio-in-java"><i class="bi bi-link-45deg"></i></a> Esempio in Java</h2>
+<h2 id="esempio-in-java">Esempio in Java</h2>
 <pre><code class="language-java">public class DeadlockExample {
     private static final Object lock1 = new Object();
     private static final Object lock2 = new Object();
@@ -496,7 +504,7 @@ t2.start()
 }
 </code></pre>
 <p>In ambienti enterprise basati su Java, questo errore può compromettere interi application server.</p>
-<h1 id="deadlock-e-cloud-native"><a class="header-anchor" href="#deadlock-e-cloud-native"><i class="bi bi-link-45deg"></i></a> Deadlock e Cloud Native</h1>
+<h1 id="deadlock-e-cloud-native">Deadlock e Cloud Native</h1>
 <p>Nel paradigma <strong>Cloud Native</strong>, il deadlock non riguarda solo thread locali.</p>
 <p>Può emergere tra:</p>
 <ul>

@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -313,24 +321,24 @@
     
 
     <section class="content">
-      <h1 id="un-po-di-storia"><a class="header-anchor" href="#un-po-di-storia"><i class="bi bi-link-45deg"></i></a> Un po' di storia</h1>
+      <h1 id="un-po-di-storia">Un po' di storia</h1>
 <p>Lo so: appena hai visto il titolo ti è venuta voglia di saltare questa parte. Ma fidati, ne vale la pena. La storia di Linux non è solo interessante: è fondamentale per capire perché oggi domina ovunque, dai server agli smartphone.</p>
-<h2 id="piu-di-un-semplice-software"><a class="header-anchor" href="#piu-di-un-semplice-software"><i class="bi bi-link-45deg"></i></a> Più di un semplice software</h2>
+<h2 id="piu-di-un-semplice-software">Più di un semplice software</h2>
 <p>Partiamo da un punto chiave: Linux è un <strong>kernel</strong>, non un sistema operativo completo.</p>
 <p>Puoi immaginarlo come il <strong>motore di un'auto</strong>: essenziale per farla muovere, ma inutile senza tutto il resto (interfaccia grafica, programmi, strumenti di sistema). Il suo successo nasce da un mix unico di scelte tecniche brillanti, collaborazione globale e una filosofia di sviluppo aperta.</p>
-<h2 id="le-origini"><a class="header-anchor" href="#le-origini"><i class="bi bi-link-45deg"></i></a> Le origini</h2>
+<h2 id="le-origini">Le origini</h2>
 <p>Nel <strong>1991</strong>, lo studente finlandese <a href="https://www.linkedin.com/in/linustorvalds/" target="_blank" rel="noopener noreferer"><strong>Linus Torvalds</strong></a> creò Linux per pura curiosità. Voleva un sistema simile a <a href="https://www.unix.org/" target="_blank" rel="noopener noreferer">Unix</a> per il suo PC e, non potendoselo permettere, decise di scriverselo da solo. Non lo fece per soldi né per crociata ideologica: lo fece per divertimento.</p>
 <p>Tuttavia, Torvalds ha il vizio di creare rivoluzioni quasi per caso. Nel <strong>2005</strong>, dopo una rottura con <a href="https://www.bitkeeper.org/" target="_blank" rel="noopener noreferer">BitKeeper</a> (il software di controllo versione usato per gestire il codice di Linux), Torvalds si chiuse in una stanza e <strong>scrisse Git in soli 10 giorni</strong>. Oggi Git è lo standard mondiale per lo sviluppo software. Torvalds lo ha poi affidato a <a href="https://www.linkedin.com/in/gitster/" target="_blank" rel="noopener noreferer"><strong>Junio Hamano</strong></a>, che ne è tuttora il maintainer, dimostrando che le sue creazioni migliori diventano presto beni comuni.</p>
-<h2 id="il-lato-umano"><a class="header-anchor" href="#il-lato-umano"><i class="bi bi-link-45deg"></i></a> Il lato umano</h2>
+<h2 id="il-lato-umano">Il lato umano</h2>
 <p>Gestire un progetto globale non è facile, specialmente se hai un carattere fumantino. Torvalds è noto per non avere peli sulla lingua: memorabili sono le sue critiche a <strong>NVIDIA</strong> (con tanto di <a href="https://www.youtube.com/watch?v=iYWzMvlj2RQ" target="_blank" rel="noopener noreferer">dito medio in diretta</a>) o i suoi scontri su progetti come <strong>systemd</strong>.</p>
 <p>Tuttavia, il <strong>2018</strong> ha segnato un punto di svolta:</p>
 <ul>
 <li><strong>Il ritiro temporaneo:</strong> Torvalds ha ammesso che il suo stile aggressivo aveva reso l'ambiente tossico e si è preso una pausa di un mese per lavorare sulla propria empatia.</li>
 <li><strong>Il Codice di Condotta:</strong> Nel <strong>settembre 2018</strong>, il progetto ha adottato un <em>Code of Conduct</em> formale (basato sul <a href="https://www.contributor-covenant.org/" target="_blank" rel="noopener noreferer"><em>Contributor Covenant</em></a>). È stato un passo cruciale per rendere la community più inclusiva, anche se non ha mancato di sollevare polemiche tra i veterani.</li>
 </ul>
-<h2 id="la-community"><a class="header-anchor" href="#la-community"><i class="bi bi-link-45deg"></i></a> La Community</h2>
+<h2 id="la-community">La Community</h2>
 <p>Oggi Linux è mantenuto da migliaia di sviluppatori e colossi come <strong>Google, IBM, Red Hat e Intel</strong>. Non è più solo il progetto di un singolo uomo, ma una collaborazione globale dove migliaia di persone contribuiscono ogni giorno per migliorare il codice che fa girare internet.</p>
-<h2 id="filosofia"><a class="header-anchor" href="#filosofia"><i class="bi bi-link-45deg"></i></a> Filosofia</h2>
+<h2 id="filosofia">Filosofia</h2>
 <p>Il mondo <strong>open source</strong> vive di un dualismo affascinante:</p>
 <p><strong>L'idealismo di Stallman</strong></p>
 <blockquote>
@@ -357,7 +365,7 @@
 </blockquote>
 <p>Inizialmente Linux si appoggiò a <a href="https://wiki.minix3.org" target="_blank" rel="noopener noreferer">MINIX</a>, un sistema operativo educativo basato su Unix, per configurare, compilare e installare il kernel nascente. MINIX tuttavia presentava limitazioni significative: la sua licenza non permetteva modifiche e ridistribuzione liberamente, e la sua architettura microkernel mal si adattava alle ambizioni di Torvalds. Solo dopo aver reso pubblico il kernel nel <strong>1991</strong>, Torvalds decise di sostituire i componenti di MINIX con il software del progetto GNU, per creare un sistema operativo completo. Questo avvenne nel <strong>1992</strong>, quando il kernel Linux si unì de facto alle utilità GNU, formando il sistema operativo completo noto oggi come <strong>GNU/Linux</strong>.</p>
 <p>Linux ha vinto perché è stato <strong>aperto senza essere dogmatico</strong>. Questa flessibilità ha permesso ad aziende e appassionati di adottarlo senza sentirsi intrappolati in una battaglia politica.</p>
-<h2 id="tux-il-pinguino-in-smoking"><a class="header-anchor" href="#tux-il-pinguino-in-smoking"><i class="bi bi-link-45deg"></i></a> Tux, il pinguino in smoking</h2>
+<h2 id="tux-il-pinguino-in-smoking">Tux, il pinguino in smoking</h2>
 <p>Perché un <strong>pinguino</strong>? Tutto nasce da un aneddoto: Torvalds fu morso da un pinguino durante una visita a uno zoo e ne rimase <em>stregato</em>.</p>
 <p>Il nome <strong>Tux</strong> ha un duplice significato:</p>
 <ol>
@@ -365,7 +373,7 @@
 <li>È un gioco di parole con <strong>tuxedo</strong> (lo smoking), per via del piumaggio che lo fa sembrare vestito per una serata di gala.</li>
 </ol>
 <p>Resiliente e un po' buffo, Tux rappresenta perfettamente lo spirito informale e libero di Linux.</p>
-<h2 id="e-il-nome-invece"><a class="header-anchor" href="#e-il-nome-invece"><i class="bi bi-link-45deg"></i></a> E il nome invece?</h2>
+<h2 id="e-il-nome-invece">E il nome invece?</h2>
 <p>Il nome fu scelto da <a href="https://it.wikipedia.org/wiki/Ari_Lemmke" target="_blank" rel="noopener noreferer">Ari Lemmke</a>, l'amministratore che nel 1991 rese disponibile il sistema sul web.</p>
 <p>Torvalds aveva inizialmente chiamato il progetto <strong>Freax</strong>, una combinazione tra <em>free</em>, <em>freak</em> e <em>x</em> per indicare le caratteristiche Unix-like. Lemmke ignorò questa scelta e preferì il nome Linux, che Torvalds aveva invece scartato ritenendolo troppo egocentrico.</p>
 <p>Lemmke creò una <strong>directory</strong> su un server FTP chiamata <code>pub/OS/Linux</code> per ospitare i file del nuovo sistema.<br>
@@ -373,14 +381,14 @@ Poiché i file venivano scaricati da questa directory, il nome <strong>Linux</st
 Torvalds accettò il nome, sebbene in seguito il progetto fosse spesso identificato come <strong>GNU/Linux</strong> per riconoscere il contributo del sistema GNU.</p>
 <p>Oltre a battezzare il kernel, Lemmke fondò il <a href="https://groups.google.com/g/comp.os.linux" target="_blank" rel="noopener noreferer">newsgroup</a> nel <strong>1992</strong> e contribuì in modo significativo alla diffusione e allo sviluppo iniziale di Linux.</p>
 <hr>
-<h2 id="architettura-dellecosistema-gnulinux"><a class="header-anchor" href="#architettura-dellecosistema-gnulinux"><i class="bi bi-link-45deg"></i></a> Architettura dell'ecosistema GNU/Linux</h2>
+<h2 id="architettura-dellecosistema-gnulinux">Architettura dell'ecosistema GNU/Linux</h2>
 <p>Passando al lato tecnico, l'infrastruttura si divide in due ambiti operativi principali che formano il sistema operativo:</p>
 <ul>
 <li><strong>Kernel (Linux)</strong>: Gestisce l'astrazione dell'hardware (<em>nascondendo la complessità dei circuiti fisici per farli vedere ai programmi come semplici risorse da usare</em>), lo scheduling dei processi (<em>decidendo a quale programma in esecuzione dare la precedenza nell'uso del processore, come un vigile urbano</em>), la gestione della memoria e i file system. Funziona come interfaccia tra il software e il processore/periferiche.</li>
 <li><strong>Userland (GNU)</strong>: Suite di strumenti essenziali per rendere operativo il sistema. Include la libreria C (<em>glibc - insiemi di codice condiviso pronti all'uso</em>), il compilatore (<em>GCC - un traduttore dal codice scritto dai programmatori al codice macchina comprensibile dal computer</em>), le utility core (coreutils) e la shell.</li>
 </ul>
 <p>Senza lo stack software GNU, il kernel Linux non fornirebbe un ambiente di runtime (<em>l'infrastruttura di base necessaria per far funzionare i programmi</em>) completo; simmetricamente, gli strumenti GNU necessitano di un kernel per eseguire le syscall (<em>chiamate di sistema che i programmi fanno al kernel per usare l'hardware, come ad esempio chiedere il permesso di salvare un file sul disco</em>).</p>
-<h2 id="gerarchia-dello-stack-software-e-hardware"><a class="header-anchor" href="#gerarchia-dello-stack-software-e-hardware"><i class="bi bi-link-45deg"></i></a> Gerarchia dello stack software e hardware</h2>
+<h2 id="gerarchia-dello-stack-software-e-hardware">Gerarchia dello stack software e hardware</h2>
 <p>Il <strong>flusso di esecuzione</strong> può essere rappresentato come una pila di livelli indipendenti:</p>
   <div class="accordion mb-3" id="stackSoftware">
     <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
@@ -456,16 +464,16 @@ Torvalds accettò il nome, sebbene in seguito il progetto fosse spesso identific
       </div>
     </div>
   </div>
-<h2 id="protocolli-grafici"><a class="header-anchor" href="#protocolli-grafici"><i class="bi bi-link-45deg"></i></a> Protocolli grafici</h2>
+<h2 id="protocolli-grafici">Protocolli grafici</h2>
 <p><strong>Wayland</strong> e <strong>X11</strong> sono protocolli grafici usati in Linux per gestire la comunicazione tra applicazioni e schermo. X11 è il sistema tradizionale, nato negli anni '80, mentre Wayland è la sua evoluzione moderna, progettata per hardware e scenari attuali.</p>
 <ul>
 <li><strong>X11 funziona come un server centrale</strong>: le applicazioni gli inviano comandi di disegno (per esempio: <em>disegna un cerchio qui</em>) e lui si occupa di renderizzarli. Questo modello permetteva l'uso remoto delle app (<em>come eseguire un programma su un server e vederlo sul PC</em>), ma introduce latenza e problemi di sicurezza.</li>
 <li><strong>Wayland semplifica il processo</strong>: le applicazioni disegnano direttamente in un buffer (memoria grafica) e lo passano al compositore che si occupa di mostrare tutto sullo schermo. Il compositore gestisce anche finestre, input e sicurezza.</li>
 </ul>
 <p>La differenza chiave è nell'<strong>architettura</strong> e nella <strong>sicurezza</strong>. In X11, ogni applicazione può spiare altre finestre, registrare tasti (<strong>keylogging</strong>), catturare lo schermo senza permesso, al contrario di Wayland, dove ogni applicazione è isolata! Non può interagire con altre finestre senza esplicito consenso (per esempio se si vuole condivisione lo schermo).</p>
-<h2 id="desktop-environment"><a class="header-anchor" href="#desktop-environment"><i class="bi bi-link-45deg"></i></a> Desktop Environment</h2>
+<h2 id="desktop-environment">Desktop Environment</h2>
 <p>Un <strong>Desktop Environment</strong> (<strong>DE</strong>) è un ecosistema di componenti software che lavorano in sinergia per fornire un'interfaccia grafica coerente. A differenza di Windows o macOS, dove l'interfaccia è accoppiata profondamente al kernel, in ambiente Linux il <strong>DE è un <em>plugin</em> di alto livello</strong>, quindi intercambiabile.</p>
-<h3 id="architettura-dello-stack-grafico"><a class="header-anchor" href="#architettura-dello-stack-grafico"><i class="bi bi-link-45deg"></i></a> Architettura dello stack grafico</h3>
+<h3 id="architettura-dello-stack-grafico">Architettura dello stack grafico</h3>
 <p>Per il <strong>rendering delle finestre</strong>, il sistema attraversa tre strati principali:</p>
 <div class="accordion mb-3" id="stackSoftware">
     <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
@@ -563,22 +571,22 @@ Torvalds accettò il nome, sebbene in seguito il progetto fosse spesso identific
       </div>
     </div>
   </div>
-<h2 id="modularita-e-server-headless"><a class="header-anchor" href="#modularita-e-server-headless"><i class="bi bi-link-45deg"></i></a> Modularità e Server Headless</h2>
+<h2 id="modularita-e-server-headless">Modularità e Server Headless</h2>
 <p>L'assenza di interfaccia grafica definisce un sistema <strong>Headless</strong>. Questa configurazione è standard in ambito server per ottimizzare:</p>
 <ul>
 <li><strong>Superficie di attacco</strong>: Meno software installato riduce le vulnerabilità potenziali.</li>
 <li><strong>Risorse</strong>: Risparmio di RAM (un DE può occupare da 500MB a 1.5GB in idle, ovvero a riposo e senza eseguire operazioni attive).</li>
 <li><strong>Dipendenze</strong>: Sistema più snello e facile da manutenere.</li>
 </ul>
-<h2 id="il-ruolo-del-bootloader"><a class="header-anchor" href="#il-ruolo-del-bootloader"><i class="bi bi-link-45deg"></i></a> Il ruolo del Bootloader</h2>
+<h2 id="il-ruolo-del-bootloader">Il ruolo del Bootloader</h2>
 <p>Il <strong>Bootloader</strong> è il primo software eseguito dal <strong>firmware</strong> (<strong>UEFI / BIOS</strong>). Individua il kernel sul disco, lo carica in RAM e gli cede il controllo del processore. Il più diffuso è GRUB2, che supporta il multi-boot e permette di iniettare parametri al kernel (es. recovery mode) prima dell'avvio.</p>
 <hr>
-<h2 id="proprieta-intellettuale-pi-copyright-e-copyleft"><a class="header-anchor" href="#proprieta-intellettuale-pi-copyright-e-copyleft"><i class="bi bi-link-45deg"></i></a> Proprietà intellettuale (PI): Copyright e Copyleft</h2>
+<h2 id="proprieta-intellettuale-pi-copyright-e-copyleft">Proprietà intellettuale (PI): Copyright e Copyleft</h2>
 <p>La proprietà intellettuale è lo <strong>strumento giuridico</strong> che tutela i frutti dell'inventiva umana. Nel software, essa garantisce che l'autore possa decidere come la sua opera debba essere utilizzata, distribuita e modificata.</p>
 <p>È fondamentale perché senza la protezione della PI, un programmatore o un'azienda non avrebbero alcun controllo sulle proprie creazioni. Chiunque potrebbe appropriarsi del lavoro altrui, spacciandolo per proprio o traendone profitto senza autorizzazione. Grazie alla PI si <strong>riconosce il merito</strong> all'autore garantendo che sia sempre citato (<em>diritto di paternità</em>) e si <strong>incentiva l'innovazione</strong> permettendo a chi investe tempo e risorse di decidere il modello di distribuzione (vendita o condivisione gratuita).</p>
 <p>Non rispettare la PI comporta dei seri rischi, ignorare le licenze può portare a <strong>sanzioni legali e pecuniarie</strong> in quanto violare il copyright può portare a cause civili estremamente costose, <strong>rimozione del software</strong>, ovvero piattaforme di distribuzione come GitHub possono rimuovere il codice se non è in regola e <strong>danni alla reputazione</strong> che per un professionista è un segnale di scarsa affidabilità tecnica e legale.</p>
 <p>Prima di parlare di licenze facciamo un piccolo chiarimento: quando parliamo di <strong>software libero</strong> non intendiamo <strong>software di dominio pubblico</strong>. È un errore comune pensare che, poiché il software è <em>libero</em>, lo si possa manipolare a piacimento senza limiti. In realtà, il software libero è un software con una licenza specifica. Se un autore rilascia un codice sotto <a href="https://www.gnu.org/licenses/gpl-3.0.html" target="_blank" rel="noopener noreferer">licenza GPL</a> e tu lo modifichi per creare un software privato e chiuso, stai violando la legge. La <em>libertà</em> del software libero è spesso vincolata all'obbligo di mantenere quella libertà anche per chi verrà dopo di te (<em>principio della reciprocità</em>).</p>
-<h2 id="le-licenze-creative-commons-cc"><a class="header-anchor" href="#le-licenze-creative-commons-cc"><i class="bi bi-link-45deg"></i></a> Le licenze Creative Commons (CC)</h2>
+<h2 id="le-licenze-creative-commons-cc">Le licenze Creative Commons (CC)</h2>
 <p>Si tratta di licenze <em>modulari</em> nate per colmare il divario tra <strong>copyright tradizionale</strong> (tutti i diritti riservati) e il <strong>pubblico dominio</strong> (nessun diritto riservato).</p>
 <p>Le CC permettono all'autore di dire al mondo: <em>Puoi usare la mia opera, ma a queste condizioni</em>, un po' come usare dei mattoncini LEGO: l'autore sceglie quali vincoli applicare per comporre la propria licenza personalizzata.</p>
 <p>Queste licenze non sono un blocco unico, ma una combinazione di <strong>quattro clausole fondamentali</strong> che definiscono i diritti dell'utente:</p>
@@ -599,7 +607,7 @@ Torvalds accettò il nome, sebbene in seguito il progetto fosse spesso identific
 <li><strong>CC BY-NC-ND (la più restrittiva tra le licenze CC standard)</strong>: attribuzione obbligatoria, nessun uso commerciale e nessuna opera derivata. Consente solo la condivisione dell'opera così com'è per scopi non commerciali; è utile quando l'autore vuole massima protezione pur consentendo la diffusione non commerciale.</li>
 </ol>
 <hr>
-<h2 id="tipologie-di-distribuzioni-distro"><a class="header-anchor" href="#tipologie-di-distribuzioni-distro"><i class="bi bi-link-45deg"></i></a> Tipologie di distribuzioni (distro)</h2>
+<h2 id="tipologie-di-distribuzioni-distro">Tipologie di distribuzioni (distro)</h2>
 <p>Come abbiamo visto, una <strong>distribuzione</strong> è un assemblaggio curato di kernel, software di base e interfaccia grafica. Tuttavia, ciò che definisce davvero l'identità di una distro è la sua gestione dei pacchetti (il sistema con cui installi e aggiorni i programmi) e la sua politica di rilascio (quanto spesso e con quale filosofia vengono pubblicati gli aggiornamenti).</p>
 <p>In base alla politica di aggiornamento<br>
 Esistono <strong>due filosofie dominanti</strong> che determinano l'esperienza dell'utente:</p>
@@ -619,14 +627,14 @@ Esistono <strong>due filosofie dominanti</strong> che determinano l'esperienza d
 </ul>
 </li>
 </ul>
-<h3 id="famiglie-di-distribuzioni"><a class="header-anchor" href="#famiglie-di-distribuzioni"><i class="bi bi-link-45deg"></i></a> Famiglie di distribuzioni</h3>
+<h3 id="famiglie-di-distribuzioni">Famiglie di distribuzioni</h3>
 <p>Le distribuzioni si raggruppano spesso in famiglie basate sul formato dei file di installazione che utilizzano:</p>
 <ul>
 <li><strong><a href="https://www.debian.org/index.it.html" target="_blank" rel="noopener noreferer">Debian (formato .deb)</a></strong>: Include Ubuntu e tutte le sue derivate. Utilizzano il comando <strong>apt</strong>. È la famiglia più diffusa al mondo, con la più vasta documentazione disponibile.</li>
 <li><strong><a href="https://www.redhat.com/it" target="_blank" rel="noopener noreferer">Red Hat (formato .rpm)</a></strong>: Include Fedora e RHEL. È lo standard nell'industria e nelle grandi aziende. Utilizzano il comando <strong>dnf</strong>.</li>
 <li><strong><a href="https://archlinux.org" target="_blank" rel="noopener noreferer">Arch (formato .pkg.tar.zst)</a></strong>: Nota per la sua filosofia <em>KISS</em> (Keep It Simple, Stupid). L'utente costruisce il sistema da zero, installando solo ciò che serve. Utilizza il comando <strong>pacman</strong>.</li>
 </ul>
-<h3 id="distribuzioni-specialistiche"><a class="header-anchor" href="#distribuzioni-specialistiche"><i class="bi bi-link-45deg"></i></a> Distribuzioni specialistiche</h3>
+<h3 id="distribuzioni-specialistiche">Distribuzioni specialistiche</h3>
 <p>Esistono distro nate per scopi talmente specifici da alterare lo stack software che abbiamo studiato:</p>
 <ul>
 <li><strong>Per la Sicurezza (es. <a href="https://parrotsec.org" target="_blank" rel="noopener noreferer">ParrotOS</a>)</strong>: Contengono centinaia di strumenti già pronti per il Penetration Testing (test di vulnerabilità delle reti).</li>
@@ -634,6 +642,7 @@ Esistono <strong>due filosofie dominanti</strong> che determinano l'esperienza d
 <li><strong>Per l'Educazione (es. <a href="https://endlessglobal.com" target="_blank" rel="noopener noreferer">Endless OS</a>)</strong>: Pensate per zone con scarsa connettività internet, includono intere enciclopedie e corsi offline.</li>
 </ul>
 <div class="p-2 border border-info rounded-3 bg-primary bg-info-subtle shadow-sm"><strong>Piccola nota editoriale</strong>: nei prossimi articoli parlerò di <i>Linux</i> intendendo sempre il sistema completo GNU/Linux. Stallman probabilmente non sarebbe d'accordo, ma prometto che lo citiamo correttamente ogni volta che conta davvero.</div>
+
     </section>
 
     <div class="section-divider mt-5 mb-4">Commenti</div>

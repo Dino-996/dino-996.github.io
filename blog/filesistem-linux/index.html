@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -313,13 +321,13 @@
     
 
     <section class="content">
-      <h1 id="filesystem-struttura-e-organizzazione"><a class="header-anchor" href="#filesystem-struttura-e-organizzazione"><i class="bi bi-link-45deg"></i></a> Filesystem: Struttura e Organizzazione</h1>
+      <h1 id="filesystem-struttura-e-organizzazione">Filesystem: Struttura e Organizzazione</h1>
 <p>Se hai mai aperto un terminale Linux e digitato <code>ls /</code> (se non l'hai mai fatto questa è la volta buona: <a href="https://dino-996.github.io/blog/comandi-gnu-linux" target="_blank" rel="noopener noreferer">Comandi di base della Shell Linux</a>), probabilmente ti sei trovato di fronte a una lista di cartelle dai nomi enigmatici: <code>/bin</code>, <code>/etc</code>, <code>/proc</code>, <code>/dev</code>… Dietro quella lista si nasconde un sistema di organizzazione preciso e coerente, ereditato dalla tradizione Unix e standardizzato nel corso degli anni.</p>
-<h2 id="filesystem-e-filesystem-hierarchy-standard"><a class="header-anchor" href="#filesystem-e-filesystem-hierarchy-standard"><i class="bi bi-link-45deg"></i></a> Filesystem e Filesystem Hierarchy Standard</h2>
+<h2 id="filesystem-e-filesystem-hierarchy-standard">Filesystem e Filesystem Hierarchy Standard</h2>
 <p>Prima di tutto, è utile distinguere due concetti che spesso vengono confusi.</p>
 <p><strong>Filesystem</strong> (nel senso tecnico) indica il formato con cui i dati vengono organizzati fisicamente su un supporto di memoria, come un HDD, un SSD o una chiavetta USB. I più comuni su Linux sono <strong>ext4</strong>, <strong>ext3</strong> ed <strong>ext2</strong>; su Windows troviamo <strong>FAT32</strong> e <strong>NTFS</strong>; su macOS <strong>HFS+</strong> e il più recente <strong>APFS</strong>.</p>
 <p><strong>Filesystem Hierarchy Standard (FHS)</strong> è invece una specifica che definisce <em>quali</em> directory devono esistere in un sistema Linux e <em>cosa</em> devono contenere. In pratica, è una convenzione condivisa tra le distribuzioni per garantire coerenza e portabilità: grazie all'FHS, un amministratore di sistema sa già dove cercare i log, i file di configurazione o i binari, indipendentemente dalla distribuzione che sta usando.</p>
-<h2 id="la-struttura-ad-albero-e-la-directory-radice"><a class="header-anchor" href="#la-struttura-ad-albero-e-la-directory-radice"><i class="bi bi-link-45deg"></i></a> La struttura ad albero e la directory radice</h2>
+<h2 id="la-struttura-ad-albero-e-la-directory-radice">La struttura ad albero e la directory radice</h2>
 <p>Le directory di un filesystem Linux sono organizzate secondo uno schema <strong>ad albero</strong>: ogni cartella può contenere file e altre cartelle, creando una gerarchia che si ramifica verso il basso. Al vertice di quest'albero si trova la <strong>directory radice</strong>, indicata dal simbolo <code>/</code> e chiamata <em>root</em>.</p>
 <p>Attenzione: la directory radice <code>/</code> non va confusa con l'utente amministratore, che si chiama anch'esso <em>root</em> e ha come home directory <code>/root</code>.</p>
 <p>Tutti i percorsi che partono da <code>/</code> sono detti <strong>percorsi assoluti</strong>, perché identificano un file in modo univoco a partire dalla radice, indipendentemente da dove ci si trova nel filesystem. Ad esempio:</p>
@@ -328,7 +336,7 @@
 <p>Al contrario, un <strong>percorso relativo</strong> non inizia con <code>/</code> e fa riferimento alla posizione corrente. Se ci troviamo già in <code>/home/mario</code>, possiamo scrivere semplicemente <code>documenti/relazione.txt</code> per riferirci allo stesso file.</p>
 <p>I nomi dei file in Linux possono contenere quasi tutti i caratteri, con alcune eccezioni: il carattere <code>/</code> è riservato come separatore di percorso e non può comparire nei nomi. È inoltre buona norma evitare caratteri speciali come spazi, <code>*</code>, <code>?</code> o <code>!</code>, poiché possono avere significati particolari nella shell e causare comportamenti inattesi. La lunghezza massima di un nome file è generalmente di <strong>255 caratteri</strong> sui filesystem moderni.</p>
 <p>Una caratteristica fondamentale: Linux è <strong>case sensitive</strong>. <code>File.txt</code>, <code>file.txt</code> e <code>FILE.TXT</code> sono tre file completamente distinti. Questo è diverso da Windows, dove i nomi file sono trattati in modo insensibile alle maiuscole.</p>
-<h2 id="in-linux-tutto-e-un-file"><a class="header-anchor" href="#in-linux-tutto-e-un-file"><i class="bi bi-link-45deg"></i></a> &quot;In Linux, tutto è un file&quot;</h2>
+<h2 id="in-linux-tutto-e-un-file">&quot;In Linux, tutto è un file&quot;</h2>
 <p>Uno dei principi fondamentali di Linux (e dei sistemi Unix in generale) è che <strong>tutto è un file</strong>. Questo non significa solo che documenti e programmi sono file, ma che quasi ogni risorsa del sistema è rappresentata attraverso questa astrazione uniforme. Esistono diverse categorie:</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -374,7 +382,7 @@
   </table>
 </div>
 <p>Questa astrazione è uno dei punti di forza di Linux: strumenti e programmi possono interagire con risorse eterogenee usando sempre le stesse operazioni di lettura e scrittura.</p>
-<h2 id="montaggio-e-smontaggio-dei-filesystem"><a class="header-anchor" href="#montaggio-e-smontaggio-dei-filesystem"><i class="bi bi-link-45deg"></i></a> Montaggio e smontaggio dei filesystem</h2>
+<h2 id="montaggio-e-smontaggio-dei-filesystem">Montaggio e smontaggio dei filesystem</h2>
 <p>Prima di esplorare le singole directory, è utile capire il concetto di <strong>mount</strong> (montaggio), perché spiega come vengono integrate le varie risorse di memoria nell'albero del filesystem.</p>
 <p>Di norma, la directory <code>/</code> corrisponde al disco da cui Linux è stato avviato. Per accedere a supporti aggiuntivi, come una chiavetta USB, un secondo disco o una partizione di rete, è necessario &quot;agganciare&quot; il dispositivo all'albero del filesystem in un punto specifico, detto <strong>mount point</strong>:</p>
 <pre><code class="language-bash"># Monta la partizione /dev/sdb1 nella directory /mnt/chiavetta
@@ -384,25 +392,25 @@ mount /dev/sdb1 /mnt/chiavetta
 <pre><code class="language-bash">umount /mnt/chiavetta
 </code></pre>
 <p>L'elenco di tutti i filesystem attualmente montati è consultabile in <code>/proc/mounts</code>.</p>
-<h2 id="le-directory-principali-del-sistema"><a class="header-anchor" href="#le-directory-principali-del-sistema"><i class="bi bi-link-45deg"></i></a> Le directory principali del sistema</h2>
-<h3 id="home-le-directory-degli-utenti"><a class="header-anchor" href="#home-le-directory-degli-utenti"><i class="bi bi-link-45deg"></i></a> <code>/home</code> — Le directory degli utenti</h3>
+<h2 id="le-directory-principali-del-sistema">Le directory principali del sistema</h2>
+<h3 id="home-le-directory-degli-utenti"><code>/home</code> — Le directory degli utenti</h3>
 <p>Contiene le cartelle personali di ciascun utente. Se il nome utente è <em>mario</em>, la sua home sarà <code>/home/mario</code>. Qui vengono salvati documenti, immagini, download e le configurazioni personali delle applicazioni (spesso in cartelle nascoste che iniziano con un punto, come <code>~/.config</code> o <code>~/.bashrc</code>). Le distribuzioni moderne proteggono queste directory impedendo l'accesso agli altri utenti non privilegiati.</p>
-<h3 id="root-la-home-dellamministratore"><a class="header-anchor" href="#root-la-home-dellamministratore"><i class="bi bi-link-45deg"></i></a> <code>/root</code> — La home dell'amministratore</h3>
+<h3 id="root-la-home-dellamministratore"><code>/root</code> — La home dell'amministratore</h3>
 <p>La directory personale dell'utente <em>root</em> è separata da <code>/home</code> per una ragione precisa: deve essere accessibile anche quando il filesystem degli utenti non è ancora disponibile, ad esempio durante le prime fasi di avvio o in modalità di recupero.</p>
-<h3 id="bin-e-usrbin-i-programmi-essenziali"><a class="header-anchor" href="#bin-e-usrbin-i-programmi-essenziali"><i class="bi bi-link-45deg"></i></a> <code>/bin</code> e <code>/usr/bin</code> — I programmi essenziali</h3>
+<h3 id="bin-e-usrbin-i-programmi-essenziali"><code>/bin</code> e <code>/usr/bin</code> — I programmi essenziali</h3>
 <p><code>/bin</code> contiene gli eseguibili fondamentali del sistema, come <code>ls</code>, <code>cp</code>, <code>mv</code>, <code>cat</code> o <code>bash</code>. Devono essere disponibili già nelle primissime fasi di avvio, prima che altri filesystem vengano montati. <code>/usr/bin</code> ospita invece i comandi per gli utenti normali che non sono strettamente necessari all'avvio.</p>
 <p>Nota: su molte distribuzioni moderne (Ubuntu, Fedora, Arch…) <code>/bin</code> è diventato un link simbolico che punta a <code>/usr/bin</code>, nell'ambito di una semplificazione chiamata <em>usrmerge</em>.</p>
-<h3 id="usr-programmi-e-risorse-di-sistema"><a class="header-anchor" href="#usr-programmi-e-risorse-di-sistema"><i class="bi bi-link-45deg"></i></a> <code>/usr</code> — Programmi e risorse di sistema</h3>
+<h3 id="usr-programmi-e-risorse-di-sistema"><code>/usr</code> — Programmi e risorse di sistema</h3>
 <p>È una delle directory più ricche del sistema. Contiene eseguibili, librerie, documentazione e risorse della maggior parte dei programmi installati. È tipicamente in <strong>sola lettura</strong> per gli utenti normali. Al suo interno troviamo tra l'altro <code>/usr/sbin</code> per i comandi aggiuntivi dell'amministratore, <code>/usr/lib</code> per le librerie condivise usate dai programmi, <code>/usr/share</code> per le risorse condivise come documentazione e icone, e <code>/usr/share/man</code> per i testi delle <strong>manpage</strong> accessibili tramite il comando <code>man</code>.</p>
-<h3 id="etc-le-configurazioni-di-sistema"><a class="header-anchor" href="#etc-le-configurazioni-di-sistema"><i class="bi bi-link-45deg"></i></a> <code>/etc</code> — Le configurazioni di sistema</h3>
+<h3 id="etc-le-configurazioni-di-sistema"><code>/etc</code> — Le configurazioni di sistema</h3>
 <p>Contiene i file di configurazione dell'intero sistema: impostazioni di rete, elenco degli utenti, configurazione dei servizi e molto altro. La maggior parte dei file è leggibile da tutti, ma modificabile solo dall'amministratore. Alcuni file notevoli sono <code>/etc/passwd</code> per le informazioni sugli account utente (nome, shell, home directory…), <code>/etc/shadow</code> per le password degli utenti in forma cifrata (accessibile solo da root), <code>/etc/fstab</code> per la tabella dei filesystem da montare automaticamente all'avvio e <code>/etc/hosts</code> per la mappatura manuale tra nomi host e indirizzi IP.</p>
-<h3 id="boot-il-kernel-e-i-file-di-avvio"><a class="header-anchor" href="#boot-il-kernel-e-i-file-di-avvio"><i class="bi bi-link-45deg"></i></a> <code>/boot</code> — Il kernel e i file di avvio</h3>
+<h3 id="boot-il-kernel-e-i-file-di-avvio"><code>/boot</code> — Il kernel e i file di avvio</h3>
 <p>Contiene il kernel Linux, il file <code>initrd</code> (initial RAM disk, usato nelle prime fasi di avvio) e la configurazione del bootloader <strong>GRUB</strong>. Si consiglia spesso di dedicare a <code>/boot</code> una partizione separata all'inizio del disco, per garantire la compatibilità con alcune configurazioni hardware e semplificare il ripristino del sistema.</p>
-<h3 id="var-dati-variabili"><a class="header-anchor" href="#var-dati-variabili"><i class="bi bi-link-45deg"></i></a> <code>/var</code> — Dati variabili</h3>
+<h3 id="var-dati-variabili"><code>/var</code> — Dati variabili</h3>
 <p>Contiene file che cambiano frequentemente durante il normale funzionamento del sistema: log, code di stampa, database, cache dei package manager. La sottodirectory più consultata è <code>/var/log</code>, che raccoglie i log generati dal kernel, dai servizi e dalle applicazioni. Tra i più utili troviamo <code>/var/log/syslog</code> per gli eventi generali del sistema, <code>/var/log/auth.log</code> per i tentativi di autenticazione e uso di <code>sudo</code>, e <code>/var/log/kern.log</code> per i messaggi del kernel.</p>
-<h3 id="tmp-file-temporanei"><a class="header-anchor" href="#tmp-file-temporanei"><i class="bi bi-link-45deg"></i></a> <code>/tmp</code> — File temporanei</h3>
+<h3 id="tmp-file-temporanei"><code>/tmp</code> — File temporanei</h3>
 <p>Directory scrivibile da tutti gli utenti, usata per i file temporanei creati da applicazioni e processi. Il suo contenuto viene cancellato ad ogni riavvio. Su molte distribuzioni moderne è montata come <code>tmpfs</code>, ovvero direttamente in RAM, il che la rende molto veloce ma ne limita la capacità alla memoria disponibile.</p>
-<h2 id="dev-i-file-di-dispositivo"><a class="header-anchor" href="#dev-i-file-di-dispositivo"><i class="bi bi-link-45deg"></i></a> <code>/dev</code> — I file di dispositivo</h2>
+<h2 id="dev-i-file-di-dispositivo"><code>/dev</code> — I file di dispositivo</h2>
 <p>La directory <code>/dev</code> contiene file speciali che rappresentano le periferiche hardware e alcune risorse virtuali del kernel. Non occupano spazio fisico sul disco: sono interfacce verso il kernel, gestite dal demone <strong>udev</strong> che li crea e li rimuove dinamicamente al collegamento o alla disconnessione dei dispositivi.</p>
 <p>Alcuni esempi particolarmente interessanti:</p>
 <div class="table-responsive shadow-sm rounded mb-3">
@@ -441,10 +449,10 @@ mount /dev/sdb1 /mnt/chiavetta
     </tbody>
   </table>
 </div>
-<h2 id="proc-la-finestra-sul-kernel"><a class="header-anchor" href="#proc-la-finestra-sul-kernel"><i class="bi bi-link-45deg"></i></a> <code>/proc</code> — La finestra sul kernel</h2>
+<h2 id="proc-la-finestra-sul-kernel"><code>/proc</code> — La finestra sul kernel</h2>
 <p><code>/proc</code> è un <strong>filesystem virtuale</strong>: non esiste fisicamente su disco, ma viene popolato dal kernel in tempo reale con informazioni sui processi attivi e sullo stato del sistema. Ogni processo in esecuzione ha una sottodirectory identificata dal suo PID (es. <code>/proc/1234</code>), contenente informazioni su quel processo: file aperti, memoria usata, variabili d'ambiente e altro.</p>
 <p>Tra i file più utili a livello di sistema troviamo <code>/proc/cpuinfo</code> per le informazioni dettagliate sul processore, <code>/proc/meminfo</code> per lo stato della memoria RAM e swap, <code>/proc/mounts</code> per l'elenco dei filesystem attualmente montati e <code>/proc/uptime</code> per il tempo trascorso dall'avvio del sistema.</p>
-<h2 id="link-hard-e-soft"><a class="header-anchor" href="#link-hard-e-soft"><i class="bi bi-link-45deg"></i></a> Link: hard e soft</h2>
+<h2 id="link-hard-e-soft">Link: hard e soft</h2>
 <p>Linux supporta due tipi di collegamento tra file, creati entrambi con il comando <code>ln</code>.</p>
 <p>Gli <strong>hard link</strong> puntano direttamente all'<strong>inode</strong> del file, ovvero la struttura dati interna al filesystem che descrive un file (permessi, dimensione, posizione dei dati sul disco). Due hard link allo stesso file condividono esattamente i medesimi dati: modificare uno significa modificare l'altro. Il file viene eliminato dal disco solo quando l'ultimo hard link che lo punta viene rimosso. Hanno però dei limiti: non funzionano tra filesystem diversi e non possono puntare a directory.</p>
 <p>I <strong>soft link</strong> (o link simbolici) sono invece semplici puntatori al <em>percorso</em> di un altro file. Si creano con:</p>
@@ -454,7 +462,7 @@ mount /dev/sdb1 /mnt/chiavetta
 <p>Nel listato di <code>ls -l</code>, i soft link sono identificati dalla lettera <code>l</code> all'inizio della stringa dei permessi, e mostrano esplicitamente il percorso a cui puntano:</p>
 <pre><code>lrwxrwxrwx 1 root root 7 gen 10 12:00 /bin -&gt; usr/bin
 </code></pre>
-<h2 id="fifo-le-named-pipe"><a class="header-anchor" href="#fifo-le-named-pipe"><i class="bi bi-link-45deg"></i></a> FIFO — Le named pipe</h2>
+<h2 id="fifo-le-named-pipe">FIFO — Le named pipe</h2>
 <p>Le <strong>FIFO</strong> (First In, First Out), dette anche <em>named pipe</em>, sono un meccanismo di comunicazione tra processi. A differenza delle pipe anonime, quelle usate con <code>|</code> nel terminale che esistono solo per la durata del comando, le FIFO hanno un nome nel filesystem e possono essere usate da processi non correlati, anche avviati in momenti diversi.</p>
 <p>Si creano con il comando <code>mkfifo</code>:</p>
 <pre><code class="language-bash">mkfifo /tmp/mia_pipe

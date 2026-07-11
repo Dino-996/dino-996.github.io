@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -295,9 +303,9 @@
     
 
     <section class="content">
-      <h2 id="sincronizzazione-dei-processi"><a class="header-anchor" href="#sincronizzazione-dei-processi"><i class="bi bi-link-45deg"></i></a> Sincronizzazione dei Processi</h2>
+      <h2 id="sincronizzazione-dei-processi">Sincronizzazione dei Processi</h2>
 <p>La sincronizzazione dei processi è uno dei problemi fondamentali dell’informatica dei sistemi. Quando più thread o processi accedono a dati condivisi, il rischio di inconsistenza diventa concreto. Comprendere e progettare correttamente la <strong>sezione critica</strong> è essenziale per garantire sicurezza, affidabilità e scalabilità.</p>
-<h2 id="il-problema-della-sezione-critica"><a class="header-anchor" href="#il-problema-della-sezione-critica"><i class="bi bi-link-45deg"></i></a> Il Problema della Sezione Critica</h2>
+<h2 id="il-problema-della-sezione-critica">Il Problema della Sezione Critica</h2>
 <p>Una <strong>sezione critica (Critical Section, CS)</strong> è la porzione di codice in cui un <a href="https://dino-996.github.io/blog/processi/" target="_blank" rel="noopener noreferer">processo</a> o <a href="https://dino-996.github.io/blog/thread/" target="_blank" rel="noopener noreferer">thread</a> accede e modifica risorse condivise.</p>
 <p>Qualsiasi soluzione corretta deve soddisfare tre proprietà fondamentali:</p>
 <ul>
@@ -305,15 +313,15 @@
 <li><strong>Progresso</strong>: la scelta del prossimo processo da far entrare non può essere rinviata indefinitamente.</li>
 <li><strong>Attesa limitata</strong>: esiste un limite massimo al numero di accessi consentiti ad altri processi prima che una richiesta venga soddisfatta.</li>
 </ul>
-<h3 id="kernel-preemptive-e-non-preemptive"><a class="header-anchor" href="#kernel-preemptive-e-non-preemptive"><i class="bi bi-link-45deg"></i></a> Kernel preemptive e non preemptive</h3>
+<h3 id="kernel-preemptive-e-non-preemptive">Kernel preemptive e non preemptive</h3>
 <p>Nei kernel <strong>non preemptive</strong>, un processo in modalità kernel non viene interrotto fino al termine della sua esecuzione in tale modalità. Questo riduce il rischio di race condition interne al kernel, ma non costituisce una protezione generale: le condizioni di gara possono comunque verificarsi tra thread in user space o in sistemi multiprocessore.</p>
 <p>Nei sistemi moderni, prevalentemente <strong>preemptive e multi-core</strong>, la sincronizzazione è un requisito strutturale.</p>
-<h2 id="modelli-di-memoria-e-riordino-delle-istruzioni"><a class="header-anchor" href="#modelli-di-memoria-e-riordino-delle-istruzioni"><i class="bi bi-link-45deg"></i></a> Modelli di Memoria e Riordino delle Istruzioni</h2>
+<h2 id="modelli-di-memoria-e-riordino-delle-istruzioni">Modelli di Memoria e Riordino delle Istruzioni</h2>
 <p>Le architetture moderne (x86, ARM, Power) adottano <strong>modelli di memoria debolmente ordinati</strong>. Compilatori e CPU possono riordinare le istruzioni per ottimizzazione.</p>
 <p>Senza adeguate <strong>memory barrier</strong> o <strong>memory fence</strong> (istruzioni che impongono un vincolo sull’ordine con cui operazioni di lettura e scrittura in memoria possono essere eseguite e rese visibili agli altri thread), un algoritmo teoricamente corretto può fallire nella pratica.</p>
 <p>Questo è il motivo per cui soluzioni puramente software come l’algoritmo di Peterson non sono affidabili su hardware moderno senza primitive di sincronizzazione esplicite.</p>
-<h2 id="soluzioni-software-e-supporto-hardware"><a class="header-anchor" href="#soluzioni-software-e-supporto-hardware"><i class="bi bi-link-45deg"></i></a> Soluzioni Software e Supporto Hardware</h2>
-<h3 id="algoritmo-di-peterson"><a class="header-anchor" href="#algoritmo-di-peterson"><i class="bi bi-link-45deg"></i></a> Algoritmo di Peterson</h3>
+<h2 id="soluzioni-software-e-supporto-hardware">Soluzioni Software e Supporto Hardware</h2>
+<h3 id="algoritmo-di-peterson">Algoritmo di Peterson</h3>
 <p>Soluzione elegante per due processi basata su variabili condivise (<code>flag</code> e <code>turn</code>).</p>
 <p>Limiti principali:</p>
 <ul>
@@ -322,7 +330,7 @@
 <li>Non adatta a sistemi ad alta contesa.</li>
 </ul>
 <p>È oggi più rilevante come esercizio teorico che come soluzione pratica.</p>
-<h3 id="primitive-atomiche-hardware"><a class="header-anchor" href="#primitive-atomiche-hardware"><i class="bi bi-link-45deg"></i></a> Primitive Atomiche Hardware</h3>
+<h3 id="primitive-atomiche-hardware">Primitive Atomiche Hardware</h3>
 <p>Le CPU moderne offrono istruzioni atomiche come:</p>
 <ul>
 <li><code>test_and_set</code></li>
@@ -339,15 +347,15 @@
 <li><strong>Starvation</strong> in presenza di alta contesa</li>
 </ul>
 <p>Queste primitive sono alla base di strutture dati <strong>lock-free</strong>.</p>
-<h2 id="strumenti-di-sincronizzazione-di-alto-livello"><a class="header-anchor" href="#strumenti-di-sincronizzazione-di-alto-livello"><i class="bi bi-link-45deg"></i></a> Strumenti di Sincronizzazione di Alto Livello</h2>
-<h3 id="mutex"><a class="header-anchor" href="#mutex"><i class="bi bi-link-45deg"></i></a> Mutex</h3>
+<h2 id="strumenti-di-sincronizzazione-di-alto-livello">Strumenti di Sincronizzazione di Alto Livello</h2>
+<h3 id="mutex">Mutex</h3>
 <p>Strumento basilare per garantire mutua esclusione.</p>
 <p>Due categorie principali:</p>
 <ul>
 <li><strong>Spinlock</strong>: attesa attiva (busy waiting). Efficiente per sezioni critiche molto brevi su sistemi multi-core.</li>
 <li><strong>Mutex bloccanti</strong>: sospendono il thread, evitando spreco di CPU ma con overhead di context switch.</li>
 </ul>
-<h3 id="semafori"><a class="header-anchor" href="#semafori"><i class="bi bi-link-45deg"></i></a> Semafori</h3>
+<h3 id="semafori">Semafori</h3>
 <p>Variabili intere gestite tramite operazioni atomiche:</p>
 <ul>
 <li><code>wait()</code> (P)</li>
@@ -358,7 +366,7 @@
 <li><strong>Binari</strong> (equivalenti a mutex)</li>
 <li><strong>Contatori</strong> (gestione pool di risorse)</li>
 </ul>
-<h3 id="monitor"><a class="header-anchor" href="#monitor"><i class="bi bi-link-45deg"></i></a> Monitor</h3>
+<h3 id="monitor">Monitor</h3>
 <p>Costrutti di alto livello che incapsulano:</p>
 <ul>
 <li>Dati condivisi</li>
@@ -366,8 +374,8 @@
 <li>Variabili condizionali</li>
 </ul>
 <p>Garantiscono mutua esclusione automatica.</p>
-<h2 id="esempi-in-python-e-java"><a class="header-anchor" href="#esempi-in-python-e-java"><i class="bi bi-link-45deg"></i></a> Esempi in Python e Java</h2>
-<h3 id="python-threading"><a class="header-anchor" href="#python-threading"><i class="bi bi-link-45deg"></i></a> Python (threading)</h3>
+<h2 id="esempi-in-python-e-java">Esempi in Python e Java</h2>
+<h3 id="python-threading">Python (threading)</h3>
 <pre><code class="language-python">import threading
 lock = threading.Lock()
 counter = 0
@@ -378,7 +386,7 @@ def increment():
 </code></pre>
 <p>Nota: a causa del <strong>GIL (Global Interpreter Lock)</strong>, il threading in CPython non è realmente parallelo su CPU-bound tasks.</p>
 <hr>
-<h3 id="java"><a class="header-anchor" href="#java"><i class="bi bi-link-45deg"></i></a> Java</h3>
+<h3 id="java">Java</h3>
 <pre><code class="language-java">import java.util.concurrent.atomic.AtomicInteger;
 AtomicInteger counter = new AtomicInteger(0);
 public void increment() {
@@ -392,7 +400,7 @@ public void increment() {
 <li>package <code>java.util.concurrent</code></li>
 </ul>
 <p>Il modello di memoria Java definisce formalmente la visibilità delle variabili condivise.</p>
-<h2 id="liveness-e-problemi-classici"><a class="header-anchor" href="#liveness-e-problemi-classici"><i class="bi bi-link-45deg"></i></a> Liveness e Problemi Classici</h2>
+<h2 id="liveness-e-problemi-classici">Liveness e Problemi Classici</h2>
 <p>La <strong>liveness</strong> misura la capacità del sistema di garantire progresso.</p>
 <p>Principali criticità:</p>
 <ul>
@@ -401,7 +409,7 @@ public void increment() {
 <li><strong>Priority Inversion</strong>: un processo ad alta priorità bloccato da uno a bassa priorità.</li>
 </ul>
 <p>Caso emblematico: <strong>Mars Pathfinder (1997)</strong>. Il problema fu risolto abilitando il meccanismo di <em>priority inheritance</em>.</p>
-<h2 id="sincronizzazione-e-scalabilita-in-ambiente-cloud-native"><a class="header-anchor" href="#sincronizzazione-e-scalabilita-in-ambiente-cloud-native"><i class="bi bi-link-45deg"></i></a> Sincronizzazione e Scalabilità in Ambiente Cloud Native</h2>
+<h2 id="sincronizzazione-e-scalabilita-in-ambiente-cloud-native">Sincronizzazione e Scalabilità in Ambiente Cloud Native</h2>
 <p>Nei <strong>sistemi distribuiti</strong> (insieme di computer indipendenti che collaborano tra loro come se fossero un unico sistema coerente agli occhi dell’utente o delle applicazioni), la sincronizzazione non riguarda più solo thread locali.</p>
 <p>Si utilizzano:</p>
 <ul>
@@ -417,7 +425,7 @@ public void increment() {
 <li>Architetture idempotenti</li>
 <li>Programmazione lock-free</li>
 </ul>
-<h2 id="valutazione-in-base-al-livello-di-contesa"><a class="header-anchor" href="#valutazione-in-base-al-livello-di-contesa"><i class="bi bi-link-45deg"></i></a> Valutazione in Base al Livello di Contesa</h2>
+<h2 id="valutazione-in-base-al-livello-di-contesa">Valutazione in Base al Livello di Contesa</h2>
 <ul>
 <li><strong>Bassa o moderata contesa</strong>: strutture basate su CAS spesso più performanti.</li>
 <li><strong>Alta contesa</strong>: mutex e meccanismi bloccanti possono risultare più efficienti.</li>

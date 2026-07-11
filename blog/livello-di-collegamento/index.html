@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -421,7 +429,7 @@
     
 
     <section class="content">
-      <h2 id="il-livello-di-collegamento-dati-e-ethernet"><a class="header-anchor" href="#il-livello-di-collegamento-dati-e-ethernet"><i class="bi bi-link-45deg"></i></a> Il livello di collegamento dati e Ethernet</h2>
+      <h2 id="il-livello-di-collegamento-dati-e-ethernet">Il livello di collegamento dati e Ethernet</h2>
 <p>Il <strong>livello di collegamento dati</strong> (Data Link Layer) è il secondo livello del modello OSI. Il suo compito è garantire un trasferimento affidabile dei dati tra due nodi direttamente connessi sulla stessa rete fisica, gestendo l'accesso al mezzo trasmissivo e il rilevamento degli errori.</p>
 <p>!<a href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1779532152/Modello_ISO_OSI_f2aaeb41f6.svg" target="_blank" rel="noopener noreferer">Modello ISO-OSI.svg</a></p>
 <p>Dal punto di vista architetturale, il livello 2 si divide in due sotto-livelli distinti:</p>
@@ -433,7 +441,7 @@
 <blockquote>
 <p>NIC (Network Interface Card), o scheda di interfaccia di rete.</p>
 </blockquote>
-<h2 id="la-struttura-del-frame-ethernet"><a class="header-anchor" href="#la-struttura-del-frame-ethernet"><i class="bi bi-link-45deg"></i></a> La struttura del frame Ethernet</h2>
+<h2 id="la-struttura-del-frame-ethernet">La struttura del frame Ethernet</h2>
 <p>Ogni comunicazione Ethernet avviene attraverso frame strutturati. Ogni campo ha una dimensione precisa e una funzione specifica nel processo di consegna e verifica dei dati.</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -486,7 +494,7 @@
 <blockquote>
 <p><strong>Nota:</strong> Il preambolo e l'SFD (8 byte totali) vengono gestiti dall'hardware della NIC e non compaiono nelle catture di pacchetti con strumenti come Wireshark, che mostrano il frame a partire dal campo MAC di destinazione.</p>
 </blockquote>
-<h2 id="gli-indirizzi-mac"><a class="header-anchor" href="#gli-indirizzi-mac"><i class="bi bi-link-45deg"></i></a> Gli indirizzi MAC</h2>
+<h2 id="gli-indirizzi-mac">Gli indirizzi MAC</h2>
 <p>Un indirizzo MAC (Media Access Control) è un identificatore hardware a <strong>48 bit (6 byte)</strong>, rappresentato in notazione esadecimale. Esempio: <code>00:1A:2B:3C:4D:5E</code>.</p>
 <p>L'indirizzo è suddiviso in due blocchi:</p>
 <ul>
@@ -499,12 +507,12 @@
 <li><strong>Bit U/L (Universal/Local):</strong> se 0, l'indirizzo è assegnato globalmente dall'IEEE (burned-in address); se 1, è stato assegnato localmente in modo amministrativo.</li>
 </ul>
 <p>L'indirizzo <code>FF:FF:FF:FF:FF:FF</code> è riservato al <strong>broadcast Ethernet</strong>: il frame viene consegnato a tutti i dispositivi nel dominio di broadcast.</p>
-<h2 id="hub-ed-ethernet-switch-architetture-a-confronto"><a class="header-anchor" href="#hub-ed-ethernet-switch-architetture-a-confronto"><i class="bi bi-link-45deg"></i></a> Hub ed Ethernet switch: architetture a confronto</h2>
+<h2 id="hub-ed-ethernet-switch-architetture-a-confronto">Hub ed Ethernet switch: architetture a confronto</h2>
 <p>Prima di analizzare il comportamento degli switch, è utile comprendere perché abbiano sostituito gli hub nelle reti moderne.</p>
-<h3 id="hub-ethernet"><a class="header-anchor" href="#hub-ethernet"><i class="bi bi-link-45deg"></i></a> Hub Ethernet</h3>
+<h3 id="hub-ethernet">Hub Ethernet</h3>
 <p>Un hub è un dispositivo di livello fisico (Layer 1). Quando riceve un segnale su una porta, lo <strong>ripete su tutte le altre porte</strong> indiscriminatamente, senza alcuna intelligenza di inoltro. Tutti i dispositivi connessi condividono lo stesso <strong>dominio di collisione</strong>: se due host trasmettono simultaneamente, si verifica una collisione e i dati vanno persi. Per gestire questo problema, Ethernet su hub utilizza <strong>CSMA/CD (Carrier Sense Multiple Access with Collision Detection)</strong>.</p>
 <p>Gli hub operano in modalità <strong>half-duplex</strong>: un dispositivo può trasmettere o ricevere, ma non entrambe le operazioni contemporaneamente.</p>
-<h3 id="switch-ethernet"><a class="header-anchor" href="#switch-ethernet"><i class="bi bi-link-45deg"></i></a> Switch Ethernet</h3>
+<h3 id="switch-ethernet">Switch Ethernet</h3>
 <p>Uno switch Ethernet opera al <strong>livello 2 del modello OSI</strong>. A differenza dell'hub, legge l'intestazione di ogni frame Ethernet e prende decisioni di inoltro intelligenti basate sull'indirizzo MAC di destinazione. Ogni porta dello switch costituisce un <strong>dominio di collisione separato</strong>, eliminando le collisioni e consentendo comunicazioni <strong>full-duplex</strong>.</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -549,11 +557,11 @@
     </tbody>
   </table>
 </div>
-<h2 id="come-funziona-uno-switch-ethernet"><a class="header-anchor" href="#come-funziona-uno-switch-ethernet"><i class="bi bi-link-45deg"></i></a> Come funziona uno switch Ethernet</h2>
-<h3 id="la-mac-address-table"><a class="header-anchor" href="#la-mac-address-table"><i class="bi bi-link-45deg"></i></a> La MAC address table</h3>
+<h2 id="come-funziona-uno-switch-ethernet">Come funziona uno switch Ethernet</h2>
+<h3 id="la-mac-address-table">La MAC address table</h3>
 <p>Il cuore operativo di uno switch è la <strong>MAC address table</strong> (detta anche CAM table — Content Addressable Memory). Questa tabella associa ogni indirizzo MAC noto a una specifica porta fisica dello switch, permettendo l'inoltro selettivo dei frame.</p>
 <p>La tabella viene costruita dinamicamente attraverso un processo di apprendimento automatico. Ogni voce ha un <strong>timer di aging</strong> (default: 300 secondi / 5 minuti): se non arriva traffico da un MAC entro questo intervallo, la voce viene rimossa per mantenere la tabella aggiornata.</p>
-<h3 id="il-processo-di-learning-e-forwarding"><a class="header-anchor" href="#il-processo-di-learning-e-forwarding"><i class="bi bi-link-45deg"></i></a> Il processo di learning e forwarding</h3>
+<h3 id="il-processo-di-learning-e-forwarding">Il processo di learning e forwarding</h3>
 <p>Il comportamento dello switch a ogni frame ricevuto segue tre fasi distinte.</p>
 <p><strong>Fase 1 — Learning (apprendimento):</strong> Quando lo switch riceve un frame su una porta, esamina l'indirizzo MAC di <strong>origine</strong> e verifica se è già presente nella tabella. Se non lo è, aggiunge la coppia <code>{MAC sorgente → porta in ingresso}</code>. Se è già presente, aggiorna il timer di aging.</p>
 <p><strong>Fase 2 — Lookup (ricerca della destinazione):</strong> Lo switch cerca l'indirizzo MAC di <strong>destinazione</strong> nella tabella. Possono verificarsi due scenari:</p>
@@ -591,7 +599,7 @@ PASSO 3 — H1 invia di nuovo a H4 (entrambi noti)
   → Forwarding selettivo diretto: solo FA0/4
   → H2 e H3 non ricevono nulla
 </code></pre>
-<h2 id="ispezione-pratica-dei-frame-ethernet"><a class="header-anchor" href="#ispezione-pratica-dei-frame-ethernet"><i class="bi bi-link-45deg"></i></a> Ispezione pratica dei frame Ethernet</h2>
+<h2 id="ispezione-pratica-dei-frame-ethernet">Ispezione pratica dei frame Ethernet</h2>
 <p>In un contesto professionale, la verifica del comportamento Ethernet a livello di frame avviene tramite strumenti di cattura del traffico. I due più comuni negli ambienti Linux/DevOps sono <code>tcpdump</code> e Wireshark.</p>
 <p>Per catturare il traffico su un'interfaccia specifica con <code>tcpdump</code>:</p>
 <pre><code class="language-bash">tcpdump -i eth0 -e -n ether host 00:1A:2B:3C:4D:5E
@@ -607,13 +615,13 @@ PASSO 3 — H1 invia di nuovo a H4 (entrambi noti)
 <pre><code>HH:MM:SS.ffffff AA:AA:AA:AA:AA:AA &gt; DD:DD:DD:DD:DD:DD ethertype IPv4 (0x0800), length 98
 </code></pre>
 <p>Dove il campo <code>ethertype</code> corrisponde direttamente al campo EtherType del frame descritto in precedenza.</p>
-<h2 id="ethernet-nei-contesti-moderni-vlan-data-center-e-cloud"><a class="header-anchor" href="#ethernet-nei-contesti-moderni-vlan-data-center-e-cloud"><i class="bi bi-link-45deg"></i></a> Ethernet nei contesti moderni: VLAN, data center e cloud</h2>
+<h2 id="ethernet-nei-contesti-moderni-vlan-data-center-e-cloud">Ethernet nei contesti moderni: VLAN, data center e cloud</h2>
 <p>I principi del livello 2 descritti fin qui sono la base di infrastrutture di rete molto più complesse. In ambienti professionali moderni, è fondamentale conoscere le seguenti estensioni.</p>
-<h3 id="vlan-e-8021q-tagging"><a class="header-anchor" href="#vlan-e-8021q-tagging"><i class="bi bi-link-45deg"></i></a> VLAN e 802.1Q tagging</h3>
+<h3 id="vlan-e-8021q-tagging">VLAN e 802.1Q tagging</h3>
 <p>Lo standard <strong>IEEE 802.1Q</strong> estende il frame Ethernet aggiungendo un <strong>tag di 4 byte</strong> tra il campo MAC sorgente e il campo EtherType. Questo tag contiene un identificativo di VLAN (VLAN ID, da 0 a 4094) che permette di segmentare logicamente una rete fisica in più reti virtuali isolate. Gli switch gestiti (managed switch) utilizzano le VLAN per separare il traffico di reparti diversi sulla stessa infrastruttura fisica, migliorando sicurezza e gestione del broadcast.</p>
-<h3 id="topologie-spine-leaf-nei-data-center"><a class="header-anchor" href="#topologie-spine-leaf-nei-data-center"><i class="bi bi-link-45deg"></i></a> Topologie spine-leaf nei data center</h3>
+<h3 id="topologie-spine-leaf-nei-data-center">Topologie spine-leaf nei data center</h3>
 <p>Nei data center moderni, la topologia classica a tre livelli (core-distribution-access) è stata largamente sostituita dalla topologia <strong>spine-leaf</strong>. In questa architettura ogni switch leaf è connesso a tutti gli switch spine, garantendo percorsi a bassa latenza e alta ridondanza tra tutti i server. Gli switch operano ancora al livello 2 (e spesso anche al livello 3) ma su scala e velocità ordini di grandezza superiori rispetto alle LAN tradizionali.</p>
-<h3 id="overlay-network-e-vxlan"><a class="header-anchor" href="#overlay-network-e-vxlan"><i class="bi bi-link-45deg"></i></a> Overlay network e VXLAN</h3>
+<h3 id="overlay-network-e-vxlan">Overlay network e VXLAN</h3>
 <p>In ambienti cloud e Kubernetes, i frame Ethernet tradizionali vengono spesso <strong>incapsulati all'interno di pacchetti UDP</strong> attraverso protocolli overlay come <strong>VXLAN (Virtual Extensible LAN)</strong>, definito nell'RFC 7348. VXLAN estende l'indirizzamento VLAN da 4.094 a oltre 16 milioni di segmenti, indispensabile per la multi-tenancy nei cloud pubblici e privati. La comprensione del frame Ethernet di base rimane prerequisito essenziale per diagnosticare problemi di connettività anche in questi ambienti virtualizzati.</p>
 
     </section>

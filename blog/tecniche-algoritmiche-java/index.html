@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -295,7 +303,7 @@
     
 
     <section class="content">
-      <h1 id="introduzione"><a class="header-anchor" href="#introduzione"><i class="bi bi-link-45deg"></i></a> Introduzione</h1>
+      <h1 id="introduzione">Introduzione</h1>
 <p>L'obiettivo di questa guida non è una trattazione accademica, ma offrire strumenti pratici per risolvere problemi ricorrenti quando si lavora con collezioni di dati.</p>
 <blockquote>
 <p><strong>Versione di riferimento:</strong> Java 17 LTS (o superiore). Gli esempi sfruttano feature<br>
@@ -313,7 +321,7 @@ anche con Java 11+, dove indicato.</p>
 <li>note sui casi limite e le best practice</li>
 </ul>
 <hr>
-<h3 id="la-classe-product-usata-negli-esempi"><a class="header-anchor" href="#la-classe-product-usata-negli-esempi"><i class="bi bi-link-45deg"></i></a> La classe <code>Product</code> usata negli esempi</h3>
+<h3 id="la-classe-product-usata-negli-esempi">La classe <code>Product</code> usata negli esempi</h3>
 <p>Per mantenere gli esempi concisi e moderni, utilizziamo un <strong>Java Record</strong> — introdotto<br>
 in Java 16 e stabile da Java 17. I record sono ideali per modellare dati immutabili<br>
 (Value Object, DTO).</p>
@@ -330,7 +338,7 @@ automaticamente costruttore, getter, <code>equals()</code>, <code>hashCode()</co
 Perfetto per oggetti di sola lettura come i prodotti di un catalogo.</p>
 </blockquote>
 <hr>
-<h2 id="iterazione-e-aggregazione"><a class="header-anchor" href="#iterazione-e-aggregazione"><i class="bi bi-link-45deg"></i></a> Iterazione e Aggregazione</h2>
+<h2 id="iterazione-e-aggregazione">Iterazione e Aggregazione</h2>
 <p>Molte operazioni software richiedono di attraversare una collezione per produrre<br>
 un risultato aggregato: una somma, una media, un conteggio o una verifica logica.</p>
 <p>Queste operazioni condividono lo stesso schema:</p>
@@ -340,10 +348,10 @@ un risultato aggregato: una somma, una media, un conteggio o una verifica logica
 <li><strong>Restituzione</strong> di un risultato</li>
 </ol>
 <p>La complessità è generalmente <strong>O(n)</strong>, dove <em>n</em> è il numero di elementi.</p>
-<h2 id="somma-di-una-collezione"><a class="header-anchor" href="#somma-di-una-collezione"><i class="bi bi-link-45deg"></i></a> Somma di una collezione</h2>
-<h3 id="problema"><a class="header-anchor" href="#problema"><i class="bi bi-link-45deg"></i></a> Problema</h3>
+<h2 id="somma-di-una-collezione">Somma di una collezione</h2>
+<h3 id="problema">Problema</h3>
 <p>Calcolare la somma di una lista di valori numerici.</p>
-<h3 id="implementazione-imperativa"><a class="header-anchor" href="#implementazione-imperativa"><i class="bi bi-link-45deg"></i></a> Implementazione imperativa</h3>
+<h3 id="implementazione-imperativa">Implementazione imperativa</h3>
 <pre><code class="language-java">public static double calcolaTotale(List&lt;Double&gt; importi) {
     Objects.requireNonNull(importi, &quot;La lista degli importi non può essere null&quot;);
     double totale = 0.0;
@@ -354,7 +362,7 @@ un risultato aggregato: una somma, una media, un conteggio o una verifica logica
 }
 </code></pre>
 <p><strong>Complessità: O(n)</strong></p>
-<h3 id="versione-con-stream-api"><a class="header-anchor" href="#versione-con-stream-api"><i class="bi bi-link-45deg"></i></a> Versione con Stream API</h3>
+<h3 id="versione-con-stream-api">Versione con Stream API</h3>
 <pre><code class="language-java">public static double calcolaTotale(List&lt;Double&gt; importi) {
     Objects.requireNonNull(importi, &quot;La lista degli importi non può essere null&quot;);
     return importi.stream()
@@ -366,10 +374,10 @@ un risultato aggregato: una somma, una media, un conteggio o una verifica logica
 <p><strong>Nota:</strong> <code>mapToDouble()</code> restituisce un <code>DoubleStream</code> primitivo, evitando il boxing/<br>
 unboxing di <code>Double</code> → <code>double</code>. Preferirlo sempre per operazioni numeriche intensive.</p>
 </blockquote>
-<h2 id="calcolo-della-media"><a class="header-anchor" href="#calcolo-della-media"><i class="bi bi-link-45deg"></i></a> Calcolo della media</h2>
-<h3 id="problema-1"><a class="header-anchor" href="#problema-1"><i class="bi bi-link-45deg"></i></a> Problema</h3>
+<h2 id="calcolo-della-media">Calcolo della media</h2>
+<h3 id="problema-1">Problema</h3>
 <p>Calcolare la media dei valori presenti in una lista.</p>
-<h3 id="implementazione-imperativa-1"><a class="header-anchor" href="#implementazione-imperativa-1"><i class="bi bi-link-45deg"></i></a> Implementazione imperativa</h3>
+<h3 id="implementazione-imperativa-1">Implementazione imperativa</h3>
 <pre><code class="language-java">public static double calcolaMedia(List&lt;Double&gt; valori) {
     Objects.requireNonNull(valori, &quot;La lista non può essere null&quot;);
     if (valori.isEmpty()) {
@@ -382,7 +390,7 @@ unboxing di <code>Double</code> → <code>double</code>. Preferirlo sempre per o
     return somma / valori.size();
 }
 </code></pre>
-<h3 id="versione-con-stream-api-1"><a class="header-anchor" href="#versione-con-stream-api-1"><i class="bi bi-link-45deg"></i></a> Versione con Stream API</h3>
+<h3 id="versione-con-stream-api-1">Versione con Stream API</h3>
 <pre><code class="language-java">public static double calcolaMedia(List&lt;Double&gt; valori) {
     Objects.requireNonNull(valori, &quot;La lista non può essere null&quot;);
     return valori.stream()
@@ -391,11 +399,11 @@ unboxing di <code>Double</code> → <code>double</code>. Preferirlo sempre per o
             .orElseThrow(() -&gt; new IllegalArgumentException(&quot;Lista vuota&quot;));
 }
 </code></pre>
-<h2 id="conteggio-condizionale"><a class="header-anchor" href="#conteggio-condizionale"><i class="bi bi-link-45deg"></i></a> Conteggio condizionale</h2>
-<h3 id="problema-2"><a class="header-anchor" href="#problema-2"><i class="bi bi-link-45deg"></i></a> Problema</h3>
+<h2 id="conteggio-condizionale">Conteggio condizionale</h2>
+<h3 id="problema-2">Problema</h3>
 <p>Contare quanti elementi soddisfano una certa condizione.<br>
 <em>Esempio: quanti importi superano una soglia.</em></p>
-<h3 id="implementazione-imperativa-2"><a class="header-anchor" href="#implementazione-imperativa-2"><i class="bi bi-link-45deg"></i></a> Implementazione imperativa</h3>
+<h3 id="implementazione-imperativa-2">Implementazione imperativa</h3>
 <pre><code class="language-java">public static long contaImportiMaggioriDi(List&lt;Double&gt; importi, double soglia) {
     Objects.requireNonNull(importi, &quot;La lista non può essere null&quot;);
     long conteggio = 0;
@@ -407,15 +415,15 @@ unboxing di <code>Double</code> → <code>double</code>. Preferirlo sempre per o
     return conteggio;
 }
 </code></pre>
-<h3 id="versione-con-stream-api-2"><a class="header-anchor" href="#versione-con-stream-api-2"><i class="bi bi-link-45deg"></i></a> Versione con Stream API</h3>
+<h3 id="versione-con-stream-api-2">Versione con Stream API</h3>
 <pre><code class="language-java">public static long contaImportiMaggioriDi(List&lt;Double&gt; importi, double soglia) {
     return importi.stream()
             .filter(i -&gt; i &gt; soglia)
             .count();
 }
 </code></pre>
-<h2 id="verifiche-logiche-su-collezioni"><a class="header-anchor" href="#verifiche-logiche-su-collezioni"><i class="bi bi-link-45deg"></i></a> Verifiche logiche su collezioni</h2>
-<h3 id="esiste-almeno-un-elemento-sotto-soglia-anymatch"><a class="header-anchor" href="#esiste-almeno-un-elemento-sotto-soglia-anymatch"><i class="bi bi-link-45deg"></i></a> Esiste almeno un elemento sotto soglia? (<code>anyMatch</code>)</h3>
+<h2 id="verifiche-logiche-su-collezioni">Verifiche logiche su collezioni</h2>
+<h3 id="esiste-almeno-un-elemento-sotto-soglia-anymatch">Esiste almeno un elemento sotto soglia? (<code>anyMatch</code>)</h3>
 <pre><code class="language-java">// Imperativa
 public boolean esisteImportoSottoSoglia(List&lt;Double&gt; importi, double soglia) {
     for (double importo : importi) {
@@ -428,7 +436,7 @@ public boolean esisteImportoSottoSoglia(List&lt;Double&gt; importi, double sogli
     return importi.stream().anyMatch(importo -&gt; importo &lt; soglia);
 }
 </code></pre>
-<h3 id="tutti-gli-elementi-sono-sopra-soglia-allmatch"><a class="header-anchor" href="#tutti-gli-elementi-sono-sopra-soglia-allmatch"><i class="bi bi-link-45deg"></i></a> Tutti gli elementi sono sopra soglia? (<code>allMatch</code>)</h3>
+<h3 id="tutti-gli-elementi-sono-sopra-soglia-allmatch">Tutti gli elementi sono sopra soglia? (<code>allMatch</code>)</h3>
 <pre><code class="language-java">// Imperativa
 public boolean tuttiSopraSoglia(List&lt;Double&gt; importi, double soglia) {
     for (double importo : importi) {
@@ -446,13 +454,13 @@ public boolean tuttiSopraSoglia(List&lt;Double&gt; importi, double soglia) {
 interrompono l'iterazione non appena la condizione è soddisfatta (o falsificata).<br>
 Su liste grandi questo può fare una differenza significativa di performance.</p>
 </blockquote>
-<h2 id="ricerca-e-filtraggio"><a class="header-anchor" href="#ricerca-e-filtraggio"><i class="bi bi-link-45deg"></i></a> Ricerca e Filtraggio</h2>
+<h2 id="ricerca-e-filtraggio">Ricerca e Filtraggio</h2>
 <p>La ricerca di elementi in una collezione è tra le operazioni più frequenti. La scelta<br>
 dell'algoritmo e della struttura dati ha un impatto diretto sulle prestazioni.</p>
-<h2 id="ricerca-lineare"><a class="header-anchor" href="#ricerca-lineare"><i class="bi bi-link-45deg"></i></a> Ricerca lineare</h2>
-<h3 id="problema-3"><a class="header-anchor" href="#problema-3"><i class="bi bi-link-45deg"></i></a> Problema</h3>
+<h2 id="ricerca-lineare">Ricerca lineare</h2>
+<h3 id="problema-3">Problema</h3>
 <p>Trovare un elemento in una lista tramite un campo chiave.</p>
-<h3 id="implementazione-imperativa-con-optional"><a class="header-anchor" href="#implementazione-imperativa-con-optional"><i class="bi bi-link-45deg"></i></a> Implementazione imperativa (con <code>Optional</code>)</h3>
+<h3 id="implementazione-imperativa-con-optional">Implementazione imperativa (con <code>Optional</code>)</h3>
 <pre><code class="language-java">public static Optional&lt;Product&gt; trovaPerCodice(List&lt;Product&gt; prodotti, String codice) {
     Objects.requireNonNull(codice, &quot;Il codice non può essere null&quot;);
     for (Product prodotto : prodotti) {
@@ -469,17 +477,17 @@ una fonte comune di <code>NullPointerException</code>. Usa sempre <code>Optional
 esplicitamente la possibile assenza di un risultato.</p>
 </blockquote>
 <p><strong>Complessità: O(n)</strong></p>
-<h3 id="versione-con-stream-api-3"><a class="header-anchor" href="#versione-con-stream-api-3"><i class="bi bi-link-45deg"></i></a> Versione con Stream API</h3>
+<h3 id="versione-con-stream-api-3">Versione con Stream API</h3>
 <pre><code class="language-java">public static Optional&lt;Product&gt; trovaPerCodice(List&lt;Product&gt; prodotti, String codice) {
     return prodotti.stream()
             .filter(p -&gt; p.codice().equals(codice))
             .findFirst();
 }
 </code></pre>
-<h2 id="filtraggio-multiplo"><a class="header-anchor" href="#filtraggio-multiplo"><i class="bi bi-link-45deg"></i></a> Filtraggio multiplo</h2>
-<h3 id="problema-4"><a class="header-anchor" href="#problema-4"><i class="bi bi-link-45deg"></i></a> Problema</h3>
+<h2 id="filtraggio-multiplo">Filtraggio multiplo</h2>
+<h3 id="problema-4">Problema</h3>
 <p>Estrarre tutti i prodotti che soddisfano più condizioni contemporaneamente.</p>
-<h3 id="implementazione-imperativa-3"><a class="header-anchor" href="#implementazione-imperativa-3"><i class="bi bi-link-45deg"></i></a> Implementazione imperativa</h3>
+<h3 id="implementazione-imperativa-3">Implementazione imperativa</h3>
 <pre><code class="language-java">public static List&lt;Product&gt; filtraProdotti(List&lt;Product&gt; prodotti, double prezzoMinimo) {
     List&lt;Product&gt; risultato = new ArrayList&lt;&gt;();
     for (Product prodotto : prodotti) {
@@ -490,7 +498,7 @@ esplicitamente la possibile assenza di un risultato.</p>
     return risultato;
 }
 </code></pre>
-<h3 id="versione-con-stream-api-4"><a class="header-anchor" href="#versione-con-stream-api-4"><i class="bi bi-link-45deg"></i></a> Versione con Stream API</h3>
+<h3 id="versione-con-stream-api-4">Versione con Stream API</h3>
 <pre><code class="language-java">public static List&lt;Product&gt; filtraProdotti(List&lt;Product&gt; prodotti, double prezzoMinimo) {
     return prodotti.stream()
             .filter(p -&gt; p.prezzo() &gt; prezzoMinimo)
@@ -503,7 +511,7 @@ esplicitamente la possibile assenza di un risultato.</p>
 metodo preferito. Restituisce una lista <strong>immutabile</strong>, il che rende il codice più<br>
 sicuro. Se hai bisogno di una lista mutabile, usa <code>collect(Collectors.toList())</code>.</p>
 </blockquote>
-<h2 id="ricerca-efficiente-con-map"><a class="header-anchor" href="#ricerca-efficiente-con-map"><i class="bi bi-link-45deg"></i></a> Ricerca efficiente con <code>Map</code></h2>
+<h2 id="ricerca-efficiente-con-map">Ricerca efficiente con <code>Map</code></h2>
 <p>Quando si effettuano ricerche frequenti per chiave univoca, indicizzare i dati in una<br>
 <code>Map</code> è molto più efficiente di una ricerca lineare su <code>List</code>.</p>
 <pre><code class="language-java">// Costruzione dell'indice (eseguita una sola volta)
@@ -547,12 +555,12 @@ Optional&lt;Product&gt; trovato = Optional.ofNullable(prodottiPerCodice.get(codi
     </table>
   </div>
 </div>
-<h2 id="selezione-e-ordinamento"><a class="header-anchor" href="#selezione-e-ordinamento"><i class="bi bi-link-45deg"></i></a> Selezione e Ordinamento</h2>
+<h2 id="selezione-e-ordinamento">Selezione e Ordinamento</h2>
 <p>Ordinare una collezione consente di confrontare, visualizzare e cercare dati in modo<br>
 prevedibile. Java utilizza <strong>TimSort</strong> — un algoritmo ibrido (MergeSort + InsertionSort)<br>
 ottimizzato per dati parzialmente ordinati, molto comune in scenari reali.</p>
 <p><strong>Complessità: O(n log n)</strong> nel caso medio e peggiore.</p>
-<h2 id="ordinamento-crescente-con-comparable"><a class="header-anchor" href="#ordinamento-crescente-con-comparable"><i class="bi bi-link-45deg"></i></a> Ordinamento crescente con <code>Comparable</code></h2>
+<h2 id="ordinamento-crescente-con-comparable">Ordinamento crescente con <code>Comparable</code></h2>
 <p>Se la classe implementa <code>Comparable&lt;T&gt;</code>, è possibile ordinare direttamente:</p>
 <pre><code class="language-java">public record Product(String codice, String nome, double prezzo, boolean disponibile)
         implements Comparable&lt;Product&gt; {
@@ -564,7 +572,7 @@ ottimizzato per dati parzialmente ordinati, molto comune in scenari reali.</p>
 // Utilizzo
 prodotti.sort(null); // usa l'ordinamento naturale definito da compareTo
 </code></pre>
-<h2 id="ordinamento-con-comparator-approccio-preferito"><a class="header-anchor" href="#ordinamento-con-comparator-approccio-preferito"><i class="bi bi-link-45deg"></i></a> Ordinamento con <code>Comparator</code> (approccio preferito)</h2>
+<h2 id="ordinamento-con-comparator-approccio-preferito">Ordinamento con <code>Comparator</code> (approccio preferito)</h2>
 <p><code>Comparator</code> è più flessibile perché non richiede di modificare la classe e permette<br>
 criteri multipli di ordinamento.</p>
 <pre><code class="language-java">// Per prezzo crescente
@@ -582,10 +590,10 @@ prodotti.sort(
 <code>Comparator.comparingDouble()</code>. <code>comparing()</code> usa il boxing a <code>Double</code>, introducendo<br>
 overhead non necessario in collezioni grandi.</p>
 </blockquote>
-<h2 id="gestione-dei-duplicati"><a class="header-anchor" href="#gestione-dei-duplicati"><i class="bi bi-link-45deg"></i></a> Gestione dei Duplicati</h2>
+<h2 id="gestione-dei-duplicati">Gestione dei Duplicati</h2>
 <p>Rilevare e gestire duplicati è un problema comune, ad esempio nella validazione di input<br>
 o nel processamento di batch di dati.</p>
-<h2 id="verificare-la-presenza-di-duplicati"><a class="header-anchor" href="#verificare-la-presenza-di-duplicati"><i class="bi bi-link-45deg"></i></a> Verificare la presenza di duplicati</h2>
+<h2 id="verificare-la-presenza-di-duplicati">Verificare la presenza di duplicati</h2>
 <pre><code class="language-java">public boolean contieneDuplicati(List&lt;Integer&gt; valori) {
     Set&lt;Integer&gt; valoriUnici = new HashSet&lt;&gt;();
     for (Integer valore : valori) {
@@ -597,7 +605,7 @@ o nel processamento di batch di dati.</p>
 }
 </code></pre>
 <p><strong>Complessità: O(n)</strong> — ogni <code>add()</code> su <code>HashSet</code> è O(1) in media.</p>
-<h2 id="rimuovere-i-duplicati-da-una-lista"><a class="header-anchor" href="#rimuovere-i-duplicati-da-una-lista"><i class="bi bi-link-45deg"></i></a> Rimuovere i duplicati da una lista</h2>
+<h2 id="rimuovere-i-duplicati-da-una-lista">Rimuovere i duplicati da una lista</h2>
 <pre><code class="language-java">// Metodo 1: tramite Set (non preserva l'ordine)
 List&lt;String&gt; senzaDuplicati = new ArrayList&lt;&gt;(new HashSet&lt;&gt;(listaConDuplicati));
 // Metodo 2: tramite LinkedHashSet (preserva l'ordine di inserimento)
@@ -609,7 +617,7 @@ List&lt;String&gt; senzaDuplicatiStream = listaConDuplicati.stream()
         .distinct()
         .toList();
 </code></pre>
-<h2 id="deduplicazione-per-campo-specifico"><a class="header-anchor" href="#deduplicazione-per-campo-specifico"><i class="bi bi-link-45deg"></i></a> Deduplicazione per campo specifico</h2>
+<h2 id="deduplicazione-per-campo-specifico">Deduplicazione per campo specifico</h2>
 <p>Spesso si vogliono rimuovere oggetti &quot;duplicati&quot; in base a un campo, non per uguaglianza<br>
 totale. Un pattern comune usa <code>Collectors.toMap()</code>:</p>
 <pre><code class="language-java">// Mantiene il primo prodotto trovato per ogni codice
@@ -623,10 +631,10 @@ List&lt;Product&gt; prodottiUnici = new ArrayList&lt;&gt;(
             .values()
 );
 </code></pre>
-<h2 id="trasformazione-dei-dati-mapping"><a class="header-anchor" href="#trasformazione-dei-dati-mapping"><i class="bi bi-link-45deg"></i></a> Trasformazione dei Dati (Mapping)</h2>
+<h2 id="trasformazione-dei-dati-mapping">Trasformazione dei Dati (Mapping)</h2>
 <p>Trasformare una collezione di oggetti in un'altra è un'operazione fondamentale, spesso<br>
 chiamata <strong>mapping</strong>. Con la Stream API, questo processo diventa conciso ed espressivo.</p>
-<h2 id="trasformazione-semplice-estrarre-un-campo"><a class="header-anchor" href="#trasformazione-semplice-estrarre-un-campo"><i class="bi bi-link-45deg"></i></a> Trasformazione semplice: estrarre un campo</h2>
+<h2 id="trasformazione-semplice-estrarre-un-campo">Trasformazione semplice: estrarre un campo</h2>
 <pre><code class="language-java">// Imperativa
 public static List&lt;String&gt; estraiNomi(List&lt;Product&gt; prodotti) {
     List&lt;String&gt; nomi = new ArrayList&lt;&gt;();
@@ -642,28 +650,28 @@ public static List&lt;String&gt; estraiNomi(List&lt;Product&gt; prodotti) {
             .toList();
 }
 </code></pre>
-<h2 id="collectors-avanzati"><a class="header-anchor" href="#collectors-avanzati"><i class="bi bi-link-45deg"></i></a> Collectors avanzati</h2>
+<h2 id="collectors-avanzati">Collectors avanzati</h2>
 <p>I <code>Collector</code> di Java permettono aggregazioni sofisticate in una sola passata sulla<br>
 collezione. Sono uno strumento essenziale per chi lavora con pipeline di dati.</p>
-<h3 id="raggruppamento-groupingby"><a class="header-anchor" href="#raggruppamento-groupingby"><i class="bi bi-link-45deg"></i></a> Raggruppamento (<code>groupingBy</code>)</h3>
+<h3 id="raggruppamento-groupingby">Raggruppamento (<code>groupingBy</code>)</h3>
 <p>Raggruppa i prodotti per disponibilità:</p>
 <pre><code class="language-java">Map&lt;Boolean, List&lt;Product&gt;&gt; perDisponibilita = prodotti.stream()
         .collect(Collectors.groupingBy(Product::disponibile));
 List&lt;Product&gt; disponibili   = perDisponibilita.get(true);
 List&lt;Product&gt; nonDisponibili = perDisponibilita.get(false);
 </code></pre>
-<h3 id="partizione-partitioningby"><a class="header-anchor" href="#partizione-partitioningby"><i class="bi bi-link-45deg"></i></a> Partizione (<code>partitioningBy</code>)</h3>
+<h3 id="partizione-partitioningby">Partizione (<code>partitioningBy</code>)</h3>
 <p>Versione specializzata di <code>groupingBy</code> per predicati booleani — più efficiente e<br>
 semanticamente più chiara:</p>
 <pre><code class="language-java">Map&lt;Boolean, List&lt;Product&gt;&gt; partizione = prodotti.stream()
         .collect(Collectors.partitioningBy(p -&gt; p.prezzo() &gt; 100.0));
 </code></pre>
-<h3 id="costruzione-di-una-map-tomap"><a class="header-anchor" href="#costruzione-di-una-map-tomap"><i class="bi bi-link-45deg"></i></a> Costruzione di una Map (<code>toMap</code>)</h3>
+<h3 id="costruzione-di-una-map-tomap">Costruzione di una Map (<code>toMap</code>)</h3>
 <pre><code class="language-java">// Map&lt;codice, nomeProdotto&gt;
 Map&lt;String, String&gt; codiceToNome = prodotti.stream()
         .collect(Collectors.toMap(Product::codice, Product::nome));
 </code></pre>
-<h3 id="conteggio-per-gruppo-groupingby-counting"><a class="header-anchor" href="#conteggio-per-gruppo-groupingby-counting"><i class="bi bi-link-45deg"></i></a> Conteggio per gruppo (<code>groupingBy</code> + <code>counting</code>)</h3>
+<h3 id="conteggio-per-gruppo-groupingby-counting">Conteggio per gruppo (<code>groupingBy</code> + <code>counting</code>)</h3>
 <pre><code class="language-java">// Quanti prodotti per fascia di prezzo? (esempio semplificato)
 Map&lt;String, Long&gt; conteggioPerFascia = prodotti.stream()
         .collect(Collectors.groupingBy(
@@ -671,7 +679,7 @@ Map&lt;String, Long&gt; conteggioPerFascia = prodotti.stream()
             Collectors.counting()
         ));
 </code></pre>
-<h2 id="parallel-streams-quando-usarli-e-quando-no"><a class="header-anchor" href="#parallel-streams-quando-usarli-e-quando-no"><i class="bi bi-link-45deg"></i></a> Parallel Streams: quando usarli (e quando no)</h2>
+<h2 id="parallel-streams-quando-usarli-e-quando-no">Parallel Streams: quando usarli (e quando no)</h2>
 <p>La Stream API supporta l'elaborazione parallela tramite <code>parallelStream()</code>. È una<br>
 funzionalità potente, ma va usata con cautela.</p>
 <pre><code class="language-java">// Esempio di parallel stream per somma su lista molto grande
@@ -694,7 +702,7 @@ double totale = importiMoltoGrandi.parallelStream()
 <p><strong>Regola pratica:</strong> Misura sempre con un benchmark reale (es. JMH) prima di passare<br>
 a <code>parallelStream()</code>. In molti casi la versione sequenziale è più veloce.</p>
 </blockquote>
-<h2 id="scelta-delle-strutture-dati"><a class="header-anchor" href="#scelta-delle-strutture-dati"><i class="bi bi-link-45deg"></i></a> Scelta delle Strutture Dati</h2>
+<h2 id="scelta-delle-strutture-dati">Scelta delle Strutture Dati</h2>
 <p>La struttura dati corretta può fare la differenza tra un'applicazione performante e una<br>
 che degrada sotto carico. La tabella seguente riassume le complessità principali.</p>
 <div class="container mb-3">
@@ -779,7 +787,7 @@ che degrada sotto carico. La tabella seguente riassume le complessità principal
     </table>
   </div>
 </div>
-<h3 id="linee-guida-pratiche"><a class="header-anchor" href="#linee-guida-pratiche"><i class="bi bi-link-45deg"></i></a> Linee guida pratiche</h3>
+<h3 id="linee-guida-pratiche">Linee guida pratiche</h3>
 <ul>
 <li><strong>Hai bisogno di accesso casuale per indice?</strong> → <code>ArrayList</code></li>
 <li><strong>Inserisci/rimuovi spesso in testa o in coda?</strong> → <code>ArrayDeque</code> (non <code>LinkedList</code>)</li>

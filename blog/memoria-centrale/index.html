@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -295,7 +303,7 @@
     
 
     <section class="content">
-      <h2 id="fondamenti-della-memoria-centrale"><a class="header-anchor" href="#fondamenti-della-memoria-centrale"><i class="bi bi-link-45deg"></i></a> Fondamenti della Memoria Centrale</h2>
+      <h2 id="fondamenti-della-memoria-centrale">Fondamenti della Memoria Centrale</h2>
 <p>Per essere eseguiti, i programmi e i dati devono risiedere, almeno in parte, nella memoria centrale. Le principali tipologie di memoria includono:</p>
 <ul>
 <li><strong>ROM (Read-Only Memory):</strong> Memoria non volatile che mantiene i dati anche senza alimentazione.</li>
@@ -303,14 +311,14 @@
 <li><strong>Cache:</strong> Memoria volatile molto più veloce della RAM, posta tra CPU e RAM per ottimizzare le prestazioni.</li>
 </ul>
 <p><strong>Best practice:</strong> In applicazioni Python o Java, un uso attento delle strutture dati e della gestione della memoria heap può ridurre il carico sulla RAM e migliorare la scalabilità.</p>
-<h2 id="protezione-della-memoria"><a class="header-anchor" href="#protezione-della-memoria"><i class="bi bi-link-45deg"></i></a> Protezione della Memoria</h2>
+<h2 id="protezione-della-memoria">Protezione della Memoria</h2>
 <p>Il sistema operativo deve garantire che i processi utente siano isolati tra loro e protetti dagli accessi non autorizzati. La protezione avviene a <strong>livello hardware</strong>, riducendo l’impatto sulle prestazioni. I meccanismi principali sono:</p>
 <ul>
 <li><strong>Registro Base:</strong> Contiene l’indirizzo fisico più basso accessibile a un processo.</li>
 <li><strong>Registro Limite:</strong> Definisce l’intervallo massimo di indirizzi utilizzabili.</li>
 <li><strong>Eccezioni/Trap:</strong> Tentativi di accesso non autorizzato generano errori hardware che riportano il controllo al sistema operativo.</li>
 </ul>
-<h2 id="associazione-degli-indirizzi-binding"><a class="header-anchor" href="#associazione-degli-indirizzi-binding"><i class="bi bi-link-45deg"></i></a> Associazione degli Indirizzi (Binding)</h2>
+<h2 id="associazione-degli-indirizzi-binding">Associazione degli Indirizzi (Binding)</h2>
 <p>Gli indirizzi di memoria di un programma evolvono lungo le fasi di esecuzione:</p>
 <ul>
 <li><strong>Indirizzi simbolici:</strong> Nomi di variabili nel codice sorgente.</li>
@@ -318,7 +326,7 @@
 <li><strong>Codice assoluto:</strong> Se la posizione è nota in fase di compilazione.</li>
 <li><strong>Associazione a runtime:</strong> Necessaria quando un processo può essere spostato durante l’esecuzione.</li>
 </ul>
-<h2 id="spazi-di-indirizzamento-e-mmu"><a class="header-anchor" href="#spazi-di-indirizzamento-e-mmu"><i class="bi bi-link-45deg"></i></a> Spazi di Indirizzamento e MMU</h2>
+<h2 id="spazi-di-indirizzamento-e-mmu">Spazi di Indirizzamento e MMU</h2>
 <p>Esiste una distinzione fondamentale tra <strong>indirizzo virtuale/logico</strong> (generato dalla CPU) e <strong>indirizzo fisico</strong> (usato dalla RAM). La <strong>MMU (Memory Management Unit)</strong> effettua la traduzione dinamica degli indirizzi logici in fisici, spesso sommando un registro di rilocazione.</p>
 <div class="d-flex align-items-center gap-2 flex-wrap my-4">
   <div class="border rounded px-3 py-2 bg-body text-center fw-bold">
@@ -340,7 +348,7 @@
   </div>
 </div>
 <p>Nei sistemi moderni, la MMU supporta paginazione a più livelli e segmentazione, fondamentali per la gestione di grandi spazi di memoria in ambienti cloud.</p>
-<h2 id="allocazione-contigua-della-memoria"><a class="header-anchor" href="#allocazione-contigua-della-memoria"><i class="bi bi-link-45deg"></i></a> Allocazione Contigua della Memoria</h2>
+<h2 id="allocazione-contigua-della-memoria">Allocazione Contigua della Memoria</h2>
 <p>Nell’<strong>allocazione contigua</strong>, ogni processo riceve un blocco unico e continuo di memoria fisica. Questo approccio è semplice e veloce, poiché il calcolo dell’indirizzo fisico è diretto (basta sommare un offset), ma può generare inefficienze se la memoria si frammenta nel tempo.</p>
 <p>Gli algoritmi principali per scegliere quale porzione di memoria assegnare a un processo sono:</p>
 <ul>
@@ -349,7 +357,7 @@
 <li><strong>Worst-fit:</strong> Assegna lo spazio più grande disponibile. L’idea è che i blocchi residui possano ancora servire ad altri processi. Svantaggio: spesso spreca memoria e non è comune nei sistemi moderni.</li>
 </ul>
 <p><strong>Approfondimento pratico:</strong> Nei linguaggi gestiti come Java, il garbage collector e lo heap gestiscono automaticamente l’allocazione contigua interna degli oggetti, riducendo la complessità per lo sviluppatore, ma la frammentazione può comunque influire sulle performance.</p>
-<h2 id="frammentazione-della-memoria"><a class="header-anchor" href="#frammentazione-della-memoria"><i class="bi bi-link-45deg"></i></a> Frammentazione della Memoria</h2>
+<h2 id="frammentazione-della-memoria">Frammentazione della Memoria</h2>
 <p>L’allocazione contigua può portare a due tipi principali di inefficienza:</p>
 <ul>
 <li>
@@ -360,7 +368,7 @@
 </li>
 </ul>
 <p><strong>Nota tecnica:</strong> Nei sistemi moderni, la frammentazione interna può essere mitigata tramite <strong>heap dinamici</strong>, <strong>pool di oggetti</strong> o allocatori di memoria slab (come quelli usati in kernel Linux) che riducono gli sprechi nei blocchi di piccola dimensione.</p>
-<h2 id="soluzioni-alla-frammentazione"><a class="header-anchor" href="#soluzioni-alla-frammentazione"><i class="bi bi-link-45deg"></i></a> Soluzioni alla Frammentazione</h2>
+<h2 id="soluzioni-alla-frammentazione">Soluzioni alla Frammentazione</h2>
 <p>Per ridurre le inefficienze causate dalla frammentazione, i sistemi operativi adottano tecniche avanzate:</p>
 <ul>
 <li>

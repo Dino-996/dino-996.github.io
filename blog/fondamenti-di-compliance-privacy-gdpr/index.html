@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -349,8 +357,8 @@
     
 
     <section class="content">
-      <h1 id="fondamenti-di-compliance-privacy-e-gdpr"><a class="header-anchor" href="#fondamenti-di-compliance-privacy-e-gdpr"><i class="bi bi-link-45deg"></i></a> Fondamenti di compliance, privacy e GDPR</h1>
-<h2 id="compliance-standard-e-framework"><a class="header-anchor" href="#compliance-standard-e-framework"><i class="bi bi-link-45deg"></i></a> Compliance, standard e framework</h2>
+      <h1 id="fondamenti-di-compliance-privacy-e-gdpr">Fondamenti di compliance, privacy e GDPR</h1>
+<h2 id="compliance-standard-e-framework">Compliance, standard e framework</h2>
 <p>Nel panorama della sicurezza informatica e della gestione dei dati, tre categorie strutturano l'approccio normativo e operativo di qualsiasi organizzazione.</p>
 <p>La <strong>compliance</strong> (aderenza normativa) indica l'obbligo di conformarsi a norme cogenti: leggi come il GDPR, regolamenti di settore, oppure normative internazionali come l'<strong>HIPAA</strong> (Health Insurance Portability and Accountability Act), la normativa statunitense a protezione delle informazioni sanitarie.</p>
 <p>Gli <strong>standard</strong> (es. la famiglia ISO 27001) rappresentano insiemi di best practice riconosciute a livello internazionale. Non hanno forza di legge, ma vengono adottati volontariamente per garantire qualità, sicurezza e interoperabilità dei processi.</p>
@@ -383,17 +391,17 @@
     </tbody>
   </table>
 </div>
-<h2 id="il-gdpr-regolamento-europeo-sulla-protezione-dei-dati"><a class="header-anchor" href="#il-gdpr-regolamento-europeo-sulla-protezione-dei-dati"><i class="bi bi-link-45deg"></i></a> Il GDPR: regolamento europeo sulla protezione dei dati</h2>
+<h2 id="il-gdpr-regolamento-europeo-sulla-protezione-dei-dati">Il GDPR: regolamento europeo sulla protezione dei dati</h2>
 <p>Il <strong>GDPR</strong> (General Data Protection Regulation), in italiano <strong>RGPD</strong> (Regolamento Generale sulla Protezione dei Dati), è il <strong>Regolamento (UE) 2016/679</strong> del Parlamento Europeo e del Consiglio. È stato pubblicato sulla Gazzetta Ufficiale dell'Unione Europea il **4 maggio 2016 **ed è divenuto applicabile in tutti gli Stati membri a partire dal <strong>25 maggio 2018</strong>.</p>
 <p>Una caratteristica fondamentale del GDPR è che, in quanto regolamento europeo, è <strong>direttamente applicabile senza necessità di recepimento</strong> nella legislazione nazionale, a differenza delle direttive UE che richiedono una norma di attuazione interna.</p>
 <p>Il GDPR disciplina il trattamento dei <strong>dati personali delle persone fisiche</strong>, indipendentemente dalle modalità con cui tali dati vengono raccolti o trattati.</p>
-<h2 id="le-figure-chiave-del-gdpr"><a class="header-anchor" href="#le-figure-chiave-del-gdpr"><i class="bi bi-link-45deg"></i></a> Le figure chiave del GDPR</h2>
-<h3 id="il-titolare-del-trattamento"><a class="header-anchor" href="#il-titolare-del-trattamento"><i class="bi bi-link-45deg"></i></a> Il titolare del trattamento</h3>
+<h2 id="le-figure-chiave-del-gdpr">Le figure chiave del GDPR</h2>
+<h3 id="il-titolare-del-trattamento">Il titolare del trattamento</h3>
 <p>Ai sensi del GDPR, il <strong>titolare del trattamento</strong> (<em>Data Controller</em>) è la persona fisica o giuridica, l'autorità pubblica, il servizio o qualsiasi altro organismo che, singolarmente o insieme ad altri, <strong>determina le finalità e i mezzi del trattamento</strong> dei dati personali.</p>
 <blockquote>
 <p>In pratica: l'azienda o l'ente che decide perché raccogliere un dato e come trattarlo è il titolare. Su di esso ricade la responsabilità primaria di compliance.</p>
 </blockquote>
-<h3 id="il-responsabile-del-trattamento"><a class="header-anchor" href="#il-responsabile-del-trattamento"><i class="bi bi-link-45deg"></i></a> Il responsabile del trattamento</h3>
+<h3 id="il-responsabile-del-trattamento">Il responsabile del trattamento</h3>
 <p>Il <strong>responsabile del trattamento</strong> (<em>Data Processor</em>) è la persona fisica o giuridica, l'autorità pubblica, il servizio o qualsiasi altro organismo che <strong>tratta dati personali per conto del titolare del trattamento</strong>, sulla base di istruzioni contrattuali formalizzate in un Data Processing Agreement (DPA).</p>
 <blockquote>
 <p>In pratica: un provider cloud, una piattaforma di email marketing o un sistema di analytics esterno che elabora dati per conto di un'azienda cliente agisce da Processor.</p>
@@ -426,7 +434,7 @@
     </tbody>
   </table>
 </div>
-<h3 id="i-diritti-dellinteressato"><a class="header-anchor" href="#i-diritti-dellinteressato"><i class="bi bi-link-45deg"></i></a> I diritti dell'interessato</h3>
+<h3 id="i-diritti-dellinteressato">I diritti dell'interessato</h3>
 <p>L'<strong>interessato</strong> (<em>Data Subject</em>) è la persona fisica i cui dati personali vengono trattati. Il GDPR gli attribuisce una serie di diritti fondamentali, che il titolare è tenuto a garantire in modo <strong>semplice, sempre accessibile e con esecuzione rapida</strong>:</p>
 <ul>
 <li><strong>Diritto di accesso</strong> (<em>Art. 15</em>): conoscere se e quali dati vengono trattati e ottenerne copia.</li>
@@ -435,7 +443,7 @@
 <li><strong>Diritto alla portabilità</strong> (<em>Art. 20</em>): ricevere i propri dati in un formato strutturato, di uso comune e leggibile da dispositivo automatico.</li>
 <li><strong>Diritto di opposizione</strong> (<em>Art. 21</em>): opporsi al trattamento in determinati contesti, come il marketing diretto.</li>
 </ul>
-<h3 id="dati-personali-e-dati-sensibili"><a class="header-anchor" href="#dati-personali-e-dati-sensibili"><i class="bi bi-link-45deg"></i></a> Dati personali e dati sensibili</h3>
+<h3 id="dati-personali-e-dati-sensibili">Dati personali e dati sensibili</h3>
 <p>Il GDPR distingue tra <strong>dati personali comuni</strong> e <strong>categorie particolari di dati</strong> (comunemente detti <em>dati sensibili</em>), elencate all'<strong>Art. 9</strong>, il cui trattamento è soggetto a restrizioni più severe.</p>
 <p>Rientrano nelle categorie particolari:</p>
 <ul>
@@ -449,7 +457,7 @@
 <li>Vita sessuale e orientamento sessuale</li>
 </ul>
 <p><strong>Immagini e video</strong> che ritraggono una persona costituiscono dati personali in quanto possono identificare un individuo, ma <strong>non rientrano automaticamente nelle categorie particolari ai sensi dell'Art. 9</strong>. Fanno eccezione i casi in cui vengano utilizzati per il riconoscimento biometrico o rivelino attributi sensibili della persona.</p>
-<h3 id="linformativa-privacy-art-13-gdpr"><a class="header-anchor" href="#linformativa-privacy-art-13-gdpr"><i class="bi bi-link-45deg"></i></a> L'informativa privacy (Art. 13 GDPR)</h3>
+<h3 id="linformativa-privacy-art-13-gdpr">L'informativa privacy (Art. 13 GDPR)</h3>
 <p>Quando i dati personali sono raccolti direttamente presso l'interessato, il titolare è obbligato a fornire un'<strong>informativa completa</strong> ai sensi dell'<strong>Art. 13 del GDPR</strong>, che deve includere almeno:</p>
 <ul>
 <li>Identità e dati di contatto del titolare e dell'eventuale rappresentante</li>
@@ -464,7 +472,7 @@
 <li>Diritto di proporre reclamo all'Autorità Garante per la Protezione dei Dati Personali</li>
 <li>Natura obbligatoria o facoltativa del conferimento dei dati e conseguenze del rifiuto</li>
 </ul>
-<h2 id="il-consenso-valido-al-trattamento"><a class="header-anchor" href="#il-consenso-valido-al-trattamento"><i class="bi bi-link-45deg"></i></a> Il consenso valido al trattamento</h2>
+<h2 id="il-consenso-valido-al-trattamento">Il consenso valido al trattamento</h2>
 <p>Per raccogliere un <strong>consenso valido</strong> ai sensi del GDPR, non è sufficiente una generica accettazione. Il titolare deve:</p>
 <ul>
 <li>Specificare le finalità per le quali il dato viene richiesto.</li>
@@ -473,13 +481,13 @@
 <li>Ottenere un consenso che sia libero, specifico, informato e inequivocabile.</li>
 <li>Garantire che il rifiuto del consenso non comporti conseguenze negative per l'interessato.</li>
 </ul>
-<h2 id="la-direttiva-nis2"><a class="header-anchor" href="#la-direttiva-nis2"><i class="bi bi-link-45deg"></i></a> La direttiva NIS2</h2>
-<h3 id="cose-la-nis2-e-perche-nasce"><a class="header-anchor" href="#cose-la-nis2-e-perche-nasce"><i class="bi bi-link-45deg"></i></a> Cos'è la NIS2 e perché nasce</h3>
+<h2 id="la-direttiva-nis2">La direttiva NIS2</h2>
+<h3 id="cose-la-nis2-e-perche-nasce">Cos'è la NIS2 e perché nasce</h3>
 <p>La <strong>Direttiva (UE) 2022/2555</strong>, comunemente nota come <strong>NIS2</strong> (<em>Network and Information Security 2</em>), rappresenta il principale strumento normativo europeo in materia di <strong>cybersicurezza delle infrastrutture digitali e dei servizi essenziali</strong>.<br>
 Pubblicata nella Gazzetta Ufficiale dell'Unione Europea il 27 dicembre 2022 ed entrata in vigore il 16 gennaio 2023, ha sostituito la precedente Direttiva NIS del 2016, il cui ambito di applicazione si era rivelato troppo limitato rispetto all'evoluzione del panorama delle minacce informatiche.</p>
 <p>A differenza del GDPR, che è un <strong>regolamento</strong> direttamente applicabile in tutti gli Stati membri senza necessità di recepimento, la NIS2 è una <strong>direttiva</strong>: ciascuno Stato membro è tenuto a trasporla nel proprio ordinamento nazionale entro la scadenza stabilita. In Italia il recepimento è avvenuto con la pubblicazione del Decreto Legislativo 138/2024, entrato in vigore il 18 ottobre 2024.</p>
 <p>Al momento della scadenza del 17 ottobre 2024, soltanto quattro Paesi (Belgio, Croazia, Italia e Lituania) avevano completato pienamente il recepimento, portando la Commissione europea ad avviare procedure d'infrazione contro ventitré Stati membri. A maggio 2026, 22 dei 27 Stati membri hanno adottato la legge di recepimento, mentre cinque (Francia, Irlanda, Lussemburgo, Paesi Bassi e Spagna) sono ancora in iter legislativo.</p>
-<h3 id="nis1-vs-nis2"><a class="header-anchor" href="#nis1-vs-nis2"><i class="bi bi-link-45deg"></i></a> NIS1 vs NIS2</h3>
+<h3 id="nis1-vs-nis2">NIS1 vs NIS2</h3>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
     <thead class="table-dark">
@@ -523,7 +531,7 @@ Pubblicata nella Gazzetta Ufficiale dell'Unione Europea il 27 dicembre 2022 ed e
     </tbody>
   </table>
 </div>
-<h3 id="soggetti-essenziali-e-soggetti-importanti"><a class="header-anchor" href="#soggetti-essenziali-e-soggetti-importanti"><i class="bi bi-link-45deg"></i></a> Soggetti essenziali e soggetti importanti</h3>
+<h3 id="soggetti-essenziali-e-soggetti-importanti">Soggetti essenziali e soggetti importanti</h3>
 <p>La NIS2 introduce una classificazione binaria delle organizzazioni in perimetro, con obblighi e regimi di vigilanza differenziati.</p>
 <p>I <strong>soggetti essenziali</strong> operano in settori ad alta criticità come energia, trasporti, sanità, banche, infrastrutture dei mercati finanziari, acqua potabile, acque reflue, infrastrutture digitali, pubblica amministrazione e spazio.</p>
 <p>I <strong>soggetti importanti</strong> comprendono altri settori critici come servizi postali, gestione dei rifiuti, produzione e distribuzione alimentare, fabbricazione di sostanze chimiche, produzione di dispositivi medici, servizi digitali e organizzazioni di ricerca.</p>
@@ -554,7 +562,7 @@ Pubblicata nella Gazzetta Ufficiale dell'Unione Europea il 27 dicembre 2022 ed e
     </tbody>
   </table>
 </div>
-<h3 id="obblighi-principali-per-le-organizzazioni-in-perimetro"><a class="header-anchor" href="#obblighi-principali-per-le-organizzazioni-in-perimetro"><i class="bi bi-link-45deg"></i></a> Obblighi principali per le organizzazioni in perimetro</h3>
+<h3 id="obblighi-principali-per-le-organizzazioni-in-perimetro">Obblighi principali per le organizzazioni in perimetro</h3>
 <p>Le organizzazioni classificate come soggetti essenziali o importanti devono adottare un insieme strutturato di misure tecniche, operative e organizzative. Gli obblighi principali previsti dal D.Lgs. 138/2024 includono:</p>
 <ul>
 <li><strong>Gestione del rischio informatico</strong>: esecuzione di valutazioni periodiche del rischio, con identificazione degli asset critici IT e OT (sistemi operativi industriali), servizi cloud e software di terzi.</li>
@@ -563,11 +571,11 @@ Pubblicata nella Gazzetta Ufficiale dell'Unione Europea il 27 dicembre 2022 ed e
 <li><strong>Formazione del personale</strong>: programmi continuativi di sensibilizzazione su procedure di sicurezza e segnalazione degli incidenti.</li>
 <li><strong>Responsabilità dei vertici aziendali</strong>: i dirigenti rispondono personalmente dell'adeguatezza delle misure adottate e devono approvare e supervisionare i piani di gestione del rischio.</li>
 </ul>
-<h3 id="notifica-degli-incidenti-significativi"><a class="header-anchor" href="#notifica-degli-incidenti-significativi"><i class="bi bi-link-45deg"></i></a> Notifica degli incidenti significativi</h3>
+<h3 id="notifica-degli-incidenti-significativi">Notifica degli incidenti significativi</h3>
 <p>La notifica degli incidenti alla sicurezza informatica segue un processo a fasi: pre-notifica entro 24 ore dall'accaduto. Segue una notifica completa entro 72 ore e un rapporto finale entro un mese. Tutte le notifiche vanno indirizzate al <strong>CSIRT Italia</strong>, che opera presso l'<strong>ACN</strong> (<em>Agenzia per la Cybersicurezza Nazionale</em>), autorità nazionale competente <strong>NIS</strong>.</p>
-<h2 id="scadenze-operative-per-i-soggetti-italiani"><a class="header-anchor" href="#scadenze-operative-per-i-soggetti-italiani"><i class="bi bi-link-45deg"></i></a> Scadenze operative per i soggetti italiani</h2>
+<h2 id="scadenze-operative-per-i-soggetti-italiani">Scadenze operative per i soggetti italiani</h2>
 <p>Il D.Lgs. 138/2024 ha introdotto scadenze concrete per l'adeguamento: entro gennaio 2025 i soggetti interessati dovevano registrarsi sulla piattaforma digitale dell'ACN, con autovalutazione per determinare l'appartenenza alle categorie di soggetti essenziali o importanti. Entro aprile 2025 l'ACN avrebbe pubblicato l'elenco ufficiale dei soggetti essenziali e importanti. Dalla data di ricezione della comunicazione di inserimento nell'elenco, decorrono 18 mesi per adottare le misure di sicurezza di base e 9 mesi per adempiere all'obbligo di notifica degli incidenti significativi.</p>
-<h2 id="gdpr-e-nis2"><a class="header-anchor" href="#gdpr-e-nis2"><i class="bi bi-link-45deg"></i></a> GDPR e NIS2</h2>
+<h2 id="gdpr-e-nis2">GDPR e NIS2</h2>
 <p>Un equivoco comune è considerare GDPR e NIS2 come normative alternative o ridondanti. In realtà operano su piani distinti e si integrano a vicenda.</p>
 <p>Il <strong>GDPR</strong> tutela i <strong>diritti delle persone fisiche</strong> in relazione al trattamento dei loro dati personali: definisce chi può raccogliere dati, con quale base giuridica e per quali finalità.</p>
 <p>La <strong>NIS2</strong> si occupa invece della <strong>resilienza delle infrastrutture digitali</strong> e della continuità dei servizi essenziali: impone alle organizzazioni di mettere in sicurezza i propri sistemi informativi indipendentemente dal tipo di dato trattato.</p>

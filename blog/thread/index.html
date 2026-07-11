@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -295,7 +303,7 @@
     
 
     <section class="content">
-      <h2 id="thread"><a class="header-anchor" href="#thread"><i class="bi bi-link-45deg"></i></a> Thread</h2>
+      <h2 id="thread">Thread</h2>
 <p>Il thread rappresenta l’unità minima di esecuzione schedulabile dalla CPU all’interno di un processo. Dal punto di vista architetturale, ciascun thread è caratterizzato da:</p>
 <ul>
 <li>un identificatore univoco;</li>
@@ -311,7 +319,7 @@
 <li><strong>Modularità progettuale</strong>: la decomposizione di un’applicazione in unità concorrenti favorisce una strutturazione più chiara delle responsabilità.</li>
 <li><strong>Scalabilità su architetture multicore</strong>: la presenza di più unità di esecuzione fisiche permette l’esecuzione realmente parallela dei thread.</li>
 </ul>
-<h2 id="concorrenza-parallelismo-e-architetture-eterogenee"><a class="header-anchor" href="#concorrenza-parallelismo-e-architetture-eterogenee"><i class="bi bi-link-45deg"></i></a> Concorrenza, Parallelismo e Architetture Eterogenee</h2>
+<h2 id="concorrenza-parallelismo-e-architetture-eterogenee">Concorrenza, Parallelismo e Architetture Eterogenee</h2>
 <p>Nel contesto dei sistemi moderni è necessario distinguere rigorosamente tra concorrenza e parallelismo, abbiamo già affrontato l'argomento quando parlavamo dei processi ma è bene ripetere i concetti al fine di fissare bene le idee.</p>
 <p>La <strong>concorrenza</strong> è una proprietà logica del sistema: più task progrediscono nel tempo, anche se non necessariamente in modo simultaneo. In un sistema single-core, ciò avviene tramite time slicing e meccanismi di scheduling preemptive.</p>
 <p>Il <strong>parallelismo</strong>, invece, è una proprietà fisica dell’hardware: più task sono eseguiti simultaneamente su core distinti. Il parallelismo rappresenta quindi un caso particolare di concorrenza in presenza di risorse computazionali multiple.</p>
@@ -323,7 +331,7 @@
 <li>addestramento di modelli di deep learning;</li>
 <li>simulazioni fisiche su larga scala.</li>
 </ul>
-<h2 id="modelli-di-implementazione-del-multithreading"><a class="header-anchor" href="#modelli-di-implementazione-del-multithreading"><i class="bi bi-link-45deg"></i></a> Modelli di Implementazione del Multithreading</h2>
+<h2 id="modelli-di-implementazione-del-multithreading">Modelli di Implementazione del Multithreading</h2>
 <p>Dal punto di vista sistemistico, si distinguono thread a livello utente e thread a livello kernel.</p>
 <p>I <strong>thread a livello utente</strong> sono gestiti da librerie in spazio utente, senza intervento diretto del kernel nelle operazioni di scheduling interne al processo.</p>
 <p>I <strong>thread a livello kernel</strong> sono invece entità direttamente note al sistema operativo, il quale ne gestisce pianificazione, sospensione e sincronizzazione.</p>
@@ -335,7 +343,7 @@
 <li><strong>Two-Level Model</strong>: estensione del many-to-many che consente l’associazione vincolata di specifici thread utente a determinati thread kernel.</li>
 </ul>
 <p>La scelta del modello influenza direttamente prestazioni, prevedibilità temporale e complessità di gestione.</p>
-<h2 id="astrazioni-di-programmazione-e-threading-implicito"><a class="header-anchor" href="#astrazioni-di-programmazione-e-threading-implicito"><i class="bi bi-link-45deg"></i></a> Astrazioni di Programmazione e Threading Implicito</h2>
+<h2 id="astrazioni-di-programmazione-e-threading-implicito">Astrazioni di Programmazione e Threading Implicito</h2>
 <p>Le principali interfacce di programmazione concorrente includono:</p>
 <ul>
 <li><strong>POSIX Threads (Pthreads)</strong>: standard che definisce primitive per creazione, sincronizzazione e gestione dei thread in ambienti Unix-like.</li>
@@ -349,7 +357,7 @@
 <li><strong>OpenMP, Grand Central Dispatch, Intel TBB</strong>: tecnologie che forniscono direttive e costrutti di alto livello per la parallelizzazione controllata.</li>
 </ul>
 <p>Tali astrazioni riducono la probabilità di errori sistemici e favoriscono una gestione più robusta delle risorse concorrenti.</p>
-<h2 id="criticita-e-differenze-tra-sistemi-operativi"><a class="header-anchor" href="#criticita-e-differenze-tra-sistemi-operativi"><i class="bi bi-link-45deg"></i></a> Criticità e Differenze tra Sistemi Operativi</h2>
+<h2 id="criticita-e-differenze-tra-sistemi-operativi">Criticità e Differenze tra Sistemi Operativi</h2>
 <p>La programmazione multithread introduce problematiche complesse, tra cui:</p>
 <ul>
 <li>condizioni di race e necessità di meccanismi di sincronizzazione (mutex, semafori, monitor);</li>

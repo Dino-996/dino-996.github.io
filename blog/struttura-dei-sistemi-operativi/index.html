@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -295,7 +303,7 @@
     
 
     <section class="content">
-      <h2 id="servizi-e-interfacce-del-sistema-operativo"><a class="header-anchor" href="#servizi-e-interfacce-del-sistema-operativo"><i class="bi bi-link-45deg"></i></a> Servizi e Interfacce del Sistema Operativo</h2>
+      <h2 id="servizi-e-interfacce-del-sistema-operativo">Servizi e Interfacce del Sistema Operativo</h2>
 <p>Il sistema operativo (<strong>SO</strong>) fornisce un ambiente per l'esecuzione dei programmi, offrendo servizi essenziali quali l'<strong>esecuzione di programmi</strong>, operazioni di <strong>I/O</strong>, gestione del <strong>file system</strong>, comunicazioni, rilevamento di errori e allocazione delle risorse.</p>
 <p>L'interazione con l'utente avviene attraverso tre modalità principali:</p>
 <ul>
@@ -303,7 +311,7 @@
 <li><strong>Interfaccia grafica (GUI):</strong> basata sulla metafora del desktop, icone e puntatori.</li>
 <li><strong>Interfaccia touch screen:</strong> basata su gesti (gesture) direttamente sullo schermo.</li>
 </ul>
-<h2 id="interfaccia-di-programmazione-system-call-e-api"><a class="header-anchor" href="#interfaccia-di-programmazione-system-call-e-api"><i class="bi bi-link-45deg"></i></a> Interfaccia di Programmazione - System Call e API</h2>
+<h2 id="interfaccia-di-programmazione-system-call-e-api">Interfaccia di Programmazione - System Call e API</h2>
 <p>Le <strong>chiamate di sistema (system call)</strong> rappresentano l'interfaccia verso i servizi resi disponibili dal SO.<br>
 Spesso i programmatori non invocano direttamente le system call, ma utilizzano le <strong>Application Programming Interface (API)</strong>, come le API di Windows, POSIX (per Unix, Linux, macOS) o le API Java. Questo garantisce la <strong>portabilità delle applicazioni</strong>.</p>
 <p>Per passare i parametri al sistema operativo durante una chiamata, si utilizzano tre metodi principali:</p>
@@ -312,14 +320,14 @@ Spesso i programmatori non invocano direttamente le system call, ma utilizzano l
 <li>In un <strong>blocco o tabella di memoria</strong>, passando l'indirizzo del blocco in un registro.</li>
 <li>Nello <strong>stack</strong>, dove i parametri vengono inseriti (<strong>push</strong>) e poi prelevati dal SO (<strong>pop</strong>).</li>
 </ul>
-<h2 id="sviluppo-ed-esecuzione-delle-applicazioni"><a class="header-anchor" href="#sviluppo-ed-esecuzione-delle-applicazioni"><i class="bi bi-link-45deg"></i></a> Sviluppo ed Esecuzione delle Applicazioni</h2>
+<h2 id="sviluppo-ed-esecuzione-delle-applicazioni">Sviluppo ed Esecuzione delle Applicazioni</h2>
 <p>Il processo che porta un codice sorgente alla sua esecuzione prevede due figure chiave:</p>
 <ul>
 <li><strong>Linker:</strong> combina file oggetto rilocabili in un unico <strong>file binario</strong> eseguibile, includendo eventuali librerie (es. la libreria standard C).</li>
 <li><strong>Loader:</strong> carica il file eseguibile in memoria, assegnando gli indirizzi definitivi (<strong>relocation</strong>) per permettere l'esecuzione sul core della CPU.</li>
 </ul>
 <p>Le applicazioni sono generalmente dipendenti dal SO, poiché ogni sistema fornisce un insieme univoco di chiamate di sistema.</p>
-<h2 id="kernel"><a class="header-anchor" href="#kernel"><i class="bi bi-link-45deg"></i></a> Kernel</h2>
+<h2 id="kernel">Kernel</h2>
 <p>Il kernel è responsabile della gestione delle risorse hardware e dei servizi di base del sistema. Le sue attività principali includono:</p>
 <ul>
 <li><strong>Inizializzazione dell'hardware:</strong> durante il processo di avvio (<strong>boot</strong>), il kernel viene caricato in memoria e prepara i componenti fisici del computer per l'uso.</li>
@@ -328,23 +336,23 @@ Spesso i programmatori non invocano direttamente le system call, ma utilizzano l
 <li><strong>Gestione dei file e dei dispositivi:</strong> amministra il <strong>file system</strong> (montando il root file system all'avvio) e i driver necessari per interagire con periferiche, dischi e reti.</li>
 <li><strong>Interfaccia per le chiamate di sistema:</strong> fornisce un'interfaccia protetta tramite la quale le applicazioni possono richiedere servizi al sistema operativo usando le <strong>system call</strong>.</li>
 </ul>
-<h3 id="modalita-di-esecuzione"><a class="header-anchor" href="#modalita-di-esecuzione"><i class="bi bi-link-45deg"></i></a> Modalità di Esecuzione</h3>
+<h3 id="modalita-di-esecuzione">Modalità di Esecuzione</h3>
 <p>Il kernel opera in uno spazio di memoria protetto chiamato <strong>kernel space</strong> (o modalità kernel), distinto dallo spazio utente dove girano le normali applicazioni.<br>
 Questa separazione garantisce la stabilità del sistema: un errore critico all'interno del kernel provoca un <strong>crash di sistema</strong>, non un semplice bug applicativo.</p>
-<h3 id="tipologie-di-architettura-del-kernel"><a class="header-anchor" href="#tipologie-di-architettura-del-kernel"><i class="bi bi-link-45deg"></i></a> Tipologie di Architettura del Kernel</h3>
+<h3 id="tipologie-di-architettura-del-kernel">Tipologie di Architettura del Kernel</h3>
 <p>Ci sono diversi approcci utilizzati per la progettazione di un kernel:</p>
 <ul>
 <li><strong>Kernel Monolitico:</strong> tutte le funzioni del sistema risiedono in un <strong>unico spazio di indirizzamento</strong>. Questo approccio (usato da <strong>Unix</strong> e <strong>Linux</strong>) offre prestazioni elevate grazie alla comunicazione interna veloce, anche se può risultare più difficile da estendere. Molti kernel monolitici moderni sono comunque <strong>modulari</strong>, permettendo di caricare funzionalità aggiuntive dinamicamente.</li>
 <li><strong>Microkernel</strong> (es. <strong>Mach</strong>): fornisce solo le funzioni minime necessarie (come la comunicazione tra processi). La maggior parte dei servizi del sistema operativo viene spostata nello spazio utente per aumentare la modularità e la flessibilità.</li>
 <li><strong>Sistemi Ibridi:</strong> come <strong>Darwin</strong> (il cuore di macOS e iOS), che combina la struttura a microkernel di Mach con parti del kernel BSD Unix.</li>
 </ul>
-<h2 id="esempi-specifici"><a class="header-anchor" href="#esempi-specifici"><i class="bi bi-link-45deg"></i></a> Esempi Specifici</h2>
+<h2 id="esempi-specifici">Esempi Specifici</h2>
 <ul>
 <li><strong>Linux:</strong> un kernel monolitico ampiamente personalizzabile. Progetti come <em>Linux From Scratch</em> mostrano come compilare il proprio kernel partendo dal codice sorgente.</li>
 <li><strong>Android:</strong> utilizza un kernel Linux, ma aggiunge uno strato chiamato <strong>HAL</strong> (Hardware Abstraction Layer) per poter girare su una vasta gamma di dispositivi hardware diversi.</li>
 <li><strong>Darwin:</strong> il kernel alla base dei sistemi Apple, rilasciato come software open-source.</li>
 </ul>
-<h2 id="generazione-avvio-e-debugging"><a class="header-anchor" href="#generazione-avvio-e-debugging"><i class="bi bi-link-45deg"></i></a> Generazione, Avvio e Debugging</h2>
+<h2 id="generazione-avvio-e-debugging">Generazione, Avvio e Debugging</h2>
 <p>Il processo di avvio (<strong>boot</strong>) segue solitamente questi passaggi:</p>
 <ol>
 <li>Un <strong>programma di bootstrap</strong> (nel firmware BIOS o UEFI) individua e carica il kernel.</li>

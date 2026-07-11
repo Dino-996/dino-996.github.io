@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -295,9 +303,9 @@
     
 
     <section class="content">
-      <h1 id="introduzione"><a class="header-anchor" href="#introduzione"><i class="bi bi-link-45deg"></i></a> Introduzione</h1>
+      <h1 id="introduzione">Introduzione</h1>
 <p>In questo articolo si descrive come la <strong>Memory Management Unit (MMU)</strong> converta gli indirizzi logici in fisici suddividendo la memoria in pagine e frame, supportata da strutture hardware come il <strong>TLB</strong> per accelerare le traduzioni. Vengono esaminate diverse configurazioni delle tabelle delle pagine, incluse quelle gerarchiche, invertite e basate su hash, insieme ai meccanismi di protezione e condivisione del codice. Approfondiamo inoltre il concetto di <strong>swapping</strong>, analizzando le differenze tra l'approccio standard e quello utilizzato nei sistemi mobili come <strong>iOS</strong> e <strong>Android</strong>, con esempi concreti di implementazione nelle architetture <strong>Intel IA-32</strong>, <strong>x86-64</strong> e <strong>ARMv8</strong>, evidenziandone le specifiche granularità e i livelli di traduzione.</p>
-<h2 id="concetti-fondamentali-e-meccanismo-di-traduzione"><a class="header-anchor" href="#concetti-fondamentali-e-meccanismo-di-traduzione"><i class="bi bi-link-45deg"></i></a> Concetti Fondamentali e Meccanismo di Traduzione</h2>
+<h2 id="concetti-fondamentali-e-meccanismo-di-traduzione">Concetti Fondamentali e Meccanismo di Traduzione</h2>
 <p>L'architettura della paginazione suddivide la memoria in blocchi di dimensione fissa:</p>
 <ul>
 <li><strong>Pagine</strong>: blocchi di dimensione fissa nello spazio di indirizzamento <em>logico</em> del processo.</li>
@@ -356,7 +364,7 @@ il numero di frame <code>f</code> dalla tabella delle pagine e concatenandolo co
 <p>La dimensione delle pagine è definita dall'hardware e corrisponde sempre a una potenza<br>
 di 2 (tipicamente tra <strong>4 KB e 1 GB</strong>), il che semplifica il calcolo degli indirizzi a<br>
 operazioni di shift e mask sui bit.</p>
-<h2 id="frammentazione-e-condivisione-del-codice"><a class="header-anchor" href="#frammentazione-e-condivisione-del-codice"><i class="bi bi-link-45deg"></i></a> Frammentazione e Condivisione del Codice</h2>
+<h2 id="frammentazione-e-condivisione-del-codice">Frammentazione e Condivisione del Codice</h2>
 <p>La paginazione <strong>elimina la frammentazione esterna</strong>: qualsiasi frame libero può essere<br>
 assegnato a un processo indipendentemente dalla sua posizione fisica. Introduce però la<br>
 <strong>frammentazione interna</strong>: se la memoria richiesta non è multiplo esatto della dimensione<br>
@@ -365,7 +373,7 @@ della pagina, l'ultimo frame assegnato risulta parzialmente inutilizzato.</p>
 possibile mantenere in memoria una sola copia di librerie condivise (es. <code>libc</code>).<br>
 Le tabelle delle pagine di processi distinti puntano agli stessi frame marcati come<br>
 <em>read-only</em>, garantendo protezione e risparmio di memoria.</p>
-<h2 id="supporto-hardware-il-tlb"><a class="header-anchor" href="#supporto-hardware-il-tlb"><i class="bi bi-link-45deg"></i></a> Supporto Hardware: il TLB</h2>
+<h2 id="supporto-hardware-il-tlb">Supporto Hardware: il TLB</h2>
 <p>Poiché la tabella delle pagine risiede in memoria principale, senza ottimizzazioni ogni<br>
 accesso ai dati richiederebbe <strong>due accessi in memoria</strong> (uno per la tabella, uno per il<br>
 dato). Il <strong>TLB (Translation Lookaside Buffer)</strong> è una piccola cache hardware ad<br>
@@ -411,7 +419,7 @@ altissima velocità che risolve questo problema.</p>
 <li><strong>TLB hit</strong>: il numero di frame è immediatamente disponibile, nessun accesso extra.</li>
 <li><strong>TLB miss</strong>: si consulta la tabella in memoria, con penalità di latenza.</li>
 </ul>
-<h3 id="calcolo-del-tempo-di-accesso-effettivo-eat"><a class="header-anchor" href="#calcolo-del-tempo-di-accesso-effettivo-eat"><i class="bi bi-link-45deg"></i></a> Calcolo del Tempo di Accesso Effettivo (EAT)</h3>
+<h3 id="calcolo-del-tempo-di-accesso-effettivo-eat">Calcolo del Tempo di Accesso Effettivo (EAT)</h3>
 <p>Dato un hit ratio $h$ e un tempo di accesso alla memoria $t$:</p>
 <p>$\text{EAT}=ht+(1-h)2t=t(2-h)$</p>
 <p>Con $h=0.99$ e $t = 100 \text{ns}$:</p>
@@ -419,42 +427,42 @@ altissima velocità che risolve questo problema.</p>
 <p>Alcuni TLB utilizzano gli <strong>ASID (Address-Space Identifiers)</strong> per taggare le entry per<br>
 processo, evitando il flush completo della cache a ogni cambio di contesto e migliorando<br>
 sensibilmente le prestazioni in sistemi multiprocesso.</p>
-<h2 id="struttura-delle-tabelle-delle-pagine"><a class="header-anchor" href="#struttura-delle-tabelle-delle-pagine"><i class="bi bi-link-45deg"></i></a> Struttura delle Tabelle delle Pagine</h2>
+<h2 id="struttura-delle-tabelle-delle-pagine">Struttura delle Tabelle delle Pagine</h2>
 <p>Con spazi di indirizzamento a 64 bit, una tabella delle pagine piatta occuperebbe<br>
 quantità di memoria proibitive. Si adottano quindi strutture alternative:</p>
-<h3 id="paginazione-gerarchica"><a class="header-anchor" href="#paginazione-gerarchica"><i class="bi bi-link-45deg"></i></a> Paginazione Gerarchica</h3>
+<h3 id="paginazione-gerarchica">Paginazione Gerarchica</h3>
 <p>La tabella stessa viene paginata su più livelli (tipicamente 2–4). Su x86-64 si usano<br>
 4 livelli: PML4 → PDPT → PD → PT. Il registro <strong>CR3</strong> punta alla tabella di livello<br>
 superiore (PML4).</p>
-<h3 id="tabelle-hash"><a class="header-anchor" href="#tabelle-hash"><i class="bi bi-link-45deg"></i></a> Tabelle Hash</h3>
+<h3 id="tabelle-hash">Tabelle Hash</h3>
 <p>Comuni per spazi di indirizzamento superiori a 32 bit. Ogni entry contiene una lista<br>
 concatenata per gestire le collisioni. Variante comune: <strong>clustered page tables</strong>, che<br>
 mappano più pagine per entry.</p>
-<h3 id="tabella-invertita"><a class="header-anchor" href="#tabella-invertita"><i class="bi bi-link-45deg"></i></a> Tabella Invertita</h3>
+<h3 id="tabella-invertita">Tabella Invertita</h3>
 <p>Un'unica tabella di sistema con un'entry per ogni <strong>frame fisico</strong> (anziché per ogni<br>
 pagina logica). Riduce drasticamente l'occupazione di memoria, ma complica la ricerca<br>
 (spesso si affianca una hash table per accelerarla).</p>
-<h2 id="huge-pages-unottimizzazione-per-sistemi-moderni"><a class="header-anchor" href="#huge-pages-unottimizzazione-per-sistemi-moderni"><i class="bi bi-link-45deg"></i></a> Huge Pages: un'Ottimizzazione per Sistemi Moderni</h2>
+<h2 id="huge-pages-unottimizzazione-per-sistemi-moderni">Huge Pages: un'Ottimizzazione per Sistemi Moderni</h2>
 <p>In scenari ad alte prestazioni (database, JVM, ambienti cloud-native), si utilizzano<br>
 <strong>Huge Pages</strong> (2 MB o 1 GB su x86-64) per ridurre il numero di entry nella tabella<br>
 delle pagine e aumentare l'hit rate del TLB.</p>
 <p>Su Linux è possibile abilitarle tramite:</p>
 <pre><code class="language-bash"># Verifica disponibilità
 grep -i hugepages /proc/meminfo
-<h1 id="allocazione-di-512-huge-pages-da-2mb-1gb"><a class="header-anchor" href="#allocazione-di-512-huge-pages-da-2mb-1gb"><i class="bi bi-link-45deg"></i></a> Allocazione di 512 huge pages da 2MB (= 1GB)</h1>
+<h1 id="allocazione-di-512-huge-pages-da-2mb-1gb">Allocazione di 512 huge pages da 2MB (= 1GB)</h1>
 <p>echo 512 &gt; /proc/sys/vm/nr_hugepages<br>
 </code></pre></p>
 <p>Framework come <strong>Java HotSpot</strong> (<code>-XX:+UseHugePages</code>) e <strong>DPDK</strong> le sfruttano<br>
 attivamente per ridurre la latenza.</p>
-<h2 id="swapping-e-memoria-ausiliaria"><a class="header-anchor" href="#swapping-e-memoria-ausiliaria"><i class="bi bi-link-45deg"></i></a> Swapping e Memoria Ausiliaria</h2>
+<h2 id="swapping-e-memoria-ausiliaria">Swapping e Memoria Ausiliaria</h2>
 <p>Lo swapping consente di spostare temporaneamente pagine o interi processi dalla RAM a<br>
 una <strong>memoria ausiliaria (backing store)</strong>, estendendo virtualmente la memoria disponibile.</p>
-<h3 id="desktop-e-server-linuxwindows"><a class="header-anchor" href="#desktop-e-server-linuxwindows"><i class="bi bi-link-45deg"></i></a> Desktop e Server (Linux/Windows)</h3>
+<h3 id="desktop-e-server-linuxwindows">Desktop e Server (Linux/Windows)</h3>
 <p>Supportano lo swapping standard e lo <strong>swapping con paginazione</strong> (demand paging).<br>
 Su Linux, strumenti moderni come <strong><code>zswap</code></strong> e <strong><code>zram</code></strong> comprimono le pagine prima<br>
 di scriverle su disco, riducendo la latenza e l'usura degli SSD — particolarmente<br>
 rilevante in ambienti containerizzati (Docker, Kubernetes).</p>
-<h3 id="sistemi-mobili-ios-android"><a class="header-anchor" href="#sistemi-mobili-ios-android"><i class="bi bi-link-45deg"></i></a> Sistemi Mobili (iOS / Android)</h3>
+<h3 id="sistemi-mobili-ios-android">Sistemi Mobili (iOS / Android)</h3>
 <p>Le memorie flash hanno cicli di scrittura limitati e latenze non trascurabili, quindi:</p>
 <ul>
 <li><strong>iOS</strong> non implementa swapping tradizionale: notifica alle app di liberare memoria<br>
@@ -462,20 +470,20 @@ volontariamente tramite i <em>memory pressure notifications</em>.</li>
 <li><strong>Android</strong> salva lo stato dell'app nello storage prima di terminarla (<em>killed process</em>),<br>
 consentendo un riavvio rapido con ripristino dello stato.</li>
 </ul>
-<h2 id="architetture-reali-a-confronto"><a class="header-anchor" href="#architetture-reali-a-confronto"><i class="bi bi-link-45deg"></i></a> Architetture Reali a Confronto</h2>
-<h3 id="intel-ia-32"><a class="header-anchor" href="#intel-ia-32"><i class="bi bi-link-45deg"></i></a> Intel IA-32</h3>
+<h2 id="architetture-reali-a-confronto">Architetture Reali a Confronto</h2>
+<h3 id="intel-ia-32">Intel IA-32</h3>
 <p>Utilizza un sistema misto <strong>segmentazione + paginazione a due livelli</strong>. L'estensione<br>
 <strong>PAE (Physical Address Extension)</strong> espande gli indirizzi fisici da 32 a <strong>36 bit</strong>,<br>
 permettendo ai processori a 32 bit di indirizzare fino a <strong>64 GB</strong> di RAM fisica (pur<br>
 mantenendo uno spazio virtuale per processo di 4 GB).</p>
-<h3 id="intel-x86-64"><a class="header-anchor" href="#intel-x86-64"><i class="bi bi-link-45deg"></i></a> Intel x86-64</h3>
+<h3 id="intel-x86-64">Intel x86-64</h3>
 <p>Adotta una struttura a <strong>4 livelli</strong> (estendibile a 5 con LA57), gestita dal registro<br>
 <strong>CR3</strong>. Supporta pagine da 4 KB, 2 MB (Large Pages) e 1 GB (Huge Pages).</p>
-<h3 id="armv8-aarch64"><a class="header-anchor" href="#armv8-aarch64"><i class="bi bi-link-45deg"></i></a> ARMv8 / AArch64</h3>
+<h3 id="armv8-aarch64">ARMv8 / AArch64</h3>
 <p>Supporta granularità di traduzione di <strong>4 KB, 16 KB e 64 KB</strong> con fino a <strong>4 livelli</strong><br>
 di paginazione. Il registro <strong>TTBR0</strong> punta alla tabella del processo utente, <strong>TTBR1</strong><br>
 a quella del kernel, separando nettamente i due spazi di indirizzamento.</p>
-<h2 id="best-practice-per-gli-sviluppatori"><a class="header-anchor" href="#best-practice-per-gli-sviluppatori"><i class="bi bi-link-45deg"></i></a> Best Practice per gli Sviluppatori</h2>
+<h2 id="best-practice-per-gli-sviluppatori">Best Practice per gli Sviluppatori</h2>
 <p><strong>Perché un dev dovrebbe preoccuparsene?</strong> Le scelte di allocazione impattano direttamente le performance a causa dell'interazione con la paginazione.</p>
 <ul>
 <li><strong>Evita allocazioni frammentate</strong>: preferisci buffer contigui (array vs linked list)<br>

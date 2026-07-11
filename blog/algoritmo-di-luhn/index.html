@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -296,13 +304,13 @@
 
     <section class="content">
       <p>L’algoritmo di Luhn è un metodo matematico sviluppato nel 1954 dal ricercatore IBM Hans Peter Luhn per verificare la validità di numeri identificativi attraverso una cifra di controllo. Ancora oggi è utilizzato in moltissimi sistemi informatici, soprattutto per la validazione dei numeri di carte di credito, IMEI dei dispositivi mobili e altri identificatori strutturati.</p>
-<h2 id="cose-e-a-cosa-serve"><a class="header-anchor" href="#cose-e-a-cosa-serve"><i class="bi bi-link-45deg"></i></a> Cos'è e a cosa serve?</h2>
+<h2 id="cose-e-a-cosa-serve">Cos'è e a cosa serve?</h2>
 <p>L'algoritmo di Luhn è un <strong>semplice sistema di controllo cifre</strong> inventato negli anni '50 da <a href="https://en.wikipedia.org/wiki/Hans_Peter_Luhn" target="_blank" rel="noopener noreferer"><strong>Hans Peter Luhn</strong></a>, ingegnere <a href="https://www.ibm.com/it-it" target="_blank" rel="noopener noreferer">IBM</a>. Lo trovi ovunque: numeri di carte di credito, codici fiscali, IBAN, codici seriali. Il suo scopo è rispondere a una domanda pratica:</p>
 <blockquote>
 <p>&quot;Questo numero che ho digitato ha senso, oppure ho fatto un errore di battitura?&quot;</p>
 </blockquote>
 <p><strong>Non protegge da frodi</strong>. È solo un modo veloce per stanare gli errori.</p>
-<h2 id="come-funziona-passo-per-passo"><a class="header-anchor" href="#come-funziona-passo-per-passo"><i class="bi bi-link-45deg"></i></a> Come funziona, passo per passo</h2>
+<h2 id="come-funziona-passo-per-passo">Come funziona, passo per passo</h2>
 <p>Sia $N = n_1, n_2, \dots, n_{11}$ una matrice righa a 11 cifre, con $n_1$ la <strong>prima cifra a sinistra</strong>.</p>
 <ol>
 <li>Identifica le cifre in <strong>posizione dispari</strong> ($n_2,n_4,n_6,...$)</li>
@@ -320,7 +328,7 @@ $d_i = \lfloor d_i / 10 \rfloor + (d_i \bmod 10)$</li>
 <li>In Java gli <strong>array partono da 0</strong>, quindi la seconda cifra (posizione 2) corrisponde all’indice 1 dell’array.</li>
 </ul>
 </blockquote>
-<h2 id="quando-si-usa"><a class="header-anchor" href="#quando-si-usa"><i class="bi bi-link-45deg"></i></a> Quando si usa?</h2>
+<h2 id="quando-si-usa">Quando si usa?</h2>
 <p>Luhn è progettato per rilevare i due errori più comuni:</p>
 <ul>
 <li><strong>Sbagliare una cifra</strong>, per esempio scrivere 4 invece di 5</li>
@@ -328,7 +336,7 @@ $d_i = \lfloor d_i / 10 \rfloor + (d_i \bmod 10)$</li>
 </ul>
 <p>Nella pratica quotidiana, queste due casistiche coprono la stragrande maggioranza degli sbagli umani. Luhn <strong>non è un sistema di sicurezza serio</strong>: chi vuole può creare numeri validi rispettando la regola. Il suo scopo è <strong>essere veloce e affidabile</strong> per evitare errori di battitura, non proteggere soldi o dati.</p>
 <p>Negli anni ’50, quando i computer erano grandi quanto una stanza, questa era una priorità enorme. Al giorno d'oggi questo algoritmo è comunque utile, anche se non essenziale come allora.</p>
-<h2 id="in-java"><a class="header-anchor" href="#in-java"><i class="bi bi-link-45deg"></i></a> In Java</h2>
+<h2 id="in-java">In Java</h2>
 <pre><code class="language-java">import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import java.util.ArrayList;

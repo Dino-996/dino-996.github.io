@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -295,7 +303,7 @@
     
 
     <section class="content">
-      <h1 id="architettura-e-strategie-della-memoria-virtuale"><a class="header-anchor" href="#architettura-e-strategie-della-memoria-virtuale"><i class="bi bi-link-45deg"></i></a> Architettura e strategie della Memoria Virtuale</h1>
+      <h1 id="architettura-e-strategie-della-memoria-virtuale">Architettura e strategie della Memoria Virtuale</h1>
 <p>Nei moderni sistemi multiprogrammati, l'esecuzione simultanea di più processi richiede una gestione oculata delle risorse. Tuttavia, la RAM è per definizione una risorsa finita e spesso insufficiente a ospitare l'intero working set di ogni applicazione attiva. Qui entra in gioco la <strong>Memoria Virtuale</strong>, un'astrazione fondamentale che scollega la memoria logica vista dal programmatore dalla memoria fisica effettivamente disponibile.</p>
 <p>Questa architettura offre vantaggi determinanti:</p>
 <ul>
@@ -303,9 +311,9 @@
 <li><strong>Astrazione:</strong> Il programmatore interagisce con uno spazio di indirizzamento lineare e contiguo, ignorando la frammentazione fisica.</li>
 <li><strong>Efficienza:</strong> Facilita la condivisione di librerie (DLL/Shared Objects) tra processi diversi attraverso la mappatura delle medesime pagine fisiche.</li>
 </ul>
-<h2 id="paginazione-su-richiesta"><a class="header-anchor" href="#paginazione-su-richiesta"><i class="bi bi-link-45deg"></i></a> Paginazione su richiesta</h2>
+<h2 id="paginazione-su-richiesta">Paginazione su richiesta</h2>
 <p>Il cuore della memoria virtuale risiede nel <strong>Demand Paging</strong> (paginazione su richiesta). Invece di caricare l'intero binario in fase di startup, il kernel carica le singole pagine solo quando vengono effettivamente referenziate durante l'esecuzione.</p>
-<h3 id="il-ciclo-del-page-fault"><a class="header-anchor" href="#il-ciclo-del-page-fault"><i class="bi bi-link-45deg"></i></a> Il ciclo del page fault</h3>
+<h3 id="il-ciclo-del-page-fault">Il ciclo del page fault</h3>
 <p>Quando un processo tenta di accedere a un indirizzo logico non presente in RAM (identificato da un bit di validità &quot;0&quot; nella Page Table), l'hardware genera un'eccezione nota come <strong>Page Fault</strong>. Il sistema operativo interviene seguendo una procedura rigorosa:</p>
 <ol>
 <li><strong>Verifica:</strong> Il SO controlla se il riferimento alla memoria era legittimo.</li>
@@ -314,7 +322,7 @@
 <li><strong>Update:</strong> Carica i dati nel frame, aggiorna la Page Table e setta il bit di validità a &quot;1&quot;.</li>
 <li><strong>Restart:</strong> Ripristina l'istruzione che aveva causato l'eccezione.</li>
 </ol>
-<h2 id="performance-e-ottimizzazioni"><a class="header-anchor" href="#performance-e-ottimizzazioni"><i class="bi bi-link-45deg"></i></a> Performance e ottimizzazioni</h2>
+<h2 id="performance-e-ottimizzazioni">Performance e ottimizzazioni</h2>
 <p>L'implementazione della memoria virtuale introduce un overhead inevitabile. Le prestazioni del sistema vengono misurate tramite il <strong>Tempo di Accesso Effettivo (EAT)</strong>, calcolato come:</p>
 <p>$$EAT = (1 - p) \times ma + p \times pft$$</p>
 <p>Dove:</p>
@@ -324,11 +332,11 @@
 <li>$pft$ è il tempo di gestione del page fault (millisecondi).</li>
 </ul>
 <p>Dato che il recupero da disco è ordini di grandezza più lento della RAM, anche un tasso di page fault minimo può degradare sensibilmente le performance.</p>
-<h3 id="copy-on-write-cow"><a class="header-anchor" href="#copy-on-write-cow"><i class="bi bi-link-45deg"></i></a> Copy-on-Write (CoW)</h3>
+<h3 id="copy-on-write-cow">Copy-on-Write (CoW)</h3>
 <p>Per ottimizzare la creazione dei processi (system call <code>fork()</code>), si utilizza la tecnica <strong>Copy-on-Write</strong>. Inizialmente, processo padre e figlio condividono le stesse pagine fisiche in sola lettura. Solo quando uno dei due tenta una scrittura, il kernel interviene duplicando la pagina specifica. Questo evita sprechi di memoria per processi che non modificano i dati ereditati.</p>
-<h2 id="algoritmi-di-sostituzione-delle-pagine"><a class="header-anchor" href="#algoritmi-di-sostituzione-delle-pagine"><i class="bi bi-link-45deg"></i></a> Algoritmi di sostituzione delle pagine</h2>
+<h2 id="algoritmi-di-sostituzione-delle-pagine">Algoritmi di sostituzione delle pagine</h2>
 <p>Cosa accade quando la memoria fisica è satura? Il sistema deve selezionare una &quot;vittima&quot; da espellere per far spazio a una nuova pagina. Per ottimizzare questo processo, si utilizza il <strong>Dirty Bit</strong> (o bit di modifica): se una pagina non è stata modificata dal suo caricamento, può essere sovrascritta senza essere riscritta su disco, dimezzando l'I/O.</p>
-<h3 id="analisi-delle-strategie-di-replacement"><a class="header-anchor" href="#analisi-delle-strategie-di-replacement"><i class="bi bi-link-45deg"></i></a> Analisi delle strategie di replacement</h3>
+<h3 id="analisi-delle-strategie-di-replacement">Analisi delle strategie di replacement</h3>
 <ol>
 <li><strong>FIFO (First-In-First-Out):</strong> Sostituisce la pagina residente da più tempo. Sebbene semplice, è inefficiente e soggetto all'<strong>Anomalia di Belady</strong>: un fenomeno controintuitivo dove l'aggiunta di frame fisici può aumentare il numero di page fault.</li>
 <li><strong>OPT (Algoritmo Ottimale):</strong> Sostituisce la pagina che non verrà utilizzata per il periodo di tempo più lungo in assoluto. È il gold standard teorico, ma è <strong>irrealizzabile</strong> poiché richiederebbe la conoscenza futura degli accessi (non determinismo).</li>

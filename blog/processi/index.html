@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -295,9 +303,9 @@
     
 
     <section class="content">
-      <h1 id="introduzione"><a class="header-anchor" href="#introduzione"><i class="bi bi-link-45deg"></i></a> Introduzione</h1>
+      <h1 id="introduzione">Introduzione</h1>
 <p>In questo articolo approfondiamo l'architettura dei processi all'interno dei sistemi operativi, distinguendo tra il concetto di programma statico e quello di entità attiva in esecuzione.</p>
-<h2 id="che-cose-un-processo"><a class="header-anchor" href="#che-cose-un-processo"><i class="bi bi-link-45deg"></i></a> Che cos'è un processo?</h2>
+<h2 id="che-cose-un-processo">Che cos'è un processo?</h2>
 <p>Un <strong>processo</strong> è definito come un <strong>programma in esecuzione</strong>: un’entità attiva dotata di un contatore di programma e di un insieme di risorse associate. Si distingue dal programma, che è invece un’entità passiva, ad esempio un file memorizzato su disco.</p>
 <p>In <strong>memoria</strong>, un processo è suddiviso in sezioni specifiche:</p>
 <ul>
@@ -307,7 +315,7 @@
 <li><strong>Stack</strong>: memoria temporanea utilizzata per le chiamate di funzione e le variabili locali.</li>
 </ul>
 <p>Nei sistemi moderni il concetto si estende ai <strong><a href="https://dino-996.github.io/blog/thread/" target="_blank" rel="noopener noreferer">thread</a>.</strong>, che consentono a un singolo processo di avere più percorsi di esecuzione concorrenti, facilitando il parallelismo nei sistemi multicore.</p>
-<h2 id="il-core-e-il-multicore"><a class="header-anchor" href="#il-core-e-il-multicore"><i class="bi bi-link-45deg"></i></a> Il core e il multicore</h2>
+<h2 id="il-core-e-il-multicore">Il core e il multicore</h2>
 <p>Un <strong>core</strong> è un’unità di calcolo fisica indipendente all’interno della CPU.</p>
 <p>Una CPU contiene tipicamente:</p>
 <ul>
@@ -340,7 +348,7 @@
 <li>Condivide l’heap e le risorse del processo con gli altri thread</li>
 </ul>
 <p>Ad esempio, con un processo composto da 4 thread e una CPU a 4 core, il sistema operativo può assegnare un thread a ciascun core, eseguendo il programma in parallelo su più unità fisiche.</p>
-<h2 id="stato-e-controllo-del-processo"><a class="header-anchor" href="#stato-e-controllo-del-processo"><i class="bi bi-link-45deg"></i></a> Stato e controllo del processo</h2>
+<h2 id="stato-e-controllo-del-processo">Stato e controllo del processo</h2>
 <p>Ogni processo attraversa diversi stati durante il suo ciclo di vita: <strong>nuovo</strong>, <strong>pronto</strong>, <strong>esecuzione</strong>, <strong>attesa</strong> e <strong>terminato</strong>.</p>
 <p>Il sistema operativo rappresenta ogni processo tramite un <strong>PCB (Process Control Block)</strong>, che memorizza informazioni cruciali quali:</p>
 <ul>
@@ -350,7 +358,7 @@
 <li>Registri della CPU</li>
 <li>Informazioni di memoria</li>
 </ul>
-<h2 id="il-ciclo-di-vita-di-un-processo"><a class="header-anchor" href="#il-ciclo-di-vita-di-un-processo"><i class="bi bi-link-45deg"></i></a> Il ciclo di vita di un processo</h2>
+<h2 id="il-ciclo-di-vita-di-un-processo">Il ciclo di vita di un processo</h2>
 <p>Un processo può trovarsi nei seguenti stati:</p>
 <ul>
 <li><strong>Nuovo (New)</strong>: è stato creato ma non è ancora pronto per l’esecuzione.</li>
@@ -360,7 +368,7 @@
 <li><strong>Terminato (Terminated)</strong>: ha completato la propria esecuzione.</li>
 </ul>
 <p>Questi stati determinano in quale struttura dati del kernel il processo viene inserito e quali operazioni possono essere effettuate su di esso.</p>
-<h2 id="code-di-scheduling"><a class="header-anchor" href="#code-di-scheduling"><i class="bi bi-link-45deg"></i></a> Code di scheduling</h2>
+<h2 id="code-di-scheduling">Code di scheduling</h2>
 <p>Il sistema operativo mantiene diverse code:</p>
 <ul>
 <li><strong>Ready Queue</strong>: contiene i processi pronti all’esecuzione.</li>
@@ -373,7 +381,7 @@
 <li>Il kernel assegna la CPU a un altro processo pronto.</li>
 <li>Al termine dell’I/O (tramite interrupt), il processo torna nella ready queue.</li>
 </ol>
-<h2 id="il-process-control-block-pcb"><a class="header-anchor" href="#il-process-control-block-pcb"><i class="bi bi-link-45deg"></i></a> Il Process Control Block (PCB)</h2>
+<h2 id="il-process-control-block-pcb">Il Process Control Block (PCB)</h2>
 <p>Il <strong>PCB</strong> è la struttura dati con cui il kernel rappresenta un processo.</p>
 <p>Contiene:</p>
 <ul>
@@ -387,7 +395,7 @@
 <li>Informazioni di accounting (tempo di CPU utilizzato)</li>
 </ul>
 <p>Il PCB risiede nello spazio kernel ed è accessibile esclusivamente al sistema operativo.</p>
-<h2 id="context-switch"><a class="header-anchor" href="#context-switch"><i class="bi bi-link-45deg"></i></a> Context switch</h2>
+<h2 id="context-switch">Context switch</h2>
 <p>Il <strong>context switch</strong> è il meccanismo con cui il sistema operativo interrompe un processo e ne attiva un altro.</p>
 <p>Le operazioni principali sono:</p>
 <ol>
@@ -396,7 +404,7 @@
 <li>Ripristinare lo stato del nuovo processo dal suo PCB.</li>
 </ol>
 <p>Il context switch rappresenta un overhead inevitabile del multitasking.</p>
-<h2 id="scheduling-e-politiche-decisionali"><a class="header-anchor" href="#scheduling-e-politiche-decisionali"><i class="bi bi-link-45deg"></i></a> Scheduling e politiche decisionali</h2>
+<h2 id="scheduling-e-politiche-decisionali">Scheduling e politiche decisionali</h2>
 <p>La scelta del processo successivo dipende dall’algoritmo di scheduling:</p>
 <ul>
 <li><strong>FCFS (First Come, First Served)</strong></li>
@@ -412,9 +420,9 @@
 <li>Equità</li>
 </ul>
 <p>Non esiste una soluzione universalmente ottimale: la scelta dipende dal contesto applicativo.</p>
-<h2 id="stati-estesi"><a class="header-anchor" href="#stati-estesi"><i class="bi bi-link-45deg"></i></a> Stati estesi</h2>
+<h2 id="stati-estesi">Stati estesi</h2>
 <p>Nei sistemi operativi moderni esistono stati aggiuntivi.</p>
-<h3 id="suspended"><a class="header-anchor" href="#suspended"><i class="bi bi-link-45deg"></i></a> Suspended</h3>
+<h3 id="suspended">Suspended</h3>
 <p>Indica che il processo è temporaneamente escluso dalla competizione per la CPU.</p>
 <p>Può accadere per:</p>
 <ul>
@@ -427,7 +435,7 @@
 <li><strong>Waiting</strong>: attesa di un evento.</li>
 <li><strong>Suspended</strong>: esclusione per decisione del sistema o gestione della memoria.</li>
 </ul>
-<h3 id="zombie"><a class="header-anchor" href="#zombie"><i class="bi bi-link-45deg"></i></a> Zombie</h3>
+<h3 id="zombie">Zombie</h3>
 <p>Un processo <strong>zombie</strong> ha terminato l’esecuzione ma il suo PCB non è ancora stato rimosso.</p>
 <p>Il processo:</p>
 <ol>
@@ -436,24 +444,24 @@
 <li>Attende che il padre invochi <code>wait()</code>.</li>
 </ol>
 <p>Non consuma CPU, ma occupa una voce nella tabella dei processi.</p>
-<h3 id="orphan"><a class="header-anchor" href="#orphan"><i class="bi bi-link-45deg"></i></a> Orphan</h3>
+<h3 id="orphan">Orphan</h3>
 <p>Un processo <strong>orfano</strong> è un processo il cui padre termina prima di lui.</p>
 <p>Nei sistemi Unix-like viene adottato dal processo <code>init</code> (PID 1) o da un suo equivalente, che si occuperà di raccoglierne lo stato finale.</p>
-<h2 id="coordinamento-nei-sistemi-multicore"><a class="header-anchor" href="#coordinamento-nei-sistemi-multicore"><i class="bi bi-link-45deg"></i></a> Coordinamento nei sistemi multicore</h2>
+<h2 id="coordinamento-nei-sistemi-multicore">Coordinamento nei sistemi multicore</h2>
 <p>Nei sistemi multicore:</p>
 <ul>
 <li>Più CPU eseguono in parallelo.</li>
 <li>Le strutture dati del kernel sono condivise.</li>
 <li>Le decisioni di scheduling possono avvenire simultaneamente.</li>
 </ul>
-<h3 id="strutture-condivise"><a class="header-anchor" href="#strutture-condivise"><i class="bi bi-link-45deg"></i></a> Strutture condivise</h3>
+<h3 id="strutture-condivise">Strutture condivise</h3>
 <ul>
 <li>Ready queue</li>
 <li>Tabelle dei processi (PCB)</li>
 <li>Tabelle delle pagine</li>
 </ul>
 <p>Accessi concorrenti possono causare condizioni di race.</p>
-<h3 id="meccanismi-di-sincronizzazione"><a class="header-anchor" href="#meccanismi-di-sincronizzazione"><i class="bi bi-link-45deg"></i></a> Meccanismi di sincronizzazione</h3>
+<h3 id="meccanismi-di-sincronizzazione">Meccanismi di sincronizzazione</h3>
 <p>Il kernel utilizza:</p>
 <ul>
 <li>Spinlock</li>
@@ -462,21 +470,21 @@
 <li>Disabilitazione temporanea degli interrupt</li>
 </ul>
 <p>per garantire coerenza.</p>
-<h3 id="affinita-della-cpu"><a class="header-anchor" href="#affinita-della-cpu"><i class="bi bi-link-45deg"></i></a> Affinità della CPU</h3>
+<h3 id="affinita-della-cpu">Affinità della CPU</h3>
 <p>La <strong>CPU affinity</strong> consente di associare preferenzialmente un processo a un core specifico per:</p>
 <ul>
 <li>Migliorare la località della cache</li>
 <li>Ridurre il costo di migrazione tra core</li>
 </ul>
 <p>La migrazione tra core comporta invalidazioni di cache e costi aggiuntivi.</p>
-<h2 id="comunicazione-tra-processi-ipc"><a class="header-anchor" href="#comunicazione-tra-processi-ipc"><i class="bi bi-link-45deg"></i></a> Comunicazione tra processi (IPC)</h2>
+<h2 id="comunicazione-tra-processi-ipc">Comunicazione tra processi (IPC)</h2>
 <p>I processi cooperanti utilizzano meccanismi di <strong>IPC (InterProcess Communication)</strong>.</p>
 <p>Due modelli principali:</p>
 <ul>
 <li><strong>Memoria condivisa</strong>: comunicazione tramite una regione di memoria comune; è veloce ma richiede sincronizzazione.</li>
 <li><strong>Scambio di messaggi</strong>: basato su primitive <code>send()</code> e <code>receive()</code>, può essere sincrono (bloccante) o asincrono (non bloccante).</li>
 </ul>
-<h2 id="esempi-di-sistemi-ipc-e-comunicazione-client-server"><a class="header-anchor" href="#esempi-di-sistemi-ipc-e-comunicazione-client-server"><i class="bi bi-link-45deg"></i></a> Esempi di sistemi IPC e comunicazione client-server</h2>
+<h2 id="esempi-di-sistemi-ipc-e-comunicazione-client-server">Esempi di sistemi IPC e comunicazione client-server</h2>
 <ul>
 <li><strong>Pipe</strong>: canali di comunicazione, tipicamente tra processi correlati.</li>
 <li><strong>Socket</strong>: identificati da indirizzo IP e porta; fondamentali per la comunicazione in rete (TCP e UDP).</li>

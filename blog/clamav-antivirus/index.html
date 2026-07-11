@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -367,9 +375,9 @@
     
 
     <section class="content">
-      <h2 id="introduzione"><a class="header-anchor" href="#introduzione"><i class="bi bi-link-45deg"></i></a> Introduzione</h2>
+      <h2 id="introduzione">Introduzione</h2>
 <p>ClamAV è una soluzione antivirus open source pensata per ambienti Unix e Linux, ampiamente utilizzata per la scansione di file system, mail server e workstation. A differenza di molti antivirus desktop, ClamAV non integra una protezione in tempo reale &quot;out of the box&quot;: è progettato come un toolkit modulare, composto da più componenti indipendenti che collaborano tra loro.</p>
-<h2 id="architettura-e-componenti-principali"><a class="header-anchor" href="#architettura-e-componenti-principali"><i class="bi bi-link-45deg"></i></a> Architettura e componenti principali</h2>
+<h2 id="architettura-e-componenti-principali">Architettura e componenti principali</h2>
 <p>ClamAV si basa su tre componenti fondamentali, ciascuno con una responsabilità specifica. Questa separazione dei compiti è coerente con il principio di modularità: ogni processo può essere aggiornato, monitorato o riavviato in modo indipendente.</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -400,7 +408,7 @@
   </table>
 </div>
 <p>La distinzione tra <code>clamdscan</code> e <code>clamscan</code> è cruciale dal punto di vista delle prestazioni: il primo si appoggia al demone già attivo e con il database già caricato in memoria, mentre il secondo carica da zero l'intero database a ogni invocazione, con un overhead che può arrivare a diversi secondi.</p>
-<h2 id="installazione-dei-pacchetti"><a class="header-anchor" href="#installazione-dei-pacchetti"><i class="bi bi-link-45deg"></i></a> Installazione dei pacchetti</h2>
+<h2 id="installazione-dei-pacchetti">Installazione dei pacchetti</h2>
 <p>L'installazione su distribuzioni basate su Debian/Ubuntu richiede un singolo comando:</p>
 <pre><code class="language-bash">sudo apt update &amp;&amp; sudo apt install clamav clamav-daemon clamav-freshclam -y
 </code></pre>
@@ -414,13 +422,13 @@
 <blockquote>
 <p>Se usi un sistema operativo differente puoi fare riferimento alla documentazione ufficiale: <a href="https://docs.clamav.net/manual/Installing.html#installing-clamav" target="_blank" rel="noopener noreferer">Installing ClamAV</a></p>
 </blockquote>
-<h2 id="verifica-dei-servizi-e-del-database"><a class="header-anchor" href="#verifica-dei-servizi-e-del-database"><i class="bi bi-link-45deg"></i></a> Verifica dei servizi e del database</h2>
-<h3 id="stato-dei-servizi"><a class="header-anchor" href="#stato-dei-servizi"><i class="bi bi-link-45deg"></i></a> Stato dei servizi</h3>
+<h2 id="verifica-dei-servizi-e-del-database">Verifica dei servizi e del database</h2>
+<h3 id="stato-dei-servizi">Stato dei servizi</h3>
 <p>Per verificare che i servizi siano attivi e in esecuzione, è sufficiente interrogare systemd:</p>
 <pre><code class="language-bash">systemctl status clamav-freshclam
 systemctl status clamav-daemon
 </code></pre>
-<h3 id="verifica-della-versione-e-del-database"><a class="header-anchor" href="#verifica-della-versione-e-del-database"><i class="bi bi-link-45deg"></i></a> Verifica della versione e del database</h3>
+<h3 id="verifica-della-versione-e-del-database">Verifica della versione e del database</h3>
 <p>Il comando seguente restituisce la versione del software e quella del database delle firme installato:</p>
 <pre><code class="language-bash">clamscan --version
 </code></pre>
@@ -428,7 +436,7 @@ systemctl status clamav-daemon
 <pre><code class="language-text">ClamAV 1.4.4/28026/Tue Jun 9 08:25:31 2026
 </code></pre>
 <p>Il formato è: versione di ClamAV / versione del database / data dell'ultimo aggiornamento del database. Questo comando è particolarmente utile in fase di troubleshooting, poiché una data molto vecchia indica immediatamente un problema con <code>freshclam</code>.</p>
-<h3 id="troubleshooting-notifica-di-freshclam-a-clamd"><a class="header-anchor" href="#troubleshooting-notifica-di-freshclam-a-clamd"><i class="bi bi-link-45deg"></i></a> Troubleshooting: notifica di freshclam a clamd</h3>
+<h3 id="troubleshooting-notifica-di-freshclam-a-clamd">Troubleshooting: notifica di freshclam a clamd</h3>
 <p>Dopo ogni aggiornamento del database, <code>freshclam</code> invia un segnale a <code>clamd</code> affinché ricarichi le firme senza necessità di riavvio. Se nei log compare il seguente errore:</p>
 <pre><code class="language-text">ERROR: NotifyClamd: Can't find or parse configuration file /etc/clamav/clamd.conf
 </code></pre>
@@ -439,8 +447,8 @@ systemctl status clamav-daemon
 <pre><code class="language-bash">journalctl -u clamav-daemon.service --no-pager -n 10
 </code></pre>
 <p>Nei log dovrebbe apparire un messaggio simile a <code>Received SIGHUP</code> oppure <code>Reloading databases</code>, segno che il database è stato ricaricato correttamente in memoria.</p>
-<h2 id="comandi-di-scansione"><a class="header-anchor" href="#comandi-di-scansione"><i class="bi bi-link-45deg"></i></a> Comandi di scansione</h2>
-<h3 id="scansione-con-clamdscan-raccomandato"><a class="header-anchor" href="#scansione-con-clamdscan-raccomandato"><i class="bi bi-link-45deg"></i></a> Scansione con clamdscan (raccomandato)</h3>
+<h2 id="comandi-di-scansione">Comandi di scansione</h2>
+<h3 id="scansione-con-clamdscan-raccomandato">Scansione con clamdscan (raccomandato)</h3>
 <p><code>clamdscan</code> è il metodo consigliato per la scansione su sistemi con <code>clamd</code> già attivo: il comando si limita a inviare la richiesta al demone, che esegue la scansione utilizzando il database già caricato in RAM, con un guadagno di prestazioni significativo rispetto allo scanner standalone.</p>
 <p>Alcuni esempi di utilizzo comune:</p>
 <pre><code class="language-bash">clamdscan file.txt
@@ -504,12 +512,12 @@ systemctl status clamav-daemon
     </tbody>
   </table>
 </div>
-<h3 id="scansione-completa-del-sistema"><a class="header-anchor" href="#scansione-completa-del-sistema"><i class="bi bi-link-45deg"></i></a> Scansione completa del sistema</h3>
+<h3 id="scansione-completa-del-sistema">Scansione completa del sistema</h3>
 <p>Per una scansione completa del file system è necessario escludere i file system virtuali, che non contengono dati reali e possono causare blocchi o errori durante la scansione:</p>
 <pre><code class="language-bash">clamdscan / --infected --fdpass --exclude-dir=&quot;^/(proc|sys|dev|run)&quot;
 </code></pre>
 <p>Le directory <code>/proc</code>, <code>/sys</code>, <code>/dev</code> e <code>/run</code> devono sempre essere escluse: rappresentano interfacce verso il kernel e non file da analizzare.</p>
-<h3 id="scansione-con-clamscan-standalone"><a class="header-anchor" href="#scansione-con-clamscan-standalone"><i class="bi bi-link-45deg"></i></a> Scansione con clamscan (standalone)</h3>
+<h3 id="scansione-con-clamscan-standalone">Scansione con clamscan (standalone)</h3>
 <p><code>clamscan</code> non dipende da <code>clamd</code> ed è quindi utile in script eseguiti su sistemi dove il demone non è attivo, oppure in contesti containerizzati minimali. Lo svantaggio principale è il tempo di avvio, dovuto al caricamento completo del database a ogni esecuzione.</p>
 <pre><code class="language-bash">clamscan -r /home /etc /var /tmp --infected --log=scansione.txt
 </code></pre>
@@ -549,7 +557,7 @@ systemctl status clamav-daemon
     </tbody>
   </table>
 </div>
-<h3 id="codici-di-uscita-per-lautomazione"><a class="header-anchor" href="#codici-di-uscita-per-lautomazione"><i class="bi bi-link-45deg"></i></a> Codici di uscita per l'automazione</h3>
+<h3 id="codici-di-uscita-per-lautomazione">Codici di uscita per l'automazione</h3>
 <p>Sia <code>clamscan</code> che <code>clamdscan</code> restituiscono un codice di uscita standardizzato, particolarmente utile quando questi comandi vengono integrati in script di automazione o pipeline:</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -576,13 +584,13 @@ systemctl status clamav-daemon
   </table>
 </div>
 <p>In uno script bash è quindi possibile reagire in modo differenziato ai diversi esiti, ad esempio inviando una notifica solo in caso di rilevamento (codice 1) e loggando separatamente gli errori di sistema (codice 2).</p>
-<h2 id="monitoraggio-in-tempo-reale"><a class="header-anchor" href="#monitoraggio-in-tempo-reale"><i class="bi bi-link-45deg"></i></a> Monitoraggio in tempo reale</h2>
+<h2 id="monitoraggio-in-tempo-reale">Monitoraggio in tempo reale</h2>
 <p>ClamAV offre la modalità &quot;On-Access Scan&quot; tramite il binario <code>clamav-clamonacc</code>, che si appoggia all'interfaccia <code>fanotify</code> del kernel Linux per intercettare in tempo reale le operazioni sui file. Si tratta della soluzione più completa, ma comporta un impatto costante sulle prestazioni del sistema, poiché ogni accesso ai file monitorati viene intercettato dal kernel e instradato verso ClamAV.</p>
 <p>Per workstation desktop o ambienti con risorse limitate, una soluzione più leggera ed efficiente in termini di consumo di CPU consiste nell'implementare un watchdog basato su <code>inotifywait</code>, che monitora solo gli eventi di scrittura e spostamento file nelle directory di interesse, delegando la scansione effettiva a <code>clamdscan</code>.</p>
-<h3 id="installazione-degli-strumenti-necessari"><a class="header-anchor" href="#installazione-degli-strumenti-necessari"><i class="bi bi-link-45deg"></i></a> Installazione degli strumenti necessari</h3>
+<h3 id="installazione-degli-strumenti-necessari">Installazione degli strumenti necessari</h3>
 <pre><code class="language-bash">sudo apt install -y inotify-tools
 </code></pre>
-<h3 id="creazione-dello-script-di-watchdog"><a class="header-anchor" href="#creazione-dello-script-di-watchdog"><i class="bi bi-link-45deg"></i></a> Creazione dello script di watchdog</h3>
+<h3 id="creazione-dello-script-di-watchdog">Creazione dello script di watchdog</h3>
 <pre><code class="language-bash">mkdir -p ~/.local/bin
 nano ~/.local/bin/clamav-watch.sh
 </code></pre>
@@ -598,7 +606,7 @@ done
 <p>Rendere lo script eseguibile:</p>
 <pre><code class="language-bash">chmod +x ~/.local/bin/clamav-watch.sh
 </code></pre>
-<h3 id="creazione-del-servizio-systemd-utente"><a class="header-anchor" href="#creazione-del-servizio-systemd-utente"><i class="bi bi-link-45deg"></i></a> Creazione del servizio systemd utente</h3>
+<h3 id="creazione-del-servizio-systemd-utente">Creazione del servizio systemd utente</h3>
 <pre><code class="language-bash">mkdir -p ~/.config/systemd/user
 nano ~/.config/systemd/user/clamav-watch.service
 </code></pre>
@@ -614,7 +622,7 @@ RestartSec=5
 WantedBy=default.target
 </code></pre>
 <p>Un errore comune in questa fase è l'utilizzo del nome di sezione errato <code>[Services]</code> al posto di <code>[Service]</code> (forma singolare): systemd non riconosce la sezione e l'avvio del servizio fallisce.</p>
-<h3 id="abilitazione-e-avvio-del-servizio"><a class="header-anchor" href="#abilitazione-e-avvio-del-servizio"><i class="bi bi-link-45deg"></i></a> Abilitazione e avvio del servizio</h3>
+<h3 id="abilitazione-e-avvio-del-servizio">Abilitazione e avvio del servizio</h3>
 <pre><code class="language-bash">systemctl --user daemon-reload
 systemctl --user enable --now clamav-watch.service
 systemctl --user status clamav-watch.service
@@ -625,7 +633,7 @@ Active: active (running)
 Memory: 1.1M (peak: 1.6M)
 </code></pre>
 <p>Il consumo di memoria estremamente contenuto (circa 1 MB) confirma il vantaggio di questo approccio rispetto a una soluzione on-access basata su fanotify, costantemente attiva e con un'impronta sulle risorse decisamente maggiore.</p>
-<h3 id="verifica-del-funzionamento"><a class="header-anchor" href="#verifica-del-funzionamento"><i class="bi bi-link-45deg"></i></a> Verifica del funzionamento</h3>
+<h3 id="verifica-del-funzionamento">Verifica del funzionamento</h3>
 <pre><code class="language-bash">echo &quot;test&quot; &gt; ~/Scaricati/prova.txt
 clamdscan ~/Scaricati/prova.txt --infected --fdpass
 rm ~/Scaricati/prova.txt
@@ -633,7 +641,7 @@ rm ~/Scaricati/prova.txt
 <p>Gli eventuali file rilevati come infetti vengono registrati automaticamente nel journal. Per consultarli:</p>
 <pre><code class="language-bash">journalctl -t clamav-watch --no-pager
 </code></pre>
-<h3 id="logica-di-funzionamento-dello-script"><a class="header-anchor" href="#logica-di-funzionamento-dello-script"><i class="bi bi-link-45deg"></i></a> Logica di funzionamento dello script</h3>
+<h3 id="logica-di-funzionamento-dello-script">Logica di funzionamento dello script</h3>
 <p>Il flusso operativo del watchdog può essere schematizzato come segue:</p>
 <pre><code class="language-text">File creato o modificato in una directory monitorata
         |
@@ -647,7 +655,7 @@ clamdscan --infected --fdpass --quiet esegue la scansione
 Se infetto -&gt; logger -t clamav-watch -&gt; syslog/journal
 Se pulito  -&gt; nessuna azione (filtrato da grep -v &quot;OK$&quot;)
 </code></pre>
-<h2 id="automazione-delle-scansioni-pianificate"><a class="header-anchor" href="#automazione-delle-scansioni-pianificate"><i class="bi bi-link-45deg"></i></a> Automazione delle scansioni pianificate</h2>
+<h2 id="automazione-delle-scansioni-pianificate">Automazione delle scansioni pianificate</h2>
 <p>Oltre al monitoraggio in tempo reale, è buona prassi pianificare scansioni periodiche complete del sistema, ad esempio in orari di basso utilizzo. Su sistemi Linux moderni, i timer systemd rappresentano un'alternativa più robusta al classico cron, offrendo log centralizzati tramite journald e una gestione più granulare delle dipendenze.</p>
 <p>Definizione del servizio di scansione:</p>
 <pre><code class="language-ini">[Unit]
@@ -669,7 +677,7 @@ WantedBy=timers.target
 <pre><code class="language-bash">sudo systemctl daemon-reload
 sudo systemctl enable --now clamav-fullscan.timer
 </code></pre>
-<h2 id="best-practice-di-sicurezza-e-ottimizzazione"><a class="header-anchor" href="#best-practice-di-sicurezza-e-ottimizzazione"><i class="bi bi-link-45deg"></i></a> Best practice di sicurezza e ottimizzazione</h2>
+<h2 id="best-practice-di-sicurezza-e-ottimizzazione">Best practice di sicurezza e ottimizzazione</h2>
 <p>L'implementazione di un sistema antivirus efficace non si limita all'installazione dei pacchetti: alcuni accorgimenti aggiuntivi migliorano sensibilmente la sicurezza e l'efficienza complessiva.</p>
 <ul>
 <li><strong>Permessi della directory di quarantena</strong>: se si utilizza l'opzione <code>--move=DIR</code>, la directory di destinazione deve essere accessibile in scrittura dall'utente con cui viene eseguito <code>clamd</code>, ma non deve essere accessibile in esecuzione, per evitare che file potenzialmente dannosi vengano eseguiti accidentalmente.</li>
@@ -678,7 +686,7 @@ sudo systemctl enable --now clamav-fullscan.timer
 <li><strong>Rotazione dei log</strong>: se il watchdog genera un volume significativo di log tramite <code>logger</code>, è opportuno verificare la configurazione di <code>logrotate</code> per la voce relativa a <code>clamav-watch</code>, evitando una crescita incontrollata dei file in <code>/var/log</code>.</li>
 <li><strong>Gestione dei falsi positivi</strong>: prima di applicare <code>--remove</code> in modo automatico, è preferibile testare le regole con <code>--move</code> verso una quarantena, verificando manualmente i risultati per un periodo iniziale ed evitando la rimozione accidentale di file legittimi.</li>
 </ul>
-<h2 id="cheat-sheet-dei-comandi-principali"><a class="header-anchor" href="#cheat-sheet-dei-comandi-principali"><i class="bi bi-link-45deg"></i></a> Cheat sheet dei comandi principali</h2>
+<h2 id="cheat-sheet-dei-comandi-principali">Cheat sheet dei comandi principali</h2>
 <p>Per un riferimento rapido durante l'operatività quotidiana:</p>
 <pre><code class="language-bash">systemctl status clamav-freshclam
 systemctl status clamav-daemon
@@ -689,7 +697,7 @@ journalctl -t clamav-watch --no-pager
 journalctl -u clamav-daemon.service --no-pager -n 20
 clamscan --version
 </code></pre>
-<h2 id="risoluzione-dei-problemi-comuni"><a class="header-anchor" href="#risoluzione-dei-problemi-comuni"><i class="bi bi-link-45deg"></i></a> Risoluzione dei problemi comuni</h2>
+<h2 id="risoluzione-dei-problemi-comuni">Risoluzione dei problemi comuni</h2>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
     <thead class="table-dark">
@@ -718,7 +726,7 @@ clamscan --version
     </tbody>
   </table>
 </div>
-<h2 id="file-e-percorsi-principali"><a class="header-anchor" href="#file-e-percorsi-principali"><i class="bi bi-link-45deg"></i></a> File e percorsi principali</h2>
+<h2 id="file-e-percorsi-principali">File e percorsi principali</h2>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
     <thead class="table-dark">
@@ -755,6 +763,7 @@ clamscan --version
     </tbody>
   </table>
 </div>
+
     </section>
 
     <div class="section-divider mt-5 mb-4">Commenti</div>

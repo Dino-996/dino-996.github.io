@@ -62,6 +62,11 @@
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
 
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
@@ -106,6 +111,9 @@
         </li>
         <li class="nav-item">
           <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/courses/">Courses</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/about/">About</a>
@@ -385,14 +393,14 @@
     
 
     <section class="content">
-      <h2 id="indirizzamento-ipv4"><a class="header-anchor" href="#indirizzamento-ipv4"><i class="bi bi-link-45deg"></i></a> Indirizzamento IPv4</h2>
+      <h2 id="indirizzamento-ipv4">Indirizzamento IPv4</h2>
 <p>Ogni dispositivo che partecipa a una rete IP, che si tratti di una LAN aziendale<br>
 o di Internet, deve essere identificato in modo univoco. Questo identificatore è<br>
 l'<strong>indirizzo IPv4</strong>: un indirizzo logico a 32 bit che permette ai pacchetti di<br>
 raggiungere la destinazione corretta attraverso infrastrutture di rete eterogenee.<br>
 Comprenderne la struttura è prerequisito indispensabile per chiunque lavori con<br>
 reti, sistemi distribuiti o infrastrutture cloud.</p>
-<h2 id="struttura-di-un-indirizzo-ipv4"><a class="header-anchor" href="#struttura-di-un-indirizzo-ipv4"><i class="bi bi-link-45deg"></i></a> Struttura di un indirizzo IPv4</h2>
+<h2 id="struttura-di-un-indirizzo-ipv4">Struttura di un indirizzo IPv4</h2>
 <p>Un indirizzo IPv4 è composto da <strong>32 bit</strong>, normalmente rappresentati in forma<br>
 binaria come una sequenza continua:</p>
 <pre><code class="language-text">11010001101001011100100000000001
@@ -415,7 +423,7 @@ ottetti = ip_binario.split(&quot;.&quot;)
 ip_decimale = &quot;.&quot;.join(str(int(o, 2)) for o in ottetti)
 print(ip_decimale)  # Output: 209.165.200.1
 </code></pre>
-<h2 id="la-struttura-gerarchica"><a class="header-anchor" href="#la-struttura-gerarchica"><i class="bi bi-link-45deg"></i></a> La struttura gerarchica</h2>
+<h2 id="la-struttura-gerarchica">La struttura gerarchica</h2>
 <p>L'indirizzo IPv4 non è una sequenza piatta di bit: ha una <strong>struttura gerarchica</strong><br>
 composta da due parti logiche distinte:</p>
 <ul>
@@ -433,7 +441,7 @@ comunicare direttamente senza l'intervento di un router.</p>
 <p><strong>Analogia pratica:</strong> il meccanismo è assimilabile a un numero di telefono internazionale,<br>
 dove il prefisso paese e il prefisso locale identificano la &quot;rete&quot; (zona geografica)<br>
 e il numero finale identifica il singolo &quot;host&quot; (abbonato).</p>
-<h2 id="la-maschera-di-sottorete-subnet-mask"><a class="header-anchor" href="#la-maschera-di-sottorete-subnet-mask"><i class="bi bi-link-45deg"></i></a> La maschera di sottorete (subnet mask)</h2>
+<h2 id="la-maschera-di-sottorete-subnet-mask">La maschera di sottorete (subnet mask)</h2>
 <p>La <strong>subnet mask</strong> è lo strumento che consente ai dispositivi di determinare quale<br>
 parte dell'indirizzo IPv4 rappresenta la rete e quale rappresenta l'host.<br>
 Anch'essa è un valore a 32 bit, in cui i bit impostati a <code>1</code> indicano la porzione<br>
@@ -478,7 +486,7 @@ di rete e quelli a <code>0</code> la porzione host.</p>
 </div>
 <p>Una subnet mask <code>/24</code> (255.255.255.0) permette di indirizzare fino a <strong>254 host</strong><br>
 utilizzabili (256 indirizzi totali, meno l'indirizzo di rete e quello di broadcast).</p>
-<h2 id="notazione-cidr"><a class="header-anchor" href="#notazione-cidr"><i class="bi bi-link-45deg"></i></a> Notazione CIDR</h2>
+<h2 id="notazione-cidr">Notazione CIDR</h2>
 <p>Nei contesti professionali moderni, la subnet mask viene quasi sempre espressa<br>
 nella notazione <strong>CIDR</strong> (<em>Classless Inter-Domain Routing</em>), introdotta dalla<br>
 RFC 1519 per superare i limiti del vecchio sistema di classi A/B/C.</p>
@@ -491,7 +499,7 @@ di bit riservati alla porzione di rete:</p>
 <p>La notazione CIDR è obbligatoria in contesti come la configurazione di firewall,<br>
 le rotte statiche su router, le security group rule nei provider cloud (AWS, Azure,<br>
 GCP) e i file di configurazione di strumenti come Ansible o Terraform.</p>
-<h2 id="reti-logiche-su-una-stessa-rete-fisica"><a class="header-anchor" href="#reti-logiche-su-una-stessa-rete-fisica"><i class="bi bi-link-45deg"></i></a> Reti logiche su una stessa rete fisica</h2>
+<h2 id="reti-logiche-su-una-stessa-rete-fisica">Reti logiche su una stessa rete fisica</h2>
 <p>IPv4 permette la coesistenza di <strong>più reti logiche su un'unica infrastruttura<br>
 fisica</strong>. Se due gruppi di host condividono lo stesso segmento fisico (es. stesso<br>
 switch) ma appartengono a subnet diverse, non possono comunicare tra loro senza<br>
@@ -532,7 +540,7 @@ passare per un router o un layer-3 switch.</p>
 <p>Un host configurato con la porzione di rete errata rispetto alla propria subnet<br>
 non sarà in grado di comunicare: sarà isolato anche se fisicamente connesso.<br>
 Questo è uno degli errori di configurazione più comuni in fase di provisioning.</p>
-<h2 id="il-gateway-predefinito"><a class="header-anchor" href="#il-gateway-predefinito"><i class="bi bi-link-45deg"></i></a> Il gateway predefinito</h2>
+<h2 id="il-gateway-predefinito">Il gateway predefinito</h2>
 <p>Quando un host deve inviare traffico verso un indirizzo IP che <strong>non appartiene<br>
 alla propria subnet</strong>, incapsula il pacchetto e lo consegna al <strong>gateway<br>
 predefinito</strong> (<em>default gateway</em>): tipicamente l'interfaccia del router locale.</p>
@@ -541,7 +549,7 @@ routing e instrada il pacchetto verso la rete corretta. I router non necessitano
 di conoscere la posizione di ogni singolo host: devono solo sapere come<br>
 raggiungere ciascuna <strong>rete</strong>, questo è il beneficio diretto dell'indirizzamento<br>
 gerarchico.</p>
-<h2 id="indirizzi-privati-e-pubblici-rfc-1918"><a class="header-anchor" href="#indirizzi-privati-e-pubblici-rfc-1918"><i class="bi bi-link-45deg"></i></a> Indirizzi privati e pubblici: RFC 1918</h2>
+<h2 id="indirizzi-privati-e-pubblici-rfc-1918">Indirizzi privati e pubblici: RFC 1918</h2>
 <p>Non tutti gli indirizzi IPv4 sono instradabili su Internet. La <strong>RFC 1918</strong><br>
 definisce tre blocchi riservati per uso esclusivamente privato (reti locali,<br>
 data center interni, ambienti di laboratorio):</p>
@@ -580,7 +588,7 @@ data center interni, ambienti di laboratorio):</p>
 <p>Gli indirizzi privati non sono mai instradati direttamente su Internet: vengono<br>
 tradotti in indirizzi pubblici tramite il meccanismo <strong>NAT</strong> (<em>Network Address<br>
 Translation</em>), implementato tipicamente sul router di bordo o sul firewall perimetrale.</p>
-<h2 id="indirizzi-speciali-e-riservati"><a class="header-anchor" href="#indirizzi-speciali-e-riservati"><i class="bi bi-link-45deg"></i></a> Indirizzi speciali e riservati</h2>
+<h2 id="indirizzi-speciali-e-riservati">Indirizzi speciali e riservati</h2>
 <p>Alcuni indirizzi IPv4 hanno una semantica riservata e non possono essere assegnati<br>
 agli host:</p>
 <div class="table-responsive shadow-sm rounded mb-3">
@@ -621,7 +629,7 @@ agli host:</p>
 </div>
 <p>La comparsa di un indirizzo <code>169.254.x.x</code> su un'interfaccia è un sintomo<br>
 diagnostico inequivocabile: il client non ha raggiunto il server DHCP.</p>
-<h2 id="assegnazione-degli-indirizzi-statica-e-dinamica-dhcp"><a class="header-anchor" href="#assegnazione-degli-indirizzi-statica-e-dinamica-dhcp"><i class="bi bi-link-45deg"></i></a> Assegnazione degli indirizzi: statica e dinamica (DHCP)</h2>
+<h2 id="assegnazione-degli-indirizzi-statica-e-dinamica-dhcp">Assegnazione degli indirizzi: statica e dinamica (DHCP)</h2>
 <p>Un indirizzo IPv4 può essere assegnato a un'interfaccia in due modalità:</p>
 <p><strong>Configurazione statica</strong>: L'amministratore assegna manualmente indirizzo IP,<br>
 subnet mask, gateway e DNS. È la modalità preferita per server, stampanti di<br>
@@ -641,7 +649,7 @@ seguenti comandi:</p>
 </code></pre>
 <p>L'output mostrerà indirizzo IP, subnet mask, gateway predefinito, server DNS e,<br>
 nel caso DHCP, la durata del lease e l'indirizzo del server che lo ha assegnato.</p>
-<h2 id="tipologie-di-comunicazione-ipv4"><a class="header-anchor" href="#tipologie-di-comunicazione-ipv4"><i class="bi bi-link-45deg"></i></a> Tipologie di comunicazione IPv4</h2>
+<h2 id="tipologie-di-comunicazione-ipv4">Tipologie di comunicazione IPv4</h2>
 <p>In IPv4 esistono quattro modalità fondamentali con cui un mittente può indirizzare un<br>
 pacchetto verso uno o più destinatari. La scelta della modalità dipende dal numero di<br>
 destinatari, dalla loro distribuzione e dal protocollo applicativo coinvolto.</p>
@@ -688,12 +696,12 @@ destinatari, dalla loro distribuzione e dal protocollo applicativo coinvolto.</p
     </tbody>
   </table>
 </div>
-<h3 id="unicast"><a class="header-anchor" href="#unicast"><i class="bi bi-link-45deg"></i></a> Unicast</h3>
+<h3 id="unicast">Unicast</h3>
 <p>La comunicazione <strong>Unicast</strong> è la modalità predefinita e più comune: un singolo mittente<br>
 invia un pacchetto a un singolo destinatario identificato da un indirizzo IP univoco.<br>
 Tutta la navigazione web, le connessioni SSH, le sessioni API e il traffico applicativo<br>
 standard sono unicast.</p>
-<h3 id="multicast"><a class="header-anchor" href="#multicast"><i class="bi bi-link-45deg"></i></a> Multicast</h3>
+<h3 id="multicast">Multicast</h3>
 <p>Il <strong>Multicast</strong> consente a un mittente di raggiungere simultaneamente un gruppo di<br>
 destinatari senza replicare il pacchetto per ogni destinatario. I pacchetti vengono<br>
 inviati a un <strong>indirizzo di gruppo</strong> nella classe D (224.0.0.0/4) e replicati dai<br>
@@ -740,7 +748,7 @@ interfacce inoltrare il traffico multicast.</p>
     </tbody>
   </table>
 </div>
-<h3 id="broadcast"><a class="header-anchor" href="#broadcast"><i class="bi bi-link-45deg"></i></a> Broadcast</h3>
+<h3 id="broadcast">Broadcast</h3>
 <p>Il <strong>Broadcast</strong> invia un pacchetto a <strong>tutti gli host</strong> di una rete o sottorete senza<br>
 che il mittente conosca gli indirizzi individuali. Esistono due varianti:</p>
 <ul>
@@ -754,7 +762,7 @@ Smurf), i router moderni disabilitano di default l'inoltro dei directed broadcas
 </ul>
 <p>Il broadcast è confinato al <strong>broadcast domain</strong>: un router segna il confine tra domini<br>
 distinti, impedendo la propagazione del traffico broadcast su tutta la rete.</p>
-<h3 id="anycast"><a class="header-anchor" href="#anycast"><i class="bi bi-link-45deg"></i></a> Anycast</h3>
+<h3 id="anycast">Anycast</h3>
 <p><strong>Anycast</strong> assegna lo stesso indirizzo IP a più nodi geograficamente distribuiti. Il<br>
 router instraderà automaticamente il pacchetto verso il nodo &quot;più vicino&quot; in base alla<br>
 metrica di routing (solitamente BGP). L'Anycast è trasparente per il mittente: non sa<br>
@@ -767,7 +775,7 @@ richieste HTTP al PoP (Point of Presence) più vicino.</li>
 <li><strong>DDoS mitigation</strong>: il traffico di attacco viene assorbito e distribuito su più nodi<br>
 invece di colpire un singolo indirizzo.</li>
 </ul>
-<h3 id="nat-network-address-translation"><a class="header-anchor" href="#nat-network-address-translation"><i class="bi bi-link-45deg"></i></a> NAT (Network Address Translation)</h3>
+<h3 id="nat-network-address-translation">NAT (Network Address Translation)</h3>
 <p>Il <strong>NAT</strong> è il meccanismo che permette a un intero range di indirizzi privati di<br>
 condividere uno o più indirizzi pubblici verso Internet. Il router di bordo mantiene<br>
 una <strong>NAT translation table</strong> che mappa la coppia <code>{IP_privato:porta_sorgente}</code> alla<br>
@@ -783,8 +791,8 @@ di sessioni simultanee grazie alla differenziazione per numero di porta.</p>
 2011 con l'esaurimento del pool IANA) ma introduce limitazioni architetturali: rompe<br>
 il modello end-to-end di Internet e complica protocolli che incorporano indirizzi IP<br>
 nel payload (FTP, SIP, H.323).</p>
-<h2 id="segmentazione-della-rete"><a class="header-anchor" href="#segmentazione-della-rete"><i class="bi bi-link-45deg"></i></a> Segmentazione della rete</h2>
-<h3 id="perche-segmentare"><a class="header-anchor" href="#perche-segmentare"><i class="bi bi-link-45deg"></i></a> Perché segmentare</h3>
+<h2 id="segmentazione-della-rete">Segmentazione della rete</h2>
+<h3 id="perche-segmentare">Perché segmentare</h3>
 <p>Dividere una rete in sottoreti più piccole offre quattro benefici fondamentali:</p>
 <ul>
 <li><strong>Riduzione dei broadcast domain</strong>: ogni broadcast è confinato alla propria subnet,<br>
@@ -796,7 +804,7 @@ e traffico indesiderato su ogni link.</li>
 <li><strong>Gestione e troubleshooting</strong>: problemi localizzati a una subnet sono più facili da<br>
 identificare e risolvere.</li>
 </ul>
-<h3 id="vlsm-variable-length-subnet-masking"><a class="header-anchor" href="#vlsm-variable-length-subnet-masking"><i class="bi bi-link-45deg"></i></a> VLSM (Variable Length Subnet Masking)</h3>
+<h3 id="vlsm-variable-length-subnet-masking">VLSM (Variable Length Subnet Masking)</h3>
 <p>Il <strong>VLSM</strong> permette di assegnare subnet mask di lunghezza diversa a segmenti diversi<br>
 della stessa rete, ottimizzando l'utilizzo degli indirizzi. Anziché suddividere<br>
 meccanicamente uno spazio in blocchi uguali, con VLSM si assegna a ogni segmento<br>
@@ -810,19 +818,19 @@ Link WAN:            10.0.0.104/30  →  2 host usabili
 </code></pre>
 <p>Senza VLSM, quattro subnet /26 avrebbero sprecato 3×14 + 60 indirizzi. Con VLSM,<br>
 lo spreco è minimo.</p>
-<h3 id="segmentazione-logica-con-vlan"><a class="header-anchor" href="#segmentazione-logica-con-vlan"><i class="bi bi-link-45deg"></i></a> Segmentazione logica con VLAN</h3>
+<h3 id="segmentazione-logica-con-vlan">Segmentazione logica con VLAN</h3>
 <p>Il subnetting opera al <strong>Layer 3</strong> (rete). La segmentazione al <strong>Layer 2</strong> si ottiene<br>
 tramite <strong>VLAN (Virtual LAN)</strong>: switch managed possono isolare il traffico Ethernet in<br>
 broadcast domain distinti anche sullo stesso hardware fisico. Ogni VLAN corrisponde<br>
 tipicamente a una subnet IP separata; il traffico inter-VLAN transita attraverso un<br>
 router o uno switch L3 (configurazione <strong>router-on-a-stick</strong> o <strong>SVI</strong>).</p>
-<h2 id="routing-e-routing-table"><a class="header-anchor" href="#routing-e-routing-table"><i class="bi bi-link-45deg"></i></a> Routing e routing table</h2>
-<h3 id="cose-il-routing"><a class="header-anchor" href="#cose-il-routing"><i class="bi bi-link-45deg"></i></a> Cos'è il routing</h3>
+<h2 id="routing-e-routing-table">Routing e routing table</h2>
+<h3 id="cose-il-routing">Cos'è il routing</h3>
 <p>Il <strong>routing</strong> è il processo attraverso cui un router decide su quale interfaccia<br>
 uscente inoltrare un pacchetto IP in base all'indirizzo di destinazione. Il router<br>
 esamina il proprio database di percorsi — la <strong>routing table</strong> — e applica il<br>
 criterio del <strong>longest prefix match</strong> per selezionare la route più specifica.</p>
-<h3 id="struttura-della-routing-table"><a class="header-anchor" href="#struttura-della-routing-table"><i class="bi bi-link-45deg"></i></a> Struttura della routing table</h3>
+<h3 id="struttura-della-routing-table">Struttura della routing table</h3>
 <p>Ogni entry nella routing table contiene almeno questi campi:</p>
 <div class="table-responsive shadow-sm rounded mb-3">
   <table class="table table-bordered table-striped table-hover align-middle mb-0">
@@ -867,7 +875,7 @@ criterio del <strong>longest prefix match</strong> per selezionare la route più
     </tbody>
   </table>
 </div>
-<h3 id="output-reale-show-ip-route-cisco-ios"><a class="header-anchor" href="#output-reale-show-ip-route-cisco-ios"><i class="bi bi-link-45deg"></i></a> Output reale: <code>show ip route</code> (Cisco IOS)</h3>
+<h3 id="output-reale-show-ip-route-cisco-ios">Output reale: <code>show ip route</code> (Cisco IOS)</h3>
 <pre><code class="language-text">Router# show ip route
 Codes: C - connected, S - static, R - RIP, O - OSPF, B - BGP
 Gateway of last resort is 10.0.0.1 to network 0.0.0.0
@@ -880,7 +888,7 @@ S*   0.0.0.0/0 [1/0] via 10.0.0.1
 <p>La notazione <code>[AD/metric]</code> indica rispettivamente l'<strong>Administrative Distance</strong> e la<br>
 <strong>metrica</strong> della route. La route <code>O 172.16.0.0/16 [110/20]</code> è appresa via OSPF (AD=110),<br>
 con costo 20, raggiungibile tramite il next-hop 10.0.0.2.</p>
-<h3 id="output-reale-ip-route-show-linux"><a class="header-anchor" href="#output-reale-ip-route-show-linux"><i class="bi bi-link-45deg"></i></a> Output reale: <code>ip route show</code> (Linux)</h3>
+<h3 id="output-reale-ip-route-show-linux">Output reale: <code>ip route show</code> (Linux)</h3>
 <pre><code class="language-bash">$ ip route show
 default via 192.168.1.1 dev eth0 proto dhcp metric 100
 10.8.0.0/24 dev tun0 proto kernel scope link src 10.8.0.2
@@ -888,7 +896,7 @@ default via 192.168.1.1 dev eth0 proto dhcp metric 100
 </code></pre>
 <p>La route <code>default</code> (equivalente di 0.0.0.0/0) punta al gateway 192.168.1.1 sull'interfaccia<br>
 <code>eth0</code>. La route <code>10.8.0.0/24</code> è la rete del tunnel VPN sull'interfaccia <code>tun0</code>.</p>
-<h3 id="longest-prefix-match"><a class="header-anchor" href="#longest-prefix-match"><i class="bi bi-link-45deg"></i></a> Longest prefix match</h3>
+<h3 id="longest-prefix-match">Longest prefix match</h3>
 <p>Quando più route nella tabella corrispondono all'indirizzo di destinazione di un<br>
 pacchetto, il router sceglie sempre la <strong>più specifica</strong> — cioè quella con il prefisso<br>
 più lungo (più bit di rete). Questo meccanismo si chiama <strong>longest prefix match</strong>.</p>
@@ -902,7 +910,7 @@ segmento a cui appartiene l'host destinazione. Route A e B corrispondono anch'es
 all'indirizzo, ma sono meno precise.</p>
 <p>Se nessuna route specifica corrisponde, il pacchetto viene inoltrato tramite la<br>
 <strong>default route</strong> (<code>0.0.0.0/0</code>), che funge da &quot;catch-all&quot; verso il gateway di bordo.</p>
-<h3 id="administrative-distance"><a class="header-anchor" href="#administrative-distance"><i class="bi bi-link-45deg"></i></a> Administrative Distance</h3>
+<h3 id="administrative-distance">Administrative Distance</h3>
 <p>Quando un router apprende lo stesso prefisso da sorgenti diverse (es. una route statica<br>
 e OSPF concordano sulla stessa destinazione), la <strong>Administrative Distance (AD)</strong> determina<br>
 quale viene preferita. Valori più bassi indicano maggiore affidabilità.</p>
@@ -954,7 +962,7 @@ quale viene preferita. Valori più bassi indicano maggiore affidabilità.</p>
     </tbody>
   </table>
 </div>
-<h3 id="routing-statico-vs-dinamico"><a class="header-anchor" href="#routing-statico-vs-dinamico"><i class="bi bi-link-45deg"></i></a> Routing statico vs dinamico</h3>
+<h3 id="routing-statico-vs-dinamico">Routing statico vs dinamico</h3>
 <p>Il <strong>routing statico</strong> consiste nella configurazione manuale delle route da parte<br>
 dell'amministratore. È semplice, prevedibile e non genera traffico di controllo, ma<br>
 non si adatta automaticamente ai guasti o ai cambiamenti topologici.</p>
@@ -1014,7 +1022,7 @@ dopo un guasto e supporta nativamente VLSM e CIDR.</p>
 scambiando informazioni di raggiungibilità su sessioni TCP/179. È classificato come<br>
 <strong>path vector</strong>: non propaga metriche di costo ma l'intero percorso di AS attraversati,<br>
 consentendo policy di routing molto flessibili.</p>
-<h2 id="il-problema-dellesaurimento-degli-indirizzi"><a class="header-anchor" href="#il-problema-dellesaurimento-degli-indirizzi"><i class="bi bi-link-45deg"></i></a> Il problema dell'esaurimento degli indirizzi</h2>
+<h2 id="il-problema-dellesaurimento-degli-indirizzi">Il problema dell'esaurimento degli indirizzi</h2>
 <p>Lo spazio di indirizzamento IPv4, circa 4,3 miliardi di indirizzi, è stato<br>
 <strong>formalmente esaurito</strong> a livello IANA nel febbraio 2011. I registri regionali<br>
 (RIPE NCC, ARIN, APNIC) hanno terminato le proprie riserve in anni successivi.</p>
