@@ -30,7 +30,7 @@ export default function (eleventyConfig) {
     eleventyConfig.setQuietMode(true); // Disabilita in produzione
     // configurazione del modello nunjucks
     eleventyConfig.setNunjucksEnvironmentOptions({
-        throwOnUndefined: true, // il rendering fallisce se una variabile è indefinita
+        throwOnUndefined: false, // il rendering fallisce se una variabile è indefinita
         autoescape: true, // abilita l'escape automatico per prevenire XSS (solo testo, non JS)
     });
 

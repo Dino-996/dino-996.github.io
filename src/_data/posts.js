@@ -1,12 +1,27 @@
 import 'dotenv/config';
 import process from "process";
 
+async function fetchWithRetry(url, options, retries = 3, baseDelay = 1500) {
+    for (let i = 0; i < retries; i++) {
+        try {
+            const res = await fetch(url, options);
+            if (res.ok) return res;
+            console.warn(`[posts] Tentativo ${i + 1}/${retries} fallito (${res.status}), riprovo...`);
+        } catch (err) {
+            if (i === retries - 1) throw err;
+            console.warn(`[posts] Tentativo ${i + 1}/${retries} fallito: ${err.message}, riprovo...`);
+        }
+        await new Promise(r => setTimeout(r, baseDelay * Math.pow(2, i)));
+    }
+    throw new Error('Tutti i tentativi di connessione a Strapi sono falliti');
+}
+
 export default async function () {
     const STRAPI_URL = process.env.STRAPI_URL ?? 'http://localhost:1337';
     const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
     try {
-        const res = await fetch(
+        const res = await fetchWithRetry(
             `${STRAPI_URL}/api/posts?locale=it&populate=*`,
             {
                 headers: {
@@ -16,16 +31,28 @@ export default async function () {
             }
         );
 
-        if (!res.ok) {
-            console.error('[posts] Errore Strapi:', res.status);
-            return [];
-        }
-
         const { data } = await res.json();
 
         if (!data || data.length === 0) {
             console.warn("[posts] Nessun dato ricevuto da Strapi");
-            return [];
+            return [{
+                permalink: false,
+                title: '',
+                description: '',
+                tags: [],
+                strapiTags: '',
+                displayTags: '',
+                date: new Date(),
+                updatedAt: null,
+                excerpt: '',
+                slug: '_empty',
+                content: '',
+                author: '',
+                authorAvatar: null,
+                image: null,
+                imageAlt: '',
+                url: '',
+            }];
         }
 
         const data_map = data.map((item) => {
@@ -75,6 +102,23 @@ export default async function () {
 
     } catch (err) {
         console.error('[posts] Fetch fallito:', err.message);
-        return [];
+        return [{
+            permalink: false,
+            title: '',
+            description: '',
+            tags: [],
+            strapiTags: '',
+            displayTags: '',
+            date: new Date(),
+            updatedAt: null,
+            excerpt: '',
+            slug: '_empty',
+            content: '',
+            author: '',
+            authorAvatar: null,
+            image: null,
+            imageAlt: '',
+            url: '',
+        }];
     }
 }

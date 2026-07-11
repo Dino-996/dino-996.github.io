@@ -94,5 +94,13 @@
   "Fondamenti di informatica": {
     "tldr": "Le ICT, la spina dorsale delle organizzazioni moderne, comprendono tecnologie per la gestione digitale delle informazioni attraverso servizi internet, e-commerce, e-banking, e-government, e-learning, comunicazione e IoT. L'hardware, componente fisica tangibile dei sistemi informatici come processori e display, è inscindibile dal software per la funzionalità, evolvendosi in tipologie diverse dai supercomputer ai PC, ognuno ottimizzato per specifici carichi di lavoro.",
     "hash": "35707"
+  },
+  "Proxy Client con Tinyproxy": {
+    "tldr": "L'articolo descrive una configurazione di proxy client locale su Linux utilizzando tinyproxy, redsocks e iptables per reindirizzare tutto il traffico TCP di sistema attraverso un proxy HTTP trasparente. Lo schema proposto include opzionalmente danted per il supporto SOCKS5, offrendo controllo centralizzato del traffico in uscita per filtraggio, logging o routing avanzato.",
+    "hash": "22196"
+  },
+  "ClamAV su Linux: guida completa a installazione, scansione e monitoraggio in tempo reale": {
+    "tldr": "ClamAV è una suite antivirus open-source modulare per Unix/Linux, composta da `freshclam` per gli aggiornamenti delle firme, `clamd` come demone di scansione residente in RAM e `clamdscan`/`clamscan` come client per l'analisi dei file. L'installazione standard su Debian/Ubuntu prevede i pacchetti `clamav`, `clamav-daemon` e `clamav-freshclam`, che attivano automaticamente i relativi servizi.",
+    "hash": "19412"
   }
 }
