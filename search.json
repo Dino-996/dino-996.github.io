@@ -1,9 +1,15 @@
 [
   {
-    "title": "Livello di rete e IPV4",
-    "url": "/blog/livello-di-rete/",
-    "description": "Scopri come funziona l&#39;indirizzamento IPv4: dalla struttura a 32 bit alla notazione CIDR, fino alle subnet mask e alla differenza tra IP pubblici e privati (RFC 1918). Una guida fondamentale per professionisti IT, Cloud e DevOps.",
-    "date": "2026-05-25T00:00:00.000Z"
+    "title": "Proxy Client con Tinyproxy",
+    "url": "/blog/proxy-client-con-tinyproxy/",
+    "description": "Guida tecnica completa alla configurazione di un proxy client locale su Linux (Zorin OS/Ubuntu 24.04) per forzare tutto il traffico TCP attraverso un proxy HTTP trasparente. La guida copre l&#39;installazione e configurazione di tinyproxy, dante (SOCKS5) e redsocks, la gestione delle regole iptables per evitare loop di reindirizzamento, la persistenza tramite systemd, i limiti del setup rispetto a DNS/UDP/QUIC e il confronto con le VPN, con indicazioni di hardening e troubleshooting.",
+    "date": "2026-06-03T00:00:00.000Z"
+  },
+  {
+    "title": "ClamAV su Linux: guida completa a installazione, scansione e monitoraggio in tempo reale",
+    "url": "/blog/clamav-antivirus/",
+    "description": "Guida completa a ClamAV su Linux: installazione, verifica dei servizi, scansione con clamdscan e clamscan, monitoraggio in tempo reale con inotifywait, automazione tramite systemd timer e best practice di sicurezza e ottimizzazione delle prestazioni.",
+    "date": "2026-05-28T00:00:00.000Z"
   },
   {
     "title": "Il livello di collegamento dati e Ethernet",

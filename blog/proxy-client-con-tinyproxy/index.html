@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Proxy Client con Tinyproxy · dino-996 blog
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Guida tecnica completa alla configurazione di un proxy client locale su Linux (Zorin OS/Ubuntu 24.04) per forzare tutto il traffico TCP attraverso un proxy HTTP trasparente. La guida copre l&amp;#39;installazione e configurazione di tinyproxy, dante (SOCKS5) e redsocks, la gestione delle regole iptables per evitare loop di reindirizzamento, la persistenza tramite systemd, i limiti del setup rispetto a DNS/UDP/QUIC e il confronto con le VPN, con indicazioni di hardening e troubleshooting." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/proxy-client-con-tinyproxy/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/proxy-client-con-tinyproxy/" />
+
+<meta property="og:title" content="Proxy Client con Tinyproxy" />
+<meta property="og:description" content="Guida tecnica completa alla configurazione di un proxy client locale su Linux (Zorin OS/Ubuntu 24.04) per forzare tutto il traffico TCP attraverso un proxy HTTP trasparente. La guida copre l&amp;#39;installazione e configurazione di tinyproxy, dante (SOCKS5) e redsocks, la gestione delle regole iptables per evitare loop di reindirizzamento, la persistenza tramite systemd, i limiti del setup rispetto a DNS/UDP/QUIC e il confronto con le VPN, con indicazioni di hardening e troubleshooting." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1781252026/tinyproxy_8f599650e3.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/proxy-client-con-tinyproxy/" />
+
+<meta name="twitter:title" content="Proxy Client con Tinyproxy" />
+<meta name="twitter:description" content="Guida tecnica completa alla configurazione di un proxy client locale su Linux (Zorin OS/Ubuntu 24.04) per forzare tutto il traffico TCP attraverso un proxy HTTP trasparente. La guida copre l&amp;#39;installazione e configurazione di tinyproxy, dante (SOCKS5) e redsocks, la gestione delle regole iptables per evitare loop di reindirizzamento, la persistenza tramite systemd, i limiti del setup rispetto a DNS/UDP/QUIC e il confronto con le VPN, con indicazioni di hardening e troubleshooting." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1781252026/tinyproxy_8f599650e3.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Bootstrap icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+    
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img src="/assets/img/avatar/dino-996-32.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;">
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
+          <div class="theme-toggle" role="group" aria-label="Toggle tema">
+            <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-sun"></i>
+            </button>
+            <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-moon"></i>
+            </button>
+            <div class="theme-toggle-slider"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+    <main class="container my-5 flex-grow-1">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781252026/tinyproxy_8f599650e3.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781251320/dino_avatar_81b48107e0.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
+          <time datetime="2026-06-03T00:00:00.000Z">
+            <i class="bi bi-calendar3 me-1"></i>03 giugno 2026
+          </time>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-06-12T09:38:23.000Z">
+                <i class="bi bi-pencil me-1"></i>12 giugno 2026
+              </time>
+            </span>
+          
+        </div>
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fproxy-client-con-tinyproxy%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Proxy%20Client%20con%20Tinyproxy&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fproxy-client-con-tinyproxy%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fproxy-client-con-tinyproxy%2F&title=Proxy%20Client%20con%20Tinyproxy"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fproxy-client-con-tinyproxy%2F&t=Proxy%20Client%20con%20Tinyproxy"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
+          
+          
+          
+            
+            
+              <a href="/tags/tinyproxy/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                tinyproxy
+              </a>
+            
+          
+            
+            
+              <a href="/tags/networking/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                networking
+              </a>
+            
+          
+            
+            
+              <a href="/tags/proxy/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                proxy
+              </a>
+            
+          
+            
+            
+              <a href="/tags/iptables/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                iptables
+              </a>
+            
+          
+            
+            
+              <a href="/tags/vpn/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                VPN
+              </a>
+            
+          
+            
+            
+              <a href="/tags/ubuntu/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                ubuntu
+              </a>
+            
+          
+        </div>
+      </div>
+      </div>
+    </div>
+  </aside>
+
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Proxy Client con Tinyproxy</h1>
+
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781251320/dino_avatar_81b48107e0.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2026-06-03T00:00:00.000Z">03 giugno 2026</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/tinyproxy/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              tinyproxy
+            </a>
+          
+        
+          
+          
+            <a href="/tags/networking/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              networking
+            </a>
+          
+        
+          
+          
+            <a href="/tags/proxy/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              proxy
+            </a>
+          
+        
+          
+          
+            <a href="/tags/iptables/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              iptables
+            </a>
+          
+        
+          
+          
+            <a href="/tags/vpn/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              VPN
+            </a>
+          
+        
+          
+          
+            <a href="/tags/ubuntu/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              ubuntu
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">L&#39;articolo descrive una configurazione di proxy client locale su Linux utilizzando tinyproxy, redsocks e iptables per reindirizzare tutto il traffico TCP di sistema attraverso un proxy HTTP trasparente. Lo schema proposto include opzionalmente danted per il supporto SOCKS5, offrendo controllo centralizzato del traffico in uscita per filtraggio, logging o routing avanzato.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781252026/tinyproxy_8f599650e3.png"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             width="800" height="420" fetchpriority="high"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h3 id="proxy-client-con-tinyproxy"><a class="header-anchor" href="#proxy-client-con-tinyproxy"><i class="bi bi-link-45deg"></i></a> Proxy client con tinyproxy</h3>
+<p>Questa guida descrive la configurazione di un proxy client locale su Linux (Ubuntu 24.04) in grado di forzare tutto il traffico TCP generato dal sistema attraverso un proxy HTTP trasparente. L'obiettivo è ottenere un controllo centralizzato del traffico in uscita, utile per scenari di filtraggio, logging, debugging applicativo o instradamento verso un proxy remoto.</p>
+<p>L'architettura si basa sulla combinazione di quattro componenti, ciascuno con un ruolo ben definito:</p>
+<pre><code>Applicazione → iptables (REDIRECT) → redsocks → tinyproxy → Internet
+                                    ↘ danted (SOCKS5) → Internet (opzionale)
+</code></pre>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Componente</th> <th>Porta</th> <th>Protocollo</th> <th>Ruolo</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">tinyproxy</td> <td>3128</td> <td>HTTP proxy</td> <td>Proxy finale che si connette a Internet</td> </tr> <tr> <td class="fw-semibold">danted</td> <td>1080</td> <td>SOCKS5</td> <td>Proxy SOCKS per connessioni esplicite</td> </tr> <tr> <td class="fw-semibold">redsocks</td> <td>12345</td> <td>http-connect</td> <td>Ponte trasparente tra iptables e tinyproxy</td> </tr> <tr> <td class="fw-semibold">iptables</td> <td>OUTPUT / PREROUTING</td> <td>REDIRECT</td> <td>Forza tutto il traffico TCP locale verso redsocks</td> </tr> </tbody> </table> </div>
+<p>È importante avere chiaro fin da subito un punto: questo schema opera esclusivamente a livello di trasporto (TCP). Le implicazioni di questa scelta architetturale (DNS, UDP, QUIC) sono trattate in una sezione dedicata più avanti, ma vanno tenute presenti durante tutta la configurazione.</p>
+<h3 id="prerequisiti"><a class="header-anchor" href="#prerequisiti"><i class="bi bi-link-45deg"></i></a> Prerequisiti</h3>
+<p>Per seguire questa guida è necessario disporre di:</p>
+<ul>
+<li>Una distribuzione Linux basata su Debian/Ubuntu (Ubuntu 24.04)</li>
+<li>Accesso <code>sudo</code></li>
+<li>Una connessione Internet attiva e funzionante</li>
+</ul>
+<h3 id="installazione-dei-pacchetti-necessari"><a class="header-anchor" href="#installazione-dei-pacchetti-necessari"><i class="bi bi-link-45deg"></i></a> Installazione dei pacchetti necessari</h3>
+<p>Tutti i componenti richiesti sono disponibili nei repository ufficiali:</p>
+<pre><code class="language-bash">sudo apt install -y tinyproxy dante-server redsocks iptables-persistent
+</code></pre>
+<h3 id="configurazione-di-tinyproxy"><a class="header-anchor" href="#configurazione-di-tinyproxy"><i class="bi bi-link-45deg"></i></a> Configurazione di tinyproxy</h3>
+<p>Il file di configurazione di riferimento è <code>/etc/tinyproxy/tinyproxy.conf</code>. Le modifiche necessarie sono riassunte nella tabella seguente.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Direttiva</th> <th>Valore</th> <th>Descrizione</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Port</td> <td>3128</td> <td>Porta di ascolto del proxy</td> </tr> <tr> <td class="fw-semibold">Listen</td> <td>127.0.0.1</td> <td>Ascolta solo su localhost, non esposto in rete</td> </tr> <tr> <td class="fw-semibold">ConnectPort</td> <td>tutte le righe commentate</td> <td>Permette il metodo CONNECT su qualsiasi porta</td> </tr> <tr> <td class="fw-semibold">MaxClients</td> <td>1000</td> <td>Aumentato per gestire un carico più elevato di connessioni</td> </tr> </tbody> </table> </div>
+<p>Le modifiche possono essere applicate rapidamente tramite <code>sed</code>:</p>
+<pre><code class="language-bash">sudo sed -i 's/^Port 8888$/Port 3128/' /etc/tinyproxy/tinyproxy.conf
+sudo sed -i 's/^#Listen 192.168.0.1$/Listen 127.0.0.1/' /etc/tinyproxy/tinyproxy.conf
+sudo sed -i 's/^ConnectPort/#ConnectPort/g' /etc/tinyproxy/tinyproxy.conf
+sudo sed -i 's/^MaxClients 100$/MaxClients 1000/' /etc/tinyproxy/tinyproxy.conf
+</code></pre>
+<p>Va sottolineato che rimuovere le <strong>restrizioni su</strong> <code>ConnectPort</code> <strong>è accettabile</strong> <strong>solo perché il servizio resta vincolato a</strong> <code>127.0.0.1</code>: in un'implementazione esposta a una rete più ampia, questa direttiva andrebbe invece configurata con un elenco controllato di porte consentite, per limitare l'abuso del proxy come relay verso porte arbitrarie.</p>
+<p>A questo punto il servizio può essere avviato e abilitato al boot:</p>
+<pre><code class="language-bash">sudo systemctl enable --now tinyproxy
+</code></pre>
+<h3 id="configurazione-di-dante-server-socks5"><a class="header-anchor" href="#configurazione-di-dante-server-socks5"><i class="bi bi-link-45deg"></i></a> Configurazione di dante-server (SOCKS5)</h3>
+<p>Dante fornisce un endpoint SOCKS5 utilizzabile da applicazioni che supportano questo protocollo direttamente, senza passare per il tunnel iptables. Il file di configurazione è <code>/etc/danted.conf</code>:</p>
+<pre><code class="language-ini">logoutput: syslog
+internal: 127.0.0.1 port = 1080
+external: wlp0s20f3
+socksmethod: none
+user.privileged: proxy
+user.unprivileged: nobody
+client pass {
+    from: 127.0.0.0/8 to: 0.0.0.0/0
+    log: error
+}
+socks pass {
+    from: 127.0.0.0/8 to: 0.0.0.0/0
+    log: error
+}
+</code></pre>
+<p>Il parametro <code>external</code> deve corrispondere all'interfaccia di rete attualmente in uso. Per individuarla automaticamente:</p>
+<pre><code class="language-bash">ip route get 1 | awk '{print $5}'
+</code></pre>
+<p>Una nota importante riguarda la direttiva <code>socksmethod</code>: nelle versioni più recenti del progetto Dante, la vecchia direttiva <code>method</code> è stata deprecata a favore di <code>socksmethod</code>. Usare la sintassi corretta è essenziale, perché un file con la direttiva obsoleta impedisce l'avvio del servizio.</p>
+<p>Avvio e abilitazione:</p>
+<pre><code class="language-bash">sudo systemctl enable --now danted
+</code></pre>
+<h3 id="configurazione-di-redsocks"><a class="header-anchor" href="#configurazione-di-redsocks"><i class="bi bi-link-45deg"></i></a> Configurazione di redsocks</h3>
+<p><code>redsocks</code> agisce da ponte tra le regole <code>iptables</code> e tinyproxy, traducendo le connessioni intercettate in richieste <code>http-connect</code>. Il file di configurazione è <code>/etc/redsocks.conf</code>:</p>
+<pre><code class="language-ini">base {
+    log_debug = off;
+    log_info = on;
+    log = &quot;syslog:daemon&quot;;
+    daemon = on;
+    user = redsocks;
+    group = redsocks;
+    redirector = iptables;
+}
+redsocks {
+    local_ip = 127.0.0.1;
+    local_port = 12345;
+    ip = 127.0.0.1;
+    port = 3128;
+    type = http-connect;
+}
+</code></pre>
+<p>Avvio e abilitazione:</p>
+<pre><code class="language-bash">sudo systemctl enable --now redsocks
+</code></pre>
+<p>Prima di procedere con <code>iptables</code>, è utile verificare con quale utente di sistema vengono eseguiti effettivamente <code>tinyproxy</code> e <code>redsocks</code>, poiché questa informazione è indispensabile per il passo successivo:</p>
+<pre><code class="language-bash">systemctl show -p User tinyproxy.service
+systemctl show -p User redsocks.service
+</code></pre>
+<h3 id="configurazione-di-iptables"><a class="header-anchor" href="#configurazione-di-iptables"><i class="bi bi-link-45deg"></i></a> Configurazione di iptables</h3>
+<h4 id="il-problema-dei-loop-di-reindirizzamento"><a class="header-anchor" href="#il-problema-dei-loop-di-reindirizzamento"><i class="bi bi-link-45deg"></i></a> Il problema dei loop di reindirizzamento</h4>
+<p>Quando <code>iptables</code> reindirizza tutto il traffico TCP verso <code>redsocks</code>, anche le connessioni generate dai proxy stessi (tinyproxy che si connette a Internet, dante che inoltra richieste) vengono intercettate, creando un loop infinito che si manifesta tipicamente con timeout su tutte le connessioni HTTPS.</p>
+<h4 id="la-soluzione"><a class="header-anchor" href="#la-soluzione"><i class="bi bi-link-45deg"></i></a> La soluzione</h4>
+<p>La strategia consiste nell'usare la tabella <code>mangle</code> per marcare i pacchetti generati dai processi proxy, e successivamente far saltare tali pacchetti nella catena <code>REDSOCKS</code> della tabella <code>nat</code>:</p>
+<pre><code class="language-bash">iptables -t mangle -A OUTPUT -m owner --uid-owner tinyproxy -j MARK --set-mark 1
+iptables -t mangle -A OUTPUT -m owner --uid-owner redsocks -j MARK --set-mark 1
+iptables -t mangle -A OUTPUT -m owner --uid-owner proxy -j MARK --set-mark 1
+</code></pre>
+<p>Poi, nella catena <code>REDSOCKS</code> (tabella <code>nat</code>):</p>
+<pre><code class="language-bash">iptables -t nat -A REDSOCKS -m mark --mark 1 -j RETURN
+</code></pre>
+<p>La regola con <code>--uid-owner proxy</code> è mantenuta come fallback per compatibilità con setup legacy in cui alcuni servizi girano sotto l'utente storico <code>proxy</code>; tuttavia, se il comando <code>systemctl show -p User</code> eseguito in precedenza restituisce un nome utente diverso (ad esempio <code>_tinyproxy</code>), è necessario sostituirlo nella regola corrispondente.</p>
+<h4 id="script-completo"><a class="header-anchor" href="#script-completo"><i class="bi bi-link-45deg"></i></a> Script completo</h4>
+<p>Lo script seguente raccoglie tutte le regole ed è pensato per essere salvato in <code>/etc/iptables-rules.sh</code>:</p>
+<pre><code class="language-bash">#!/bin/bash
+iptables -t nat -N REDSOCKS 2&gt;/dev/null || iptables -t nat -F REDSOCKS
+iptables -t mangle -A OUTPUT -m owner --uid-owner tinyproxy -j MARK --set-mark 1 2&gt;/dev/null
+iptables -t mangle -A OUTPUT -m owner --uid-owner redsocks -j MARK --set-mark 1 2&gt;/dev/null
+iptables -t mangle -A OUTPUT -m owner --uid-owner proxy -j MARK --set-mark 1 2&gt;/dev/null
+iptables -t nat -A REDSOCKS -m mark --mark 1 -j RETURN
+for net in 0.0.0.0/8 10.0.0.0/8 127.0.0.0/8 169.254.0.0/16 172.16.0.0/12 192.168.0.0/16 224.0.0.0/4 240.0.0.0/4; do
+    iptables -t nat -A REDSOCKS -d &quot;$net&quot; -j RETURN
+done
+iptables -t nat -A REDSOCKS -p tcp --dport 3128 -j RETURN
+iptables -t nat -A REDSOCKS -p tcp --dport 1080 -j RETURN
+iptables -t nat -A REDSOCKS -p tcp --dport 12345 -j RETURN
+iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports 12345
+iptables -t nat -A OUTPUT -p tcp -j REDSOCKS
+iptables -t nat -A PREROUTING -p tcp -j REDSOCKS
+</code></pre>
+<p>Le righe relative alle reti private garantiscono che il traffico verso indirizzi locali (LAN, loopback, multicast) non venga mai instradato verso il proxy, mentre le righe sulle porte 3128/1080/12345 evitano che il traffico destinato ai proxy stessi venga nuovamente reindirizzato.</p>
+<p>Per applicare lo script:</p>
+<pre><code class="language-bash">sudo chmod +x /etc/iptables-rules.sh
+sudo /etc/iptables-rules.sh
+</code></pre>
+<h4 id="rendere-le-regole-persistenti-e-affidabili"><a class="header-anchor" href="#rendere-le-regole-persistenti-e-affidabili"><i class="bi bi-link-45deg"></i></a> Rendere le regole persistenti e affidabili</h4>
+<p>Il modo più semplice per salvare le regole consiste nell'usare <code>iptables-persistent</code>:</p>
+<pre><code class="language-bash">sudo iptables-save | sudo tee /etc/iptables/rules.v4 &gt; /dev/null
+</code></pre>
+<p>Questo approccio, però, ha un limite: al boot le regole vengono ripristinate da <code>rules.v4</code> molto presto, potenzialmente prima che <code>tinyproxy</code>, <code>danted</code> e <code>redsocks</code> abbiano avviato i rispettivi processi con i relativi utenti, causando il fallimento silenzioso delle marcature <code>--uid-owner</code>. Un approccio più robusto consiste nel creare una unit <code>systemd</code> dedicata che applichi lo script <em>dopo</em> l'avvio dei servizi proxy.</p>
+<p>File <code>/etc/systemd/system/iptables-rules.service</code>:</p>
+<pre><code class="language-ini">[Unit]
+Description=Applica le regole iptables per il proxy trasparente
+After=network-online.target tinyproxy.service danted.service redsocks.service
+Wants=network-online.target
+[Service]
+Type=oneshot
+ExecStart=/etc/iptables-rules.sh
+RemainAfterExit=yes
+[Install]
+WantedBy=multi-user.target
+</code></pre>
+<p>E abilitarla con:</p>
+<pre><code class="language-bash">sudo systemctl daemon-reload
+sudo systemctl enable iptables-rules.service
+</code></pre>
+<p>Da notare che su Ubuntu 24.04 il comando <code>iptables</code> è in realtà un frontend per <code>nftables</code> (backend <code>iptables-nft</code>). Le regole impostate restano pienamente compatibili e funzionanti, ma è possibile ispezionarne l'equivalente nativo in qualsiasi momento con:</p>
+<pre><code class="language-bash">sudo nft list ruleset
+</code></pre>
+<h3 id="gestione-di-dns-e-traffico-udpquic"><a class="header-anchor" href="#gestione-di-dns-e-traffico-udpquic"><i class="bi bi-link-45deg"></i></a> Gestione di DNS e traffico UDP/QUIC</h3>
+<p>L'intera architettura descritta opera esclusivamente sul traffico TCP. Questo ha due conseguenze pratiche fondamentali, spesso trascurate, che è importante conoscere prima di considerare il setup &quot;completo&quot;.</p>
+<p><strong>Risoluzione DNS.</strong> Le query DNS utilizzano tipicamente UDP sulla porta 53 e non vengono intercettate dalle regole <code>iptables</code> definite sopra. Significa che, anche con tutto il traffico HTTP/HTTPS instradato attraverso il proxy, le richieste DNS continuano a uscire direttamente verso il resolver configurato sul sistema, esponendo i nomi di dominio visitati. Per mitigare questo problema, le opzioni principali sono:</p>
+<ul>
+<li>Configurare <code>systemd-resolved</code> per utilizzare DNS over TLS (DoT) verso un resolver attendibile, in modo che le query siano comunque cifrate anche se non transitano dal proxy.</li>
+<li>Installare un resolver locale come <code>unbound</code> con supporto DoH/DoT.</li>
+<li>Se l'obiettivo primario è l'anonimato completo (e non solo il filtraggio), valutare l'uso di una VPN, che instrada anche il traffico UDP, incluso il DNS.</li>
+</ul>
+<p><strong>Traffico QUIC/HTTP-3.</strong> I browser moderni (Chrome, Edge, Firefox) tentano di default connessioni HTTP/3 basate su QUIC, che viaggia su UDP/443. Questo traffico bypassa completamente <code>redsocks</code> e tinyproxy, uscendo direttamente verso Internet. Per garantire che tutto il traffico web passi effettivamente dal proxy, è possibile forzare il fallback a TCP/TLS bloccando UDP/443 in uscita:</p>
+<pre><code class="language-bash">sudo iptables -A OUTPUT -p udp --dport 443 -j REJECT
+</code></pre>
+<p>In presenza di questa regola, i browser ricadono automaticamente su HTTP/2 over TCP, che viene correttamente intercettato dal tunnel.</p>
+<p><strong>IPv6.</strong> Lo script copre solo IPv4 (non a caso i comandi di verifica nella guida usano il flag <code>-4</code>). Se il sistema dispone di connettività IPv6 attiva, il traffico verso destinazioni IPv6 bypassa interamente il proxy. Le due opzioni più comuni sono replicare le stesse regole con <code>ip6tables</code>/<code>nft</code> per IPv6, oppure, più semplicemente, disabilitare temporaneamente IPv6 sull'interfaccia di rete durante l'utilizzo del tunnel:</p>
+<pre><code class="language-bash">sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
+</code></pre>
+<h3 id="verifica-del-funzionamento"><a class="header-anchor" href="#verifica-del-funzionamento"><i class="bi bi-link-45deg"></i></a> Verifica del funzionamento</h3>
+<p>Una volta avviati tutti i servizi e applicate le regole <code>iptables</code>, è possibile verificare che il traffico venga effettivamente instradato attraverso il proxy confrontando l'IP pubblico restituito dai diversi percorsi:</p>
+<pre><code class="language-bash">curl -4 http://ifconfig.me
+curl -4 https://ifconfig.me
+curl --socks5 127.0.0.1:1080 -4 http://ifconfig.me
+curl --socks5 127.0.0.1:1080 -4 https://ifconfig.me
+curl --proxy http://127.0.0.1:3128 -4 http://ifconfig.me
+curl --proxy http://127.0.0.1:3128 -4 https://ifconfig.me
+</code></pre>
+<p>Tutti i comandi dovrebbero restituire lo stesso indirizzo IP pubblico, confermando che il traffico forzato da <code>iptables</code>, quello instradato via SOCKS5 e quello passato direttamente a tinyproxy escono tutti dal medesimo punto.</p>
+<h3 id="disattivazione-del-tunnel"><a class="header-anchor" href="#disattivazione-del-tunnel"><i class="bi bi-link-45deg"></i></a> Disattivazione del tunnel</h3>
+<p>Per rimuovere temporaneamente il reindirizzamento, senza disinstallare i servizi:</p>
+<pre><code class="language-bash">sudo iptables -t nat -F REDSOCKS
+sudo iptables -t nat -D OUTPUT -p tcp -j REDSOCKS
+sudo iptables -t nat -D PREROUTING -p tcp -j REDSOCKS
+sudo iptables -t nat -X REDSOCKS
+</code></pre>
+<p>Per riattivare il tunnel è sufficiente rieseguire <code>/etc/iptables-rules.sh</code> (o riavviare la unit <code>iptables-rules.service</code> se è stata configurata).</p>
+<h3 id="proxy-locale-e-proxy-remoto"><a class="header-anchor" href="#proxy-locale-e-proxy-remoto"><i class="bi bi-link-45deg"></i></a> Proxy locale e proxy remoto</h3>
+<p>Questa guida configura un proxy locale, in cui tinyproxy è installato sulla stessa macchina che genera il traffico. In questa modalità, il traffico esce comunque dall'IP pubblico assegnato dal proprio operatore.</p>
+<p>Schema del proxy locale:</p>
+<pre><code>Browser → tinyproxy (locale, :3128) → router → Internet
+</code></pre>
+<p>Le caratteristiche principali sono:</p>
+<ul>
+<li><strong>IP visibile</strong>: quello dell'utente (es. un IP italiano)</li>
+<li><strong>Latenza</strong>: minima, con un solo hop aggiuntivo (redsocks → tinyproxy)</li>
+<li><strong>Privacy</strong>: il proxy vede il traffico in chiaro, mitigato dalla cifratura HTTPS end-to-end</li>
+<li><strong>Scopo principale</strong>: controllo, filtro e centralizzazione del traffico</li>
+</ul>
+<p>Lo schema del proxy remoto, invece, prevede che tinyproxy funga da intermediario verso un secondo proxy ospitato in un altro paese:</p>
+<pre><code>Browser → tinyproxy (locale, :3128) → proxy remoto (es. Olanda) → Internet
+</code></pre>
+<p>In questo caso, l'IP pubblico osservato dai servizi remoti diventa quello del server remoto. tinyproxy supporta upstream HTTP, SOCKS4 e SOCKS5:</p>
+<pre><code class="language-ini">upstream socks5 185.xxx.xxx.xxx:1080
+</code></pre>
+<p>oppure, con autenticazione:</p>
+<pre><code class="language-ini">upstream http user:pass@proxy-remoto.com:8080
+</code></pre>
+<p>È inoltre possibile effettuare un instradamento selettivo, in cui solo determinati domini transitano attraverso il proxy remoto:</p>
+<pre><code class="language-ini">upstream socks5 proxy-remoto.com:1080 &quot;.example.com&quot;
+upstream none &quot;.sito-interno.local&quot;
+upstream http proxy-remoto.com:8080
+</code></pre>
+<p>Per individuare un proxy remoto da utilizzare come upstream, le opzioni principali sono:</p>
+<ul>
+<li>Servizi commerciali specializzati (BrightData, Oxylabs, Smartproxy, NetNut)</li>
+<li>Un VPS affittato in un altro paese, sul quale installare autonomamente tinyproxy o dante</li>
+<li>Liste pubbliche di proxy gratuiti, generalmente instabili e poco sicure, da evitare in contesti che richiedono affidabilità</li>
+</ul>
+<h3 id="proxy-vs-vpn"><a class="header-anchor" href="#proxy-vs-vpn"><i class="bi bi-link-45deg"></i></a> Proxy vs VPN</h3>
+<p>La scelta tra proxy e VPN dipende dall'obiettivo. La tabella seguente riassume le differenze principali.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Caratteristica</th> <th>Proxy (locale/remoto)</th> <th>VPN</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Cifratura</td> <td>Solo a livello applicativo (HTTPS)</td> <td>Tutto il traffico, tramite tunnel cifrato</td> </tr> <tr> <td class="fw-semibold">Supporto UDP</td> <td>No, solo TCP</td> <td>Sì (DNS, VoIP, gaming, QUIC)</td> </tr> <tr> <td class="fw-semibold">Ambito del traffico</td> <td>TCP, configurabile per singola applicazione</td> <td>Intero sistema, tramite interfaccia di rete virtuale</td> </tr> <tr> <td class="fw-semibold">Overhead</td> <td>Leggero, basso overhead</td> <td>Leggero overhead crittografico</td> </tr> <tr> <td class="fw-semibold">Anonimato dell'IP</td> <td>Sì, con proxy remoto</td> <td>Sì</td> </tr> <tr> <td class="fw-semibold">Bypass geografico</td> <td>Sì, ma limitato al traffico TCP</td> <td>Sì, su tutto il traffico</td> </tr> <tr> <td class="fw-semibold">Configurazione</td> <td>Relativamente semplice (URL o variabili d'ambiente)</td> <td>Richiede un client o un'app dedicata</td> </tr> <tr> <td class="fw-semibold">Protezione da DNS leak</td> <td>Dipende dal setup, richiede configurazione aggiuntiva</td> <td>Generalmente inclusa di default</td> </tr> <tr> <td class="fw-semibold">Trasparenza verso il server remoto</td> <td>Il server vede il proxy come client</td> <td>Il server vede il server VPN come client</td> </tr> </tbody> </table> </div>
+<p>In sintesi, conviene optare per un proxy quando l'obiettivo è cambiare l'IP visibile per il browser o per una singola applicazione, in un ambiente controllato, oppure quando si necessita di funzionalità di caching o filtraggio. Una VPN è invece preferibile quando si vuole cifrare l'intero traffico di sistema (non solo HTTP), quando si utilizzano applicazioni che richiedono UDP, su reti Wi-Fi pubbliche non affidabili, oppure quando l'obiettivo è bypassare blocchi di rete completi.</p>
+<h3 id="esempio-pratico"><a class="header-anchor" href="#esempio-pratico"><i class="bi bi-link-45deg"></i></a> Esempio pratico</h3>
+<p>Per estendere il setup descritto in questa guida con un proxy remoto come upstream, è possibile procedere come segue.</p>
+<p>Innanzitutto occorre individuare un proxy SOCKS5 remoto raggiungibile, ad esempio all'indirizzo <code>185.x.x.x:1080</code>. Successivamente, va aggiunta la seguente riga al file <code>/etc/tinyproxy/tinyproxy.conf</code>:</p>
+<pre><code class="language-ini">upstream socks5 185.x.x.x:1080
+</code></pre>
+<p>A questo punto è necessario riavviare il servizio:</p>
+<pre><code class="language-bash">sudo systemctl restart tinyproxy
+</code></pre>
+<p>Da questo momento, tutto il traffico già forzato da <code>iptables</code> (tramite <code>redsocks</code> → <code>tinyproxy</code>) uscirà dall'IP del proxy remoto.</p>
+<p>È inoltre possibile combinare gli approcci, instradando solo determinati domini verso il proxy remoto e lasciando tutto il resto in uscita diretta:</p>
+<pre><code class="language-ini">upstream socks5 proxy-remoto.com:1080 &quot;.netflix.com&quot; &quot;.disneyplus.com&quot;
+</code></pre>
+<h3 id="hardening-e-best-practice-di-sicurezza"><a class="header-anchor" href="#hardening-e-best-practice-di-sicurezza"><i class="bi bi-link-45deg"></i></a> Hardening e best practice di sicurezza</h3>
+<p>Sebbene tutti i servizi siano configurati per restare in ascolto esclusivamente su <code>127.0.0.1</code>, è buona norma applicare alcune misure aggiuntive di difesa in profondità, in particolare su sistemi che potrebbero essere collegati a reti non affidabili:</p>
+<ul>
+<li>Verificare periodicamente che nessun servizio sia in ascolto su interfacce diverse da loopback, con <code>sudo ss -tlnp</code>.</li>
+<li>Bloccare esplicitamente l'accesso esterno alle porte dei proxy tramite <code>ufw</code>, anche se già vincolate a localhost, come ulteriore livello di protezione:</li>
+</ul>
+<pre><code class="language-bash">sudo ufw deny in on wlp0s20f3 to any port 3128
+sudo ufw deny in on wlp0s20f3 to any port 1080
+sudo ufw deny in on wlp0s20f3 to any port 12345
+</code></pre>
+<ul>
+<li>Mantenere aggiornati i pacchetti <code>tinyproxy</code>, <code>dante-server</code> e <code>redsocks</code>, poiché si tratta di servizi esposti, anche solo localmente, all'elaborazione di traffico di rete arbitrario.</li>
+<li>Evitare di eseguire qualsiasi componente del tunnel come utente <code>root</code>: tutti i servizi indicati in questa guida vengono installati con utenti dedicati a privilegi minimi.</li>
+<li>Se si utilizza un upstream remoto con credenziali (<code>upstream http user:pass@...</code>), evitare di salvare le credenziali in chiaro in file con permessi troppo permissivi: verificare che <code>/etc/tinyproxy/tinyproxy.conf</code> sia leggibile solo da <code>root</code> e dall'utente del servizio.</li>
+</ul>
+<h3 id="riepilogo-dei-file-di-configurazione"><a class="header-anchor" href="#riepilogo-dei-file-di-configurazione"><i class="bi bi-link-45deg"></i></a> Riepilogo dei file di configurazione</h3>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>File</th> <th>Descrizione</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">/etc/tinyproxy/tinyproxy.conf</td> <td>Configurazione del proxy HTTP tinyproxy</td> </tr> <tr> <td class="fw-semibold">/etc/danted.conf</td> <td>Configurazione del proxy SOCKS5 dante</td> </tr> <tr> <td class="fw-semibold">/etc/redsocks.conf</td> <td>Configurazione di redsocks</td> </tr> <tr> <td class="fw-semibold">/etc/iptables-rules.sh</td> <td>Script delle regole iptables per il reindirizzamento trasparente</td> </tr> <tr> <td class="fw-semibold">/etc/iptables/rules.v4</td> <td>Regole iptables persistenti caricate al boot</td> </tr> <tr> <td class="fw-semibold">/etc/systemd/system/iptables-rules.service</td> <td>Unit systemd per applicare le regole con il corretto ordine di avvio</td> </tr> </tbody> </table> </div>
+<h3 id="risoluzione-dei-problemi-piu-comuni"><a class="header-anchor" href="#risoluzione-dei-problemi-piu-comuni"><i class="bi bi-link-45deg"></i></a> Risoluzione dei problemi più comuni</h3>
+<p>Tra i problemi più frequenti che si possono riscontrare durante la configurazione di questo setup, i principali sono i seguenti.</p>
+<p>Le connessioni HTTPS vanno in timeout. La causa più probabile è un loop di reindirizzamento generato da <code>iptables</code>, in cui le connessioni dei proxy vengono nuovamente intercettate da loro stesse. La soluzione consiste nel verificare che le marcature nella tabella <code>mangle</code> corrispondano effettivamente agli utenti reali con cui girano <code>tinyproxy</code> e <code>redsocks</code>, utilizzando <code>systemctl show -p User</code>.</p>
+<p>Il sistema restituisce l'errore &quot;Maximum number of connections reached&quot;. In questo caso la causa è quasi sempre un valore di <code>MaxClients</code> troppo basso in tinyproxy. La soluzione è aumentare il parametro (ad esempio a 1000) e riavviare il servizio.</p>
+<p>Il servizio dante non si avvia. La causa tipica è l'uso della direttiva obsoleta <code>method</code>, sostituita da <code>socksmethod</code> nelle versioni recenti di Dante. La soluzione è verificare la sintassi corretta in <code>/etc/danted.conf</code> e correggere la direttiva.</p>
+<p>Il traffico non viene completamente instradato attraverso il proxy nonostante le regole iptables siano attive. In questo caso la causa è quasi sempre il traffico UDP (DNS o QUIC/HTTP-3), che per progettazione non viene intercettato da questo setup. La soluzione consiste nell'applicare le misure descritte nella sezione dedicata alla gestione di DNS e UDP/QUIC.</p>
+
+    </section>
+
+    <div class="section-divider mt-5 mb-4">Commenti</div>
+
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
+      </div>
+    </nav>
+  </aside>
+</div>
+
+    </main>
+
+    <footer class="border-top mt-auto py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <div class="fw-bold mb-3" style="font-size: 1.25rem;">
+          <span class="text-primary">dino</span>-996
+        </div>
+        <p class="text-muted small mb-3">
+          Developer portfolio e blog tecnico
+        </p>
+        <div class="d-flex justify-content-center gap-3 mb-0">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
+             class="text-muted" aria-label="GitHub">
+            <i class="bi bi-github fs-5"></i>
+          </a>
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer"
+             class="text-muted" aria-label="LinkedIn">
+            <i class="bi bi-linkedin fs-5"></i>
+          </a>
+          <a href="/feed.xml" class="text-muted" aria-label="Feed RSS" target="_blank">
+            <i class="bi bi-rss fs-5"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="text-center">
+      <p class="text-muted small mb-0 d-flex align-items-center justify-content-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 75 65" fill="currentColor">
+          <path d="M37.443-3.5c8.988,0,16.57,3.085,22.742,9.257C66.393,11.967,69.5,19.548,69.5,28.5c0,8.991-3.049,16.476-9.145,22.456    C53.879,57.319,46.242,60.5,37.443,60.5c-8.649,0-16.153-3.144-22.514-9.43C8.644,44.784,5.5,37.262,5.5,28.5    c0-8.761,3.144-16.342,9.429-22.742C21.101-0.415,28.604-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.553-18.457,7.657    c-5.22,5.334-7.829,11.525-7.829,18.572c0,7.086,2.59,13.22,7.77,18.398c5.181,5.182,11.352,7.771,18.514,7.771    c7.123,0,13.334-2.607,18.629-7.828c5.029-4.838,7.543-10.952,7.543-18.343c0-7.276-2.553-13.465-7.656-18.571    C50.967,4.824,44.795,2.272,37.557,2.272z M46.129,20.557v13.085h-3.656v15.542h-9.944V33.643h-3.656V20.557    c0-0.572,0.2-1.057,0.599-1.457c0.401-0.399,0.887-0.6,1.457-0.6h13.144c0.533,0,1.01,0.2,1.428,0.6    C45.918,19.5,46.129,19.986,46.129,20.557z M33.042,12.329c0-3.008,1.485-4.514,4.458-4.514s4.457,1.504,4.457,4.514    c0,2.971-1.486,4.457-4.457,4.457S33.042,15.3,33.042,12.329z"/>
+        </svg>
+        Realizzato con <span class="text-danger">❤️</span> usando
+        <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-medium">Eleventy</a>
+        e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-medium">Bootstrap</a>
+      </p>
+    </div>
+  </div>
+</footer>
+      <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      window.pathPrefix = ".";
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send"><i class="bi bi-arrow-up"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+  
+</html>

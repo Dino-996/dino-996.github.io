@@ -15,289 +15,270 @@
 
   
   <entry>
-    <title>Livello di rete e IPV4</title>
-    <link href="https://dino-996.github.io/blog/livello-di-rete/" rel="alternate" type="text/html"/>
-    <id>https://dino-996.github.io/blog/livello-di-rete/</id>
+    <title>Proxy Client con Tinyproxy</title>
+    <link href="https://dino-996.github.io/blog/proxy-client-con-tinyproxy/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/proxy-client-con-tinyproxy/</id>
     <published></published>
     <updated></updated>
     
-    <summary>Scopri come funziona l&amp;#39;indirizzamento IPv4: dalla struttura a 32 bit alla notazione CIDR, fino alle subnet mask e alla differenza tra IP pubblici e privati (RFC 1918). Una guida fondamentale per professionisti IT, Cloud e DevOps.</summary>
+    <summary>Guida tecnica completa alla configurazione di un proxy client locale su Linux (Zorin OS/Ubuntu 24.04) per forzare tutto il traffico TCP attraverso un proxy HTTP trasparente. La guida copre l&amp;#39;installazione e configurazione di tinyproxy, dante (SOCKS5) e redsocks, la gestione delle regole iptables per evitare loop di reindirizzamento, la persistenza tramite systemd, i limiti del setup rispetto a DNS/UDP/QUIC e il confronto con le VPN, con indicazioni di hardening e troubleshooting.</summary>
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;indirizzamento-ipv4&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#indirizzamento-ipv4&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Indirizzamento IPv4&lt;/h2&gt;
-&lt;p&gt;Ogni dispositivo che partecipa a una rete IP, che si tratti di una LAN aziendale&lt;br&gt;
-o di Internet, deve essere identificato in modo univoco. Questo identificatore è&lt;br&gt;
-l&#39;&lt;strong&gt;indirizzo IPv4&lt;/strong&gt;: un indirizzo logico a 32 bit che permette ai pacchetti di&lt;br&gt;
-raggiungere la destinazione corretta attraverso infrastrutture di rete eterogenee.&lt;br&gt;
-Comprenderne la struttura è prerequisito indispensabile per chiunque lavori con&lt;br&gt;
-reti, sistemi distribuiti o infrastrutture cloud.&lt;/p&gt;
-&lt;h2 id=&quot;struttura-di-un-indirizzo-ipv4&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#struttura-di-un-indirizzo-ipv4&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Struttura di un indirizzo IPv4&lt;/h2&gt;
-&lt;p&gt;Un indirizzo IPv4 è composto da &lt;strong&gt;32 bit&lt;/strong&gt;, normalmente rappresentati in forma&lt;br&gt;
-binaria come una sequenza continua:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;11010001101001011100100000000001
+&lt;h3 id=&quot;proxy-client-con-tinyproxy&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#proxy-client-con-tinyproxy&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Proxy client con tinyproxy&lt;/h3&gt;
+&lt;p&gt;Questa guida descrive la configurazione di un proxy client locale su Linux (Ubuntu 24.04) in grado di forzare tutto il traffico TCP generato dal sistema attraverso un proxy HTTP trasparente. L&#39;obiettivo è ottenere un controllo centralizzato del traffico in uscita, utile per scenari di filtraggio, logging, debugging applicativo o instradamento verso un proxy remoto.&lt;/p&gt;
+&lt;p&gt;L&#39;architettura si basa sulla combinazione di quattro componenti, ciascuno con un ruolo ben definito:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Applicazione → iptables (REDIRECT) → redsocks → tinyproxy → Internet
+                                    ↘ danted (SOCKS5) → Internet (opzionale)
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Questa rappresentazione è poco leggibile. Per semplificarne l&#39;utilizzo, i 32 bit&lt;br&gt;
-vengono suddivisi in quattro gruppi da 8 bit ciascuno, chiamati &lt;strong&gt;ottetti&lt;/strong&gt;,&lt;br&gt;
-separati da un punto:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;11010001.10100101.11001000.00000001
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Ogni ottetto viene poi convertito nel suo equivalente decimale. Il risultato è la&lt;br&gt;
-cosiddetta &lt;strong&gt;notazione decimale puntata&lt;/strong&gt; (&lt;em&gt;dotted-decimal notation&lt;/em&gt;):&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;209.165.200.1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Poiché ogni ottetto è composto da 8 bit, il valore decimale di ciascuno può&lt;br&gt;
-variare tra &lt;strong&gt;0 e 255&lt;/strong&gt;. Di conseguenza, l&#39;intero spazio di indirizzamento IPv4&lt;br&gt;
-comprende circa &lt;strong&gt;4,3 miliardi di indirizzi univoci&lt;/strong&gt; (2³²).&lt;/p&gt;
-&lt;p&gt;Il seguente snippet Python illustra la conversione tra le due rappresentazioni:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;ip_binario = &amp;quot;11010001.10100101.11001000.00000001&amp;quot;
-ottetti = ip_binario.split(&amp;quot;.&amp;quot;)
-ip_decimale = &amp;quot;.&amp;quot;.join(str(int(o, 2)) for o in ottetti)
-print(ip_decimale)  # Output: 209.165.200.1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2 id=&quot;la-struttura-gerarchica&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#la-struttura-gerarchica&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; La struttura gerarchica&lt;/h2&gt;
-&lt;p&gt;L&#39;indirizzo IPv4 non è una sequenza piatta di bit: ha una &lt;strong&gt;struttura gerarchica&lt;/strong&gt;&lt;br&gt;
-composta da due parti logiche distinte:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Componente&lt;/th&gt; &lt;th&gt;Porta&lt;/th&gt; &lt;th&gt;Protocollo&lt;/th&gt; &lt;th&gt;Ruolo&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;tinyproxy&lt;/td&gt; &lt;td&gt;3128&lt;/td&gt; &lt;td&gt;HTTP proxy&lt;/td&gt; &lt;td&gt;Proxy finale che si connette a Internet&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;danted&lt;/td&gt; &lt;td&gt;1080&lt;/td&gt; &lt;td&gt;SOCKS5&lt;/td&gt; &lt;td&gt;Proxy SOCKS per connessioni esplicite&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;redsocks&lt;/td&gt; &lt;td&gt;12345&lt;/td&gt; &lt;td&gt;http-connect&lt;/td&gt; &lt;td&gt;Ponte trasparente tra iptables e tinyproxy&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;iptables&lt;/td&gt; &lt;td&gt;OUTPUT / PREROUTING&lt;/td&gt; &lt;td&gt;REDIRECT&lt;/td&gt; &lt;td&gt;Forza tutto il traffico TCP locale verso redsocks&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
+&lt;p&gt;È importante avere chiaro fin da subito un punto: questo schema opera esclusivamente a livello di trasporto (TCP). Le implicazioni di questa scelta architetturale (DNS, UDP, QUIC) sono trattate in una sezione dedicata più avanti, ma vanno tenute presenti durante tutta la configurazione.&lt;/p&gt;
+&lt;h3 id=&quot;prerequisiti&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#prerequisiti&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Prerequisiti&lt;/h3&gt;
+&lt;p&gt;Per seguire questa guida è necessario disporre di:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Porzione di rete:&lt;/strong&gt; identifica la rete logica a cui appartiene il dispositivo.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Porzione host:&lt;/strong&gt; identifica univocamente il dispositivo all&#39;interno di quella rete.&lt;/li&gt;
+&lt;li&gt;Una distribuzione Linux basata su Debian/Ubuntu (Ubuntu 24.04)&lt;/li&gt;
+&lt;li&gt;Accesso &lt;code&gt;sudo&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Una connessione Internet attiva e funzionante&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Consideriamo l&#39;indirizzo &lt;code&gt;192.168.5.11&lt;/code&gt; con subnet mask &lt;code&gt;255.255.255.0&lt;/code&gt;:&lt;/p&gt;
+&lt;h3 id=&quot;installazione-dei-pacchetti-necessari&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#installazione-dei-pacchetti-necessari&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Installazione dei pacchetti necessari&lt;/h3&gt;
+&lt;p&gt;Tutti i componenti richiesti sono disponibili nei repository ufficiali:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo apt install -y tinyproxy dante-server redsocks iptables-persistent
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;configurazione-di-tinyproxy&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#configurazione-di-tinyproxy&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Configurazione di tinyproxy&lt;/h3&gt;
+&lt;p&gt;Il file di configurazione di riferimento è &lt;code&gt;/etc/tinyproxy/tinyproxy.conf&lt;/code&gt;. Le modifiche necessarie sono riassunte nella tabella seguente.&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Direttiva&lt;/th&gt; &lt;th&gt;Valore&lt;/th&gt; &lt;th&gt;Descrizione&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Port&lt;/td&gt; &lt;td&gt;3128&lt;/td&gt; &lt;td&gt;Porta di ascolto del proxy&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Listen&lt;/td&gt; &lt;td&gt;127.0.0.1&lt;/td&gt; &lt;td&gt;Ascolta solo su localhost, non esposto in rete&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;ConnectPort&lt;/td&gt; &lt;td&gt;tutte le righe commentate&lt;/td&gt; &lt;td&gt;Permette il metodo CONNECT su qualsiasi porta&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;MaxClients&lt;/td&gt; &lt;td&gt;1000&lt;/td&gt; &lt;td&gt;Aumentato per gestire un carico più elevato di connessioni&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
+&lt;p&gt;Le modifiche possono essere applicate rapidamente tramite &lt;code&gt;sed&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo sed -i &#39;s/^Port 8888$/Port 3128/&#39; /etc/tinyproxy/tinyproxy.conf
+sudo sed -i &#39;s/^#Listen 192.168.0.1$/Listen 127.0.0.1/&#39; /etc/tinyproxy/tinyproxy.conf
+sudo sed -i &#39;s/^ConnectPort/#ConnectPort/g&#39; /etc/tinyproxy/tinyproxy.conf
+sudo sed -i &#39;s/^MaxClients 100$/MaxClients 1000/&#39; /etc/tinyproxy/tinyproxy.conf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Va sottolineato che rimuovere le &lt;strong&gt;restrizioni su&lt;/strong&gt; &lt;code&gt;ConnectPort&lt;/code&gt; &lt;strong&gt;è accettabile&lt;/strong&gt; &lt;strong&gt;solo perché il servizio resta vincolato a&lt;/strong&gt; &lt;code&gt;127.0.0.1&lt;/code&gt;: in un&#39;implementazione esposta a una rete più ampia, questa direttiva andrebbe invece configurata con un elenco controllato di porte consentite, per limitare l&#39;abuso del proxy come relay verso porte arbitrarie.&lt;/p&gt;
+&lt;p&gt;A questo punto il servizio può essere avviato e abilitato al boot:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo systemctl enable --now tinyproxy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;configurazione-di-dante-server-socks5&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#configurazione-di-dante-server-socks5&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Configurazione di dante-server (SOCKS5)&lt;/h3&gt;
+&lt;p&gt;Dante fornisce un endpoint SOCKS5 utilizzabile da applicazioni che supportano questo protocollo direttamente, senza passare per il tunnel iptables. Il file di configurazione è &lt;code&gt;/etc/danted.conf&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;logoutput: syslog
+internal: 127.0.0.1 port = 1080
+external: wlp0s20f3
+socksmethod: none
+user.privileged: proxy
+user.unprivileged: nobody
+client pass {
+    from: 127.0.0.0/8 to: 0.0.0.0/0
+    log: error
+}
+socks pass {
+    from: 127.0.0.0/8 to: 0.0.0.0/0
+    log: error
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il parametro &lt;code&gt;external&lt;/code&gt; deve corrispondere all&#39;interfaccia di rete attualmente in uso. Per individuarla automaticamente:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;ip route get 1 | awk &#39;{print $5}&#39;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Una nota importante riguarda la direttiva &lt;code&gt;socksmethod&lt;/code&gt;: nelle versioni più recenti del progetto Dante, la vecchia direttiva &lt;code&gt;method&lt;/code&gt; è stata deprecata a favore di &lt;code&gt;socksmethod&lt;/code&gt;. Usare la sintassi corretta è essenziale, perché un file con la direttiva obsoleta impedisce l&#39;avvio del servizio.&lt;/p&gt;
+&lt;p&gt;Avvio e abilitazione:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo systemctl enable --now danted
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;configurazione-di-redsocks&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#configurazione-di-redsocks&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Configurazione di redsocks&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;redsocks&lt;/code&gt; agisce da ponte tra le regole &lt;code&gt;iptables&lt;/code&gt; e tinyproxy, traducendo le connessioni intercettate in richieste &lt;code&gt;http-connect&lt;/code&gt;. Il file di configurazione è &lt;code&gt;/etc/redsocks.conf&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;base {
+    log_debug = off;
+    log_info = on;
+    log = &amp;quot;syslog:daemon&amp;quot;;
+    daemon = on;
+    user = redsocks;
+    group = redsocks;
+    redirector = iptables;
+}
+redsocks {
+    local_ip = 127.0.0.1;
+    local_port = 12345;
+    ip = 127.0.0.1;
+    port = 3128;
+    type = http-connect;
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Avvio e abilitazione:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo systemctl enable --now redsocks
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Prima di procedere con &lt;code&gt;iptables&lt;/code&gt;, è utile verificare con quale utente di sistema vengono eseguiti effettivamente &lt;code&gt;tinyproxy&lt;/code&gt; e &lt;code&gt;redsocks&lt;/code&gt;, poiché questa informazione è indispensabile per il passo successivo:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl show -p User tinyproxy.service
+systemctl show -p User redsocks.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;configurazione-di-iptables&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#configurazione-di-iptables&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Configurazione di iptables&lt;/h3&gt;
+&lt;h4 id=&quot;il-problema-dei-loop-di-reindirizzamento&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#il-problema-dei-loop-di-reindirizzamento&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Il problema dei loop di reindirizzamento&lt;/h4&gt;
+&lt;p&gt;Quando &lt;code&gt;iptables&lt;/code&gt; reindirizza tutto il traffico TCP verso &lt;code&gt;redsocks&lt;/code&gt;, anche le connessioni generate dai proxy stessi (tinyproxy che si connette a Internet, dante che inoltra richieste) vengono intercettate, creando un loop infinito che si manifesta tipicamente con timeout su tutte le connessioni HTTPS.&lt;/p&gt;
+&lt;h4 id=&quot;la-soluzione&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#la-soluzione&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; La soluzione&lt;/h4&gt;
+&lt;p&gt;La strategia consiste nell&#39;usare la tabella &lt;code&gt;mangle&lt;/code&gt; per marcare i pacchetti generati dai processi proxy, e successivamente far saltare tali pacchetti nella catena &lt;code&gt;REDSOCKS&lt;/code&gt; della tabella &lt;code&gt;nat&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;iptables -t mangle -A OUTPUT -m owner --uid-owner tinyproxy -j MARK --set-mark 1
+iptables -t mangle -A OUTPUT -m owner --uid-owner redsocks -j MARK --set-mark 1
+iptables -t mangle -A OUTPUT -m owner --uid-owner proxy -j MARK --set-mark 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Poi, nella catena &lt;code&gt;REDSOCKS&lt;/code&gt; (tabella &lt;code&gt;nat&lt;/code&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;iptables -t nat -A REDSOCKS -m mark --mark 1 -j RETURN
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;La regola con &lt;code&gt;--uid-owner proxy&lt;/code&gt; è mantenuta come fallback per compatibilità con setup legacy in cui alcuni servizi girano sotto l&#39;utente storico &lt;code&gt;proxy&lt;/code&gt;; tuttavia, se il comando &lt;code&gt;systemctl show -p User&lt;/code&gt; eseguito in precedenza restituisce un nome utente diverso (ad esempio &lt;code&gt;_tinyproxy&lt;/code&gt;), è necessario sostituirlo nella regola corrispondente.&lt;/p&gt;
+&lt;h4 id=&quot;script-completo&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#script-completo&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Script completo&lt;/h4&gt;
+&lt;p&gt;Lo script seguente raccoglie tutte le regole ed è pensato per essere salvato in &lt;code&gt;/etc/iptables-rules.sh&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;#!/bin/bash
+iptables -t nat -N REDSOCKS 2&amp;gt;/dev/null || iptables -t nat -F REDSOCKS
+iptables -t mangle -A OUTPUT -m owner --uid-owner tinyproxy -j MARK --set-mark 1 2&amp;gt;/dev/null
+iptables -t mangle -A OUTPUT -m owner --uid-owner redsocks -j MARK --set-mark 1 2&amp;gt;/dev/null
+iptables -t mangle -A OUTPUT -m owner --uid-owner proxy -j MARK --set-mark 1 2&amp;gt;/dev/null
+iptables -t nat -A REDSOCKS -m mark --mark 1 -j RETURN
+for net in 0.0.0.0/8 10.0.0.0/8 127.0.0.0/8 169.254.0.0/16 172.16.0.0/12 192.168.0.0/16 224.0.0.0/4 240.0.0.0/4; do
+    iptables -t nat -A REDSOCKS -d &amp;quot;$net&amp;quot; -j RETURN
+done
+iptables -t nat -A REDSOCKS -p tcp --dport 3128 -j RETURN
+iptables -t nat -A REDSOCKS -p tcp --dport 1080 -j RETURN
+iptables -t nat -A REDSOCKS -p tcp --dport 12345 -j RETURN
+iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports 12345
+iptables -t nat -A OUTPUT -p tcp -j REDSOCKS
+iptables -t nat -A PREROUTING -p tcp -j REDSOCKS
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le righe relative alle reti private garantiscono che il traffico verso indirizzi locali (LAN, loopback, multicast) non venga mai instradato verso il proxy, mentre le righe sulle porte 3128/1080/12345 evitano che il traffico destinato ai proxy stessi venga nuovamente reindirizzato.&lt;/p&gt;
+&lt;p&gt;Per applicare lo script:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo chmod +x /etc/iptables-rules.sh
+sudo /etc/iptables-rules.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;rendere-le-regole-persistenti-e-affidabili&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#rendere-le-regole-persistenti-e-affidabili&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Rendere le regole persistenti e affidabili&lt;/h4&gt;
+&lt;p&gt;Il modo più semplice per salvare le regole consiste nell&#39;usare &lt;code&gt;iptables-persistent&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo iptables-save | sudo tee /etc/iptables/rules.v4 &amp;gt; /dev/null
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Questo approccio, però, ha un limite: al boot le regole vengono ripristinate da &lt;code&gt;rules.v4&lt;/code&gt; molto presto, potenzialmente prima che &lt;code&gt;tinyproxy&lt;/code&gt;, &lt;code&gt;danted&lt;/code&gt; e &lt;code&gt;redsocks&lt;/code&gt; abbiano avviato i rispettivi processi con i relativi utenti, causando il fallimento silenzioso delle marcature &lt;code&gt;--uid-owner&lt;/code&gt;. Un approccio più robusto consiste nel creare una unit &lt;code&gt;systemd&lt;/code&gt; dedicata che applichi lo script &lt;em&gt;dopo&lt;/em&gt; l&#39;avvio dei servizi proxy.&lt;/p&gt;
+&lt;p&gt;File &lt;code&gt;/etc/systemd/system/iptables-rules.service&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;[Unit]
+Description=Applica le regole iptables per il proxy trasparente
+After=network-online.target tinyproxy.service danted.service redsocks.service
+Wants=network-online.target
+[Service]
+Type=oneshot
+ExecStart=/etc/iptables-rules.sh
+RemainAfterExit=yes
+[Install]
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;E abilitarla con:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo systemctl daemon-reload
+sudo systemctl enable iptables-rules.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Da notare che su Ubuntu 24.04 il comando &lt;code&gt;iptables&lt;/code&gt; è in realtà un frontend per &lt;code&gt;nftables&lt;/code&gt; (backend &lt;code&gt;iptables-nft&lt;/code&gt;). Le regole impostate restano pienamente compatibili e funzionanti, ma è possibile ispezionarne l&#39;equivalente nativo in qualsiasi momento con:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo nft list ruleset
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;gestione-di-dns-e-traffico-udpquic&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#gestione-di-dns-e-traffico-udpquic&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Gestione di DNS e traffico UDP/QUIC&lt;/h3&gt;
+&lt;p&gt;L&#39;intera architettura descritta opera esclusivamente sul traffico TCP. Questo ha due conseguenze pratiche fondamentali, spesso trascurate, che è importante conoscere prima di considerare il setup &amp;quot;completo&amp;quot;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Risoluzione DNS.&lt;/strong&gt; Le query DNS utilizzano tipicamente UDP sulla porta 53 e non vengono intercettate dalle regole &lt;code&gt;iptables&lt;/code&gt; definite sopra. Significa che, anche con tutto il traffico HTTP/HTTPS instradato attraverso il proxy, le richieste DNS continuano a uscire direttamente verso il resolver configurato sul sistema, esponendo i nomi di dominio visitati. Per mitigare questo problema, le opzioni principali sono:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;I primi tre ottetti — &lt;code&gt;192.168.5&lt;/code&gt; — rappresentano la &lt;strong&gt;rete&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;L&#39;ultimo ottetto — &lt;code&gt;11&lt;/code&gt; — rappresenta l&#39;&lt;strong&gt;host&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;Configurare &lt;code&gt;systemd-resolved&lt;/code&gt; per utilizzare DNS over TLS (DoT) verso un resolver attendibile, in modo che le query siano comunque cifrate anche se non transitano dal proxy.&lt;/li&gt;
+&lt;li&gt;Installare un resolver locale come &lt;code&gt;unbound&lt;/code&gt; con supporto DoH/DoT.&lt;/li&gt;
+&lt;li&gt;Se l&#39;obiettivo primario è l&#39;anonimato completo (e non solo il filtraggio), valutare l&#39;uso di una VPN, che instrada anche il traffico UDP, incluso il DNS.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Tutti i dispositivi appartenenti alla stessa rete locale devono condividere la medesima&lt;br&gt;
-porzione di rete. Due dispositivi con porzioni di rete differenti non possono&lt;br&gt;
-comunicare direttamente senza l&#39;intervento di un router.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Analogia pratica:&lt;/strong&gt; il meccanismo è assimilabile a un numero di telefono internazionale,&lt;br&gt;
-dove il prefisso paese e il prefisso locale identificano la &amp;quot;rete&amp;quot; (zona geografica)&lt;br&gt;
-e il numero finale identifica il singolo &amp;quot;host&amp;quot; (abbonato).&lt;/p&gt;
-&lt;h2 id=&quot;la-maschera-di-sottorete-subnet-mask&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#la-maschera-di-sottorete-subnet-mask&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; La maschera di sottorete (subnet mask)&lt;/h2&gt;
-&lt;p&gt;La &lt;strong&gt;subnet mask&lt;/strong&gt; è lo strumento che consente ai dispositivi di determinare quale&lt;br&gt;
-parte dell&#39;indirizzo IPv4 rappresenta la rete e quale rappresenta l&#39;host.&lt;br&gt;
-Anch&#39;essa è un valore a 32 bit, in cui i bit impostati a &lt;code&gt;1&lt;/code&gt; indicano la porzione&lt;br&gt;
-di rete e quelli a &lt;code&gt;0&lt;/code&gt; la porzione host.&lt;/p&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
-  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-    &lt;thead class=&quot;table-dark&quot;&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Subnet mask decimale&lt;/th&gt;
-        &lt;th&gt;Rappresentazione binaria&lt;/th&gt;
-        &lt;th&gt;Bit di rete&lt;/th&gt;
-        &lt;th&gt;Bit di host&lt;/th&gt;
-      &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;255.0.0.0&lt;/td&gt;
-        &lt;td&gt;11111111.00000000.00000000.00000000&lt;/td&gt;
-        &lt;td&gt;8&lt;/td&gt;
-        &lt;td&gt;24&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;255.255.0.0&lt;/td&gt;
-        &lt;td&gt;11111111.11111111.00000000.00000000&lt;/td&gt;
-        &lt;td&gt;16&lt;/td&gt;
-        &lt;td&gt;16&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;255.255.255.0&lt;/td&gt;
-        &lt;td&gt;11111111.11111111.11111111.00000000&lt;/td&gt;
-        &lt;td&gt;24&lt;/td&gt;
-        &lt;td&gt;8&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;255.255.255.128&lt;/td&gt;
-        &lt;td&gt;11111111.11111111.11111111.10000000&lt;/td&gt;
-        &lt;td&gt;25&lt;/td&gt;
-        &lt;td&gt;7&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;Una subnet mask &lt;code&gt;/24&lt;/code&gt; (255.255.255.0) permette di indirizzare fino a &lt;strong&gt;254 host&lt;/strong&gt;&lt;br&gt;
-utilizzabili (256 indirizzi totali, meno l&#39;indirizzo di rete e quello di broadcast).&lt;/p&gt;
-&lt;h2 id=&quot;notazione-cidr&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#notazione-cidr&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Notazione CIDR&lt;/h2&gt;
-&lt;p&gt;Nei contesti professionali moderni, la subnet mask viene quasi sempre espressa&lt;br&gt;
-nella notazione &lt;strong&gt;CIDR&lt;/strong&gt; (&lt;em&gt;Classless Inter-Domain Routing&lt;/em&gt;), introdotta dalla&lt;br&gt;
-RFC 1519 per superare i limiti del vecchio sistema di classi A/B/C.&lt;/p&gt;
-&lt;p&gt;La notazione CIDR affianca all&#39;indirizzo IP un &lt;strong&gt;prefisso&lt;/strong&gt; che indica il numero&lt;br&gt;
-di bit riservati alla porzione di rete:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;192.168.5.11/24    →  rete: 192.168.5.0,  host: .11
-10.0.0.1/8         →  rete: 10.0.0.0,     host: .0.0.1
-172.16.10.5/16     →  rete: 172.16.0.0,   host: .10.5
+&lt;p&gt;&lt;strong&gt;Traffico QUIC/HTTP-3.&lt;/strong&gt; I browser moderni (Chrome, Edge, Firefox) tentano di default connessioni HTTP/3 basate su QUIC, che viaggia su UDP/443. Questo traffico bypassa completamente &lt;code&gt;redsocks&lt;/code&gt; e tinyproxy, uscendo direttamente verso Internet. Per garantire che tutto il traffico web passi effettivamente dal proxy, è possibile forzare il fallback a TCP/TLS bloccando UDP/443 in uscita:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo iptables -A OUTPUT -p udp --dport 443 -j REJECT
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;La notazione CIDR è obbligatoria in contesti come la configurazione di firewall,&lt;br&gt;
-le rotte statiche su router, le security group rule nei provider cloud (AWS, Azure,&lt;br&gt;
-GCP) e i file di configurazione di strumenti come Ansible o Terraform.&lt;/p&gt;
-&lt;h2 id=&quot;reti-logiche-su-una-stessa-rete-fisica&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#reti-logiche-su-una-stessa-rete-fisica&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Reti logiche su una stessa rete fisica&lt;/h2&gt;
-&lt;p&gt;IPv4 permette la coesistenza di &lt;strong&gt;più reti logiche su un&#39;unica infrastruttura&lt;br&gt;
-fisica&lt;/strong&gt;. Se due gruppi di host condividono lo stesso segmento fisico (es. stesso&lt;br&gt;
-switch) ma appartengono a subnet diverse, non possono comunicare tra loro senza&lt;br&gt;
-passare per un router o un layer-3 switch.&lt;/p&gt;
-&lt;p&gt;Esempio concreto con tre reparti aziendali:&lt;/p&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
-  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-    &lt;thead class=&quot;table-dark&quot;&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Reparto&lt;/th&gt;
-        &lt;th&gt;Rete logica&lt;/th&gt;
-        &lt;th&gt;Esempio host&lt;/th&gt;
-        &lt;th&gt;Gateway&lt;/th&gt;
-      &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Vendite&lt;/td&gt;
-        &lt;td&gt;192.168.3.0/24&lt;/td&gt;
-        &lt;td&gt;192.168.3.10&lt;/td&gt;
-        &lt;td&gt;192.168.3.1&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Contabilità&lt;/td&gt;
-        &lt;td&gt;192.168.2.0/24&lt;/td&gt;
-        &lt;td&gt;192.168.2.15&lt;/td&gt;
-        &lt;td&gt;192.168.2.1&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Network Mgmt&lt;/td&gt;
-        &lt;td&gt;192.168.1.0/24&lt;/td&gt;
-        &lt;td&gt;192.168.1.20&lt;/td&gt;
-        &lt;td&gt;192.168.1.1&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;Un host configurato con la porzione di rete errata rispetto alla propria subnet&lt;br&gt;
-non sarà in grado di comunicare: sarà isolato anche se fisicamente connesso.&lt;br&gt;
-Questo è uno degli errori di configurazione più comuni in fase di provisioning.&lt;/p&gt;
-&lt;h2 id=&quot;il-gateway-predefinito&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#il-gateway-predefinito&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Il gateway predefinito&lt;/h2&gt;
-&lt;p&gt;Quando un host deve inviare traffico verso un indirizzo IP che &lt;strong&gt;non appartiene&lt;br&gt;
-alla propria subnet&lt;/strong&gt;, incapsula il pacchetto e lo consegna al &lt;strong&gt;gateway&lt;br&gt;
-predefinito&lt;/strong&gt; (&lt;em&gt;default gateway&lt;/em&gt;): tipicamente l&#39;interfaccia del router locale.&lt;/p&gt;
-&lt;p&gt;Il router esamina l&#39;indirizzo di destinazione, consulta la propria tabella di&lt;br&gt;
-routing e instrada il pacchetto verso la rete corretta. I router non necessitano&lt;br&gt;
-di conoscere la posizione di ogni singolo host: devono solo sapere come&lt;br&gt;
-raggiungere ciascuna &lt;strong&gt;rete&lt;/strong&gt;, questo è il beneficio diretto dell&#39;indirizzamento&lt;br&gt;
-gerarchico.&lt;/p&gt;
-&lt;h2 id=&quot;indirizzi-privati-e-pubblici-rfc-1918&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#indirizzi-privati-e-pubblici-rfc-1918&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Indirizzi privati e pubblici: RFC 1918&lt;/h2&gt;
-&lt;p&gt;Non tutti gli indirizzi IPv4 sono instradabili su Internet. La &lt;strong&gt;RFC 1918&lt;/strong&gt;&lt;br&gt;
-definisce tre blocchi riservati per uso esclusivamente privato (reti locali,&lt;br&gt;
-data center interni, ambienti di laboratorio):&lt;/p&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
-  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-    &lt;thead class=&quot;table-dark&quot;&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Range privato&lt;/th&gt;
-        &lt;th&gt;Notazione CIDR&lt;/th&gt;
-        &lt;th&gt;N° indirizzi&lt;/th&gt;
-        &lt;th&gt;Utilizzo tipico&lt;/th&gt;
-      &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;10.0.0.0 – 10.255.255.255&lt;/td&gt;
-        &lt;td&gt;10.0.0.0/8&lt;/td&gt;
-        &lt;td&gt;~16,7 milioni&lt;/td&gt;
-        &lt;td&gt;Reti enterprise, data center&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;172.16.0.0 – 172.31.255.255&lt;/td&gt;
-        &lt;td&gt;172.16.0.0/12&lt;/td&gt;
-        &lt;td&gt;~1 milione&lt;/td&gt;
-        &lt;td&gt;Reti medie, VPN aziendali&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;192.168.0.0 – 192.168.255.255&lt;/td&gt;
-        &lt;td&gt;192.168.0.0/16&lt;/td&gt;
-        &lt;td&gt;~65.000&lt;/td&gt;
-        &lt;td&gt;SOHO, lab, reti domestiche&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;Gli indirizzi privati non sono mai instradati direttamente su Internet: vengono&lt;br&gt;
-tradotti in indirizzi pubblici tramite il meccanismo &lt;strong&gt;NAT&lt;/strong&gt; (&lt;em&gt;Network Address&lt;br&gt;
-Translation&lt;/em&gt;), implementato tipicamente sul router di bordo o sul firewall perimetrale.&lt;/p&gt;
-&lt;h2 id=&quot;indirizzi-speciali-e-riservati&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#indirizzi-speciali-e-riservati&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Indirizzi speciali e riservati&lt;/h2&gt;
-&lt;p&gt;Alcuni indirizzi IPv4 hanno una semantica riservata e non possono essere assegnati&lt;br&gt;
-agli host:&lt;/p&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
-  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-    &lt;thead class=&quot;table-dark&quot;&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Indirizzo / Range&lt;/th&gt;
-        &lt;th&gt;Descrizione&lt;/th&gt;
-      &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;127.0.0.1 (o 127.0.0.0/8)&lt;/td&gt;
-        &lt;td&gt;Loopback: traffico indirizzato allo stack di rete locale, mai trasmesso sul cavo&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;x.x.x.0&lt;/td&gt;
-        &lt;td&gt;Indirizzo di rete: identifica la subnet stessa, non assegnabile agli host&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;x.x.x.255&lt;/td&gt;
-        &lt;td&gt;Broadcast diretto: invia a tutti gli host della subnet&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;255.255.255.255&lt;/td&gt;
-        &lt;td&gt;Broadcast limitato: inviato a tutti i dispositivi del segmento locale&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;169.254.0.0/16&lt;/td&gt;
-        &lt;td&gt;APIPA (link-local): assegnato automaticamente quando DHCP non è raggiungibile&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;0.0.0.0&lt;/td&gt;
-        &lt;td&gt;Indirizzo non specificato: usato da un host prima di ricevere un indirizzo DHCP&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;La comparsa di un indirizzo &lt;code&gt;169.254.x.x&lt;/code&gt; su un&#39;interfaccia è un sintomo&lt;br&gt;
-diagnostico inequivocabile: il client non ha raggiunto il server DHCP.&lt;/p&gt;
-&lt;h2 id=&quot;assegnazione-degli-indirizzi-statica-e-dinamica-dhcp&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#assegnazione-degli-indirizzi-statica-e-dinamica-dhcp&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Assegnazione degli indirizzi: statica e dinamica (DHCP)&lt;/h2&gt;
-&lt;p&gt;Un indirizzo IPv4 può essere assegnato a un&#39;interfaccia in due modalità:&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Configurazione statica&lt;/strong&gt; — L&#39;amministratore assegna manualmente indirizzo IP,&lt;br&gt;
-subnet mask, gateway e DNS. È la modalità preferita per server, stampanti di&lt;br&gt;
-rete, router e qualsiasi dispositivo la cui raggiungibilità deve essere&lt;br&gt;
-prevedibile e stabile nel tempo.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Configurazione dinamica via DHCP&lt;/strong&gt; — Il client invia una richiesta broadcast&lt;br&gt;
-sulla rete; il server DHCP risponde assegnando automaticamente indirizzo, subnet&lt;br&gt;
-mask, gateway predefinito e server DNS per un periodo di tempo definito (&lt;em&gt;lease&lt;/em&gt;).&lt;br&gt;
-È la modalità standard per workstation, laptop e dispositivi mobili.&lt;/p&gt;
-&lt;p&gt;Per verificare la configurazione attiva di un&#39;interfaccia, è possibile usare i&lt;br&gt;
-seguenti comandi:&lt;/p&gt;
-&lt;p&gt;Su sistemi Linux/macOS:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;ip addr show
+&lt;p&gt;In presenza di questa regola, i browser ricadono automaticamente su HTTP/2 over TCP, che viene correttamente intercettato dal tunnel.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;IPv6.&lt;/strong&gt; Lo script copre solo IPv4 (non a caso i comandi di verifica nella guida usano il flag &lt;code&gt;-4&lt;/code&gt;). Se il sistema dispone di connettività IPv6 attiva, il traffico verso destinazioni IPv6 bypassa interamente il proxy. Le due opzioni più comuni sono replicare le stesse regole con &lt;code&gt;ip6tables&lt;/code&gt;/&lt;code&gt;nft&lt;/code&gt; per IPv6, oppure, più semplicemente, disabilitare temporaneamente IPv6 sull&#39;interfaccia di rete durante l&#39;utilizzo del tunnel:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo sysctl -w net.ipv6.conf.all.disable_ipv6=1
+sudo sysctl -w net.ipv6.conf.default.disable_ipv6=1
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Su sistemi Windows:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;ipconfig /all
+&lt;h3 id=&quot;verifica-del-funzionamento&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#verifica-del-funzionamento&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Verifica del funzionamento&lt;/h3&gt;
+&lt;p&gt;Una volta avviati tutti i servizi e applicate le regole &lt;code&gt;iptables&lt;/code&gt;, è possibile verificare che il traffico venga effettivamente instradato attraverso il proxy confrontando l&#39;IP pubblico restituito dai diversi percorsi:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;curl -4 http://ifconfig.me
+curl -4 https://ifconfig.me
+curl --socks5 127.0.0.1:1080 -4 http://ifconfig.me
+curl --socks5 127.0.0.1:1080 -4 https://ifconfig.me
+curl --proxy http://127.0.0.1:3128 -4 http://ifconfig.me
+curl --proxy http://127.0.0.1:3128 -4 https://ifconfig.me
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;L&#39;output mostrerà indirizzo IP, subnet mask, gateway predefinito, server DNS e,&lt;br&gt;
-nel caso DHCP, la durata del lease e l&#39;indirizzo del server che lo ha assegnato.&lt;/p&gt;
-&lt;h2 id=&quot;il-problema-dellesaurimento-degli-indirizzi&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#il-problema-dellesaurimento-degli-indirizzi&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Il problema dell&#39;esaurimento degli indirizzi&lt;/h2&gt;
-&lt;p&gt;Lo spazio di indirizzamento IPv4, circa 4,3 miliardi di indirizzi, è stato&lt;br&gt;
-&lt;strong&gt;formalmente esaurito&lt;/strong&gt; a livello IANA nel febbraio 2011. I registri regionali&lt;br&gt;
-(RIPE NCC, ARIN, APNIC) hanno terminato le proprie riserve in anni successivi.&lt;/p&gt;
-&lt;p&gt;Soluzioni intermedie come NAT e CIDR hanno allungato la vita operativa di IPv4,&lt;br&gt;
-ma la risposta definitiva è &lt;strong&gt;IPv6&lt;/strong&gt;: uno spazio di indirizzamento a 128 bit che&lt;br&gt;
-fornisce circa 3,4 × 10³⁸ indirizzi unici. La maggior parte delle infrastrutture&lt;br&gt;
-moderne opera in modalità &lt;strong&gt;dual-stack&lt;/strong&gt;, supportando contemporaneamente IPv4 e&lt;br&gt;
-IPv6, ed è competenza attesa per qualsiasi figura professionale che operi in&lt;br&gt;
-ambito networking, cloud o DevOps.&lt;/p&gt;
+&lt;p&gt;Tutti i comandi dovrebbero restituire lo stesso indirizzo IP pubblico, confermando che il traffico forzato da &lt;code&gt;iptables&lt;/code&gt;, quello instradato via SOCKS5 e quello passato direttamente a tinyproxy escono tutti dal medesimo punto.&lt;/p&gt;
+&lt;h3 id=&quot;disattivazione-del-tunnel&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#disattivazione-del-tunnel&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Disattivazione del tunnel&lt;/h3&gt;
+&lt;p&gt;Per rimuovere temporaneamente il reindirizzamento, senza disinstallare i servizi:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo iptables -t nat -F REDSOCKS
+sudo iptables -t nat -D OUTPUT -p tcp -j REDSOCKS
+sudo iptables -t nat -D PREROUTING -p tcp -j REDSOCKS
+sudo iptables -t nat -X REDSOCKS
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per riattivare il tunnel è sufficiente rieseguire &lt;code&gt;/etc/iptables-rules.sh&lt;/code&gt; (o riavviare la unit &lt;code&gt;iptables-rules.service&lt;/code&gt; se è stata configurata).&lt;/p&gt;
+&lt;h3 id=&quot;proxy-locale-e-proxy-remoto&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#proxy-locale-e-proxy-remoto&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Proxy locale e proxy remoto&lt;/h3&gt;
+&lt;p&gt;Questa guida configura un proxy locale, in cui tinyproxy è installato sulla stessa macchina che genera il traffico. In questa modalità, il traffico esce comunque dall&#39;IP pubblico assegnato dal proprio operatore.&lt;/p&gt;
+&lt;p&gt;Schema del proxy locale:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Browser → tinyproxy (locale, :3128) → router → Internet
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le caratteristiche principali sono:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;IP visibile&lt;/strong&gt;: quello dell&#39;utente (es. un IP italiano)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Latenza&lt;/strong&gt;: minima, con un solo hop aggiuntivo (redsocks → tinyproxy)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Privacy&lt;/strong&gt;: il proxy vede il traffico in chiaro, mitigato dalla cifratura HTTPS end-to-end&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Scopo principale&lt;/strong&gt;: controllo, filtro e centralizzazione del traffico&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Lo schema del proxy remoto, invece, prevede che tinyproxy funga da intermediario verso un secondo proxy ospitato in un altro paese:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Browser → tinyproxy (locale, :3128) → proxy remoto (es. Olanda) → Internet
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In questo caso, l&#39;IP pubblico osservato dai servizi remoti diventa quello del server remoto. tinyproxy supporta upstream HTTP, SOCKS4 e SOCKS5:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;upstream socks5 185.xxx.xxx.xxx:1080
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;oppure, con autenticazione:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;upstream http user:pass@proxy-remoto.com:8080
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;È inoltre possibile effettuare un instradamento selettivo, in cui solo determinati domini transitano attraverso il proxy remoto:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;upstream socks5 proxy-remoto.com:1080 &amp;quot;.example.com&amp;quot;
+upstream none &amp;quot;.sito-interno.local&amp;quot;
+upstream http proxy-remoto.com:8080
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per individuare un proxy remoto da utilizzare come upstream, le opzioni principali sono:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Servizi commerciali specializzati (BrightData, Oxylabs, Smartproxy, NetNut)&lt;/li&gt;
+&lt;li&gt;Un VPS affittato in un altro paese, sul quale installare autonomamente tinyproxy o dante&lt;/li&gt;
+&lt;li&gt;Liste pubbliche di proxy gratuiti, generalmente instabili e poco sicure, da evitare in contesti che richiedono affidabilità&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;proxy-vs-vpn&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#proxy-vs-vpn&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Proxy vs VPN&lt;/h3&gt;
+&lt;p&gt;La scelta tra proxy e VPN dipende dall&#39;obiettivo. La tabella seguente riassume le differenze principali.&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Caratteristica&lt;/th&gt; &lt;th&gt;Proxy (locale/remoto)&lt;/th&gt; &lt;th&gt;VPN&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Cifratura&lt;/td&gt; &lt;td&gt;Solo a livello applicativo (HTTPS)&lt;/td&gt; &lt;td&gt;Tutto il traffico, tramite tunnel cifrato&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Supporto UDP&lt;/td&gt; &lt;td&gt;No, solo TCP&lt;/td&gt; &lt;td&gt;Sì (DNS, VoIP, gaming, QUIC)&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Ambito del traffico&lt;/td&gt; &lt;td&gt;TCP, configurabile per singola applicazione&lt;/td&gt; &lt;td&gt;Intero sistema, tramite interfaccia di rete virtuale&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Overhead&lt;/td&gt; &lt;td&gt;Leggero, basso overhead&lt;/td&gt; &lt;td&gt;Leggero overhead crittografico&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Anonimato dell&#39;IP&lt;/td&gt; &lt;td&gt;Sì, con proxy remoto&lt;/td&gt; &lt;td&gt;Sì&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Bypass geografico&lt;/td&gt; &lt;td&gt;Sì, ma limitato al traffico TCP&lt;/td&gt; &lt;td&gt;Sì, su tutto il traffico&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Configurazione&lt;/td&gt; &lt;td&gt;Relativamente semplice (URL o variabili d&#39;ambiente)&lt;/td&gt; &lt;td&gt;Richiede un client o un&#39;app dedicata&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Protezione da DNS leak&lt;/td&gt; &lt;td&gt;Dipende dal setup, richiede configurazione aggiuntiva&lt;/td&gt; &lt;td&gt;Generalmente inclusa di default&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Trasparenza verso il server remoto&lt;/td&gt; &lt;td&gt;Il server vede il proxy come client&lt;/td&gt; &lt;td&gt;Il server vede il server VPN come client&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
+&lt;p&gt;In sintesi, conviene optare per un proxy quando l&#39;obiettivo è cambiare l&#39;IP visibile per il browser o per una singola applicazione, in un ambiente controllato, oppure quando si necessita di funzionalità di caching o filtraggio. Una VPN è invece preferibile quando si vuole cifrare l&#39;intero traffico di sistema (non solo HTTP), quando si utilizzano applicazioni che richiedono UDP, su reti Wi-Fi pubbliche non affidabili, oppure quando l&#39;obiettivo è bypassare blocchi di rete completi.&lt;/p&gt;
+&lt;h3 id=&quot;esempio-pratico&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#esempio-pratico&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Esempio pratico&lt;/h3&gt;
+&lt;p&gt;Per estendere il setup descritto in questa guida con un proxy remoto come upstream, è possibile procedere come segue.&lt;/p&gt;
+&lt;p&gt;Innanzitutto occorre individuare un proxy SOCKS5 remoto raggiungibile, ad esempio all&#39;indirizzo &lt;code&gt;185.x.x.x:1080&lt;/code&gt;. Successivamente, va aggiunta la seguente riga al file &lt;code&gt;/etc/tinyproxy/tinyproxy.conf&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;upstream socks5 185.x.x.x:1080
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;A questo punto è necessario riavviare il servizio:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo systemctl restart tinyproxy
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Da questo momento, tutto il traffico già forzato da &lt;code&gt;iptables&lt;/code&gt; (tramite &lt;code&gt;redsocks&lt;/code&gt; → &lt;code&gt;tinyproxy&lt;/code&gt;) uscirà dall&#39;IP del proxy remoto.&lt;/p&gt;
+&lt;p&gt;È inoltre possibile combinare gli approcci, instradando solo determinati domini verso il proxy remoto e lasciando tutto il resto in uscita diretta:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;upstream socks5 proxy-remoto.com:1080 &amp;quot;.netflix.com&amp;quot; &amp;quot;.disneyplus.com&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;hardening-e-best-practice-di-sicurezza&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#hardening-e-best-practice-di-sicurezza&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Hardening e best practice di sicurezza&lt;/h3&gt;
+&lt;p&gt;Sebbene tutti i servizi siano configurati per restare in ascolto esclusivamente su &lt;code&gt;127.0.0.1&lt;/code&gt;, è buona norma applicare alcune misure aggiuntive di difesa in profondità, in particolare su sistemi che potrebbero essere collegati a reti non affidabili:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Verificare periodicamente che nessun servizio sia in ascolto su interfacce diverse da loopback, con &lt;code&gt;sudo ss -tlnp&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Bloccare esplicitamente l&#39;accesso esterno alle porte dei proxy tramite &lt;code&gt;ufw&lt;/code&gt;, anche se già vincolate a localhost, come ulteriore livello di protezione:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo ufw deny in on wlp0s20f3 to any port 3128
+sudo ufw deny in on wlp0s20f3 to any port 1080
+sudo ufw deny in on wlp0s20f3 to any port 12345
+&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Mantenere aggiornati i pacchetti &lt;code&gt;tinyproxy&lt;/code&gt;, &lt;code&gt;dante-server&lt;/code&gt; e &lt;code&gt;redsocks&lt;/code&gt;, poiché si tratta di servizi esposti, anche solo localmente, all&#39;elaborazione di traffico di rete arbitrario.&lt;/li&gt;
+&lt;li&gt;Evitare di eseguire qualsiasi componente del tunnel come utente &lt;code&gt;root&lt;/code&gt;: tutti i servizi indicati in questa guida vengono installati con utenti dedicati a privilegi minimi.&lt;/li&gt;
+&lt;li&gt;Se si utilizza un upstream remoto con credenziali (&lt;code&gt;upstream http user:pass@...&lt;/code&gt;), evitare di salvare le credenziali in chiaro in file con permessi troppo permissivi: verificare che &lt;code&gt;/etc/tinyproxy/tinyproxy.conf&lt;/code&gt; sia leggibile solo da &lt;code&gt;root&lt;/code&gt; e dall&#39;utente del servizio.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;riepilogo-dei-file-di-configurazione&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#riepilogo-dei-file-di-configurazione&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Riepilogo dei file di configurazione&lt;/h3&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;File&lt;/th&gt; &lt;th&gt;Descrizione&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;/etc/tinyproxy/tinyproxy.conf&lt;/td&gt; &lt;td&gt;Configurazione del proxy HTTP tinyproxy&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;/etc/danted.conf&lt;/td&gt; &lt;td&gt;Configurazione del proxy SOCKS5 dante&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;/etc/redsocks.conf&lt;/td&gt; &lt;td&gt;Configurazione di redsocks&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;/etc/iptables-rules.sh&lt;/td&gt; &lt;td&gt;Script delle regole iptables per il reindirizzamento trasparente&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;/etc/iptables/rules.v4&lt;/td&gt; &lt;td&gt;Regole iptables persistenti caricate al boot&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;/etc/systemd/system/iptables-rules.service&lt;/td&gt; &lt;td&gt;Unit systemd per applicare le regole con il corretto ordine di avvio&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
+&lt;h3 id=&quot;risoluzione-dei-problemi-piu-comuni&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#risoluzione-dei-problemi-piu-comuni&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Risoluzione dei problemi più comuni&lt;/h3&gt;
+&lt;p&gt;Tra i problemi più frequenti che si possono riscontrare durante la configurazione di questo setup, i principali sono i seguenti.&lt;/p&gt;
+&lt;p&gt;Le connessioni HTTPS vanno in timeout. La causa più probabile è un loop di reindirizzamento generato da &lt;code&gt;iptables&lt;/code&gt;, in cui le connessioni dei proxy vengono nuovamente intercettate da loro stesse. La soluzione consiste nel verificare che le marcature nella tabella &lt;code&gt;mangle&lt;/code&gt; corrispondano effettivamente agli utenti reali con cui girano &lt;code&gt;tinyproxy&lt;/code&gt; e &lt;code&gt;redsocks&lt;/code&gt;, utilizzando &lt;code&gt;systemctl show -p User&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Il sistema restituisce l&#39;errore &amp;quot;Maximum number of connections reached&amp;quot;. In questo caso la causa è quasi sempre un valore di &lt;code&gt;MaxClients&lt;/code&gt; troppo basso in tinyproxy. La soluzione è aumentare il parametro (ad esempio a 1000) e riavviare il servizio.&lt;/p&gt;
+&lt;p&gt;Il servizio dante non si avvia. La causa tipica è l&#39;uso della direttiva obsoleta &lt;code&gt;method&lt;/code&gt;, sostituita da &lt;code&gt;socksmethod&lt;/code&gt; nelle versioni recenti di Dante. La soluzione è verificare la sintassi corretta in &lt;code&gt;/etc/danted.conf&lt;/code&gt; e correggere la direttiva.&lt;/p&gt;
+&lt;p&gt;Il traffico non viene completamente instradato attraverso il proxy nonostante le regole iptables siano attive. In questo caso la causa è quasi sempre il traffico UDP (DNS o QUIC/HTTP-3), che per progettazione non viene intercettato da questo setup. La soluzione consiste nell&#39;applicare le misure descritte nella sezione dedicata alla gestione di DNS e UDP/QUIC.&lt;/p&gt;
 ]]></content>
     
     
     
       
       
-    <category term="reti"/>
+    <category term="tinyproxy"/>
       
     
       
@@ -307,27 +288,456 @@ ambito networking, cloud o DevOps.&lt;/p&gt;
     
       
       
-    <category term="livello di rete"/>
+    <category term="proxy"/>
       
     
       
       
-    <category term="IPV4"/>
+    <category term="iptables"/>
       
     
       
       
-    <category term="IPV6"/>
+    <category term="VPN"/>
       
     
       
       
-    <category term="gateway"/>
+    <category term="ubuntu"/>
+      
+    
+  </entry>
+  
+  <entry>
+    <title>ClamAV su Linux: guida completa a installazione, scansione e monitoraggio in tempo reale</title>
+    <link href="https://dino-996.github.io/blog/clamav-antivirus/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/clamav-antivirus/</id>
+    <published></published>
+    <updated></updated>
+    
+    <summary>Guida completa a ClamAV su Linux: installazione, verifica dei servizi, scansione con clamdscan e clamscan, monitoraggio in tempo reale con inotifywait, automazione tramite systemd timer e best practice di sicurezza e ottimizzazione delle prestazioni.</summary>
+    
+    
+    <content type="html"><![CDATA[
+&lt;h2 id=&quot;introduzione&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#introduzione&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Introduzione&lt;/h2&gt;
+&lt;p&gt;ClamAV è una soluzione antivirus open source pensata per ambienti Unix e Linux, ampiamente utilizzata per la scansione di file system, mail server e workstation. A differenza di molti antivirus desktop, ClamAV non integra una protezione in tempo reale &amp;quot;out of the box&amp;quot;: è progettato come un toolkit modulare, composto da più componenti indipendenti che collaborano tra loro.&lt;/p&gt;
+&lt;h2 id=&quot;architettura-e-componenti-principali&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#architettura-e-componenti-principali&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Architettura e componenti principali&lt;/h2&gt;
+&lt;p&gt;ClamAV si basa su tre componenti fondamentali, ciascuno con una responsabilità specifica. Questa separazione dei compiti è coerente con il principio di modularità: ogni processo può essere aggiornato, monitorato o riavviato in modo indipendente.&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Componente&lt;/th&gt;
+        &lt;th&gt;Ruolo&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;clamav-freshclam&lt;/td&gt;
+        &lt;td&gt;Servizio che aggiorna periodicamente il database delle firme virali.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;clamav-daemon (clamd)&lt;/td&gt;
+        &lt;td&gt;Demone di scansione sempre residente in RAM, garantisce tempi di risposta rapidi.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;clamdscan&lt;/td&gt;
+        &lt;td&gt;Client leggero che si connette a clamd per richiedere una scansione (veloce).&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;clamscan&lt;/td&gt;
+        &lt;td&gt;Scanner standalone che ricarica il database a ogni esecuzione (più lento).&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;La distinzione tra &lt;code&gt;clamdscan&lt;/code&gt; e &lt;code&gt;clamscan&lt;/code&gt; è cruciale dal punto di vista delle prestazioni: il primo si appoggia al demone già attivo e con il database già caricato in memoria, mentre il secondo carica da zero l&#39;intero database a ogni invocazione, con un overhead che può arrivare a diversi secondi.&lt;/p&gt;
+&lt;h2 id=&quot;installazione-dei-pacchetti&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#installazione-dei-pacchetti&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Installazione dei pacchetti&lt;/h2&gt;
+&lt;p&gt;L&#39;installazione su distribuzioni basate su Debian/Ubuntu richiede un singolo comando:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo apt update &amp;amp;&amp;amp; sudo apt install clamav clamav-daemon clamav-freshclam -y
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Questo comando installa tre pacchetti distinti, ciascuno con un ruolo preciso:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;clamav&lt;/code&gt;: fornisce i comandi base, tra cui &lt;code&gt;clamscan&lt;/code&gt; e &lt;code&gt;clamdscan&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;clamav-daemon&lt;/code&gt;: installa il demone &lt;code&gt;clamd&lt;/code&gt; e i relativi file di configurazione.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;clamav-freshclam&lt;/code&gt;: installa l&#39;aggiornatore del database e il servizio systemd associato.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Al termine dell&#39;installazione, entrambi i servizi principali (&lt;code&gt;clamav-freshclam&lt;/code&gt; e &lt;code&gt;clamav-daemon&lt;/code&gt;) dovrebbero avviarsi automaticamente.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Se usi un sistema operativo differente puoi fare riferimento alla documentazione ufficiale: &lt;a href=&quot;https://docs.clamav.net/manual/Installing.html#installing-clamav&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;Installing ClamAV&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;verifica-dei-servizi-e-del-database&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#verifica-dei-servizi-e-del-database&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Verifica dei servizi e del database&lt;/h2&gt;
+&lt;h3 id=&quot;stato-dei-servizi&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#stato-dei-servizi&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Stato dei servizi&lt;/h3&gt;
+&lt;p&gt;Per verificare che i servizi siano attivi e in esecuzione, è sufficiente interrogare systemd:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl status clamav-freshclam
+systemctl status clamav-daemon
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;verifica-della-versione-e-del-database&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#verifica-della-versione-e-del-database&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Verifica della versione e del database&lt;/h3&gt;
+&lt;p&gt;Il comando seguente restituisce la versione del software e quella del database delle firme installato:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;clamscan --version
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Un output tipico ha questa forma:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;ClamAV 1.4.4/28026/Tue Jun 9 08:25:31 2026
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il formato è: versione di ClamAV / versione del database / data dell&#39;ultimo aggiornamento del database. Questo comando è particolarmente utile in fase di troubleshooting, poiché una data molto vecchia indica immediatamente un problema con &lt;code&gt;freshclam&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;troubleshooting-notifica-di-freshclam-a-clamd&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#troubleshooting-notifica-di-freshclam-a-clamd&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Troubleshooting: notifica di freshclam a clamd&lt;/h3&gt;
+&lt;p&gt;Dopo ogni aggiornamento del database, &lt;code&gt;freshclam&lt;/code&gt; invia un segnale a &lt;code&gt;clamd&lt;/code&gt; affinché ricarichi le firme senza necessità di riavvio. Se nei log compare il seguente errore:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;ERROR: NotifyClamd: Can&#39;t find or parse configuration file /etc/clamav/clamd.conf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;è necessario innanzitutto verificare che il file &lt;code&gt;/etc/clamav/clamd.conf&lt;/code&gt; esista effettivamente. Se il file è presente, il problema è quasi sempre legato a una race condition verificatasi durante l&#39;installazione: riavviando &lt;code&gt;freshclam&lt;/code&gt; si forza una nuova notifica.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo systemctl restart clamav-freshclam
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per confermare che &lt;code&gt;clamd&lt;/code&gt; abbia effettivamente ricevuto la notifica, è possibile consultare i log del demone:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;journalctl -u clamav-daemon.service --no-pager -n 10
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Nei log dovrebbe apparire un messaggio simile a &lt;code&gt;Received SIGHUP&lt;/code&gt; oppure &lt;code&gt;Reloading databases&lt;/code&gt;, segno che il database è stato ricaricato correttamente in memoria.&lt;/p&gt;
+&lt;h2 id=&quot;comandi-di-scansione&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#comandi-di-scansione&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Comandi di scansione&lt;/h2&gt;
+&lt;h3 id=&quot;scansione-con-clamdscan-raccomandato&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#scansione-con-clamdscan-raccomandato&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Scansione con clamdscan (raccomandato)&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;clamdscan&lt;/code&gt; è il metodo consigliato per la scansione su sistemi con &lt;code&gt;clamd&lt;/code&gt; già attivo: il comando si limita a inviare la richiesta al demone, che esegue la scansione utilizzando il database già caricato in RAM, con un guadagno di prestazioni significativo rispetto allo scanner standalone.&lt;/p&gt;
+&lt;p&gt;Alcuni esempi di utilizzo comune:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;clamdscan file.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;clamdscan /home/dino/Scaricati --infected --fdpass
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;clamdscan /home /var --infected --fdpass --multiscan
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;clamdscan /home /etc /var /tmp --infected --fdpass --log=scansione.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;clamdscan /percorso --infected --fdpass --quiet
+&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;clamdscan /percorso --infected --fdpass --wait
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le opzioni più utilizzate di &lt;code&gt;clamdscan&lt;/code&gt; sono riassunte nella tabella seguente:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Opzione&lt;/th&gt;
+        &lt;th&gt;Effetto&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--infected / -i&lt;/td&gt;
+        &lt;td&gt;Mostra in output solo i file risultati infetti.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--fdpass&lt;/td&gt;
+        &lt;td&gt;Passa il file descriptor a clamd, necessario quando il demone è eseguito con un utente di sistema diverso da quello che avvia la scansione.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--multiscan / -m&lt;/td&gt;
+        &lt;td&gt;Distribuisce la scansione su più thread paralleli.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--verbose / -v&lt;/td&gt;
+        &lt;td&gt;Restituisce un output dettagliato di ogni file analizzato.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--quiet&lt;/td&gt;
+        &lt;td&gt;Mostra solo eventuali errori, utile per l&#39;esecuzione in background.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--log=FILE / -l FILE&lt;/td&gt;
+        &lt;td&gt;Salva il report della scansione su file.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--wait / -w&lt;/td&gt;
+        &lt;td&gt;Attende che clamd sia disponibile prima di procedere, utile in script di avvio.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--remove&lt;/td&gt;
+        &lt;td&gt;Rimuove automaticamente i file infetti (operazione irreversibile).&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--move=DIR&lt;/td&gt;
+        &lt;td&gt;Sposta i file infetti nella directory di quarantena specificata.&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;h3 id=&quot;scansione-completa-del-sistema&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#scansione-completa-del-sistema&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Scansione completa del sistema&lt;/h3&gt;
+&lt;p&gt;Per una scansione completa del file system è necessario escludere i file system virtuali, che non contengono dati reali e possono causare blocchi o errori durante la scansione:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;clamdscan / --infected --fdpass --exclude-dir=&amp;quot;^/(proc|sys|dev|run)&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le directory &lt;code&gt;/proc&lt;/code&gt;, &lt;code&gt;/sys&lt;/code&gt;, &lt;code&gt;/dev&lt;/code&gt; e &lt;code&gt;/run&lt;/code&gt; devono sempre essere escluse: rappresentano interfacce verso il kernel e non file da analizzare.&lt;/p&gt;
+&lt;h3 id=&quot;scansione-con-clamscan-standalone&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#scansione-con-clamscan-standalone&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Scansione con clamscan (standalone)&lt;/h3&gt;
+&lt;p&gt;&lt;code&gt;clamscan&lt;/code&gt; non dipende da &lt;code&gt;clamd&lt;/code&gt; ed è quindi utile in script eseguiti su sistemi dove il demone non è attivo, oppure in contesti containerizzati minimali. Lo svantaggio principale è il tempo di avvio, dovuto al caricamento completo del database a ogni esecuzione.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;clamscan -r /home /etc /var /tmp --infected --log=scansione.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Opzione&lt;/th&gt;
+        &lt;th&gt;Effetto&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;-r&lt;/td&gt;
+        &lt;td&gt;Esegue la scansione in modo ricorsivo sulle sottodirectory.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--infected&lt;/td&gt;
+        &lt;td&gt;Mostra solo i file risultati infetti.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--log=FILE&lt;/td&gt;
+        &lt;td&gt;Salva il report della scansione su file.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--move=DIR&lt;/td&gt;
+        &lt;td&gt;Sposta i file infetti nella directory di quarantena specificata.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--remove&lt;/td&gt;
+        &lt;td&gt;Rimuove automaticamente i file infetti (operazione irreversibile).&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;--exclude-dir=PATTERN&lt;/td&gt;
+        &lt;td&gt;Esclude le directory che corrispondono al pattern specificato.&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;h3 id=&quot;codici-di-uscita-per-lautomazione&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#codici-di-uscita-per-lautomazione&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Codici di uscita per l&#39;automazione&lt;/h3&gt;
+&lt;p&gt;Sia &lt;code&gt;clamscan&lt;/code&gt; che &lt;code&gt;clamdscan&lt;/code&gt; restituiscono un codice di uscita standardizzato, particolarmente utile quando questi comandi vengono integrati in script di automazione o pipeline:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Codice&lt;/th&gt;
+        &lt;th&gt;Significato&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;0&lt;/td&gt;
+        &lt;td&gt;Scansione completata, nessun virus rilevato.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;1&lt;/td&gt;
+        &lt;td&gt;Scansione completata, rilevato almeno un file infetto.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;2&lt;/td&gt;
+        &lt;td&gt;Errore durante l&#39;esecuzione (file non leggibile, problemi di connessione a clamd, ecc.).&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;In uno script bash è quindi possibile reagire in modo differenziato ai diversi esiti, ad esempio inviando una notifica solo in caso di rilevamento (codice 1) e loggando separatamente gli errori di sistema (codice 2).&lt;/p&gt;
+&lt;h2 id=&quot;monitoraggio-in-tempo-reale&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#monitoraggio-in-tempo-reale&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Monitoraggio in tempo reale&lt;/h2&gt;
+&lt;p&gt;ClamAV offre la modalità &amp;quot;On-Access Scan&amp;quot; tramite il binario &lt;code&gt;clamav-clamonacc&lt;/code&gt;, che si appoggia all&#39;interfaccia &lt;code&gt;fanotify&lt;/code&gt; del kernel Linux per intercettare in tempo reale le operazioni sui file. Si tratta della soluzione più completa, ma comporta un impatto costante sulle prestazioni del sistema, poiché ogni accesso ai file monitorati viene intercettato dal kernel e instradato verso ClamAV.&lt;/p&gt;
+&lt;p&gt;Per workstation desktop o ambienti con risorse limitate, una soluzione più leggera ed efficiente in termini di consumo di CPU consiste nell&#39;implementare un watchdog basato su &lt;code&gt;inotifywait&lt;/code&gt;, che monitora solo gli eventi di scrittura e spostamento file nelle directory di interesse, delegando la scansione effettiva a &lt;code&gt;clamdscan&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;installazione-degli-strumenti-necessari&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#installazione-degli-strumenti-necessari&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Installazione degli strumenti necessari&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo apt install -y inotify-tools
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;creazione-dello-script-di-watchdog&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#creazione-dello-script-di-watchdog&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Creazione dello script di watchdog&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;mkdir -p ~/.local/bin
+nano ~/.local/bin/clamav-watch.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Contenuto dello script:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;#!/bin/bash
+WATCH_DIRS=&amp;quot;$HOME/Scaricati $HOME/Scrivania $HOME/Documenti $HOME/Immagini $HOME/Video $HOME/Musica $HOME/Pubblici&amp;quot;
+inotifywait -m $WATCH_DIRS -e close_write -e moved_to --format &#39;%w%f&#39; |
+while read -r FILE; do
+    clamdscan --infected --fdpass --quiet &amp;quot;$FILE&amp;quot; 2&amp;gt;&amp;amp;1 | grep -v &amp;quot;OK$&amp;quot; | logger -t clamav-watch
+done
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Lo script monitora le directory utente più comunemente utilizzate per download e file temporanei, esegue una scansione silenziosa tramite &lt;code&gt;clamdscan&lt;/code&gt; a ogni evento e invia al syslog solo gli esiti diversi da &amp;quot;OK&amp;quot;, riducendo al minimo il rumore nei log.&lt;/p&gt;
+&lt;p&gt;Rendere lo script eseguibile:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;chmod +x ~/.local/bin/clamav-watch.sh
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;creazione-del-servizio-systemd-utente&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#creazione-del-servizio-systemd-utente&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Creazione del servizio systemd utente&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;mkdir -p ~/.config/systemd/user
+nano ~/.config/systemd/user/clamav-watch.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Contenuto del file di unità:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;[Unit]
+Description=ClamAV lightweight file watchdog
+After=clamav-daemon.service
+[Service]
+ExecStart=%h/.local/bin/clamav-watch.sh
+Restart=on-failure
+RestartSec=5
+[Install]
+WantedBy=default.target
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Un errore comune in questa fase è l&#39;utilizzo del nome di sezione errato &lt;code&gt;[Services]&lt;/code&gt; al posto di &lt;code&gt;[Service]&lt;/code&gt; (forma singolare): systemd non riconosce la sezione e l&#39;avvio del servizio fallisce.&lt;/p&gt;
+&lt;h3 id=&quot;abilitazione-e-avvio-del-servizio&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#abilitazione-e-avvio-del-servizio&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Abilitazione e avvio del servizio&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl --user daemon-reload
+systemctl --user enable --now clamav-watch.service
+systemctl --user status clamav-watch.service
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;L&#39;output atteso in caso di corretto funzionamento è simile al seguente:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;clamav-watch.service - ClamAV lightweight file watchdog
+Active: active (running)
+Memory: 1.1M (peak: 1.6M)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il consumo di memoria estremamente contenuto (circa 1 MB) confirma il vantaggio di questo approccio rispetto a una soluzione on-access basata su fanotify, costantemente attiva e con un&#39;impronta sulle risorse decisamente maggiore.&lt;/p&gt;
+&lt;h3 id=&quot;verifica-del-funzionamento&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#verifica-del-funzionamento&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Verifica del funzionamento&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;echo &amp;quot;test&amp;quot; &amp;gt; ~/Scaricati/prova.txt
+clamdscan ~/Scaricati/prova.txt --infected --fdpass
+rm ~/Scaricati/prova.txt
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Gli eventuali file rilevati come infetti vengono registrati automaticamente nel journal. Per consultarli:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;journalctl -t clamav-watch --no-pager
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;logica-di-funzionamento-dello-script&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#logica-di-funzionamento-dello-script&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Logica di funzionamento dello script&lt;/h3&gt;
+&lt;p&gt;Il flusso operativo del watchdog può essere schematizzato come segue:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;File creato o modificato in una directory monitorata
+        |
+        v
+inotifywait rileva l&#39;evento (close_write / moved_to)
+        |
+        v
+clamdscan --infected --fdpass --quiet esegue la scansione
+        |
+        v
+Se infetto -&amp;gt; logger -t clamav-watch -&amp;gt; syslog/journal
+Se pulito  -&amp;gt; nessuna azione (filtrato da grep -v &amp;quot;OK$&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;automazione-delle-scansioni-pianificate&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#automazione-delle-scansioni-pianificate&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Automazione delle scansioni pianificate&lt;/h2&gt;
+&lt;p&gt;Oltre al monitoraggio in tempo reale, è buona prassi pianificare scansioni periodiche complete del sistema, ad esempio in orari di basso utilizzo. Su sistemi Linux moderni, i timer systemd rappresentano un&#39;alternativa più robusta al classico cron, offrendo log centralizzati tramite journald e una gestione più granulare delle dipendenze.&lt;/p&gt;
+&lt;p&gt;Definizione del servizio di scansione:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;[Unit]
+Description=ClamAV scheduled full scan
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/clamdscan / --infected --fdpass --multiscan --exclude-dir=&amp;quot;^/(proc|sys|dev|run)&amp;quot; --log=/var/log/clamav/full-scan.log
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Definizione del timer associato, che esegue la scansione ogni notte alle 03:00:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;[Unit]
+Description=Run ClamAV full scan nightly
+[Timer]
+OnCalendar=*-*-* 03:00:00
+Persistent=true
+[Install]
+WantedBy=timers.target
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Dopo aver salvato entrambi i file in &lt;code&gt;/etc/systemd/system/&lt;/code&gt;, è necessario abilitare il timer:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo systemctl daemon-reload
+sudo systemctl enable --now clamav-fullscan.timer
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;best-practice-di-sicurezza-e-ottimizzazione&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#best-practice-di-sicurezza-e-ottimizzazione&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Best practice di sicurezza e ottimizzazione&lt;/h2&gt;
+&lt;p&gt;L&#39;implementazione di un sistema antivirus efficace non si limita all&#39;installazione dei pacchetti: alcuni accorgimenti aggiuntivi migliorano sensibilmente la sicurezza e l&#39;efficienza complessiva.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Permessi della directory di quarantena&lt;/strong&gt;: se si utilizza l&#39;opzione &lt;code&gt;--move=DIR&lt;/code&gt;, la directory di destinazione deve essere accessibile in scrittura dall&#39;utente con cui viene eseguito &lt;code&gt;clamd&lt;/code&gt;, ma non deve essere accessibile in esecuzione, per evitare che file potenzialmente dannosi vengano eseguiti accidentalmente.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tuning delle prestazioni di clamd&lt;/strong&gt;: nel file &lt;code&gt;/etc/clamav/clamd.conf&lt;/code&gt; è possibile regolare parametri come &lt;code&gt;MaxThreads&lt;/code&gt; (numero massimo di scansioni concorrenti) e &lt;code&gt;MaxScanSize&lt;/code&gt; (dimensione massima dei file analizzati). Su server con carico elevato, aumentare &lt;code&gt;MaxThreads&lt;/code&gt; può migliorare il throughput complessivo, a fronte di un maggiore consumo di CPU e RAM.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Esclusioni mirate&lt;/strong&gt;: oltre ai file system virtuali, è consigliabile escludere directory che contengono grandi volumi di file non eseguibili e a basso rischio (ad esempio repository di backup già verificati), per ridurre i tempi di scansione senza compromettere la sicurezza complessiva.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Rotazione dei log&lt;/strong&gt;: se il watchdog genera un volume significativo di log tramite &lt;code&gt;logger&lt;/code&gt;, è opportuno verificare la configurazione di &lt;code&gt;logrotate&lt;/code&gt; per la voce relativa a &lt;code&gt;clamav-watch&lt;/code&gt;, evitando una crescita incontrollata dei file in &lt;code&gt;/var/log&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Gestione dei falsi positivi&lt;/strong&gt;: prima di applicare &lt;code&gt;--remove&lt;/code&gt; in modo automatico, è preferibile testare le regole con &lt;code&gt;--move&lt;/code&gt; verso una quarantena, verificando manualmente i risultati per un periodo iniziale ed evitando la rimozione accidentale di file legittimi.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;cheat-sheet-dei-comandi-principali&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#cheat-sheet-dei-comandi-principali&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Cheat sheet dei comandi principali&lt;/h2&gt;
+&lt;p&gt;Per un riferimento rapido durante l&#39;operatività quotidiana:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;systemctl status clamav-freshclam
+systemctl status clamav-daemon
+systemctl --user status clamav-watch
+clamdscan ~/Scaricati --infected --fdpass
+clamdscan / --infected --fdpass --exclude-dir=&amp;quot;^/(proc|sys|dev|run)&amp;quot;
+journalctl -t clamav-watch --no-pager
+journalctl -u clamav-daemon.service --no-pager -n 20
+clamscan --version
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;risoluzione-dei-problemi-comuni&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#risoluzione-dei-problemi-comuni&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; Risoluzione dei problemi comuni&lt;/h2&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Errore&lt;/th&gt;
+        &lt;th&gt;Causa&lt;/th&gt;
+        &lt;th&gt;Soluzione&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Can&#39;t find or parse configuration file /etc/clamav/clamd.conf&lt;/td&gt;
+        &lt;td&gt;Race condition verificatasi durante l&#39;installazione&lt;/td&gt;
+        &lt;td&gt;Riavviare freshclam con sudo systemctl restart clamav-freshclam&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Status 203/EXEC&lt;/td&gt;
+        &lt;td&gt;Script non eseguibile o shebang errata&lt;/td&gt;
+        &lt;td&gt;Eseguire chmod +x script.sh e verificare la presenza di #!/bin/bash&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Unknown section &#39;Services&#39;&lt;/td&gt;
+        &lt;td&gt;Nome di sezione errato nel file di unità systemd&lt;/td&gt;
+        &lt;td&gt;Correggere in [Service], al singolare&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;file-e-percorsi-principali&quot;&gt;&lt;a class=&quot;header-anchor&quot; href=&quot;#file-e-percorsi-principali&quot;&gt;&lt;i class=&quot;bi bi-link-45deg&quot;&gt;&lt;/i&gt;&lt;/a&gt; File e percorsi principali&lt;/h2&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;File&lt;/th&gt;
+        &lt;th&gt;Ruolo&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;/etc/clamav/clamd.conf&lt;/td&gt;
+        &lt;td&gt;File di configurazione principale del demone clamd.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;/etc/clamav/freshclam.conf&lt;/td&gt;
+        &lt;td&gt;File di configurazione dell&#39;aggiornatore freshclam.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;~/.local/bin/clamav-watch.sh&lt;/td&gt;
+        &lt;td&gt;Script eseguibile del watchdog basato su inotify.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;~/.config/systemd/user/clamav-watch.service&lt;/td&gt;
+        &lt;td&gt;Definizione del servizio systemd utente per il watchdog.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;/var/lib/clamav/&lt;/td&gt;
+        &lt;td&gt;Directory contenente il database delle firme virali.&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;/var/log/clamav/&lt;/td&gt;
+        &lt;td&gt;Directory dei file di log generati da ClamAV.&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;]]></content>
+    
+    
+    
+      
+      
+    <category term="clamav"/>
       
     
       
       
-    <category term="routing"/>
+    <category term="antivirus-linux"/>
+      
+    
+      
+      
+    <category term="cybersecurity"/>
+      
+    
+      
+      
+    <category term="linux"/>
+      
+    
+      
+      
+    <category term="systemd"/>
+      
+    
+      
+      
+    <category term="open source"/>
       
     
   </entry>
