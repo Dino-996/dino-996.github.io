@@ -21,7 +21,7 @@
     <published></published>
     <updated></updated>
     
-    <summary>La sorveglianza preventiva UE. Un&amp;#39;architettura &amp;quot;Surveillance by Design&amp;quot; che scardina la nostra privacy prima ancora della crittografia.</summary>
+    <summary>La sorveglianza preventiva UE. Un&#39;architettura &quot;Surveillance by Design&quot; che scardina la nostra privacy prima ancora della crittografia.</summary>
     
     
     <content type="html"><![CDATA[
@@ -859,7 +859,7 @@ print(f&amp;quot;SHA-256: {hash_originale}&amp;quot;)
     <published></published>
     <updated></updated>
     
-    <summary>Guida tecnica completa alla configurazione di un proxy client locale su Linux (Zorin OS/Ubuntu 24.04) per forzare tutto il traffico TCP attraverso un proxy HTTP trasparente. La guida copre l&amp;#39;installazione e configurazione di tinyproxy, dante (SOCKS5) e redsocks, la gestione delle regole iptables per evitare loop di reindirizzamento, la persistenza tramite systemd, i limiti del setup rispetto a DNS/UDP/QUIC e il confronto con le VPN, con indicazioni di hardening e troubleshooting.</summary>
+    <summary>Guida tecnica completa alla configurazione di un proxy client locale su Linux (Zorin OS/Ubuntu 24.04) per forzare tutto il traffico TCP attraverso un proxy HTTP trasparente. La guida copre l&#39;installazione e configurazione di tinyproxy, dante (SOCKS5) e redsocks, la gestione delle regole iptables per evitare loop di reindirizzamento, la persistenza tramite systemd, i limiti del setup rispetto a DNS/UDP/QUIC e il confronto con le VPN, con indicazioni di hardening e troubleshooting.</summary>
     
     
     <content type="html"><![CDATA[
@@ -1589,7 +1589,7 @@ clamscan --version
     <published></published>
     <updated></updated>
     
-    <summary>Scopri come funziona l&amp;#39;indirizzamento IPv4: dalla struttura a 32 bit alla notazione CIDR, fino alle subnet mask e alla differenza tra IP pubblici e privati (RFC 1918). Una guida fondamentale per professionisti IT, Cloud e DevOps.</summary>
+    <summary>Scopri come funziona l&#39;indirizzamento IPv4: dalla struttura a 32 bit alla notazione CIDR, fino alle subnet mask e alla differenza tra IP pubblici e privati (RFC 1918). Una guida fondamentale per professionisti IT, Cloud e DevOps.</summary>
     
     
     <content type="html"><![CDATA[
@@ -2281,7 +2281,7 @@ ambito networking, cloud o DevOps.&lt;/p&gt;
     <published></published>
     <updated></updated>
     
-    <summary>Esplora il livello di collegamento dati (Data Link Layer): scopri il funzionamento dei frame Ethernet, il ruolo degli switch, l&amp;#39;indirizzamento MAC e le tecnologie moderne come VLAN e VXLAN.</summary>
+    <summary>Esplora il livello di collegamento dati (Data Link Layer): scopri il funzionamento dei frame Ethernet, il ruolo degli switch, l&#39;indirizzamento MAC e le tecnologie moderne come VLAN e VXLAN.</summary>
     
     
     <content type="html"><![CDATA[
@@ -2532,13 +2532,870 @@ PASSO 3 — H1 invia di nuovo a H4 (entrambi noti)
   </entry>
   
   <entry>
+    <title>Mezzi trasmissivi</title>
+    <link href="https://dino-996.github.io/blog/mezzi-trasmissivi/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/mezzi-trasmissivi/</id>
+    <published></published>
+    <updated></updated>
+    
+    <summary>Alla scoperta dei media di rete: analizziamo differenze, vantaggi e scenari d&#39;uso di cavi in rame (UTP/STP), fibra ottica (SMF/MMF) e tecnologie wireless dal Wi-Fi 6 al Wi-Fi 7.</summary>
+    
+    
+    <content type="html"><![CDATA[
+&lt;h2 id=&quot;tipi-di-media-di-rete&quot;&gt;Tipi di media di rete&lt;/h2&gt;
+&lt;p&gt;In una rete di comunicazione, il &lt;strong&gt;media&lt;/strong&gt; (o mezzo trasmissivo) è il canale fisico o elettromagnetico attraverso cui i dati viaggiano dalla sorgente alla destinazione. La scelta del media influenza direttamente larghezza di banda disponibile, distanza massima, immunità ai disturbi elettromagnetici, costo di installazione e manutenibilità dell&#39;infrastruttura.&lt;/p&gt;
+&lt;p&gt;Le reti moderne si basano su tre categorie principali di media trasmissivi:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cavi in rame:&lt;/strong&gt; i dati vengono codificati come variazioni di tensione elettrica (impulsi digitali o segnali analogici modulati).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cavi in fibra ottica:&lt;/strong&gt; i dati vengono codificati come impulsi di luce laser o LED, all&#39;interno di fibre di vetro o plastica.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Trasmissione wireless:&lt;/strong&gt; i dati vengono codificati modulando frequenze specifiche dello spettro elettromagnetico.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ciascun media presenta vantaggi e vincoli distinti, che ne determinano l&#39;idoneità a specifici scenari infrastrutturali.&lt;/p&gt;
+&lt;h2 id=&quot;il-cavo-in-rame&quot;&gt;Il cavo in rame&lt;/h2&gt;
+&lt;p&gt;Il rame rimane il media più diffuso nelle reti locali (LAN) aziendali e residenziali, grazie al rapporto favorevole tra costo, semplicità di installazione e prestazioni nei collegamenti a breve-media distanza.&lt;/p&gt;
+&lt;h3 id=&quot;doppino-intrecciato-twisted-pair&quot;&gt;Doppino intrecciato (Twisted Pair)&lt;/h3&gt;
+&lt;p&gt;Il &lt;strong&gt;doppino intrecciato&lt;/strong&gt; è il tipo di cablaggio più comune nelle reti Ethernet moderne. I conduttori sono organizzati in coppie, intrecciate l&#39;una sull&#39;altra a passo regolare: l&#39;intreccio riduce l&#39;&lt;strong&gt;interferenza elettromagnetica (EMI)&lt;/strong&gt; e il &lt;strong&gt;crosstalk&lt;/strong&gt; (la diafonia tra coppie adiacenti), fenomeni che degradano il segnale su distanze crescenti.&lt;/p&gt;
+&lt;p&gt;La codifica cromatica dei conduttori — un filo a tinta unita e il suo partner striato sullo sfondo bianco — consente di identificare univocamente ogni coppia a entrambe le estremità del cavo, semplificando la terminazione e la diagnostica.&lt;/p&gt;
+&lt;p&gt;Esistono due varianti principali:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;UTP (Unshielded Twisted Pair):&lt;/strong&gt; prive di schermatura metallica aggiuntiva, sono la scelta standard in uffici e ambienti con bassa densità di disturbi elettromagnetici.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;STP (Shielded Twisted Pair):&lt;/strong&gt; dotate di schermatura per singola coppia o per il fascio complessivo, sono indicate in ambienti industriali, sale server ad alta densità o in prossimità di macchinari che generano EMI elevata.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Le categorie più rilevanti per l&#39;infrastruttura aziendale moderna sono:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Categoria&lt;/th&gt;
+        &lt;th&gt;Larghezza di Banda&lt;/th&gt;
+        &lt;th&gt;Velocità Massima&lt;/th&gt;
+        &lt;th&gt;Distanza Max (segmento)&lt;/th&gt;
+        &lt;th&gt;Scenario Tipico&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Cat5e&lt;/td&gt;
+        &lt;td&gt;100 MHz&lt;/td&gt;
+        &lt;td&gt;1 Gbps&lt;/td&gt;
+        &lt;td&gt;100 m&lt;/td&gt;
+        &lt;td&gt;LAN ufficio, postazioni client standard&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Cat6&lt;/td&gt;
+        &lt;td&gt;250 MHz&lt;/td&gt;
+        &lt;td&gt;10 Gbps (fino a 55 m)&lt;/td&gt;
+        &lt;td&gt;100 m / 55 m a 10G&lt;/td&gt;
+        &lt;td&gt;Switch uplink, ambienti ad alta densità&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Cat6a&lt;/td&gt;
+        &lt;td&gt;500 MHz&lt;/td&gt;
+        &lt;td&gt;10 Gbps&lt;/td&gt;
+        &lt;td&gt;100 m&lt;/td&gt;
+        &lt;td&gt;Data center, dorsali di piano, PoE++&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Il cavo Cat6a è oggi lo standard raccomandato per i nuovi impianti di cablaggio strutturato, in quanto supporta pienamente 10 Gbps su 100 m e garantisce un margine di futuro adeguato per applicazioni come il &lt;strong&gt;Power over Ethernet (PoE++)&lt;/strong&gt;, utilizzato per alimentare access point Wi-Fi 6, telefoni IP e telecamere IP ad alta risoluzione.&lt;/p&gt;
+&lt;h3 id=&quot;cavo-coassiale&quot;&gt;Cavo coassiale&lt;/h3&gt;
+&lt;p&gt;Il &lt;strong&gt;cavo coassiale&lt;/strong&gt; è stato uno dei primi media adottati nelle reti informatiche, con un ruolo centrale negli standard Ethernet storici come 10BASE2 (Thinnet) e 10BASE5 (Thicknet), oggi completamente dismessi. La sua architettura è composta da un nucleo rigido in rame, avvolto da uno strato di isolante dielettrico, da una calza metallica intrecciata che funge da schermatura e da una guaina esterna protettiva.&lt;/p&gt;
+&lt;p&gt;Nelle infrastrutture di rete moderne, il coassiale non è più utilizzato per il cablaggio LAN, ma mantiene rilevanza in due contesti specifici:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Reti HFC (Hybrid Fiber-Coaxial):&lt;/strong&gt; gli ISP che erogano connettività via cavo (es. DOCSIS 3.1/4.0) utilizzano la fibra ottica per il backbone e il coassiale per l&#39;ultimo chilometro e mezzo verso l&#39;utente finale.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sistemi di comunicazione satellitare e TV:&lt;/strong&gt; il coassiale è lo standard per il collegamento tra antenne, LNB e decoder/ricevitori.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Grazie alla sua struttura coassiale — nucleo e schermatura condividono lo stesso asse geometrico — offre elevata immunità alle interferenze esterne ed è idoneo al trasporto di segnali ad alta frequenza e a larga banda.&lt;/p&gt;
+&lt;h2 id=&quot;il-cavo-in-fibra-ottica&quot;&gt;Il cavo in fibra ottica&lt;/h2&gt;
+&lt;p&gt;La &lt;strong&gt;fibra ottica&lt;/strong&gt; rappresenta la tecnologia trasmissiva ad alte prestazioni per eccellenza. Il principio fisico è la &lt;strong&gt;riflessione totale interna&lt;/strong&gt;: gli impulsi di luce, una volta iniettati nel nucleo della fibra (di diametro paragonabile a quello di un capello umano), si propagano per riflessione ripetuta sulle pareti senza dispersione significativa, consentendo di raggiungere distanze e velocità irraggiungibili con il rame.&lt;/p&gt;
+&lt;p&gt;Poiché il segnale è luminoso e non elettrico, la fibra è intrinsecamente immune all&#39;interferenza elettromagnetica e al crosstalk, caratteristica decisiva in ambienti ostili o per collegamenti che attraversano aree con forti disturbi industriali.&lt;/p&gt;
+&lt;h3 id=&quot;fibra-monomodale-smf-e-multimodale-mmf&quot;&gt;Fibra Monomodale (SMF) e Multimodale (MMF)&lt;/h3&gt;
+&lt;p&gt;La distinzione fondamentale nella fibra ottica riguarda il numero di &lt;strong&gt;modi di propagazione&lt;/strong&gt; della luce all&#39;interno del nucleo:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Tipo&lt;/th&gt;
+        &lt;th&gt;Standard&lt;/th&gt;
+        &lt;th&gt;Diametro Nucleo&lt;/th&gt;
+        &lt;th&gt;Sorgente Luminosa&lt;/th&gt;
+        &lt;th&gt;Distanza Tipica&lt;/th&gt;
+        &lt;th&gt;Scenario d&#39;Uso&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Monomodale (SMF)&lt;/td&gt;
+        &lt;td&gt;OS1, OS2&lt;/td&gt;
+        &lt;td&gt;9 µm&lt;/td&gt;
+        &lt;td&gt;Laser&lt;/td&gt;
+        &lt;td&gt;Fino a 100 km+&lt;/td&gt;
+        &lt;td&gt;Backbone metropolitano, WAN, reti carrier&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Multimodale (MMF)&lt;/td&gt;
+        &lt;td&gt;OM3, OM4, OM5&lt;/td&gt;
+        &lt;td&gt;50 / 62,5 µm&lt;/td&gt;
+        &lt;td&gt;LED o VCSEL&lt;/td&gt;
+        &lt;td&gt;Fino a 550 m (OM4, 10G)&lt;/td&gt;
+        &lt;td&gt;Dorsali intra-edificio, connessioni tra switch di piano, data center&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;La &lt;strong&gt;SMF&lt;/strong&gt; è lo standard nelle infrastrutture carrier, nelle dorsali metropolitane (MAN) e nei data center geograficamente distribuiti. La &lt;strong&gt;MMF&lt;/strong&gt; è invece preferita nei cablaggi intra-edificio e nei data center di medie dimensioni, dove la minore distanza consente di sfruttare sorgenti LED o VCSEL meno costose rispetto ai laser ad alta precisione richiesti dalla SMF.&lt;/p&gt;
+&lt;h3 id=&quot;ambiti-di-applicazione-della-fibra&quot;&gt;Ambiti di applicazione della fibra&lt;/h3&gt;
+&lt;p&gt;Oltre alla trasmissione dati, la fibra ottica trova impiego in settori trasversali:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Imaging medicale e chirurgia laser:&lt;/strong&gt; endoscopi e sonde intraoperatorie.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ispezioni industriali:&lt;/strong&gt; boroscopi per l&#39;analisi visiva di componenti meccanici inaccessibili.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sensoristica distribuita:&lt;/strong&gt; rilevamento di temperatura e pressione in infrastrutture critiche (oleodotti, ponti, tunnel).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Nel contesto IT, la fibra è la scelta dominante per backbone aziendali, interconnessioni tra data center, reti FTTH/FTTB degli operatori e uplink di alta capacità negli ambienti cloud.&lt;/p&gt;
+&lt;h2 id=&quot;la-trasmissione-wireless&quot;&gt;La trasmissione wireless&lt;/h2&gt;
+&lt;p&gt;La trasmissione &lt;strong&gt;wireless&lt;/strong&gt; codifica i dati modulando onde elettromagnetiche su specifiche frequenze dello spettro radio. Anziché un canale fisico dedicato, il segnale si propaga nello spazio, consentendo la mobilità dei dispositivi ma introducendo sfide legate alla condivisione del mezzo, all&#39;attenuazione e alle interferenze.&lt;/p&gt;
+&lt;h3 id=&quot;standard-wi-fi-dall80211n-al-wi-fi-7&quot;&gt;Standard Wi-Fi: dall&#39;802.11n al Wi-Fi 7&lt;/h3&gt;
+&lt;p&gt;L&#39;evoluzione degli standard &lt;strong&gt;IEEE 802.11&lt;/strong&gt; ha progressivamente ridotto il divario prestazionale tra wireless e cablato:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Standard&lt;/th&gt;
+        &lt;th&gt;Denominazione&lt;/th&gt;
+        &lt;th&gt;Banda&lt;/th&gt;
+        &lt;th&gt;Velocità Teorica Max&lt;/th&gt;
+        &lt;th&gt;Caratteristica Chiave&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;802.11n&lt;/td&gt;
+        &lt;td&gt;Wi-Fi 4&lt;/td&gt;
+        &lt;td&gt;2,4 / 5 GHz&lt;/td&gt;
+        &lt;td&gt;600 Mbps&lt;/td&gt;
+        &lt;td&gt;MIMO, dual-band&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;802.11ac&lt;/td&gt;
+        &lt;td&gt;Wi-Fi 5&lt;/td&gt;
+        &lt;td&gt;5 GHz&lt;/td&gt;
+        &lt;td&gt;3,5 Gbps&lt;/td&gt;
+        &lt;td&gt;MU-MIMO, beamforming&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;802.11ax&lt;/td&gt;
+        &lt;td&gt;Wi-Fi 6 / 6E&lt;/td&gt;
+        &lt;td&gt;2,4 / 5 / 6 GHz&lt;/td&gt;
+        &lt;td&gt;9,6 Gbps&lt;/td&gt;
+        &lt;td&gt;OFDMA, BSS Coloring, banda a 6 GHz (6E)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;802.11be&lt;/td&gt;
+        &lt;td&gt;Wi-Fi 7&lt;/td&gt;
+        &lt;td&gt;2,4 / 5 / 6 GHz&lt;/td&gt;
+        &lt;td&gt;46 Gbps&lt;/td&gt;
+        &lt;td&gt;Multi-Link Operation (MLO), canali da 320 MHz&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Il &lt;strong&gt;Wi-Fi 6E&lt;/strong&gt; ha introdotto l&#39;accesso alla banda a &lt;strong&gt;6 GHz&lt;/strong&gt;, fino ad allora riservata ad applicazioni industriali e governative: uno spettro più ampio, meno congestionato, che consente throughput elevati e latenze ridotte in ambienti ad alta densità di dispositivi. Il &lt;strong&gt;Wi-Fi 7&lt;/strong&gt; (802.11be), attualmente in fase di adozione nei dispositivi consumer e enterprise di fascia alta, introduce la &lt;strong&gt;Multi-Link Operation (MLO)&lt;/strong&gt; — la capacità di aggregare simultaneamente più bande e canali — avvicinando ulteriormente le prestazioni wireless a quelle del cablato Ethernet.&lt;/p&gt;
+&lt;p&gt;Il wireless è oggi la soluzione architettonica primaria per scenari IoT, ambienti BYOD, edifici storici dove il cablaggio è proibitivo e deployment mobili.&lt;/p&gt;
+&lt;h2 id=&quot;confronto-generale-tra-i-media-trasmissivi&quot;&gt;Confronto Generale tra i Media Trasmissivi&lt;/h2&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Caratteristica&lt;/th&gt;
+        &lt;th&gt;Doppino Intrecciato (UTP/STP)&lt;/th&gt;
+        &lt;th&gt;Cavo Coassiale&lt;/th&gt;
+        &lt;th&gt;Fibra Ottica&lt;/th&gt;
+        &lt;th&gt;Wireless (Wi-Fi 6/6E)&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Larghezza di Banda&lt;/td&gt;
+        &lt;td&gt;Fino a 10 Gbps (Cat6a)&lt;/td&gt;
+        &lt;td&gt;Fino a ~10 Gbps (DOCSIS 4.0)&lt;/td&gt;
+        &lt;td&gt;Tbps (SMF con WDM)&lt;/td&gt;
+        &lt;td&gt;Fino a 9,6 Gbps (teorico)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Distanza Tipica&lt;/td&gt;
+        &lt;td&gt;100 m per segmento&lt;/td&gt;
+        &lt;td&gt;500 m – diversi km&lt;/td&gt;
+        &lt;td&gt;Fino a 100 km+ (SMF)&lt;/td&gt;
+        &lt;td&gt;~30–100 m (indoor)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Immunità EMI&lt;/td&gt;
+        &lt;td&gt;Media (STP alta)&lt;/td&gt;
+        &lt;td&gt;Alta&lt;/td&gt;
+        &lt;td&gt;Totale&lt;/td&gt;
+        &lt;td&gt;Bassa (condivide lo spettro)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Costo Relativo&lt;/td&gt;
+        &lt;td&gt;Basso&lt;/td&gt;
+        &lt;td&gt;Medio&lt;/td&gt;
+        &lt;td&gt;Alto&lt;/td&gt;
+        &lt;td&gt;Medio (infrastruttura AP)&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Scenario Primario&lt;/td&gt;
+        &lt;td&gt;LAN aziendale, postazioni fisse&lt;/td&gt;
+        &lt;td&gt;HFC (ISP), sistemi RF&lt;/td&gt;
+        &lt;td&gt;Backbone, WAN, data center&lt;/td&gt;
+        &lt;td&gt;Mobilità, IoT, ambienti BYOD&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;criteri-di-scelta-del-media-trasmissivo&quot;&gt;Criteri di Scelta del Media Trasmissivo&lt;/h2&gt;
+&lt;p&gt;La selezione del media più adeguato non è una scelta estetica, ma una decisione architetturale che impatta direttamente le prestazioni, i costi operativi e la scalabilità futura dell&#39;infrastruttura. Le variabili principali da considerare sono:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Distanza:&lt;/strong&gt; per collegamenti superiori ai 100 m o tra edifici distinti, la fibra ottica è l&#39;unica scelta praticabile senza l&#39;introduzione di ripetitori attivi.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Larghezza di banda richiesta:&lt;/strong&gt; workload a 10 Gbps o superiori su brevi distanze richiedono Cat6a o fibra MMF; backbone ad altissima capacità richiedono SMF con multiplexing WDM.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ambiente fisico:&lt;/strong&gt; la presenza di macchinari industriali, motori elettrici o sistemi ad alta tensione nelle vicinanze impone l&#39;uso di fibra ottica o, almeno, di cavi STP.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mobilità dei dispositivi:&lt;/strong&gt; endpoint mobili, dispositivi IoT, stampanti wireless e ambienti BYOD rendono il wireless la soluzione naturale e spesso l&#39;unica architetturalmente sostenibile.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Budget e vincoli infrastrutturali:&lt;/strong&gt; il doppino UTP Cat6a rimane il miglior compromesso costo/prestazioni per il cablaggio orizzontale in edifici nuovi o in ristrutturazione; la fibra è preferibile per le dorsali verticali e inter-edificio, dove l&#39;investimento iniziale è ammortizzato dalla longevità dell&#39;impianto.&lt;/li&gt;
+&lt;/ul&gt;
+
+]]></content>
+    
+    
+    
+      
+      
+    <category term="reti"/>
+      
+    
+      
+      
+    <category term="livello 7"/>
+      
+    
+      
+      
+    <category term="livello fisico"/>
+      
+    
+      
+      
+    <category term="mezzi trasmissivi"/>
+      
+    
+  </entry>
+  
+  <entry>
+    <title>Reti wireless e mobili</title>
+    <link href="https://dino-996.github.io/blog/reti-wireless-mobile/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/reti-wireless-mobile/</id>
+    <published></published>
+    <updated></updated>
+    
+    <summary>Questo articolo esplora le principali tecnologie di connettività wireless presenti nei dispositivi mobili: come funzionano, come si configurano e come si integrano nell&#39;ecosistema digitale contemporaneo.</summary>
+    
+    
+    <content type="html"><![CDATA[
+&lt;h2 id=&quot;panoramica-delle-reti-wireless&quot;&gt;Panoramica delle reti wireless&lt;/h2&gt;
+&lt;p&gt;I dispositivi mobili comunicano attraverso quattro famiglie principali di reti wireless, ognuna ottimizzata per un diverso scenario operativo:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Tecnologia&lt;/th&gt;
+        &lt;th&gt;Raggio d&#39;azione&lt;/th&gt;
+        &lt;th&gt;Caso d&#39;uso tipico&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Rete Cellulare&lt;/td&gt;
+        &lt;td&gt;Decine di km&lt;/td&gt;
+        &lt;td&gt;Voce, dati mobili, roaming&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Wi-Fi&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;20–150 m&lt;/code&gt; (indoor)&lt;/td&gt;
+        &lt;td&gt;Internet domestico, hotspot pubblici&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Bluetooth&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;1–100 m&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Accessori, wearable, IoT&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;NFC&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&lt; 10 cm&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Pagamenti contactless, autenticazione&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;GPS&lt;/td&gt;
+        &lt;td&gt;Globale &lt;small class=&quot;text-muted fw-normal&quot;&gt;(sola ricezione)&lt;/small&gt;&lt;/td&gt;
+        &lt;td&gt;Geolocalizzazione, navigazione&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Nota:&lt;/strong&gt; Tutte queste funzionalità coesistono nello stesso dispositivo. Un telefono moderno può, simultaneamente, ricevere segnali GPS, trasmettere dati LTE, mantenere una connessione Bluetooth con un auricolare e scambiare dati NFC con un terminale POS.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;gps-global-positioning-system&quot;&gt;GPS (Global Positioning System)&lt;/h2&gt;
+&lt;p&gt;Il &lt;strong&gt;GPS&lt;/strong&gt; è un sistema di posizionamento basato su una costellazione di satelliti in orbita che trasmettono segnali radio a bassa potenza verso la superficie terrestre. Il ricevitore GPS del dispositivo — che opera in sola ricezione, senza trasmettere — calcola la propria posizione triangolando i segnali di almeno quattro satelliti visibili.&lt;/p&gt;
+&lt;p&gt;Con condizioni ottimali (cielo aperto, assenza di ostacoli), la precisione raggiunge i &lt;strong&gt;10 metri&lt;/strong&gt; per i sistemi GPS civili standard. Tecnologie ibride come l&#39;&lt;strong&gt;A-GPS&lt;/strong&gt; (Assisted GPS) e il &lt;strong&gt;GNSS&lt;/strong&gt; (che integra sistemi russi GLONASS, europei Galileo e cinesi BeiDou) migliorano ulteriormente precisione e velocità di acquisizione.&lt;/p&gt;
+&lt;p&gt;I servizi di localizzazione dei dispositivi moderni integrano GPS, dati Wi-Fi e triangolazione cellulare per garantire la posizione anche in ambienti urbani chiusi dove il segnale satellite è degradato.&lt;/p&gt;
+&lt;h2 id=&quot;wi-fi&quot;&gt;Wi-Fi&lt;/h2&gt;
+&lt;h3 id=&quot;come-funziona&quot;&gt;Come funziona&lt;/h3&gt;
+&lt;p&gt;Il Wi-Fi consente ai dispositivi di connettersi a reti locali e a Internet tramite onde radio. La connessione avviene attraverso un &lt;strong&gt;Access Point (AP)&lt;/strong&gt; — tipicamente il router domestico o un hotspot pubblico — che trasmette il proprio identificatore di rete (&lt;strong&gt;SSID&lt;/strong&gt;) nell&#39;area circostante. Per ricevere e trasmettere dati, il dispositivo deve trovarsi entro il raggio di copertura del segnale.&lt;/p&gt;
+&lt;h3 id=&quot;standard-wi-fi&quot;&gt;Standard Wi-Fi&lt;/h3&gt;
+&lt;p&gt;Lo standard Wi-Fi è definito dall&#39;IEEE e identificato con la denominazione 802.11. Nel tempo si sono succedute diverse generazioni, ognuna con miglioramenti significativi in termini di banda, velocità e gestione della congestione:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Standard&lt;/th&gt;
+        &lt;th&gt;Nome Wi-Fi&lt;/th&gt;
+        &lt;th&gt;Frequenza&lt;/th&gt;
+        &lt;th&gt;Velocità max teorica&lt;/th&gt;
+        &lt;th&gt;Uso tipico&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;code&gt;802.11n&lt;/code&gt;&lt;/td&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Wi-Fi 4&lt;/td&gt;
+        &lt;td&gt;2.4 / 5 GHz&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;600 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;Reti domestiche legacy&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;code&gt;802.11ac&lt;/code&gt;&lt;/td&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Wi-Fi 5&lt;/td&gt;
+        &lt;td&gt;5 GHz&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;3.5 Gbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;Streaming HD, gaming&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;code&gt;802.11ax&lt;/code&gt;&lt;/td&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Wi-Fi 6&lt;/td&gt;
+        &lt;td&gt;2.4 / 5 GHz&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;9.6 Gbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;Ambienti affollati, IoT&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;code&gt;802.11ax&lt;/code&gt;&lt;/td&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Wi-Fi 6E&lt;/td&gt;
+        &lt;td&gt;2.4 / 5 / 6 GHz&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;9.6 Gbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;Alta densità, bassa latenza&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td&gt;&lt;code&gt;802.11be&lt;/code&gt;&lt;/td&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Wi-Fi 7&lt;/td&gt;
+        &lt;td&gt;2.4 / 5 / 6 GHz&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;~46 Gbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;XR, cloud gaming, enterprise&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Wi-Fi 6 e Wi-Fi 6E introducono tecnologie come &lt;strong&gt;OFDMA&lt;/strong&gt; e &lt;strong&gt;BSS Coloring&lt;/strong&gt; che riducono la congestione nei contesti ad alta densità (aeroporti, stadi, open space aziendali).&lt;/p&gt;
+&lt;h3 id=&quot;tipologie-di-reti-wi-fi&quot;&gt;Tipologie di reti Wi-Fi&lt;/h3&gt;
+&lt;p&gt;Le reti Wi-Fi possono essere:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Private&lt;/strong&gt;: reti domestiche o aziendali protette da password.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Hotspot pubblici&lt;/strong&gt;: punti di accesso aperti o semi-aperti in luoghi come caffè, aeroporti, hotel. Offrono connettività ma richiedono attenzione alla sicurezza.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Reti guest&lt;/strong&gt;: segmenti isolati della rete principale, pensati per visitatori o dispositivi IoT, che impediscono l&#39;accesso alle risorse interne.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;sicurezza-sulle-reti-wi-fi-mobili&quot;&gt;Sicurezza sulle reti Wi-Fi mobili&lt;/h3&gt;
+&lt;p&gt;La connessione a reti Wi-Fi pubbliche espone i dispositivi a rischi significativi come attacchi &lt;strong&gt;man-in-the-middle&lt;/strong&gt;, &lt;strong&gt;rogue AP&lt;/strong&gt; e sniffing del traffico. Le best practice da seguire sono:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Non trasmettere mai credenziali o dati sensibili su connessioni non cifrate (HTTP puro).&lt;/li&gt;
+&lt;li&gt;Utilizzare sempre una &lt;strong&gt;VPN&lt;/strong&gt; quando ci si connette a reti pubbliche o non fidate.&lt;/li&gt;
+&lt;li&gt;Abilitare la sicurezza &lt;strong&gt;WPA3&lt;/strong&gt; sulle reti domestiche (in alternativa, WPA2-AES come minimo accettabile — WEP e WPA sono deprecati e vulnerabili).&lt;/li&gt;
+&lt;li&gt;Disabilitare la connessione automatica alle reti Wi-Fi aperte nelle impostazioni del dispositivo.&lt;/li&gt;
+&lt;li&gt;Segmentare la rete domestica: dispositivi IoT su VLAN o rete guest separata.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;rete-cellulare&quot;&gt;Rete cellulare&lt;/h2&gt;
+&lt;p&gt;La rete cellulare è l&#39;infrastruttura gestita dagli operatori di telefonia mobile che permette voce e dati quando non è disponibile una rete Wi-Fi. Il dispositivo si connette alle &lt;strong&gt;BTS&lt;/strong&gt; (Base Transceiver Station) — le torri cellulari — che coprono aree geografiche definite (&lt;strong&gt;celle&lt;/strong&gt;).&lt;/p&gt;
+&lt;h3 id=&quot;evoluzione-delle-generazioni-cellulari&quot;&gt;Evoluzione delle generazioni cellulari&lt;/h3&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Generazione&lt;/th&gt;
+        &lt;th&gt;Standard&lt;/th&gt;
+        &lt;th&gt;Latenza tipica&lt;/th&gt;
+        &lt;th&gt;Velocità downlink&lt;/th&gt;
+        &lt;th&gt;Note&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;3G&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;UMTS / HSPA+&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;50–100 ms&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;fino a &lt;strong&gt;42 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;Ancora presente in aree rurali&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;4G&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;LTE / LTE-A&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;10–50 ms&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;fino a &lt;strong&gt;150–1000 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;Standard attuale dominante&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;5G&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NR (New Radio)&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&lt; 10 ms&lt;/code&gt; &lt;small class=&quot;text-muted fw-normal&quot;&gt;(sub-6 GHz)&lt;/small&gt;&lt;/td&gt;
+        &lt;td&gt;fino a &lt;strong&gt;10+ Gbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;mmWave per aree urbane dense&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;Il &lt;strong&gt;5G&lt;/strong&gt; introduce due bande operative principali: la banda &lt;strong&gt;sub-6 GHz&lt;/strong&gt; (copertura ampia, prestazioni elevate) e la banda &lt;strong&gt;mmWave&lt;/strong&gt; (millimeter wave, &amp;gt; 24 GHz) per ambienti ad altissima densità con velocità teoriche di decine di Gbps ma raggio d&#39;azione molto limitato.&lt;/p&gt;
+&lt;h3 id=&quot;transizione-automatica-tra-reti&quot;&gt;Transizione automatica tra reti&lt;/h3&gt;
+&lt;p&gt;I dispositivi mobili gestiscono la transizione tra reti in modo trasparente per l&#39;utente. Quando un dispositivo si sposta da un&#39;area 4G LTE a una zona con solo copertura 3G, la radio 4G si disattiva e si attiva quella 3G senza interruzione delle sessioni attive. Analogamente, quando disponibile, il dispositivo preferisce automaticamente il Wi-Fi alla rete cellulare per il traffico dati, riducendo il consumo del piano dati e la batteria (le radio Wi-Fi consumano meno delle radio cellulari).&lt;/p&gt;
+&lt;h2 id=&quot;bluetooth&quot;&gt;Bluetooth&lt;/h2&gt;
+&lt;h3 id=&quot;caratteristiche-generali&quot;&gt;Caratteristiche generali&lt;/h3&gt;
+&lt;p&gt;Bluetooth è una tecnologia radio a corto raggio progettata per sostituire i cavi nelle connessioni tra dispositivi vicini. Opera nella banda &lt;strong&gt;2.4 GHz ISM&lt;/strong&gt; (la stessa del Wi-Fi 2.4 GHz) usando la tecnica &lt;strong&gt;FHSS&lt;/strong&gt; (Frequency Hopping Spread Spectrum) per minimizzare le interferenze.&lt;/p&gt;
+&lt;p&gt;Casi d&#39;uso comuni:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Auricolari e cuffie wireless (A2DP, HFP)&lt;/li&gt;
+&lt;li&gt;Tastiere, mouse e controller&lt;/li&gt;
+&lt;li&gt;Smartwatch e fitness tracker&lt;/li&gt;
+&lt;li&gt;Sistemi audio per auto (Car Audio Profile)&lt;/li&gt;
+&lt;li&gt;Tethering e condivisione della connessione&lt;/li&gt;
+&lt;li&gt;Connessione tra dispositivi mobili per trasferimento file (OBEX)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;classic-bluetooth-vs-bluetooth-low-energy-ble&quot;&gt;Classic Bluetooth vs Bluetooth Low Energy (BLE)&lt;/h3&gt;
+&lt;p&gt;A partire da Bluetooth 4.0, la specifica introduce il profilo &lt;strong&gt;BLE (Bluetooth Low Energy)&lt;/strong&gt;, progettato per dispositivi alimentati a batteria che trasmettono dati sporadicamente:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Caratteristica&lt;/th&gt;
+        &lt;th&gt;Classic Bluetooth&lt;/th&gt;
+        &lt;th&gt;BLE &lt;small class=&quot;fw-normal&quot;&gt;(Bluetooth 4.0+)&lt;/small&gt;&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Consumo energetico&lt;/td&gt;
+        &lt;td&gt;Medio-alto&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;Molto basso&lt;/strong&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Velocità di trasferimento&lt;/td&gt;
+        &lt;td&gt;Fino a &lt;strong&gt;3 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;Fino a &lt;strong&gt;2 Mbps&lt;/strong&gt; &lt;small class=&quot;text-muted fw-normal&quot;&gt;(BT 5.0+)&lt;/small&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Latenza&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;~100 ms&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;&lt; 6 ms&lt;/code&gt; &lt;small class=&quot;text-muted fw-normal&quot;&gt;(BT 5.0)&lt;/small&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Uso tipico&lt;/td&gt;
+        &lt;td&gt;Audio, file transfer&lt;/td&gt;
+        &lt;td&gt;IoT, sensori, beacon, wearable&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Raggio &lt;small class=&quot;text-muted fw-normal&quot;&gt;(BT 5.x)&lt;/small&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;~10–100 m&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Fino a &lt;strong&gt;400 m&lt;/strong&gt; &lt;small class=&quot;text-muted fw-normal&quot;&gt;(modalità long range)&lt;/small&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;Bluetooth 5.x&lt;/strong&gt; (attuale in tutti i dispositivi moderni) raddoppia la velocità e quadruplica il raggio rispetto a BT 4.2, con miglioramenti rilevanti per applicazioni IoT, beacon di localizzazione indoor e mesh networking.&lt;/p&gt;
+&lt;p&gt;Il limite di &lt;strong&gt;8 dispositivi connessi simultaneamente&lt;/strong&gt; si applica alla topologia &lt;strong&gt;piconet&lt;/strong&gt; del Classic Bluetooth. Con BLE e le implementazioni moderne, le architetture supportate sono differenti e possono gestire un numero maggiore di connessioni a basso consumo.&lt;/p&gt;
+&lt;h3 id=&quot;accoppiamento-bluetooth-pairing&quot;&gt;Accoppiamento Bluetooth (Pairing)&lt;/h3&gt;
+&lt;p&gt;Il pairing è il processo con cui due dispositivi Bluetooth stabiliscono una connessione sicura e memorizzano reciprocamente le credenziali per riconnettersi automaticamente in futuro.&lt;/p&gt;
+&lt;p&gt;Il flusso di pairing avviene in questi passi:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Il dispositivo da connettere viene messo in &lt;strong&gt;modalità rilevabile&lt;/strong&gt; (discoverable/pairing mode).&lt;/li&gt;
+&lt;li&gt;Il dispositivo host esegue una scansione dei dispositivi vicini.&lt;/li&gt;
+&lt;li&gt;I due dispositivi si scambiano informazioni (nome, classe, servizi supportati).&lt;/li&gt;
+&lt;li&gt;Se richiesto, viene inserito un &lt;strong&gt;PIN&lt;/strong&gt; o confermata una &lt;strong&gt;passkey&lt;/strong&gt; per autenticare l&#39;abbinamento.&lt;/li&gt;
+&lt;li&gt;Le credenziali vengono memorizzate: le connessioni future avvengono automaticamente.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Pairing su Android (versioni recenti):&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Attivare la modalità rilevabile sul dispositivo da collegare seguendo le istruzioni del produttore.&lt;/li&gt;
+&lt;li&gt;Sul dispositivo Android: &lt;code&gt;Impostazioni &amp;gt; Dispositivi connessi &amp;gt; Aggiungi nuovo dispositivo&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Selezionare il dispositivo dall&#39;elenco dei dispositivi rilevati.&lt;/li&gt;
+&lt;li&gt;Confermare la passkey visualizzata o inserire il PIN.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I percorsi di menu variano a seconda del produttore (Samsung One UI, Pixel Stock Android, MIUI, ecc.) e della versione Android. Fare sempre riferimento alla documentazione ufficiale del dispositivo per le istruzioni aggiornate.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Pairing su iOS / iPadOS:&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Attivare la modalità rilevabile sul dispositivo da collegare.&lt;/li&gt;
+&lt;li&gt;Su iPhone/iPad: &lt;code&gt;Impostazioni &amp;gt; Bluetooth&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;Abilitare il Bluetooth se non attivo.&lt;/li&gt;
+&lt;li&gt;Selezionare il dispositivo nell&#39;elenco &amp;quot;Altri dispositivi&amp;quot;.&lt;/li&gt;
+&lt;li&gt;Confermare la passkey o inserire il PIN se richiesto.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;Configurare Bluetooth su Windows 10/11:&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Su Windows è possibile gestire il Bluetooth in tre modi:&lt;/p&gt;
+&lt;p&gt;Metodo 1 — tramite Action Center: aprire il pannello laterale (tasto &lt;code&gt;Win + A&lt;/code&gt;), cliccare sull&#39;icona Bluetooth e poi su &amp;quot;Vai alle impostazioni&amp;quot;.&lt;/p&gt;
+&lt;p&gt;Metodo 2 — tramite Impostazioni: &lt;code&gt;Start &amp;gt; Impostazioni &amp;gt; Bluetooth e dispositivi &amp;gt; Aggiungi dispositivo &amp;gt; Bluetooth&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Metodo 3 — tramite Pannello di controllo (percorso legacy): &lt;code&gt;Start &amp;gt; Pannello di controllo &amp;gt; Hardware e suoni &amp;gt; Aggiungi dispositivo&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Una volta che Windows ha rilevato il dispositivo (che deve essere in modalità pairing, indicata tipicamente da un LED che lampeggia in rosso e blu alternati), selezionarlo dall&#39;elenco, completare l&#39;abbinamento e cliccare su &amp;quot;Fine&amp;quot;. Il dispositivo apparirà nell&#39;Action Center come connesso. Alla successiva accensione del dispositivo Bluetooth, la riconnessione avviene automaticamente se il Bluetooth del computer è attivo.&lt;/p&gt;
+&lt;h2 id=&quot;nfc-near-field-communication&quot;&gt;NFC (Near Field Communication)&lt;/h2&gt;
+&lt;p&gt;NFC è una tecnologia di comunicazione wireless a cortissimo raggio (generalmente meno di &lt;strong&gt;4 cm&lt;/strong&gt;) basata sugli standard &lt;strong&gt;ISO/IEC 14443&lt;/strong&gt; e &lt;strong&gt;ISO/IEC 18092&lt;/strong&gt;. Opera alla frequenza di &lt;strong&gt;13.56 MHz&lt;/strong&gt; e consente lo scambio di piccole quantità di dati a bassa velocità (106–424 kbps).&lt;/p&gt;
+&lt;h3 id=&quot;modalita-operative&quot;&gt;Modalità operative&lt;/h3&gt;
+&lt;p&gt;Un dispositivo NFC può operare in tre modalità:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Card Emulation&lt;/strong&gt;: il dispositivo si comporta come una smart card contactless (es. carta di credito). Usato per pagamenti mobili come Apple Pay, Google Pay, Samsung Pay. La variante &lt;strong&gt;HCE (Host Card Emulation)&lt;/strong&gt; consente l&#39;emulazione via software senza chip NFC dedicato.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Reader/Writer&lt;/strong&gt;: il dispositivo legge o scrive tag NFC passivi (es. etichette NFC su prodotti, poster o biglietti da visita smart).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Peer-to-Peer (P2P)&lt;/strong&gt;: due dispositivi NFC si scambiano dati direttamente (es. Android Beam, ora sostituito da tecnologie come Nearby Share).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;casi-duso-comuni&quot;&gt;Casi d&#39;uso comuni&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Pagamenti contactless nei negozi fisici&lt;/li&gt;
+&lt;li&gt;Accesso a edifici e controllo presenze (badge NFC)&lt;/li&gt;
+&lt;li&gt;Configurazione rapida di dispositivi IoT (pairing Wi-Fi/BT semplificato)&lt;/li&gt;
+&lt;li&gt;Verifica autenticità di prodotti (supply chain anti-contraffazione)&lt;/li&gt;
+&lt;li&gt;Trasporto pubblico (biglietti e abbonamenti digitali)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;connettivita-mobile&quot;&gt;Connettività Mobile&lt;/h2&gt;
+&lt;p&gt;Un dispositivo mobile moderno orchestra in modo trasparente tutte queste tecnologie. Ecco uno scenario tipico di una giornata lavorativa:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Contesto&lt;/th&gt;
+        &lt;th&gt;Tecnologia attiva&lt;/th&gt;
+        &lt;th&gt;Servizio utilizzato&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Casa al mattino&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;Wi-Fi 6 (WPA3)&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Email, navigazione, streaming&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;In auto&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;Bluetooth 5.x&lt;/code&gt; + &lt;code&gt;GPS&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Navigazione, audio car play&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;In treno&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;4G LTE / 5G&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Videoconferenza, VPN aziendale&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;In ufficio&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;Wi-Fi 6E (802.1X)&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Applicazioni cloud, condivisione file&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Al supermercato&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;NFC&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Pagamento contactless&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;In palestra&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;BLE&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Sincronizzazione fitness tracker&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;configurare-la-connettivita-wi-fi-sui-dispositivi-mobili&quot;&gt;Configurare la Connettività Wi-Fi sui Dispositivi Mobili&lt;/h2&gt;
+&lt;h3 id=&quot;connessione-a-una-rete-wi-fi-nota&quot;&gt;Connessione a una rete Wi-Fi nota&lt;/h3&gt;
+&lt;p&gt;Su Android e iOS, attivare il Wi-Fi tramite il pannello delle impostazioni rapide (o &lt;code&gt;Impostazioni &amp;gt; Wi-Fi&lt;/code&gt;). Il dispositivo scansiona automaticamente le reti disponibili e le mostra in un elenco. Selezionare la rete desiderata, inserire la password se richiesta e attendere la connessione.&lt;/p&gt;
+&lt;h3 id=&quot;connessione-manuale-a-reti-con-ssid-nascosto&quot;&gt;Connessione manuale a reti con SSID nascosto&lt;/h3&gt;
+&lt;p&gt;Se il router ha la trasmissione SSID disabilitata (configurazione di sicurezza comune in ambienti aziendali), il dispositivo non visualizzerà automaticamente la rete. Occorre aggiungere la rete manualmente specificando:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;SSID&lt;/strong&gt;: il nome esatto della rete (case sensitive).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tipo di sicurezza&lt;/strong&gt;: WPA2-PSK, WPA3-SAE, WPA2-Enterprise (802.1X), ecc.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Password / Passphrase&lt;/strong&gt;: inserita esattamente come configurata nel router.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Un carattere errato — anche solo un diverso uso di maiuscole — impedirà la connessione.&lt;/p&gt;
+&lt;h3 id=&quot;configurare-i-dati-cellulari&quot;&gt;Configurare i Dati Cellulari&lt;/h3&gt;
+&lt;p&gt;I piani dati mobili sono offerti dagli operatori con limiti di larghezza di banda e soglie di consumo variabili. Per ottimizzare l&#39;utilizzo:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Preferire il Wi-Fi quando disponibile: riduce consumo del piano dati e batteria.&lt;/li&gt;
+&lt;li&gt;Disabilitare i dati cellulari per le applicazioni meno critiche tramite &lt;code&gt;Impostazioni &amp;gt; Rete Cellulare&lt;/code&gt; (iOS) o &lt;code&gt;Impostazioni &amp;gt; Rete e Internet &amp;gt; Utilizzo dati&lt;/code&gt; (Android).&lt;/li&gt;
+&lt;li&gt;Monitorare il consumo mensile per evitare sovracosti da roaming o eccesso soglia.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Su iOS e Android è possibile abilitare/disabilitare selettivamente l&#39;accesso alla rete cellulare per ogni singola applicazione installata, offrendo un controllo granulare particolarmente utile in roaming internazionale.&lt;/p&gt;
+
+]]></content>
+    
+    
+    
+      
+      
+    <category term="reti"/>
+      
+    
+      
+      
+    <category term="wireless"/>
+      
+    
+      
+      
+    <category term="mobile"/>
+      
+    
+  </entry>
+  
+  <entry>
+    <title>Componenti, tipi e connessioni di rete</title>
+    <link href="https://dino-996.github.io/blog/componenti-tipi-e-connessioni-di-rete/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/componenti-tipi-e-connessioni-di-rete/</id>
+    <published></published>
+    <updated></updated>
+    
+    <summary>Esplora le architetture Client-Server e P2P, scopri come sono strutturate le moderne infrastrutture di rete e approfondisci le tecnologie di accesso a banda larga (FTTH, 5G, LEO) e le strategie di sicurezza per connettività SOHO e aziendali.</summary>
+    
+    
+    <content type="html"><![CDATA[
+&lt;h2 id=&quot;architettura-client-e-server&quot;&gt;Architettura Client e Server&lt;/h2&gt;
+&lt;p&gt;Tutti i dispositivi connessi a una rete che partecipano attivamente alla comunicazione sono classificati come &lt;strong&gt;host&lt;/strong&gt;. Nelle reti moderne, un host può assumere il ruolo di client, di server o di entrambi simultaneamente: è il software installato a determinarne il comportamento.&lt;/p&gt;
+&lt;p&gt;I &lt;strong&gt;server&lt;/strong&gt; sono host equipaggiati con software dedicato a erogare servizi — pagine web, email, autenticazione, database. Ogni servizio richiede un processo server specifico: un host che eroga sia un sito web che la posta elettronica esegue in parallelo un web server (ad esempio Nginx o Apache) e un mail server (ad esempio Postfix).&lt;/p&gt;
+&lt;p&gt;I &lt;strong&gt;client&lt;/strong&gt; sono host su cui è installato software in grado di richiedere e consumare tali servizi: un browser web, un client di posta, un&#39;applicazione mobile. In un&#39;architettura client-server classica i ruoli sono distinti e stabili, il che consente ottimizzazione delle risorse, scalabilità orizzontale e gestione centralizzata della sicurezza — principi fondanti nell&#39;ingegneria di sistemi distribuiti e nei microservizi.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;In produzione&lt;/strong&gt;: nei sistemi cloud-native (AWS, GCP, Azure) l&#39;architettura client-server si estende al modello &lt;strong&gt;east-west traffic&lt;/strong&gt;, dove i microservizi comunicano tra loro come client e server reciprocamente, spesso attraverso API REST o gRPC.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;reti-peer-to-peer-p2p&quot;&gt;Reti Peer-to-Peer (P2P)&lt;/h2&gt;
+&lt;p&gt;Il software client e server può coesistere sullo stesso host. Questo schema prende il nome di &lt;strong&gt;rete peer-to-peer (P2P)&lt;/strong&gt;: ogni nodo è al tempo stesso fornitore e consumatore di risorse.&lt;/p&gt;
+&lt;p&gt;La forma più semplice di rete P2P è costituita da due computer collegati direttamente tramite cavo o wireless. Reti P2P più estese richiedono un dispositivo intermedio — tipicamente uno switch — per interconnettere i nodi.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Vantaggi delle reti P2P:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Nessun server centrale: eliminazione del single point of failure&lt;/li&gt;
+&lt;li&gt;Costi di infrastruttura ridotti per ambienti SOHO (Small Office/Home Office)&lt;/li&gt;
+&lt;li&gt;Configurazione rapida e semplice&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Svantaggi:&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Le prestazioni di un host degradano quando opera come client e server contemporaneamente&lt;/li&gt;
+&lt;li&gt;Gestione della sicurezza e degli accessi più complessa senza un punto di controllo centralizzato&lt;/li&gt;
+&lt;li&gt;Scarsa scalabilità oltre un certo numero di nodi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;architettura-p2p-ibrida&quot;&gt;Architettura P2P Ibrida&lt;/h3&gt;
+&lt;p&gt;Alcune applicazioni P2P adottano un modello &lt;strong&gt;ibrido&lt;/strong&gt;: la condivisione delle risorse è decentralizzata, ma un server indice centralizzato tiene traccia della posizione delle risorse. Ogni peer interroga il server indice per localizzare la risorsa, poi la recupera direttamente dal peer che la ospita.&lt;/p&gt;
+&lt;p&gt;Le evoluzioni moderne del modello P2P comprendono:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Reti BitTorrent&lt;/strong&gt;: distribuzione di file tramite tracker e DHT (Distributed Hash Table)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Blockchain e reti DLT&lt;/strong&gt;: ogni nodo mantiene una copia dell&#39;intera catena di blocchi, rendendo il sistema resiliente e immutabile per design&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;IPFS (InterPlanetary File System)&lt;/strong&gt;: file system distribuito che usa content-addressing invece di location-addressing&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;ruoli-multipli-nella-rete&quot;&gt;Ruoli multipli nella rete&lt;/h2&gt;
+&lt;p&gt;Un host può eseguire simultaneamente più processi server. In un contesto SOHO è comune trovare un singolo server fisico (o una VM) che gestisce file sharing, web server e autenticazione di rete.&lt;/p&gt;
+&lt;p&gt;Allo stesso modo, un client può connettersi contemporaneamente a più server: un browser apre connessioni HTTP/HTTPS verso decine di endpoint per caricare una singola pagina web (HTML, CSS, JS, immagini, font, API calls).&lt;/p&gt;
+&lt;p&gt;Questo comportamento è alla base del modello &lt;strong&gt;multiplexing&lt;/strong&gt; introdotto da HTTP/2 e HTTP/3, dove più richieste transitano su una singola connessione TCP (o QUIC), riducendo la latenza percepita.&lt;/p&gt;
+&lt;h2 id=&quot;infrastruttura-di-rete&quot;&gt;Infrastruttura di rete&lt;/h2&gt;
+&lt;p&gt;L&#39;infrastruttura di rete è la piattaforma fisica e logica che supporta la comunicazione. Si compone di tre categorie di elementi hardware:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Categoria&lt;/th&gt;
+        &lt;th&gt;Esempi&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Dispositivi terminali&lt;br&gt;&lt;small class=&quot;text-muted fw-normal&quot;&gt;End Device&lt;/small&gt;&lt;/td&gt;
+        &lt;td&gt;PC, laptop, smartphone, stampanti, telecamere IP, sensori IoT&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Dispositivi intermedi&lt;br&gt;&lt;small class=&quot;text-muted fw-normal&quot;&gt;Intermediary Device&lt;/small&gt;&lt;/td&gt;
+        &lt;td&gt;Switch, router, access point, firewall, load balancer&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Media di rete&lt;br&gt;&lt;small class=&quot;text-muted fw-normal&quot;&gt;Network Media&lt;/small&gt;&lt;/td&gt;
+        &lt;td&gt;Cavo UTP/STP, fibra ottica, onde radio (Wi-Fi, 4G/5G)&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;I dispositivi e i media rappresentano il livello fisico della rete. Fanno eccezione le reti wireless, dove il &amp;quot;mezzo&amp;quot; è lo spettro radio — invisibile ma soggetto a interferenze, attenuazione e congestione come qualsiasi medium fisico.&lt;/p&gt;
+&lt;h2 id=&quot;end-device-dispositivi-terminali&quot;&gt;End Device (Dispositivi Terminali)&lt;/h2&gt;
+&lt;p&gt;Gli end device sono i punti di origine e destinazione di ogni flusso di dati sulla rete. Per identificarli univocamente si utilizzano gli indirizzi: &lt;strong&gt;indirizzi IP&lt;/strong&gt; a livello di rete (Layer 3) e &lt;strong&gt;indirizzi MAC&lt;/strong&gt; a livello datalink (Layer 2).&lt;/p&gt;
+&lt;p&gt;Esempi di dispositivi terminali moderni:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Workstation e laptop (ambienti di sviluppo, operativi)&lt;/li&gt;
+&lt;li&gt;Server fisici e virtuali (on-premise e cloud)&lt;/li&gt;
+&lt;li&gt;Stampanti e dispositivi multifunzione di rete&lt;/li&gt;
+&lt;li&gt;Telefoni VoIP e sistemi di videoconferenza&lt;/li&gt;
+&lt;li&gt;Telecamere IP e sistemi di sorveglianza&lt;/li&gt;
+&lt;li&gt;Dispositivi mobili: smartphone, tablet&lt;/li&gt;
+&lt;li&gt;Dispositivi IoT: sensori industriali, attuatori, smart meter&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Nota su IPv4 vs IPv6&lt;/strong&gt;: l&#39;esaurimento degli indirizzi IPv4 pubblici ha accelerato l&#39;adozione di IPv6 (128 bit, ~3.4×10³⁸ indirizzi) e del NAT (Network Address Translation) per la condivisione di un singolo IP pubblico tra più host privati — meccanismo presente in ogni router domestico e aziendale.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;servizi-isp&quot;&gt;Servizi ISP&lt;/h2&gt;
+&lt;p&gt;Un &lt;strong&gt;Internet Service Provider (ISP)&lt;/strong&gt; è l&#39;operatore che fornisce l&#39;accesso a Internet collegando la rete dell&#39;utente alla backbone globale. In Italia i principali operatori includono TIM, Vodafone, WINDTRE, Fastweb, Tiscali e diversi operatori virtuali (MVNO).&lt;/p&gt;
+&lt;p&gt;Gli ISP offrono tipicamente:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Accesso a Internet (broadband, fibra, mobile)&lt;/li&gt;
+&lt;li&gt;Indirizzi IP pubblici (statici o dinamici)&lt;/li&gt;
+&lt;li&gt;DNS resolver&lt;/li&gt;
+&lt;li&gt;Caselle email e storage cloud&lt;/li&gt;
+&lt;li&gt;Web hosting e registrazione domini&lt;/li&gt;
+&lt;li&gt;VoIP (Voice over IP)&lt;/li&gt;
+&lt;li&gt;Supporto tecnico e SLA (Service Level Agreement) per utenze business&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;gerarchia-degli-isp&quot;&gt;Gerarchia degli ISP&lt;/h3&gt;
+&lt;p&gt;Gli ISP sono organizzati gerarchicamente in &lt;strong&gt;Tier 1, Tier 2 e Tier 3&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Tier&lt;/th&gt;
+        &lt;th&gt;Descrizione&lt;/th&gt;
+        &lt;th&gt;Esempi&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Tier 1&lt;/td&gt;
+        &lt;td&gt;Operatori backbone globali interconnessi &lt;strong&gt;senza costi di transito&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;AT&amp;T&lt;/code&gt;, &lt;code&gt;Lumen&lt;/code&gt;, &lt;code&gt;NTT&lt;/code&gt;, &lt;code&gt;Telia&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Tier 2&lt;/td&gt;
+        &lt;td&gt;Operatori regionali/nazionali con accordi di &lt;strong&gt;peering e transito&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;Fastweb&lt;/code&gt;, &lt;code&gt;BT&lt;/code&gt;, &lt;code&gt;Telecom Italia&lt;/code&gt;&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Tier 3&lt;/td&gt;
+        &lt;td&gt;ISP locali che &lt;strong&gt;acquistano transito&lt;/strong&gt; da Tier 1/2&lt;/td&gt;
+        &lt;td&gt;Operatori locali, MVNO&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;p&gt;La &lt;strong&gt;dorsale Internet&lt;/strong&gt; (backbone) è composta da cavi in fibra ottica ad altissima capacità che collegano le principali aree metropolitane mondiali, inclusi i cavi sottomarini intercontinentali. La scelta del percorso ottimale per il traffico avviene tramite il protocollo &lt;strong&gt;BGP (Border Gateway Protocol)&lt;/strong&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;CDN e Edge Computing&lt;/strong&gt;: per ridurre la latenza percepita dagli utenti finali, i grandi provider (Cloudflare, Akamai, AWS CloudFront) distribuiscono contenuti su nodi &lt;strong&gt;PoP (Point of Presence)&lt;/strong&gt; geograficamente vicini all&#39;utente — riducendo i round-trip e scaricando traffico dalla backbone.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;connessioni-isp&quot;&gt;Connessioni ISP&lt;/h2&gt;
+&lt;h3 id=&quot;connessione-con-modem-diretto-deprecata&quot;&gt;Connessione con Modem Diretto (deprecata)&lt;/h3&gt;
+&lt;p&gt;Un modem collegato direttamente al PC espone quest&#39;ultimo a Internet senza alcun layer di sicurezza. Questa configurazione è &lt;strong&gt;fortemente sconsigliata&lt;/strong&gt;: il dispositivo ottiene un IP pubblico senza firewall, NAT o filtraggio del traffico.&lt;/p&gt;
+&lt;h3 id=&quot;connessione-tramite-router-standard-raccomandato&quot;&gt;Connessione tramite Router (standard raccomandato)&lt;/h3&gt;
+&lt;p&gt;Il router è il componente fondamentale di ogni rete domestica e aziendale. Un router moderno integra:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Switch&lt;/strong&gt; per le porte cablate (LAN)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Access Point&lt;/strong&gt; Wi-Fi per i client wireless&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DHCP server&lt;/strong&gt; per l&#39;assegnazione automatica degli indirizzi IP privati&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;NAT&lt;/strong&gt; (Network Address Translation) per la condivisione dell&#39;IP pubblico&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Firewall&lt;/strong&gt; con stateful packet inspection&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;DNS forwarder&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;La combinazione NAT + firewall costituisce il perimetro di sicurezza minimo di ogni rete locale. In ambienti aziendali questo perimetro viene esteso con &lt;strong&gt;IDS/IPS&lt;/strong&gt;, &lt;strong&gt;proxy&lt;/strong&gt;, &lt;strong&gt;VPN gateway&lt;/strong&gt; e &lt;strong&gt;segmentazione VLAN&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;tecnologie-di-accesso-a-banda-larga&quot;&gt;Tecnologie di Accesso a Banda Larga&lt;/h2&gt;
+&lt;p&gt;La tabella seguente riassume le principali opzioni di connessione disponibili per utenze residenziali e SOHO:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Tecnologia&lt;/th&gt;
+        &lt;th&gt;Velocità Download&lt;/th&gt;
+        &lt;th&gt;Velocità Upload&lt;/th&gt;
+        &lt;th&gt;Latenza Tipica&lt;/th&gt;
+        &lt;th&gt;Note&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;ADSL2+&lt;/td&gt;
+        &lt;td&gt;fino a &lt;strong&gt;24 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;fino a &lt;strong&gt;1 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;20–50 ms&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Dipende dalla distanza dalla centrale&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;VDSL2&lt;/td&gt;
+        &lt;td&gt;fino a &lt;strong&gt;100 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;fino a &lt;strong&gt;50 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;10–30 ms&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Richiede armadio ottico vicino&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;FTTC &lt;small class=&quot;text-muted fw-normal&quot;&gt;(fibra mista rame)&lt;/small&gt;&lt;/td&gt;
+        &lt;td&gt;fino a &lt;strong&gt;200 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;fino a &lt;strong&gt;20 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;10–20 ms&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Comune in Italia con TIM/WINDTRE&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;FTTH/FTTB &lt;small class=&quot;text-muted fw-normal&quot;&gt;(fibra pura)&lt;/small&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;1–10 Gbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;1–10 Gbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;1–5 ms&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Standard per nuove installazioni&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;4G FWA&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;50–300 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;20–100 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;20–50 ms&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Alternativa dove la fibra non arriva&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;5G FWA&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;200 Mbps – 2 Gbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;50–500 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;1–10 ms&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Diffusione crescente nelle aree urbane&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Satellite LEO &lt;small class=&quot;text-muted fw-normal&quot;&gt;(es. Starlink)&lt;/small&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;50–250 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;10–40 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;20–60 ms&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Copertura globale, aree rurali&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Satellite GEO &lt;small class=&quot;text-muted fw-normal&quot;&gt;(es. SES)&lt;/small&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;20–100 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;strong&gt;3–10 Mbps&lt;/strong&gt;&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;600–800 ms&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Alta latenza, &lt;strong&gt;inadatto&lt;/strong&gt; a VoIP/gaming&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+]]></content>
+    
+    
+    
+      
+      
+    <category term="reti"/>
+      
+    
+      
+      
+    <category term="connessioni di rete"/>
+      
+    
+  </entry>
+  
+  <entry>
     <title>Le reti</title>
     <link href="https://dino-996.github.io/blog/le-reti/" rel="alternate" type="text/html"/>
     <id>https://dino-996.github.io/blog/le-reti/</id>
     <published></published>
     <updated></updated>
     
-    <summary>La connettività è l&amp;#39;infrastruttura critica del mondo moderno. Scopri come funzionano le reti, dai protocolli fondamentali ai dispositivi IoT, e impara a misurare e ottimizzare le performance di rete come un professionista.</summary>
+    <summary>La connettività è l&#39;infrastruttura critica del mondo moderno. Scopri come funzionano le reti, dai protocolli fondamentali ai dispositivi IoT, e impara a misurare e ottimizzare le performance di rete come un professionista.</summary>
     
     
     <content type="html"><![CDATA[
@@ -3154,7 +4011,7 @@ mount /dev/sdb1 /mnt/chiavetta
     <published></published>
     <updated></updated>
     
-    <summary>Una guida pratica ai comandi fondamentali della shell Linux; dalla lettura del prompt alla navigazione nel filesystem, dalla gestione di file e directory all&amp;#39;elaborazione dell&amp;#39;output con pipe e redirezioni. Ogni comando è spiegato con esempi reali, opzioni utili e criteri chiari per scegliere quando e perché usarlo.</summary>
+    <summary>Una guida pratica ai comandi fondamentali della shell Linux; dalla lettura del prompt alla navigazione nel filesystem, dalla gestione di file e directory all&#39;elaborazione dell&#39;output con pipe e redirezioni. Ogni comando è spiegato con esempi reali, opzioni utili e criteri chiari per scegliere quando e perché usarlo.</summary>
     
     
     <content type="html"><![CDATA[
@@ -3692,7 +4549,7 @@ $ sort lista.txt | uniq -d       # mostra solo i valori duplicati
     <published></published>
     <updated></updated>
     
-    <summary>GNU/Linux è un sistema operativo libero e open source, nato dall&amp;#39;unione del kernel Linux e gli strumenti di sistema del progetto GNU. È stabile, sicuro e altamente personalizzabile, utilizzato in svariati ambiti, dai server ai computer desktop. In questo articolo introduttivo proviamo a capirne di più partendo dall&amp;#39;architettura dell&amp;#39;ecosistema fino ai comandi più utili.</summary>
+    <summary>GNU/Linux è un sistema operativo libero e open source, nato dall&#39;unione del kernel Linux e gli strumenti di sistema del progetto GNU. È stabile, sicuro e altamente personalizzabile, utilizzato in svariati ambiti, dai server ai computer desktop. In questo articolo introduttivo proviamo a capirne di più partendo dall&#39;architettura dell&#39;ecosistema fino ai comandi più utili.</summary>
     
     
     <content type="html"><![CDATA[
@@ -4670,7 +5527,7 @@ che degrada sotto carico. La tabella seguente riassume le complessità principal
     <published></published>
     <updated></updated>
     
-    <summary>Una guida completa ai fondamenti dell&amp;#39;informatica per professionisti. Scopri come funzionano hardware, CPU multi-core, memorie (RAM, SSD NVMe), sistemi operativi, licenze software e le basi della sicurezza informatica.</summary>
+    <summary>Una guida completa ai fondamenti dell&#39;informatica per professionisti. Scopri come funzionano hardware, CPU multi-core, memorie (RAM, SSD NVMe), sistemi operativi, licenze software e le basi della sicurezza informatica.</summary>
     
     
     <content type="html"><![CDATA[
@@ -5954,7 +6811,7 @@ Invoke-Pester .&#92;Get-Saluto.Tests.ps1
     <published></published>
     <updated></updated>
     
-    <summary>Presentiamo la memoria centrale nei sistemi operativi, con particolare focus sulla necessità di ospitare dati e programmi durante l&amp;#39;esecuzione.</summary>
+    <summary>Presentiamo la memoria centrale nei sistemi operativi, con particolare focus sulla necessità di ospitare dati e programmi durante l&#39;esecuzione.</summary>
     
     
     <content type="html"><![CDATA[
@@ -6055,13 +6912,455 @@ Invoke-Pester .&#92;Get-Saluto.Tests.ps1
   </entry>
   
   <entry>
+    <title>Fondamenti di networking</title>
+    <link href="https://dino-996.github.io/blog/fondamenti-di-networking/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/fondamenti-di-networking/</id>
+    <published></published>
+    <updated></updated>
+    
+    <summary>Una prima introduzione sulle basi del networking, le fondamenta che ci permetteranno di capire come funzionano realmente le reti a cui ci connettiamo tutti i giorni.</summary>
+    
+    
+    <content type="html"><![CDATA[
+&lt;h1 id=&quot;fondamenti-di-networking&quot;&gt;Fondamenti di networking&lt;/h1&gt;
+&lt;p&gt;Oggi non ci chiediamo più se siamo connessi a Internet. La connettività è diventata un&#39;infrastruttura critica, al pari dell&#39;elettricità o dell&#39;acqua corrente. Comprendere come funzionano le reti non è più prerogativa esclusiva degli ingegneri informatici, è una competenza fondamentale per chiunque lavori nel mondo digitale, dallo sviluppatore all&#39;IT Manager.&lt;/p&gt;
+&lt;h2 id=&quot;chi-possiede-internet&quot;&gt;Chi possiede internet?&lt;/h2&gt;
+&lt;p&gt;Internet non appartiene a nessun singolo gruppo, azienda o governo. È il risultato&lt;br&gt;
+dell&#39;interconnessione di migliaia di reti autonome che cooperano attraverso &lt;strong&gt;standard&lt;br&gt;
+e protocolli comuni&lt;/strong&gt; (come TCP/IP) per scambiarsi informazioni.&lt;/p&gt;
+&lt;p&gt;Le informazioni viaggiano attraverso una varietà di mezzi fisici:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Cavi in rame&lt;/strong&gt; (doppino telefonico, cavo coassiale)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Fibra ottica&lt;/strong&gt; (trasmissione tramite impulsi luminosi)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Connessioni wireless&lt;/strong&gt; (Wi-Fi, 4G/5G, satellite)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I dati scambiati possono assumere forme diverse: testo, video, audio, immagini,&lt;br&gt;
+telemetria IoT e molto altro.&lt;/p&gt;
+&lt;h2 id=&quot;reti-locali-lan&quot;&gt;Reti locali (LAN)&lt;/h2&gt;
+&lt;p&gt;Le reti locali (Local Area Network) esistono in tutte le dimensioni e configurazioni.&lt;/p&gt;
+&lt;h3 id=&quot;reti-soho-small-office-home-office&quot;&gt;Reti SOHO (Small Office / Home Office)&lt;/h3&gt;
+&lt;p&gt;Le reti SOHO collegano un numero ridotto di dispositivi (da 2 a qualche decina) e&lt;br&gt;
+consentono la condivisione di risorse come stampanti, file, musica e connessione&lt;br&gt;
+Internet. Sono tipicamente basate su un router consumer con funzionalità Wi-Fi&lt;br&gt;
+integrate.&lt;/p&gt;
+&lt;h3 id=&quot;reti-aziendali&quot;&gt;Reti aziendali&lt;/h3&gt;
+&lt;p&gt;Le reti aziendali possono connettere centinaia di migliaia di dispositivi distribuiti&lt;br&gt;
+su più sedi geografiche. Supportano applicazioni critiche come:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;E-commerce e CRM&lt;/li&gt;
+&lt;li&gt;Comunicazioni interne (email, VoIP, videoconferenza)&lt;/li&gt;
+&lt;li&gt;Accesso centralizzato a server e database&lt;/li&gt;
+&lt;li&gt;Sistemi ERP e supply chain management&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;La comunicazione in rete è generalmente più efficiente e meno costosa rispetto ai&lt;br&gt;
+canali tradizionali. Le reti aziendali e SOHO forniscono tipicamente una &lt;strong&gt;connessione&lt;br&gt;
+condivisa a Internet&lt;/strong&gt;, motivo per cui Internet viene spesso definita una&lt;br&gt;
+&lt;strong&gt;&amp;quot;rete di reti&amp;quot;&lt;/strong&gt; (&lt;em&gt;network of networks&lt;/em&gt;).&lt;/p&gt;
+&lt;h2 id=&quot;dispositivi-mobili-e-iot&quot;&gt;Dispositivi mobili e IoT&lt;/h2&gt;
+&lt;p&gt;Internet connette oggi miliardi di dispositivi che vanno ben oltre i tradizionali&lt;br&gt;
+computer desktop e laptop.&lt;/p&gt;
+&lt;h3 id=&quot;dispositivi-mobili&quot;&gt;Dispositivi mobili&lt;/h3&gt;
+&lt;p&gt;Smartphone, tablet e wearable (smartwatch, fitness tracker) sono oggi tra i&lt;br&gt;
+principali produttori e consumatori di traffico Internet mondiale.&lt;/p&gt;
+&lt;h3 id=&quot;internet-of-things-iot&quot;&gt;Internet of Things (IoT)&lt;/h3&gt;
+&lt;p&gt;L&#39;&lt;strong&gt;IoT (Internet of Things)&lt;/strong&gt; rappresenta l&#39;ecosistema di oggetti fisici dotati di&lt;br&gt;
+sensori, software e connettività di rete. L&#39;architettura IoT si articola tipicamente&lt;br&gt;
+su tre livelli:&lt;/p&gt;
+&lt;div class=&quot;container my-3&quot;&gt;
+  &lt;div class=&quot;table-responsive shadow-sm rounded&quot;&gt;
+    &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+      &lt;thead class=&quot;table-dark&quot;&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Cloud / Data Center&lt;/th&gt;
+          &lt;th&gt;Edge / Gateway&lt;/th&gt;
+          &lt;th&gt;Dispositivi / End Nodes&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Elaborazione, storage, analytics&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Pre-elaborazione locale, protocolli (MQTT, CoAP)&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;Sensori, attuatori, RFID&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Esempi concreti di dispositivi IoT:&lt;/p&gt;
+&lt;div class=&quot;container my-3&quot;&gt;
+  &lt;div class=&quot;table-responsive shadow-sm rounded&quot;&gt;
+    &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+      &lt;thead class=&quot;table-dark&quot;&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Tag RFID&lt;/th&gt;
+          &lt;th&gt;Sensori industriali&lt;/th&gt;
+          &lt;th&gt;Dispositivi medici&lt;/th&gt;
+          &lt;th&gt;Domotica&lt;/th&gt;
+          &lt;th&gt;Veicoli connessi&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Tracciamento merci, badge aziendali, antifurti&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Temperatura, pressione, vibrazione (Industry 4.0)&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Glucometri connessi, pacemaker smart, telemedicina&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Termostati intelligenti, serrature smart, telecamere IP&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Telemetria auto, fleet management, guida assistita&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Nota per sviluppatori&lt;/strong&gt;: i protocolli più diffusi in ambito IoT sono &lt;strong&gt;MQTT&lt;/strong&gt;&lt;br&gt;
+(publish/subscribe, leggero, ideale per connessioni instabili) e &lt;strong&gt;CoAP&lt;/strong&gt;&lt;br&gt;
+(ottimizzato per dispositivi con risorse limitate). Entrambi operano sopra TCP/IP.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;il-bit-lunita-fondamentale-dellinformazione&quot;&gt;Il Bit: L&#39;Unità fondamentale dell&#39;informazione&lt;/h2&gt;
+&lt;p&gt;I computer e le reti operano esclusivamente con &lt;strong&gt;cifre binarie&lt;/strong&gt;: zeri e uno.&lt;br&gt;
+Il termine &lt;strong&gt;bit&lt;/strong&gt; (abbreviazione di &lt;em&gt;binary digit&lt;/em&gt;) rappresenta la più piccola&lt;br&gt;
+unità di informazione digitale.&lt;/p&gt;
+&lt;p&gt;Un bit può assumere solo due stati fisici distinti:&lt;/p&gt;
+&lt;div class=&quot;container my-3&quot;&gt;
+  &lt;div class=&quot;table-responsive shadow-sm rounded&quot;&gt;
+    &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+      &lt;thead class=&quot;table-dark&quot;&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Stato fisico&lt;/th&gt;
+          &lt;th&gt;Valore binario&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;Interruttore aperto&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;1&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Interruttore chiuso&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;0&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;h3 id=&quot;byte-e-codifica-dei-caratteri&quot;&gt;Byte e codifica dei caratteri&lt;/h3&gt;
+&lt;p&gt;Otto bit formano un &lt;strong&gt;byte&lt;/strong&gt;, l&#39;unità standard per rappresentare un singolo carattere&lt;br&gt;
+o valore.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;ASCII e Unicode&lt;/strong&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;⚠️ &lt;strong&gt;Precisazione tecnica&lt;/strong&gt;: l&#39;ASCII &lt;em&gt;originale&lt;/em&gt; (standard ANSI X3.4-1968)&lt;br&gt;
+utilizza &lt;strong&gt;7 bit&lt;/strong&gt;, codificando 128 caratteri. La versione &amp;quot;Extended ASCII&amp;quot;&lt;br&gt;
+estende a 8 bit (256 caratteri). Tuttavia, per applicazioni moderne e&lt;br&gt;
+internazionali, si utilizza &lt;strong&gt;Unicode&lt;/strong&gt; (standard UTF-8), che supporta oltre&lt;br&gt;
+1.1 milioni di caratteri e mantiene compatibilità retroattiva con ASCII.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Esempi di codifica ASCII (Extended, 8 bit):&lt;/p&gt;
+&lt;div class=&quot;container my-3&quot;&gt;
+  &lt;div class=&quot;table-responsive shadow-sm rounded&quot;&gt;
+    &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+      &lt;thead class=&quot;table-dark&quot;&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Carattere&lt;/th&gt;
+          &lt;th&gt;Binario&lt;/th&gt;
+          &lt;th&gt;Decimale&lt;/th&gt;
+          &lt;th&gt;Esadecimale (Hex)&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;A&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;01000001&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;65&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;0x41&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;9&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;00111001&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;57&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;0x39&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;#&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;00100011&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;35&lt;/code&gt;&lt;/td&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;0x23&lt;/code&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        &lt;tr&gt;
+          &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;€&lt;/code&gt;&lt;/td&gt;
+          &lt;td&gt;Non codificabile in ASCII. Richiede UTF-8&lt;/td&gt;
+          &lt;td&gt;-&lt;/td&gt;
+          &lt;td&gt;-&lt;/td&gt;
+        &lt;/tr&gt;
+      &lt;/tbody&gt;
+    &lt;/table&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;h3 id=&quot;conversione-binaria-in-python&quot;&gt;Conversione binaria in Python&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;# Conversione tra carattere, decimale e binario in Python
+carattere = &#39;A&#39;
+# Ottieni il valore decimale (code point Unicode)
+decimale = ord(carattere)
+print(f&amp;quot;Carattere : {carattere}&amp;quot;)
+print(f&amp;quot;Decimale  : {decimale}&amp;quot;)          # Output: 65
+print(f&amp;quot;Binario   : {bin(decimale)}&amp;quot;)     # Output: 0b1000001
+print(f&amp;quot;Hex       : {hex(decimale)}&amp;quot;)     # Output: 0x41
+# Padding a 8 bit (formato byte completo)
+binario_8bit = format(decimale, &#39;08b&#39;)
+print(f&amp;quot;Byte      : {binario_8bit}&amp;quot;)      # Output: 01000001
+# Operazione inversa: da binario a carattere
+valore = int(&#39;01000001&#39;, 2)
+print(f&amp;quot;Da bin a char: {chr(valore)}&amp;quot;)    # Output: A
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;metodi-di-trasmissione-dei-dati&quot;&gt;Metodi di trasmissione dei dati&lt;/h2&gt;
+&lt;p&gt;Dopo che le informazioni sono state convertite in bit, devono essere trasformate in&lt;br&gt;
+&lt;strong&gt;segnali fisici&lt;/strong&gt; trasmissibili attraverso un mezzo (&lt;em&gt;medium&lt;/em&gt;). Esistono tre metodi&lt;br&gt;
+principali:&lt;/p&gt;
+&lt;h3 id=&quot;1-segnali-elettrici&quot;&gt;1. Segnali elettrici&lt;/h3&gt;
+&lt;p&gt;Trasmissione tramite impulsi di tensione su &lt;strong&gt;cavi in rame&lt;/strong&gt; (es. cavo Cat5e/Cat6&lt;br&gt;
+per reti Ethernet). Economici e diffusi, ma soggetti a interferenze elettromagnetiche&lt;br&gt;
+(EMI) e attenuazione sul lungo raggio.&lt;/p&gt;
+&lt;h3 id=&quot;2-segnali-ottici&quot;&gt;2. Segnali ottici&lt;/h3&gt;
+&lt;p&gt;Trasmissione tramite &lt;strong&gt;impulsi luminosi&lt;/strong&gt; su cavi in fibra ottica (single-mode o&lt;br&gt;
+multi-mode). Offrono larghezza di banda elevatissima, immunità alle interferenze e&lt;br&gt;
+distanze di trasmissione fino a centinaia di chilometri.&lt;/p&gt;
+&lt;h3 id=&quot;3-segnali-wireless&quot;&gt;3. Segnali wireless&lt;/h3&gt;
+&lt;p&gt;Trasmissione tramite &lt;strong&gt;onde elettromagnetiche&lt;/strong&gt; (radio, microonde, infrarossi).&lt;br&gt;
+Elimina la necessità di cablaggio fisico ma è soggetto a interferenze, ostacoli&lt;br&gt;
+fisici e limitazioni di sicurezza.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Mezzo&lt;/th&gt;
+&lt;th&gt;Velocità tipica&lt;/th&gt;
+&lt;th&gt;Distanza&lt;/th&gt;
+&lt;th&gt;Pro&lt;/th&gt;
+&lt;th&gt;Contro&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Rame (Cat6)&lt;/td&gt;
+&lt;td&gt;1–10 Gbps&lt;/td&gt;
+&lt;td&gt;≤100 m&lt;/td&gt;
+&lt;td&gt;Economico&lt;/td&gt;
+&lt;td&gt;Interferenze, distanza&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fibra ottica&lt;/td&gt;
+&lt;td&gt;10 Gbps–400 Tbps&lt;/td&gt;
+&lt;td&gt;km–migliaia di km&lt;/td&gt;
+&lt;td&gt;Velocità, sicurezza&lt;/td&gt;
+&lt;td&gt;Costo installazione&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Wi-Fi (802.11ax)&lt;/td&gt;
+&lt;td&gt;Fino a ~9.6 Gbps teorici&lt;/td&gt;
+&lt;td&gt;~50–100 m indoor&lt;/td&gt;
+&lt;td&gt;Mobilità&lt;/td&gt;
+&lt;td&gt;Interferenze, sicurezza&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5G&lt;/td&gt;
+&lt;td&gt;Fino a ~20 Gbps teorici&lt;/td&gt;
+&lt;td&gt;Variabile&lt;/td&gt;
+&lt;td&gt;Mobilità, copertura&lt;/td&gt;
+&lt;td&gt;Infrastruttura&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I segnali possono essere &lt;strong&gt;convertiti più volte&lt;/strong&gt; lungo il percorso&lt;br&gt;
+(es. elettrico → ottico → wireless) attraverso dispositivi come convertitori&lt;br&gt;
+di media (&lt;em&gt;media converters&lt;/em&gt;) e access point.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;larghezza-di-banda-throughput-latenza-e-jitter&quot;&gt;Larghezza di Banda, Throughput, Latenza e Jitter&lt;/h2&gt;
+&lt;p&gt;Questi quattro parametri sono fondamentali per valutare le &lt;strong&gt;prestazioni di una&lt;br&gt;
+rete&lt;/strong&gt;. Vengono spesso confusi: ecco le distinzioni precise.&lt;/p&gt;
+&lt;h3 id=&quot;bandwidth-larghezza-di-banda&quot;&gt;Bandwidth (larghezza di banda)&lt;/h3&gt;
+&lt;p&gt;La &lt;strong&gt;bandwidth&lt;/strong&gt; rappresenta la &lt;em&gt;capacità teorica massima&lt;/em&gt; di un collegamento,&lt;br&gt;
+ovvero quanti bit possono essere trasmessi per unità di tempo in condizioni ideali.&lt;br&gt;
+È una proprietà del mezzo fisico e dell&#39;infrastruttura.&lt;/p&gt;
+&lt;h3 id=&quot;throughput-velocita-effettiva&quot;&gt;Throughput (velocità effettiva)&lt;/h3&gt;
+&lt;p&gt;Il &lt;strong&gt;throughput&lt;/strong&gt; misura la quantità di dati &lt;em&gt;effettivamente&lt;/em&gt; trasferiti in un dato&lt;br&gt;
+intervallo di tempo. È quasi sempre inferiore alla bandwidth dichiarata, a causa di:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Overhead dei protocolli di rete (header TCP/IP, controllo errori)&lt;/li&gt;
+&lt;li&gt;Congestione e collisioni&lt;/li&gt;
+&lt;li&gt;Qualità del collegamento fisico&lt;/li&gt;
+&lt;li&gt;Limitazioni hardware dei dispositivi intermedi&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;latenza&quot;&gt;Latenza&lt;/h3&gt;
+&lt;p&gt;La &lt;strong&gt;latenza&lt;/strong&gt; è il tempo necessario affinché un pacchetto viaggi dalla sorgente&lt;br&gt;
+alla destinazione. Si misura tipicamente in millisecondi (ms) tramite il comando&lt;br&gt;
+&lt;code&gt;ping&lt;/code&gt;. È critica per applicazioni &lt;strong&gt;real-time&lt;/strong&gt; come VoIP, gaming online e&lt;br&gt;
+videoconferenze.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Misurazione latenza verso un host remoto
+ping -c 4 8.8.8.8
+# Output di esempio:
+# 64 bytes from 8.8.8.8: icmp_seq=1 ttl=118 time=12.4 ms
+# 64 bytes from 8.8.8.8: icmp_seq=2 ttl=118 time=11.8 ms
+# round-trip min/avg/max/stddev = 11.8/12.1/12.4/0.3 ms
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;jitter&quot;&gt;Jitter&lt;/h3&gt;
+&lt;p&gt;Il &lt;strong&gt;jitter&lt;/strong&gt; è la &lt;em&gt;variazione&lt;/em&gt; della latenza nel tempo (la deviazione standard&lt;br&gt;
+della latenza). Un jitter elevato causa degrado della qualità audio/video nelle&lt;br&gt;
+comunicazioni real-time, anche quando la latenza media è accettabile.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Latenza ideale:  10ms — 10ms — 10ms — 10ms  (jitter ≈ 0)
+Latenza reale:   10ms — 25ms —  8ms — 30ms  (jitter elevato → qualità VoIP scarsa)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;tabella-unita-di-misura-della-bandwidth&quot;&gt;Tabella unità di misura della bandwidth&lt;/h3&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Unità&lt;/th&gt;
+&lt;th&gt;Simbolo&lt;/th&gt;
+&lt;th&gt;Equivalente&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Bit per secondo&lt;/td&gt;
+&lt;td&gt;bps&lt;/td&gt;
+&lt;td&gt;unità base&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Kilobit per secondo&lt;/td&gt;
+&lt;td&gt;Kbps&lt;/td&gt;
+&lt;td&gt;10³ bps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Megabit per secondo&lt;/td&gt;
+&lt;td&gt;Mbps&lt;/td&gt;
+&lt;td&gt;10⁶ bps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Gigabit per secondo&lt;/td&gt;
+&lt;td&gt;Gbps&lt;/td&gt;
+&lt;td&gt;10⁹ bps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Terabit per secondo&lt;/td&gt;
+&lt;td&gt;Tbps&lt;/td&gt;
+&lt;td&gt;10¹² bps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Petabit per secondo&lt;/td&gt;
+&lt;td&gt;Pbps&lt;/td&gt;
+&lt;td&gt;10¹⁵ bps&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;blockquote&gt;
+&lt;p&gt;⚠️ &lt;strong&gt;Attenzione&lt;/strong&gt;: i provider Internet dichiarano la velocità in &lt;strong&gt;Mbps&lt;/strong&gt;&lt;br&gt;
+(megabit), mentre i sistemi operativi mostrano spesso la velocità di download&lt;br&gt;
+in &lt;strong&gt;MB/s&lt;/strong&gt; (megabyte). Ricorda: 1 byte = 8 bit → 100 Mbps ≈ 12.5 MB/s.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;il-collo-di-bottiglia-bottleneck&quot;&gt;Il collo di bottiglia (&lt;em&gt;Bottleneck&lt;/em&gt;)&lt;/h3&gt;
+&lt;p&gt;In una rete con più segmenti, la &lt;strong&gt;velocità massima effettiva è limitata dal&lt;br&gt;
+segmento più lento&lt;/strong&gt; del percorso — il cosiddetto &lt;em&gt;bottleneck&lt;/em&gt;. Questo principio,&lt;br&gt;
+noto come &lt;strong&gt;legge dell&#39;anello debole&lt;/strong&gt;, è fondamentale nell&#39;ottimizzazione delle&lt;br&gt;
+prestazioni di rete in contesti Cloud e DevOps.&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;Client (1 Gbps) ──→ Switch (10 Gbps) ──→ Router WAN (100 Mbps) ──→ Server
+                                               ↑
+                                     BOTTLENECK: throughput massimo = 100 Mbps
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;ottimizzazione-delle-performance-di-rete&quot;&gt;Ottimizzazione delle performance di rete&lt;/h2&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Per IT Manager e DevOps Engineer&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Monitoring continuo&lt;/strong&gt;: usa strumenti come &lt;strong&gt;Prometheus + Grafana&lt;/strong&gt;, &lt;strong&gt;Zabbix&lt;/strong&gt;&lt;br&gt;
+o &lt;strong&gt;PRTG&lt;/strong&gt; per monitorare latenza, throughput e packet loss in tempo reale.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Quality of Service (QoS)&lt;/strong&gt;: prioritizza il traffico critico (VoIP, video) su&lt;br&gt;
+quello non critico (backup, aggiornamenti) tramite policy QoS su switch e router.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Segmentazione della rete&lt;/strong&gt;: usa VLAN per isolare traffico e migliorare sicurezza&lt;br&gt;
+e performance.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;CDN (Content Delivery Network)&lt;/strong&gt;: distribuisci i contenuti statici vicino agli&lt;br&gt;
+utenti finali per ridurre latenza e carico sui server centrali.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Test periodici&lt;/strong&gt;: strumenti come &lt;strong&gt;iPerf3&lt;/strong&gt; (throughput interno) e&lt;br&gt;
+&lt;strong&gt;Speedtest CLI&lt;/strong&gt; (connettività esterna) aiutano a rilevare degradi prestazionali&lt;br&gt;
+prima che diventino problemi critici.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;# Test throughput interno con iPerf3
+# Sul server:
+iperf3 -s
+# Sul client:
+iperf3 -c &amp;lt;IP_SERVER&amp;gt; -t 10 -P 4
+# -t 10 = durata 10 secondi
+# -P 4  = 4 stream paralleli
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;introduzione-al-modello-osi&quot;&gt;Introduzione al modello OSI&lt;/h2&gt;
+&lt;p&gt;Tutti i concetti trattati in questo modulo — trasmissione dei dati, segnali,&lt;br&gt;
+larghezza di banda — trovano una collocazione precisa nel &lt;strong&gt;Modello OSI&lt;/strong&gt;&lt;br&gt;
+(Open Systems Interconnection), il framework a 7 livelli che descrive come i&lt;br&gt;
+dati viaggiano da un&#39;applicazione su un dispositivo a un&#39;altra applicazione su&lt;br&gt;
+un dispositivo remoto.&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Livello&lt;/th&gt;
+&lt;th&gt;Nome&lt;/th&gt;
+&lt;th&gt;Funzione chiave&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;Applicazione&lt;/td&gt;
+&lt;td&gt;HTTP, DNS, SMTP&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;Presentazione&lt;/td&gt;
+&lt;td&gt;Codifica, crittografia, compressione&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;Sessione&lt;/td&gt;
+&lt;td&gt;Gestione connessioni&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;Trasporto&lt;/td&gt;
+&lt;td&gt;TCP/UDP, porte, controllo flusso&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;Rete&lt;/td&gt;
+&lt;td&gt;IP, routing&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;Data Link&lt;/td&gt;
+&lt;td&gt;MAC, switch, Ethernet&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;Fisico&lt;/td&gt;
+&lt;td&gt;Bit, segnali, cavi ← &lt;strong&gt;questo modulo&lt;/strong&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]]></content>
+    
+    
+    
+      
+      
+    <category term="networking"/>
+      
+    
+  </entry>
+  
+  <entry>
     <title>Allocazione della memoria</title>
     <link href="https://dino-996.github.io/blog/allocazione-della-memoria/" rel="alternate" type="text/html"/>
     <id>https://dino-996.github.io/blog/allocazione-della-memoria/</id>
     <published></published>
     <updated></updated>
     
-    <summary>Questo approfondimento tecnico esplora le sfide dell&amp;#39;allocazione dei frame in sistemi multiprogrammati. Analizzeremo come il modello del working set e la frequenza dei page fault prevengano il collasso del sistema (thrashing), oltre a esaminare le tecniche specifiche del kernel per la gestione di oggetti di dimensioni variabili e fisse.</summary>
+    <summary>Questo approfondimento tecnico esplora le sfide dell&#39;allocazione dei frame in sistemi multiprogrammati. Analizzeremo come il modello del working set e la frequenza dei page fault prevengano il collasso del sistema (thrashing), oltre a esaminare le tecniche specifiche del kernel per la gestione di oggetti di dimensioni variabili e fisse.</summary>
     
     
     <content type="html"><![CDATA[
@@ -6211,7 +7510,7 @@ Attraverso il bit di accesso, il kernel sposta dinamicamente le pagine tra quest
     <published></published>
     <updated></updated>
     
-    <summary>Facciamo un&amp;#39;analisi approfondita dello scheduling della CPU, una funzione vitale dei sistemi operativi progettata per massimizzare l&amp;#39;efficienza attraverso la multiprogrammazione.</summary>
+    <summary>Facciamo un&#39;analisi approfondita dello scheduling della CPU, una funzione vitale dei sistemi operativi progettata per massimizzare l&#39;efficienza attraverso la multiprogrammazione.</summary>
     
     
     <content type="html"><![CDATA[
@@ -6511,7 +7810,7 @@ I sistemi operativi facilitano questo compito tramite:&lt;/p&gt;
     <published></published>
     <updated></updated>
     
-    <summary>Vengono esaminati i meccanismi di gestione della memoria, illustrando la differenza tra l&amp;#39;allocazione dinamica nello heap e l&amp;#39;utilizzo temporaneo dello stack per le chiamate di funzione. Process Control Block (PCB), una struttura dati fondamentale che memorizza lo stato, i registri e le informazioni di scheduling necessarie alla CPU.</summary>
+    <summary>Vengono esaminati i meccanismi di gestione della memoria, illustrando la differenza tra l&#39;allocazione dinamica nello heap e l&#39;utilizzo temporaneo dello stack per le chiamate di funzione. Process Control Block (PCB), una struttura dati fondamentale che memorizza lo stato, i registri e le informazioni di scheduling necessarie alla CPU.</summary>
     
     
     <content type="html"><![CDATA[
@@ -6947,7 +8246,7 @@ di ottimizzare prematuramente.&lt;/li&gt;
     <published></published>
     <updated></updated>
     
-    <summary>Viene esaminata la sincronizzazione dei processi nei sistemi operativi, focalizzandosi sulla gestione dell&amp;#39;accesso concorrente a dati condivisi per prevenire le race condition.</summary>
+    <summary>Viene esaminata la sincronizzazione dei processi nei sistemi operativi, focalizzandosi sulla gestione dell&#39;accesso concorrente a dati condivisi per prevenire le race condition.</summary>
     
     
     <content type="html"><![CDATA[

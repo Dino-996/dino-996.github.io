@@ -2,7 +2,7 @@
   {
     "title": "Chat Control: anatomia di una sorveglianza di massa europea",
     "url": "/blog/chat-control-anatomia-di-una-sorveglianza-di-massa/",
-    "description": "La sorveglianza preventiva UE. Un&#39;architettura &quot;Surveillance by Design&quot; che scardina la nostra privacy prima ancora della crittografia.",
+    "description": "La sorveglianza preventiva UE. Un'architettura \"Surveillance by Design\" che scardina la nostra privacy prima ancora della crittografia.",
     "date": "2026-07-09T00:00:00.000Z"
   },
   {
@@ -20,7 +20,7 @@
   {
     "title": "Proxy Client con Tinyproxy",
     "url": "/blog/proxy-client-con-tinyproxy/",
-    "description": "Guida tecnica completa alla configurazione di un proxy client locale su Linux (Zorin OS/Ubuntu 24.04) per forzare tutto il traffico TCP attraverso un proxy HTTP trasparente. La guida copre l&#39;installazione e configurazione di tinyproxy, dante (SOCKS5) e redsocks, la gestione delle regole iptables per evitare loop di reindirizzamento, la persistenza tramite systemd, i limiti del setup rispetto a DNS/UDP/QUIC e il confronto con le VPN, con indicazioni di hardening e troubleshooting.",
+    "description": "Guida tecnica completa alla configurazione di un proxy client locale su Linux (Zorin OS/Ubuntu 24.04) per forzare tutto il traffico TCP attraverso un proxy HTTP trasparente. La guida copre l'installazione e configurazione di tinyproxy, dante (SOCKS5) e redsocks, la gestione delle regole iptables per evitare loop di reindirizzamento, la persistenza tramite systemd, i limiti del setup rispetto a DNS/UDP/QUIC e il confronto con le VPN, con indicazioni di hardening e troubleshooting.",
     "date": "2026-06-03T00:00:00.000Z"
   },
   {
@@ -32,19 +32,37 @@
   {
     "title": "Livello di rete e IPV4",
     "url": "/blog/livello-di-rete/",
-    "description": "Scopri come funziona l&#39;indirizzamento IPv4: dalla struttura a 32 bit alla notazione CIDR, fino alle subnet mask e alla differenza tra IP pubblici e privati (RFC 1918). Una guida fondamentale per professionisti IT, Cloud e DevOps.",
+    "description": "Scopri come funziona l'indirizzamento IPv4: dalla struttura a 32 bit alla notazione CIDR, fino alle subnet mask e alla differenza tra IP pubblici e privati (RFC 1918). Una guida fondamentale per professionisti IT, Cloud e DevOps.",
     "date": "2026-05-25T00:00:00.000Z"
   },
   {
     "title": "Il livello di collegamento dati e Ethernet",
     "url": "/blog/livello-di-collegamento/",
-    "description": "Esplora il livello di collegamento dati (Data Link Layer): scopri il funzionamento dei frame Ethernet, il ruolo degli switch, l&#39;indirizzamento MAC e le tecnologie moderne come VLAN e VXLAN.",
+    "description": "Esplora il livello di collegamento dati (Data Link Layer): scopri il funzionamento dei frame Ethernet, il ruolo degli switch, l'indirizzamento MAC e le tecnologie moderne come VLAN e VXLAN.",
     "date": "2026-05-24T00:00:00.000Z"
+  },
+  {
+    "title": "Mezzi trasmissivi",
+    "url": "/blog/mezzi-trasmissivi/",
+    "description": "Alla scoperta dei media di rete: analizziamo differenze, vantaggi e scenari d'uso di cavi in rame (UTP/STP), fibra ottica (SMF/MMF) e tecnologie wireless dal Wi-Fi 6 al Wi-Fi 7.",
+    "date": "2026-05-23T00:00:00.000Z"
+  },
+  {
+    "title": "Reti wireless e mobili",
+    "url": "/blog/reti-wireless-mobile/",
+    "description": "Questo articolo esplora le principali tecnologie di connettività wireless presenti nei dispositivi mobili: come funzionano, come si configurano e come si integrano nell'ecosistema digitale contemporaneo.",
+    "date": "2026-05-17T00:00:00.000Z"
+  },
+  {
+    "title": "Componenti, tipi e connessioni di rete",
+    "url": "/blog/componenti-tipi-e-connessioni-di-rete/",
+    "description": "Esplora le architetture Client-Server e P2P, scopri come sono strutturate le moderne infrastrutture di rete e approfondisci le tecnologie di accesso a banda larga (FTTH, 5G, LEO) e le strategie di sicurezza per connettività SOHO e aziendali.",
+    "date": "2026-05-08T00:00:00.000Z"
   },
   {
     "title": "Le reti",
     "url": "/blog/le-reti/",
-    "description": "La connettività è l&#39;infrastruttura critica del mondo moderno. Scopri come funzionano le reti, dai protocolli fondamentali ai dispositivi IoT, e impara a misurare e ottimizzare le performance di rete come un professionista.",
+    "description": "La connettività è l'infrastruttura critica del mondo moderno. Scopri come funzionano le reti, dai protocolli fondamentali ai dispositivi IoT, e impara a misurare e ottimizzare le performance di rete come un professionista.",
     "date": "2026-05-06T00:00:00.000Z"
   },
   {
@@ -56,13 +74,13 @@
   {
     "title": "Comandi di base della shell",
     "url": "/blog/comandi-di-base/",
-    "description": "Una guida pratica ai comandi fondamentali della shell Linux; dalla lettura del prompt alla navigazione nel filesystem, dalla gestione di file e directory all&#39;elaborazione dell&#39;output con pipe e redirezioni. Ogni comando è spiegato con esempi reali, opzioni utili e criteri chiari per scegliere quando e perché usarlo.",
+    "description": "Una guida pratica ai comandi fondamentali della shell Linux; dalla lettura del prompt alla navigazione nel filesystem, dalla gestione di file e directory all'elaborazione dell'output con pipe e redirezioni. Ogni comando è spiegato con esempi reali, opzioni utili e criteri chiari per scegliere quando e perché usarlo.",
     "date": "2026-03-17T00:00:00.000Z"
   },
   {
     "title": "GNU/Linux",
     "url": "/blog/gnu-linux/",
-    "description": "GNU/Linux è un sistema operativo libero e open source, nato dall&#39;unione del kernel Linux e gli strumenti di sistema del progetto GNU. È stabile, sicuro e altamente personalizzabile, utilizzato in svariati ambiti, dai server ai computer desktop. In questo articolo introduttivo proviamo a capirne di più partendo dall&#39;architettura dell&#39;ecosistema fino ai comandi più utili.",
+    "description": "GNU/Linux è un sistema operativo libero e open source, nato dall'unione del kernel Linux e gli strumenti di sistema del progetto GNU. È stabile, sicuro e altamente personalizzabile, utilizzato in svariati ambiti, dai server ai computer desktop. In questo articolo introduttivo proviamo a capirne di più partendo dall'architettura dell'ecosistema fino ai comandi più utili.",
     "date": "2026-03-16T00:00:00.000Z"
   },
   {
@@ -80,7 +98,7 @@
   {
     "title": "Fondamenti di informatica",
     "url": "/blog/fondamenti-di-informatica/",
-    "description": "Una guida completa ai fondamenti dell&#39;informatica per professionisti. Scopri come funzionano hardware, CPU multi-core, memorie (RAM, SSD NVMe), sistemi operativi, licenze software e le basi della sicurezza informatica.",
+    "description": "Una guida completa ai fondamenti dell'informatica per professionisti. Scopri come funzionano hardware, CPU multi-core, memorie (RAM, SSD NVMe), sistemi operativi, licenze software e le basi della sicurezza informatica.",
     "date": "2026-02-04T00:00:00.000Z"
   },
   {
@@ -92,13 +110,19 @@
   {
     "title": "Memoria centrale",
     "url": "/blog/memoria-centrale/",
-    "description": "Presentiamo la memoria centrale nei sistemi operativi, con particolare focus sulla necessità di ospitare dati e programmi durante l&#39;esecuzione.",
+    "description": "Presentiamo la memoria centrale nei sistemi operativi, con particolare focus sulla necessità di ospitare dati e programmi durante l'esecuzione.",
     "date": "2022-02-02T00:00:00.000Z"
+  },
+  {
+    "title": "Fondamenti di networking",
+    "url": "/blog/fondamenti-di-networking/",
+    "description": "Una prima introduzione sulle basi del networking, le fondamenta che ci permetteranno di capire come funzionano realmente le reti a cui ci connettiamo tutti i giorni.",
+    "date": "2020-03-12T00:00:00.000Z"
   },
   {
     "title": "Allocazione della memoria",
     "url": "/blog/allocazione-della-memoria/",
-    "description": "Questo approfondimento tecnico esplora le sfide dell&#39;allocazione dei frame in sistemi multiprogrammati. Analizzeremo come il modello del working set e la frequenza dei page fault prevengano il collasso del sistema (thrashing), oltre a esaminare le tecniche specifiche del kernel per la gestione di oggetti di dimensioni variabili e fisse.",
+    "description": "Questo approfondimento tecnico esplora le sfide dell'allocazione dei frame in sistemi multiprogrammati. Analizzeremo come il modello del working set e la frequenza dei page fault prevengano il collasso del sistema (thrashing), oltre a esaminare le tecniche specifiche del kernel per la gestione di oggetti di dimensioni variabili e fisse.",
     "date": "2020-02-23T00:00:00.000Z"
   },
   {
@@ -110,7 +134,7 @@
   {
     "title": "Scheduling della CPU",
     "url": "/blog/scheduling-della-cpu/",
-    "description": "Facciamo un&#39;analisi approfondita dello scheduling della CPU, una funzione vitale dei sistemi operativi progettata per massimizzare l&#39;efficienza attraverso la multiprogrammazione.",
+    "description": "Facciamo un'analisi approfondita dello scheduling della CPU, una funzione vitale dei sistemi operativi progettata per massimizzare l'efficienza attraverso la multiprogrammazione.",
     "date": "2020-02-21T00:00:00.000Z"
   },
   {
@@ -128,7 +152,7 @@
   {
     "title": "Processi",
     "url": "/blog/processi/",
-    "description": "Vengono esaminati i meccanismi di gestione della memoria, illustrando la differenza tra l&#39;allocazione dinamica nello heap e l&#39;utilizzo temporaneo dello stack per le chiamate di funzione. Process Control Block (PCB), una struttura dati fondamentale che memorizza lo stato, i registri e le informazioni di scheduling necessarie alla CPU.",
+    "description": "Vengono esaminati i meccanismi di gestione della memoria, illustrando la differenza tra l'allocazione dinamica nello heap e l'utilizzo temporaneo dello stack per le chiamate di funzione. Process Control Block (PCB), una struttura dati fondamentale che memorizza lo stato, i registri e le informazioni di scheduling necessarie alla CPU.",
     "date": "2020-02-10T00:00:00.000Z"
   },
   {
@@ -140,7 +164,7 @@
   {
     "title": "Sincronizzazione dei processi",
     "url": "/blog/sincronizzazione-dei-processi/",
-    "description": "Viene esaminata la sincronizzazione dei processi nei sistemi operativi, focalizzandosi sulla gestione dell&#39;accesso concorrente a dati condivisi per prevenire le race condition.",
+    "description": "Viene esaminata la sincronizzazione dei processi nei sistemi operativi, focalizzandosi sulla gestione dell'accesso concorrente a dati condivisi per prevenire le race condition.",
     "date": "2020-02-03T00:00:00.000Z"
   },
   {

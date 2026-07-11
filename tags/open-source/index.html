@@ -46,24 +46,13 @@
 <!-- RSS Feed -->
 <link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
 
-<!-- Bootstrap CSS -->
-<link
-  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-  rel="stylesheet"
-  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-  crossorigin="anonymous"
-/>
-
-<!-- Bootstrap icons -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-
-<!-- Custom CSS -->
-<link rel="stylesheet" href="/assets/css/custom.css" />
-
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
 
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
@@ -76,280 +65,261 @@
 
 <!-- Katex -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
     
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
   </head>
 
-  <body class="d-flex flex-column min-vh-100">
-    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
-  <div class="container">
-    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
-      <img src="/assets/img/avatar/dino-996-32.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;">
-      <span><span class="text-primary">dino</span>-996</span>
-    </a>
-
-    <div class="d-flex align-items-center gap-1">
-      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
-        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
-          <i class="bi bi-sun"></i>
-        </button>
-        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
-          <i class="bi bi-moon"></i>
-        </button>
-        <div class="theme-toggle-slider"></div>
-      </div>
-      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
-        <i class="bi bi-list fs-4"></i>
+  <body>
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
       </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav" href="/blog/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
     </div>
 
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto align-items-lg-center">
-        <li class="nav-item">
-          <a class="nav-link" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/blog/">Blog</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/courses/">Courses</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/about/">About</a>
-        </li>
-        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
-          <div class="theme-toggle" role="group" aria-label="Toggle tema">
-            <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
-              <i class="bi bi-sun"></i>
-            </button>
-            <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
-              <i class="bi bi-moon"></i>
-            </button>
-            <div class="theme-toggle-slider"></div>
-          </div>
-        </li>
-      </ul>
+    <a href="/" class="header-logo">dino-996</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
     </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link" href="/blog/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
   </div>
 </nav>
-  
-    <main class="container my-5 flex-grow-1">
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main class="container" style="flex: 1;">
       
 
-<div class="d-flex align-items-center gap-3 mb-4">
-  <div class="d-flex align-items-center justify-content-center rounded-3"
-       style="width: 48px; height: 48px; background: var(--primary-light);">
-    <i class="bi bi-tag-fill fs-4 text-primary"></i>
+<div class="mb-6">
+  <div class="mb-1">
+    <a href="/blog/" class="text-muted small" style="text-decoration: none;">← Torna al blog</a>
   </div>
-  <div>
-    <h1 class="fw-bold mb-1">
-      Tag: <span class="text-primary">open source</span>
-    </h1>
-    <p class="text-muted small mb-0">Post con tag "open source"</p>
-  </div>
+  <h1 class="font-headline-lg mb-1">
+    Tag: <span style="color: var(--primary);">open source</span>
+  </h1>
+  <p class="text-muted small mb-0">Post con tag "open source"</p>
 </div>
 
-<ul class="list-unstyled">
+
+
   
   
-    
-    
+
   
-    
-    
   
-    
-    
+
   
-    
-    
   
-    
-    
-      
-    
+
   
-    
-    
   
-    
-    
+
   
-    
-    
   
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
-    
-  
-    
     
   
 
   
-    
-      <li class="mb-4">
-        <article class="card border">
-          <div class="card-body p-4">
-            <h2 class="h5 card-title mb-2">
-              <a href="/blog/clamav-antivirus/">ClamAV su Linux: guida completa a installazione, scansione e monitoraggio in tempo reale</a>
-            </h2>
-            <time class="text-muted small d-block mb-3" datetime="2026-05-28T00:00:00.000Z">
-              <i class="bi bi-calendar3 me-1"></i>28 maggio 2026
-            </time>
-            
-              <p class="text-muted small mb-3">Guida completa a ClamAV su Linux: installazione, verifica dei servizi, scansione con clamdscan e clamscan, monitoraggio in tempo reale con inotifywait, automazione tramite systemd timer e best...</p>
-            
-            <div class="d-flex flex-wrap align-items-center gap-2 mb-3">
-              <span class="small fw-bold text-uppercase" style="font-size: 0.7rem; letter-spacing: 0.05em;">Altri tag:</span>
-              
-              
-                
-                
-                  <a href="/tags/clamav/" class="badge border text-decoration-none"
-                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
-                    clamav
-                  </a>
-                
-              
-                
-                
-                  <a href="/tags/antivirus-linux/" class="badge border text-decoration-none"
-                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
-                    antivirus-linux
-                  </a>
-                
-              
-                
-                
-                  <a href="/tags/cybersecurity/" class="badge border text-decoration-none"
-                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
-                    cybersecurity
-                  </a>
-                
-              
-                
-                
-                  <a href="/tags/linux/" class="badge border text-decoration-none"
-                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
-                    linux
-                  </a>
-                
-              
-                
-                
-                  <a href="/tags/systemd/" class="badge border text-decoration-none"
-                     style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
-                    systemd
-                  </a>
-                
-              
-                
-                
-              
-            </div>
-            <div>
-              <a href="/blog/clamav-antivirus/" class="btn btn-primary btn-sm rounded">
-                Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
-              </a>
-            </div>
-          </div>
-        </article>
-      </li>
-    
   
-</ul>
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+  
+  
+
+
+
+  
+    <article class="article-item" style="padding-left: 0; padding-right: 0;">
+      <h2 class="article-item-title" style="font-size: 1.125rem;">
+        <a href="/blog/clamav-antivirus/">ClamAV su Linux: guida completa a installazione, scansione e monitoraggio in tempo reale</a>
+      </h2>
+      
+      <p class="article-item-excerpt">Guida completa a ClamAV su Linux: installazione, verifica dei servizi, scansione con clamdscan e clamscan, monitoraggio in tempo reale con inotifywait, automazione tramite systemd timer e best...</p>
+      
+      <div class="article-item-meta">
+        <time datetime="2026-05-28T00:00:00.000Z">28 maggio 2026</time>
+      </div>
+      <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+        
+        
+          
+          
+            <a href="/tags/clamav/" class="badge badge-outline" style="font-size: 0.625rem;">clamav</a>
+          
+        
+          
+          
+            <a href="/tags/antivirus-linux/" class="badge badge-outline" style="font-size: 0.625rem;">antivirus-linux</a>
+          
+        
+          
+          
+            <a href="/tags/cybersecurity/" class="badge badge-outline" style="font-size: 0.625rem;">cybersecurity</a>
+          
+        
+          
+          
+            <a href="/tags/linux/" class="badge badge-outline" style="font-size: 0.625rem;">linux</a>
+          
+        
+          
+          
+            <a href="/tags/systemd/" class="badge badge-outline" style="font-size: 0.625rem;">systemd</a>
+          
+        
+          
+          
+        
+      </div>
+    </article>
+  
+
+
     </main>
 
-    <footer class="border-top mt-auto py-5">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-6 text-center">
-        <div class="fw-bold mb-3" style="font-size: 1.25rem;">
-          <span class="text-primary">dino</span>-996
-        </div>
-        <p class="text-muted small mb-3">
-          Developer portfolio e blog tecnico
-        </p>
-        <div class="d-flex justify-content-center gap-3 mb-0">
-          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
-             class="text-muted" aria-label="GitHub">
-            <i class="bi bi-github fs-5"></i>
-          </a>
-          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer"
-             class="text-muted" aria-label="LinkedIn">
-            <i class="bi bi-linkedin fs-5"></i>
-          </a>
-          <a href="/feed.xml" class="text-muted" aria-label="Feed RSS" target="_blank">
-            <i class="bi bi-rss fs-5"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-
-    <hr class="my-4">
-
-    <div class="text-center">
-      <p class="text-muted small mb-0 d-flex align-items-center justify-content-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 75 65" fill="currentColor">
-          <path d="M37.443-3.5c8.988,0,16.57,3.085,22.742,9.257C66.393,11.967,69.5,19.548,69.5,28.5c0,8.991-3.049,16.476-9.145,22.456    C53.879,57.319,46.242,60.5,37.443,60.5c-8.649,0-16.153-3.144-22.514-9.43C8.644,44.784,5.5,37.262,5.5,28.5    c0-8.761,3.144-16.342,9.429-22.742C21.101-0.415,28.604-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.553-18.457,7.657    c-5.22,5.334-7.829,11.525-7.829,18.572c0,7.086,2.59,13.22,7.77,18.398c5.181,5.182,11.352,7.771,18.514,7.771    c7.123,0,13.334-2.607,18.629-7.828c5.029-4.838,7.543-10.952,7.543-18.343c0-7.276-2.553-13.465-7.656-18.571    C50.967,4.824,44.795,2.272,37.557,2.272z M46.129,20.557v13.085h-3.656v15.542h-9.944V33.643h-3.656V20.557    c0-0.572,0.2-1.057,0.599-1.457c0.401-0.399,0.887-0.6,1.457-0.6h13.144c0.533,0,1.01,0.2,1.428,0.6    C45.918,19.5,46.129,19.986,46.129,20.557z M33.042,12.329c0-3.008,1.485-4.514,4.458-4.514s4.457,1.504,4.457,4.514    c0,2.971-1.486,4.457-4.457,4.457S33.042,15.3,33.042,12.329z"/>
-        </svg>
-        Realizzato con <span class="text-danger">❤️</span> usando
-        <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-medium">Eleventy</a>
-        e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-medium">Bootstrap</a>
-      </p>
-    </div>
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">dino-996</a></div>
+  <nav class="footer-nav">
+    <a href="/about/">Chi sono</a>
+    <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Davide Sabia. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
   </div>
 </footer>
-      <!-- Bootstrap JS -->
-    <script 
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous">
-    </script>
+
 
     <!-- Ripristina il tema scelto dall'utente prima del rendering -->
     <script>
@@ -397,7 +367,7 @@
             <span id="ai-title" class="fw-bold">dino</span>
           </div>
           <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
-            <i class="bi bi-x-lg"></i>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
           </button>
         </div>
 
@@ -409,7 +379,9 @@
 
         <div class="ai-card-footer">
           <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
-          <button id="ai-send"><i class="bi bi-arrow-up"></i></button>
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
         </div>
       </div>
     </div>
@@ -490,7 +462,7 @@
 
           addMessage(query, "user");
           input.value = "";
-          const responseContainer = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "bot");
+          const responseContainer = addMessage('Sto cercando…', "bot");
 
           let context = "";
           try {
@@ -547,5 +519,5 @@
     <!-- main.js -->
     <script src="/assets/js/main.js" defer></script>
   </body>
-  
+
 </html>

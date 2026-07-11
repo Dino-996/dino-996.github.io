@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Mezzi trasmissivi · dino-996 blog
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Alla scoperta dei media di rete: analizziamo differenze, vantaggi e scenari d&#39;uso di cavi in rame (UTP/STP), fibra ottica (SMF/MMF) e tecnologie wireless dal Wi-Fi 6 al Wi-Fi 7." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/mezzi-trasmissivi/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/mezzi-trasmissivi/" />
+
+<meta property="og:title" content="Mezzi trasmissivi" />
+<meta property="og:description" content="Alla scoperta dei media di rete: analizziamo differenze, vantaggi e scenari d&#39;uso di cavi in rame (UTP/STP), fibra ottica (SMF/MMF) e tecnologie wireless dal Wi-Fi 6 al Wi-Fi 7." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/mezzi-trasmissivi/" />
+
+<meta name="twitter:title" content="Mezzi trasmissivi" />
+<meta name="twitter:description" content="Alla scoperta dei media di rete: analizziamo differenze, vantaggi e scenari d&#39;uso di cavi in rame (UTP/STP), fibra ottica (SMF/MMF) e tecnologie wireless dal Wi-Fi 6 al Wi-Fi 7." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+  </head>
+
+  <body>
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">dino-996</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<!-- Post Header -->
+<header class="post-header">
+  
+    
+    
+    <span class="badge badge-category category">reti</span>
+    
+  
+  <h1>Mezzi trasmissivi</h1>
+  <div class="post-meta">
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781251320/dino_avatar_81b48107e0.png" alt="Davide Sabia" class="avatar" width="32" height="32">
+    <span>Davide Sabia</span>
+    <span>·</span>
+    <time datetime="2026-05-23T00:00:00.000Z">23 maggio 2026</time>
+    <span class="reading-time"></span>
+    
+      <span>·</span>
+      <time datetime="2026-07-11T13:35:46.000Z">Aggiornato: 11 luglio 2026</time>
+    
+  </div>
+  
+  <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1777947811/networking_c2a030ae5d.webp"
+       alt="Immagine generata con IA"
+       class="post-image"
+       fetchpriority="high">
+  
+</header>
+
+<!-- Mobile ToC toggle -->
+<div class="post-layout" style="margin-bottom: 16px;">
+  <div class="hide-desktop">
+    <button id="toc-toggle" class="btn btn-outline btn-sm" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+      <span>Indice</span>
+      <span id="toc-chevron" style="transition: transform 0.2s;">▾</span>
+    </button>
+    <div id="toc-mobile" style="display: none; margin-top: 8px;">
+      <div class="toc-card">
+        <ul class="toc-list" id="toc-list-mobile"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="post-layout-wrapper">
+  <article class="post-layout">
+    
+    <div class="tldr-box">
+      <div class="tldr-label">In breve</div>
+      <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Le reti moderne utilizzano cavi in rame, fibra ottica o trasmissione wireless, ciascuno con compromessi unici in termini di prestazioni, distanza e costo. Il doppino intrecciato in rame, in particolare UTP e STP, rimane prevalente nelle LAN per la sua convenienza e semplicità d&#39;uso su distanze limitate, con standard come Cat5e e Cat6 che offrono velocità fino a 1 Gbps/10 Gbps su 100m.</p>
+    </div>
+    
+
+    <section class="content">
+      <h2 id="tipi-di-media-di-rete">Tipi di media di rete</h2>
+<p>In una rete di comunicazione, il <strong>media</strong> (o mezzo trasmissivo) è il canale fisico o elettromagnetico attraverso cui i dati viaggiano dalla sorgente alla destinazione. La scelta del media influenza direttamente larghezza di banda disponibile, distanza massima, immunità ai disturbi elettromagnetici, costo di installazione e manutenibilità dell'infrastruttura.</p>
+<p>Le reti moderne si basano su tre categorie principali di media trasmissivi:</p>
+<ul>
+<li><strong>Cavi in rame:</strong> i dati vengono codificati come variazioni di tensione elettrica (impulsi digitali o segnali analogici modulati).</li>
+<li><strong>Cavi in fibra ottica:</strong> i dati vengono codificati come impulsi di luce laser o LED, all'interno di fibre di vetro o plastica.</li>
+<li><strong>Trasmissione wireless:</strong> i dati vengono codificati modulando frequenze specifiche dello spettro elettromagnetico.</li>
+</ul>
+<p>Ciascun media presenta vantaggi e vincoli distinti, che ne determinano l'idoneità a specifici scenari infrastrutturali.</p>
+<h2 id="il-cavo-in-rame">Il cavo in rame</h2>
+<p>Il rame rimane il media più diffuso nelle reti locali (LAN) aziendali e residenziali, grazie al rapporto favorevole tra costo, semplicità di installazione e prestazioni nei collegamenti a breve-media distanza.</p>
+<h3 id="doppino-intrecciato-twisted-pair">Doppino intrecciato (Twisted Pair)</h3>
+<p>Il <strong>doppino intrecciato</strong> è il tipo di cablaggio più comune nelle reti Ethernet moderne. I conduttori sono organizzati in coppie, intrecciate l'una sull'altra a passo regolare: l'intreccio riduce l'<strong>interferenza elettromagnetica (EMI)</strong> e il <strong>crosstalk</strong> (la diafonia tra coppie adiacenti), fenomeni che degradano il segnale su distanze crescenti.</p>
+<p>La codifica cromatica dei conduttori — un filo a tinta unita e il suo partner striato sullo sfondo bianco — consente di identificare univocamente ogni coppia a entrambe le estremità del cavo, semplificando la terminazione e la diagnostica.</p>
+<p>Esistono due varianti principali:</p>
+<ul>
+<li><strong>UTP (Unshielded Twisted Pair):</strong> prive di schermatura metallica aggiuntiva, sono la scelta standard in uffici e ambienti con bassa densità di disturbi elettromagnetici.</li>
+<li><strong>STP (Shielded Twisted Pair):</strong> dotate di schermatura per singola coppia o per il fascio complessivo, sono indicate in ambienti industriali, sale server ad alta densità o in prossimità di macchinari che generano EMI elevata.</li>
+</ul>
+<p>Le categorie più rilevanti per l'infrastruttura aziendale moderna sono:</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Categoria</th>
+        <th>Larghezza di Banda</th>
+        <th>Velocità Massima</th>
+        <th>Distanza Max (segmento)</th>
+        <th>Scenario Tipico</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Cat5e</td>
+        <td>100 MHz</td>
+        <td>1 Gbps</td>
+        <td>100 m</td>
+        <td>LAN ufficio, postazioni client standard</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Cat6</td>
+        <td>250 MHz</td>
+        <td>10 Gbps (fino a 55 m)</td>
+        <td>100 m / 55 m a 10G</td>
+        <td>Switch uplink, ambienti ad alta densità</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Cat6a</td>
+        <td>500 MHz</td>
+        <td>10 Gbps</td>
+        <td>100 m</td>
+        <td>Data center, dorsali di piano, PoE++</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>Il cavo Cat6a è oggi lo standard raccomandato per i nuovi impianti di cablaggio strutturato, in quanto supporta pienamente 10 Gbps su 100 m e garantisce un margine di futuro adeguato per applicazioni come il <strong>Power over Ethernet (PoE++)</strong>, utilizzato per alimentare access point Wi-Fi 6, telefoni IP e telecamere IP ad alta risoluzione.</p>
+<h3 id="cavo-coassiale">Cavo coassiale</h3>
+<p>Il <strong>cavo coassiale</strong> è stato uno dei primi media adottati nelle reti informatiche, con un ruolo centrale negli standard Ethernet storici come 10BASE2 (Thinnet) e 10BASE5 (Thicknet), oggi completamente dismessi. La sua architettura è composta da un nucleo rigido in rame, avvolto da uno strato di isolante dielettrico, da una calza metallica intrecciata che funge da schermatura e da una guaina esterna protettiva.</p>
+<p>Nelle infrastrutture di rete moderne, il coassiale non è più utilizzato per il cablaggio LAN, ma mantiene rilevanza in due contesti specifici:</p>
+<ul>
+<li><strong>Reti HFC (Hybrid Fiber-Coaxial):</strong> gli ISP che erogano connettività via cavo (es. DOCSIS 3.1/4.0) utilizzano la fibra ottica per il backbone e il coassiale per l'ultimo chilometro e mezzo verso l'utente finale.</li>
+<li><strong>Sistemi di comunicazione satellitare e TV:</strong> il coassiale è lo standard per il collegamento tra antenne, LNB e decoder/ricevitori.</li>
+</ul>
+<p>Grazie alla sua struttura coassiale — nucleo e schermatura condividono lo stesso asse geometrico — offre elevata immunità alle interferenze esterne ed è idoneo al trasporto di segnali ad alta frequenza e a larga banda.</p>
+<h2 id="il-cavo-in-fibra-ottica">Il cavo in fibra ottica</h2>
+<p>La <strong>fibra ottica</strong> rappresenta la tecnologia trasmissiva ad alte prestazioni per eccellenza. Il principio fisico è la <strong>riflessione totale interna</strong>: gli impulsi di luce, una volta iniettati nel nucleo della fibra (di diametro paragonabile a quello di un capello umano), si propagano per riflessione ripetuta sulle pareti senza dispersione significativa, consentendo di raggiungere distanze e velocità irraggiungibili con il rame.</p>
+<p>Poiché il segnale è luminoso e non elettrico, la fibra è intrinsecamente immune all'interferenza elettromagnetica e al crosstalk, caratteristica decisiva in ambienti ostili o per collegamenti che attraversano aree con forti disturbi industriali.</p>
+<h3 id="fibra-monomodale-smf-e-multimodale-mmf">Fibra Monomodale (SMF) e Multimodale (MMF)</h3>
+<p>La distinzione fondamentale nella fibra ottica riguarda il numero di <strong>modi di propagazione</strong> della luce all'interno del nucleo:</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Tipo</th>
+        <th>Standard</th>
+        <th>Diametro Nucleo</th>
+        <th>Sorgente Luminosa</th>
+        <th>Distanza Tipica</th>
+        <th>Scenario d'Uso</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Monomodale (SMF)</td>
+        <td>OS1, OS2</td>
+        <td>9 µm</td>
+        <td>Laser</td>
+        <td>Fino a 100 km+</td>
+        <td>Backbone metropolitano, WAN, reti carrier</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Multimodale (MMF)</td>
+        <td>OM3, OM4, OM5</td>
+        <td>50 / 62,5 µm</td>
+        <td>LED o VCSEL</td>
+        <td>Fino a 550 m (OM4, 10G)</td>
+        <td>Dorsali intra-edificio, connessioni tra switch di piano, data center</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>La <strong>SMF</strong> è lo standard nelle infrastrutture carrier, nelle dorsali metropolitane (MAN) e nei data center geograficamente distribuiti. La <strong>MMF</strong> è invece preferita nei cablaggi intra-edificio e nei data center di medie dimensioni, dove la minore distanza consente di sfruttare sorgenti LED o VCSEL meno costose rispetto ai laser ad alta precisione richiesti dalla SMF.</p>
+<h3 id="ambiti-di-applicazione-della-fibra">Ambiti di applicazione della fibra</h3>
+<p>Oltre alla trasmissione dati, la fibra ottica trova impiego in settori trasversali:</p>
+<ul>
+<li><strong>Imaging medicale e chirurgia laser:</strong> endoscopi e sonde intraoperatorie.</li>
+<li><strong>Ispezioni industriali:</strong> boroscopi per l'analisi visiva di componenti meccanici inaccessibili.</li>
+<li><strong>Sensoristica distribuita:</strong> rilevamento di temperatura e pressione in infrastrutture critiche (oleodotti, ponti, tunnel).</li>
+</ul>
+<p>Nel contesto IT, la fibra è la scelta dominante per backbone aziendali, interconnessioni tra data center, reti FTTH/FTTB degli operatori e uplink di alta capacità negli ambienti cloud.</p>
+<h2 id="la-trasmissione-wireless">La trasmissione wireless</h2>
+<p>La trasmissione <strong>wireless</strong> codifica i dati modulando onde elettromagnetiche su specifiche frequenze dello spettro radio. Anziché un canale fisico dedicato, il segnale si propaga nello spazio, consentendo la mobilità dei dispositivi ma introducendo sfide legate alla condivisione del mezzo, all'attenuazione e alle interferenze.</p>
+<h3 id="standard-wi-fi-dall80211n-al-wi-fi-7">Standard Wi-Fi: dall'802.11n al Wi-Fi 7</h3>
+<p>L'evoluzione degli standard <strong>IEEE 802.11</strong> ha progressivamente ridotto il divario prestazionale tra wireless e cablato:</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Standard</th>
+        <th>Denominazione</th>
+        <th>Banda</th>
+        <th>Velocità Teorica Max</th>
+        <th>Caratteristica Chiave</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">802.11n</td>
+        <td>Wi-Fi 4</td>
+        <td>2,4 / 5 GHz</td>
+        <td>600 Mbps</td>
+        <td>MIMO, dual-band</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">802.11ac</td>
+        <td>Wi-Fi 5</td>
+        <td>5 GHz</td>
+        <td>3,5 Gbps</td>
+        <td>MU-MIMO, beamforming</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">802.11ax</td>
+        <td>Wi-Fi 6 / 6E</td>
+        <td>2,4 / 5 / 6 GHz</td>
+        <td>9,6 Gbps</td>
+        <td>OFDMA, BSS Coloring, banda a 6 GHz (6E)</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">802.11be</td>
+        <td>Wi-Fi 7</td>
+        <td>2,4 / 5 / 6 GHz</td>
+        <td>46 Gbps</td>
+        <td>Multi-Link Operation (MLO), canali da 320 MHz</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>Il <strong>Wi-Fi 6E</strong> ha introdotto l'accesso alla banda a <strong>6 GHz</strong>, fino ad allora riservata ad applicazioni industriali e governative: uno spettro più ampio, meno congestionato, che consente throughput elevati e latenze ridotte in ambienti ad alta densità di dispositivi. Il <strong>Wi-Fi 7</strong> (802.11be), attualmente in fase di adozione nei dispositivi consumer e enterprise di fascia alta, introduce la <strong>Multi-Link Operation (MLO)</strong> — la capacità di aggregare simultaneamente più bande e canali — avvicinando ulteriormente le prestazioni wireless a quelle del cablato Ethernet.</p>
+<p>Il wireless è oggi la soluzione architettonica primaria per scenari IoT, ambienti BYOD, edifici storici dove il cablaggio è proibitivo e deployment mobili.</p>
+<h2 id="confronto-generale-tra-i-media-trasmissivi">Confronto Generale tra i Media Trasmissivi</h2>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Caratteristica</th>
+        <th>Doppino Intrecciato (UTP/STP)</th>
+        <th>Cavo Coassiale</th>
+        <th>Fibra Ottica</th>
+        <th>Wireless (Wi-Fi 6/6E)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Larghezza di Banda</td>
+        <td>Fino a 10 Gbps (Cat6a)</td>
+        <td>Fino a ~10 Gbps (DOCSIS 4.0)</td>
+        <td>Tbps (SMF con WDM)</td>
+        <td>Fino a 9,6 Gbps (teorico)</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Distanza Tipica</td>
+        <td>100 m per segmento</td>
+        <td>500 m – diversi km</td>
+        <td>Fino a 100 km+ (SMF)</td>
+        <td>~30–100 m (indoor)</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Immunità EMI</td>
+        <td>Media (STP alta)</td>
+        <td>Alta</td>
+        <td>Totale</td>
+        <td>Bassa (condivide lo spettro)</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Costo Relativo</td>
+        <td>Basso</td>
+        <td>Medio</td>
+        <td>Alto</td>
+        <td>Medio (infrastruttura AP)</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Scenario Primario</td>
+        <td>LAN aziendale, postazioni fisse</td>
+        <td>HFC (ISP), sistemi RF</td>
+        <td>Backbone, WAN, data center</td>
+        <td>Mobilità, IoT, ambienti BYOD</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h2 id="criteri-di-scelta-del-media-trasmissivo">Criteri di Scelta del Media Trasmissivo</h2>
+<p>La selezione del media più adeguato non è una scelta estetica, ma una decisione architetturale che impatta direttamente le prestazioni, i costi operativi e la scalabilità futura dell'infrastruttura. Le variabili principali da considerare sono:</p>
+<ul>
+<li><strong>Distanza:</strong> per collegamenti superiori ai 100 m o tra edifici distinti, la fibra ottica è l'unica scelta praticabile senza l'introduzione di ripetitori attivi.</li>
+<li><strong>Larghezza di banda richiesta:</strong> workload a 10 Gbps o superiori su brevi distanze richiedono Cat6a o fibra MMF; backbone ad altissima capacità richiedono SMF con multiplexing WDM.</li>
+<li><strong>Ambiente fisico:</strong> la presenza di macchinari industriali, motori elettrici o sistemi ad alta tensione nelle vicinanze impone l'uso di fibra ottica o, almeno, di cavi STP.</li>
+<li><strong>Mobilità dei dispositivi:</strong> endpoint mobili, dispositivi IoT, stampanti wireless e ambienti BYOD rendono il wireless la soluzione naturale e spesso l'unica architetturalmente sostenibile.</li>
+<li><strong>Budget e vincoli infrastrutturali:</strong> il doppino UTP Cat6a rimane il miglior compromesso costo/prestazioni per il cablaggio orizzontale in edifici nuovi o in ristrutturazione; la fibra è preferibile per le dorsali verticali e inter-edificio, dove l'investimento iniziale è ammortizzato dalla longevità dell'impianto.</li>
+</ul>
+
+    </section>
+  </article>
+
+  <aside class="toc-sidebar hide-mobile" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+</div>
+
+<!-- Share & Tags -->
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+    <div class="d-flex flex-wrap gap-2">
+      
+        
+          
+          
+          <a href="/tags/reti/" class="badge badge-outline">reti</a>
+          
+        
+          
+          
+          <a href="/tags/livello-7/" class="badge badge-outline">livello 7</a>
+          
+        
+          
+          
+          <a href="/tags/livello-fisico/" class="badge badge-outline">livello fisico</a>
+          
+        
+          
+          
+          <a href="/tags/mezzi-trasmissivi/" class="badge badge-outline">mezzi trasmissivi</a>
+          
+        
+      
+    </div>
+    <div class="d-flex gap-2">
+      <span class="font-label-sm" style="color: var(--on-surface-variant);">Condividi</span>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fmezzi-trasmissivi%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="color: var(--secondary);">in</a>
+      <a href="https://twitter.com/intent/tweet?text=Mezzi%20trasmissivi&url=https://dino-996.github.io%2Fblog%2Fmezzi-trasmissivi%2F" target="_blank" rel="noopener" aria-label="X" style="color: var(--secondary);">𝕏</a>
+    </div>
+  </div>
+</div>
+
+<!-- Prev / Next -->
+
+
+
+
+
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <nav class="d-flex justify-content-between" aria-label="Navigazione articoli">
+    <div>
+      
+      <a href="/blog/livello-di-collegamento/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 250px;">
+        <span class="d-block small">← Precedente</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Il livello di collegamento dati e Ethernet</span>
+      </a>
+      
+    </div>
+    <div style="text-align: right;">
+      
+      <a href="/blog/reti-wireless-mobile/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 250px;">
+        <span class="d-block small">Successivo →</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Reti wireless e mobili</span>
+      </a>
+      
+    </div>
+  </nav>
+</div>
+
+
+<!-- Comments -->
+<div class="post-layout giscus-wrapper">
+  <script>
+    (function () {
+      const saved = localStorage.getItem('bs-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+      script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+      script.setAttribute('data-category', 'Announcements');
+      script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-theme', theme);
+      script.setAttribute('data-lang', 'it');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+      document.currentScript.replaceWith(script);
+    })();
+  </script>
+  <noscript>
+    <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+      Per visualizzare i commenti è necessario abilitare JavaScript.
+      <br>
+      <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+    </div>
+  </noscript>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">dino-996</a></div>
+  <nav class="footer-nav">
+    <a href="/about/">Chi sono</a>
+    <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Davide Sabia. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      window.pathPrefix = ".";
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

@@ -1,7 +1,7 @@
 "use strict";
 (function () {
     // ===========================================
-    // = BOOTSTRAP TOGGLE THEME
+    // = THEME TOGGLE
     // ===========================================
 
     /* 
@@ -110,32 +110,21 @@
 
             if (filtered.length === 0) {
                 searchResults.innerHTML = `
-                    <div class="text-center py-4 text-muted">
-                    <i class="bi bi-inbox fs-2 d-block mb-2"></i>
+                    <div style="text-align: center; padding: 32px 16px; color: var(--secondary);">
                     Nessun articolo trovato per "<strong>${query}</strong>"
                     </div>`;
                 return;
             }
 
             searchResults.innerHTML = `
-                <div class="row g-4">
+                <div>
                     ${filtered.map(p => `
-                        <div class="col-12">
-                            <article class="card shadow-sm">
-                                <div class="card-body">
-                                    <h2 class="h4 mb-1">
-                                        <a href="${p.url}" class="text-decoration-none">${p.title}</a>
-                                    </h2>
-                                    ${p.description ? `<p class="text-muted mb-2 small">${p.description}</p>` : ''}
-                                    <div class="d-flex flex-row-reverse mt-3">
-                                        <a href="${p.url}" class="btn btn-primary btn-sm w-25 rounded">
-                                            Leggi l'articolo <i class="bi bi-arrow-right ms-1"></i>
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </article>
-                        </div>`).join('')}
+                        <article class="article-item search-result-item" style="padding: 16px;">
+                            <h3 style="font-family: var(--font-serif); font-size: 1.125rem; font-weight: 600; margin-bottom: 8px;">
+                                <a href="${p.url}">${p.title}</a>
+                            </h3>
+                            ${p.description ? `<p>${p.description}</p>` : ''}
+                        </article>`).join('')}
                 </div>`;
             }
 
@@ -178,19 +167,15 @@
     });
 
     // ===========================================
-    // = NAVBAR SCROLL
+    // = HEADER SCROLL
     // ===========================================
 
     let lastScroll = 0;
-    const navbar = document.querySelector('.navbar');
-    if (navbar) {
+    const siteHeader = document.querySelector('.site-header');
+    if (siteHeader) {
         window.addEventListener('scroll', () => {
             const currentScroll = window.pageYOffset;
-            if (currentScroll > 100) {
-                navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
-            } else {
-                navbar.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.04)';
-            }
+            siteHeader.style.boxShadow = currentScroll > 50 ? '0 2px 8px rgba(0,0,0,0.06)' : 'none';
             lastScroll = currentScroll;
         });
     }
@@ -212,9 +197,8 @@
 
     document.querySelectorAll('pre code').forEach(block => {
         const button = document.createElement('button');
-        button.className = 'btn btn-sm btn-outline-secondary copy-btn';
+        button.className = 'copy-btn';
         button.textContent = 'Copia';
-        button.style.cssText = 'position: absolute; top: 0.5rem; right: 0.5rem;';
         const pre = block.parentElement;
         pre.style.position = 'relative';
         pre.appendChild(button);
@@ -222,12 +206,12 @@
             try {
                 await navigator.clipboard.writeText(block.textContent);
                 button.textContent = 'Copiato!';
-                button.classList.remove('btn-outline-secondary');
-                button.classList.add('btn-success');
+                button.style.background = 'rgba(0, 200, 80, 0.3)';
+                button.style.color = '#fff';
                 setTimeout(() => {
                     button.textContent = 'Copia';
-                    button.classList.remove('btn-success');
-                    button.classList.add('btn-outline-secondary');
+                    button.style.background = '';
+                    button.style.color = '';
                 }, 2000);
             } catch (err) {
                 console.error('Failed to copy:', err);
@@ -245,7 +229,7 @@
         const wordCount = text.trim().split(/\s+/).length;
         const minutes = Math.ceil(wordCount / 200);
         document.querySelectorAll('.reading-time').forEach(el => {
-            el.innerHTML = `<i class="bi bi-clock me-1"></i>${minutes} min di lettura`;
+            el.innerHTML = `${minutes} min di lettura`;
         });
     }
 
@@ -369,6 +353,21 @@
     }
 
     // ===========================================
+    // = MOBILE TOC TOGGLE
+    // ===========================================
+
+    const tocToggle = document.getElementById('toc-toggle');
+    const tocMobile = document.getElementById('toc-mobile');
+    const tocChevron = document.getElementById('toc-chevron');
+    if (tocToggle && tocMobile) {
+        tocToggle.addEventListener('click', function () {
+            const isOpen = tocMobile.style.display === 'block';
+            tocMobile.style.display = isOpen ? 'none' : 'block';
+            if (tocChevron) tocChevron.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+        });
+    }
+
+    // ===========================================
     // = PRINT CURRENT YEAR IN FOOTER
     // ===========================================
     const yearElements = document.querySelectorAll('.current-year');
@@ -377,6 +376,107 @@
         yearElements.forEach(el => {
             el.textContent = currentYear;
         });
+    }
+
+    // ===========================================
+    // = NEWSLETTER (Supabase + EmailJS)
+    // ===========================================
+    const EMAILJS_PUBLIC_KEY = window.EMAILJS_PUBLIC_KEY || '';
+    const EMAILJS_SERVICE_ID = window.EMAILJS_SERVICE_ID || '';
+    const EMAILJS_TEMPLATE_ID = window.EMAILJS_TEMPLATE_ID || '';
+
+    if (typeof emailjs !== 'undefined') {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+    }
+
+    const newsletterInput = document.getElementById('newsletter-email');
+    const newsletterBtn = document.getElementById('newsletter-submit');
+    const newsletterMsg = document.getElementById('newsletter-message');
+
+    let supabaseClient = null;
+    if (window.supabase && window.SUPABASE_URL && window.SUPABASE_ANON_KEY) {
+        supabaseClient = window.supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY);
+    }
+
+    function setNewsletterMessage(text, type) {
+        if (!newsletterMsg) return;
+        newsletterMsg.textContent = text;
+        newsletterMsg.className = 'newsletter-message';
+        if (type) newsletterMsg.classList.add('is-' + type);
+        newsletterMsg.hidden = false;
+    }
+
+    function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    async function subscribeNewsletter() {
+        const email = newsletterInput?.value.trim();
+
+        if (!validateEmail(email)) {
+            setNewsletterMessage('Inserisci un indirizzo email valido.', 'error');
+            return;
+        }
+
+        if (!supabaseClient) {
+            setNewsletterMessage('Servizio non configurato. Riprova più tardi.', 'error');
+            return;
+        }
+
+        newsletterBtn.disabled = true;
+        newsletterInput.disabled = true;
+        newsletterBtn.classList.add('is-loading');
+        newsletterMsg.hidden = true;
+
+        try {
+            // 1. INSERT via Supabase JS client
+            const { data, error } = await supabaseClient
+                .from('subscribers')
+                .insert({ email })
+                .select('unsubscribe_token')
+                .single();
+
+            if (error) {
+                if (error.code === '23505') {
+                    setNewsletterMessage('Sei già iscritto alla newsletter.', 'error');
+                    return;
+                }
+                console.error('Supabase error:', error);
+                setNewsletterMessage('Errore durante l\'iscrizione. Riprova più tardi.', 'error');
+                return;
+            }
+
+            const token = data?.unsubscribe_token;
+            const baseUrl = window.location.origin;
+            const unsubscribeUrl = baseUrl + '/unsubscribe/?token=' + token;
+            const date = new Date().toLocaleDateString('it-IT', {
+                year: 'numeric', month: 'long', day: 'numeric'
+            });
+
+            // 2. Email di conferma via EmailJS
+            if (typeof emailjs !== 'undefined') {
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                    email,
+                    date,
+                    unsubscribe_url: unsubscribeUrl
+                });
+            }
+
+            setNewsletterMessage('Grazie per esserti iscritto! Riceverai i prossimi aggiornamenti.', 'success');
+            newsletterInput.value = '';
+
+        } catch (err) {
+            console.error('Newsletter error:', err);
+            setNewsletterMessage('Errore durante l\'iscrizione. Riprova più tardi.', 'error');
+        } finally {
+            newsletterBtn.disabled = false;
+            newsletterInput.disabled = false;
+            newsletterBtn.classList.remove('is-loading');
+        }
+    }
+
+    if (newsletterBtn) {
+        newsletterBtn.addEventListener('click', subscribeNewsletter);
     }
 
     console.log('✨ dino-996 blog loaded successfully!');
