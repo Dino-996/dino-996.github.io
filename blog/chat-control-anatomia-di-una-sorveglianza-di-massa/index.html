@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Chat Control: anatomia di una sorveglianza di massa europea · dino-996 blog
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="La sorveglianza preventiva UE. Un&amp;#39;architettura &amp;quot;Surveillance by Design&amp;quot; che scardina la nostra privacy prima ancora della crittografia." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/chat-control-anatomia-di-una-sorveglianza-di-massa/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/chat-control-anatomia-di-una-sorveglianza-di-massa/" />
+
+<meta property="og:title" content="Chat Control: anatomia di una sorveglianza di massa europea" />
+<meta property="og:description" content="La sorveglianza preventiva UE. Un&amp;#39;architettura &amp;quot;Surveillance by Design&amp;quot; che scardina la nostra privacy prima ancora della crittografia." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1783725911/Chat_Control_SDK_Inizialization_2cb3607649.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/chat-control-anatomia-di-una-sorveglianza-di-massa/" />
+
+<meta name="twitter:title" content="Chat Control: anatomia di una sorveglianza di massa europea" />
+<meta name="twitter:description" content="La sorveglianza preventiva UE. Un&amp;#39;architettura &amp;quot;Surveillance by Design&amp;quot; che scardina la nostra privacy prima ancora della crittografia." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1783725911/Chat_Control_SDK_Inizialization_2cb3607649.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Bootstrap icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+    
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img src="/assets/img/avatar/dino-996-32.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;">
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
+          <div class="theme-toggle" role="group" aria-label="Toggle tema">
+            <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-sun"></i>
+            </button>
+            <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-moon"></i>
+            </button>
+            <div class="theme-toggle-slider"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+    <main class="container my-5 flex-grow-1">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1783725911/Chat_Control_SDK_Inizialization_2cb3607649.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781251320/dino_avatar_81b48107e0.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
+          <time datetime="2026-07-09T00:00:00.000Z">
+            <i class="bi bi-calendar3 me-1"></i>09 luglio 2026
+          </time>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-07-11T13:24:16.000Z">
+                <i class="bi bi-pencil me-1"></i>11 luglio 2026
+              </time>
+            </span>
+          
+        </div>
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fchat-control-anatomia-di-una-sorveglianza-di-massa%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Chat%20Control%3A%20anatomia%20di%20una%20sorveglianza%20di%20massa%20europea&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fchat-control-anatomia-di-una-sorveglianza-di-massa%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fchat-control-anatomia-di-una-sorveglianza-di-massa%2F&title=Chat%20Control%3A%20anatomia%20di%20una%20sorveglianza%20di%20massa%20europea"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Fchat-control-anatomia-di-una-sorveglianza-di-massa%2F&t=Chat%20Control%3A%20anatomia%20di%20una%20sorveglianza%20di%20massa%20europea"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
+          
+          
+          
+            
+            
+              <a href="/tags/chatcontrol/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                chatcontrol
+              </a>
+            
+          
+            
+            
+              <a href="/tags/privacy/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                privacy
+              </a>
+            
+          
+            
+            
+              <a href="/tags/e2ee/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                E2EE
+              </a>
+            
+          
+            
+            
+              <a href="/tags/cybersecurity/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                cybersecurity
+              </a>
+            
+          
+        </div>
+      </div>
+      </div>
+    </div>
+  </aside>
+
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Chat Control: anatomia di una sorveglianza di massa europea</h1>
+
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781251320/dino_avatar_81b48107e0.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2026-07-09T00:00:00.000Z">09 luglio 2026</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/chatcontrol/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              chatcontrol
+            </a>
+          
+        
+          
+          
+            <a href="/tags/privacy/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              privacy
+            </a>
+          
+        
+          
+          
+            <a href="/tags/e2ee/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              E2EE
+            </a>
+          
+        
+          
+          
+            <a href="/tags/cybersecurity/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              cybersecurity
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">La normativa europea sulla privacy delle comunicazioni elettroniche (ePrivacy) e il Codice europeo delle comunicazioni elettroniche (CCEE) hanno creato un conflitto con le scansioni volontarie dei contenuti da parte dei provider per rilevare materiale pedopornografico, aprendo la strada a una deroga europea temporanea. Il Regolamento (UE) 2021/1232 ha introdotto questa deroga, permettendo ai provider di NI-ICS di implementare tecnologie di scansione volontaria per identificare e segnalare contenuti illeciti.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1783725911/Chat_Control_SDK_Inizialization_2cb3607649.png"
+             alt="Immagine generata con IA"
+             class="img-fluid rounded w-100"
+             width="800" height="420" fetchpriority="high"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Immagine generata con IA</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h2 id="dalla-collisione-normativa-al-voto-del-9-luglio-2026-ricostruzione-controversie-prospettive"><a class="header-anchor" href="#dalla-collisione-normativa-al-voto-del-9-luglio-2026-ricostruzione-controversie-prospettive"><i class="bi bi-link-45deg"></i></a> Dalla collisione normativa al voto del 9 luglio 2026: ricostruzione, controversie, prospettive</h2>
+<h3 id="la-collisione-normativa"><a class="header-anchor" href="#la-collisione-normativa"><i class="bi bi-link-45deg"></i></a> La collisione normativa</h3>
+<p>Per comprendere la genesi di Chat Control, occorre muovere dalla <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32002L0058" target="_blank" rel="noopener noreferer"><strong>Direttiva 2002/58/CE</strong></a> (cosiddetta <em>ePrivacy</em>), che stabilisce il principio fondamentale della segretezza della corrispondenza nell'ambito dei servizi di comunicazione elettronica. L'articolo 5(1) vieta la memorizzazione e l'intercettazione di comunicazioni e dati sul traffico senza il consenso dell'utente, salvo le eccezioni tassative previste all'articolo 15(1) per la prevenzione, indagine e perseguimento di reati.</p>
+<p>Parallelamente, il <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32018L1972" target="_blank" rel="noopener noreferer"><strong>Codice europeo delle comunicazioni elettroniche (CCEE)</strong></a> (direttiva 2018/1972) ha riclassificato i servizi OTT (over-the-top) come WhatsApp, Gmail e Facebook Messenger come <em>servizi di comunicazione interpersonale indipendenti dal numero</em> (NI-ICS), estendendo loro l'applicazione della direttiva ePrivacy. Questo ha creato un contrasto normativo: da un lato la ePrivacy imponeva la riservatezza delle comunicazioni, dall'altro i provider americani (Google, Meta, Microsoft) conducevano già da anni scansioni volontarie dei contenuti sui propri server per rilevare CSAM (Child Sexual Abuse Material), utilizzando tecnologie come <a href="https://www.microsoft.com/en-us/photodna" target="_blank" rel="noopener noreferer"><strong>PhotoDNA</strong></a> (Microsoft, sviluppato nel 2009 in collaborazione con Dartmouth College e NCMEC) e l'analisi automatica dei testi tramite classificatori AI.</p>
+<p>Queste scansioni volontarie operavano in una zona grigia del diritto europeo a partire dal 21 dicembre 2020, termine ultimo per il recepimento del CCEE. I provider non potevano più invocare il GDPR come base giuridica per le scansioni, ma gli Stati membri, salvo rare eccezioni, non avevano adottato le misure legislative nazionali previste dall'articolo 15(1) della ePrivacy per autorizzarle. Era il preludio alla necessità di una deroga europea. Come documentato dall'analisi giuridica della Commissione <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=SWD%3A2022%3A208%3AFIN" target="_blank" rel="noopener noreferer">SWD(2022) 208</a>, il contrasto tra il CCEE e la prassi delle scansioni volontarie rendeva inevitabile un intervento normativo. I dati della <a href="https://www.missingkids.org/cybertiplinedata" target="_blank" rel="noopener noreferer">CyberTipline NCMEC</a> mostrano l'enorme volume di segnalazioni su cui si innesta il dibattito.</p>
+<h3 id="chat-control-10-la-deroga-temporanea-reg-20211232"><a class="header-anchor" href="#chat-control-10-la-deroga-temporanea-reg-20211232"><i class="bi bi-link-45deg"></i></a> Chat Control 1.0: la deroga temporanea (reg. 2021/1232)</h3>
+<p>Il <strong>Regolamento (UE) 2021/1232</strong> (già informalmente noto come Chat Control 1.0) è stato il primo tentativo di risolvere il vuoto normativo. Adottato con procedura d'urgenza in piena pandemia, ha introdotto una <strong>deroga temporanea</strong> agli articoli 5(1) e 6(1) della direttiva ePrivacy, consentendo ai provider di servizi NI-ICS di utilizzare tecnologie di scansione su base volontaria per rilevare e rimuovere CSAM e segnalarlo alle autorità e alle organizzazioni che operano nell'interesse pubblico contro l'abuso sessuale sui minori (come NCMEC, Europol e le hotline nazionali).</p>
+<h3 id="caratteristiche-tecniche-e-giuridiche"><a class="header-anchor" href="#caratteristiche-tecniche-e-giuridiche"><i class="bi bi-link-45deg"></i></a> Caratteristiche tecniche e giuridiche</h3>
+<ul>
+<li>
+<p><strong>Volontarietà</strong>: il regolamento non impone scansioni obbligatorie, ma rimuove l'ostacolo giuridico per chi sceglie di effettuarle.</p>
+</li>
+<li>
+<p><strong>Server-side</strong>: l'analisi avviene sui server centrali dei provider, non sui dispositivi degli utenti. Le tecnologie utilizzate includono hashing percettivo per immagini/video (tipo PhotoDNA) e classificatori AI per analisi testuale.</p>
+</li>
+<li>
+<p><strong>Esclusione dei servizi E2EE</strong>: tecnicamente, i servizi protetti da crittografia end-to-end non sono coinvolti, poiché il server non può accedere al contenuto in chiaro.</p>
+</li>
+<li>
+<p><strong>Scadenza</strong>: il regolamento era in vigore dal 4 agosto 2021 e scadeva inizialmente il 3 agosto 2024, prorogato poi al 3 aprile 2026.</p>
+</li>
+</ul>
+<h3 id="il-paradosso-della-deroga"><a class="header-anchor" href="#il-paradosso-della-deroga"><i class="bi bi-link-45deg"></i></a> Il paradosso della deroga</h3>
+<p>Chat Control 1.0 nasceva già zoppo: era una soluzione temporanea in attesa di un quadro permanente (la proposta 2022/0155, poi nota come Chat Control 2.0), ma ha finito per durare quasi cinque anni. I critici notano che la sua esistenza ha paradossalmente <em>rallentato</em> i negoziati sulla legge definitiva, perché il Consiglio poteva contare su uno status quo funzionante.</p>
+<p>Il testo integrale del <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32021R1232" target="_blank" rel="noopener noreferer"><strong>Regolamento (UE) 2021/1232</strong></a> e la <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=COM%3A2023%3A754%3AFIN" target="_blank" rel="noopener noreferer"><strong>proposta di proroga COM(2023) 754</strong></a> sono disponibili su EUR-Lex. Per una cronaca dell'iter legislativo si veda l'analisi di <a href="https://www.eumonitor.eu/9353000/1/j9vvik7m1c3gyxp/vmcegtxsmuz1" target="_blank" rel="noopener noreferer"><strong>EU Monitor</strong></a>.</p>
+<h3 id="chat-control-20-la-proposta-permanente-com-20220155"><a class="header-anchor" href="#chat-control-20-la-proposta-permanente-com-20220155"><i class="bi bi-link-45deg"></i></a> Chat Control 2.0: la proposta permanente (COM 2022/0155)</h3>
+<p>L'11 maggio 2022 la Commissione Europea ha pubblicato la proposta di <strong>Regolamento per prevenire e combattere l'abuso sessuale su minori</strong> (COM(2022) 209 final). Se Chat Control 1.0 derogava dalla ePrivacy in via temporanea, la 2.0 intendeva istituire un quadro permanente, introducendo due innovazioni radicali:</p>
+<ol>
+<li>
+<p><strong>Detection orders (ordini di rilevamento)</strong>: un'autorità giudiziaria nazionale avrebbe potuto ordinare a un provider di attivare la scansione di specifici servizi di comunicazione se sussiste un rischio concreto di diffusione di CSAM.</p>
+</li>
+<li>
+<p><strong>Client-Side Scanning (CSS)</strong>: per aggirare la crittografia end-to-end, la scansione sarebbe dovuta avvenire <em>sul dispositivo dell'utente</em>, prima della cifratura e dell'invio.</p>
+</li>
+</ol>
+<p>La proposta prevedeva anche l'istituzione di un <strong>Centro UE per la lotta all'abuso sessuale su minori</strong> (EU Centre) che avrebbe mantenuto il database degli hash, gestito le segnalazioni e coordinato le attività tra Stati membri.</p>
+<h3 id="lopposizione-della-comunita-scientifica"><a class="header-anchor" href="#lopposizione-della-comunita-scientifica"><i class="bi bi-link-45deg"></i></a> L'opposizione della comunità scientifica</h3>
+<p>La proposta ha scatenato una reazione senza precedenti nel mondo accademico e tecnico:</p>
+<ul>
+<li>
+<p><strong>Open letter di oltre 800 ricercatori</strong> (coordinata da Carmela Troncoso, EPFL, e Bart Preneel, KU Leuven) che ha definito il CSS tecnicamente impraticabile.</p>
+</li>
+<li>
+<p><strong>EDPB-EDPS Joint Opinion 4/2022</strong>: le due autorità europee per la protezione dei dati hanno concluso che la proposta <em>&quot;non dimostra che le misure proposte siano necessarie e proporzionate&quot;</em>, e che il CSS <em>&quot;minerebbe la fiducia nelle comunicazioni elettroniche&quot;</em>.</p>
+</li>
+<li>
+<p><strong>Internet Architecture Board (IAB)</strong>: massimo organo tecnico di standardizzazione di Internet, ha dichiarato nel dicembre 2023 che il CSS obbligatorio <em>&quot;non ha modo tecnico per limitare l'ambito e l'intento delle scansioni&quot;</em> e <em>&quot;crea uno strumento facilmente abusabile come facilitatore di sorveglianza e censura&quot;</em>.</p>
+</li>
+<li>
+<p><strong>EDPS Opinion 8/2024</strong>: il Garante Europeo ha ribadito che le tecnologie attuali di hashing percettivo <em>&quot;non sono sufficientemente accurate&quot;</em> e generano falsi positivi a livelli inaccettabili.</p>
+</li>
+</ul>
+<h3 id="il-conflitto-con-la-giurisprudenza-della-cgue"><a class="header-anchor" href="#il-conflitto-con-la-giurisprudenza-della-cgue"><i class="bi bi-link-45deg"></i></a> Il conflitto con la giurisprudenza della CGUE</h3>
+<p>Giuristi e accademici hanno sottolineato l'incompatibilità del CSS con la costante giurisprudenza della Corte di Giustizia:</p>
+<ul>
+<li>
+<p><strong>Digital Rights Ireland (C-293/12, 2014)</strong>: la Corte annullò la direttiva 2006/24/CE sulla conservazione dei dati perché imponeva un'obbligazione generalizzata e indiscriminata in violazione degli articoli 7 e 8 della Carta dei diritti fondamentali.</p>
+</li>
+<li>
+<p><strong>Tele2 Sverige / Watson (C-203/15, 2016)</strong>: estensione della stessa logica alle legislazioni nazionali.</p>
+</li>
+<li>
+<p><strong>La Quadrature du Net (C-511/18, 2020)</strong>: la conservazione generalizzata e indiscriminata è illegittima salvo minacce gravi alla sicurezza nazionale. Per i reati comuni, solo misure mirate sono consentite.</p>
+</li>
+<li>
+<p><strong>Privacy International (C-623/17, 2020)</strong>: anche la trasmissione generalizzata dei dati viola il diritto UE.</p>
+</li>
+</ul>
+<p>Il CSS, che scandirebbe <em>preventivamente</em> tutte le comunicazioni private di ogni cittadino, si scontra direttamente con il principio di proporzionalità sancito da queste sentenze.</p>
+<p>La <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A52022PC0209" target="_blank" rel="noopener noreferer"><strong>proposta originale COM(2022) 209</strong></a> è disponibile su EUR-Lex. Il parere congiunto <a href="https://edpb.europa.eu/our-work-tools/our-documents/edpbedps-joint-opinion/edpb-edps-joint-opinion-042022-proposal_en" target="_blank" rel="noopener noreferer"><strong>EDPB-EDPS 4/2022</strong></a> e il successivo <a href="https://edps.europa.eu/data-protection/our-work/publications/opinions/opinion-82024-chat-control_en" target="_blank" rel="noopener noreferer"><strong>EDPS Opinion 8/2024</strong></a> hanno dichiarato le misure proposte sproporzionate. La <a href="https://drive.proton.me/urls/N5V9SNR3V4#FhPqs2m9XEqG" target="_blank" rel="noopener noreferer"><strong>lettera aperta di 800+ ricercatori</strong></a> (coordinata da Troncoso e Preneel) e la <a href="https://datatracker.ietf.org/doc/statement-iab-statement-on-encryption-and-mandatory-client-side-scanning-of-content/" target="_blank" rel="noopener noreferer"><strong>dichiarazione IAB</strong></a> hanno definito il CSS tecnicamente insostenibile. Per la giurisprudenza della Corte, si vedano <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A62012CJ0293" target="_blank" rel="noopener noreferer"><strong>Digital Rights Ireland (C-293/12)</strong></a> e <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX%3A62018CJ0511_RES" target="_blank" rel="noopener noreferer"><strong>La Quadrature du Net (C-511/18)</strong></a>. Sul fronte della ricerca applicata, il <a href="https://rephrain.ac.uk/" target="_blank" rel="noopener noreferer"><strong>REPHRAIN Centre</strong></a> ha pubblicato studi sul tasso di errore degli algoritmi di scansione. L'<a href="https://www.internetsociety.org/issues/encryption/client-side-scanning/" target="_blank" rel="noopener noreferer"><strong>Internet Society</strong></a> ha definito il CSS un rischio per la sicurezza e la privacy a livello sistemico.</p>
+<h3 id="apple-e-google-le-posizioni-sul-client-side-scanning"><a class="header-anchor" href="#apple-e-google-le-posizioni-sul-client-side-scanning"><i class="bi bi-link-45deg"></i></a> Apple e Google: le posizioni sul Client-Side Scanning</h3>
+<p>Le posizioni dei due dominatori dei sistemi operativi mobili, Apple (iOS) e Google (Android), sono complesse e rivelano le tensioni strutturali dei rispettivi ecosistemi. Sebbene oggi entrambe le aziende convergano nel rifiutare mandati governativi che obblighino a inserire backdoor nei dispositivi o a indebolire la crittografia, le loro traiettorie storiche e le pratiche operative presentano divergenze importanti.</p>
+<h3 id="apple-dal-passo-falso-del-2021-alla-linea-dura"><a class="header-anchor" href="#apple-dal-passo-falso-del-2021-alla-linea-dura"><i class="bi bi-link-45deg"></i></a> Apple: dal passo falso del 2021 alla linea dura</h3>
+<p>Nell'agosto del 2021, Apple annunciò l'intenzione di introdurre un sistema di <strong>Client-Side Scanning</strong> chiamato <strong>NeuralHash</strong>: un database di hash di CSAM fornito dal NCMEC sarebbe stato caricato sui dispositivi degli utenti, e prima dell'upload su iCloud il dispositivo avrebbe confrontato ogni foto con quel database, generando un &quot;voucher crittografico&quot; cifrato. Solo al superamento di una soglia (threshold secret sharing) Apple avrebbe potuto decifrare i voucher e, dopo revisione manuale, segnalare l'utente alle autorità. L'azienda pubblicizzò il sistema come una rivoluzione privacy-preserving, con un tasso di falsi positivi dichiarato di &quot;uno su un trilione&quot;.</p>
+<p>La reazione della comunità tecnica fu immediata e durissima. Entro due settimane dall'annuncio, ricercatori indipendenti dimostrarono attacchi di <strong>hash collision</strong> e <strong>model extraction</strong> contro NeuralHash. Più di 90 organizzazioni della società civile firmarono un appello definendo il sistema <em>&quot;capacità di sorveglianza&quot;</em>. La EFF raccolse oltre 60.000 firme di utenti contrari.</p>
+<p>Nel dicembre 2022 Apple <strong>cancellò ufficialmente il progetto</strong>. In una dichiarazione a Wired, affermò che i bambini possono essere protetti senza che le aziende debbano analizzare i dati personali degli utenti, e che aveva scelto di non procedere con lo strumento di rilevamento CSAM per iCloud.</p>
+<p>Da quel momento Apple ha blindato la sua posizione, opponendosi a qualsiasi proposta, sia Chat Control nell'UE sia l'Online Safety Act nel Regno Unito, che richieda scansioni lato client. Ha dichiarato di essere disposta a <strong>spegnere iMessage e FaceTime</strong> nei mercati in cui venissero imposti obblighi di decifrazione.</p>
+<h3 id="google-server-side-si-client-side-no"><a class="header-anchor" href="#google-server-side-si-client-side-no"><i class="bi bi-link-45deg"></i></a> Google: server-side sì, client-side no</h3>
+<p>Google è storicamente uno dei soggetti più attivi nel rilevamento automatizzato di CSAM su tutti i servizi non protetti da E2EE (Gmail, Google Photos, Google Drive). Di conseguenza, appoggia pienamente le deroghe previste da Chat Control 1.0 per la scansione volontaria lato server.</p>
+<p>Sul lato client, la posizione cambia. Google ha più volte ribadito pubblicamente (2025) di non aver mai costruito meccanismi o backdoor per aggirare la crittografia end-to-end nei propri prodotti, sottolineando che un prodotto dichiarato E2EE lo è effettivamente.</p>
+<p>Google si è allineata al consenso dell'industria della cybersecurity contro l'obbligatorietà del CSS, firmando lettere aperte insieme a oltre 40 aziende europee (2024) e avvertendo che obbligare a scansioni lato client per aggirare E2EE distruggerebbe l'integrità dei sistemi operativi.</p>
+<p>Sull'annuncio di NeuralHash e la conseguente reazione della comunità tecnica si veda <a href="https://arstechnica.com/tech-policy/2021/08/apple-explains-how-iphones-will-scan-photos-for-child-sexual-abuse-images/" target="_blank" rel="noopener noreferer"><strong>Ars Technica</strong></a> (agosto 2021). La retromarcia di Apple è stata documentata da <a href="https://www.wired.com/story/apple-photo-scanning-csam-communication-safety-messages/" target="_blank" rel="noopener noreferer"><strong>Wired</strong></a> e celebrata dalla <a href="https://www.eff.org/deeplinks/2022/12/victory-apple-commits-encrypting-icloud-and-drops-phone-scanning-plans" target="_blank" rel="noopener noreferer"><strong>EFF</strong></a> (dicembre 2022). La successiva adesione di Apple al fronte critico verso le scansioni obbligatorie è stata riportata dalla <a href="https://www.bbc.com/news/technology-66028773" target="_blank" rel="noopener noreferer"><strong>BBC</strong></a> (giugno 2023). Sul lato Google, si vedano le dichiarazioni raccolte da <a href="https://techcrunch.com/2025/07/29/google-says-uk-government-not-demanded-encryption-backdoor-for-its-users-data/" target="_blank" rel="noopener noreferer"><strong>TechCrunch</strong></a> e le preoccupazioni sul SafetyCore documentate sempre da <a href="https://techcrunch.com/2024/05/15/googles-call-scanning-ai-could-dial-up-censorship-by-default-privacy-experts-warn/" target="_blank" rel="noopener noreferer"><strong>TechCrunch</strong></a> (maggio 2024). La lettera aperta congiunta delle aziende tech è stata analizzata da <a href="https://www.computerweekly.com/news/366567052/Chat-control-Tech-companies-warn-ministers-over-EU-encryption-plans" target="_blank" rel="noopener noreferer"><strong>Computer Weekly</strong></a>. Per un'analisi crittografica approfondita si rimanda al blog di <a href="https://blog.cryptographyengineering.com/2023/03/23/remarks-on-chat-control/" target="_blank" rel="noopener noreferer"><strong>Matthew Green (Johns Hopkins)</strong></a>.</p>
+<h3 id="il-rischio-sistemico-del-client-side-scanning"><a class="header-anchor" href="#il-rischio-sistemico-del-client-side-scanning"><i class="bi bi-link-45deg"></i></a> Il rischio sistemico del Client-Side Scanning</h3>
+<p>Dal punto di vista ingegneristico e della sicurezza informatica, l'implementazione del CSS solleva interrogativi complessi sull'architettura del software e sulla gestione della superficie di attacco.</p>
+<h3 id="di-chi-sarebbe-lonere"><a class="header-anchor" href="#di-chi-sarebbe-lonere"><i class="bi bi-link-45deg"></i></a> Di chi sarebbe l'onere?</h3>
+<p>L'obbligo legale tramite Detection Orders viene emesso nei confronti dei <strong>fornitori dei servizi di comunicazione</strong>. L'integrazione tecnica non avverrebbe tramite malware nascosto, ma tramite codice integrato direttamente nell'applicazione legittima. Gli sviluppatori sarebbero costretti a compilare un <strong>SDK di scansione</strong> (fornito da entità come Thorn o Europol) nell'eseguibile dell'app e ad agganciare le API interne di gestione dei media, intercettando i dati dopo la selezione ma prima della cifratura E2EE.</p>
+<p>Un'integrazione puramente a livello di applicazione presenta limiti di efficienza. Per questo, i sostenitori della legge auspicano API di sistema a livello di framework, simili a quelle tentate da Apple nel 2021.</p>
+<h3 id="impatto-sulla-sicurezza"><a class="header-anchor" href="#impatto-sulla-sicurezza"><i class="bi bi-link-45deg"></i></a> Impatto sulla sicurezza</h3>
+<p>Il consenso unanime tra crittografi conferma che il CSS <strong>aumenterebbe drasticamente la superficie di attacco</strong>. Il paper <em>&quot;Bugs in Our Pockets: The Risks of Client-Side Scanning&quot;</em> (Abelson, Anderson, Bellovin, Benaloh, Blaze, Diffie, Rivest, Schneier, Troncoso et al., 2021) analizza:</p>
+<ul>
+<li>
+<p><strong>Supply chain attacks</strong>: le librerie di scansione centralizzate diventano bersaglio primario per APT e broker di exploit. Compromettere l'SDK significa compromettere milioni di endpoint, con un parallelo evidente rispetto all'attacco SolarWinds.</p>
+</li>
+<li>
+<p><strong>Avvelenamento del database</strong>: chi controlla la blacklist degli hash può inserire hash di documenti politici per censura o incastro. La EFF ha più volte sottolineato l'impossibilità pratica di costruire un sistema di scansione lato client limitabile al solo CSAM.</p>
+</li>
+<li>
+<p><strong>Collisioni di hash</strong>: uno studio della KU Leuven (Leblanc-Albarel e Preneel, 2024) ha dimostrato collisioni su NeuralHash dopo appena 2¹⁶ valutazioni e su PhotoDNA dopo 2^14,6 operazioni, ben al di sotto delle garanzie teoriche.</p>
+</li>
+</ul>
+<p>Il principio del <strong>privilegio minimo</strong> viene violato, trasformando applicazioni sicure in vettori di vulnerabilità strutturale.</p>
+<p>L'analisi di riferimento è il paper <a href="https://arxiv.org/pdf/2110.07450v1" target="_blank" rel="noopener noreferer"><strong>&quot;Bugs in Our Pockets: The Risks of Client-Side Scanning&quot;</strong></a> (Abelson, Anderson, Bellovin, Benaloh, Blaze, Diffie, Rivest, Schneier, Troncoso et al., 2021, pubblicato sul Journal of Cybersecurity 2024; disponibile in accesso libero su arXiv e sul sito del MIT). Sulle collisioni di hash si vedano lo studio della <a href="https://eprint.iacr.org/2024/1869" target="_blank" rel="noopener noreferer"><strong>KU Leuven</strong></a> (Leblanc-Albarel e Preneel, 2024) e il paper di <a href="https://www.usenix.org/system/files/usenixsecurity23-prokos.pdf" target="_blank" rel="noopener noreferer"><strong>Prokos et al. (USENIX Security 2023)</strong></a>. La <a href="https://www.eff.org/deeplinks/2019/11/why-adding-client-side-scanning-breaks-end-end-encryption" target="_blank" rel="noopener noreferer"><strong>EFF</strong></a> ha dimostrato l'impossibilità di limitare il CSS al solo CSAM. Per l'inquadramento giuridico si veda l'analisi di <a href="https://digitalcommons.wcl.american.edu/cgi/viewcontent.cgi?article=1060&amp;context=research" target="_blank" rel="noopener noreferer"><strong>Rosenzweig</strong></a>.</p>
+<h3 id="chi-installerebbe-cosa-lonere-tra-provider-dellapp-e-produttore-del-sistema-operativo"><a class="header-anchor" href="#chi-installerebbe-cosa-lonere-tra-provider-dellapp-e-produttore-del-sistema-operativo"><i class="bi bi-link-45deg"></i></a> Chi installerebbe cosa: l'onere tra provider dell'app e produttore del sistema operativo</h3>
+<p>Questo è il punto su cui la copertura giornalistica generalista si ferma troppo presto, e che invece determina come il meccanismo arriverebbe concretamente sui dispositivi di centinaia di milioni di utenti.</p>
+<h3 id="il-destinatario-giuridico-dellobbligo"><a class="header-anchor" href="#il-destinatario-giuridico-dellobbligo"><i class="bi bi-link-45deg"></i></a> Il destinatario giuridico dell'obbligo</h3>
+<p>Il testo del regolamento CSAR indirizza gli obblighi di rilevamento (detection order) ai <strong>&quot;fornitori di servizi di hosting o di comunicazione interpersonale&quot;</strong>, definizione che ricalca quella già usata dal Codice europeo delle comunicazioni elettroniche per individuare i servizi NI-ICS. In termini pratici, il destinatario dell'ordine è <strong>chi gestisce il servizio di messaggistica</strong>: Meta per WhatsApp, Signal Foundation per Signal, Threema GmbH per Threema, Microsoft per Teams. Apple e Google, in quanto produttori dei sistemi operativi iOS e Android, <strong>non sono automaticamente destinatari</strong> dell'obbligo per le app di terze parti che girano sui loro dispositivi: il regolamento non li qualifica come fornitori del servizio di comunicazione in quel caso, ma come piattaforma sottostante.</p>
+<p>La distinzione cambia quando Apple e Google <strong>sono loro stessi il provider del servizio</strong>: iMessage/FaceTime per Apple, Google Messages/RCS per Google. In quei due casi specifici, l'obbligo ricadrebbe direttamente su di loro, nella loro veste di fornitori di comunicazione interpersonale, esattamente come per Meta o Signal Foundation.</p>
+<h3 id="come-si-tradurrebbe-tecnicamente-per-unapp-di-terze-parti"><a class="header-anchor" href="#come-si-tradurrebbe-tecnicamente-per-unapp-di-terze-parti"><i class="bi bi-link-45deg"></i></a> Come si tradurrebbe tecnicamente per un'app di terze parti</h3>
+<p>Per un'app come WhatsApp o Signal, l'onere implementativo ricadrebbe sul provider dell'app, non sul sistema operativo. In pratica, il meccanismo di rilevamento dovrebbe essere <strong>compilato ed eseguito all'interno del binario dell'app stessa</strong>: una libreria (SDK) che si aggancia alle API di sistema di accesso a fotocamera, galleria e appunti nel momento in cui l'utente seleziona un contenuto da inviare, lo confronta con un database di hash o lo passa a un classificatore AI, e solo dopo lo cifra e lo invia. Il sistema operativo fornisce le API generiche già esistenti per accedere a foto e file (le stesse che ogni app usa normalmente): non fornirebbe, in questo scenario, un hook dedicato alla scansione, perché il regolamento non può imporre ad Apple o Google di costruire un'infrastruttura di sorveglianza per servizi di terzi di cui non sono il fornitore.</p>
+<p>Questo significa, concretamente, che ogni provider di messaggistica dovrebbe scrivere, testare e mantenere la propria implementazione del rilevamento, integrata nel proprio codice applicativo. Non esisterebbe un &quot;modulo di scansione di sistema&quot; condiviso e uniforme: esisterebbero tante implementazioni quante sono le app soggette a un ordine di rilevamento, ciascuna con la propria superficie di attacco, i propri bug e le proprie modalità di aggiornamento del database degli hash.</p>
+<h3 id="il-precedente-che-dimostra-la-fattibilita-e-i-limiti-del-livello-os"><a class="header-anchor" href="#il-precedente-che-dimostra-la-fattibilita-e-i-limiti-del-livello-os"><i class="bi bi-link-45deg"></i></a> Il precedente che dimostra la fattibilità (e i limiti) del livello OS</h3>
+<p>Il caso NeuralHash di Apple, descritto nel paragrafo precedente, resta l'unico esempio reale di scansione lato client costruita a livello di sistema operativo/servizio cloud proprietario, ed è istruttivo proprio perché dimostra il limite di questa strada: Apple ha potuto integrare NeuralHash in iOS solo perché il servizio coinvolto, iCloud, è di Apple stessa. Non è un precedente di un obbligo imposto dall'esterno su un produttore di OS per servizi altrui, ma un caso di un'azienda che ha implementato la scansione sul proprio sistema operativo per il proprio servizio, salvo poi abbandonare il progetto sotto la pressione della comunità tecnica.</p>
+<h3 id="il-ruolo-indiretto-degli-app-store"><a class="header-anchor" href="#il-ruolo-indiretto-degli-app-store"><i class="bi bi-link-45deg"></i></a> Il ruolo indiretto degli app store</h3>
+<p>Dove Apple e Google entrerebbero in gioco è come <strong>gatekeeper della distribuzione</strong>, non come esecutori tecnici della scansione. Le bozze discusse nel corso dei triloghi hanno più volte previsto obblighi di verifica della conformità in capo agli app store: in questo scenario, App Store e Google Play potrebbero essere chiamati a verificare che un'app soggetta a un ordine di rilevamento implementi effettivamente il meccanismo richiesto prima di autorizzarne la pubblicazione o l'aggiornamento nell'UE, secondo una logica simile a quella già in vigore per gli obblighi di compliance previsti dal Digital Services Act. Anche in questa ipotesi, però, il codice di scansione resterebbe scritto e mantenuto dal provider dell'app, non dal produttore del sistema operativo.</p>
+<h3 id="perche-non-serve-installare-un-malware-in-senso-classico"><a class="header-anchor" href="#perche-non-serve-installare-un-malware-in-senso-classico"><i class="bi bi-link-45deg"></i></a> Perché non serve &quot;installare un malware&quot; in senso classico</h3>
+<p>Un punto spesso frainteso nel dibattito pubblico: il meccanismo non arriverebbe come un software malevolo iniettato di nascosto, ma come un <strong>normale aggiornamento dell'app</strong>, distribuito attraverso i canali ufficiali (App Store, Google Play), con tanto di changelog e consenso implicito all'installazione dell'update. Non servirebbe alcun jailbreak, alcuna vulnerabilità sfruttata, alcun meccanismo di installazione occulto: la funzione di rilevamento sarebbe parte integrante e dichiarata del codice dell'app, resa disponibile a tutti gli utenti europei con il primo aggiornamento successivo all'entrata in vigore dell'ordine di rilevamento. È proprio questa normalità del canale di distribuzione, e non un qualche exploit, a rendere il meccanismo difficile da individuare e da rifiutare per l'utente medio: chi analizza il traffico di rete o il comportamento dell'app può accorgersene, ma la stragrande maggioranza degli utenti si limiterebbe a premere &quot;aggiorna&quot; senza sapere cosa sta effettivamente cambiando nel proprio dispositivo. Il paper Abelson et al. già citato osserva che è proprio l'integrazione nel processo applicativo legittimo, con gli stessi privilegi e la stessa fiducia dell'app originale, a rendere il meccanismo di rilevamento un bersaglio di supply chain attack particolarmente attraente: compromettere l'SDK di scansione o il database di hash a monte, presso il fornitore dell'SDK stesso (che sia Thorn, Europol o un altro soggetto terzo), significherebbe compromettere contemporaneamente tutte le app che lo integrano.</p>
+<h3 id="perche-un-sistema-operativo-hardened-da-solo-non-risolve-il-problema"><a class="header-anchor" href="#perche-un-sistema-operativo-hardened-da-solo-non-risolve-il-problema"><i class="bi bi-link-45deg"></i></a> Perché un sistema operativo hardened, da solo, non risolve il problema</h3>
+<p>Una domanda tecnica che sorge spontanea riguarda i sistemi operativi orientati alla privacy, come <strong>GrapheneOS</strong>, spesso indicati come soluzione per sottrarsi alla sorveglianza a livello di dispositivo. La risposta onesta è che, per questo specifico meccanismo, l'hardening del sistema operativo non è sufficiente da solo, e il motivo è coerente con quanto appena descritto: se lo scanning è compilato dentro il binario dell'applicazione di messaggistica, avviene <strong>all'interno del processo dell'app stessa</strong>, con gli stessi permessi che l'app già possiede legittimamente per funzionare, ovvero leggere il testo che l'utente sta digitando o accedere alla foto che l'utente ha scelto di allegare. GrapheneOS irrobustisce il sistema operativo sottostante attraverso sandboxing più severo, permessi granulari (Contact Scopes, Storage Scopes), assenza dei servizi Google non sandboxati, superficie di attacco del kernel ridotta, ma non interviene sul codice interno dell'app installata, che resta libera di elaborare, prima dell'invio, i contenuti che l'utente le ha già consegnato attraverso la normale interfaccia di composizione del messaggio. In altre parole: installare WhatsApp o un'app soggetta a un ordine di rilevamento su GrapheneOS non cambia cosa quell'app fa con il messaggio nel momento in cui l'utente preme &quot;invia&quot;, perché il confine tra &quot;sistema operativo&quot; e &quot;applicazione&quot; non coincide con il confine tra &quot;prima&quot; e &quot;dopo&quot; la cifratura: quel confine passa interamente dentro l'app.</p>
+<p>Ciò che effettivamente sposterebbe l'ago della bilancia sono altri due fattori, entrambi indipendenti dal sistema operativo:</p>
+<ul>
+<li>
+<p><strong>L'auditabilità del codice sorgente</strong>: per un'app open source con build riproducibili (Signal lo è; esistono client alternativi come Molly, distribuiti tramite F-Droid) la comunità tecnica può in teoria verificare se e come un meccanismo di rilevamento è stato integrato, dato che il codice è pubblico e ricompilabile in modo verificabile. Per un'app proprietaria a codice chiuso, questa verifica indipendente non è possibile: ci si deve fidare della dichiarazione del provider.</p>
+</li>
+<li>
+<p><strong>La giurisdizione del fornitore</strong>: il regolamento CSAR può emettere un ordine di rilevamento solo verso un soggetto giuridico identificabile e raggiungibile, cioè il &quot;fornitore del servizio&quot;. Protocolli federati o decentralizzati senza un singolo provider centrale a cui indirizzare l'ordine (Matrix con homeserver auto-ospitati fuori dalla giurisdizione UE, reti peer-to-peer come Briar o Session, che instradano i messaggi senza passare da un server che possa ricevere l'ordine) sfuggono strutturalmente al meccanismo non per una proprietà del sistema operativo su cui girano, ma per l'assenza stessa di un destinatario legale dell'obbligo.</p>
+</li>
+</ul>
+<p>Sul ruolo degli app store nella verifica di conformità normativa si veda, per analogia, la documentazione di Apple sui propri <a href="https://www.apple.com/legal/dsa/" target="_blank" rel="noopener noreferer"><strong>obblighi ai sensi del Digital Services Act</strong></a>, che già oggi prevede meccanismi di verifica e rimozione delle app non conformi. Sull'ambiguità tra scansione integrata nell'app e scansione a livello di sistema operativo si veda l'analisi della <a href="https://www.mpg.de/25788438/chat-control-eu-client-side-scanning" target="_blank" rel="noopener noreferer"><strong>Max Planck Gesellschaft</strong></a>, che osserva esplicitamente come il software di rilevamento potrebbe essere incorporato &quot;nell'app di messaggistica o nel sistema operativo&quot;, lasciando aperta l'ambiguità che questo paragrafo ha cercato di sciogliere.</p>
+<h3 id="controversie-politiche-e-giochi-di-palazzo"><a class="header-anchor" href="#controversie-politiche-e-giochi-di-palazzo"><i class="bi bi-link-45deg"></i></a> Controversie politiche e giochi di palazzo</h3>
+<h3 id="la-campagna-di-microtargeting-di-ylva-johansson-dg-home"><a class="header-anchor" href="#la-campagna-di-microtargeting-di-ylva-johansson-dg-home"><i class="bi bi-link-45deg"></i></a> La campagna di microtargeting di Ylva Johansson (DG HOME)</h3>
+<p>A dicembre 2024, il Garante Europeo della Protezione dei Dati (EDPS) ha accertato che la Commissione Europea, sotto la direzione della commissaria Ylva Johansson, aveva violato il regolamento GDPR 2018/1725 attraverso una campagna pubblicitaria mirata su X (ex Twitter) per promuovere Chat Control 2.0 tra i cittadini europei. La Commissione spese 20.000 euro in annunci sponsorizzati utilizzando il microtargeting per raggiungere specifiche fasce demografiche.</p>
+<p>L'indagine è stata avviata a seguito di un esposto del ricercatore serbo Jovan Mekić, che aveva documentato la campagna. L'EDPS ha stabilito che la Commissione non disponeva di una base giuridica adeguata per il trattamento dei dati personali finalizzato al microtargeting, e ha ordinato la cancellazione dei dati raccolti. La campagna è stata definita un tentativo di aggirare il dibattito pubblico attraverso la pubblicità algoritmica. La notizia è stata riportata da <a href="https://noyb.eu/en/edps-european-commission-violated-privacy-law-chat-control-ads" target="_blank" rel="noopener noreferer"><strong>noyb</strong></a> e la decisione integrale dell'<a href="https://edps.europa.eu/press-publications/press-news/press-releases/2024/edps-finds-european-commission-violated-data-protection-law-targeted-advertising_en" target="_blank" rel="noopener noreferer"><strong>EDPS</strong></a> è pubblicata sul sito dell'autorità.</p>
+<h3 id="i-legami-commissione-thorn-weprotect-e-il-caso-palantir"><a class="header-anchor" href="#i-legami-commissione-thorn-weprotect-e-il-caso-palantir"><i class="bi bi-link-45deg"></i></a> I legami Commissione-Thorn-WeProtect e il caso Palantir</h3>
+<p>Il 25 settembre 2023, il consorzio giornalistico Balkan Insight / Le Monde / OCCRP ha pubblicato un'inchiesta dal titolo <em>&quot;Revealed: How a Child Protection Lobby Pushed the EU to Scan Private Messages&quot;</em>. L'indagine ha documentato come <strong>Thorn</strong>, organizzazione no-profit fondata dagli attori Ashton Kutcher e Demi Moore nel 2012 per combattere il CSAM, abbia esercitato pressioni sistematiche sulla Commissione Europea per l'adozione di Chat Control 2.0.</p>
+<p>Lo stesso giorno dell'articolo, <strong>Paul G. Haaga</strong>, allora presidente del consiglio di amministrazione di Thorn, siedeva anche nel consiglio di <strong>Palantir Technologies</strong> (il colosso statunitense di big data e sorveglianza, fondato da Peter Thiel, noto per i contratti con CIA e ICE).</p>
+<p>La connessione è ancora più stretta: Palantir ha fornito l'infrastruttura tecnologica a Thorn attraverso il programma <strong>Palantir Foundry</strong>, come documentato dal Palantir Blog (2020). Di fatto, Thorn opera come intermediario tra la spinta politica verso la scansione obbligatoria e l'azienda che produce gli strumenti per attuarla.</p>
+<p>A questo si aggiunge <strong>WeProtect Global Alliance</strong>, iniziativa multistakeholder ospitata dalla Commissione Europea stessa, della quale sia Thorn sia Palantir sono membri, creando un cortocircuito istituzionale tra chi fa le leggi e chi trae profitto dalla loro attuazione.</p>
+<p>L'inchiesta di <a href="https://balkaninsight.com/2023/09/25/who-benefits-inside-the-eus-fight-over-scanning-for-child-sex-content/" target="_blank" rel="noopener noreferer"><strong>Balkan Insight / Le Monde</strong></a> (25 settembre 2023) ha ricostruito l'intera rete di influenza. Per un inquadramento del ruolo dell'industria nel lobbying si veda l'<a href="https://www.europarl.europa.eu/RegData/etudes/BRIE/2022/738224/EPRS_BRI(2022)738224_EN.pdf" target="_blank" rel="noopener noreferer"><strong>EPRS Briefing</strong></a> (cap. 4). La partnership tecnologica tra Palantir e Thorn è documentata dal <a href="https://blog.palantir.com/palantir-foundry-and-thorn-fighting-child-trafficking-79cba74a6825" target="_blank" rel="noopener noreferer"><strong>Palantir Blog</strong></a>. La lista dei membri di <a href="https://www.weprotect.org/alliance/members/" target="_blank" rel="noopener noreferer"><strong>WeProtect</strong></a> mostra l'intreccio istituzionale.</p>
+<h3 id="eva-kaili-e-il-qatargate"><a class="header-anchor" href="#eva-kaili-e-il-qatargate"><i class="bi bi-link-45deg"></i></a> Eva Kaili e il Qatargate</h3>
+<p>La vicenda di Eva Kaili, vicepresidente del Parlamento Europeo arrestata nel dicembre 2022 per corruzione nell'ambito del <a href="https://www.ilfattoquotidiano.it/2022/12/09/scandalo-al-parlamento-ue-mazzette-dal-qatar-per-parlare-bene-dei-mondiali-fermati-3-italiani-ce-lex-eurodeputato-pd-panzeri-interrogata-la-vicepresidente-delleuroparlamento/6900056/" target="_blank" rel="noopener noreferer">Qatargate</a>, si interseca con Chat Control in un punto preciso. Il 22 novembre 2022, Kaili aveva organizzato e presieduto un summit al Parlamento Europeo dal titolo <em>&quot;Fighting Online Child Sexual Abuse Material: The Role of Chat Control&quot;</em>, esattamente mentre i negoziati sulla proposta 2.0 erano nella fase più delicata.</p>
+<p>L'inchiesta giornalistica ha rivelato che Kaili e il suo assistente Francesco Giorgi (anche lui arrestato) avevano ricevuto pagamenti dal Qatar e dal Marocco per influenzare le politiche digitali europee. Sebbene il Qatargate riguardi primariamente il Qatar, le connessioni tra i flussi finanziari e l'agenda di sorveglianza digitale sono emerse come una zona d'ombra che la magistratura belga ha iniziato a esplorare.</p>
+<p>Sul ruolo di Kaili si vedano le ricostruzioni di <a href="https://balkaninsight.com/2023/05/16/eva-kaili-pushed-eu-chat-scanning-law-before-qatar-scandal/" target="_blank" rel="noopener noreferer"><strong>Balkan Insight</strong></a> e <a href="https://www.ekathimerini.com/news/1224323/eu-chat-control-law-and-the-kaili-link/" target="_blank" rel="noopener noreferer"><strong>eKathimerini</strong></a>.</p>
+<h3 id="eclag-e-lastroturfing"><a class="header-anchor" href="#eclag-e-lastroturfing"><i class="bi bi-link-45deg"></i></a> ECLAG e l'astroturfing</h3>
+<p>L'inchiesta di Balkan Insight/Le Monde ha anche rivelato la creazione di <strong>ECLAG</strong> (European Child Sexual Abuse Legislation Advocacy Group), un'organizzazione apparentemente di base, ma in realtà coordinata dalla società di consulenza londinese <strong>Global Counsel</strong> (fondata da Peter Mandelson, ex commissario europeo al Commercio), che riuniva oltre 60 ONG apparentemente indipendenti per fare pressione sul Parlamento Europeo.</p>
+<p>La <strong>Oak Foundation</strong> (fondazione filantropica con sede a Ginevra) ha finanziato ECLAG e organizzazioni affiliate, tra cui il <strong>Brave Movement</strong> (che ha ricevuto 10,3 milioni di dollari per le attività di advocacy europea). Il coordinamento includeva <strong>Thorn</strong> e la <strong>presidenza belga del Consiglio UE</strong> (gennaio-giugno 2024), che ha ricevuto pressioni da ECLAG per accelerare l'approvazione.</p>
+<p>La Commissione LIBE del Parlamento Europeo ha aperto un'indagine su ECLAG e Oak Foundation nell'ottobre 2023, dopo che l'eurodeputata olandese Sophie in 't Veld ha sollevato ufficialmente il caso.</p>
+<p>Sulla rete ECLAG, oltre all'inchiesta di Balkan Insight/Le Monde già citata, si vedano l'analisi di <a href="https://www.patrick-breyer.de/en/breyer-on-chat-control-investigative-research-eu-commissioner-as-double-agent-of-foreign-interference/" target="_blank" rel="noopener noreferer"><strong>Patrick Breyer</strong></a> e l'approfondimento di <a href="https://www.ftm.nl/artikelen/ashton-kutcher-non-profit-start-up-miljoenen-strijd-tegen-online-kindermisbruik" target="_blank" rel="noopener noreferer"><strong>Follow the Money</strong></a> (in olandese) sul finanziamento di Thorn. L'analisi critica di <a href="https://edri.org/wp-content/uploads/2023/08/EDRi-fact-checking-of-top-9-claims-on-CSA-Regulation.pdf" target="_blank" rel="noopener noreferer"><strong>EDRi</strong></a> delle tesi di ECLAG è disponibile in formato PDF.</p>
+<h3 id="il-muro-di-gomma-con-le-organizzazioni-per-i-diritti-digitali"><a class="header-anchor" href="#il-muro-di-gomma-con-le-organizzazioni-per-i-diritti-digitali"><i class="bi bi-link-45deg"></i></a> Il muro di gomma con le organizzazioni per i diritti digitali</h3>
+<p>Un sito web dedicato, <a href="http://has-commissioner-johansson-met-with-digital-rights-groups.eu/" target="_blank" rel="noopener noreferer"><strong>has-commissioner-johansson-met-with-digital-rights-groups.eu</strong></a>, ha documentato gli incontri della commissaria Johansson durante la negoziazione di Chat Control. La pagina raccoglie richieste di incontro formali da parte di oltre 40 organizzazioni per i diritti digitali europee (EDRi, EFF, Privacy International, Access Now, e altre) alle quali è stato sistematicamente negato un confronto diretto. Al contrario, Johansson ha incontrato ripetutamente le lobby pro-scansione (Thorn, WeProtect, NCMEC). Sulla stessa vicenda si veda l'analisi di <a href="https://www.bitsoffreedom.nl/en/2023/02/27/the-selective-hearing-of-ylva-johansson/" target="_blank" rel="noopener noreferer"><strong>Bits of Freedom</strong></a> e la denuncia di <a href="https://edri.org/our-work/commissioner-johansson-cannot-be-trusted-with-the-eus-proposed-csa-regulation/" target="_blank" rel="noopener noreferer"><strong>EDRi</strong></a>.</p>
+<h3 id="cinque-prospettive"><a class="header-anchor" href="#cinque-prospettive"><i class="bi bi-link-45deg"></i></a> Cinque prospettive</h3>
+<h3 id="1-la-prospettiva-etica-delle-ong-per-la-tutela-dei-minori"><a class="header-anchor" href="#1-la-prospettiva-etica-delle-ong-per-la-tutela-dei-minori"><i class="bi bi-link-45deg"></i></a> 1 La prospettiva etica delle ONG per la tutela dei minori</h3>
+<p>È facile ridurre la vicenda a un complotto di lobby industriali, ma la spinta morale di chi lavora sul campo è reale. Organizzazioni come <strong>Eurochild</strong> o il <strong>Brave Movement</strong> sostengono questa legislazione perché affrontano una realtà drammatica: la quantità di CSAM che circola online è a livelli catastrofici, e la crittografia end-to-end viene effettivamente sfruttata dalle reti di predatori.</p>
+<p>Dal loro punto di vista, si tratta di un bilanciamento di diritti fondamentali: il diritto alla sicurezza dei bambini deve poter prevalere sul diritto alla privacy assoluta degli adulti. Per queste realtà, opporsi a Chat Control significa accettare una zona franca digitale per i crimini contro i minori.</p>
+<p>Va notato, per completezza, che il Brave Movement era tra i firmatari di ECLAG e ha ricevuto 10,3 milioni di dollari da Oak Foundation, e che la presidenza belga del Consiglio UE ha ricevuto pressioni coordinate da ECLAG. Questo non invalida la buona fede delle ONG, ma contestualizza la spinta politica.</p>
+<p>Eurochild ha pubblicato la propria <a href="https://eurochild.org/uploads/2022/10/Eurochild-response-to-European-Commission-consultation-on-the-proposal-for-a-Regulation-of-the-European-Parliament-and-of-the-Council-laying-down-rules-to-prevent-and-combat-child-sexual-abuse.pdf" target="_blank" rel="noopener noreferer"><strong>risposta alla consultazione della Commissione</strong></a> sulla proposta CSAM (2022) e una <a href="https://eurochild.org/news/eurochild-reacts-to-the-councils-position-on-the-regulation-to-prevent-and-combat-child-sexual-abuse/" target="_blank" rel="noopener noreferer"><strong>reazione alla posizione del Consiglio</strong></a> (novembre 2025). Per la rete ECLAG si rimanda all'inchiesta di Balkan Insight/Le Monde già citata.</p>
+<h3 id="2-la-prospettiva-dei-falsi-positivi"><a class="header-anchor" href="#2-la-prospettiva-dei-falsi-positivi"><i class="bi bi-link-45deg"></i></a> 2 La prospettiva dei falsi positivi</h3>
+<p>Un aspetto tecnico con risvolti umani devastanti è il tasso di errore degli algoritmi. Se un sistema ha un'accuratezza del 99,9%, altissima per gli standard attuali, su miliardi di messaggi scambiati ogni giorno nell'UE quello 0,1% si traduce in <strong>decine di migliaia di cittadini innocenti segnalati quotidianamente</strong>.</p>
+<p>Il caso più clamoroso è stato documentato dal <a href="https://www.nytimes.com/2022/08/21/technology/google-surveillance-toddler-photo.html" target="_blank" rel="noopener noreferer"><strong>New York Times</strong></a> (agosto 2022): un padre di San Francisco fotografò il gonfiore genitale del figlio per inviarlo al pediatra. Google lo segnalò come CSAM, gli chiuse tutti gli account e lo fece indagare dalla polizia. Anche dopo essere stato scagionato, Google si rifiutò di riattivargli l'account. La <a href="https://www.eff.org/deeplinks/2022/08/googles-scans-private-photos-led-false-accusations-child-abuse" target="_blank" rel="noopener noreferer"><strong>EFF</strong></a> ha definito il caso un avvertimento rispetto ai molti altri errori destinati a ripetersi. La vicenda è stata seguita anche da <a href="https://www.theguardian.com/technology/2022/aug/22/google-csam-account-blocked" target="_blank" rel="noopener noreferer"><strong>The Guardian</strong></a>. Sul tasso di errore degli algoritmi si veda la ricerca del <a href="https://rephrain.ac.uk/" target="_blank" rel="noopener noreferer"><strong>REPHRAIN Centre</strong></a>.</p>
+<h3 id="3-la-prospettiva-economica-il-rischio-per-lecosistema-tech-europeo"><a class="header-anchor" href="#3-la-prospettiva-economica-il-rischio-per-lecosistema-tech-europeo"><i class="bi bi-link-45deg"></i></a> 3 La prospettiva economica: il rischio per l'ecosistema tech europeo</h3>
+<p>Mentre i colossi statunitensi (Meta, Google, Microsoft) dispongono dei capitali per implementare i sistemi di scansione, per le aziende tecnologiche europee l'impatto sarebbe catastrofico. PMI e startup come <strong>Threema</strong> (Svizzera), <strong>Proton</strong> (Svizzera) e <strong>Matrix/Element</strong> (UE) si troverebbero davanti a un bivio: spendere risorse enormi per implementare scansioni, snaturando il proprio modello di business basato sulla crittografia, oppure abbandonare il mercato europeo.</p>
+<p>Threema ha dichiarato che la proposta renderebbe impossibile offrire un servizio di messaggistica sicura in Europa (<a href="https://threema.ch/en/blog/posts/chat-control-2.0-statement" target="_blank" rel="noopener noreferer"><strong>comunicato ufficiale</strong></a>). Proton ha pubblicato un'analisi approfondita dal titolo <em>&quot;It's the EU's turn to admit Chat Control won't work&quot;</em> (<a href="https://proton.me/blog/eu-chat-control" target="_blank" rel="noopener noreferer"><strong>Proton Blog</strong></a>). Element (Matrix) ha avvertito che la proposta mette a rischio la sicurezza e la privacy di tutti gli utenti (<a href="https://element.io/blog/eus-chat-control-puts-security-and-privacy-at-risk/" target="_blank" rel="noopener noreferer"><strong>Element Blog</strong></a>). Signal ha annunciato che cesserebbe le operazioni in qualsiasi giurisdizione UE dove Chat Control diventasse legge. Un quadro d'insieme delle preoccupazioni del settore è stato tracciato da <a href="https://www.forbes.com/sites/emmawoollacott/2024/01/22/tech-firms-warn-against-eu-chat-control/" target="_blank" rel="noopener noreferer"><strong>Forbes</strong></a>.</p>
+<h3 id="4-la-prospettiva-legale-il-convitato-di-pietra-della-cgue"><a class="header-anchor" href="#4-la-prospettiva-legale-il-convitato-di-pietra-della-cgue"><i class="bi bi-link-45deg"></i></a> 4 La prospettiva legale: il convitato di pietra della CGUE</h3>
+<p>La giurisprudenza della Corte di Giustizia in materia di diritti digitali è granitica e coerente: Digital Rights Ireland (2014), Tele2 Sverige/Watson (2016), La Quadrature du Net (2020), Privacy International (2020). La Corte ha sistematicamente bocciato leggi che impongono un trattamento generalizzato e indiscriminato dei dati dei cittadini in assenza di sospetto specifico.</p>
+<p>Molti giuristi ritengono che il CSS strutturato da Chat Control 2.0 violi in modo insanabile gli articoli 7 e 8 della Carta dei diritti fondamentali UE, e che la legge, se approvata, verrebbe dichiarata invalida dalla CGUE. La giurisprudenza di <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex%3A62012CJ0293" target="_blank" rel="noopener noreferer"><strong>Digital Rights Ireland (C-293/12)</strong></a> e <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX%3A62018CJ0511_RES" target="_blank" rel="noopener noreferer"><strong>La Quadrature du Net (C-511/18)</strong></a> costituisce il precedente vincolante. Per un'analisi dell'impatto di questa giurisprudenza sulla proposta CSAM si veda il paper del <a href="https://www.ceps.eu/ceps-publications/political-and-judicial-life-metadata-digital-rights-ireland-and-trail-data-retention/" target="_blank" rel="noopener noreferer"><strong>CEPS</strong></a>.</p>
+<h3 id="5-il-fronte-collaterale-la-verifica-delleta-obbligatoria"><a class="header-anchor" href="#5-il-fronte-collaterale-la-verifica-delleta-obbligatoria"><i class="bi bi-link-45deg"></i></a> 5 Il fronte collaterale: la verifica dell'età obbligatoria</h3>
+<p>Le bozze del Consiglio UE prevedono misure di <em>&quot;age verification and age assessment&quot;</em> obbligatorie. La Commissione ha sviluppato un'app &quot;mini-wallet&quot; per la verifica dell'età basata su riconoscimento facciale e documenti d'identità, e ha adottato la Raccomandazione (UE) 2026/1035 per un framework comune entro dicembre 2026.</p>
+<p>Ciò comporterebbe il caricamento di documenti d'identità prima di poter inviare un semplice messaggio privato, eliminando la possibilità di comunicazione anonima o pseudonima, tutela fondamentale per giornalisti, whistleblower e minoranze vulnerabili. La <a href="https://www.eff.org/deeplinks/2025/04/age-verification-european-union-mini-id-wallet" target="_blank" rel="noopener noreferer"><strong>EFF</strong></a> ha notato che il sistema escluderebbe utenti senza documenti (senzatetto, migranti) e userebbe sistemi biometrici con tassi di errore più alti per persone di colore, donne e persone transgender. Il testo del Consiglio è disponibile nel documento <a href="https://data.consilium.europa.eu/doc/document/ST-15318-2025-INIT/en/pdf" target="_blank" rel="noopener noreferer"><strong>ST-15318-2025-INIT</strong></a>, mentre la <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?qid=1781652302879&amp;uri=OJ%3AL_202601035" target="_blank" rel="noopener noreferer"><strong>Raccomandazione (UE) 2026/1035</strong></a> è pubblicata su EUR-Lex. Per una cronaca dei negoziati si veda <a href="https://www.euractiv.com/news/eu-countries-reach-breakthrough-on-chat-scanning-law-despite-intense-pushback/" target="_blank" rel="noopener noreferer"><strong>Euractiv</strong></a>.</p>
+<h3 id="cronaca-del-voto-la-riattivazione-di-chat-control-10-9-luglio-2026"><a class="header-anchor" href="#cronaca-del-voto-la-riattivazione-di-chat-control-10-9-luglio-2026"><i class="bi bi-link-45deg"></i></a> Cronaca del voto: la riattivazione di Chat Control 1.0 (9 luglio 2026)</h3>
+<h3 id="la-manovra-del-consiglio-2-luglio-2026"><a class="header-anchor" href="#la-manovra-del-consiglio-2-luglio-2026"><i class="bi bi-link-45deg"></i></a> La manovra del Consiglio (2 luglio 2026)</h3>
+<p>Il 26 marzo 2026 il Parlamento Europeo aveva <strong>respinto</strong> l'estensione di Chat Control 1.0 con 311 voti contrari, 228 favorevoli e 92 astenuti, chiudendo la prima lettura. Il regolamento è scaduto il 3 aprile 2026, creando un vuoto normativo.</p>
+<p>Il Consiglio ha allora adottato una <strong>manovra procedurale</strong> senza precedenti: ha riproposto il medesimo testo come <em>posizione del Consiglio in prima lettura</em>, trasmettendolo al Parlamento per una <strong>seconda lettura</strong>. Qui le regole sono invertite: per respingere o emendare la posizione del Consiglio serve la <strong>maggioranza assoluta</strong>, fissata a 361 voti su 720 seggi (alcune fonti indicano 360 su 719 per un seggio momentaneamente vacante; la sostanza procedurale non cambia).</p>
+<p>Il documento <strong>ST-11261-2026-REV-1</strong>, adottato il 2 luglio 2026, ripristina la deroga all'art. 5(1) e 6(1) della ePrivacy, consentendo ai provider di utilizzare tecnologie di hashing e AI su base volontaria, purché strettamente necessarie, proporzionate, e, per la scansione testuale, limitate a pattern senza dedurre la sostanza del contenuto. Il <strong>Considerando 32</strong> specifica che nulla nel regolamento deve essere interpretato come un divieto, indebolimento o elusione della crittografia end-to-end.</p>
+<p>L'ex eurodeputato Patrick Breyer (Piratenpartei) ha descritto la mossa come un tentativo senza precedenti di resuscitare una legge che il Parlamento aveva già respinto. La verde Markéta Gregorová ha dichiarato che l'operazione viola le stesse regole di procedura del Parlamento e ha accusato il Partito Popolare Europeo di abusare della propria posizione di gruppo di maggioranza relativa per riportare al voto un testo già respinto dall'Aula.</p>
+<h3 id="la-procedura-durgenza-7-luglio-2026"><a class="header-anchor" href="#la-procedura-durgenza-7-luglio-2026"><i class="bi bi-link-45deg"></i></a> La procedura d'urgenza (7 luglio 2026)</h3>
+<p>Il gruppo PPE ha richiesto l'attivazione della procedura d'urgenza per calendarizzare il voto nell'ultima seduta plenaria prima della pausa estiva. Il 7 luglio il Parlamento ha approvato l'urgenza con 331 voti favorevoli, 304 contrari e 11 astenuti.</p>
+<h3 id="il-voto-del-9-luglio-2026"><a class="header-anchor" href="#il-voto-del-9-luglio-2026"><i class="bi bi-link-45deg"></i></a> Il voto del 9 luglio 2026</h3>
+<p>Esito:</p>
+<ul>
+<li>
+<p><strong>Mozione di rigetto della posizione del Consiglio</strong>: 314 favorevoli, 276 contrari, 17 astenuti, soglia di 361 non raggiunta. La mozione è respinta.</p>
+</li>
+<li>
+<p><strong>Emendamento RENEW</strong> per escludere dall'ambito le comunicazioni a cui è, è stata o sarà applicata la crittografia end-to-end: <strong>369 voti</strong>, approvato.</p>
+</li>
+<li>
+<p><strong>Emendamento per limitare le scansioni ai sospetti identificati da autorità giudiziaria</strong>: 322 voti, <strong>non approvato</strong> (soglia 361).</p>
+</li>
+</ul>
+<p>Risultato netto: <strong>Chat Control 1.0 riattivata fino al 3 aprile 2028</strong>, con l'emendamento E2EE incluso. La posizione emendata del Parlamento è stata trasmessa al Consiglio, che ha tre mesi, indicativamente fino al <strong>9 ottobre 2026</strong>, per approvare o respingere le modifiche.</p>
+<p>L'eurodeputata Svenja Hahn (ALDE/RENEW) ha commentato che si tratta di uno scandalo: il voto apre la porta alla sorveglianza di massa di tutte le comunicazioni private dei cittadini europei, invece della lotta mirata contro l'abuso sui minori che il Parlamento aveva proposto.</p>
+<h3 id="cosa-cambia-davvero-e-la-distinzione-con-chat-control-20"><a class="header-anchor" href="#cosa-cambia-davvero-e-la-distinzione-con-chat-control-20"><i class="bi bi-link-45deg"></i></a> Cosa cambia davvero, e la distinzione con Chat Control 2.0</h3>
+<p>L'analisi del testo approvato impone una distinzione netta:</p>
+<p><strong>Chat Control 1.0</strong> (approvato il 9 luglio 2026):</p>
+<ul>
+<li>
+<p>Deroga <strong>volontaria</strong>, non obbligo: i provider che non vogliono scansionare non sono costretti.</p>
+</li>
+<li>
+<p>Tecnologia esclusivamente <strong>lato server</strong>: l'analisi avviene sui server centrali, non sui dispositivi.</p>
+</li>
+<li>
+<p>Applicabile solo ai servizi <strong>non protetti da E2EE</strong> in cui il server vede il contenuto in chiaro (Gmail, Facebook Messenger, Instagram DM, Skype, Snapchat, iCloud Mail, Xbox messaging).</p>
+</li>
+<li>
+<p>Proroga dello <strong>status quo</strong>: le stesse regole in vigore dal 2021 al 3 aprile 2026.</p>
+</li>
+</ul>
+<p><strong>Chat Control 2.0</strong> (ancora bloccata in trilogo dal 2024):</p>
+<ul>
+<li>
+<p>Imporrebbe <strong>obblighi di scansione</strong>, non volontarietà.</p>
+</li>
+<li>
+<p>Richiederebbe <strong>Client-Side Scanning</strong> sul dispositivo prima della cifratura.</p>
+</li>
+<li>
+<p>Colpirebbe anche i servizi <strong>E2EE</strong> (WhatsApp, Signal, Threema, Proton, Matrix).</p>
+</li>
+<li>
+<p>La sua approvazione richiederebbe un accordo tra Commissione, Consiglio e Parlamento, attualmente bloccato dall'opposizione di Germania, Austria, Polonia e Paesi Bassi. I negoziati a trilogo dovrebbero riprendere a settembre 2026 sotto la presidenza irlandese del Consiglio UE, con il nodo del Client-Side Scanning ancora irrisolto.</p>
+</li>
+</ul>
+<p>L'emendamento E2EE approvato con 369 voti è stato definito da molti critici cosmetico o simbolico, poiché le app E2EE non erano tecnicamente coinvolte già prima. Tuttavia, indica che una maggioranza qualificata del Parlamento è disponibile a proteggere la crittografia: un segnale politico per i negoziati sulla 2.0.</p>
+<p>Il documento del Consiglio <a href="https://data.consilium.europa.eu/doc/document/ST-11261-2026-REV-1/en/pdf" target="_blank" rel="noopener noreferer"><strong>ST-11261-2026-REV-1</strong></a> costituisce la base della manovra procedurale. Il comunicato del <a href="https://www.europarl.europa.eu/news/en/press-room/20260706IPR46318/combating-child-sexual-abuse-support-for-a-more-limited-eprivacy-derogation" target="_blank" rel="noopener noreferer"><strong>Parlamento Europeo</strong></a> e gli articoli di <a href="https://www.euronews.com/next/2026/07/10/chat-control-10-passed-the-european-parliament-through-the-back-door" target="_blank" rel="noopener noreferer"><strong>Euronews</strong></a>, <a href="https://www.theregister.com/security/2026/07/09/meps-fail-to-prevent-chat-control-snoopfest-revival/5269379" target="_blank" rel="noopener noreferer"><strong>The Register</strong></a>, <a href="https://www.heise.de/en/news/Procedural-trick-before-summer-break-EU-Parliament-reactivates-Chat-Control-1-0-11359605.html" target="_blank" rel="noopener noreferer"><strong>heise online</strong></a> e <a href="https://cyberinsider.com/eu-now-one-step-away-from-reviving-private-message-scanning-rules/" target="_blank" rel="noopener noreferer"><strong>CyberInsider</strong></a> ricostruiscono la dinamica del voto. I dettagli dei voti sono disponibili su <a href="https://atlas21.com/chat-control-eu-parliament-fails-to-block-its-reinstatement-in-force-until-2028/" target="_blank" rel="noopener noreferer"><strong>Atlas21</strong></a>.</p>
+<h3 id="considerazioni-finali"><a class="header-anchor" href="#considerazioni-finali"><i class="bi bi-link-45deg"></i></a> Considerazioni finali</h3>
+<p>Ogni infrastruttura di sorveglianza, una volta costruita, non rimane confinata allo scopo per cui è stata giustificata. È una legge sociologica che la storia della tecnologia conferma senza eccezioni. I database di hash CSAM di oggi possono diventare gli elenchi di censura di domani. Le backdoor per il rilevamento dell'abuso minorile possono diventare i vettori di attacco per gli hacker di Stato.</p>
+<p>La convergenza con l'<strong>Euro Digitale</strong> e l'<strong>Identità Digitale Europea (eIDAS 2.0)</strong>, i cui negoziati procedono parallelamente, segue la stessa filosofia: il passaggio a un modello di <strong>controllo preventivo e centralizzato</strong> (<em>Surveillance by Design</em>). Il collante tecnico è il <strong>Wallet europeo</strong>, necessario per la conformità KYC/antiriciclaggio dell'Euro Digitale e per l'age verification obbligatoria di Chat Control. Il rischio panottico è la centralizzazione del controllo sia sulle comunicazioni dei cittadini (chat monitorate) sia sulle loro risorse finanziarie (moneta programmabile e tracciabile).</p>
+<p>La democrazia liberale si regge su alcuni pilastri non negoziabili: la separazione dei poteri, il diritto a un processo equo, la libertà di espressione, la segretezza della corrispondenza, la presunzione di innocenza. Quando si costruisce un sistema che tratta ogni cittadino come un potenziale sospetto, analizzando preventivamente ogni sua comunicazione prima ancora che vi sia un indizio, quel sistema ha già abbandonato la presunzione di innocenza.</p>
+<p>Il vero paradosso è che Chat Control non fermerà i criminali. I predatori sessuali che operano in reti organizzate sul dark web non usano Gmail o Messenger. Usano strumenti crittografati che, se la scansione obbligatoria diventasse reale, migrerebbero verso soluzioni offshore non soggette alla giurisdizione europea, esattamente come già avviene nel Regno Unito con l'Online Safety Act. Chi verrà colpito saranno i cittadini comuni: il padre che fotografa il figlio per il pediatra, l'adolescente che si scambia foto col fidanzato, il giornalista che protegge le sue fonti, il whistleblower che denuncia un illecito.</p>
+<p>La posta in gioco è la natura stessa dell'Europa come spazio di libertà. Il progetto europeo è nato dalle ceneri della guerra e del totalitarismo, fondato sulla promessa che mai più avremmo permesso allo Stato di entrare nelle nostre case, di leggere le nostre lettere, di sapere tutto di noi. Chat Control non è solo una legge tecnica su un regolamento di polizia. È un test sulla nostra capacità di difendere quel patto fondativo. E per ora, lo stiamo perdendo.</p>
+<p>Chi vuole fare qualcosa di concreto, oggi, ha due strade percorribili. La prima è politica: <a href="http://fightchatcontrol.eu/" target="_blank" rel="noopener noreferer"><strong>fightchatcontrol.eu</strong></a> permette di scrivere direttamente al proprio eurodeputato, con un testo già pronto e l'elenco dei contatti, prima che i triloghi sulla versione 2.0 riprendano a settembre. La seconda è tecnica, ed è pensata per il giorno in cui la politica dovesse fallire: se Chat Control 2.0 dovesse davvero imporre il Client-Side Scanning obbligatorio anche sui servizi cifrati, <a href="http://exitchatcontrol.org/" target="_blank" rel="noopener noreferer"><strong>exitchatcontrol.org</strong></a> è una guida pratica, aperta e multilingua a strumenti di comunicazione che restano fuori dalla portata della sorveglianza di massa, dai messenger peer-to-peer alle reti che funzionano anche senza infrastruttura di rete tradizionale.</p>
+<p>Nessuna delle due sostituisce l'altra. La prima cerca di evitare che si arrivi a dover usare la seconda.</p>
+<p><em>Le considerazioni finali esprimono esclusivamente la mia personale opinione e non necessariamente la posizione delle fonti citate nella ricostruzione fattuale.</em></p>
+
+    </section>
+
+    <div class="section-divider mt-5 mb-4">Commenti</div>
+
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
+      </div>
+    </nav>
+  </aside>
+</div>
+
+    </main>
+
+    <footer class="border-top mt-auto py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <div class="fw-bold mb-3" style="font-size: 1.25rem;">
+          <span class="text-primary">dino</span>-996
+        </div>
+        <p class="text-muted small mb-3">
+          Developer portfolio e blog tecnico
+        </p>
+        <div class="d-flex justify-content-center gap-3 mb-0">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
+             class="text-muted" aria-label="GitHub">
+            <i class="bi bi-github fs-5"></i>
+          </a>
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer"
+             class="text-muted" aria-label="LinkedIn">
+            <i class="bi bi-linkedin fs-5"></i>
+          </a>
+          <a href="/feed.xml" class="text-muted" aria-label="Feed RSS" target="_blank">
+            <i class="bi bi-rss fs-5"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="text-center">
+      <p class="text-muted small mb-0 d-flex align-items-center justify-content-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 75 65" fill="currentColor">
+          <path d="M37.443-3.5c8.988,0,16.57,3.085,22.742,9.257C66.393,11.967,69.5,19.548,69.5,28.5c0,8.991-3.049,16.476-9.145,22.456    C53.879,57.319,46.242,60.5,37.443,60.5c-8.649,0-16.153-3.144-22.514-9.43C8.644,44.784,5.5,37.262,5.5,28.5    c0-8.761,3.144-16.342,9.429-22.742C21.101-0.415,28.604-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.553-18.457,7.657    c-5.22,5.334-7.829,11.525-7.829,18.572c0,7.086,2.59,13.22,7.77,18.398c5.181,5.182,11.352,7.771,18.514,7.771    c7.123,0,13.334-2.607,18.629-7.828c5.029-4.838,7.543-10.952,7.543-18.343c0-7.276-2.553-13.465-7.656-18.571    C50.967,4.824,44.795,2.272,37.557,2.272z M46.129,20.557v13.085h-3.656v15.542h-9.944V33.643h-3.656V20.557    c0-0.572,0.2-1.057,0.599-1.457c0.401-0.399,0.887-0.6,1.457-0.6h13.144c0.533,0,1.01,0.2,1.428,0.6    C45.918,19.5,46.129,19.986,46.129,20.557z M33.042,12.329c0-3.008,1.485-4.514,4.458-4.514s4.457,1.504,4.457,4.514    c0,2.971-1.486,4.457-4.457,4.457S33.042,15.3,33.042,12.329z"/>
+        </svg>
+        Realizzato con <span class="text-danger">❤️</span> usando
+        <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-medium">Eleventy</a>
+        e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-medium">Bootstrap</a>
+      </p>
+    </div>
+  </div>
+</footer>
+      <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      window.pathPrefix = ".";
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send"><i class="bi bi-arrow-up"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+  
+</html>

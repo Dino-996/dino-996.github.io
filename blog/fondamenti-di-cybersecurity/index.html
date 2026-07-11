@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Fondamenti di Sicurezza Informatica · dino-996 blog
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Una guida completa ai principi della cybersecurity: analizziamo i ruoli professionali (dal SOC alla compliance NIS2), i meccanismi tecnici della triade CIA (riservatezza, integrità, disponibilità) e la gestione di asset, vulnerabilità e minacce." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/fondamenti-di-cybersecurity/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/fondamenti-di-cybersecurity/" />
+
+<meta property="og:title" content="Fondamenti di Sicurezza Informatica" />
+<meta property="og:description" content="Una guida completa ai principi della cybersecurity: analizziamo i ruoli professionali (dal SOC alla compliance NIS2), i meccanismi tecnici della triade CIA (riservatezza, integrità, disponibilità) e la gestione di asset, vulnerabilità e minacce." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/fondamenti-di-cybersecurity/" />
+
+<meta name="twitter:title" content="Fondamenti di Sicurezza Informatica" />
+<meta name="twitter:description" content="Una guida completa ai principi della cybersecurity: analizziamo i ruoli professionali (dal SOC alla compliance NIS2), i meccanismi tecnici della triade CIA (riservatezza, integrità, disponibilità) e la gestione di asset, vulnerabilità e minacce." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Bootstrap CSS -->
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+  crossorigin="anonymous"
+/>
+
+<!-- Bootstrap icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+    
+  </head>
+
+  <body class="d-flex flex-column min-vh-100">
+    <nav class="navbar navbar-expand-lg bg-body border-bottom sticky-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="/">
+      <img src="/assets/img/avatar/dino-996-32.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32" style="object-fit: cover;">
+      <span><span class="text-primary">dino</span>-996</span>
+    </a>
+
+    <div class="d-flex align-items-center gap-1">
+      <div class="theme-toggle d-lg-none" role="group" aria-label="Toggle tema" style="transform: scale(0.85);">
+        <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-sun"></i>
+        </button>
+        <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+          <i class="bi bi-moon"></i>
+        </button>
+        <div class="theme-toggle-slider"></div>
+      </div>
+      <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-label="Apri menu">
+        <i class="bi bi-list fs-4"></i>
+      </button>
+    </div>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="/blog/">Blog</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">About</a>
+        </li>
+        <li class="nav-item mode-switch ms-lg-2 d-none d-lg-block">
+          <div class="theme-toggle" role="group" aria-label="Toggle tema">
+            <button title="Modalità chiara" data-theme="light" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-sun"></i>
+            </button>
+            <button title="Modalità scura" data-theme="dark" class="theme-toggle-btn" aria-pressed="false">
+              <i class="bi bi-moon"></i>
+            </button>
+            <div class="theme-toggle-slider"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+  
+    <main class="container my-5 flex-grow-1">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+<div class="post-layout d-flex gap-4 justify-content-center">
+  <aside class="post-left d-none d-lg-block flex-shrink-0" style="width: 210px;">
+    <div class="post-left-sticky">
+      <div class="sidebar-card">
+      <div class="post-left-section">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781251320/dino_avatar_81b48107e0.png" alt="Davide Sabia" class="rounded-circle" width="32" height="32">
+          <span class="fw-semibold small">Davide Sabia</span>
+        </div>
+        <div class="post-left-meta">
+          <time datetime="2026-06-25T00:00:00.000Z">
+            <i class="bi bi-calendar3 me-1"></i>25 giugno 2026
+          </time>
+          <span class="d-block">
+            <span class="reading-time"></span>
+          </span>
+          
+            <span class="d-block">
+              <time datetime="2026-07-11T13:25:30.000Z">
+                <i class="bi bi-pencil me-1"></i>11 luglio 2026
+              </time>
+            </span>
+          
+        </div>
+      </div>
+
+      <div class="post-left-section">
+        
+        
+        <div class="post-share-vertical">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Ffondamenti-di-cybersecurity%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su LinkedIn">
+            <i class="bi bi-linkedin"></i>
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Fondamenti%20di%20Sicurezza%20Informatica&url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Ffondamenti-di-cybersecurity%2F"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su X">
+            <i class="bi bi-twitter-x"></i>
+          </a>
+          <a href="https://reddit.com/submit?url=https%3A%2F%2Fdino-996.github.io%2Fblog%2Ffondamenti-di-cybersecurity%2F&title=Fondamenti%20di%20Sicurezza%20Informatica"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Reddit">
+            <i class="bi bi-reddit"></i>
+          </a>
+          <a href="https://news.ycombinator.com/submitlink?u=https%3A%2F%2Fdino-996.github.io%2Fblog%2Ffondamenti-di-cybersecurity%2F&t=Fondamenti%20di%20Sicurezza%20Informatica"
+             class="share-btn" target="_blank" rel="noopener noreferrer" aria-label="Condividi su Hacker News">
+            <i class="bi bi-hash"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="post-left-section post-left-section-last">
+        <div class="post-left-tags">
+          
+          
+          
+            
+            
+              <a href="/tags/cybersecurity/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                cybersecurity
+              </a>
+            
+          
+            
+            
+              <a href="/tags/sicurezza-informatica/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                sicurezza informatica
+              </a>
+            
+          
+            
+            
+              <a href="/tags/triade-cia/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                triade CIA
+              </a>
+            
+          
+            
+            
+              <a href="/tags/nis2/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                NIS2
+              </a>
+            
+          
+            
+            
+              <a href="/tags/iso-27001/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                ISO 27001
+              </a>
+            
+          
+            
+            
+              <a href="/tags/gestione-del-rischio/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                Gestione del Rischio
+              </a>
+            
+          
+            
+            
+              <a href="/tags/crittografia/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                crittografia
+              </a>
+            
+          
+            
+            
+              <a href="/tags/social-engineering/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                social engineering
+              </a>
+            
+          
+            
+            
+              <a href="/tags/vulnerability-management/"
+                 class="badge border text-decoration-none d-inline-block mb-1"
+                 style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+                vulnerability management
+              </a>
+            
+          
+        </div>
+      </div>
+      </div>
+    </div>
+  </aside>
+
+  <article class="post-content flex-shrink-0" style="max-width: 800px; min-width: 0;">
+    <h1 class="fw-bold mb-4">Fondamenti di Sicurezza Informatica</h1>
+
+    <!-- Mobile author bar (visible below lg) -->
+    <div class="d-lg-none mb-3">
+      <div class="d-flex align-items-center gap-2 mb-2">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781251320/dino_avatar_81b48107e0.png" alt="Davide Sabia" class="rounded-circle" width="28" height="28">
+        <div>
+          <div class="fw-semibold small">Davide Sabia</div>
+          <div class="text-muted small">
+            <time datetime="2026-06-25T00:00:00.000Z">25 giugno 2026</time>
+            <span class="mx-1">·</span>
+            <span class="reading-time"></span>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex flex-wrap gap-1">
+        
+        
+        
+          
+          
+            <a href="/tags/cybersecurity/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              cybersecurity
+            </a>
+          
+        
+          
+          
+            <a href="/tags/sicurezza-informatica/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              sicurezza informatica
+            </a>
+          
+        
+          
+          
+            <a href="/tags/triade-cia/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              triade CIA
+            </a>
+          
+        
+          
+          
+            <a href="/tags/nis2/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              NIS2
+            </a>
+          
+        
+          
+          
+            <a href="/tags/iso-27001/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              ISO 27001
+            </a>
+          
+        
+          
+          
+            <a href="/tags/gestione-del-rischio/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              Gestione del Rischio
+            </a>
+          
+        
+          
+          
+            <a href="/tags/crittografia/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              crittografia
+            </a>
+          
+        
+          
+          
+            <a href="/tags/social-engineering/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              social engineering
+            </a>
+          
+        
+          
+          
+            <a href="/tags/vulnerability-management/"
+               class="badge border text-decoration-none"
+               style="color: var(--bs-body-color); border-color: var(--bs-border-color) !important;">
+              vulnerability management
+            </a>
+          
+        
+      </div>
+    </div>
+
+    <!-- Mobile ToC toggle (visible below xl) -->
+    <div class="d-xl-none mb-3">
+      <button class="btn btn-outline-primary btn-sm w-100 d-flex align-items-center justify-content-between"
+              type="button" data-bs-toggle="collapse" data-bs-target="#toc-mobile-collapse" aria-expanded="false">
+        <span><i class="bi bi-list-ul me-1"></i>Indice</span>
+        <i class="bi bi-chevron-down"></i>
+      </button>
+      <div class="collapse" id="toc-mobile-collapse">
+        <div class="sidebar-card toc-card mt-2">
+          <ul class="toc-list" id="toc-list-mobile"></ul>
+        </div>
+      </div>
+    </div>
+
+    
+      <div class="alert alert-primary border-start mb-4" role="note">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <span class="d-flex align-items-center justify-content-center rounded"
+                style="width: 28px; height: 28px; background: rgba(var(--primary-rgb), 0.15);">
+            <i class="bi bi-stars text-primary" style="font-size: 0.85rem;"></i>
+          </span>
+          <strong class="small text-uppercase" style="color: var(--primary-color);">Riassunto IA</strong>
+        </div>
+        <p class="mb-0 small lh-lg">La cybersecurity è un approccio olistico alla protezione di sistemi e dati, evolutosi dal perimetro tradizionale a modelli come Zero Trust Architecture.
+Il settore presenta diverse specializzazioni professionali, tra cui analisti, penetration tester, architetti, incident responder ed esperti di compliance, ognuno con responsabilità e contesti operativi specifici.</p>
+      </div>
+    
+
+    
+      <figure class="mb-4">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png"
+             alt="Sicurezza delle reti"
+             class="img-fluid rounded w-100"
+             width="800" height="420" fetchpriority="high"
+             style="max-height: 420px; object-fit: cover;">
+        
+          <figcaption class="text-muted small mt-2 text-center fst-italic">Sicurezza delle reti</figcaption>
+        
+      </figure>
+    
+
+    <section class="content">
+      <h1 id="fondamenti-di-sicurezza-informatica"><a class="header-anchor" href="#fondamenti-di-sicurezza-informatica"><i class="bi bi-link-45deg"></i></a> Fondamenti di Sicurezza Informatica</h1>
+<h2 id="che-cose-la-cybersecurity"><a class="header-anchor" href="#che-cose-la-cybersecurity"><i class="bi bi-link-45deg"></i></a> Che cos'è la cybersecurity</h2>
+<p>La <strong>cybersecurity</strong> (o sicurezza informatica) è l'insieme di pratiche, tecnologie e processi progettati per proteggere sistemi informatici, reti, applicazioni e dati da attacchi digitali, accessi non autorizzati, danni e interruzioni del servizio. In un ecosistema sempre più interconnesso, in cui aziende, infrastrutture critiche e privati cittadini dipendono da piattaforme digitali, la sicurezza informatica non è una questione esclusivamente tecnica.</p>
+<p>La disciplina si estende ben oltre la protezione dei singoli dispositivi, abbracciando l'intera catena di gestione del dato: dalla raccolta all'elaborazione, dallo storage alla trasmissione, fino alla dismissione sicura. Il perimetro difensivo tradizionale (il firewall come &quot;muro&quot; aziendale) ha lasciato spazio a modelli più sofisticati come lo <strong>Zero Trust Architecture</strong>, in cui nessuna entità, interna o esterna alla rete, viene considerata intrinsecamente affidabile. Ogni richiesta di accesso deve essere verificata, autenticata e autorizzata in modo esplicito, indipendentemente dalla provenienza.</p>
+<h2 id="i-ruoli-professionali-nella-cybersecurity"><a class="header-anchor" href="#i-ruoli-professionali-nella-cybersecurity"><i class="bi bi-link-45deg"></i></a> I ruoli professionali nella cybersecurity</h2>
+<p>Il settore della sicurezza informatica ospita una vasta gamma di specializzazioni, ciascuna con competenze, responsabilità e contesti operativi distinti.</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Ruolo</th>
+        <th>Responsabilità principali</th>
+        <th>Contesto operativo</th>
+        <th>Quadro normativo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Analista della sicurezza</td>
+        <td>Monitoraggio continuo, rilevamento anomalie, triage degli alert</td>
+        <td>SOC (Security Operations Center)</td>
+        <td>NIS2, ISO 27001</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Penetration tester</td>
+        <td>Simulazione di attacchi controllati per identificare vulnerabilità prima degli avversari</td>
+        <td>Red team, consulenza</td>
+        <td>OWASP, PTES</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Security architect</td>
+        <td>Progettazione di architetture sicure per applicazioni, reti e infrastrutture cloud</td>
+        <td>Enterprise, cloud provider</td>
+        <td>NIST CSF, CIS Controls</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Incident responder</td>
+        <td>Gestione e contenimento degli incidenti di sicurezza, analisi forense post-breach</td>
+        <td>CSIRT/CERT, blue team</td>
+        <td>NIS2 (obbligo di notifica)</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Esperto di compliance</td>
+        <td>Verifica dell'aderenza ai requisiti normativi e agli standard di settore</td>
+        <td>Legal, GRC</td>
+        <td>GDPR, NIS2, PCI-DSS</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Responsabile ISO 27001</td>
+        <td>Implementazione e mantenimento del Sistema di Gestione della Sicurezza delle Informazioni (ISMS)</td>
+        <td>Quality management, IT governance</td>
+        <td>ISO/IEC 27001 (volontario)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h3 id="compliance-obbligatoria-nis2-e-iso-27001"><a class="header-anchor" href="#compliance-obbligatoria-nis2-e-iso-27001"><i class="bi bi-link-45deg"></i></a> Compliance obbligatoria: NIS2 e ISO 27001</h3>
+<p>Con l'entrata in vigore della <strong>Direttiva NIS2</strong> (Network and Information Security 2, recepita in Italia con il D.Lgs. 138/2024), le organizzazioni operanti in settori critici (<strong>energia, trasporti, sanità, finanza, infrastrutture digitali</strong>) sono obbligate per legge a dotarsi di figure professionali dedicate alla sicurezza e a implementare misure tecniche e organizzative specifiche, incluso l'obbligo di notifica degli incidenti significativi entro 24 ore.</p>
+<p>Parallelamente, la certificazione <strong>ISO/IEC 27001</strong> rappresenta lo standard internazionale de facto per i Sistemi di Gestione della Sicurezza delle Informazioni. Adottarla su base volontaria consente alle organizzazioni di dimostrare a clienti e partner un impegno concreto e verificabile nella protezione dei dati, con ricadute positive sulla fiducia e sulla competitività.</p>
+<h2 id="le-motivazioni-degli-attori-della-minaccia"><a class="header-anchor" href="#le-motivazioni-degli-attori-della-minaccia"><i class="bi bi-link-45deg"></i></a> Le motivazioni degli attori della minaccia</h2>
+<p>Comprendere <em>perché</em> qualcuno attacca un sistema è fondamentale quanto sapere <em>come</em> lo fa. Gli attori della minaccia (<em>threat actor</em>) si distinguono non solo per le tecniche utilizzate, ma soprattutto per le motivazioni che guidano le loro azioni, i loro obiettivi e il livello di sofisticazione con cui operano.</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Tipo di attore</th>
+        <th>Motivazione principale</th>
+        <th>Obiettivi tipici</th>
+        <th>Esempio storico</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Cybercriminale</td>
+        <td>Profitto economico: estorsione, furto di dati, frode finanziaria</td>
+        <td>Aziende, istituti finanziari, privati cittadini</td>
+        <td>Gang ransomware LockBit, Conti</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Hacktivista</td>
+        <td>Ideologica o politica: protesta, visibilità, pressione su un'organizzazione</td>
+        <td>Siti governativi, aziende con posizioni etiche controverse</td>
+        <td>Anonymous, attacchi DDoS a enti pubblici</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Stato o gruppo APT</td>
+        <td>Geopolitica: spionaggio industriale, sabotaggio infrastrutture, influenza elettorale</td>
+        <td>Infrastrutture critiche, difesa, R&D governativo</td>
+        <td>Stuxnet (Iran), SolarWinds (Russia)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>La distinzione tra queste categorie non è sempre netta: gruppi <strong>APT</strong> (<em>Advanced Persistent Threat</em>) sponsorizzati da stati utilizzano spesso infrastrutture e tattiche mutuate dal cybercrimine per garantire la propria deniability operativa.</p>
+<h2 id="la-triade-cia-i-fondamenti-della-sicurezza-informatica"><a class="header-anchor" href="#la-triade-cia-i-fondamenti-della-sicurezza-informatica"><i class="bi bi-link-45deg"></i></a> La triade CIA: i fondamenti della sicurezza informatica</h2>
+<p>Il modello <strong>CIA Triad</strong> costituisce il pilastro concettuale di tutta la sicurezza informatica moderna. Le tre proprietà (<strong>Riservatezza</strong>, <strong>Integrità</strong> e <strong>Disponibilità</strong>) definiscono gli obiettivi che ogni sistema sicuro deve perseguire e forniscono il framework di riferimento per valutare qualsiasi controllo di sicurezza.</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Proprietà</th>
+        <th>Acronimo EN</th>
+        <th>Definizione</th>
+        <th>Violazione tipica</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Riservatezza</td>
+        <td>Confidentiality</td>
+        <td>I dati sono accessibili solo alle entità autorizzate</td>
+        <td>Data breach, intercettazione, misconfiguration</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Integrità</td>
+        <td>Integrity</td>
+        <td>I dati non vengono alterati o corrotti senza autorizzazione</td>
+        <td>Tampering, man-in-the-middle, SQL injection</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Disponibilità</td>
+        <td>Availability</td>
+        <td>Sistemi e dati sono accessibili quando necessario</td>
+        <td>Attacchi DDoS, ransomware, guasti hardware</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h3 id="riservatezza-confidentiality"><a class="header-anchor" href="#riservatezza-confidentiality"><i class="bi bi-link-45deg"></i></a> Riservatezza (Confidentiality)</h3>
+<p>La riservatezza garantisce che le informazioni siano accessibili esclusivamente alle entità esplicitamente autorizzate. Una violazione si verifica quando dati sensibili vengono esposti a soggetti non autorizzati, intenzionalmente (data breach orchestrato) o per negligenza (bucket S3 pubblico per errore di configurazione). Il principio di <strong>minimo privilegio</strong> (<em>least privilege</em>), per cui ogni utente o processo deve disporre solo dei permessi strettamente necessari, è la sua applicazione pratica più immediata.</p>
+<h3 id="integrita-integrity"><a class="header-anchor" href="#integrita-integrity"><i class="bi bi-link-45deg"></i></a> Integrità (Integrity)</h3>
+<p>L'integrità garantisce che i dati non vengano alterati, corrotti o manomessi senza autorizzazione, né durante la trasmissione né durante la conservazione. Un sistema che garantisce l'integrità è in grado di rilevare qualsiasi modifica non autorizzata. Un log di sistema manomesso da un attaccante per cancellare le tracce di un'intrusione è una violazione classica di questo principio.</p>
+<h3 id="disponibilita-availability"><a class="header-anchor" href="#disponibilita-availability"><i class="bi bi-link-45deg"></i></a> Disponibilità (Availability)</h3>
+<p>La disponibilità garantisce che sistemi, reti e dati siano accessibili e operativi quando necessario per gli utenti legittimi. Gli attacchi che prendono di mira questo principio, come gli attacchi <strong>DDoS</strong> (Distributed Denial of Service) o il ransomware che cifra i dati aziendali, mirano a rendere un servizio irraggiungibile o inutilizzabile. Un servizio bancario online che subisce anche solo 30 minuti di downtime può causare danni economici e reputazionali significativi.</p>
+<h2 id="i-meccanismi-di-protezione-dei-principi-cia"><a class="header-anchor" href="#i-meccanismi-di-protezione-dei-principi-cia"><i class="bi bi-link-45deg"></i></a> I meccanismi di protezione dei principi CIA</h2>
+<p>Ogni principio della triade CIA è presidiato da specifici meccanismi tecnici e procedurali. La tabella seguente mappa i controlli più rilevanti:</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Meccanismo</th>
+        <th>Principio CIA</th>
+        <th>Standard e strumenti</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Crittografia simmetrica/asimmetrica</td>
+        <td>Riservatezza</td>
+        <td>AES-256, RSA-4096, ECC, TLS 1.3</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Controllo degli accessi</td>
+        <td>Riservatezza</td>
+        <td>RBAC, ABAC, OAuth 2.0, OpenID Connect, IAM</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Hashing crittografico</td>
+        <td>Integrità</td>
+        <td>SHA-256, SHA-3, bcrypt, Argon2</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Audit trail</td>
+        <td>Integrità</td>
+        <td>SIEM (Splunk, Elastic), syslog, OpenTelemetry</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Ridondanza hardware/software</td>
+        <td>Disponibilità</td>
+        <td>RAID, cluster HA attivo-attivo, multi-AZ cloud</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Bilanciamento del carico</td>
+        <td>Disponibilità</td>
+        <td>Nginx, HAProxy, AWS ELB, Kubernetes Ingress</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h3 id="crittografia-e-controllo-degli-accessi-riservatezza"><a class="header-anchor" href="#crittografia-e-controllo-degli-accessi-riservatezza"><i class="bi bi-link-45deg"></i></a> Crittografia e controllo degli accessi (→ Riservatezza)</h3>
+<p>La <strong>crittografia</strong> trasforma i dati in un formato illeggibile per chiunque non disponga della chiave corretta. Algoritmi come <strong>AES-256</strong> per la crittografia simmetrica e <strong>RSA</strong> o <strong>ECC</strong> per quella asimmetrica sono gli standard di riferimento. Il protocollo <strong>TLS 1.3</strong> ne è l'applicazione più diffusa nella comunicazione in rete, garantendo riservatezza e autenticazione del canale.</p>
+<p>Il <strong>controllo degli accessi</strong> disciplina chi può fare cosa su quali risorse. I modelli più adottati sono <strong>RBAC</strong> (<em>Role-Based Access Control</em>), in cui i permessi sono assegnati per ruolo, e <strong>ABAC</strong> (<em>Attribute-Based Access Control</em>), più granulare e basato su attributi contestuali.</p>
+<p>Un elemento critico è la memorizzazione sicura delle password. L'hashing tramite algoritmi lenti e resistenti al brute-force come <strong>bcrypt</strong> o <strong>Argon2</strong> è oggi una best practice irrinunciabile:</p>
+<pre><code class="language-python">import bcrypt
+password = b&quot;password_sicura_123&quot;
+hashed = bcrypt.hashpw(password, bcrypt.gensalt(rounds=12))
+print(f&quot;Hash bcrypt: {hashed.decode()}&quot;)
+if bcrypt.checkpw(password, hashed):
+    print(&quot;Autenticazione riuscita&quot;)
+else:
+    print(&quot;Credenziali non valide&quot;)
+<p></code></pre></p>
+<blockquote>
+<p><strong>Best practice:</strong> Non memorizzare mai le password in chiaro o con algoritmi di hashing deboli come MD5 o SHA-1, progettati per la velocità e quindi inadatti alla protezione delle credenziali. Usa sempre bcrypt, Argon2 o scrypt con un fattore di costo adeguato all'hardware disponibile.</p>
+</blockquote>
+<h3 id="hash-e-audit-trail-integrita"><a class="header-anchor" href="#hash-e-audit-trail-integrita"><i class="bi bi-link-45deg"></i></a> Hash e audit trail (→ Integrità)</h3>
+<p>Le <strong>funzioni di hash crittografiche</strong> (SHA-256, SHA-3) producono un'impronta digitale univoca e di lunghezza fissa per qualsiasi dato in ingresso. Anche una singola modifica al dato originale produce un hash completamente diverso, rendendo qualsiasi manomissione immediatamente rilevabile. Questo meccanismo è alla base della verifica degli artefatti nelle pipeline CI/CD, della firma digitale dei documenti e dell'integrità dei pacchetti software.</p>
+<pre><code class="language-python">import hashlib
+def calcola_hash_file(filepath: str) -&gt; str:
+    sha256 = hashlib.sha256()
+    with open(filepath, &quot;rb&quot;) as f:
+        for chunk in iter(lambda: f.read(8192), b&quot;&quot;):
+            sha256.update(chunk)
+    return sha256.hexdigest()
+hash_originale = calcola_hash_file(&quot;artefatto.tar.gz&quot;)
+print(f&quot;SHA-256: {hash_originale}&quot;)
+# Confronta con il valore atteso per verificare l'integrità prima del deploy
+<p></code></pre></p>
+<p>L'<strong>audit trail</strong> è il registro immutabile e firmato di tutte le operazioni eseguite su un sistema: chi ha effettuato quale azione, quando e da quale indirizzo. Combinato con l'hashing, costituisce la prova forense di riferimento in caso di incidente e il requisito tecnico per la conformità a normative come GDPR e NIS2.</p>
+<h3 id="ridondanza-e-bilanciamento-del-carico-disponibilita"><a class="header-anchor" href="#ridondanza-e-bilanciamento-del-carico-disponibilita"><i class="bi bi-link-45deg"></i></a> Ridondanza e bilanciamento del carico (→ Disponibilità)</h3>
+<p>La <strong>ridondanza</strong> elimina i <em>single point of failure</em> attraverso la duplicazione dei componenti critici: server, link di rete, storage, alimentatori. Le architetture <strong>attivo-attivo</strong>, in cui tutti i nodi sono operativi simultaneamente, offrono la massima resilienza. Le architetture <strong>attivo-passivo</strong> mantengono invece uno standby pronto a subentrare in caso di guasto del nodo principale.</p>
+<p>Il <strong>bilanciamento del carico</strong> (<em>load balancing</em>) distribuisce il traffico in ingresso su più istanze del servizio, prevenendo il sovraccarico di un singolo nodo. In contesti cloud-native, strumenti come <strong>Kubernetes</strong> con il suo Ingress Controller e <strong>AWS Elastic Load Balancer</strong> automatizzano questi meccanismi, integrandosi con sistemi di auto-scaling per rispondere dinamicamente ai picchi di traffico, inclusi quelli generati da attacchi volumetrici.</p>
+<h2 id="asset-vulnerabilita-minacce-e-rischio"><a class="header-anchor" href="#asset-vulnerabilita-minacce-e-rischio"><i class="bi bi-link-45deg"></i></a> Asset, vulnerabilità, minacce e rischio</h2>
+<h3 id="asset-e-vulnerabilita"><a class="header-anchor" href="#asset-e-vulnerabilita"><i class="bi bi-link-45deg"></i></a> Asset e vulnerabilità</h3>
+<p>Un <strong>asset</strong> è qualsiasi risorsa di valore per un'organizzazione che debba essere protetta da potenziali danni, perdita o accesso non autorizzato. Le categorie principali sono:</p>
+<ul>
+<li><strong>Asset fisici:</strong> server, dispositivi di rete, workstation, dispositivi mobili, data center</li>
+<li><strong>Asset informativi:</strong> database, codice sorgente, proprietà intellettuale, dati personali soggetti al GDPR</li>
+<li><strong>Asset intangibili:</strong> reputazione aziendale, fiducia dei clienti, continuità operativa, valore del brand</li>
+</ul>
+<p>Le <strong>vulnerabilità</strong> sono le debolezze intrinseche di un sistema che possono essere sfruttate da un attaccante per compromettere uno o più principi della triade CIA. Possono essere di natura tecnica (bug nel software, patch mancanti, configurazioni errate), procedurale (policy di sicurezza inadeguate o non applicate) o umana (personale non formato, scarsa consapevolezza dei rischi).</p>
+<blockquote>
+<p><strong>Nota:</strong> La gestione delle vulnerabilità segue un ciclo strutturato: <strong>identificazione</strong> (vulnerability scanning, penetration test) → <strong>valutazione</strong> tramite il sistema di scoring <strong>CVSS</strong> e i codici <strong>CVE</strong> → <strong>remediation</strong> (patch, workaround, compensating control) → <strong>verifica</strong>. Questo processo, formalizzato come <em>Vulnerability Management</em> continuo, è un requisito esplicito della Direttiva NIS2.</p>
+</blockquote>
+<h3 id="minacce-comuni"><a class="header-anchor" href="#minacce-comuni"><i class="bi bi-link-45deg"></i></a> Minacce comuni</h3>
+<p>Le minacce basate sull'<strong>ingegneria sociale</strong> (<em>social engineering</em>) sfruttano la psicologia umana piuttosto che le vulnerabilità tecniche. Sono tra le più efficaci e difficili da contrastare perché by-passano completamente le difese perimetrali, prendendo di mira direttamente l'utente finale.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Tecnica</th> <th>Canale</th> <th>Target</th> <th>Meccanismo di inganno</th> <th>Indicatori di riconoscimento</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Phishing</td> <td>Email</td> <td>Utenti generici (attacco di massa)</td> <td>Email che impersona un brand noto (banca, corriere, provider cloud) con link a siti fraudolenti</td> <td>Mittente sospetto, URL con typosquatting, richiesta urgente di credenziali</td> </tr> <tr> <td class="fw-semibold">Spear phishing</td> <td>Email</td> <td>Individuo o organizzazione specifica (attacco mirato)</td> <td>Messaggio personalizzato con dettagli reali (nome, ruolo, colleghi) ottenuti da OSINT o social media</td> <td>Richieste insolite da mittenti noti, allegati non attesi, tono di urgenza anomalo</td> </tr> <tr> <td class="fw-semibold">Vishing</td> <td>Telefonata o VoIP</td> <td>Dipendenti, help desk, management</td> <td>Chiamata che impersona IT support, banca o autorità per ottenere credenziali o azioni immediate</td> <td>Richiesta di credenziali per telefono, pressione temporale, numero non verificabile</td> </tr> </tbody> </table> </div>
+<blockquote>
+<p><strong>Consiglio operativo:</strong> La mitigazione più efficace contro il social engineering è la <strong>formazione continua degli utenti</strong>, integrata da simulazioni periodiche di phishing controllato (<em>phishing simulation campaign</em>). Sul piano tecnico, l'adozione dell'<strong>autenticazione multi-fattore (MFA)</strong> su tutti i sistemi critici riduce drasticamente il rischio anche quando le credenziali vengono compromesse.</p>
+</blockquote>
+<h3 id="la-relazione-tra-vulnerabilita-minacce-e-rischio"><a class="header-anchor" href="#la-relazione-tra-vulnerabilita-minacce-e-rischio"><i class="bi bi-link-45deg"></i></a> La relazione tra vulnerabilità, minacce e rischio</h3>
+<p>Il <strong>rischio</strong> non è sinonimo di minaccia né di vulnerabilità: è il prodotto della loro combinazione, ponderato dalla probabilità di accadimento e dall'impatto potenziale sull'organizzazione:</p>
+<pre><code>Rischio = Probabilità di exploit × Impatto sull'organizzazione
+<p></code></pre></p>
+<p>Un'organizzazione con una vulnerabilità critica su un server esposto su Internet e una minaccia attiva che la sfrutta (come un gruppo APT che usa un exploit noto per quella CVE) è esposta a un rischio elevato. La <strong>gestione del rischio</strong> consiste nell'applicare controlli di sicurezza per ridurre la probabilità di exploit, limitare l'impatto di un eventuale incidente, o entrambi. Il risultato di questa analisi alimenta il <em>piano di trattamento del rischio</em>, uno degli artefatti centrali di qualsiasi programma di sicurezza maturo, sia esso allineato a <strong>ISO 27001</strong> o al <strong>NIST Cybersecurity Framework</strong>.</p>
+
+    </section>
+
+    <div class="section-divider mt-5 mb-4">Commenti</div>
+
+    <section aria-label="Commenti e reazioni">
+      <script>
+        (function () {
+          const saved = localStorage.getItem('bs-theme');
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+          const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+          const script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+
+      <noscript>
+        <div class="text-center py-4 text-muted">
+          <i class="bi bi-info-circle fs-3 d-block mb-2"></i>
+          <p class="small mb-0">
+            Per visualizzare i commenti è necessario abilitare JavaScript.
+            <br>
+            <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener noreferrer">
+              Discuti su GitHub Discussions →
+            </a>
+          </p>
+        </div>
+      </noscript>
+    </section>
+  </article>
+
+  <aside class="toc-sidebar d-none d-xl-block flex-shrink-0" style="width: 230px;">
+    <nav class="toc-sticky" id="toc" aria-label="Indice dei contenuti">
+      <div class="sidebar-card toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
+      </div>
+    </nav>
+  </aside>
+</div>
+
+    </main>
+
+    <footer class="border-top mt-auto py-5">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6 text-center">
+        <div class="fw-bold mb-3" style="font-size: 1.25rem;">
+          <span class="text-primary">dino</span>-996
+        </div>
+        <p class="text-muted small mb-3">
+          Developer portfolio e blog tecnico
+        </p>
+        <div class="d-flex justify-content-center gap-3 mb-0">
+          <a href="https://github.com/Dino-996" target="_blank" rel="noopener noreferrer"
+             class="text-muted" aria-label="GitHub">
+            <i class="bi bi-github fs-5"></i>
+          </a>
+          <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener noreferrer"
+             class="text-muted" aria-label="LinkedIn">
+            <i class="bi bi-linkedin fs-5"></i>
+          </a>
+          <a href="/feed.xml" class="text-muted" aria-label="Feed RSS" target="_blank">
+            <i class="bi bi-rss fs-5"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4">
+
+    <div class="text-center">
+      <p class="text-muted small mb-0 d-flex align-items-center justify-content-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 75 65" fill="currentColor">
+          <path d="M37.443-3.5c8.988,0,16.57,3.085,22.742,9.257C66.393,11.967,69.5,19.548,69.5,28.5c0,8.991-3.049,16.476-9.145,22.456    C53.879,57.319,46.242,60.5,37.443,60.5c-8.649,0-16.153-3.144-22.514-9.43C8.644,44.784,5.5,37.262,5.5,28.5    c0-8.761,3.144-16.342,9.429-22.742C21.101-0.415,28.604-3.5,37.443-3.5z M37.557,2.272c-7.276,0-13.428,2.553-18.457,7.657    c-5.22,5.334-7.829,11.525-7.829,18.572c0,7.086,2.59,13.22,7.77,18.398c5.181,5.182,11.352,7.771,18.514,7.771    c7.123,0,13.334-2.607,18.629-7.828c5.029-4.838,7.543-10.952,7.543-18.343c0-7.276-2.553-13.465-7.656-18.571    C50.967,4.824,44.795,2.272,37.557,2.272z M46.129,20.557v13.085h-3.656v15.542h-9.944V33.643h-3.656V20.557    c0-0.572,0.2-1.057,0.599-1.457c0.401-0.399,0.887-0.6,1.457-0.6h13.144c0.533,0,1.01,0.2,1.428,0.6    C45.918,19.5,46.129,19.986,46.129,20.557z M33.042,12.329c0-3.008,1.485-4.514,4.458-4.514s4.457,1.504,4.457,4.514    c0,2.971-1.486,4.457-4.457,4.457S33.042,15.3,33.042,12.329z"/>
+        </svg>
+        Realizzato con <span class="text-danger">❤️</span> usando
+        <a href="https://www.11ty.dev/" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-medium">Eleventy</a>
+        e <a href="https://getbootstrap.com/" target="_blank" rel="noopener noreferrer" class="text-decoration-none fw-medium">Bootstrap</a>
+      </p>
+    </div>
+  </div>
+</footer>
+      <!-- Bootstrap JS -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous">
+    </script>
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      window.pathPrefix = ".";
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send"><i class="bi bi-arrow-up"></i></button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('<i class="bi bi-hourglass-split me-1"></i>Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+  
+</html>

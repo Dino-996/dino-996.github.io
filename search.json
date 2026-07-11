@@ -1,5 +1,23 @@
 [
   {
+    "title": "Chat Control: anatomia di una sorveglianza di massa europea",
+    "url": "/blog/chat-control-anatomia-di-una-sorveglianza-di-massa/",
+    "description": "La sorveglianza preventiva UE. Un&#39;architettura &quot;Surveillance by Design&quot; che scardina la nostra privacy prima ancora della crittografia.",
+    "date": "2026-07-09T00:00:00.000Z"
+  },
+  {
+    "title": "Fondamenti di Compliance, Privacy e GDPR",
+    "url": "/blog/fondamenti-di-compliance-privacy-gdpr/",
+    "description": "Guida essenziale ai fondamenti di compliance e privacy: scopri come si articolano il GDPR e la Direttiva NIS2 tra protezione dei dati personali e cybersicurezza.",
+    "date": "2026-06-30T00:00:00.000Z"
+  },
+  {
+    "title": "Fondamenti di Sicurezza Informatica",
+    "url": "/blog/fondamenti-di-cybersecurity/",
+    "description": "Una guida completa ai principi della cybersecurity: analizziamo i ruoli professionali (dal SOC alla compliance NIS2), i meccanismi tecnici della triade CIA (riservatezza, integrità, disponibilità) e la gestione di asset, vulnerabilità e minacce.",
+    "date": "2026-06-25T00:00:00.000Z"
+  },
+  {
     "title": "Proxy Client con Tinyproxy",
     "url": "/blog/proxy-client-con-tinyproxy/",
     "description": "Guida tecnica completa alla configurazione di un proxy client locale su Linux (Zorin OS/Ubuntu 24.04) per forzare tutto il traffico TCP attraverso un proxy HTTP trasparente. La guida copre l&#39;installazione e configurazione di tinyproxy, dante (SOCKS5) e redsocks, la gestione delle regole iptables per evitare loop di reindirizzamento, la persistenza tramite systemd, i limiti del setup rispetto a DNS/UDP/QUIC e il confronto con le VPN, con indicazioni di hardening e troubleshooting.",
@@ -12,28 +30,16 @@
     "date": "2026-05-28T00:00:00.000Z"
   },
   {
+    "title": "Livello di rete e IPV4",
+    "url": "/blog/livello-di-rete/",
+    "description": "Scopri come funziona l&#39;indirizzamento IPv4: dalla struttura a 32 bit alla notazione CIDR, fino alle subnet mask e alla differenza tra IP pubblici e privati (RFC 1918). Una guida fondamentale per professionisti IT, Cloud e DevOps.",
+    "date": "2026-05-25T00:00:00.000Z"
+  },
+  {
     "title": "Il livello di collegamento dati e Ethernet",
     "url": "/blog/livello-di-collegamento/",
     "description": "Esplora il livello di collegamento dati (Data Link Layer): scopri il funzionamento dei frame Ethernet, il ruolo degli switch, l&#39;indirizzamento MAC e le tecnologie moderne come VLAN e VXLAN.",
     "date": "2026-05-24T00:00:00.000Z"
-  },
-  {
-    "title": "Mezzi trasmissivi",
-    "url": "/blog/mezzi-trasmissivi/",
-    "description": "Alla scoperta dei media di rete: analizziamo differenze, vantaggi e scenari d&#39;uso di cavi in rame (UTP/STP), fibra ottica (SMF/MMF) e tecnologie wireless dal Wi-Fi 6 al Wi-Fi 7.",
-    "date": "2026-05-23T00:00:00.000Z"
-  },
-  {
-    "title": "Reti wireless e mobili",
-    "url": "/blog/reti-wireless-mobile/",
-    "description": "Questo articolo esplora le principali tecnologie di connettività wireless presenti nei dispositivi mobili: come funzionano, come si configurano e come si integrano nell&#39;ecosistema digitale contemporaneo.",
-    "date": "2026-05-17T00:00:00.000Z"
-  },
-  {
-    "title": "Componenti, tipi e connessioni di rete",
-    "url": "/blog/componenti-tipi-e-connessioni-di-rete/",
-    "description": "Esplora le architetture Client-Server e P2P, scopri come sono strutturate le moderne infrastrutture di rete e approfondisci le tecnologie di accesso a banda larga (FTTH, 5G, LEO) e le strategie di sicurezza per connettività SOHO e aziendali.",
-    "date": "2026-05-08T00:00:00.000Z"
   },
   {
     "title": "Le reti",
@@ -88,12 +94,6 @@
     "url": "/blog/memoria-centrale/",
     "description": "Presentiamo la memoria centrale nei sistemi operativi, con particolare focus sulla necessità di ospitare dati e programmi durante l&#39;esecuzione.",
     "date": "2022-02-02T00:00:00.000Z"
-  },
-  {
-    "title": "Fondamenti di networking",
-    "url": "/blog/fondamenti-di-networking/",
-    "description": "Una prima introduzione sulle basi del networking, le fondamenta che ci permetteranno di capire come funzionano realmente le reti a cui ci connettiamo tutti i giorni.",
-    "date": "2020-03-12T00:00:00.000Z"
   },
   {
     "title": "Allocazione della memoria",
