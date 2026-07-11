@@ -66,6 +66,8 @@ export default async function () {
                 return new Date();
             })();
 
+            const courseName = a.course || null;
+
             return {
                 layout: 'layouts/post.njk',
                 title: a.title ?? 'Senza Titolo',
@@ -73,6 +75,7 @@ export default async function () {
                 tags: ['posts', ...flatTags],
                 strapiTags: displayFlatTags.join(","),
                 displayTags: displayFlatTags.join(","),
+                course: courseName,
                 date: postDate,
                 updatedAt: a.updatedAt ? new Date(a.updatedAt) : null,
                 excerpt: a.excerpt ?? '',

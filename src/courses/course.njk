@@ -1,0 +1,74 @@
+---
+layout: page.njk
+title: "{{ course.name }}"
+permalink: "/courses/{{ course.slug }}/index.html"
+eleventyExcludeFromCollections: true
+pagination:
+  data: courses
+  size: 1
+  alias: course
+---
+
+<div class="d-flex align-items-center gap-3 mb-5">
+  <div class="d-flex align-items-center justify-content-center rounded-3"
+       style="width: 52px; height: 52px; background: #f0f0f0;">
+    <i class="bi bi-mortarboard-fill fs-3" style="color: #333;"></i>
+  </div>
+  <div>
+    <div class="mb-1">
+      <a href="/courses/" class="text-decoration-none small text-muted">
+        <i class="bi bi-arrow-left me-1"></i>All courses
+      </a>
+    </div>
+    <h1 class="fw-bold mb-1">{{ course.name }}</h1>
+    <p class="text-muted mb-0">{{ course.postCount }} post</p>
+  </div>
+</div>
+
+{% if course.posts.length > 0 %}
+  <div class="row g-4">
+    {% for post in course.posts %}
+      <div class="col-12">
+        <article class="card border position-relative">
+          <div class="card-body p-4">
+            <div class="row g-3 align-items-start">
+              {% if post.image %}
+                <div class="col-md-3">
+                  <a href="{{ post.url }}" class="d-block">
+                    <img src="{{ post.image }}"
+                         alt="{{ post.imageAlt }}"
+                         class="img-fluid rounded w-100"
+                         style="aspect-ratio: 16/9; object-fit: cover;"
+                         loading="lazy">
+                  </a>
+                </div>
+              {% endif %}
+              <div class="{% if post.image %}col-md-9{% else %}col-12{% endif %}">
+                <h2 class="h5 fw-bold mb-2">
+                  <a href="{{ post.url }}" class="text-decoration-none text-reset stretched-link">{{ post.title }}</a>
+                </h2>
+                <div class="text-muted small mb-2">
+                  <time datetime="{{ post.date | dateIso }}">{{ post.date | dateHuman }}</time>
+                </div>
+                {% if post.description %}
+                  <p class="text-muted small mb-3">{{ post.description | truncate(200) }}</p>
+                {% endif %}
+                {% if post.strapiTags %}
+                  <div class="d-flex flex-wrap gap-1">
+                    {% set currentTags = post.strapiTags.split(",") %}
+                    {% for t in currentTags %}
+                      {% set cleanTag = t | trim %}
+                      {% if cleanTag and cleanTag != "posts" %}
+                        <span class="badge bg-light text-dark rounded-pill" style="font-size: 0.75rem;">{{ cleanTag }}</span>
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    {% endfor %}
+  </div>
+{% endif %}

@@ -48,11 +48,6 @@ export default function (eleventyConfig) {
     md.use(markdownItAnchor, {
         slugify: (s) => slugify(s, { lower: true, strict: true }),
         tabIndex: false,
-        permalink: markdownItAnchor.permalink.linkInsideHeader({
-            symbol: '<i class="bi bi-link-45deg"></i>',
-            space: true,
-            placement: 'before'
-        })
     });
 
     const defaultRender = md.renderer.rules.link_open || function (tokens, idx, options, env, self) {
@@ -78,7 +73,7 @@ export default function (eleventyConfig) {
     // = LINTER
     // =========================================
     eleventyConfig.addLinter("valida-post", function (_content, inputPath) {
-        if (!inputPath.includes("/posts/") || inputPath.includes("strapi-posts.njk")) {
+        if (!inputPath.includes("/posts/") || inputPath.includes("post.njk")) {
             return;
         }
 

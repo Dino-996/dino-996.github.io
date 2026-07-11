@@ -1,0 +1,55 @@
+---
+layout: page.njk
+title: Courses
+permalink: /courses/index.html
+eleventyExcludeFromCollections: true
+---
+
+<div class="d-flex align-items-center gap-3 mb-5">
+  <div class="d-flex align-items-center justify-content-center rounded-3"
+       style="width: 52px; height: 52px; background: #f0f0f0;">
+    <i class="bi bi-mortarboard-fill fs-3" style="color: #333;"></i>
+  </div>
+  <div>
+    <h1 class="fw-bold mb-1">Courses</h1>
+    <p class="text-muted mb-0">Percorsi didattici organizzati per argomento</p>
+  </div>
+</div>
+
+{% if courses.length > 0 %}
+  <div class="row g-4">
+    {% for course in courses %}
+      <div class="col-12 col-sm-6 col-lg-4">
+        <article class="card border h-100" style="transition: box-shadow 0.2s ease;">
+          <div class="card-body p-4">
+            <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="d-flex align-items-center justify-content-center rounded-2"
+                   style="width: 40px; height: 40px; background: #f0f0f0;">
+                <i class="bi bi-mortarboard-fill" style="color: #333;"></i>
+              </div>
+              <div>
+                <h2 class="h5 fw-bold mb-0">
+                  <a href="/courses/{{ course.slug }}/" class="text-decoration-none text-reset stretched-link">
+                    {{ course.name }}
+                  </a>
+                </h2>
+              </div>
+            </div>
+            <p class="text-muted small mb-0">{{ course.description }}</p>
+            <div class="mt-3 d-flex align-items-center gap-2">
+              <span class="badge bg-light text-dark rounded-pill" style="font-size: 0.8rem;">
+                <i class="bi bi-file-text me-1"></i>{{ course.postCount }} post
+              </span>
+            </div>
+          </div>
+        </article>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="text-center py-5">
+    <i class="bi bi-mortarboard-fill fs-1 text-muted d-block mb-3" style="opacity: 0.4;"></i>
+    <p class="text-muted mb-3">Nessun corso disponibile al momento.</p>
+    <p class="text-muted small">I corsi verranno visualizzati quando assegnerai il campo "course" ai tuoi post in Strapi.</p>
+  </div>
+{% endif %}
