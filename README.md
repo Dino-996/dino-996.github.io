@@ -5,16 +5,18 @@
 ![Lighthouse Best Practices](https://img.shields.io/badge/Lighthouse_Best_Practices-100-brightgreen)
 ![Lighthouse SEO](https://img.shields.io/badge/Lighthouse_SEO-100-brightgreen)
 
-Personal blog and portfolio built with [Eleventy](https://www.11ty.dev/) 3.1, [Bootstrap 5.3](https://getbootstrap.com/), and content from [Strapi CMS](https://strapi.io/).
+Personal blog and portfolio built with [Eleventy](https://www.11ty.dev/) 3.1 and content from [Strapi CMS](https://strapi.io/). Design inspired by Il Post — clean, editorial, no Bootstrap.
 
 ## Tech Stack
 
 - **Static site generator:** Eleventy v3.1
 - **Templating:** Nunjucks
-- **CSS framework:** Bootstrap 5.3 with custom dark mode
+- **Design system:** Custom CSS (Material Design 3 palette, CSS Grid 12-col, zero frameworks)
+- **Typography:** Libre Caslon Text (serif headings), Red Hat Text / Red Hat Display (sans)
 - **CMS:** Strapi (headless) on Render
 - **AI features:** Google Gemini for TL;DR summaries and chat assistant
 - **Comments:** Giscus (GitHub Discussions)
+- **Newsletter:** Supabase (DB + RLS) + EmailJS (transactional emails)
 - **Deployment:** GitHub Pages via GitHub Actions
 - **API backend:** Cloudflare Workers (AI chat proxy)
 
@@ -22,29 +24,32 @@ Personal blog and portfolio built with [Eleventy](https://www.11ty.dev/) 3.1, [B
 
 - Blog with pagination, tags, and search
 - Courses section grouping posts by topic (via Strapi `course` field)
-- Light/dark mode with persistance via `localStorage`
+- Light/dark mode with persistence via `localStorage`
 - AI-generated article summaries (TL;DR)
 - AI chat assistant ("dino") for technical questions
 - KaTeX math rendering
 - Syntax highlighting for code blocks
+- **Newsletter** with Supabase storage and EmailJS delivery
+  - Subscribe with email validation and DB insert
+  - Confirmation email with responsive HTML template
+  - One-click unsubscribe via unique token
+  - Auto-cleanup of unsubscribed users every 5 days (GitHub Actions cron)
 - Responsive design
 - **Lighthouse 100/100** on all categories
 
-## Lighthouse Optimizations
+## Newsletter Architecture
 
-### Accessibility
-- **Heading hierarchy**: sequential h1 → h2 (no skipping) on all pages
-- **Color contrast**: dark mode with proper contrast on buttons, cards, and badges
-- **Semantic HTML**: proper landmarks, ARIA labels, and roles
+```
+User email → Supabase INSERT (RLS-protected) → EmailJS confirmation
+                                                    ↓
+                                             User clicks "Cancellati"
+                                                    ↓
+                                      /unsubscribe/?token=xxx → PATCH Supabase
+                                                    ↓
+                                          5s redirect to home
+```
 
-### Performance
-- **Image sizing**: explicit `width`/`height` attributes on all images to prevent CLS
-- **Lazy loading**: below-fold images use `loading="lazy"`
-- **LCP preload**: cover images preloaded via `<link rel="preload">` with `fetchpriority="high"`
-- **Self-hosted assets**: GitHub avatar downloaded and served locally (5KB 32px, 18KB 64px)
-- **CSS minification**: custom CSS minified from 30.8KB → 21.5KB (-30%) via Eleventy transform
-- **JavaScript defer**: `main.js` loaded with `defer`
-- **Third-party optimization**: Prism.js with `defer`, Giscus with `loading="lazy"`
+Unsubscribed users are automatically deleted every 5 days by a scheduled GitHub Action (`cleanup-newsletter.yml`).
 
 ## Getting Started
 
@@ -52,9 +57,7 @@ Personal blog and portfolio built with [Eleventy](https://www.11ty.dev/) 3.1, [B
 # Install dependencies
 npm install
 
-# Create .env file with your values
-# (Strapi URL/token, Gemini API key)
-# See "Environment Variables" section below
+# Create .env file with your values (see below)
 npm run dev
 
 # Build for production (no .env loaded — for CI)
@@ -71,6 +74,11 @@ npm run build-local
 | `GEMINI_API_KEY` | Google Gemini API key (TL;DR + chat) |
 | `STRAPI_URL` | Strapi CMS API endpoint |
 | `STRAPI_TOKEN` | Strapi API authentication token |
+| `SUPABASE_URL` | Supabase project URL |
+| `SUPABASE_ANON_KEY` | Supabase publishable/anon key |
+| `EMAILJS_PUBLIC_KEY` | EmailJS public key |
+| `EMAILJS_SERVICE_ID` | EmailJS service ID |
+| `EMAILJS_TEMPLATE_ID` | EmailJS template ID for confirmation |
 | `ALLOWED_ORIGIN` | Allowed CORS origin for the AI worker |
 
 ## Project Structure
@@ -81,15 +89,43 @@ src/
 ├── _includes/       # Partials (navbar, head, footer)
 ├── _layouts/        # Page layouts (base, page, post)
 ├── assets/
-│   ├── css/         # Custom styles
-│   └── js/          # Client-side scripts + Cloudflare Worker
+│   ├── css/         # Custom styles (full design system, no Bootstrap)
+│   ├── email/       # Email template reference (confirmation.html)
+│   └── js/          # Client-side scripts + cleanup script
 ├── courses/         # Course detail pages
 ├── posts/           # Strapi post pagination template (post.njk)
 ├── tags/            # Tag listing pages
 ├── index.njk        # Homepage
 ├── blog.njk         # Blog listing
 ├── courses.njk      # Course listing
+├── unsubscribe.njk  # Newsletter unsubscribe page
 └── feed.njk         # Atom feed
+
+.github/workflows/
+├── deploy.yml              # Build + deploy to GitHub Pages
+└── cleanup-newsletter.yml  # Cron cleanup of unsubscribed users (every 5 days)
+```
+
+## Newsletter RLS Policies
+
+Run these in Supabase SQL Editor if recreating the `subscribers` table:
+
+```sql
+CREATE TABLE subscribers (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email TEXT NOT NULL UNIQUE,
+  subscribed_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  unsubscribed_at TIMESTAMPTZ,
+  unsubscribe_token UUID NOT NULL UNIQUE DEFAULT gen_random_uuid(),
+  status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'unsubscribed'))
+);
+
+ALTER TABLE subscribers ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Enable insert for anon" ON subscribers FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "Enable select for anon" ON subscribers FOR SELECT TO anon USING (true);
+CREATE POLICY "Enable update for anon" ON subscribers FOR UPDATE TO anon USING (true) WITH CHECK (true);
+CREATE POLICY "Enable delete for anon" ON subscribers FOR DELETE TO anon USING (true);
 ```
 
 ## Courses
@@ -109,3 +145,4 @@ The chat widget ("dino") consists of:
 Deploy the worker:
 ```bash
 npx wrangler deploy
+```
