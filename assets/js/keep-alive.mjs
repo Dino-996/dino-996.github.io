@@ -1,7 +1,7 @@
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 
-const TABLE_NAME = "newsletter_subscribers";
+const TABLE_NAME = "subscribers";
 
 async function main() {
   const url = `${SUPABASE_URL}/rest/v1/${TABLE_NAME}?select=id&limit=1`;
