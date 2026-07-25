@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Attacchi alla Rete · dino-996 blog
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Dalle campagne di phishing agli attacchi alla supply chain e ai ransomware, la cybersecurity è ormai un requisito irrinunciabile. Scopri come funzionano le principali minacce informatiche, l&#39;analisi dei casi storici WannaCry e SolarWinds e l&#39;uso di framework professionali come MITRE ATT&amp;CK per rilevare e contrastare i cyberattacchi." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/attacchi-alla-rete/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/attacchi-alla-rete/" />
+
+<meta property="og:title" content="Attacchi alla Rete" />
+<meta property="og:description" content="Dalle campagne di phishing agli attacchi alla supply chain e ai ransomware, la cybersecurity è ormai un requisito irrinunciabile. Scopri come funzionano le principali minacce informatiche, l&#39;analisi dei casi storici WannaCry e SolarWinds e l&#39;uso di framework professionali come MITRE ATT&amp;CK per rilevare e contrastare i cyberattacchi." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/attacchi-alla-rete/" />
+
+<meta name="twitter:title" content="Attacchi alla Rete" />
+<meta name="twitter:description" content="Dalle campagne di phishing agli attacchi alla supply chain e ai ransomware, la cybersecurity è ormai un requisito irrinunciabile. Scopri come funzionano le principali minacce informatiche, l&#39;analisi dei casi storici WannaCry e SolarWinds e l&#39;uso di framework professionali come MITRE ATT&amp;CK per rilevare e contrastare i cyberattacchi." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+  </head>
+
+  <body>
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">dino-996</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<!-- Post Header -->
+<header class="post-header">
+  
+    
+    
+    <span class="badge badge-category category">cybersecurity</span>
+    
+  
+  <h1>Attacchi alla Rete</h1>
+  <div class="post-meta">
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781251320/dino_avatar_81b48107e0.png" alt="Davide Sabia" class="avatar" width="32" height="32">
+    <span>Davide Sabia</span>
+    <span>·</span>
+    <time datetime="2026-07-30T00:00:00.000Z">30 luglio 2026</time>
+    <span class="reading-time"></span>
+    
+      <span>·</span>
+      <time datetime="2026-07-25T14:57:32.000Z">Aggiornato: 25 luglio 2026</time>
+    
+  </div>
+  
+  <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png"
+       alt="Immagine generata con AI"
+       class="post-image"
+       fetchpriority="high">
+  
+</header>
+
+<!-- Mobile ToC toggle -->
+<div class="post-layout" style="margin-bottom: 16px;">
+  <div class="hide-desktop">
+    <button id="toc-toggle" class="btn btn-outline btn-sm" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+      <span>Indice</span>
+      <span id="toc-chevron" style="transition: transform 0.2s;">▾</span>
+    </button>
+    <div id="toc-mobile" style="display: none; margin-top: 8px;">
+      <div class="toc-card">
+        <ul class="toc-list" id="toc-list-mobile"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="post-layout-wrapper">
+  <article class="post-layout">
+    
+    <div class="tldr-box">
+      <div class="tldr-label">In breve</div>
+      <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">L&#39;articolo delinea le minacce informatiche per professionisti IT, classificando malware come virus, worm e trojan, e analizzando casi di studio reali. Introduce anche framework professionali per l&#39;analisi e il contrasto delle minacce emergenti.</p>
+    </div>
+    
+
+    <section class="content">
+      <h2 id="dalla-teoria-allanalisi-delle-minacce-reali">Dalla teoria all'analisi delle minacce reali</h2>
+<p>In un ecosistema digitale sempre più interconnesso, comprendere la natura e il funzionamento degli attacchi informatici non è un optional riservato agli specialisti della sicurezza: è una competenza fondamentale per qualsiasi professionista IT. Sviluppatori che scrivono codice, IT manager che progettano infrastrutture e appassionati di tecnologia si trovano quotidianamente esposti a minacce che spaziano da semplici campagne di phishing ad attacchi sofisticati orchestrati da attori statali.</p>
+<p>Questo articolo offre una panoramica strutturata delle principali categorie di attacco, analizza casi reali come WannaCry e SolarWinds, e introduce i framework professionali utilizzati per riconoscere, analizzare e contrastare le minacce.</p>
+<h2 id="il-panorama-del-malware">Il panorama del malware</h2>
+<p>Il termine <strong>malware</strong> (contrazione di <em>malicious software</em>) identifica qualsiasi software progettato per danneggiare, infiltrare o compromettere un sistema informatico senza il consenso dell'utente. Le famiglie di malware si differenziano per modalità di propagazione, meccanismo di attivazione e obiettivo finale.</p>
+<h3 id="virus">Virus</h3>
+<p>Un virus informatico è un frammento di codice che si <strong>aggancia a file eseguibili esistenti</strong> e si propaga quando l'utente esegue il file infetto. A differenza di altri malware, il virus richiede un'azione umana per attivarsi: l'apertura di un allegato, l'esecuzione di un programma o lo scambio di file su supporti rimovibili.</p>
+<pre><code class="language-text">File legittimo → Infezione → Esecuzione da parte dell'utente → Replica su altri file → Payload
+</code></pre>
+<p>La contromisura principale è un antivirus aggiornato combinato con politiche di controllo degli eseguibili (application whitelisting).</p>
+<h3 id="worm">Worm</h3>
+<p>Il worm si distingue dal virus per la sua capacità di <strong>propagarsi autonomamente</strong>, senza necessità di alcuna interazione umana. Sfrutta vulnerabilità nei servizi di rete, protocolli di comunicazione o configurazioni errate per replicarsi da sistema a sistema, causando congestione della rete e danni ai sistemi collegati.</p>
+<p>Questa autonomia lo rende particolarmente pericoloso in ambienti aziendali non segmentati: un singolo sistema vulnerabile può diventare il punto di partenza di un'infezione che si estende all'intera infrastruttura in pochi minuti.</p>
+<h3 id="trojan">Trojan</h3>
+<p>Il trojan (o <em>trojan horse</em>) si maschera da <strong>software legittimo e utile</strong> per indurre l'utente a installarlo volontariamente. Una volta eseguito, installa payload malevoli in background: backdoor, keylogger, spyware o ransomware.</p>
+<pre><code class="language-text">Software apparentemente legittimo
+          ↓
+Installazione da parte dell'utente
+          ↓
+Esecuzione del payload nascosto
+          ↓
+Backdoor / Esfiltrazione dati / Ransomware
+</code></pre>
+<p>La difesa più efficace combina la verifica dell'integrità dei file tramite checksum SHA-256, il download esclusivo da fonti ufficiali e l'adozione di soluzioni EDR (Endpoint Detection and Response).</p>
+<h3 id="ransomware-e-ransomware-as-a-service">Ransomware e Ransomware-as-a-Service</h3>
+<p>Il <strong>ransomware</strong> è una categoria di malware che cifra i file della vittima e richiede il pagamento di un riscatto — tipicamente in criptovaluta — in cambio della chiave di decifratura. Negli ultimi anni il modello di business criminale si è ulteriormente evoluto con la comparsa del <strong>Ransomware-as-a-Service (RaaS)</strong>.</p>
+<p>Il RaaS funziona come una piattaforma criminale in abbonamento: un gruppo sviluppa e mantiene l'infrastruttura ransomware (il malware, i server C2, il portale di pagamento per le vittime) e la <strong>affitta ad affiliati</strong> che si occupano della distribuzione. In cambio, gli affiliati cedono al gruppo una percentuale del riscatto incassato — tipicamente tra il 20% e il 30%.</p>
+<p>Questo modello ha abbassato drasticamente la barriera tecnica di ingresso per i criminali informatici: non è più necessario saper sviluppare malware per condurre attacchi ransomware. Gruppi come <strong>LockBit</strong>, <strong>BlackCat/ALPHV</strong> e <strong>REvil</strong> hanno operato o operano con questo schema, colpendo ospedali, infrastrutture critiche e aziende di ogni dimensione.</p>
+<h3 id="fileless-malware">Fileless malware</h3>
+<p>Il <strong>fileless malware</strong> rappresenta una delle categorie più insidiose e difficili da rilevare. A differenza del malware tradizionale, non scrive alcun file eseguibile su disco: <strong>opera interamente in memoria RAM</strong>, sfruttando strumenti e processi legittimi già presenti nel sistema operativo (PowerShell, WMI, <code>mshta.exe</code>, macro di Office) per eseguire le proprie operazioni malevole.</p>
+<pre><code class="language-text">Vettore iniziale (email, browser exploit)
+          ↓
+Esecuzione di uno strumento di sistema legittimo
+          ↓
+Payload caricato direttamente in memoria RAM
+          ↓
+Nessun file scritto su disco → antivirus tradizionale cieco
+          ↓
+Persistenza tramite chiavi di registro o task schedulati
+</code></pre>
+<p>L'assenza di artefatti su disco rende inefficaci gli antivirus basati su firma (signature-based). La contromisura richiede soluzioni EDR con rilevamento comportamentale, monitoraggio delle chiamate di sistema e policy di restrizione degli script (es. PowerShell Constrained Language Mode).</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Tipo</th>
+        <th>Propagazione</th>
+        <th>Interazione umana</th>
+        <th>Obiettivo tipico</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Virus</td>
+        <td>Si aggancia a file esistenti</td>
+        <td>Sì (esecuzione del file)</td>
+        <td>Danneggiare file, rubare dati</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Worm</td>
+        <td>Autonoma via rete</td>
+        <td>No</td>
+        <td>Propagazione massiva, congestione</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Trojan</td>
+        <td>Ingegneria sociale</td>
+        <td>Sì (installazione volontaria)</td>
+        <td>Backdoor, furto credenziali</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Ransomware</td>
+        <td>Phishing, exploit, RaaS</td>
+        <td>Spesso sì (apertura allegato)</td>
+        <td>Estorsione tramite cifratura file</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Fileless malware</td>
+        <td>Browser exploit, macro</td>
+        <td>Talvolta</td>
+        <td>Esfiltrazione silenziosa, persistenza</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h2 id="phishing-e-social-engineering">Phishing e social engineering</h2>
+<p>Il <strong>social engineering</strong> è l'arte di manipolare le persone per ottenere informazioni riservate o indurle a compiere azioni contrarie alla sicurezza. Non sfrutta vulnerabilità tecniche, ma debolezze cognitive: fiducia, urgenza, autorità, paura. Il phishing ne è la forma più diffusa e pericolosa.</p>
+<h3 id="phishing-classico">Phishing classico</h3>
+<p>Il phishing classico si basa sull'invio massivo di <strong>email che imitano comunicazioni legittime</strong> — banche, provider email, servizi governativi — per indurre le vittime a rivelare credenziali o dati bancari. È un attacco indifferenziato: viene inviato a milioni di destinatari senza profilazione, contando sulla percentuale statistica di utenti che abboccheranno.</p>
+<p>Indicatori tipici di un'email di phishing:</p>
+<ul>
+<li>Mittente con dominio leggermente alterato (es. <code>paypa1.com</code> invece di <code>paypal.com</code>)</li>
+<li>Tono di urgenza o minaccia (&quot;Il tuo account verrà sospeso entro 24 ore&quot;)</li>
+<li>Link che al mouseover mostrano URL diversi dal testo visualizzato</li>
+<li>Richiesta di credenziali tramite modulo web non su dominio ufficiale</li>
+</ul>
+<h3 id="spear-phishing">Spear phishing</h3>
+<p>Lo spear phishing è una variante <strong>altamente personalizzata</strong> del phishing classico. L'attaccante raccoglie preventivamente informazioni sulla vittima — nome, ruolo aziendale, colleghi, progetti recenti — per costruire messaggi credibili e mirati su un bersaglio specifico. Il tasso di successo è significativamente superiore rispetto al phishing di massa proprio perché il messaggio supera il filtro critico della vittima, che non riconosce l'anomalia.</p>
+<p>Le fonti di intelligence più sfruttate includono LinkedIn, GitHub, siti aziendali e post sui social media. La tattica è frequentemente adottata nelle fasi iniziali di attacchi APT.</p>
+<h3 id="business-email-compromise-bec">Business Email Compromise (BEC)</h3>
+<p>Il <strong>Business Email Compromise</strong> è una delle frodi informatiche più costose al mondo: secondo l'FBI, ha generato perdite superiori a <strong>50 miliardi di dollari</strong> a livello globale. L'attaccante compromette o impersona account email aziendali — tipicamente di dirigenti o responsabili finanziari — per indurre trasferimenti di denaro fraudolenti o ottenere accesso a dati sensibili.</p>
+<p>Lo schema più comune prevede: spoofing o compromissione dell'account di un dirigente (CEO, CFO), invio di istruzioni urgenti e riservate al reparto amministrativo, utilizzo di conti intermediari difficili da tracciare. La contromisura più efficace è la verifica out-of-band (telefonata diretta) per qualsiasi operazione finanziaria fuori dall'ordinario, combinata con MFA su tutti gli account email aziendali.</p>
+<h2 id="attacchi-alla-rete">Attacchi alla rete</h2>
+<h3 id="ddos-distributed-denial-of-service">DDoS (Distributed Denial of Service)</h3>
+<p>Un attacco <strong>DDoS</strong> mira a rendere un servizio inaccessibile saturando le risorse del server target con un volume di traffico abnorme. A differenza di un semplice DoS generato da una singola sorgente, il DDoS sfrutta una <strong>botnet</strong> — una rete di dispositivi compromessi distribuiti globalmente — per amplificare enormemente l'impatto.</p>
+<p>Le tipologie principali sono:</p>
+<ul>
+<li><strong>Volumetric attacks</strong>: saturano la banda di rete (UDP flood, ICMP flood)</li>
+<li><strong>Protocol attacks</strong>: esauriscono risorse di stato nei firewall e nei load balancer (SYN flood)</li>
+<li><strong>Application layer attacks</strong>: mirano a esaurire le risorse applicative (HTTP flood, Slowloris)</li>
+</ul>
+<p>Tra gli attacchi volumetrici, particolarmente devastanti sono i cosiddetti <strong>attacchi di amplificazione</strong>: l'attaccante non genera direttamente tutto il traffico, ma sfrutta <strong>server DNS o NTP pubblici</strong> come amplificatori. Inviando piccole richieste con indirizzo sorgente falsificato (spoofato) verso questi server, ottiene risposte molto più grandi dirette verso la vittima. Il fattore di amplificazione può raggiungere 50x con DNS e oltre 500x con NTP.</p>
+<pre><code class="language-text">Attaccante (IP falsificato = IP vittima)
+    │
+    ▼
+Migliaia di server DNS/NTP pubblici
+    │  risposta 100x più grande della richiesta
+    ▼
+Target (sommerso da traffico amplificato)
+</code></pre>
+<p>Le contromisure includono servizi di scrubbing del traffico, CDN con protezione DDoS integrata (Cloudflare, AWS Shield), rate limiting e anycast routing.</p>
+<h3 id="mitm-man-in-the-middle">MitM (Man-in-the-Middle)</h3>
+<p>Negli attacchi <strong>Man-in-the-Middle</strong>, l'attaccante si inserisce silenziosamente nella comunicazione tra due parti, intercettando, leggendo e potenzialmente modificando i dati in transito senza che le vittime ne siano consapevoli.</p>
+<p>Una delle tecniche più comuni in reti locali è l'<strong>ARP spoofing</strong>: il protocollo ARP non prevede autenticazione, quindi l'attaccante può inviare risposte ARP false per avvelenare la cache ARP dei dispositivi in rete, associando il proprio indirizzo MAC all'indirizzo IP del gateway. Da quel momento tutto il traffico della vittima transita attraverso il sistema dell'attaccante prima di raggiungere la destinazione reale.</p>
+<p>Altre tecniche diffuse includono:</p>
+<ul>
+<li><strong>SSL stripping</strong>: degrada connessioni HTTPS a HTTP eliminando la cifratura</li>
+<li><strong>Rogue access point</strong>: crea un hotspot Wi-Fi malevolo che emula reti legittime</li>
+</ul>
+<p>La contromisura fondamentale è l'uso di <strong>TLS 1.3</strong> per tutte le comunicazioni, l'implementazione di <strong>HSTS</strong> (HTTP Strict Transport Security) e il <strong>DAI</strong> (Dynamic ARP Inspection) a livello di switch per contrastare l'ARP spoofing nelle reti locali.</p>
+<h3 id="dns-poisoning">DNS poisoning</h3>
+<p>Il <strong>DNS Poisoning</strong> (o <em>DNS Cache Poisoning</em>) altera le risposte dei server DNS per reindirizzare le vittime verso siti malevoli. L'attaccante inserisce record DNS fasulli nella cache di un resolver, associando nomi di dominio legittimi a indirizzi IP controllati dall'attaccante.</p>
+<pre><code class="language-text">Richiesta DNS: www.mybanca.it → ?
+[Resolver DNS avvelenato]
+       │
+       ▼
+Risponde: www.mybanca.it → 185.x.x.x (server dell'attaccante)
+       │
+       ▼
+Vittima → Sito clone → Furto credenziali
+</code></pre>
+<p>La contromisura principale è <strong>DNSSEC</strong> (DNS Security Extensions), che aggiunge firme crittografiche alle risposte DNS per garantirne l'autenticità e impedire la manipolazione della cache. Notare che DNSSEC protegge dall'avvelenamento della cache DNS, ma non cifra il contenuto delle query: per questo esiste <strong>DNS over HTTPS (DoH)</strong> o <strong>DNS over TLS (DoT)</strong>.</p>
+<h2 id="attacchi-alle-applicazioni-web">Attacchi alle applicazioni web</h2>
+<p>Le applicazioni web rappresentano una superficie di attacco privilegiata. OWASP (Open Web Application Security Project) pubblica periodicamente la lista delle vulnerabilità più critiche; tre di esse — SQL Injection, XSS e CSRF — ricorrono costantemente tra le prime posizioni della OWASP Top 10.</p>
+<h3 id="sql-injection">SQL injection</h3>
+<p>La <strong>SQL Injection</strong> consente a un attaccante di manipolare le query inviate al database inserendo codice SQL malevolo all'interno di campi di input non correttamente sanificati. L'impatto può variare dall'esfiltrazione di dati alla cancellazione completa del database.</p>
+<p>Esempio di codice vulnerabile:</p>
+<pre><code class="language-php">$query = &quot;SELECT * FROM users WHERE username='&quot; . $_POST['username'] . &quot;' AND password='&quot; . $_POST['password'] . &quot;'&quot;;
+</code></pre>
+<p>Con il payload <code>'admin' --</code> nel campo username, la query diventa:</p>
+<pre><code class="language-sql">SELECT * FROM users WHERE username='admin' --' AND password='...'
+</code></pre>
+<p>Il doppio trattino <code>--</code> è il simbolo di commento in SQL: tutto ciò che segue viene ignorato dal database, incluso il controllo sulla password. L'attaccante ottiene accesso all'account <code>admin</code> senza conoscerne la password. La contromisura è l'uso esclusivo di <strong>prepared statements</strong> con parametri bind:</p>
+<pre><code class="language-php">$stmt = $pdo-&gt;prepare(&quot;SELECT * FROM users WHERE username = ? AND password = ?&quot;);
+$stmt-&gt;execute([$_POST['username'], $_POST['password']]);
+</code></pre>
+<p>A livello architetturale, il principio del <strong>minimo privilegio</strong> applicato agli account database — un utente applicativo che può solo fare <code>SELECT</code> non può eseguire <code>DROP TABLE</code> — limita drasticamente il raggio d'azione di un'iniezione riuscita.</p>
+<h3 id="xss-cross-site-scripting">XSS (Cross-Site Scripting)</h3>
+<p>L'<strong>XSS</strong> consente a un attaccante di iniettare script JavaScript malevoli nelle pagine web visualizzate da altri utenti. La variante più pericolosa è lo <strong>XSS stored</strong>: il payload viene persistito nel database (es. all'interno di un commento o di un profilo utente) e servito a tutti gli utenti che visitano la pagina infetta. Un singolo payload può quindi <strong>rubare i cookie di sessione di tutti gli utenti</strong> che visualizzano la risorsa compromessa, senza che questi compiano alcuna azione particolare.</p>
+<pre><code class="language-php">// VULNERABILE — esegue script arbitrari nel browser di ogni visitatore
+echo &quot;Commento: &quot; . $row['contenuto'];
+// SICURO — neutralizza i caratteri speciali HTML
+echo &quot;Commento: &quot; . htmlspecialchars($row['contenuto'], ENT_QUOTES, 'UTF-8');
+</code></pre>
+<p>A livello architetturale, implementare un <strong>Content Security Policy (CSP)</strong> rigoroso è la difesa più efficace: impedisce al browser di eseguire script non provenienti da origini esplicitamente autorizzate.</p>
+<h3 id="csrf-cross-site-request-forgery">CSRF (Cross-Site Request Forgery)</h3>
+<p>Il <strong>CSRF</strong> sfrutta la fiducia che un sito ripone nel browser dell'utente autenticato, e più precisamente un meccanismo del tutto legittimo: il browser invia <strong>automaticamente i cookie di sessione a ogni richiesta verso il dominio</strong> di destinazione, indipendentemente da quale pagina origina la richiesta. L'attaccante sfrutta questo comportamento per far eseguire alla vittima azioni non volute.</p>
+<pre><code class="language-text">1. Vittima autenticata su mybanca.it → ha un cookie di sessione valido
+2. Vittima visita un sito malevolo
+3. Il sito esegue: &lt;img src=&quot;https://mybanca.it/transfer?to=attacker&amp;amount=5000&quot;&gt;
+4. Il browser allega automaticamente il cookie → la transazione viene eseguita
+</code></pre>
+<p>La contromisura standard è l'implementazione di <strong>CSRF token</strong> sincroni: ogni form include un token casuale e unico per sessione, verificato lato server prima di elaborare la richiesta:</p>
+<pre><code class="language-html">&lt;form method=&quot;POST&quot; action=&quot;/transfer&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;csrf_token&quot; value=&quot;a3f9b2c1d4e5f6a7b8c9d0e1&quot;&gt;
+&lt;/form&gt;
+</code></pre>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Vulnerabilità</th>
+        <th>Meccanismo sfruttato</th>
+        <th>Impatto tipico</th>
+        <th>Contromisura principale</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">SQL Injection</td>
+        <td>Input utente non sanificato nelle query</td>
+        <td>Esfiltrazione o distruzione dati, bypass autenticazione</td>
+        <td>Prepared statements</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">XSS stored</td>
+        <td>Output non codificato servito a tutti gli utenti</td>
+        <td>Furto sessione di massa, defacement</td>
+        <td>Output encoding + CSP</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">CSRF</td>
+        <td>Invio automatico cookie di sessione dal browser</td>
+        <td>Azioni non autorizzate a nome dell'utente</td>
+        <td>CSRF token sincroni</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h2 id="attacchi-avanzati">Attacchi avanzati</h2>
+<h3 id="apt-advanced-persistent-threat">APT (Advanced Persistent Threat)</h3>
+<p>Le <strong>Advanced Persistent Threats</strong> rappresentano la categoria più sofisticata di attacchi informatici. Sono campagne orchestrate tipicamente da attori statali o gruppi sponsorizzati da governi, caratterizzate da tre proprietà fondamentali che le distinguono dal cybercrime ordinario:</p>
+<ul>
+<li><strong>Advanced</strong>: utilizzano tecniche sofisticate, exploit zero-day e strumenti personalizzati sviluppati appositamente per l'obiettivo</li>
+<li><strong>Persistent</strong>: l'attaccante rimane nella rete della vittima per lungo tempo — mesi o anni — esfiltrano dati in modo silenzioso senza rivelare la propria presenza</li>
+<li><strong>Threat</strong>: rappresentano una minaccia concreta e mirata, non opportunistica</li>
+</ul>
+<p>La <strong>persistenza</strong> è l'elemento più critico: l'obiettivo non è colpire e fuggire, ma mantenere accesso continuativo e non rilevato per raccogliere intelligence o prepararsi a un'azione più distruttiva. Esempi storici includono <strong>Stuxnet</strong> (USA/Israele, contro le centrifughe nucleari iraniane), <strong>APT28/Fancy Bear</strong> (Russia) e <strong>APT41</strong> (Cina).</p>
+<h3 id="vulnerabilita-zero-day">Vulnerabilità zero day</h3>
+<p>Una <strong>vulnerabilità zero day</strong> è una falla di sicurezza sconosciuta al produttore del software al momento del suo sfruttamento. Il termine &quot;zero&quot; indica che <strong>il vendor ha avuto zero giorni per prepararsi</strong> prima che la vulnerabilità venisse attivamente sfruttata: non esiste ancora una patch e i sistemi sono esposti senza possibilità di difesa basata sugli aggiornamenti.</p>
+<pre><code class="language-text">Scoperta della vulnerabilità (solo l'attaccante ne è a conoscenza)
+        ↓
+Sviluppo dell'exploit
+        ↓
+Sfruttamento attivo — vittima completamente ignara e indifesa
+        ↓
+Scoperta da parte del vendor o di ricercatori di sicurezza
+        ↓
+Rilascio della patch (il &quot;conto zero day&quot; termina)
+</code></pre>
+<p>Gli exploit zero-day sono estremamente preziosi e vengono spesso impiegati nelle fasi iniziali di attacchi APT, dove il rilevamento immediato comprometterebbe l'intera operazione.</p>
+<h3 id="attacchi-alla-supply-chain">Attacchi alla supply chain</h3>
+<p>Gli <strong>attacchi alla supply chain</strong> colpiscono i fornitori di software o servizi per infiltrarsi nelle organizzazioni target attraverso canali considerati affidabili. L'impatto è amplificato perché un singolo fornitore compromesso diventa vettore di infezione per migliaia di clienti contemporaneamente. Il caso più emblematico — analizzato nel prossimo case study — è l'attacco <strong>SolarWinds</strong> del 2020.</p>
+<h2 id="case-study-wannacry">Case study: WannaCry</h2>
+<h3 id="panoramica-dellattacco">Panoramica dell'attacco</h3>
+<p>Il <strong>12 maggio 2017</strong>, WannaCry si diffuse in oltre <strong>150 paesi</strong> nel giro di 24 ore, colpendo centinaia di migliaia di sistemi Windows. Era un <strong>ransomware worm</strong>: cifrava i file delle vittime richiedendo un riscatto in Bitcoin, propagandosi al contempo autonomamente attraverso la rete senza alcuna interazione umana.</p>
+<p>Il vettore di infezione era <strong>EternalBlue</strong>, un exploit sviluppato dalla NSA americana per la vulnerabilità <strong>CVE-2017-0144</strong> (MS17-010) nel protocollo SMBv1 di Windows. Microsoft aveva rilasciato la patch correttiva <strong>59 giorni prima</strong> dell'attacco, ma milioni di sistemi non erano stati aggiornati. L'exploit era stato reso pubblico dal gruppo Shadow Brokers settimane prima dell'attacco.</p>
+<pre><code class="language-text">SMBv1 esposto su porta 445
+           ↓
+Exploit EternalBlue (CVE-2017-0144)
+           ↓
+Esecuzione di codice arbitrario
+           ↓
+Installazione backdoor DoublePulsar
+           ↓
+Download e avvio del payload ransomware
+           ↓
+Cifratura file + propagazione laterale sulla rete
+</code></pre>
+<h3 id="impatto">Impatto</h3>
+<p>La vittima più nota è il <strong>National Health Service (NHS) britannico</strong>, che subì danni stimati in circa <strong>92 milioni di sterline</strong>: decine di ospedali furono paralizzati, migliaia di appuntamenti medici cancellati e ambulanze dirottate. Tra le altre vittime figurano <strong>Telefónica</strong>, <strong>FedEx</strong> e numerose organizzazioni governative. Il danno economico globale complessivo supera i <strong>4 miliardi di dollari</strong>.</p>
+<h3 id="kill-switch-e-contenimento">Kill switch e contenimento</h3>
+<p>Il ricercatore di sicurezza <strong>Marcus Hutchins</strong> scoprì accidentalmente un kill switch: WannaCry tentava di contattare un dominio non registrato prima di attivarsi, probabilmente come meccanismo anti-sandbox. Hutchins registrò quel dominio per circa 10 dollari, interrompendo la propagazione del ransomware a livello globale nel giro di ore.</p>
+<h3 id="lezioni-apprese">Lezioni apprese</h3>
+<p>WannaCry ha evidenziato con brutale chiarezza tre priorità operative irrinunciabili:</p>
+<ul>
+<li><strong>Patch management tempestivo</strong>: la patch era disponibile da 59 giorni. Applicare tempestivamente gli aggiornamenti di sicurezza è la difesa più efficace contro la maggior parte degli attacchi che sfruttano vulnerabilità note</li>
+<li><strong>Backup regolari e testati</strong>: una strategia di backup 3-2-1 (tre copie, due supporti diversi, una copia off-site) è l'unica garanzia reale contro il ransomware</li>
+<li><strong>Disabilitazione di protocolli obsoleti</strong>: SMBv1 era già deprecato da Microsoft. La sua presenza in produzione è stata la causa primaria della diffusione massiva</li>
+</ul>
+<p>Rimando all'articolo scientifico <a href="https://boa.unimib.it/retrieve/e39773b6-ad69-35a3-e053-3a05fe0aac26/IL_CASO_WANNACRY_IL_FENOMENO_DEI_CYBER_A.pdf" target="_blank" rel="noopener noreferer"><em>IL CASO WANNACRY: IL FENOMENO DEI CYBER ATTACKS NEL CONTESTO DELLA RESPONSABILITÀ INTERNAZIONALE DEGLI STATI</em></a>, un approfondimento accademico a cura del giurista Daniele Mandrioli.</p>
+<h2 id="case-study-solarwinds">Case study: SolarWinds</h2>
+<h3 id="lattacco-alla-supply-chain-del-2020">L'attacco alla supply chain del 2020</h3>
+<p>Nel dicembre 2020, la società di sicurezza <strong>FireEye</strong> scoprì che la piattaforma di monitoraggio IT <strong>SolarWinds Orion</strong> era stata compromessa. La backdoor, denominata <strong>SUNBURST</strong>, fu inserita direttamente nel <strong>codice sorgente durante il processo di build</strong> del software, ben prima della firma digitale e della distribuzione agli utenti finali. Circa <strong>18.000 organizzazioni</strong> ricevettero l'aggiornamento infetto, tra cui agenzie governative americane di primo livello (Dipartimento del Tesoro, Dipartimento della Sicurezza Interna) e aziende Fortune 500.</p>
+<h3 id="caratteristiche-tecniche-di-sunburst">Caratteristiche tecniche di SUNBURST</h3>
+<p>La backdoor era progettata per eludere qualsiasi sistema di rilevamento convenzionale:</p>
+<ul>
+<li>Rimaneva <strong>dormiente per 14 giorni</strong> dopo l'installazione prima di attivarsi</li>
+<li>Mascherava le comunicazioni C2 come traffico legittimo verso domini <code>*.avsvmcloud.com</code></li>
+<li>Utilizzava algoritmi DGA (Domain Generation Algorithm) per rendere difficile il blocco dei server di comando</li>
+<li>Eseguiva ricognizione silenziosa dell'ambiente prima di procedere con qualsiasi esfiltrazione</li>
+</ul>
+<h3 id="lezioni-apprese-1">Lezioni apprese</h3>
+<p>Il caso SolarWinds ha ridefinito il concetto di fiducia nella supply chain software:</p>
+<ul>
+<li><strong>La firma digitale non è garanzia sufficiente di integrità</strong> se il processo di build stesso è stato compromesso</li>
+<li>I principi di <strong>Zero Trust</strong> devono essere applicati anche ai software di gestione considerati &quot;affidabili&quot;</li>
+<li>Il controllo dell'integrità del processo di build (<strong>build integrity</strong> e <em>reproducible builds</em>) è diventato un requisito di sicurezza prioritario nelle organizzazioni mature</li>
+</ul>
+<p>Per approfondire vi consiglio di dare uno sguardo all'articolo <a href="https://www.itstime.it/w/attacco-a-solarwinds-la-sequenza-temporale-by-f-borgonovo-l-cinciripini-m-zaliani" target="_blank" rel="noopener noreferer">https://www.itstime.it/w/attacco-a-solarwinds-la-sequenza-temporale-by-f-borgonovo-l-cinciripini-m-zaliani</a></p>
+<h2 id="riconoscere-un-attacco-framework-e-strumenti">Riconoscere un attacco: framework e strumenti</h2>
+<h3 id="mitre-attandck">MITRE ATT&amp;CK</h3>
+<p>Il framework <strong>MITRE ATT&amp;CK</strong> (<em>Adversarial Tactics, Techniques, and Common Knowledge</em>) è una knowledge base globale delle tattiche, tecniche e procedure (TTP) osservate nelle campagne di attacco reali. È fondamentale comprendere la distinzione tra i suoi due livelli principali:</p>
+<ul>
+<li><strong>Tattiche</strong>: rappresentano il <strong>perché</strong> dell'attaccante, ovvero l'obiettivo che vuole raggiungere in quella specifica fase (es. <em>Initial Access</em>, <em>Persistence</em>, <em>Privilege Escalation</em>, <em>Lateral Movement</em>, <em>Exfiltration</em>). Le tattiche descrivono l'intenzione, non il metodo.</li>
+<li><strong>Tecniche</strong>: rappresentano il <strong>come</strong>, ovvero il metodo specifico usato per raggiungere quell'obiettivo (es. <em>Spear Phishing Attachment</em> come tecnica per la tattica <em>Initial Access</em>).</li>
+</ul>
+<p>Questa struttura gerarchica permette ai team di sicurezza di mappare un attacco osservato contro il framework, identificare le lacune difensive e simulare scenari di attacco realistici. Il framework è disponibile gratuitamente su <a href="https://attack.mitre.org" target="_blank" rel="noopener noreferer">attack.mitre.org</a> e viene continuamente aggiornato.</p>
+<h3 id="kill-chain-di-lockheed-martin">Kill Chain di Lockheed Martin</h3>
+<p>Il modello <strong>Cyber Kill Chain</strong> descrive le <strong>sette fasi sequenziali</strong> di un attacco informatico strutturato:</p>
+<pre><code class="language-text">1. Reconnaissance         → Raccolta di informazioni sull'obiettivo
+2. Weaponization          → Creazione del payload malevolo
+3. Delivery               → Consegna del payload (email, USB, web)
+4. Exploitation           → Sfruttamento della vulnerabilità
+5. Installation           → Installazione del malware o backdoor
+6. Command &amp; Control (C2) → Stabilire comunicazione con l'attaccante
+7. Actions on Objectives  → Raggiungimento dell'obiettivo finale
+</code></pre>
+<p>Il valore operativo del modello risiede nel fatto che <strong>interrompere la catena in qualsiasi fase</strong> previene il raggiungimento dell'obiettivo finale. Identificare e bloccare un attacco nelle fasi iniziali (Reconnaissance, Delivery) è sempre preferibile all'intervento nelle fasi avanzate, quando i danni sono già in corso.</p>
+<h3 id="indicatori-di-compromissione-ioc">Indicatori di compromissione (IoC)</h3>
+<p>Gli <strong>Indicatori di Compromissione</strong> (IoC, <em>Indicators of Compromise</em>) sono evidenze forensi osservabili — come hash di file, indirizzi IP o domini — che indicano con alta probabilità una possibile compromissione del sistema. Includono:</p>
+<ul>
+<li><strong>Hash crittografici</strong> (MD5, SHA-256) di file malevoli noti</li>
+<li><strong>Indirizzi IP</strong> di server Command &amp; Control</li>
+<li><strong>Domini</strong> utilizzati per C2 o distribuzione di malware</li>
+<li><strong>URL</strong> specifici associati a campagne di attacco documentate</li>
+<li><strong>Pattern nel traffico di rete</strong> (beacon periodici, comunicazioni cifrate verso IP anomali)</li>
+<li><strong>Chiavi di registro o percorsi di file</strong> tipici di specifiche famiglie di malware</li>
+</ul>
+<p>Gli IoC vengono condivisi attraverso piattaforme di threat intelligence come <strong>MISP</strong> (<em>Malware Information Sharing Platform</em>) e feed commerciali (CrowdStrike, Recorded Future, VirusTotal). Il concetto si è evoluto verso gli <strong>IoA</strong> (<em>Indicators of Attack</em>), che si concentrano sui comportamenti degli attaccanti piuttosto che sugli artefatti statici, risultando più efficaci contro minacce nuove e zero-day.</p>
+
+    </section>
+  </article>
+
+  <aside class="toc-sidebar hide-mobile" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+</div>
+
+<!-- Share & Tags -->
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+    <div class="d-flex flex-wrap gap-2">
+      
+        
+          
+          
+          <a href="/tags/cybersecurity/" class="badge badge-outline">cybersecurity</a>
+          
+        
+          
+          
+          <a href="/tags/malware/" class="badge badge-outline">malware</a>
+          
+        
+          
+          
+          <a href="/tags/ransomware/" class="badge badge-outline">ransomware</a>
+          
+        
+          
+          
+          <a href="/tags/mitre/" class="badge badge-outline">MITRE</a>
+          
+        
+          
+          
+          <a href="/tags/sicurezza-web/" class="badge badge-outline">sicurezza web</a>
+          
+        
+      
+    </div>
+    <div class="d-flex gap-2">
+      <span class="font-label-sm" style="color: var(--on-surface-variant);">Condividi</span>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fattacchi-alla-rete%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="color: var(--secondary);">in</a>
+      <a href="https://twitter.com/intent/tweet?text=Attacchi%20alla%20Rete&url=https://dino-996.github.io%2Fblog%2Fattacchi-alla-rete%2F" target="_blank" rel="noopener" aria-label="X" style="color: var(--secondary);">𝕏</a>
+    </div>
+  </div>
+</div>
+
+<!-- Prev / Next -->
+
+
+
+
+
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <nav class="d-flex justify-content-between" aria-label="Navigazione articoli">
+    <div>
+      
+      <a href="/blog/post/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 250px;">
+        <span class="d-block small">← Precedente</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> Regolamento UE 2016/679 (GDPR): Guida Integrata a Struttura, Principi, Ruoli e Ambito Applicativo</span>
+      </a>
+      
+    </div>
+    <div style="text-align: right;">
+      
+      <a href="/blog/sicurezza-del-nas/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 250px;">
+        <span class="d-block small">Successivo →</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Guida alla sicurezza del NAS: proteggere la tua fortezza digitale</span>
+      </a>
+      
+    </div>
+  </nav>
+</div>
+
+
+<!-- Comments -->
+<div class="post-layout giscus-wrapper">
+  <script>
+    (function () {
+      const saved = localStorage.getItem('bs-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+      script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+      script.setAttribute('data-category', 'Announcements');
+      script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-theme', theme);
+      script.setAttribute('data-lang', 'it');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+      document.currentScript.replaceWith(script);
+    })();
+  </script>
+  <noscript>
+    <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+      Per visualizzare i commenti è necessario abilitare JavaScript.
+      <br>
+      <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+    </div>
+  </noscript>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">dino-996</a></div>
+  <nav class="footer-nav">
+    <a href="/about/">Chi sono</a>
+    <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Davide Sabia. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      window.pathPrefix = ".";
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

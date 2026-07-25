@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Guida alla sicurezza del NAS: proteggere la tua fortezza digitale · dino-996 blog
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Guida completa alla sicurezza del NAS: scopri come proteggere i tuoi dati con segmentazione VLAN, snapshot immutabili, livelli RAID e la regola di backup 3-2-1 per difenderti da ransomware e guasti hardware." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/sicurezza-del-nas/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/sicurezza-del-nas/" />
+
+<meta property="og:title" content="Guida alla sicurezza del NAS: proteggere la tua fortezza digitale" />
+<meta property="og:description" content="Guida completa alla sicurezza del NAS: scopri come proteggere i tuoi dati con segmentazione VLAN, snapshot immutabili, livelli RAID e la regola di backup 3-2-1 per difenderti da ransomware e guasti hardware." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/sicurezza-del-nas/" />
+
+<meta name="twitter:title" content="Guida alla sicurezza del NAS: proteggere la tua fortezza digitale" />
+<meta name="twitter:description" content="Guida completa alla sicurezza del NAS: scopri come proteggere i tuoi dati con segmentazione VLAN, snapshot immutabili, livelli RAID e la regola di backup 3-2-1 per difenderti da ransomware e guasti hardware." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+  </head>
+
+  <body>
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">dino-996</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<!-- Post Header -->
+<header class="post-header">
+  
+    
+    
+    <span class="badge badge-category category">cybersecurity</span>
+    
+  
+  <h1>Guida alla sicurezza del NAS: proteggere la tua fortezza digitale</h1>
+  <div class="post-meta">
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781251320/dino_avatar_81b48107e0.png" alt="Davide Sabia" class="avatar" width="32" height="32">
+    <span>Davide Sabia</span>
+    <span>·</span>
+    <time datetime="2026-07-25T00:00:00.000Z">25 luglio 2026</time>
+    <span class="reading-time"></span>
+    
+      <span>·</span>
+      <time datetime="2026-07-24T21:22:06.000Z">Aggiornato: 24 luglio 2026</time>
+    
+  </div>
+  
+  <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png"
+       alt="Immagine generata con AI"
+       class="post-image"
+       fetchpriority="high">
+  
+</header>
+
+<!-- Mobile ToC toggle -->
+<div class="post-layout" style="margin-bottom: 16px;">
+  <div class="hide-desktop">
+    <button id="toc-toggle" class="btn btn-outline btn-sm" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+      <span>Indice</span>
+      <span id="toc-chevron" style="transition: transform 0.2s;">▾</span>
+    </button>
+    <div id="toc-mobile" style="display: none; margin-top: 8px;">
+      <div class="toc-card">
+        <ul class="toc-list" id="toc-list-mobile"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="post-layout-wrapper">
+  <article class="post-layout">
+    
+    <div class="tldr-box">
+      <div class="tldr-label">In breve</div>
+      <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Un NAS (Network Attached Storage) offre archiviazione centralizzata, sempre attiva e accessibile in rete, trasformandosi in un server privato multifunzione con piena sovranità sui dati. Differisce dal cloud per la gestione diretta dell&#39;hardware e la privacy dei dati non condivisa con terze parti.</p>
+    </div>
+    
+
+    <section class="content">
+      <h2 id="cose-un-nas-e-perche-dovresti-averne-uno">Cos'è un NAS e perché dovresti averne uno</h2>
+<p>Nell'era in cui la quantità di dati che produciamo cresce ogni anno in modo esponenziale, la domanda di storage affidabile, accessibile e sicuro è diventata una priorità non solo per le aziende, ma anche per i professionisti e gli appassionati di tecnologia. In questo contesto nasce il <strong>NAS</strong> (Network Attached Storage): un dispositivo di archiviazione collegato direttamente alla rete locale, accessibile da tutti i dispositivi della stessa rete come se fosse un disco condiviso.</p>
+ <figure style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; display: inline-block; max-width: 620px; margin-top: 15px; margin-bottom: 15px;">
+  <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784927880/NAS_19f423f1d8.png" alt="Un NAS appena configurato su una scrivania" width="600" height="338" loading="lazy" style="max-width: 100%; border-radius: 5px">
+</figure>
+<p>A differenza di un disco esterno USB, il NAS è sempre acceso, sempre connesso e gestibile tramite un'interfaccia web. Al suo interno girano un sistema operativo dedicato (come <strong>DSM</strong> di Synology o <strong>QTS</strong> di QNAP) e una serie di applicazioni che lo trasformano in un vero e proprio server privato: file server, media server, sistema di backup automatico, piattaforma di sorveglianza e persino host per container Docker.</p>
+<p>Dal punto di vista hardware, un NAS è composto da:</p>
+<ul>
+<li>Uno o più <strong>bay</strong> per dischi rigidi (HDD o SSD), da 2 a decine di slot a seconda del modello.</li>
+<li>Un processore dedicato (spesso ARM o Intel Celeron nei modelli consumer).</li>
+<li>Memoria RAM per gestire i servizi in esecuzione.</li>
+<li>Interfacce di rete da 1 GbE a 10 GbE per i modelli professionali.<br>
+Il cuore della sua utilità sta nel fatto che i dati rimangono <strong>fisicamente a casa tua o nel tuo ufficio</strong>, su hardware che controlli tu. Questo lo distingue radicalmente dai servizi cloud come Google Drive o Dropbox, e lo rende la scelta preferita da chi vuole esercitare la piena sovranità digitale sui propri dati.</li>
+</ul>
+<h2 id="nas-vs-cloud-il-dilemma-della-sovranita-digitale">NAS vs Cloud: il dilemma della sovranità digitale</h2>
+<p>Quando si parla di archiviazione, la domanda ricorrente è: perché usare un NAS invece di un servizio cloud che è già pronto, sincronizzato e non richiede manutenzione? La risposta non è banale e dipende dalle priorità di ciascun utente.</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Criterio</th>
+        <th>Cloud (Google Drive / Dropbox)</th>
+        <th>NAS locale</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Semplicità d'uso</td>
+        <td>Ottima — zero configurazione</td>
+        <td>Richiede setup iniziale e manutenzione</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Privacy dei dati</td>
+        <td>Dipende dai termini di servizio del fornitore</td>
+        <td>Totale — i dati non lasciano mai la tua rete</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Velocità in LAN</td>
+        <td>Limitata alla banda internet</td>
+        <td>1–10 Gbps sulla rete locale</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Costo nel tempo</td>
+        <td>Abbonamento mensile continuo</td>
+        <td>Investimento una tantum in hardware</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Responsabilità sicurezza</td>
+        <td>Delegata al fornitore</td>
+        <td>100% a carico del proprietario</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Disponibilità offline</td>
+        <td>Limitata (solo file sincronizzati)</td>
+        <td>Completa — funziona senza internet</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+Per un percorso di apprendimento tecnico, il NAS è la scelta ideale perché obbliga a confrontarsi con concetti reali di networking, sicurezza e amministrazione di sistema. È, in parole povere, il massimo livello di sovranità digitale che un utente non enterprise possa raggiungere.
+<h2 id="la-rete-come-prima-linea-di-difesa">La rete come prima linea di difesa</h2>
+<p>Prima di configurare qualsiasi aspetto del NAS stesso, è fondamentale comprendere l'infrastruttura di rete in cui opera. Il NAS non è un'isola: è un nodo della rete locale, e la sicurezza di quella rete è il presupposto di tutto il resto.</p>
+<h3 id="come-il-nas-ottiene-il-suo-indirizzo-ip-il-protocollo-dhcp">Come il NAS ottiene il suo indirizzo IP: il protocollo DHCP</h3>
+<p>Quando colleghi il NAS al router tramite cavo Ethernet, il dispositivo non conosce ancora quale indirizzo IP usare. Entra in gioco il <strong>protocollo DHCP (Dynamic Host Configuration Protocol)</strong>, che automatizza l'assegnazione degli indirizzi IP attraverso un processo in quattro fasi chiamato <strong>DORA</strong>:</p>
+<ol>
+<li><strong>Discover:</strong> Il NAS invia un messaggio broadcast sulla rete chiedendo: <em>&quot;C'è un server DHCP disponibile?&quot;</em></li>
+<li><strong>Offer:</strong> Il router (che fa anche da server DHCP) risponde offrendo un indirizzo IP disponibile insieme a subnet mask, gateway e DNS.</li>
+<li><strong>Request:</strong> Il NAS accetta formalmente l'offerta inviando una richiesta di conferma.</li>
+<li><strong>Acknowledge:</strong> Il router conferma l'assegnazione e il NAS è ora raggiungibile sulla rete con quell'indirizzo.<br>
+Per un NAS è buona pratica configurare una <strong>prenotazione DHCP</strong> (o IP statico) sul router, in modo che riceva sempre lo stesso indirizzo IP. Questo è essenziale per configurare correttamente le regole del firewall e i percorsi di backup automatico, che dipendono da un indirizzo di destinazione stabile.</li>
+</ol>
+<h3 id="segmentazione-della-rete-isola-il-nas-con-le-vlan">Segmentazione della rete: isola il NAS con le VLAN</h3>
+<p>La segmentazione della rete è la misura di sicurezza più efficace per proteggere il NAS da minacce interne, ovvero da dispositivi già presenti nella rete locale che potrebbero essere compromessi. L'idea è semplice: invece di avere una rete piatta in cui tutti i dispositivi parlano liberamente tra loro, si divide la rete in <strong>segmenti logici separati</strong> chiamati <strong>VLAN (Virtual LAN)</strong>.</p>
+<p>Un esempio pratico di architettura segmentata per una rete domestica o di piccola impresa:</p>
+<pre><code>192.168.1.x /24  →  VLAN &quot;Client&quot; (PC, smartphone, tablet)
+192.168.2.x /24  →  VLAN &quot;NAS e Storage&quot; (NAS, dischi di rete)
+192.168.3.x /24  →  VLAN &quot;IoT&quot; (telecamere, smart TV, dispositivi smart home)
+</code></pre>
+<p>Con questa architettura, anche se un PC nella VLAN Client viene infettato da ransomware, il malware non può raggiungere direttamente il NAS perché si trova in un segmento di rete separato. Il traffico tra VLAN deve passare obbligatoriamente attraverso il firewall del router, che può applicare regole granulari su quale comunicazione è permessa e quale no.</p>
+<h3 id="il-firewall-come-controllore-del-traffico">Il firewall come controllore del traffico</h3>
+<p>Un <strong>firewall</strong> è il sistema che decide quale traffico di rete può passare e quale deve essere bloccato, basandosi su un insieme di regole definite dall'amministratore. Ogni pacchetto che attraversa il confine tra due segmenti di rete viene ispezionato secondo questi criteri:</p>
+<ul>
+<li><strong>Monitoraggio del traffico:</strong> Il firewall esamina tutti i pacchetti in transito tra le VLAN e verso internet.</li>
+<li><strong>Ispezione dei pacchetti:</strong> Analizza header e contenuto per determinare se il traffico corrisponde a pattern legittimi o sospetti.</li>
+<li><strong>Regolazione del traffico:</strong> Applica le policy definite (es. <em>&quot;i PC della VLAN Client possono accedere al NAS solo sulla porta SMB 445, nient'altro&quot;</em>).</li>
+<li><strong>Protezione da minacce esterne:</strong> Blocca connessioni in entrata non autorizzate da internet verso i dispositivi interni.<br>
+Router moderni come quelli basati su <strong>pfSense</strong>, <strong>OPNsense</strong> o i prodotti <strong>Ubiquiti UniFi</strong> offrono funzionalità complete di VLAN e firewall granulare, rendendoli la scelta preferita per chi vuole costruire un'infrastruttura di rete seria a costi contenuti.</li>
+</ul>
+<h2 id="raid-ridondanza-non-e-backup">RAID: ridondanza non è backup</h2>
+<p>Uno degli errori più comuni tra chi si avvicina per la prima volta al NAS è pensare che il RAID sia un sistema di backup. Non lo è. Il RAID (Redundant Array of Independent Disks) garantisce che il sistema continui a funzionare in caso di <strong>guasto fisico di un disco</strong>, ma non protegge dalla cancellazione accidentale di file, da un attacco ransomware o da un errore umano: se cancelli un file, il RAID lo cancella su tutti i dischi istantaneamente.</p>
+<h3 id="i-livelli-raid-piu-comuni">I livelli RAID più comuni</h3>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Livello RAID</th>
+        <th>Dischi minimi</th>
+        <th>Tolleranza guasti</th>
+        <th>Spazio utile</th>
+        <th>Caso d'uso consigliato</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">RAID 0 (Striping)</td>
+        <td>2</td>
+        <td>Nessuna</td>
+        <td>100%</td>
+        <td>Massime prestazioni, nessuna sicurezza</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">RAID 1 (Mirror)</td>
+        <td>2</td>
+        <td>1 disco</td>
+        <td>50%</td>
+        <td>NAS domestico, semplicità massima</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">RAID 5 (Parità distribuita)</td>
+        <td>3</td>
+        <td>1 disco</td>
+        <td>(N-1)/N</td>
+        <td>Compromesso spazio/sicurezza per PMI</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">RAID 6 (Doppia parità)</td>
+        <td>4</td>
+        <td>2 dischi</td>
+        <td>(N-2)/N</td>
+        <td>Dischi > 4 TB, ambienti critici</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">RAID 10 (Mirror + Stripe)</td>
+        <td>4</td>
+        <td>1 disco per coppia</td>
+        <td>50%</td>
+        <td>Database, massima velocità + sicurezza</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+> **Attenzione — RAID 5 e il rischio URE:** Durante la ricostruzione del RAID dopo la sostituzione di un disco guasto, il controller legge l'intero contenuto degli altri dischi. Su dischi di capacità superiore a 4 TB, la probabilità di incontrare un **Unrecoverable Read Error (URE)** è statisticamente significativa e può rendere la ricostruzione impossibile, causando la perdita totale dei dati. Per array con dischi da 4 TB o superiori, valuta seriamente RAID 6 o soluzioni come il RAID-Z2 di ZFS.
+<h2 id="hardening-iniziale-addio-allaccount-admin">Hardening iniziale: addio all'account &quot;admin&quot;</h2>
+<p>Ogni NAS esce di fabbrica con un account amministratore denominato &quot;admin&quot;. Questo nome è il primo che qualsiasi bot o attaccante proverà in una scansione automatica. La prima operazione da eseguire, prima ancora di connettere il NAS a internet, è eliminare questo vettore di attacco ovvio seguendo tre passi:</p>
+<ol>
+<li>Crea un nuovo account con un nome utente non prevedibile.</li>
+<li>Assegnagli i privilegi di amministratore completi.</li>
+<li><strong>Disabilita</strong> (non solo rinomina) l'account &quot;admin&quot; originale.<br>
+Questo semplice intervento riduce drasticamente l'efficacia degli attacchi a dizionario e brute-force automatizzati, che tipicamente non conoscono il nome utente e devono indovinare entrambe le credenziali.</li>
+</ol>
+<h2 id="password-robuste-e-autenticazione-a-due-fattori">Password robuste e autenticazione a due fattori</h2>
+<p>I NAS esposti in rete sono bersaglio di attacchi brute-force continui. Una password di 8 caratteri alfanumerici può essere violata in pochi minuti con strumenti moderni. La combinazione di una <strong>passphrase lunga</strong> (almeno 16 caratteri) e dell'<strong>autenticazione a due fattori (2FA)</strong> via app TOTP (come Google Authenticator o Aegis) rende questo tipo di attacco praticamente inefficace: anche se l'attaccante scopre la password, non può accedere senza il codice temporaneo generato sul tuo dispositivo fisico.</p>
+<p>Una misura complementare e altrettanto efficace è il <strong>blocco automatico dell'IP</strong> dopo 3–5 tentativi di login falliti. Questa funzionalità è disponibile nelle impostazioni di sicurezza di tutti i principali sistemi operativi NAS e rappresenta la difesa più semplice da configurare con il massimo ritorno in termini di protezione.</p>
+<h2 id="ridurre-la-superficie-di-attacco-chiudi-i-servizi-inutili">Ridurre la superficie di attacco: chiudi i servizi inutili</h2>
+<p>Un NAS moderno è una piattaforma versatile: può fare da server web, mail, multimedia e sistema di sorveglianza contemporaneamente. Il problema è che ogni servizio attivo corrisponde a una porta aperta sulla rete, ovvero una potenziale <strong>superficie di attacco</strong>. Il principio guida è semplice: se non usi un servizio, disabilitalo.</p>
+<p>Checklist dei servizi da disabilitare se non strettamente necessari:</p>
+<ul>
+<li><strong>Telnet</strong> — protocollo non cifrato, obsoleto e intrinsecamente insicuro. Non esiste motivo valido per tenerlo attivo nel 2025.</li>
+<li><strong>SSH</strong> — potente ma pericoloso se esposto senza policy restrittive. Disabilitarlo se non si è esperti di amministrazione Linux; se necessario, limitarne l'accesso a specifici indirizzi IP.</li>
+<li><strong>FTP</strong> — trasmette credenziali in chiaro. Utilizzare sempre <strong>SFTP</strong> o <strong>FTPS</strong> in alternativa.</li>
+<li><strong>UPnP</strong> — il peggiore di tutti: apre porte sul router in modo automatico e silenzioso, senza che tu ne sia consapevole. Va disabilitato sia sul NAS che sul router.</li>
+</ul>
+<h2 id="smb-il-protocollo-dei-file-e-i-suoi-pericoli">SMB: il protocollo dei file e i suoi pericoli</h2>
+<p>Il protocollo <strong>SMB (Server Message Block)</strong> è il linguaggio che Windows e i sistemi operativi moderni utilizzano per accedere alle cartelle condivise del NAS sulla rete locale. È comodo, integrato nativamente e non richiede configurazioni aggiuntive sul client. Tuttavia, nasconde un'insidia storica molto seria.</p>
+<p><strong>SMB v1 è vulnerabile</strong> a exploit devastanti come <strong>EternalBlue</strong>, il vettore che ha reso possibile l'attacco globale WannaCry nel 2017, con danni stimati in miliardi di dollari. Nonostante questa vulnerabilità sia nota da anni, SMB v1 è ancora abilitato per default su alcuni NAS e versioni di Windows.</p>
+<p>Per verificare quale versione SMB è attiva sul tuo sistema Linux o NAS con accesso shell:</p>
+<pre><code class="language-bash">smbstatus --version
+testparm -s | grep -i &quot;server min protocol&quot;
+</code></pre>
+<p>Per forzare SMB v2 come minimo nel file di configurazione di Samba (<code>/etc/samba/smb.conf</code>):</p>
+<pre><code class="language-ini">[global]
+  server min protocol = SMB2
+  server max protocol = SMB3
+  smb encrypt = required
+</code></pre>
+<p>Dopo la modifica, riavvia il servizio con <code>systemctl restart smbd</code>. Assicurati che tutti i client della rete supportino SMB v2 (Windows 7 e superiori lo supportano nativamente).</p>
+<h2 id="il-principio-del-minimo-privilegio-polp">Il principio del minimo privilegio (PoLP)</h2>
+<p>Il <strong>Principio del Minimo Privilegio</strong> (Principle of Least Privilege, PoLP) stabilisce che ogni utente e processo deve avere accesso esclusivamente alle risorse strettamente necessarie per svolgere il proprio compito, e niente di più.</p>
+<p>Applicato al NAS, questo significa:</p>
+<ul>
+<li><strong>Niente &quot;Everyone&quot;:</strong> Non assegnare mai permessi di lettura o scrittura al gruppo &quot;Tutti&quot;. Ogni utente deve avere la propria cartella con permessi nominali. Condividere una cartella con accesso universale equivale a lasciare la porta di casa aperta.</li>
+<li><strong>Sola lettura dove possibile:</strong> Se un utente deve solo fruire di contenuti multimediali, non dargli il permesso di scrittura. In caso di infezione del suo PC da parte di un virus o ransomware, il malware non potrà modificare o cancellare i file sul NAS perché la connessione SMB è in sola lettura.</li>
+<li><strong>ACL granulari:</strong> Usa le <strong>Access Control Lists (ACL)</strong> per definire permessi a livello di singola cartella, singolo file o gruppo di utenti. I sistemi operativi NAS moderni (DSM, QTS) offrono interfacce grafiche complete per la gestione delle ACL compatibili con lo standard Windows NTFS.</li>
+</ul>
+<h2 id="file-system-moderni-btrfs-e-zfs">File system moderni: Btrfs e ZFS</h2>
+<p>La scelta del file system su cui formattare i volumi del NAS ha implicazioni dirette sulla <strong>sicurezza e integrità dei dati nel lungo periodo</strong>. Il tradizionale EXT4 è affidabile ma privo di meccanismi di rilevamento proattivo della corruzione dei dati.</p>
+<p>I file system moderni come <strong>Btrfs</strong> (usato da Synology) e <strong>ZFS</strong> (usato da TrueNAS e altri) offrono funzionalità di sicurezza integrate che EXT4 non possiede:</p>
+<ul>
+<li><strong>Self-healing (auto-riparazione):</strong> Entrambi implementano il checksumming di ogni blocco dati. Se un blocco viene corrotto silenziosamente da un difetto hardware (fenomeno noto come <strong>Bit Rot</strong>), il file system lo rileva al momento della lettura e, se esiste una copia ridondante (come in RAID), lo ripara automaticamente senza intervento dell'utente.</li>
+<li><strong>Snapshot atomici:</strong> Permettono di registrare lo stato del file system in un dato istante in modo quasi istantaneo e con un consumo minimo di spazio (grazie alla tecnica <strong>copy-on-write</strong>). Gli snapshot non sono copie complete dei dati, ma registrazioni delle differenze rispetto allo stato precedente.</li>
+</ul>
+<h2 id="snapshot-la-macchina-del-tempo-contro-il-ransomware">Snapshot: la macchina del tempo contro il ransomware</h2>
+<p>Gli snapshot sono la <strong>difesa numero uno contro gli attacchi ransomware</strong>. Ecco perché: se un virus cifra tutti i tuoi file alle 10:00, puoi ripristinare lo snapshot delle 09:55 in pochi secondi, annullando completamente l'attacco come se non fosse mai avvenuto.</p>
+<p>Per massimizzare l'efficacia degli snapshot come strumento difensivo, configura quelli destinati al backup come <strong>immutabili (Read-Only)</strong>. Questo impedisce al ransomware — anche se ha già ottenuto il controllo del sistema — di cancellare o modificare gli snapshot stessi. Uno snapshot in sola lettura è, per definizione, immune alla cifratura da parte di malware che agisce tramite permessi utente standard.</p>
+<p>Una policy di snapshot ragionevole per un NAS domestico o di piccola impresa prevede:</p>
+<ul>
+<li>Snapshot orari, conservati per 24 ore.</li>
+<li>Snapshot giornalieri, conservati per 30 giorni.</li>
+<li>Snapshot settimanali, conservati per 3 mesi.</li>
+</ul>
+<h3 id="anatomia-di-un-attacco-ransomware-al-nas">Anatomia di un attacco ransomware al NAS</h3>
+<p>Comprendere il meccanismo con cui il ransomware colpisce un NAS è essenziale per costruire le difese corrette. Il processo si articola tipicamente in quattro fasi:</p>
+<ol>
+<li><strong>Infiltrazione:</strong> Un PC della rete locale viene infettato tramite una mail di phishing o un sito web compromesso.</li>
+<li><strong>Scansione:</strong> Il malware in esecuzione sul PC infetto esegue una scansione della rete locale alla ricerca di risorse condivise (il tuo NAS) raggiungibili tramite SMB.</li>
+<li><strong>Cifratura:</strong> Il malware utilizza la connessione SMB già autenticata del PC della vittima per sovrascrivere tutti i file sul NAS con versioni cifrate, senza mai dover violare direttamente il NAS.</li>
+<li><strong>Riscatto:</strong> I file originali sono irrecuperabili e rimangono solo le richieste di pagamento.<br>
+La conclusione operativa è diretta: la <strong>segmentazione della rete</strong> (per isolare il NAS dai PC potenzialmente infetti) e gli <strong>snapshot immutabili</strong> sono le due contromisure che, combinate, rendono questo scenario non catastrofico. Se la VLAN del NAS è separata dalla VLAN dei client e il firewall blocca le connessioni SMB non autorizzate, il malware sul PC non riesce nemmeno a raggiungere il NAS per iniziare la cifratura.</li>
+</ol>
+<h2 id="accesso-remoto-sicuro-mai-il-port-forwarding">Accesso remoto sicuro: mai il port forwarding</h2>
+<p>Aprire le porte del NAS direttamente su internet tramite port forwarding sul router (ad esempio le porte 5000 o 8000 di DSM) equivale a incollare la chiave di casa sulla porta d'ingresso. Il NAS diventa immediatamente visibile a scanner globali come Shodan e diventa bersaglio di attacchi automatizzati.</p>
+<p>Le alternative sicure sono due:</p>
+<ul>
+<li><strong>VPN:</strong> È la soluzione raccomandata. Ti connetti prima alla VPN della tua rete domestica o aziendale e poi accedi al NAS come se fossi fisicamente in loco, senza esporre nulla su internet. Tra le opzioni disponibili, <strong>WireGuard</strong> è il protocollo moderno preferito per la sua semplicità e le sue prestazioni superiori rispetto a OpenVPN. Per chi non vuole gestire un server VPN proprio, <strong>Tailscale</strong> (basato su WireGuard) offre una soluzione zero-config che non richiede IP fisso né apertura di porte sul router: i due dispositivi si trovano automaticamente tramite una rete mesh cifrata.</li>
+<li><strong>Reverse proxy con HTTPS:</strong> Se è assolutamente necessario esporre un servizio specifico (ad esempio una web app o un'interfaccia Nextcloud), usa un reverse proxy (come <strong>Nginx Proxy Manager</strong> o <strong>Traefik</strong>) con certificati TLS validi emessi da Let's Encrypt. Il reverse proxy gestisce la terminazione TLS e smista il traffico verso i servizi interni. In questo scenario, l'unica porta aperta su internet è la 443 (HTTPS).</li>
+</ul>
+<h2 id="crittografia-a-riposo-encryption">Crittografia a riposo (Encryption)</h2>
+<p>La crittografia a riposo risponde a uno scenario di minaccia spesso sottovalutato: il furto fisico del dispositivo. Se un malintenzionato accede fisicamente al NAS, può smontare i dischi e montarli su un altro computer per leggerne il contenuto senza alcuna credenziale.</p>
+<p>La <strong>crittografia del volume (AES-256)</strong>, disponibile su tutti i principali NAS consumer, rende i dischi inutilizzabili senza la chiave di sblocco. Il cifrario AES-256 opera in modalità <strong>simmetrica</strong>: la stessa chiave viene usata per cifrare e decifrare i dati. Questa chiave è protetta da una passphrase scelta dall'utente e non è mai memorizzata in chiaro sul dispositivo.</p>
+<p>Da un punto di vista pratico, la crittografia del volume introduce un leggero overhead sulle prestazioni I/O (tipicamente tra il 5% e il 15% a seconda dell'hardware), ma rappresenta un requisito non negoziabile per qualsiasi NAS che contenga dati sensibili o sia soggetto a normative come il GDPR. Molti NAS moderni integrano accelerazione hardware AES (istruzioni AES-NI) che riduce questo impatto al minimo.</p>
+<h2 id="la-regola-del-3-2-1">La regola del 3-2-1</h2>
+<p>Il backup è la rete di sicurezza finale contro qualsiasi scenario di perdita dei dati. La regola del <strong>3-2-1</strong> è lo standard dell'industria per una strategia di backup resiliente:</p>
+<ul>
+<li><strong>3 copie dei dati:</strong> L'originale più due backup distinti. La ridondanza multipla protegge da guasti simultanei e da errori umani.</li>
+<li><strong>2 supporti diversi:</strong> Ad esempio il NAS stesso e un hard disk esterno. Non conservare tutti i backup sullo stesso tipo di supporto o sullo stesso sistema.</li>
+<li><strong>1 copia off-site:</strong> Una copia deve trovarsi fisicamente in un luogo diverso dall'originale: casa di un familiare, ufficio, o un servizio cloud cifrato. Questo protegge da eventi catastrofici locali come incendi, allagamenti o furti.<br>
+Per automatizzare la copia verso un disco esterno USB collegato al NAS, uno script rsync su Linux è la soluzione più semplice ed efficace:</li>
+</ul>
+<pre><code class="language-bash">#!/bin/bash
+SORGENTE=&quot;/volume1/dati&quot;
+DESTINAZIONE=&quot;/volumeUSB1/backup&quot;
+LOG=&quot;/var/log/backup_3-2-1.log&quot;
+rsync -avz --delete --checksum &quot;$SORGENTE&quot; &quot;$DESTINAZIONE&quot; &gt;&gt; &quot;$LOG&quot; 2&gt;&amp;1
+echo &quot;Backup completato il $(date)&quot; &gt;&gt; &quot;$LOG&quot;
+</code></pre>
+<p>L'opzione <code>--checksum</code> garantisce l'integrità dei file confrontando il checksum e non solo la data di modifica, mentre <code>--delete</code> sincronizza le cancellazioni mantenendo la destinazione allineata alla sorgente.</p>
+<h2 id="backup-immutabili-la-tecnologia-worm">Backup immutabili: la tecnologia WORM</h2>
+<p>I backup standard possono essere cancellati o cifrati da un ransomware con privilegi sufficienti. I <strong>backup immutabili</strong> risolvono questo problema alla radice attraverso la tecnologia <strong>WORM (Write Once, Read Many)</strong>, che impedisce la modifica o la cancellazione di un file per un periodo prestabilito (ad esempio 30 giorni), indipendentemente dai permessi dell'utente.</p>
+<p>Una volta scritto in modalità WORM, un file non può essere cancellato nemmeno dall'amministratore del sistema prima della scadenza del periodo di retention. Questo rende i backup immutabili l'ultima linea di difesa assoluta: anche in caso di compromissione totale del sistema, i dati di backup rimangono intatti e recuperabili.</p>
+<p>Soluzioni come <strong>Synology Hyper Backup</strong> e <strong>QNAP Hybrid Backup Sync</strong> supportano nativamente la retention immutabile. Per chi adotta soluzioni cloud come destinazione off-site, provider come <strong>Backblaze B2</strong> e <strong>AWS S3 Object Lock</strong> offrono WORM nativamente.</p>
+<h2 id="aggiornamenti-del-firmware">Aggiornamenti del firmware</h2>
+<p>I NAS sono dispositivi critici esposti a minacce reali. Nel corso degli anni, sia QNAP che Synology hanno subito vulnerabilità gravi sfruttate attivamente in attacchi di massa (come DeadBolt nel 2022, che ha colpito decine di migliaia di NAS QNAP esposti in rete). In tutti questi casi, le patch correttive erano disponibili settimane o mesi prima che gli attacchi si diffondessero su larga scala.</p>
+<p>La lezione è semplice: <strong>la maggior parte degli attacchi colpisce sistemi non aggiornati.</strong> La configurazione raccomandata è:</p>
+<ul>
+<li>Abilitare gli <strong>aggiornamenti di sicurezza automatici</strong> nella dashboard del NAS.</li>
+<li>Iscriversi ai bollettini di sicurezza del produttore (Synology Security Advisories, QNAP Security Advisory).</li>
+<li>Pianificare un controllo manuale mensile per gli aggiornamenti delle applicazioni installate tramite il package manager del NAS.</li>
+</ul>
+<h2 id="antivirus-sul-nas-serve-davvero">Antivirus sul NAS: serve davvero?</h2>
+<p>La risposta è sì, ma con una precisazione importante sull'obiettivo. Un antivirus installato sul NAS non serve principalmente a proteggere il NAS stesso (che gira su Linux e non è il target diretto della maggior parte dei malware per Windows), ma a <strong>prevenire che il NAS diventi un distributore involontario di virus</strong> per tutti i PC della rete che leggono i file su di esso.</p>
+<p>I principali sistemi operativi NAS offrono pacchetti antivirus integrati come <strong>ClamAV</strong> (open source, gratuito) o suite commerciali come McAfee (oggi <strong>Trellix</strong> dopo il rebranding del 2022). Questi engine scansionano i file al momento dell'upload e su base programmata, rilevando e mettendo in quarantena i file infetti prima che vengano distribuiti ai client della rete.</p>
+<p>Per chi gestisce un NAS in contesto aziendale, è consigliabile integrare i <strong>log di accesso del NAS</strong> con una soluzione SIEM (Security Information and Event Management) per rilevare pattern anomali come accessi a orari inusuali, upload massivi di file cifrati o tentativi di login ripetuti.</p>
+<h2 id="ups-la-sicurezza-elettrica">UPS: la sicurezza elettrica</h2>
+<p>Un aspetto della protezione dei dati spesso ignorato è la sicurezza elettrica. Un'interruzione improvvisa di corrente mentre il NAS sta scrivendo dati su disco può corrompere il file system e, in scenari estremi, distruggere l'intero volume RAID, rendendo irrecuperabili anche i dati ridondati.</p>
+<p>Un <strong>UPS (Uninterruptible Power Supply)</strong>, colloquialmente chiamato &quot;gruppo di continuità&quot;, elimina questo rischio. Collegato via USB al NAS, permette al sistema operativo di rilevare il blackout in tempo reale e di eseguire uno <strong>shutdown controllato</strong> prima che la batteria si esaurisca, salvaguardando l'integrità di tutti i dati in scrittura.</p>
+<p>La maggior parte dei principali sistemi operativi NAS (DSM, QTS) include il supporto nativo per UPS via USB e permette di configurare la soglia di carica batteria sotto la quale attivare lo shutdown automatico. Per ambienti con più NAS o server, il protocollo <strong>NUT (Network UPS Tools)</strong> permette a un singolo UPS di gestire lo shutdown coordinato di più macchine sulla stessa rete.</p>
+<h2 id="test-di-ripristino-la-prova-del-nove">Test di ripristino: la prova del nove</h2>
+<p>Qualsiasi strategia di backup, per quanto sofisticata, è priva di valore se non è mai stata testata. Un backup di cui non è stato verificato il ripristino è, operativamente, come se non esistesse.</p>
+<p>La regola pratica è la seguente: <strong>almeno una volta ogni sei mesi</strong>, simula un ripristino reale recuperando un file a caso dal tuo backup più vecchio. Se la procedura fallisce in un contesto controllato, non funzionerà durante un'emergenza reale — quando il tempo è critico e la pressione è massima.</p>
+<p>Il test di ripristino dovrebbe coprire:</p>
+<ul>
+<li>Recupero di un singolo file da uno snapshot.</li>
+<li>Recupero di una cartella completa dal backup off-site.</li>
+<li>Verifica della leggibilità dei file recuperati (non basta che i file esistano, devono poter essere aperti correttamente).</li>
+<li>Documentazione del tempo di ripristino (RTO — Recovery Time Objective), essenziale per valutare se il sistema di backup soddisfa i requisiti di continuità operativa.<br>
+Un NAS sicuro non è il risultato di un'unica configurazione iniziale, ma di un processo continuo di aggiornamento, monitoraggio e verifica. Le misure descritte in questa guida, applicate in modo sistematico e integrate in una rete correttamente segmentata e protetta da firewall, trasformano il tuo NAS da un potenziale vettore di rischio a una fortezza digitale affidabile e sotto il tuo pieno controllo.</li>
+</ul>
+
+    </section>
+  </article>
+
+  <aside class="toc-sidebar hide-mobile" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+</div>
+
+<!-- Share & Tags -->
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+    <div class="d-flex flex-wrap gap-2">
+      
+        
+          
+          
+          <a href="/tags/cybersecurity/" class="badge badge-outline">cybersecurity</a>
+          
+        
+          
+          
+          <a href="/tags/nas/" class="badge badge-outline">NAS</a>
+          
+        
+          
+          
+          <a href="/tags/backup/" class="badge badge-outline">backup</a>
+          
+        
+          
+          
+          <a href="/tags/ransomware/" class="badge badge-outline">ransomware</a>
+          
+        
+          
+          
+          <a href="/tags/storage/" class="badge badge-outline">storage</a>
+          
+        
+      
+    </div>
+    <div class="d-flex gap-2">
+      <span class="font-label-sm" style="color: var(--on-surface-variant);">Condividi</span>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fsicurezza-del-nas%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="color: var(--secondary);">in</a>
+      <a href="https://twitter.com/intent/tweet?text=Guida%20alla%20sicurezza%20del%20NAS%3A%20proteggere%20la%20tua%20fortezza%20digitale&url=https://dino-996.github.io%2Fblog%2Fsicurezza-del-nas%2F" target="_blank" rel="noopener" aria-label="X" style="color: var(--secondary);">𝕏</a>
+    </div>
+  </div>
+</div>
+
+<!-- Prev / Next -->
+
+
+
+
+
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <nav class="d-flex justify-content-between" aria-label="Navigazione articoli">
+    <div>
+      
+      <a href="/blog/attacchi-alla-rete/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 250px;">
+        <span class="d-block small">← Precedente</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Attacchi alla Rete</span>
+      </a>
+      
+    </div>
+    <div style="text-align: right;">
+      
+      <a href="/blog/guida-gdpr/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 250px;">
+        <span class="d-block small">Successivo →</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Il GDPR spiegato a sviluppatori e IT manager</span>
+      </a>
+      
+    </div>
+  </nav>
+</div>
+
+
+<!-- Comments -->
+<div class="post-layout giscus-wrapper">
+  <script>
+    (function () {
+      const saved = localStorage.getItem('bs-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+      script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+      script.setAttribute('data-category', 'Announcements');
+      script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-theme', theme);
+      script.setAttribute('data-lang', 'it');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+      document.currentScript.replaceWith(script);
+    })();
+  </script>
+  <noscript>
+    <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+      Per visualizzare i commenti è necessario abilitare JavaScript.
+      <br>
+      <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+    </div>
+  </noscript>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">dino-996</a></div>
+  <nav class="footer-nav">
+    <a href="/about/">Chi sono</a>
+    <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Davide Sabia. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      window.pathPrefix = ".";
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

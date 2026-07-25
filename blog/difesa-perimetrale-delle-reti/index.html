@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Difesa Perimetrale delle Reti: Guida Completa tra Firewall, IDS/IPS e Zero Trust · dino-996 blog
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Scopri come proteggere la tua rete IT. Una guida completa a firewall (NGFW), IDS/IPS, VPN, DMZ, WAF e modello Zero Trust per prevenire gli attacchi informatici e blindare l&#39;infrastruttura." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/difesa-perimetrale-delle-reti/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/difesa-perimetrale-delle-reti/" />
+
+<meta property="og:title" content="Difesa Perimetrale delle Reti: Guida Completa tra Firewall, IDS/IPS e Zero Trust" />
+<meta property="og:description" content="Scopri come proteggere la tua rete IT. Una guida completa a firewall (NGFW), IDS/IPS, VPN, DMZ, WAF e modello Zero Trust per prevenire gli attacchi informatici e blindare l&#39;infrastruttura." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/difesa-perimetrale-delle-reti/" />
+
+<meta name="twitter:title" content="Difesa Perimetrale delle Reti: Guida Completa tra Firewall, IDS/IPS e Zero Trust" />
+<meta name="twitter:description" content="Scopri come proteggere la tua rete IT. Una guida completa a firewall (NGFW), IDS/IPS, VPN, DMZ, WAF e modello Zero Trust per prevenire gli attacchi informatici e blindare l&#39;infrastruttura." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+  </head>
+
+  <body>
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">dino-996</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<!-- Post Header -->
+<header class="post-header">
+  
+    
+    
+    <span class="badge badge-category category">cybersecurity</span>
+    
+  
+  <h1>Difesa Perimetrale delle Reti: Guida Completa tra Firewall, IDS/IPS e Zero Trust</h1>
+  <div class="post-meta">
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781251320/dino_avatar_81b48107e0.png" alt="Davide Sabia" class="avatar" width="32" height="32">
+    <span>Davide Sabia</span>
+    <span>·</span>
+    <time datetime="2026-07-24T00:00:00.000Z">24 luglio 2026</time>
+    <span class="reading-time"></span>
+    
+      <span>·</span>
+      <time datetime="2026-07-24T20:57:59.000Z">Aggiornato: 24 luglio 2026</time>
+    
+  </div>
+  
+  <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png"
+       alt="Immagine generata con AI"
+       class="post-image"
+       fetchpriority="high">
+  
+</header>
+
+<!-- Mobile ToC toggle -->
+<div class="post-layout" style="margin-bottom: 16px;">
+  <div class="hide-desktop">
+    <button id="toc-toggle" class="btn btn-outline btn-sm" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+      <span>Indice</span>
+      <span id="toc-chevron" style="transition: transform 0.2s;">▾</span>
+    </button>
+    <div id="toc-mobile" style="display: none; margin-top: 8px;">
+      <div class="toc-card">
+        <ul class="toc-list" id="toc-list-mobile"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="post-layout-wrapper">
+  <article class="post-layout">
+    
+    <div class="tldr-box">
+      <div class="tldr-label">In breve</div>
+      <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">La difesa perimetrale è essenziale per le moderne infrastrutture IT distribuite, con i firewall che fungono da componente fondamentale per filtrare il traffico tramite regole basate su IP, porte e protocolli. Con l&#39;evoluzione verso modelli come il Zero Trust, il concetto di perimetro fisico è stato ridefinito, richiedendo strategie di sicurezza più adattive per gestire traffico inbound e outbound.</p>
+    </div>
+    
+
+    <section class="content">
+      <h2 id="la-difesa-perimetrale-delle-reti">La difesa perimetrale delle reti</h2>
+<p>Nell'era in cui le infrastrutture IT si estendono su cloud pubblici, reti ibride e dispositivi mobili, costruire un perimetro di sicurezza solido non è più un'opzione: è un prerequisito fondamentale. Oltre il 70% degli attacchi esterni viene neutralizzato grazie a un perimetro correttamente configurato. Questo articolo guida sviluppatori, IT manager e professionisti di rete attraverso i componenti chiave della difesa perimetrale — dai firewall tradizionali ai Next-Generation Firewall, dai sistemi IDS/IPS alle VPN, fino al paradigma moderno del Zero Trust.</p>
+<h2 id="il-concetto-di-perimetro-di-rete">Il concetto di perimetro di rete</h2>
+<p>Il <strong>perimetro di rete</strong> è il confine digitale che separa la rete locale interna (<em>trusted zone</em>) dalle reti esterne non affidabili come Internet (<em>untrusted zone</em>). L'analogia classica è quella di un edificio: mura, porte e finestre determinano chi può entrare e chi deve restare fuori. La difesa perimetrale si occupa esattamente di questo controllo degli accessi, applicandolo al flusso di dati.</p>
+<p>Con la diffusione dello smart working e dei servizi cloud, il perimetro non è più un confine fisico ben definito. Questo ha reso necessaria un'evoluzione profonda degli strumenti e dei modelli di sicurezza, che approfondiremo nella sezione dedicata al Zero Trust.</p>
+<h2 id="il-firewall">Il firewall</h2>
+<p>Il <strong>firewall</strong> è il componente cardine della difesa perimetrale. Può essere implementato come dispositivo hardware dedicato (<em>appliance</em>) o come software installato su un host, e il suo compito fondamentale è filtrare il traffico di rete in base a un insieme di regole predefinite chiamate <em>policy</em>.</p>
+<figure style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; display: inline-block; max-width: 620px; margin-top: 15px; margin-bottom: 15px;">
+  <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/w_600,q_auto,f_auto/v1784921909/Router_364583df7e.jpg" alt="Appliance hardware Cisco e altre apparecchiature di rete montate in un rack, con cablaggio Ethernet e fibra ottica" width="600" height="338" loading="lazy" style="max-width: 100%; border-radius: 5px">
+</figure>
+<h3 id="criteri-di-filtraggio">Criteri di filtraggio</h3>
+<p>Un firewall tradizionale prende decisioni basandosi su tre parametri principali:</p>
+<ul>
+<li><strong>Indirizzo IP sorgente/destinazione:</strong> consente o blocca il traffico proveniente da o diretto verso specifici indirizzi o blocchi di rete.</li>
+<li><strong>Porta e protocollo:</strong> permette, ad esempio, il traffico web sulle porte 80 (HTTP) e 443 (HTTPS), bloccando tutto il resto.</li>
+<li><strong>Direzione del flusso:</strong> distingue tra traffico in ingresso (<em>inbound</em>) e in uscita (<em>outbound</em>).</li>
+</ul>
+<h3 id="traffico-inbound-e-outbound">Traffico inbound e outbound</h3>
+<p>Il traffico <strong>inbound</strong> è quello che tenta di entrare nella rete dall'esterno. La regola aurea è il principio di <em>default deny</em>: tutto ciò che non è esplicitamente autorizzato viene bloccato. Si aprono solo le porte strettamente necessarie, ad esempio la 443 per un web server pubblico.</p>
+<p>Il traffico <strong>outbound</strong> — quello generato internamente verso Internet — è spesso sottovalutato, ma è altrettanto critico. Un malware che ha compromesso un host interno tenterà di contattare il proprio server di comando e controllo (<em>Command &amp; Control</em>, C&amp;C) o di esfiltrare dati sensibili verso l'esterno. Un firewall ben configurato monitora e filtra anche questa direzione, bloccando connessioni non autorizzate verso destinazioni esterne.</p>
+<h3 id="stateless-vs-stateful-inspection">Stateless vs Stateful inspection</h3>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Caratteristica</th>
+        <th>Stateless (packet filtering)</th>
+        <th>Stateful inspection</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Metodo di analisi</td>
+        <td>Esamina ogni pacchetto in isolamento</td>
+        <td>Traccia lo stato dell'intera sessione TCP/UDP</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Memoria di sessione</td>
+        <td>Nessuna: ogni pacchetto è indipendente</td>
+        <td>Mantiene una tabella delle connessioni attive</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Livello di sicurezza</td>
+        <td>Basso: vulnerabile a spoofing e frammentazione</td>
+        <td>Alto: riconosce traffico fuori contesto</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Caso d'uso tipico</td>
+        <td>Router perimetrali semplici, ACL di base</td>
+        <td>Firewall aziendali moderni (pfSense, Fortinet)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>I firewall moderni sono quasi esclusivamente <em>stateful</em>: se un host interno richiede una pagina a un server esterno, il firewall registra quella connessione e lascia passare solo la risposta corrispondente. Un pacchetto in ingresso non richiesto viene scartato automaticamente.</p>
+<h2 id="acl-le-regole-del-firewall">ACL: le regole del firewall</h2>
+<p>Le <strong>Access Control Lists (ACL)</strong> sono l'insieme ordinato di regole che definisce la policy del firewall. L'ordine è fondamentale: le regole vengono valutate in sequenza e la prima che corrisponde determina l'azione. Un esempio tipico di policy per un server web:</p>
+<pre><code class="language-text">ALLOW 192.168.1.50 -&gt; ANY PORT 443
+ALLOW ANY -&gt; 192.168.1.100 PORT 80
+DENY ANY -&gt; ANY
+</code></pre>
+<p>L'ultima regola esemplifica il principio di <strong>Implicit Deny</strong>: qualsiasi traffico non esplicitamente autorizzato viene bloccato. È il fondamento di ogni policy di sicurezza solida.</p>
+<h2 id="nat-e-sicurezza-perimetrale">NAT e sicurezza perimetrale</h2>
+<p>Il <strong>Network Address Translation (NAT)</strong> nasce per risolvere l'esaurimento degli indirizzi IPv4, ma offre un effetto collaterale di sicurezza: nasconde gli indirizzi IP privati della LAN agli host su Internet. I pacchetti non richiesti dall'esterno vengono automaticamente scartati dal router NAT perché quest'ultimo non ha alcuna entry nella propria tabella di traduzione a cui inoltrarli.</p>
+<p>Esistono tuttavia due pratiche pericolose da evitare:</p>
+<ul>
+<li><strong>Port forwarding:</strong> aprire una porta specifica sul router per raggiungere un dispositivo interno (DVR, NAS, RDP) annulla la protezione NAT per quell'host. Se il dispositivo ha una vulnerabilità o una password debole, l'attaccante ha accesso diretto alla LAN.</li>
+<li><strong>DMZ host sui router domestici:</strong> espone completamente un indirizzo IP interno a tutto il traffico proveniente da Internet. Non va mai utilizzata in contesti produttivi o domestici con dati sensibili.</li>
+</ul>
+<p>L'alternativa sicura in entrambi i casi è l'uso di una VPN.</p>
+<h2 id="ids-e-ips-rilevare-e-prevenire-le-intrusioni">IDS e IPS: rilevare e prevenire le intrusioni</h2>
+<p>Gli strumenti IDS e IPS lavorano sul contenuto del traffico di rete, andando oltre il semplice controllo di porte e indirizzi IP.</p>
+<p>Un <strong>Intrusion Detection System (IDS)</strong> opera in modalità passiva: analizza il traffico in copia e genera alert quando rileva pattern sospetti o firme di attacchi noti. Non interferisce con il flusso dati, il che lo rende sicuro da usare anche in ambienti critici, ma non blocca nulla.</p>
+<p>Un <strong>Intrusion Prevention System (IPS)</strong> opera in modalità inline, posizionato direttamente nel percorso del traffico. Quando riconosce una firma d'attacco, scarta il pacchetto istantaneamente prima che raggiunga il bersaglio. Richiede una configurazione più accurata per evitare falsi positivi che bloccherebbero traffico legittimo.</p>
+<h3 id="snort-e-suricata-i-motori-open-source">Snort e Suricata: i motori open source</h3>
+<p><strong>Snort</strong> e <strong>Suricata</strong> sono i due motori IDS/IPS open source più diffusi al mondo. Entrambi si basano su un sistema di <em>firme</em> — pattern di byte o comportamenti — che corrispondono a exploit e malware noti. Suricata aggiunge il supporto nativo al multi-threading e all'analisi di protocolli applicativi (HTTP, TLS, DNS), rendendolo più performante su hardware moderno.</p>
+<p>Esempio di regola Suricata per rilevare un tentativo di SQL Injection:</p>
+<pre><code class="language-suricata">alert tcp $EXTERNAL_NET any -&gt; $HTTP_SERVERS 80 \
+(msg:&quot;SQL Injection UNION SELECT attempt&quot;; \
+flow:established,to_server; \
+content:&quot;UNION&quot;; nocase; \
+content:&quot;SELECT&quot;; nocase; distance:1; \
+classtype:web-application-attack; sid:1000001; rev:1;)
+</code></pre>
+<p>La regola intercetta connessioni TCP stabilite verso i web server che contengono i termini <code>UNION</code> e <code>SELECT</code> in sequenza ravvicinata, firma tipica di un attacco SQL Injection basato su UNION.</p>
+<h2 id="la-dmz-la-zona-cuscinetto">La DMZ: la zona cuscinetto</h2>
+<p>La <strong>Demilitarized Zone (DMZ)</strong> è un segmento di rete separato, posizionato tra la LAN interna e Internet, dove vengono collocati i server che devono essere raggiungibili dall'esterno: web server, mail server, server DNS pubblici.</p>
+<figure style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; display: inline-block; max-width: 620px; margin-top: 15px; margin-bottom: 15px;">
+  <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/w_600,q_auto,f_auto/v1784925817/DMZ_dda426bf81.png" alt="Diagramma della DMZ con doppio firewall tra LAN interna e Internet" width="600" height="338" loading="lazy" style="max-width: 100%; border-radius: 5px">
+  <figcaption style="font-size: 0.9em; color: #666; margin-top: 8px;">Architettura a doppio firewall: la DMZ isola i server pubblici dalla rete interna</figcaption>
+</figure>
+<p>L'architettura a doppio firewall garantisce che, anche se un attaccante compromette un server in DMZ, sia ancora separato dalla rete interna da un ulteriore strato di controllo. Il danno viene contenuto (<em>breach containment</em>) e i dati sensibili rimangono protetti.</p>
+<h2 id="vpn-il-tunnel-sicuro">VPN: il tunnel sicuro</h2>
+<p>La <strong>Virtual Private Network (VPN)</strong> crea un canale crittografato attraverso una rete pubblica come Internet, garantendo tre proprietà fondamentali:</p>
+<ul>
+<li><strong>Confidenzialità:</strong> i dati nel tunnel sono cifrati e illeggibili a chiunque li intercetti.</li>
+<li><strong>Integrità:</strong> qualsiasi manomissione dei dati in transito viene rilevata e il pacchetto scartato.</li>
+<li><strong>Autenticazione:</strong> solo i client con le credenziali o i certificati corretti possono stabilire il tunnel.</li>
+</ul>
+<p>La VPN è la risposta corretta a scenari come lo smart working, l'accesso remoto sicuro ai sistemi aziendali e l'interconnessione di sedi geograficamente distribuite (<em>site-to-site</em>).</p>
+<h3 id="protocolli-vpn-a-confronto">Protocolli VPN a confronto</h3>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Protocollo</th>
+        <th>Caso d'uso principale</th>
+        <th>Punti di forza</th>
+        <th>Limitazioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">IPsec/IKEv2</td>
+        <td>Site-to-site, VPN aziendali</td>
+        <td>Robusto, nativo su molti OS, supporto hardware offload</td>
+        <td>Configurazione complessa, spesso bloccato da NAT</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">OpenVPN</td>
+        <td>Accesso remoto, ambienti eterogenei</td>
+        <td>Altamente configurabile, gira su TCP/UDP, TLS 1.3</td>
+        <td>Overhead maggiore, richiede client dedicato</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">WireGuard</td>
+        <td>Accesso remoto moderno, cloud</td>
+        <td>Codebase ridotto (~4.000 righe), crittografia moderna, latenza minima</td>
+        <td>Meno maturo di IPsec, IP statico richiesto</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p><strong>WireGuard</strong> si è affermato come standard de facto nelle nuove implementazioni grazie alla sua semplicità e alle performance superiori rispetto a OpenVPN. Il kernel Linux lo include nativamente dalla versione 5.6. Un esempio di configurazione lato server:</p>
+<pre><code class="language-ini">[Interface]
+Address = 10.0.0.1/24
+ListenPort = 51820
+PrivateKey = &lt;SERVER_PRIVATE_KEY&gt;
+[Peer]
+PublicKey = &lt;CLIENT_PUBLIC_KEY&gt;
+AllowedIPs = 10.0.0.2/32
+</code></pre>
+<h2 id="web-application-firewall-waf">Web Application Firewall (WAF)</h2>
+<p>Un <strong>Web Application Firewall (WAF)</strong> opera al livello applicativo (Layer 7) ed è specializzato nell'analisi del traffico HTTP/HTTPS. Mentre un firewall tradizionale controlla chi può &quot;bussare alla porta&quot;, il WAF analizza il contenuto della richiesta stessa — i parametri GET/POST, gli header HTTP, i cookie — per rilevare attacchi specifici delle applicazioni web.</p>
+<p>Le minacce che un WAF mitiga includono:</p>
+<ul>
+<li><strong>SQL Injection:</strong> tentativo di manipolare le query al database tramite input non sanificato.</li>
+<li><strong>Cross-Site Scripting (XSS):</strong> iniezione di script malevoli in pagine servite ad altri utenti.</li>
+<li><strong>CSRF (Cross-Site Request Forgery):</strong> induzione di azioni non autorizzate su un utente autenticato.</li>
+<li><strong>Path Traversal:</strong> accesso a file al di fuori del web root tramite sequenze <code>../</code>.</li>
+</ul>
+<p>Soluzioni come <strong>ModSecurity</strong> (integrato con Nginx/Apache) e il <strong>WAF di Cloudflare</strong> sono ampiamente utilizzate in produzione. Il WAF è essenziale per qualsiasi applicazione web esposta su Internet, in particolare per e-commerce e portali con dati utente.</p>
+<h2 id="next-generation-firewall-ngfw">Next-Generation Firewall (NGFW)</h2>
+<p>I <strong>Next-Generation Firewall (NGFW)</strong> superano i limiti dei firewall tradizionali introducendo la <strong>Deep Packet Inspection (DPI)</strong>: il firewall non si limita a leggere l'intestazione del pacchetto, ma ne analizza il payload per identificare l'applicazione e il comportamento sottostante.</p>
+<p>Le funzionalità distintive di un NGFW:</p>
+<ul>
+<li><strong>Application Awareness:</strong> distingue tra traffico di Google Meet e BitTorrent anche se entrambi usano la porta 443.</li>
+<li><strong>Integrazione IPS:</strong> il motore di prevenzione delle intrusioni è embedded e aggiornato in tempo reale.</li>
+<li><strong>SSL/TLS Inspection:</strong> decripta e re-cripta il traffico HTTPS per analizzarne il contenuto.</li>
+<li><strong>Sandboxing:</strong> i file sospetti vengono eseguiti in un ambiente isolato per rilevare comportamenti malevoli prima che raggiungano gli endpoint.</li>
+<li><strong>Threat Intelligence:</strong> si integra con feed di minacce globali per bloccare IP e domini noti come malevoli.</li>
+</ul>
+<p>Vendor di riferimento nel mercato NGFW: <strong>Palo Alto Networks</strong>, <strong>Fortinet FortiGate</strong>, <strong>Cisco Firepower</strong> e la soluzione open source <strong>pfSense</strong> con pacchetti Snort/Suricata.</p>
+<h2 id="server-proxy-e-reverse-proxy">Server proxy e reverse proxy</h2>
+<p>Il <strong>proxy server</strong> si interpone tra gli host interni e Internet, offrendo molteplici funzionalità di sicurezza e ottimizzazione:</p>
+<ul>
+<li><strong>Content filtering:</strong> blocca l'accesso a categorie di siti non autorizzati (phishing, social network, malware distribution).</li>
+<li><strong>Anonimizzazione:</strong> gli host di destinazione vedono l'IP del proxy, non quello dell'utente finale.</li>
+<li><strong>Caching:</strong> riduce la latenza e il consumo di banda salvando localmente le risorse frequentemente richieste.</li>
+<li><strong>SSL Inspection:</strong> in combinazione con un certificato CA interno, permette di analizzare anche il traffico HTTPS.</li>
+</ul>
+<p>Il <strong>reverse proxy</strong> opera in direzione opposta: si posiziona davanti ai server interni e gestisce le richieste in ingresso dall'esterno. Le sue funzioni principali sono il <strong>load balancing</strong> tra più istanze applicative, la terminazione SSL e la protezione contro attacchi diretti agli indirizzi IP dei server. <strong>Nginx</strong> e <strong>HAProxy</strong> sono le soluzioni open source più diffuse in questo ruolo.</p>
+<h2 id="honeypot-larte-dellinganno">Honeypot: l'arte dell'inganno</h2>
+<p>Un <strong>honeypot</strong> è un sistema deliberatamente vulnerabile, privo di dati reali, che viene esposto sulla rete per attirare gli attaccanti. Il suo valore è duplice:</p>
+<ul>
+<li><strong>Early Warning:</strong> qualsiasi interazione con l'honeypot è un indicatore certo di attività malevola, poiché nessun utente legittimo ha motivo di accedervi.</li>
+<li><strong>Threat Intelligence:</strong> permette di osservare le tecniche, le tattiche e le procedure (TTP) degli attaccanti in un ambiente controllato e sicuro, senza rischiare i sistemi di produzione.</li>
+</ul>
+<p>Strumenti open source come <strong>Cowrie</strong> (emula SSH/Telnet) e <strong>Honeyd</strong> consentono di creare honeypot realistici con risorse minime. In ambienti enterprise si parla di <strong>deception technology</strong>, con reti intere di honeypot distribuite per rilevare movimenti laterali post-compromissione.</p>
+<h2 id="difesa-da-dos-e-ddos">Difesa da DoS e DDoS</h2>
+<p>Gli attacchi <strong>Denial of Service (DoS)</strong> e <strong>Distributed Denial of Service (DDoS)</strong> mirano a rendere un servizio irraggiungibile saturandone le risorse con traffico spazzatura. Le contromisure si articolano su più livelli:</p>
+<ul>
+<li><strong>Rate limiting:</strong> limita il numero di richieste accettate per unità di tempo da un singolo IP. Configurabile sia sul firewall che sul reverse proxy (es. <code>limit_req_zone</code> in Nginx).</li>
+<li><strong>Anycast routing:</strong> distribuisce il traffico d'attacco su data center geograficamente distribuiti, diluendone l'impatto.</li>
+<li><strong>Scrubbing center:</strong> servizi cloud specializzati (Cloudflare, Akamai, AWS Shield) che analizzano e &quot;puliscono&quot; il traffico prima che raggiunga l'infrastruttura del cliente.</li>
+<li><strong>SYN cookies:</strong> tecnica kernel che neutralizza i SYN flood senza mantenere stato per ogni connessione half-open.</li>
+</ul>
+<p>Per una protezione efficace contro DDoS volumetrici di grandi dimensioni, un servizio di mitigazione cloud è l'unica soluzione praticabile, poiché la capacità di assorbimento supera quella di qualsiasi singola infrastruttura on-premise.</p>
+<h2 id="monitoraggio-log-e-siem">Monitoraggio, log e SIEM</h2>
+<p>Il principio fondamentale è semplice: <strong>se non logghi, sei cieco</strong>. I log del firewall, dell'IPS e dei sistemi di autenticazione sono la fonte primaria di evidenza forense in caso di incidente.</p>
+<figure style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; display: inline-block; max-width: 620px; margin-top: 15px; margin-bottom: 15px;">
+  <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/w_600,q_auto,f_auto/v1784922219/SIEM_5f26bc9774.png" alt="Dashboard SIEM con eventi di sicurezza correlati in tempo reale" width="600" height="338" loading="lazy" style="max-width: 100%; border-radius: 5px">
+</figure>
+<p>Un <strong>Security Information and Event Management (SIEM)</strong> centralizza e correla eventi provenienti da fonti eterogenee in tempo reale. La sua potenza risiede nella <em>correlazione</em>: un singolo evento fallito può essere rumore di fondo, ma 100 tentativi falliti di autenticazione SSH seguiti da un login riuscito dallo stesso IP nell'arco di un secondo sono un indicatore critico di compromissione.</p>
+<p>Soluzioni SIEM di riferimento: <strong>Splunk</strong> (enterprise), <strong>IBM QRadar</strong>, <strong>Microsoft Sentinel</strong> (cloud-native) e l'open source <strong>Elastic SIEM</strong> basato su ELK Stack.</p>
+<h2 id="siem-e-soc-la-difesa-attiva">SIEM e SOC: la difesa attiva</h2>
+<p>Nelle organizzazioni di medie e grandi dimensioni, la difesa perimetrale è orchestrata da un <strong>Security Operations Center (SOC)</strong>: un team dedicato che monitora h24 gli alert generati dal SIEM, investigando gli incidenti e coordinando la risposta.</p>
+<p>Il flusso operativo tipico segue il framework <strong>OODA Loop</strong> (Observe, Orient, Decide, Act): il SIEM osserva gli eventi, il SOC analyst li valuta nel contesto dell'infrastruttura, decide se si tratta di un falso positivo o di un vero incidente, e attiva le procedure di risposta (<em>playbook</em>) predefinite.</p>
+<h2 id="zero-trust-il-modello-di-sicurezza-per-lera-cloud">Zero Trust: il modello di sicurezza per l'era cloud</h2>
+<p>Il modello <strong>Zero Trust</strong> nasce dal riconoscimento che il perimetro tradizionale non esiste più. Con il cloud, il BYOD e lo smart working, la distinzione netta tra &quot;dentro sicuro&quot; e &quot;fuori pericoloso&quot; è diventata obsoleta. Un attaccante che ha compromesso un endpoint interno appare esattamente come un utente legittimo agli occhi di un firewall perimetrale.</p>
+<p>Il principio fondante è <strong>&quot;Never Trust, Always Verify&quot;</strong>: ogni singola richiesta — indipendentemente dalla sua provenienza, che sia dalla LAN, dalla VPN o da un cloud provider — deve essere verificata prima di essere autorizzata.</p>
+<p>I pilastri implementativi del Zero Trust:</p>
+<ul>
+<li><strong>Identity as the new perimeter:</strong> autenticazione forte (MFA) per ogni accesso, basata su identità utente e dispositivo, non su posizione di rete.</li>
+<li><strong>Least privilege access:</strong> ogni utente e servizio accede solo alle risorse strettamente necessarie al proprio ruolo.</li>
+<li><strong>Micro-segmentazione:</strong> la rete interna è suddivisa in segmenti isolati per limitare il movimento laterale post-compromissione.</li>
+<li><strong>Continuous verification:</strong> la fiducia non viene concessa una volta sola al login, ma rivalutata continuamente durante la sessione.</li>
+</ul>
+<p>Framework e standard di riferimento: <strong>NIST SP 800-207</strong>, <strong>Google BeyondCorp</strong> e le soluzioni <strong>SASE</strong> (Secure Access Service Edge) di vendor come Zscaler e Cloudflare Access.</p>
+<h2 id="hardware-vs-software-firewall">Hardware vs software firewall</h2>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Tipo</th>
+        <th>Esempi</th>
+        <th>Vantaggi</th>
+        <th>Limitazioni</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Hardware (appliance)</td>
+        <td>Fortinet FortiGate, Cisco Firepower, pfSense su Netgate</td>
+        <td>Alta throughput, protezione dell'intera rete, hardware dedicato (ASIC)</td>
+        <td>Costo elevato, manutenzione fisica richiesta</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Software (host-based)</td>
+        <td>Windows Defender Firewall, iptables/nftables, ufw</td>
+        <td>Protegge il singolo host anche se la LAN è compromessa, nessun costo hardware</td>
+        <td>Consuma risorse del sistema, gestione distribuita complessa</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<p>La strategia corretta non è scegliere l'uno o l'altro, ma adottarli entrambi. Il firewall perimetrale hardware filtra il traffico a livello di rete; il firewall software su ogni host garantisce un secondo livello di protezione (<em>defense in depth</em>) nel caso in cui un attaccante riesca a muoversi lateralmente all'interno della LAN.</p>
+<h2 id="caso-studio-anatomia-di-un-breach">Caso studio: anatomia di un breach</h2>
+<p>Il seguente scenario illustra come un perimetro mal configurato possa portare a una compromissione completa dell'infrastruttura. Si tratta di un pattern reale e ricorrente nei report di incident response.</p>
+<p><strong>Sequenza dell'attacco:</strong></p>
+<ol>
+<li>Una porta RDP (3389) lasciata aperta sul firewall perimetrale per consentire l'accesso remoto a un tecnico, senza VPN.</li>
+<li>Un attacco brute force automatizzato riesce in meno di 4 ore sfruttando una password di 8 caratteri senza policy di lockout.</li>
+<li>L'attaccante ottiene una sessione RDP sul server e inizia il movimento laterale attraverso la rete interna, facilitato dall'assenza di segmentazione VLAN.</li>
+<li>In 48 ore vengono esfiltrati 50 GB di dati sensibili verso un server esterno, non rilevati per assenza di monitoraggio outbound.</li>
+<li>Deploy di ransomware che cifra l'intera infrastruttura, inclusi i backup non isolati dalla rete.</li>
+</ol>
+<p><strong>Come si poteva prevenire:</strong></p>
+<ul>
+<li>Chiudere la porta RDP esposta e sostituirla con accesso via VPN con MFA.</li>
+<li>Implementare una policy di lockout account dopo 5 tentativi falliti.</li>
+<li>Segmentare la rete con VLAN per limitare il movimento laterale.</li>
+<li>Monitorare e limitare il traffico outbound anomalo con regole firewall e un SIEM.</li>
+<li>Isolare i backup su un segmento di rete non raggiungibile dagli host di produzione (regola 3-2-1).</li>
+</ul>
+<h2 id="checklist-di-hardening-perimetrale">Checklist di hardening perimetrale</h2>
+<p>Le seguenti misure costituiscono la baseline di sicurezza per qualsiasi infrastruttura esposta su Internet:</p>
+<ul>
+<li><strong>Default deny:</strong> tutto il traffico non esplicitamente autorizzato viene bloccato, sia inbound che outbound.</li>
+<li><strong>Disabilitare UPnP:</strong> impedisce ai dispositivi di aprire autonomamente porte sul router senza supervisione amministrativa.</li>
+<li><strong>Stealth mode:</strong> il firewall non risponde ai ping ICMP dall'esterno, riducendo la superficie di discovery.</li>
+<li><strong>Geo-blocking:</strong> blocca il traffico proveniente da aree geografiche con cui non si intrattengono rapporti commerciali.</li>
+<li><strong>Aggiornamento firme IDS/IPS:</strong> le signature di Snort/Suricata devono essere aggiornate quotidianamente tramite feed ufficiali (Talos per Snort, ET Open per Suricata).</li>
+<li><strong>Separazione degli accessi di gestione:</strong> le interfacce di amministrazione del firewall devono essere accessibili solo da un segmento di management dedicato, mai da Internet.</li>
+<li><strong>Log retention e alerting:</strong> configurare la retention dei log per almeno 90 giorni e integrare gli alert con un SIEM o un sistema di notifica (es. Slack/email per eventi critici).</li>
+<li><strong>Revisione periodica delle ACL:</strong> rimuovere regole obsolete e verificare che il principio del least privilege sia rispettato almeno trimestralmente.</li>
+</ul>
+
+    </section>
+  </article>
+
+  <aside class="toc-sidebar hide-mobile" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+</div>
+
+<!-- Share & Tags -->
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+    <div class="d-flex flex-wrap gap-2">
+      
+        
+          
+          
+          <a href="/tags/cybersecurity/" class="badge badge-outline">cybersecurity</a>
+          
+        
+          
+          
+          <a href="/tags/networksecurity/" class="badge badge-outline">networksecurity</a>
+          
+        
+          
+          
+          <a href="/tags/ids/" class="badge badge-outline">IDS</a>
+          
+        
+          
+          
+          <a href="/tags/ips/" class="badge badge-outline">IPS</a>
+          
+        
+          
+          
+          <a href="/tags/zero-trust/" class="badge badge-outline">zero trust</a>
+          
+        
+          
+          
+          <a href="/tags/firewall/" class="badge badge-outline">firewall</a>
+          
+        
+          
+          
+          <a href="/tags/siem/" class="badge badge-outline">SIEM</a>
+          
+        
+          
+          
+          <a href="/tags/dmz/" class="badge badge-outline">DMZ</a>
+          
+        
+      
+    </div>
+    <div class="d-flex gap-2">
+      <span class="font-label-sm" style="color: var(--on-surface-variant);">Condividi</span>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fdifesa-perimetrale-delle-reti%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="color: var(--secondary);">in</a>
+      <a href="https://twitter.com/intent/tweet?text=Difesa%20Perimetrale%20delle%20Reti%3A%20Guida%20Completa%20tra%20Firewall%2C%20IDS%2FIPS%20e%20Zero%20Trust&url=https://dino-996.github.io%2Fblog%2Fdifesa-perimetrale-delle-reti%2F" target="_blank" rel="noopener" aria-label="X" style="color: var(--secondary);">𝕏</a>
+    </div>
+  </div>
+</div>
+
+<!-- Prev / Next -->
+
+
+
+
+
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <nav class="d-flex justify-content-between" aria-label="Navigazione articoli">
+    <div>
+      
+      <a href="/blog/guida-gdpr/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 250px;">
+        <span class="d-block small">← Precedente</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Il GDPR spiegato a sviluppatori e IT manager</span>
+      </a>
+      
+    </div>
+    <div style="text-align: right;">
+      
+      <a href="/blog/chat-control-anatomia-di-una-sorveglianza-di-massa/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 250px;">
+        <span class="d-block small">Successivo →</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Chat Control: anatomia di una sorveglianza di massa europea</span>
+      </a>
+      
+    </div>
+  </nav>
+</div>
+
+
+<!-- Comments -->
+<div class="post-layout giscus-wrapper">
+  <script>
+    (function () {
+      const saved = localStorage.getItem('bs-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+      script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+      script.setAttribute('data-category', 'Announcements');
+      script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-theme', theme);
+      script.setAttribute('data-lang', 'it');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+      document.currentScript.replaceWith(script);
+    })();
+  </script>
+  <noscript>
+    <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+      Per visualizzare i commenti è necessario abilitare JavaScript.
+      <br>
+      <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+    </div>
+  </noscript>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">dino-996</a></div>
+  <nav class="footer-nav">
+    <a href="/about/">Chi sono</a>
+    <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Davide Sabia. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      window.pathPrefix = ".";
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

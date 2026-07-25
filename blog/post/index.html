@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+   Regolamento UE 2016/679 (GDPR): Guida Integrata a Struttura, Principi, Ruoli e Ambito Applicativo · dino-996 blog
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Guida completa al Regolamento UE 2016/679 (GDPR): ambito applicativo, definizioni, ruoli aziendali (Titolare, DPO, Responsabile), principi cardine e misure tecniche." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/post/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/post/" />
+
+<meta property="og:title" content=" Regolamento UE 2016/679 (GDPR): Guida Integrata a Struttura, Principi, Ruoli e Ambito Applicativo" />
+<meta property="og:description" content="Guida completa al Regolamento UE 2016/679 (GDPR): ambito applicativo, definizioni, ruoli aziendali (Titolare, DPO, Responsabile), principi cardine e misure tecniche." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/post/" />
+
+<meta name="twitter:title" content=" Regolamento UE 2016/679 (GDPR): Guida Integrata a Struttura, Principi, Ruoli e Ambito Applicativo" />
+<meta name="twitter:description" content="Guida completa al Regolamento UE 2016/679 (GDPR): ambito applicativo, definizioni, ruoli aziendali (Titolare, DPO, Responsabile), principi cardine e misure tecniche." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+  </head>
+
+  <body>
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">dino-996</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<!-- Post Header -->
+<header class="post-header">
+  
+    
+    
+    <span class="badge badge-category category">GDPR</span>
+    
+  
+  <h1> Regolamento UE 2016/679 (GDPR): Guida Integrata a Struttura, Principi, Ruoli e Ambito Applicativo</h1>
+  <div class="post-meta">
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781251320/dino_avatar_81b48107e0.png" alt="Davide Sabia" class="avatar" width="32" height="32">
+    <span>Davide Sabia</span>
+    <span>·</span>
+    <time datetime="2026-08-01T00:00:00.000Z">01 agosto 2026</time>
+    <span class="reading-time"></span>
+    
+      <span>·</span>
+      <time datetime="2026-07-25T15:08:30.000Z">Aggiornato: 25 luglio 2026</time>
+    
+  </div>
+  
+  <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png"
+       alt="Immagine generata con AI"
+       class="post-image"
+       fetchpriority="high">
+  
+</header>
+
+<!-- Mobile ToC toggle -->
+<div class="post-layout" style="margin-bottom: 16px;">
+  <div class="hide-desktop">
+    <button id="toc-toggle" class="btn btn-outline btn-sm" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+      <span>Indice</span>
+      <span id="toc-chevron" style="transition: transform 0.2s;">▾</span>
+    </button>
+    <div id="toc-mobile" style="display: none; margin-top: 8px;">
+      <div class="toc-card">
+        <ul class="toc-list" id="toc-list-mobile"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="post-layout-wrapper">
+  <article class="post-layout">
+    
+    <div class="tldr-box">
+      <div class="tldr-label">In breve</div>
+      <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Il GDPR impone un quadro di responsabilità proattiva per la protezione dei dati personali, integrando principi di &quot;privacy by design&quot; e &quot;privacy by default&quot; nelle decisioni tecniche e organizzative. La sua applicazione è estesa, comprendendo trattamenti automatizzati e non automatizzati, con un significativo effetto extraterritoriale su entità che trattano dati di soggetti UE.</p>
+    </div>
+    
+
+    <section class="content">
+      <h2 id="introduzione">Introduzione</h2>
+<p>Il <strong>Regolamento Generale sulla Protezione dei Dati</strong> — noto con l'acronimo <strong>GDPR</strong> (<em>General Data Protection Regulation</em>) e identificato formalmente come <strong>Regolamento UE 2016/679</strong> — costituisce il quadro normativo di riferimento per la protezione dei dati personali nell'Unione Europea. Entrato in vigore il <strong>25 maggio 2018</strong>, ha abrogato la Direttiva 95/46/CE e, in Italia, ha adeguato il D.Lgs. 196/2003 (Codice Privacy) tramite il D.Lgs. 101/2018.</p>
+<p>Il Regolamento non si limita a definire regole e obblighi formali: istituisce un vero e proprio <strong>organigramma di responsabilità</strong>, assegnando a ciascun soggetto coinvolto un ruolo preciso con relativi diritti e doveri. Al contempo, introduce un approccio basato sulla responsabilizzazione proattiva (<strong>accountability</strong>), imponendo misure tecniche e organizzative adeguate al rischio e richiedendo che la protezione dei dati sia integrata fin dalla progettazione dei sistemi (<strong>privacy by design</strong> e <strong>privacy by default</strong>). Comprendere questa struttura è fondamentale per chiunque operi in ambito IT, sviluppo software o gestione aziendale, poiché ogni decisione tecnica si riflette direttamente sulle figure giuridiche in gioco.</p>
+<h2 id="ambito-di-applicazione">Ambito di Applicazione</h2>
+<h3 id="ambito-materiale-art-2-gdpr">Ambito materiale (Art. 2 GDPR)</h3>
+<p>Il Regolamento disciplina il trattamento di dati personali interamente o parzialmente automatizzato, nonché il trattamento non automatizzato di dati personali contenuti in un archivio o destinati a figurarvi (inclusa la gestione di archivi cartacei).</p>
+<p>Ai sensi dell'art. 2, commi 14-21, <strong>il Regolamento non si applica</strong>:</p>
+<ul>
+<li>
+<p>ai trattamenti per attività che non rientrano nel diritto dell'Unione (es. sicurezza nazionale);</p>
+</li>
+<li>
+<p>ai trattamenti di dati effettuati da una persona fisica per l'esercizio di attività a carattere esclusivamente personale o domestico;</p>
+</li>
+<li>
+<p>ai trattamenti effettuati per prevenzione, indagine, accertamento di reati o esecuzione di sanzioni penali (materia regolata dalla Direttiva UE 2016/680).</p>
+</li>
+</ul>
+<h3 id="ambito-territoriale-art-3-gdpr">Ambito territoriale (Art. 3 GDPR)</h3>
+<p>L'ambito applicativo territoriale del GDPR è particolarmente esteso e prevede un rilevante <strong>effetto extraterritoriale</strong>. Il Regolamento si applica:</p>
+<ol>
+<li>
+<p>ai trattamenti effettuati da un Titolare o Responsabile <strong>stabilito nell'UE</strong>, anche se il trattamento ha luogo al di fuori dell'Unione;</p>
+</li>
+<li>
+<p>ai trattamenti effettuati da un Titolare o Responsabile <strong>non stabilito nell'UE</strong>, qualora il trattamento riguardi dati personali di interessati che si trovano nell'UE (es. offrendo loro beni/servizi o monitorandone il comportamento);</p>
+</li>
+<li>
+<p>ai trattamenti effettuati da un Titolare stabilito in uno Stato extra-UE soggetto al diritto di uno Stato membro in virtù del diritto internazionale pubblico.</p>
+</li>
+</ol>
+<h2 id="definizioni-chiave-e-tipologie-di-dati">Definizioni Chiave e Tipologie di Dati</h2>
+<h3 id="dato-personale-art-4-gdpr">Dato personale (Art. 4 GDPR)</h3>
+<blockquote>
+<p><strong>Dato personale:</strong> qualsiasi informazione riguardante una persona fisica identificata o identificabile (<em>«interessato»</em>), direttamente o indirettamente, mediante riferimento a qualsiasi altra informazione, ivi compreso un numero di identificazione personale.</p>
+</blockquote>
+<p>La definizione è volutamente ampia. Tra gli identificativi di rilievo tecnico espressamente citati rientrano:</p>
+<ul>
+<li>
+<p><strong>Indirizzo IP:</strong> identificativo univoco di un dispositivo in rete;</p>
+</li>
+<li>
+<p><strong>Identificativi cookie con profilazione:</strong> tracciamento del comportamento online;</p>
+</li>
+<li>
+<p><strong>GPS:</strong> coordinate di geolocalizzazione;</p>
+</li>
+<li>
+<p><strong>Elementi dell'identità genetica:</strong> informazioni estratte da analisi del DNA.</p>
+</li>
+</ul>
+<h3 id="trattamento-dei-dati-art-4-gdpr">Trattamento dei dati (Art. 4 GDPR)</h3>
+<blockquote>
+<p><strong>Trattamento:</strong> qualunque operazione o complesso di operazioni, effettuate anche senza l'ausilio di strumenti elettronici, concernenti dati personali — anche se non registrati in una banca dati.</p>
+</blockquote>
+<p>Costituisce trattamento qualsiasi operazione tra cui: raccolta, registrazione, organizzazione, conservazione, consultazione, elaborazione, modificazione, selezione, estrazione, raffronto, utilizzo, interconnessione, blocco, comunicazione, diffusione, cancellazione e distruzione.</p>
+<h3 id="le-tre-macro-categorie-di-dati">Le Tre Macro-Categorie di Dati</h3>
+<ol>
+<li>
+<p><strong>Dati identificativi:</strong> informazioni che consentono l'identificazione diretta (nome, cognome, codice fiscale, immagine, dati biometrici base).</p>
+</li>
+<li>
+<p><strong>Categorie particolari di dati (Art. 9 GDPR):</strong> dati che rivelano l'origine etnica o razziale, le opinioni politiche, le convinzioni religiose o filosofiche, l'appartenenza sindacale, lo stato di salute, la vita o l'orientamento sessuale, nonché i dati genetici e biometrici intesi a identificare in modo univoco una persona. Il loro trattamento è <strong>vietato in via generale</strong>, salvo le eccezioni tassative di cui all'art. 9, par. 2.</p>
+</li>
+<li>
+<p><strong>Dati giudiziari (Art. 10 GDPR):</strong> dati relativi a condanne penali e reati (qualità di imputato/indagato, casellario giudiziale, misure alternative). Il trattamento è consentito solo sotto il controllo dell'autorità pubblica o se autorizzato dal diritto dell'UE o degli Stati membri.</p>
+</li>
+</ol>
+<h2 id="lorganigramma-della-privacy-ruoli-e-responsabilita">L'Organigramma della Privacy: Ruoli e Responsabilità</h2>
+<h3 id="evoluzione-delle-figure-dlgs-1962003-vs-gdpr">Evoluzione delle Figure (D.Lgs. 196/2003 vs GDPR)</h3>
+<p>Il GDPR ha riorganizzato e ampliato le figure del trattamento rispetto al passato:</p>
+<h3 id="sintesi-delle-figure-fondamentali-del-gdpr">Sintesi delle Figure Fondamentali del GDPR</h3>
+<h3 id="analisi-dettagliata-dei-ruoli">Analisi Dettagliata dei Ruoli</h3>
+<h4 id="il-titolare-del-trattamento-artt-47-e-24-gdpr">Il Titolare del Trattamento (Artt. 4.7 e 24 GDPR)</h4>
+<p>È la persona fisica o giuridica, l'autorità pubblica o l'organismo che <strong>determina le finalità e i mezzi del trattamento</strong>. È la figura centrale che risponde in prima persona e direttamente nei confronti dell'interessato per i danni derivanti da un trattamento illecito.</p>
+<p>Il Titolare deve garantire e dimostrare la conformità attraverso:</p>
+<ul>
+<li>
+<p>la tenuta dei <strong>Registri delle attività di trattamento</strong> (art. 30 GDPR);</p>
+</li>
+<li>
+<p>l'adesione a <strong>codici di condotta</strong> (art. 40 GDPR) o <strong>meccanismi di certificazione</strong> (art. 42 GDPR);</p>
+</li>
+<li>
+<p>la predisposizione di adeguate misure di sicurezza tecniche e organizzative.</p>
+</li>
+</ul>
+<h4 id="il-responsabile-esterno-del-trattamento-art-28-gdpr">Il Responsabile Esterno del Trattamento (Art. 28 GDPR)</h4>
+<p>È il soggetto esterno che tratta dati <strong>per conto del Titolare</strong> (es. provider cloud, software house in outsourcing, consulenti del lavoro).</p>
+<p>L'affidamento ad un Responsabile deve avvenire mediante un atto giuridico vincolante (<strong>Data Processing Agreement - DPA</strong>), il quale deve imporre al Responsabile di:</p>
+<ol>
+<li>
+<p>trattare i dati solo su istruzione documentata del Titolare;</p>
+</li>
+<li>
+<p>garantire la riservatezza e far rispettare gli obblighi ai propri incaricati;</p>
+</li>
+<li>
+<p>adottare le misure di sicurezza di cui all'art. 32 GDPR;</p>
+</li>
+<li>
+<p>assistere il Titolare nell'evasione dei diritti e nella gestione dei Data Breach;</p>
+</li>
+<li>
+<p>cancellare o restituire tutti i dati al termine del contratto;</p>
+</li>
+<li>
+<p>consentire verifiche e audit.</p>
+</li>
+</ol>
+<h4 id="il-sub-responsabile-art-28-gdpr">Il Sub-Responsabile (Art. 28 GDPR)</h4>
+<p>Se il Responsabile intende ricorrere a un subappaltatore (Sub-responsabile), deve ottenere una <strong>previa autorizzazione scritta</strong> (specifica o generale) dal Titolare. Si applica il principio della <em>&quot;discesa degli obblighi lungo la catena&quot;</em>: il primo Responsabile conserva l'intera responsabilità nei confronti del Titolare per l'inadempimento del Sub-responsabile.</p>
+<h4 id="il-contitolare-del-trattamento-art-26-gdpr">Il Contitolare del Trattamento (Art. 26 GDPR)</h4>
+<p>Ricorre quando due o più soggetti <strong>determinano congiuntamente le finalità e i mezzi</strong> del trattamento (es. piattaforme CRM condivise in un gruppo aziendale o co-marketing). I contitolari devono stipulare un <strong>accordo interno</strong> che definisca ruoli e responsabilità, indicando un punto di contatto unico per gli interessati.</p>
+<h4 id="lautorizzato-al-trattamento-art-29-gdpr">L'Autorizzato al Trattamento (Art. 29 GDPR)</h4>
+<p>Sono le persone fisiche (dipendenti, collaboratori) che operano sotto l'autorità diretta del Titolare o del Responsabile. Trattano i dati solo su <strong>istruzioni documentate</strong>. In ambito IT, questo comporta l'adozione del principio del minimo privilegio (<em>least privilege</em>), la profilazione degli accessi applicativi e il tracciamento delle operazioni.</p>
+<h4 id="linteressato-art-41-gdpr">L'Interessato (Art. 4.1 GDPR)</h4>
+<p>È <strong>esclusivamente la persona fisica</strong> a cui si riferiscono i dati personali (clienti, dipendenti, utenti web). Le persone giuridiche, gli enti e le associazioni non sono qualificabili come &quot;interessati&quot; ai sensi del GDPR.</p>
+<h2 id="il-data-protection-officer-dpo-e-la-governance">Il Data Protection Officer (DPO) e la Governance</h2>
+<p>Il <strong>Data Protection Officer</strong> (DPO / Responsabile della Protezione dei Dati) è la figura di garanzia che esercita funzioni di informazione, consulenza e controllo interno.</p>
+<h3 id="nomina-obbligatoria-vs-volontaria-art-37-gdpr">Nomina Obbligatoria vs Volontaria (Art. 37 GDPR)</h3>
+<p>La nomina del DPO è <strong>obbligatoria</strong> nei seguenti casi:</p>
+<ul>
+<li>
+<p>trattamenti effettuati da un'<strong>autorità pubblica</strong> o da un organismo pubblico;</p>
+</li>
+<li>
+<p>attività principali che richiedono il <strong>monitoraggio regolare e sistematico</strong> degli interessati su larga scala;</p>
+</li>
+<li>
+<p>attività principali che consistono nel trattamento su <strong>larga scala</strong> di categorie particolari di dati (art. 9) o dati relativi a condanne penali (art. 10).</p>
+</li>
+</ul>
+<p>In assenza di un obbligo formale, la <strong>nomina volontaria</strong> è fortemente consigliata per strutturare in modo solido la governance della privacy.</p>
+<h3 id="caratteristiche-e-compiti-del-dpo-artt-38-39-gdpr">Caratteristiche e Compiti del DPO (Artt. 38–39 GDPR)</h3>
+<ul>
+<li>
+<p><strong>Indipendenza:</strong> il DPO riferisce direttamente ai vertici aziendali, non riceve istruzioni sull'esecuzione dei suoi compiti e non deve versare in situazioni di conflitto di interesse.</p>
+</li>
+<li>
+<p><strong>Tipologia di incarico:</strong> può essere un dipendente interno o un professionista/società esterna. Un gruppo aziendale può nominare un unico DPO purché facilmente raggiungibile da ogni stabilimento.</p>
+</li>
+<li>
+<p><strong>Compiti principali:</strong></p>
+<ul>
+<li>
+<p>informare e fornire consulenza al Titolare/Responsabile e ai dipendenti;</p>
+</li>
+<li>
+<p>sorvegliare l'osservanza del Regolamento e delle policy interne (compresi audit e formazione);</p>
+</li>
+<li>
+<p>fornire pareri sulla Valutazione di Impatto sulla Protezione dei Dati (<strong>DPIA</strong>, art. 35 GDPR);</p>
+</li>
+<li>
+<p>fungere da punto di contatto per il Garante Privacy e per gli interessati.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="i-principi-fondamentali-del-trattamento">I Principi Fondamentali del Trattamento</h2>
+<h3 id="liceita-del-trattamento-e-basi-giuridiche-art-6-gdpr">Liceità del Trattamento e Basi Giuridiche (Art. 6 GDPR)</h3>
+<p>Un trattamento è lecito solo se sussiste <strong>almeno una</strong> delle sei basi giuridiche:</p>
+<blockquote>
+<p><strong>Nota per i soggetti pubblici italiani:</strong> Ai sensi dell'art. 2-ter del Codice Privacy (D.Lgs. 196/2003 modificato dal D.Lgs. 101/2018), le PA e gli enti pubblici possono trattare i dati per compiti di interesse pubblico unicamente in forza di una norma di legge o di regolamento. Per gli enti pubblici, il consenso non costituisce mai una base giuridica idonea.</p>
+</blockquote>
+<h3 id="privacy-by-design-e-privacy-by-default-art-25-gdpr">Privacy by Design e Privacy by Default (Art. 25 GDPR)</h3>
+<ul>
+<li>
+<p><strong>Privacy by Design (fin dalla progettazione):</strong> impone di integrare le garanzie di tutela dati fin dalla fase di ideazione di software, prodotti e processi aziendali (es. cifratura, pseudonimizzazione, minimizzazione dei dati raccolti).</p>
+</li>
+<li>
+<p><strong>Privacy by Default (per impostazione predefinita):</strong> richiede che, senza interventi dell'utente, siano trattati solo i dati strettamente necessari per ogni specifica finalità, limitandone volume, periodo di conservazione e accessibilità.</p>
+</li>
+</ul>
+<h3 id="principio-di-accountability-art-5-par-2-gdpr">Principio di Accountability (Art. 5, par. 2 GDPR)</h3>
+<p>Il Titolare non deve solo rispettare i principi della privacy, ma deve <strong>essere in grado di dimostrarlo</strong> (<em>responsabilizzazione proattiva</em>). Ciò richiede un modello organizzativo basato sul rischio, incentrato su documentazione, analisi preventive, policy scritte e continuo riesame dei processi.</p>
+<h3 id="informativa-agli-interessati-artt-13-14-gdpr">Informativa agli Interessati (Artt. 13–14 GDPR)</h3>
+<p>Trasparenza significa fornire agli interessati un'informativa concisa, trasparente, intelligibile e con linguaggio semplice, contenente:</p>
+<ul>
+<li>
+<p>identificativi del Titolare e del DPO;</p>
+</li>
+<li>
+<p>finalità, basi giuridiche e tempi di conservazione (<em>retention</em>);</p>
+</li>
+<li>
+<p>destinatari o categorie di destinatari;</p>
+</li>
+<li>
+<p>indicazione dei diritti dell'interessato (accesso, rettifica, cancellazione, portabilità, opposizione) e modalità per esercitarli.</p>
+</li>
+</ul>
+<h2 id="aspetti-operativi-tecnici-ed-esempi-applicativi">Aspetti Operativi, Tecnici ed Esempi Applicativi</h2>
+<h3 id="stabilimento-principale-e-meccanismo-di-one-stop-shop-art-4-par-16">Stabilimento Principale e Meccanismo di One-Stop-Shop (Art. 4, par. 16)</h3>
+<p>Per le organizzazioni transfrontaliere, lo <strong>stabilimento principale</strong> individua l'Autorità di controllo capofila (<em>sportello unico</em> / <em>one-stop-shop</em>). Per il Titolare coincide con la sede dell'amministrazione centrale nell'UE, ovvero dove vengono assunte le decisioni effettive sulle finalità e sui mezzi del trattamento.</p>
+<h4 id="esempio-1-grande-distribuzione-organizzata-gdo">Esempio 1 — Grande Distribuzione Organizzata (GDO)</h4>
+<p>Un retailer della GDO ha la sede centrale a Rotterdam (Paesi Bassi) e punti vendita in vari Stati membri. Se le decisioni sulle strategie CRM e di marketing vengono adottate a Rotterdam, l'<strong>Autorità Garante olandese</strong> sarà l'Autorità capofila per tutti i trattamenti correlati nell'UE.</p>
+<h4 id="esempio-2-istituto-bancario-con-operativita-transfrontaliera">Esempio 2 — Istituto bancario con operatività transfrontaliera</h4>
+<p>Una banca ha sede centrale a Francoforte (Germania) per i servizi bancari, ma ha trasferito il potere decisionale per la divisione assicurativa europea a Vienna (Austria). In questo caso, l'<strong>Autorità austriaca</strong> sarà capofila per i dati della divisione assicurativa, mentre l'<strong>Autorità tedesca</strong> rimarrà capofila per i trattamenti di natura bancaria.</p>
+<h3 id="pseudonimizzazione-e-tecniche-di-sicurezza-art-4">Pseudonimizzazione e Tecniche di Sicurezza (Art. 4)</h3>
+<blockquote>
+<p><strong>Pseudonimizzazione:</strong> trattamento dei dati in modo che non possano più essere attribuiti a un interessato specifico senza l'utilizzo di informazioni aggiuntive, a condizione che tali informazioni siano conservate separatamente e protette da adeguate misure tecniche.</p>
+</blockquote>
+<ul>
+<li>
+<p><strong>Differenza con l'Anonimizzazione:</strong> i dati pseudonimizzati <strong>sono ancora dati personali</strong> (la ri-identificazione è possibile con la chiave/archivio separato). I dati anonimizzati sono invece irreversibilmente de-identificati e fuoriescono dal campo di applicazione del GDPR.</p>
+</li>
+<li>
+<p><strong>Tecniche IT comuni:</strong></p>
+<ul>
+<li>
+<p><em>Tokenizzazione:</em> sostituzione dell'identificativo diretto con un token casuale;</p>
+</li>
+<li>
+<p><em>Hashing con Salt:</em> algoritmo di trasformazione crittografica irripetibile senza il valore casuale (<em>salt</em>);</p>
+</li>
+<li>
+<p><em>Cifratura deterministica:</em> permette confronti tra database mantenendo riservato il dato originario.</p>
+<p>L'uso della pseudonimizzazione riduce significativamente il rischio residuo ed è valutato favorevolmente nelle Valutazioni di Impatto (DPIA).</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="profilazione-art-4-e-decisioni-automatizzate-art-22">Profilazione (Art. 4) e Decisioni Automatizzate (Art. 22)</h3>
+<ul>
+<li>
+<p><strong>Profilazione:</strong> qualsiasi forma di trattamento automatizzato volte a valutare, analizzare o prevedere aspetti personali dell'individuo (rendimento lavorativo, situazione economica, salute, preferenze, ubicazione).</p>
+</li>
+<li>
+<p><strong>Decisione automatizzata (Art. 22 GDPR):</strong> l'interessato ha il diritto di <strong>non essere sottoposto</strong> a decisioni basate <em>unicamente</em> su trattamenti automatizzati (compresa la profilazione) che producano effetti giuridici o incidano in modo analogo significativamente sulla sua persona (es. rifiuto automatico di un finanziamento online o screening dei CV senza filtro umano).</p>
+</li>
+<li>
+<p><strong>Eccezioni ammesse:</strong> la decisione automatizzata è lecita solo se:</p>
+<ol>
+<li>
+<p>è necessaria per la conclusione o l'esecuzione di un contratto;</p>
+</li>
+<li>
+<p>è autorizzata dal diritto dell'Unione o dello Stato membro;</p>
+</li>
+<li>
+<p>si basa sul <strong>consenso esplicito</strong> dell'interessato.</p>
+<p>In questi casi, il Titolare deve comunque garantire il <strong>diritto all'intervento umano</strong>, il diritto di esprimere la propria opinione e di contestare la decisione.</p>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="impresa-e-gruppo-imprenditoriale-artt-418-419">Impresa e Gruppo Imprenditoriale (Artt. 4.18–4.19)</h3>
+<p>Il GDPR definisce l'<strong>impresa</strong> come la persona fisica o giuridica che esercita un'attività economica (indipendentemente dalla forma giuridica). Il <strong>gruppo imprenditoriale</strong> è costituito dall'impresa controllante e dalle controllate. Tale concetto assume rilievo strategico sia per la nomina di un DPO unico di gruppo, sia per il trasferimento intra-gruppo di dati verso Paesi terzi tramite le clausole contrattuali vincolanti d'impresa (<em>Binding Corporate Rules - BCR</em>).</p>
+
+    </section>
+  </article>
+
+  <aside class="toc-sidebar hide-mobile" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+</div>
+
+<!-- Share & Tags -->
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+    <div class="d-flex flex-wrap gap-2">
+      
+        
+          
+          
+          <a href="/tags/gdpr/" class="badge badge-outline">GDPR</a>
+          
+        
+          
+          
+          <a href="/tags/protezione-dati/" class="badge badge-outline">protezione dati</a>
+          
+        
+          
+          
+          <a href="/tags/privacy/" class="badge badge-outline">privacy</a>
+          
+        
+          
+          
+          <a href="/tags/data-protection-officer/" class="badge badge-outline">data protection officer</a>
+          
+        
+      
+    </div>
+    <div class="d-flex gap-2">
+      <span class="font-label-sm" style="color: var(--on-surface-variant);">Condividi</span>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fpost%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="color: var(--secondary);">in</a>
+      <a href="https://twitter.com/intent/tweet?text=%20Regolamento%20UE%202016%2F679%20(GDPR)%3A%20Guida%20Integrata%20a%20Struttura%2C%20Principi%2C%20Ruoli%20e%20Ambito%20Applicativo&url=https://dino-996.github.io%2Fblog%2Fpost%2F" target="_blank" rel="noopener" aria-label="X" style="color: var(--secondary);">𝕏</a>
+    </div>
+  </div>
+</div>
+
+<!-- Prev / Next -->
+
+
+
+
+
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <nav class="d-flex justify-content-between" aria-label="Navigazione articoli">
+    <div>
+      
+      <a href="/blog/resilienza-dei-dati/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 250px;">
+        <span class="d-block small">← Precedente</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Resilienza dei Dati e strategie di Backup</span>
+      </a>
+      
+    </div>
+    <div style="text-align: right;">
+      
+      <a href="/blog/attacchi-alla-rete/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 250px;">
+        <span class="d-block small">Successivo →</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Attacchi alla Rete</span>
+      </a>
+      
+    </div>
+  </nav>
+</div>
+
+
+<!-- Comments -->
+<div class="post-layout giscus-wrapper">
+  <script>
+    (function () {
+      const saved = localStorage.getItem('bs-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+      script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+      script.setAttribute('data-category', 'Announcements');
+      script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-theme', theme);
+      script.setAttribute('data-lang', 'it');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+      document.currentScript.replaceWith(script);
+    })();
+  </script>
+  <noscript>
+    <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+      Per visualizzare i commenti è necessario abilitare JavaScript.
+      <br>
+      <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+    </div>
+  </noscript>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">dino-996</a></div>
+  <nav class="footer-nav">
+    <a href="/about/">Chi sono</a>
+    <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Davide Sabia. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      window.pathPrefix = ".";
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

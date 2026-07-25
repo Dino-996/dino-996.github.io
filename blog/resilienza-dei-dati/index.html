@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Resilienza dei Dati e strategie di Backup · dino-996 blog
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Guida completa alla sicurezza dei dati aziendali: la regola 3-2-1, metriche RPO/RTO, backup cloud e immutabili e piani di Disaster Recovery a prova di ransomware." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/resilienza-dei-dati/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/resilienza-dei-dati/" />
+
+<meta property="og:title" content="Resilienza dei Dati e strategie di Backup" />
+<meta property="og:description" content="Guida completa alla sicurezza dei dati aziendali: la regola 3-2-1, metriche RPO/RTO, backup cloud e immutabili e piani di Disaster Recovery a prova di ransomware." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/resilienza-dei-dati/" />
+
+<meta name="twitter:title" content="Resilienza dei Dati e strategie di Backup" />
+<meta name="twitter:description" content="Guida completa alla sicurezza dei dati aziendali: la regola 3-2-1, metriche RPO/RTO, backup cloud e immutabili e piani di Disaster Recovery a prova di ransomware." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+  </head>
+
+  <body>
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">dino-996</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<!-- Post Header -->
+<header class="post-header">
+  
+    
+    
+    <span class="badge badge-category category">cybersecurity</span>
+    
+  
+  <h1>Resilienza dei Dati e strategie di Backup</h1>
+  <div class="post-meta">
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781251320/dino_avatar_81b48107e0.png" alt="Davide Sabia" class="avatar" width="32" height="32">
+    <span>Davide Sabia</span>
+    <span>·</span>
+    <time datetime="2026-08-02T00:00:00.000Z">02 agosto 2026</time>
+    <span class="reading-time"></span>
+    
+      <span>·</span>
+      <time datetime="2026-07-25T15:39:00.000Z">Aggiornato: 25 luglio 2026</time>
+    
+  </div>
+  
+  <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png"
+       alt="Immagine generata con AI"
+       class="post-image"
+       fetchpriority="high">
+  
+</header>
+
+<!-- Mobile ToC toggle -->
+<div class="post-layout" style="margin-bottom: 16px;">
+  <div class="hide-desktop">
+    <button id="toc-toggle" class="btn btn-outline btn-sm" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+      <span>Indice</span>
+      <span id="toc-chevron" style="transition: transform 0.2s;">▾</span>
+    </button>
+    <div id="toc-mobile" style="display: none; margin-top: 8px;">
+      <div class="toc-card">
+        <ul class="toc-list" id="toc-list-mobile"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="post-layout-wrapper">
+  <article class="post-layout">
+    
+    <div class="tldr-box">
+      <div class="tldr-label">In breve</div>
+      <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">La perdita di dati, causata da errori umani, guasti hardware, malware o disastri, richiede una pianificazione meticolosa per garantire la continuità operativa. La regola del 3-2-1 (3 copie, 2 supporti, 1 offsite) e le metriche RPO/RTO sono pilastri essenziali per definire strategie di backup efficaci e procedure di ripristino tempestive.</p>
+    </div>
+    
+
+    <section class="content">
+      <h2 id="introduzione">Introduzione</h2>
+<p>La perdita di dati rappresenta uno dei rischi più concreti e costosi per qualsiasi organizzazione moderna. Comprendere le cause, adottare strategie di backup efficaci e pianificare il ripristino sono attività fondamentali per garantire la continuità operativa, tanto per le piccole imprese quanto per le infrastrutture critiche su larga scala.</p>
+<h2 id="le-cause-della-perdita-dei-dati">Le cause della perdita dei dati</h2>
+<p>I dati possono andare persi per ragioni molto diverse tra loro, che spaziano dall'errore umano agli eventi catastrofici. Le principali categorie di rischio sono:</p>
+<ul>
+<li><strong>Errore umano:</strong> cancellazione o sovrascrittura accidentale di file e cartelle, spesso la causa più frequente nelle organizzazioni di qualsiasi dimensione.</li>
+<li><strong>Guasti hardware:</strong> rottura meccanica del disco rigido, degrado dei settori magnetici o usura dei componenti elettronici, fenomeni inevitabili nel ciclo di vita di ogni supporto di archiviazione.</li>
+<li><strong>Attacchi malware:</strong> ransomware che cifrano i file richiedendo un riscatto per il ripristino, con impatti devastanti sulla continuità aziendale e sulla reputazione.</li>
+<li><strong>Problemi di alimentazione:</strong> spegnimenti improvvisi o sbalzi di tensione durante operazioni di scrittura, che possono corrompere file system e database in modo silenzioso e difficile da rilevare.</li>
+<li><strong>Disastri naturali e fisici:</strong> incendi, allagamenti o furti che distruggono fisicamente i supporti di archiviazione e rendono irrecuperabili i dati in loco.</li>
+</ul>
+<h2 id="la-regola-del-3-2-1">La regola del 3-2-1</h2>
+<p>La regola del 3-2-1 è uno standard de facto nella gestione dei backup e rappresenta il punto di partenza per qualsiasi strategia di protezione dei dati. Il principio si articola in tre requisiti fondamentali:</p>
+<ul>
+<li><strong>3 copie totali dei dati:</strong> la copia originale in produzione più due backup distinti e indipendenti.</li>
+<li><strong>2 supporti di archiviazione diversi:</strong> ad esempio un NAS locale e un disco esterno, oppure un server on-premise e un servizio cloud, per eliminare i single point of failure legati al tipo di supporto.</li>
+<li><strong>1 copia conservata fuori sede (offsite):</strong> fisicamente separata dagli altri backup per proteggersi da disastri locali come incendi, inondazioni o furti.</li>
+</ul>
+<p>Questa regola si applica indipendentemente dalla tipologia di backup adottata. Esistono tre modalità principali, spesso usate in combinazione:</p>
+<ul>
+<li><strong>Backup completo (Full):</strong> copia integrale di tutti i dati selezionati. Richiede più spazio e tempo, ma garantisce il ripristino più semplice e veloce.</li>
+<li><strong>Backup incrementale:</strong> salva solo i dati modificati dall'ultimo backup (completo o incrementale precedente). Veloce ed efficiente in termini di spazio, ma il ripristino richiede l'intera catena di backup in sequenza.</li>
+<li><strong>Backup differenziale:</strong> salva i dati modificati dall'ultimo backup completo. Rappresenta un compromesso tra velocità di esecuzione e semplicità del ripristino, richiedendo solo il backup completo più l'ultimo differenziale.</li>
+</ul>
+<h2 id="rpo-e-rto-metriche-fondamentali-per-il-recovery">RPO e RTO: metriche fondamentali per il recovery</h2>
+<p>Prima di scegliere una strategia di backup, è indispensabile definire due metriche chiave che quantificano la tolleranza ai disastri di un'organizzazione e guidano le scelte tecniche e architetturali.</p>
+<h3 id="rpo-recovery-point-objective">RPO (Recovery Point Objective)</h3>
+<p>L'RPO definisce la quantità massima di dati che un'organizzazione può permettersi di perdere, espressa come intervallo di tempo. Un RPO di 4 ore significa che, in caso di incidente, si accetta di perdere al massimo le ultime 4 ore di lavoro. Questo valore guida direttamente la frequenza con cui devono essere eseguiti i backup:</p>
+<ul>
+<li><strong>RPO basso (minuti o secondi):</strong> richiede backup in tempo reale o near-real-time, con soluzioni come la replica sincrona o i database log shipping.</li>
+<li><strong>RPO medio (ore):</strong> backup incrementali ogni poche ore sono generalmente sufficienti per la maggior parte dei workload aziendali.</li>
+<li><strong>RPO alto (giorni):</strong> backup giornalieri o settimanali, accettabili per dati non critici o archivi storici.</li>
+</ul>
+<h3 id="rto-recovery-time-objective">RTO (Recovery Time Objective)</h3>
+<p>L'RTO determina il tempo massimo che un'organizzazione può permettersi di rimanere offline dopo un incidente, prima che l'impatto sul business diventi inaccettabile. Un RTO di 2 ore significa che i sistemi devono essere ripristinati operativi entro 2 ore dall'evento disruptivo.</p>
+<p>RPO e RTO sono strettamente correlati: valori bassi richiedono investimenti maggiori in infrastrutture, automazione e ridondanza. La tabella seguente mostra orientativamente le tecnologie tipicamente associate a diversi livelli di obiettivo.</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Livello</th>
+        <th>RPO</th>
+        <th>RTO</th>
+        <th>Tecnologie tipiche</th>
+        <th>Costo relativo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Mission critical</td>
+        <td>Secondi</td>
+        <td>Minuti</td>
+        <td>Replica sincrona, clustering attivo-attivo</td>
+        <td>Molto alto</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Business critical</td>
+        <td>Minuti–1 ora</td>
+        <td>1–4 ore</td>
+        <td>Backup incrementali frequenti, snapshot, replica asincrona</td>
+        <td>Alto</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Operativo</td>
+        <td>Ore</td>
+        <td>4–24 ore</td>
+        <td>Backup giornalieri, cloud backup, NAS</td>
+        <td>Medio</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Archivio</td>
+        <td>Giorni</td>
+        <td>Giorni</td>
+        <td>Backup settimanali, tape, cold storage</td>
+        <td>Basso</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h2 id="tipologie-di-backup-locale-cloud-e-ibrido">Tipologie di backup: locale, cloud e ibrido</h2>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Caratteristica</th>
+        <th>Backup locale</th>
+        <th>Backup cloud</th>
+        <th>Backup ibrido</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Velocità di scrittura</td>
+        <td>Alta</td>
+        <td>Dipende dalla banda</td>
+        <td>Alta (locale) + Media (cloud)</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Velocità di ripristino</td>
+        <td>Alta</td>
+        <td>Lenta per grandi volumi</td>
+        <td>Alta per dati recenti</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Protezione da disastri fisici</td>
+        <td>No</td>
+        <td>Sì</td>
+        <td>Sì</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Protezione da ransomware</td>
+        <td>Limitata (se connesso)</td>
+        <td>Alta (con versioning)</td>
+        <td>Alta (con immutabilità)</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Dipendenza da internet</td>
+        <td>No</td>
+        <td>Sì</td>
+        <td>Parziale</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Scalabilità</td>
+        <td>Limitata</td>
+        <td>Elevata</td>
+        <td>Elevata</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Costo iniziale</td>
+        <td>Alto (hardware)</td>
+        <td>Basso (pay-as-you-go)</td>
+        <td>Medio-alto</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h3 id="backup-locale">Backup locale</h3>
+<p>Il backup locale archivia i dati su dispositivi fisici presenti nella stessa sede operativa (NAS, tape library, dischi esterni). Offre velocità di scrittura e lettura elevate, pieno controllo sull'infrastruttura e nessuna dipendenza dalla connettività internet. Tuttavia, è vulnerabile ai disastri fisici locali e agli attacchi ransomware che, una volta compromessa la rete interna, possono propagarsi e cifrare anche i backup direttamente collegati.</p>
+<h3 id="backup-cloud">Backup cloud</h3>
+<p>I backup cloud distribuiscono i dati su infrastrutture geograficamente ridondanti e scalabili, accessibili da qualsiasi luogo con una connessione internet. Servizi come AWS S3, Azure Blob Storage e Google Cloud Storage offrono elevata durabilità (fino a undici nove di disponibilità), funzionalità avanzate come il versioning automatico e il blocco degli oggetti per l'immutabilità. Il limite principale è la dipendenza dalla banda disponibile e la latenza per il ripristino di volumi di dati molto grandi.</p>
+<h3 id="backup-ibrido">Backup ibrido</h3>
+<p>La strategia ibrida combina i vantaggi del backup locale (velocità, bassa latenza per ripristini operativi quotidiani) con la protezione geografica del cloud (resilienza ai disastri fisici, immutabilità). È l'approccio consigliato per la maggior parte delle organizzazioni di medie e grandi dimensioni e si allinea naturalmente con la regola del 3-2-1.</p>
+<h2 id="backup-immutabili-e-protezione-avanzata">Backup immutabili e protezione avanzata</h2>
+<p>Un concetto di crescente importanza nel panorama attuale è quello del <strong>backup immutabile</strong>, basato sul paradigma <strong>WORM (Write Once, Read Many)</strong>. Un backup immutabile non può essere modificato, cifrato o cancellato per un periodo di tempo configurato, anche in caso di compromissione delle credenziali amministrative. Questa caratteristica lo rende la difesa più efficace contro gli attacchi ransomware sofisticati che prendono di mira i sistemi di backup prima di cifrare i dati di produzione.</p>
+<p>Principali piattaforme che supportano backup immutabili:</p>
+<ul>
+<li><strong>AWS S3 Object Lock:</strong> blocca gli oggetti in modalità WORM per una durata configurabile tramite policy di retention, con modalità Governance e Compliance.</li>
+<li><strong>Azure Immutable Blob Storage:</strong> impedisce la modifica o la cancellazione dei blob per intervalli di tempo definiti da time-based retention policy o legal hold.</li>
+<li><strong>Veeam Backup &amp; Replication:</strong> supporta repository hardened su Linux con immutabilità a livello di filesystem XFS, senza richiedere soluzioni cloud.</li>
+</ul>
+<p>È fortemente consigliato abbinare l'immutabilità alla <strong>cifratura dei backup</strong>, sia in transito (TLS) che a riposo (AES-256), per garantire la riservatezza dei dati anche in caso di accesso fisico non autorizzato ai supporti.</p>
+<h2 id="verifica-e-test-dei-backup">Verifica e test dei backup</h2>
+<h3 id="limportanza-della-verifica">L'importanza della verifica</h3>
+<p>Un backup non verificato non è un backup affidabile. È possibile che un processo di backup completi senza errori apparenti ma produca archivi corrotti o incompleti. La verifica periodica è l'unico modo per accertarsi che i dati possano essere effettivamente ripristinati quando necessario, evitando la cosiddetta &quot;falsa sicurezza&quot; del backup.</p>
+<p>Le verifiche dovrebbero includere almeno tre livelli:</p>
+<ul>
+<li><strong>Test di integrità:</strong> controllo degli hash (SHA-256) dei file archiviati per rilevare corruzione silenziosa, confrontando i checksum al momento del backup con quelli calcolati al momento della verifica.</li>
+<li><strong>Test di ripristino parziale:</strong> ripristino di un sottoinsieme di file in un ambiente di test isolato per validare la procedura completa end-to-end.</li>
+<li><strong>Disaster recovery drill:</strong> simulazione completa di un'interruzione, misurando i tempi effettivi di ripristino e confrontandoli con gli obiettivi RTO e RPO definiti.</li>
+</ul>
+<h3 id="automazione-dei-test">Automazione dei test</h3>
+<p>L'automazione riduce drasticamente il rischio di errori umani e garantisce continuità nel monitoraggio. Di seguito è riportato un esempio di script di backup automatizzato con <code>rsync</code> per ambienti Linux, completo di logging e notifica via email.</p>
+<p>Salvare il contenuto seguente come <code>/usr/local/bin/backup.sh</code> e renderlo eseguibile con <code>chmod +x</code>:</p>
+<pre><code class="language-bash">#!/bin/bash
+SOURCE=&quot;/var/data/&quot;
+DEST=&quot;/mnt/backup/$(date +%Y-%m-%d)/&quot;
+LOG=&quot;/var/log/backup.log&quot;
+mkdir -p &quot;$DEST&quot;
+rsync -avz --delete &quot;$SOURCE&quot; &quot;$DEST&quot; &gt;&gt; &quot;$LOG&quot; 2&gt;&amp;1
+if [ $? -eq 0 ]; then
+  echo &quot;Backup completato: $(date)&quot; | mail -s &quot;Backup OK&quot; admin@example.com
+else
+  echo &quot;Backup FALLITO: $(date)&quot; | mail -s &quot;[ALERT] Backup fallito&quot; admin@example.com
+fi
+</code></pre>
+<p>Per eseguire il backup automaticamente ogni notte alle 02:00, aggiungere la seguente voce al crontab con il comando <code>crontab -e</code>:</p>
+<pre><code class="language-bash">0 2 * * * /usr/local/bin/backup.sh
+</code></pre>
+<p>Per ambienti Windows Server, PowerShell offre funzionalità equivalenti tramite <code>robocopy</code> e il registro eventi di sistema per il monitoraggio centralizzato:</p>
+<pre><code class="language-powershell">$source = &quot;C:\Data\&quot;
+$dest = &quot;D:\Backup\$(Get-Date -Format 'yyyy-MM-dd')\&quot;
+$log = &quot;C:\Logs\backup.log&quot;
+New-Item -ItemType Directory -Force -Path $dest | Out-Null
+robocopy $source $dest /MIR /LOG+:$log
+if ($LASTEXITCODE -le 7) {
+  Write-EventLog -LogName Application -Source &quot;BackupScript&quot; -EntryType Information -EventId 1 -Message &quot;Backup completato con successo.&quot;
+} else {
+  Write-EventLog -LogName Application -Source &quot;BackupScript&quot; -EntryType Error -EventId 2 -Message &quot;Backup fallito. Verificare il log in $log.&quot;
+}
+</code></pre>
+<p>In entrambi i casi è consigliato integrare lo script con un sistema di alerting centralizzato (Zabbix, Nagios, Prometheus + Alertmanager) per ottenere visibilità sullo stato dei backup in tempo reale, senza dover analizzare manualmente i log.</p>
+<h2 id="pianificazione-della-continuita-aziendale">Pianificazione della continuità aziendale</h2>
+<p>La pianificazione della continuità aziendale (<strong>BCP — Business Continuity Plan</strong>) e il piano di disaster recovery (<strong>DRP — Disaster Recovery Plan</strong>) sono due documenti complementari e interdipendenti che ogni organizzazione dovrebbe mantenere aggiornati e testati periodicamente.</p>
+<p>Il <strong>BCP</strong> definisce le procedure per garantire che le funzioni aziendali critiche continuino a operare durante e dopo un evento disruptivo, includendo aspetti come la comunicazione interna ed esterna, la gestione delle risorse umane in emergenza e l'identificazione di processi alternativi (workaround manuali, sedi secondarie, fornitori alternativi).</p>
+<p>Il <strong>DRP</strong> si concentra specificamente sul ripristino dei sistemi IT e dell'infrastruttura tecnologica, dettagliando:</p>
+<ul>
+<li>I sistemi critici da ripristinare per primi, con priorità basate sugli obiettivi di RTO e RPO definiti.</li>
+<li>Le procedure step-by-step per il ripristino da backup, incluse le dipendenze tra sistemi.</li>
+<li>I ruoli e le responsabilità del team di recovery, con chiara indicazione di chi fa cosa e in quale ordine.</li>
+<li>I contatti di emergenza con fornitori hardware, provider cloud e partner di supporto.</li>
+</ul>
+<p>La sinergia tra una politica di backup robusta, metriche RPO/RTO ben definite e un BCP/DRP documentato, regolarmente aggiornato e periodicamente testato con drill operativi, costituisce la base della resilienza operativa aziendale. Un DRP mai testato è, nella pratica, equivalente a non averlo.</p>
+<h2 id="case-study-lattacco-ransomware-allhse-irlandese-2021">Case study: l'attacco ransomware all'HSE irlandese (2021)</h2>
+<p>Nel maggio 2021, il <strong>Health Service Executive (HSE)</strong>, il sistema sanitario nazionale della <strong>Repubblica d'Irlanda</strong>, fu vittima di uno degli attacchi ransomware più gravi mai registrati nel settore healthcare a livello globale. Il malware responsabile fu identificato come <strong>Conti ransomware</strong>, distribuito da un gruppo criminale organizzato tramite un file Excel malevolo aperto da un dipendente mesi prima dell'attivazione del payload.</p>
+<p>Le conseguenze operative furono immediate e devastanti:</p>
+<ul>
+<li>Cifratura di circa <strong>80.000 endpoint e server</strong> dell'intera infrastruttura IT dell'HSE.</li>
+<li>Interruzione totale o parziale dei servizi in ospedali e cliniche su tutto il territorio nazionale, con annullamento di migliaia di appuntamenti, procedure diagnostiche e interventi non urgenti.</li>
+<li>Costo stimato per il ripristino e il rafforzamento dell'infrastruttura superiore a <strong>100 milioni di euro</strong>.</li>
+<li>Mesi di lavoro per il ripristino completo dei sistemi, con alcune strutture operative in modalità cartacea per oltre tre settimane.</li>
+</ul>
+<p>L'analisi post-incidente condotta da PricewaterhouseCoopers evidenziò carenze strutturali significative:</p>
+<ul>
+<li>Assenza di backup offline e immutabili per i sistemi critici, che permise al ransomware di raggiungere anche gli archivi di backup connessi alla rete.</li>
+<li>Segmentazione di rete insufficiente, che facilitò la propagazione laterale del malware attraverso l'intera infrastruttura.</li>
+<li>Mancata applicazione sistematica di patch di sicurezza su sistemi legacy ancora in produzione.</li>
+<li>Assenza di un piano di disaster recovery formalmente testato.</li>
+</ul>
+<p>Nonostante il gruppo Conti rilasciò successivamente la chiave di decifratura senza ottenere il riscatto, il ripristino richiese comunque mesi di lavoro a causa dei danni all'infrastruttura. Il caso HSE è diventato un riferimento globale nella comunità della cybersecurity per illustrare le conseguenze reali di una strategia di backup, segmentazione e risposta agli incidenti inadeguata in ambienti ad alto impatto sociale.</p>
+
+    </section>
+  </article>
+
+  <aside class="toc-sidebar hide-mobile" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+</div>
+
+<!-- Share & Tags -->
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+    <div class="d-flex flex-wrap gap-2">
+      
+        
+          
+          
+          <a href="/tags/cybersecurity/" class="badge badge-outline">cybersecurity</a>
+          
+        
+          
+          
+          <a href="/tags/backup/" class="badge badge-outline">backup</a>
+          
+        
+          
+          
+          <a href="/tags/rpo/" class="badge badge-outline">RPO</a>
+          
+        
+          
+          
+          <a href="/tags/rto/" class="badge badge-outline">RTO</a>
+          
+        
+          
+          
+          <a href="/tags/business-continuity/" class="badge badge-outline">business continuity</a>
+          
+        
+      
+    </div>
+    <div class="d-flex gap-2">
+      <span class="font-label-sm" style="color: var(--on-surface-variant);">Condividi</span>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fresilienza-dei-dati%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="color: var(--secondary);">in</a>
+      <a href="https://twitter.com/intent/tweet?text=Resilienza%20dei%20Dati%20e%20strategie%20di%20Backup&url=https://dino-996.github.io%2Fblog%2Fresilienza-dei-dati%2F" target="_blank" rel="noopener" aria-label="X" style="color: var(--secondary);">𝕏</a>
+    </div>
+  </div>
+</div>
+
+<!-- Prev / Next -->
+
+
+
+
+
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <nav class="d-flex justify-content-between" aria-label="Navigazione articoli">
+    <div>
+      
+    </div>
+    <div style="text-align: right;">
+      
+      <a href="/blog/post/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 250px;">
+        <span class="d-block small">Successivo →</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> Regolamento UE 2016/679 (GDPR): Guida Integrata a Struttura, Principi, Ruoli e Ambito Applicativo</span>
+      </a>
+      
+    </div>
+  </nav>
+</div>
+
+
+<!-- Comments -->
+<div class="post-layout giscus-wrapper">
+  <script>
+    (function () {
+      const saved = localStorage.getItem('bs-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+      script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+      script.setAttribute('data-category', 'Announcements');
+      script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-theme', theme);
+      script.setAttribute('data-lang', 'it');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+      document.currentScript.replaceWith(script);
+    })();
+  </script>
+  <noscript>
+    <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+      Per visualizzare i commenti è necessario abilitare JavaScript.
+      <br>
+      <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+    </div>
+  </noscript>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">dino-996</a></div>
+  <nav class="footer-nav">
+    <a href="/about/">Chi sono</a>
+    <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Davide Sabia. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      window.pathPrefix = ".";
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

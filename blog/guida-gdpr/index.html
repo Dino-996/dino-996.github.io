@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Il GDPR spiegato a sviluppatori e IT manager · dino-996 blog
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Scopri la guida definitiva al GDPR (UE 2016/679): storia della privacy, principi chiave, basi giuridiche, diritti degli interessati e le implicazioni pratiche per sviluppatori e IT manager." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/guida-gdpr/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/guida-gdpr/" />
+
+<meta property="og:title" content="Il GDPR spiegato a sviluppatori e IT manager" />
+<meta property="og:description" content="Scopri la guida definitiva al GDPR (UE 2016/679): storia della privacy, principi chiave, basi giuridiche, diritti degli interessati e le implicazioni pratiche per sviluppatori e IT manager." />
+<meta property="og:site_name" content="dino-996 blog" />
+
+<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/guida-gdpr/" />
+
+<meta name="twitter:title" content="Il GDPR spiegato a sviluppatori e IT manager" />
+<meta name="twitter:description" content="Scopri la guida definitiva al GDPR (UE 2016/679): storia della privacy, principi chiave, basi giuridiche, diritti degli interessati e le implicazioni pratiche per sviluppatori e IT manager." />
+
+<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+  </head>
+
+  <body>
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">dino-996</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<!-- Post Header -->
+<header class="post-header">
+  
+    
+    
+    <span class="badge badge-category category">GDPR</span>
+    
+  
+  <h1>Il GDPR spiegato a sviluppatori e IT manager</h1>
+  <div class="post-meta">
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1781251320/dino_avatar_81b48107e0.png" alt="Davide Sabia" class="avatar" width="32" height="32">
+    <span>Davide Sabia</span>
+    <span>·</span>
+    <time datetime="2026-07-25T00:00:00.000Z">25 luglio 2026</time>
+    <span class="reading-time"></span>
+    
+      <span>·</span>
+      <time datetime="2026-07-25T14:38:21.000Z">Aggiornato: 25 luglio 2026</time>
+    
+  </div>
+  
+  <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1782412106/cybersec_4392f4ed91.png"
+       alt="Immagine generata con AI"
+       class="post-image"
+       fetchpriority="high">
+  
+</header>
+
+<!-- Mobile ToC toggle -->
+<div class="post-layout" style="margin-bottom: 16px;">
+  <div class="hide-desktop">
+    <button id="toc-toggle" class="btn btn-outline btn-sm" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
+      <span>Indice</span>
+      <span id="toc-chevron" style="transition: transform 0.2s;">▾</span>
+    </button>
+    <div id="toc-mobile" style="display: none; margin-top: 8px;">
+      <div class="toc-card">
+        <ul class="toc-list" id="toc-list-mobile"></ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="post-layout-wrapper">
+  <article class="post-layout">
+    
+    <div class="tldr-box">
+      <div class="tldr-label">In breve</div>
+      <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Il GDPR, applicato dal 25 maggio 2018, ha ridefinito la raccolta, la conservazione e il trattamento dei dati personali nell&#39;UE, rendendo la sua conoscenza un prerequisito tecnico per chi opera nel settore digitale. Originato dal concetto americano di &quot;right to be alone&quot;, il GDPR tutela il diritto individuale di controllare la diffusione delle proprie informazioni personali, equiparandolo ad altri diritti fondamentali.</p>
+    </div>
+    
+
+    <section class="content">
+      <h2 id="guida-completa-al-regolamento-ue-2016679">Guida completa al Regolamento (UE) 2016/679</h2>
+<p>Il Regolamento Generale sulla Protezione dei Dati — noto universalmente con l'acronimo inglese <strong>GDPR</strong> (<em>General Data Protection Regulation</em>) — è uno dei testi normativi più impattanti mai prodotti dall'Unione Europea in ambito digitale. Entrato in applicazione il 25 maggio 2018, ha ridisegnato in modo radicale il modo in cui organizzazioni pubbliche e private raccolgono, conservano e trattano i dati personali di cittadini europei. Per chi lavora nello sviluppo software o nella gestione IT, conoscere il GDPR non è una questione di buona educazione normativa: è un prerequisito tecnico.</p>
+<h2 id="cosa-intendiamo-con-privacy">Cosa intendiamo con &quot;privacy&quot;</h2>
+<p>Prima di entrare nel merito del regolamento, è utile chiarire il concetto stesso di privacy, spesso usato in modo impreciso. Con il termine <strong>privacy</strong> intendiamo comunemente il diritto di ogni individuo alla riservatezza, ma la definizione è più ampia: si tratta del <strong>diritto dell'individuo a controllare la diffusione delle informazioni che lo riguardano</strong>, esercitando una sorta di proprietà sui propri dati personali.</p>
+<p>La gestione di questi dati, a seguito del cambiamento costante della società e del progresso tecnologico, è diventata negli anni un business di enormi proporzioni. Questo è esattamente il contesto che ha reso necessaria una normativa uniforme e vincolante a livello europeo.</p>
+<h2 id="un-po-di-storia">Un po' di storia</h2>
+<p>Le radici del diritto alla privacy affondano negli Stati Uniti. Già nel dicembre del 1890, sulla<a href="https://harvardlawreview.org/" target="_blank" rel="noopener noreferer"> <em>Harvard Law Review</em></a>,  gli avvocati di Boston Samuel D. Warren e Louis D. Brandeis — ispirati dalla filosofia di Ralph Waldo Emerson, che proponeva la solitudine come criterio e fonte di libertà — definirono il diritto alla riservatezza come <em>&quot;the right to be alone&quot;</em>: il diritto ad essere lasciati in pace e a proteggere la propria sfera più intima.</p>
+<p>Da questa premessa, negli Stati Uniti si consolidò l'idea della <strong>riservatezza come diritto individuale fondamentale</strong>, da bilanciare con le altre esigenze di tutela proprie di una società sempre più evoluta. La privacy fu progressivamente equiparata ad altri diritti fondamentali, come quello alla salute, alla sicurezza, al lavoro e all'informazione.</p>
+<p>Da un punto di vista giurisprudenziale, il concetto nasce in modo più formale solo con le pronunce della Corte Suprema degli Stati Uniti. La <strong>prima pronuncia rilevante risale al 1956</strong> (Communist Party vs. USA), nella quale si affermò che la privacy, intesa come riservatezza, non può tutelare i sovversivi. Questa decisione segnò il primo riconoscimento giurisprudenziale della privacy come diritto all'essere lasciati soli, senza ingerenze esterne nella propria vita privata.</p>
+<p>A partire dagli anni Ottanta, il concetto di <em>right to privacy</em> si consolidò ulteriormente e varcò l'Atlantico, approdando in Europa dove — applicato a contesti profondamente diversi e a seguito dello sviluppo tecnologico — ha disciplinato esigenze nuove, tra cui, in primo luogo, il diritto alla tutela dei dati personali.</p>
+<h2 id="levoluzione-normativa-europea">L'evoluzione normativa europea</h2>
+<p>Il percorso che ha portato al GDPR è lungo e articolato. La tabella seguente riassume le tappe fondamentali dell'iter approvativo:</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Data</th> <th>Evento</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">16 dicembre 2015</td> <td>Approvazione finale da parte del LIBE (Commissione per le libertà civili del Parlamento Europeo) e del Coreper (Comitato dei rappresentanti permanenti dei governi degli Stati membri dell'UE)</td> </tr> <tr> <td class="fw-semibold">Gennaio 2016</td> <td>Approvazione definitiva da parte del Parlamento Europeo e del Consiglio dell'Unione Europea</td> </tr> <tr> <td class="fw-semibold">4 maggio 2016</td> <td>Pubblicazione nella Gazzetta Ufficiale dell'Unione Europea</td> </tr> <tr> <td class="fw-semibold">25 maggio 2016</td> <td>Entrata in vigore nei 28 Stati membri dell'UE</td> </tr> <tr> <td class="fw-semibold">25 maggio 2018</td> <td>Applicazione effettiva del GDPR in tutti gli Stati membri (fine del periodo di transizione biennale)</td> </tr> </tbody> </table> </div>
+<p>È importante distinguere tra <em>entrata in vigore</em> (2016) e <em>applicazione</em> (2018): i due anni di transizione sono stati concessi a organizzazioni e Stati membri per adeguare i propri sistemi e processi ai nuovi requisiti.</p>
+<h2 id="cose-il-gdpr">Cos'è il GDPR</h2>
+<p>Il GDPR è il <strong>Regolamento (UE) 2016/679</strong> del Parlamento Europeo e del Consiglio, relativo alla protezione delle persone fisiche con riguardo al trattamento dei dati personali e alla loro libera circolazione. È stato approvato dal Parlamento europeo il 14 aprile 2016 ed è diventato definitivamente applicabile in tutti gli Stati membri il 25 maggio 2018.</p>
+<p>Il regolamento ha due obiettivi fondamentali, strettamente interconnessi:</p>
+<ul>
+<li><strong>Rafforzare i diritti delle persone fisiche</strong> in merito al controllo sui propri dati personali, aggiornando e ampliando le tutele previste dalla precedente Direttiva 95/46/CE.</li>
+<li><strong>Unificare il quadro normativo</strong> sulla protezione dei dati personali all'interno di tutta l'Unione Europea, sostituendo le diverse e spesso disomogenee leggi nazionali presenti nei Paesi membri.</li>
+</ul>
+<p>A differenza della direttiva che lo ha preceduto, il GDPR è un <strong>regolamento</strong> e, in quanto tale, è <strong>direttamente applicabile</strong> in tutti gli Stati membri senza necessità di recepimento nazionale, garantendo uniformità giuridica in tutto il territorio dell'UE.</p>
+<h2 id="oggetto-e-finalita-articolo-1">Oggetto e finalità: articolo 1</h2>
+<p>L'articolo 1 del GDPR definisce con precisione l'oggetto del regolamento. Il testo stabilisce norme relative a tre ambiti distinti ma complementari:</p>
+<ul>
+<li>La <strong>protezione dei diritti e delle libertà fondamentali</strong> delle persone fisiche, con particolare riguardo al diritto alla protezione dei dati personali.</li>
+<li>Il <strong>trattamento dei dati personali</strong>, ovvero qualsiasi operazione compiuta su dati che si riferiscono a una persona fisica identificata o identificabile.</li>
+<li>La <strong>libera circolazione dei dati</strong> all'interno dell'Unione Europea, evitando che le normative nazionali possano costituire ostacoli ingiustificati allo scambio di informazioni nel mercato interno.</li>
+</ul>
+<h2 id="ambito-di-applicazione-articolo-2">Ambito di applicazione: articolo 2</h2>
+<h3 id="a-chi-si-applica-il-regolamento">A chi si applica il regolamento</h3>
+<p>Secondo l'articolo 2, il GDPR si applica al <strong>trattamento automatizzato di dati personali</strong> — ad esempio, qualsiasi operazione eseguita da un software su un database di utenti — e al <strong>trattamento non automatizzato di dati personali contenuti in un archivio strutturato</strong> — come un registro cartaceo di clienti organizzato per nome o numero di contratto.</p>
+<h3 id="quando-non-si-applica">Quando non si applica</h3>
+<p>Il regolamento, per espressa disposizione dell'articolo 2, <strong>non si applica</strong> nei seguenti casi:</p>
+<ul>
+<li>Trattamenti relativi ad <strong>attività che esulano dall'ambito del diritto dell'Unione Europea</strong>, come le questioni di sicurezza nazionale, che rimangono di competenza esclusiva degli Stati membri.</li>
+<li>Trattamenti effettuati da una <strong>persona fisica per attività a carattere esclusivamente personale o domestico</strong>, come una rubrica telefonica privata o un diario personale digitale.</li>
+<li>Trattamenti effettuati da <strong>autorità competenti</strong> a fini di prevenzione, indagine, accertamento e perseguimento di reati o esecuzione di sanzioni penali, disciplinati dalla separata Direttiva (UE) 2016/680.</li>
+</ul>
+<h2 id="i-principi-fondamentali-del-trattamento-articolo-5">I principi fondamentali del trattamento: articolo 5</h2>
+<p>L'articolo 5 è il cuore operativo del GDPR. Esso stabilisce i <strong>sei principi</strong> ai quali deve conformarsi qualsiasi trattamento di dati personali. Per un team di sviluppo o un reparto IT, questi principi non sono astrazioni giuridiche: sono vincoli architetturali da incorporare nei sistemi fin dalla fase di progettazione.</p>
+<ul>
+<li><strong>Liceità, correttezza e trasparenza.</strong> I dati devono essere trattati in modo lecito (cioè su una delle sei basi giuridiche previste dall'Art. 6), corretto nei confronti dell'interessato e trasparente nella comunicazione delle finalità.</li>
+<li><strong>Limitazione della finalità.</strong> I dati raccolti per uno scopo determinato non possono essere riutilizzati per finalità incompatibili con quelle originali. Un sistema CRM non può alimentare un sistema di profilazione pubblicitaria senza una base giuridica autonoma.</li>
+<li><strong>Minimizzazione dei dati.</strong> È lecito raccogliere solo i dati <strong>adeguati, pertinenti e limitati</strong> a quanto necessario rispetto alle finalità del trattamento. Raccogliere la data di nascita quando basta sapere se l'utente è maggiorenne viola questo principio.</li>
+<li><strong>Esattezza.</strong> I dati devono essere accurati e, se necessario, aggiornati. Occorre predisporre procedure per la rettifica o la cancellazione dei dati inesatti.</li>
+<li><strong>Limitazione della conservazione.</strong> I dati non devono essere conservati in una forma che consenta l'identificazione dell'interessato per un arco di tempo superiore a quello necessario alle finalità per cui sono trattati. Questo si traduce in <strong>politiche di retention</strong> e in processi automatizzati di anonimizzazione o cancellazione.</li>
+<li><strong>Integrità e riservatezza.</strong> I dati devono essere trattati in modo da garantirne la sicurezza, compresa la protezione da trattamenti non autorizzati o illeciti e dalla perdita, distruzione o danno accidentale, adottando misure tecniche e organizzative adeguate.</li>
+</ul>
+<p>A questi sei principi se ne aggiunge uno trasversale: il principio di <strong>responsabilizzazione</strong> (<em>accountability</em>), anch'esso sancito dall'articolo 5, secondo cui il titolare del trattamento è responsabile del rispetto di tutti i principi elencati ed è in grado di <strong>comprovarlo</strong>.</p>
+<h2 id="le-basi-giuridiche-del-trattamento-articolo-6">Le basi giuridiche del trattamento: articolo 6</h2>
+<p>Nessun trattamento di dati personali è lecito se non poggia su almeno una delle sei basi giuridiche elencate all'articolo 6. La scelta della base giuridica corretta è una delle prime decisioni da prendere in fase di progettazione di un sistema che gestisce dati personali.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Base giuridica</th> <th>Quando si usa</th> <th>Esempio pratico</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Consenso (Art. 6.1.a)</td> <td>L'interessato ha prestato il proprio consenso per una o più finalità specifiche</td> <td>Newsletter marketing, cookie di profilazione</td> </tr> <tr> <td class="fw-semibold">Contratto (Art. 6.1.b)</td> <td>Il trattamento è necessario all'esecuzione di un contratto di cui l'interessato è parte</td> <td>Spedizione di un ordine e-commerce, fatturazione</td> </tr> <tr> <td class="fw-semibold">Obbligo legale (Art. 6.1.c)</td> <td>Il trattamento è necessario per adempiere a un obbligo di legge del titolare</td> <td>Conservazione delle fatture per 10 anni (normativa fiscale)</td> </tr> <tr> <td class="fw-semibold">Interesse vitale (Art. 6.1.d)</td> <td>Il trattamento è necessario per tutelare un interesse vitale dell'interessato o di terzi</td> <td>Divulgazione di dati sanitari in caso di emergenza medica</td> </tr> <tr> <td class="fw-semibold">Interesse pubblico (Art. 6.1.e)</td> <td>Il trattamento è necessario per l'esecuzione di un compito di interesse pubblico</td> <td>Gestione di dati da parte di enti pubblici</td> </tr> <tr> <td class="fw-semibold">Legittimo interesse (Art. 6.1.f)</td> <td>Il trattamento è necessario per il perseguimento del legittimo interesse del titolare o di terzi, a meno che non prevalgano gli interessi dell'interessato</td> <td>Sistemi antifrode, log di sicurezza, direct marketing B2B</td> </tr> </tbody> </table> </div>
+<p>È fondamentale ricordare che la base giuridica deve essere determinata <strong>prima</strong> dell'inizio del trattamento, documentata nel Registro delle attività di trattamento e comunicata all'interessato nell'informativa sulla privacy.</p>
+<h2 id="i-soggetti-del-trattamento">I soggetti del trattamento</h2>
+<p>Il GDPR definisce con precisione i ruoli e le responsabilità di chi partecipa a un trattamento di dati personali. Conoscere queste figure è indispensabile per strutturare correttamente i rapporti contrattuali e le responsabilità interne a un'organizzazione.</p>
+<p><strong>Titolare del trattamento (<em>Data Controller</em>).</strong> È la persona fisica o giuridica, l'autorità pubblica, il servizio o altro organismo che, singolarmente o insieme ad altri, determina le <strong>finalità e i mezzi</strong> del trattamento di dati personali. In un'azienda che gestisce un'applicazione SaaS, il titolare è tipicamente l'azienda stessa.</p>
+<p><strong>Responsabile del trattamento (<em>Data Processor</em>).</strong> È la persona fisica o giuridica che tratta dati personali <strong>per conto del titolare</strong>. Il cloud provider che ospita i dati di un'applicazione, il fornitore del sistema di email marketing, il provider del servizio di analisi web: tutti questi soggetti sono responsabili del trattamento e il rapporto con ciascuno di essi deve essere formalizzato in un <strong>Data Processing Agreement (DPA)</strong>, un accordo contrattuale obbligatorio che definisce obblighi e garanzie di sicurezza.</p>
+<p><strong>Responsabile della protezione dei dati (<em>Data Protection Officer</em> – DPO).</strong> È una figura professionale, interna o esterna all'organizzazione, con compiti di consulenza, sorveglianza e punto di contatto con l'autorità di controllo. La nomina del DPO è <strong>obbligatoria</strong> per: autorità ed enti pubblici, organizzazioni che effettuano trattamenti su larga scala di categorie particolari di dati (dati sanitari, biometrici, ecc.) e organizzazioni che effettuano monitoraggio sistematico su larga scala degli interessati.</p>
+<h2 id="i-diritti-degli-interessati">I diritti degli interessati</h2>
+<p>Il GDPR riconosce agli interessati un corpus di diritti che ogni sistema informatico deve essere in grado di soddisfare in modo automatizzato e documentabile. Ignorarli in fase di progettazione significa accumulate debito tecnico normativo che si tradurrà in costi di adeguamento futuri.</p>
+<ul>
+<li><strong>Diritto di accesso (Art. 15):</strong> L'interessato ha il diritto di ottenere la conferma che sia in corso un trattamento di dati che lo riguardano e, in caso affermativo, di accedere a una copia di questi dati.</li>
+<li><strong>Diritto di rettifica (Art. 16):</strong> L'interessato può richiedere la correzione di dati personali inesatti o incompleti.</li>
+<li><strong>Diritto alla cancellazione — &quot;diritto all'oblio&quot; (Art. 17):</strong> In determinate condizioni (dati non più necessari, revoca del consenso, trattamento illecito), l'interessato può richiedere la cancellazione dei propri dati.</li>
+<li><strong>Diritto alla limitazione del trattamento (Art. 18):</strong> In specifiche circostanze, l'interessato può chiedere che il trattamento venga limitato, ad esempio durante una contestazione sull'esattezza dei dati.</li>
+<li><strong>Diritto alla portabilità dei dati (Art. 20):</strong> L'interessato ha il diritto di ricevere i propri dati in un <strong>formato strutturato, di uso comune e leggibile da dispositivo automatico</strong>, e di trasmetterli a un altro titolare del trattamento. Questo diritto si applica ai dati trattati con mezzi automatizzati sulla base di un contratto o di un consenso.</li>
+<li><strong>Diritto di opposizione (Art. 21):</strong> L'interessato può opporsi in qualsiasi momento al trattamento dei propri dati, in particolare quando il trattamento è basato sul legittimo interesse o è finalizzato al marketing diretto.</li>
+</ul>
+<h2 id="gli-istituti-della-privacy">Gli istituti della privacy</h2>
+<h3 id="il-comitato-europeo-per-la-protezione-dei-dati-edpb">Il Comitato europeo per la protezione dei dati (EDPB)</h3>
+<p>Il <strong>Comitato europeo per la protezione dei dati</strong> (<em>European Data Protection Board</em> – EDPB) è l'organismo europeo istituito dall'articolo 68 del GDPR in sostituzione del precedente Gruppo di lavoro ex articolo 29. È composto dal <strong>garante europeo della protezione dei dati</strong> (in veste di osservatore), da <strong>un rappresentante di ogni Autorità di controllo nazionale</strong> degli Stati membri e da <strong>un rappresentante della Commissione europea</strong>.</p>
+<p>Tra i compiti principali dell'EDPB rientrano: assicurare l'applicazione coerente del regolamento in tutti gli Stati, fornire linee guida e raccomandazioni alla Commissione, rilasciare pareri su questioni relative alla protezione dei dati personali nell'Unione, accreditare organismi di certificazione, emettere pareri sui codici di condotta e garantire la cooperazione tra le autorità di controllo nazionali.</p>
+<h3 id="il-garante-europeo-della-protezione-dei-dati-gepd">Il Garante europeo della protezione dei dati (GEPD)</h3>
+<p>Il <strong>Garante europeo della protezione dei dati</strong> (<em>European Data Protection Supervisor</em> – EDPS) è un'autorità di sorveglianza indipendente il cui obiettivo primario è garantire che le <strong>istituzioni e gli organi dell'UE</strong> rispettino il diritto alla vita privata e alla protezione dei dati nel trattamento dei dati personali e nell'elaborazione di nuove politiche. È composto da 1 Garante e 1 Garante aggiunto.</p>
+<p>Il GEPD svolge funzioni di controllo sul trattamento dei dati effettuato dall'amministrazione dell'UE, presta consulenza alle istituzioni europee su tutti gli aspetti della protezione dei dati, gestisce denunce e conduce indagini, collabora con le autorità nazionali per assicurare coerenza nell'applicazione della normativa e monitora l'evoluzione delle nuove tecnologie che possono influire sulla protezione dei dati.</p>
+<h3 id="le-autorita-di-controllo-nazionali">Le autorità di controllo nazionali</h3>
+<p>Ogni Stato membro dell'Unione europea dispone di una propria <strong>Autorità di controllo</strong> nazionale, indipendente, competente a gestire i reclami presentati dagli interessati e a vigilare sul rispetto del regolamento e delle norme nazionali di protezione dei dati. L'autorità è competente a intervenire quando il trattamento riguarda uno stabilimento nel territorio dello Stato membro o incide in modo sostanziale sugli interessati unicamente nel suo Stato membro.</p>
+<p>In Italia, questa funzione è svolta dal <strong>Garante per la protezione dei dati personali</strong>, un'autorità amministrativa indipendente composta da 4 membri eletti dal Parlamento. Il Garante italiano si occupa di: verificare la conformità dei trattamenti alla legge e prescrivere le misure correttive; esaminare reclami e ricorsi; limitare, sospendere o vietare trattamenti in violazione delle norme; adottare autorizzazioni generali; promuovere codici di deontologia e buona condotta; partecipare alle attività dell'EDPB a livello comunitario; irrogare sanzioni amministrative.</p>
+<h2 id="il-recepimento-italiano-dlgs-1012018">Il recepimento italiano: D.Lgs. 101/2018</h2>
+<p>In Italia, il GDPR è stato recepito attraverso il <strong>Decreto Legislativo 10 agosto 2018, n. 101</strong>, che ha adeguato il preesistente Codice della privacy (D.Lgs. 196/2003) alle disposizioni del regolamento europeo. È tuttavia importante comprendere i <strong>limiti di questo decreto</strong> per non incorrere in interpretazioni errate della normativa vigente.</p>
+<p>Il D.Lgs. 101/2018 <strong>non contiene</strong> disposizioni autonome su:</p>
+<ul>
+<li><strong>Soggetti del trattamento:</strong> la normativa nazionale non ridefinisce le figure di titolare, contitolare, responsabile o DPO, demandando interamente al testo del GDPR la relativa disciplina, con la sola aggiunta della figura dei &quot;designati&quot;.</li>
+<li><strong>Adempimenti:</strong> non sono presenti norme sui Registri delle attività di trattamento, sulla Valutazione d'impatto sulla protezione dei dati (DPIA) o sugli altri obblighi documentali, per i quali il rinvio al GDPR è completo (con l'eccezione di alcune disposizioni sui reclami).</li>
+<li><strong>Sanzioni specifiche:</strong> il decreto non introduce una disciplina autonoma sulle soglie sanzionatorie minime e massime, rinviando direttamente al sistema del GDPR, pur prevedendo alcune disposizioni sulle procedure di applicazione delle sanzioni stesse.</li>
+</ul>
+<h2 id="le-sanzioni">Le sanzioni</h2>
+<p>Il regime sanzionatorio del GDPR è articolato in due fasce, graduate in funzione della gravità della violazione:</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Fascia</th> <th>Violazioni tipiche</th> <th>Sanzione massima</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Fascia inferiore</td> <td>Mancato rispetto dei principi del DPO, mancata notifica di un data breach, assenza del registro delle attività di trattamento, violazione delle condizioni per il consenso dei minori</td> <td>€10.000.000 oppure 2% del fatturato mondiale annuo, se superiore</td> </tr> <tr> <td class="fw-semibold">Fascia superiore</td> <td>Violazione dei principi fondamentali del trattamento (Art. 5), trattamento privo di base giuridica (Art. 6), violazione dei diritti degli interessati, trasferimento illecito di dati a paesi terzi</td> <td>€20.000.000 oppure 4% del fatturato mondiale annuo, se superiore</td> </tr> </tbody> </table> </div>
+<p>Le sanzioni sono calcolate tenendo conto di una serie di criteri, tra cui la natura, la gravità e la durata della violazione, il carattere doloso o colposo, le misure adottate per attenuare il danno, il grado di cooperazione con l'autorità di controllo e i precedenti del titolare.</p>
+<h2 id="implicazioni-pratiche-per-sviluppatori-e-it-manager">Implicazioni pratiche per sviluppatori e IT manager</h2>
+<p>La conformità al GDPR non è un progetto una-tantum da consegnare all'ufficio legale: è una <strong>disciplina tecnica continua</strong> che richiede scelte architetturali precise.</p>
+<p><strong>Privacy by design e privacy by default (Art. 25).</strong> Ogni nuovo sistema o applicazione deve incorporare le misure di protezione dei dati sin dalla fase di progettazione (<em>by design</em>) e deve, per impostazione predefinita, trattare solo i dati strettamente necessari (<em>by default</em>). Questo significa, in pratica, disabilitare per default tutte le funzionalità non essenziali, limitare i permessi di accesso al minimo necessario e progettare gli schemi del database evitando la raccolta di attributi superflui.</p>
+<p><strong>Gestione dei Data Processing Agreement.</strong> Ogni provider di servizi cloud, ogni SDK di terze parti, ogni sistema di analytics integrato nell'applicazione è un potenziale responsabile del trattamento. Occorre verificare l'esistenza di un DPA con ciascuno di essi e assicurarsi che rispettino gli standard del GDPR, specialmente se il trasferimento di dati avviene verso paesi extra-UE.</p>
+<p><strong>Pseudonimizzazione e cifratura.</strong> Il GDPR non impone tecnologie specifiche, ma cita esplicitamente la pseudonimizzazione e la cifratura come misure tecniche adeguate. Cifrare i dati a riposo e in transito, separare i dati identificativi dai dati transazionali e usare identificatori interni al posto di dati anagrafici diretti sono pratiche che, oltre a ridurre il rischio, attenuano le conseguenze sanzionatorie in caso di data breach.</p>
+<p><strong>Gestione dei log e dei tempi di conservazione.</strong> I log applicativi e di sistema spesso contengono indirizzi IP, identificatori utente e altre informazioni personali. È necessario definire politiche di retention con scadenze precise e implementare processi automatizzati di cancellazione o anonimizzazione alla scadenza del periodo consentito.</p>
+<p><strong>Notifica dei data breach (Art. 33-34).</strong> In caso di violazione della sicurezza che comporti la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l'accesso non autorizzato a dati personali, il titolare del trattamento ha l'obbligo di notificare l'incidente all'Autorità di controllo competente <strong>entro 72 ore</strong> dalla scoperta, salvo che sia improbabile che la violazione presenti un rischio per i diritti e le libertà delle persone fisiche. Un sistema di incident response ben strutturato, con procedure chiare e responsabilità assegnate, non è un'opzione: è un obbligo normativo.</p>
+
+    </section>
+  </article>
+
+  <aside class="toc-sidebar hide-mobile" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">Indice</div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+</div>
+
+<!-- Share & Tags -->
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+    <div class="d-flex flex-wrap gap-2">
+      
+        
+          
+          
+          <a href="/tags/gdpr/" class="badge badge-outline">GDPR</a>
+          
+        
+          
+          
+          <a href="/tags/privacy/" class="badge badge-outline">privacy</a>
+          
+        
+          
+          
+          <a href="/tags/protezione-dati/" class="badge badge-outline">protezione dati</a>
+          
+        
+          
+          
+          <a href="/tags/sicurezza-it/" class="badge badge-outline">sicurezza IT</a>
+          
+        
+          
+          
+          <a href="/tags/normativa-europea/" class="badge badge-outline">normativa europea</a>
+          
+        
+      
+    </div>
+    <div class="d-flex gap-2">
+      <span class="font-label-sm" style="color: var(--on-surface-variant);">Condividi</span>
+      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fguida-gdpr%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="color: var(--secondary);">in</a>
+      <a href="https://twitter.com/intent/tweet?text=Il%20GDPR%20spiegato%20a%20sviluppatori%20e%20IT%20manager&url=https://dino-996.github.io%2Fblog%2Fguida-gdpr%2F" target="_blank" rel="noopener" aria-label="X" style="color: var(--secondary);">𝕏</a>
+    </div>
+  </div>
+</div>
+
+<!-- Prev / Next -->
+
+
+
+
+
+<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+  <nav class="d-flex justify-content-between" aria-label="Navigazione articoli">
+    <div>
+      
+      <a href="/blog/sicurezza-del-nas/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 250px;">
+        <span class="d-block small">← Precedente</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Guida alla sicurezza del NAS: proteggere la tua fortezza digitale</span>
+      </a>
+      
+    </div>
+    <div style="text-align: right;">
+      
+      <a href="/blog/difesa-perimetrale-delle-reti/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 250px;">
+        <span class="d-block small">Successivo →</span>
+        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Difesa Perimetrale delle Reti: Guida Completa tra Firewall, IDS/IPS e Zero Trust</span>
+      </a>
+      
+    </div>
+  </nav>
+</div>
+
+
+<!-- Comments -->
+<div class="post-layout giscus-wrapper">
+  <script>
+    (function () {
+      const saved = localStorage.getItem('bs-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
+      const script = document.createElement('script');
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+      script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+      script.setAttribute('data-category', 'Announcements');
+      script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'top');
+      script.setAttribute('data-theme', theme);
+      script.setAttribute('data-lang', 'it');
+      script.setAttribute('data-loading', 'lazy');
+      script.setAttribute('crossorigin', 'anonymous');
+      script.async = true;
+      document.currentScript.replaceWith(script);
+    })();
+  </script>
+  <noscript>
+    <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+      Per visualizzare i commenti è necessario abilitare JavaScript.
+      <br>
+      <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+    </div>
+  </noscript>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">dino-996</a></div>
+  <nav class="footer-nav">
+    <a href="/about/">Chi sono</a>
+    <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Davide Sabia. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
+    <script>
+      window.pathPrefix = ".";
+      (function() {
+        const userTheme = localStorage.getItem('bs-theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let theme = 'light';
+        if (userTheme === 'dark' || userTheme === 'light') {
+          theme = userTheme;
+        } else {
+          theme = prefersDark ? 'dark' : 'light';
+        }
+        document.documentElement.setAttribute('data-bs-theme', theme);
+      })();
+    </script>
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

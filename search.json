@@ -1,5 +1,41 @@
 [
   {
+    "title": "Resilienza dei Dati e strategie di Backup",
+    "url": "/blog/resilienza-dei-dati/",
+    "description": "Guida completa alla sicurezza dei dati aziendali: la regola 3-2-1, metriche RPO/RTO, backup cloud e immutabili e piani di Disaster Recovery a prova di ransomware.",
+    "date": "2026-08-02T00:00:00.000Z"
+  },
+  {
+    "title": " Regolamento UE 2016/679 (GDPR): Guida Integrata a Struttura, Principi, Ruoli e Ambito Applicativo",
+    "url": "/blog/post/",
+    "description": "Guida completa al Regolamento UE 2016/679 (GDPR): ambito applicativo, definizioni, ruoli aziendali (Titolare, DPO, Responsabile), principi cardine e misure tecniche.",
+    "date": "2026-08-01T00:00:00.000Z"
+  },
+  {
+    "title": "Attacchi alla Rete",
+    "url": "/blog/attacchi-alla-rete/",
+    "description": "Dalle campagne di phishing agli attacchi alla supply chain e ai ransomware, la cybersecurity è ormai un requisito irrinunciabile. Scopri come funzionano le principali minacce informatiche, l'analisi dei casi storici WannaCry e SolarWinds e l'uso di framework professionali come MITRE ATT&CK per rilevare e contrastare i cyberattacchi.",
+    "date": "2026-07-30T00:00:00.000Z"
+  },
+  {
+    "title": "Guida alla sicurezza del NAS: proteggere la tua fortezza digitale",
+    "url": "/blog/sicurezza-del-nas/",
+    "description": "Guida completa alla sicurezza del NAS: scopri come proteggere i tuoi dati con segmentazione VLAN, snapshot immutabili, livelli RAID e la regola di backup 3-2-1 per difenderti da ransomware e guasti hardware.",
+    "date": "2026-07-25T00:00:00.000Z"
+  },
+  {
+    "title": "Il GDPR spiegato a sviluppatori e IT manager",
+    "url": "/blog/guida-gdpr/",
+    "description": "Scopri la guida definitiva al GDPR (UE 2016/679): storia della privacy, principi chiave, basi giuridiche, diritti degli interessati e le implicazioni pratiche per sviluppatori e IT manager.",
+    "date": "2026-07-25T00:00:00.000Z"
+  },
+  {
+    "title": "Difesa Perimetrale delle Reti: Guida Completa tra Firewall, IDS/IPS e Zero Trust",
+    "url": "/blog/difesa-perimetrale-delle-reti/",
+    "description": "Scopri come proteggere la tua rete IT. Una guida completa a firewall (NGFW), IDS/IPS, VPN, DMZ, WAF e modello Zero Trust per prevenire gli attacchi informatici e blindare l'infrastruttura.",
+    "date": "2026-07-24T00:00:00.000Z"
+  },
+  {
     "title": "Chat Control: anatomia di una sorveglianza di massa europea",
     "url": "/blog/chat-control-anatomia-di-una-sorveglianza-di-massa/",
     "description": "La sorveglianza preventiva UE. Un'architettura \"Surveillance by Design\" che scardina la nostra privacy prima ancora della crittografia.",
