@@ -100,8 +100,8 @@
     "hash": "22196"
   },
   "ClamAV su Linux: guida completa a installazione, scansione e monitoraggio in tempo reale": {
-    "tldr": "ClamAV è una suite antivirus open-source modulare per Unix/Linux, composta da `freshclam` per gli aggiornamenti delle firme, `clamd` come demone di scansione residente in RAM e `clamdscan`/`clamscan` come client per l'analisi dei file. L'installazione standard su Debian/Ubuntu prevede i pacchetti `clamav`, `clamav-daemon` e `clamav-freshclam`, che attivano automaticamente i relativi servizi.",
-    "hash": "19412"
+    "tldr": "ClamAV è un toolkit antivirus modulare open-source per Unix/Linux, composto da componenti come `freshclam` per gli aggiornamenti e `clamd` (con `clamdscan` per scansioni rapide) o `clamscan` per l'analisi dei file. L'installazione su Debian/Ubuntu avviene tramite `apt install clamav clamav-daemon clamav-freshclam`, con `clamd` che offre performance superiori grazie alla gestione del database in RAM.",
+    "hash": "25427"
   },
   "Chat Control: anatomia di una sorveglianza di massa europea": {
     "tldr": "Il nuovo quadro normativo UE affronta la collisione tra la privacy delle comunicazioni e la necessità di contrastare il CSAM, estendendo la protezione ePrivacy ai servizi OTT e creando una zona grigia per le scansioni volontarie dei provider. Il Regolamento 2021/1232 ha introdotto una deroga temporanea per consentire ai provider di servizi di comunicazione interpersonale di effettuare scansioni per rilevare materiale pedopornografico, previa notifica alle autorità.",
@@ -114,5 +114,33 @@
   "Fondamenti di Sicurezza Informatica": {
     "tldr": "La cybersecurity protegge sistemi e dati attraverso pratiche e tecnologie avanzate, evolvendosi da una difesa perimetrale a modelli come la Zero Trust Architecture. Il settore offre diverse specializzazioni professionali, tra cui analisti, penetration tester, architect, incident responder ed esperti di compliance, ognuno con ruoli e contesti operativi specifici.",
     "hash": "18472"
+  },
+  "Resilienza dei Dati e strategie di Backup": {
+    "tldr": "La perdita di dati è causata da errori umani, guasti hardware, malware, problemi di alimentazione e disastri, rendendo essenziale una strategia di backup robusta. La regola del 3-2-1 (tre copie, due supporti, una fuori sede) e la comprensione di RPO/RTO guidano la scelta tra backup completi, incrementali o differenziali per garantire la continuità operativa.",
+    "hash": "16392"
+  },
+  " Regolamento UE 2016/679 (GDPR): Guida Integrata a Struttura, Principi, Ruoli e Ambito Applicativo": {
+    "tldr": "Il GDPR definisce il quadro normativo europeo per la protezione dei dati personali, introducendo principi di accountability, privacy by design e by default. Il suo ambito di applicazione è esteso, includendo trattamenti effettuati da soggetti non UE che riguardano dati di interessati presenti nell'Unione Europea.",
+    "hash": "15942"
+  },
+  "Attacchi alla Rete": {
+    "tldr": "L'articolo delinea le principali minacce informatiche, analizzando la propagazione autonoma dei worm, l'aggancio ai file eseguibili dei virus, il mascheramento da software legittimo dei trojan e l'estorsione del ransomware. Vengono inoltre presentati framework professionali per l'analisi e il contrasto di queste minacce attraverso casi studio reali.",
+    "hash": "27424"
+  },
+  "Guida alla sicurezza del NAS: proteggere la tua fortezza digitale": {
+    "tldr": "Un NAS è un dispositivo di archiviazione di rete locale, sempre attivo e gestibile via web, che trasforma lo spazio dati in un server privato con svariate funzionalità. I NAS offrono il controllo totale sui propri dati, garantendo sovranità digitale rispetto ai servizi cloud che implicano una dipendenza da terze parti.",
+    "hash": "27789"
+  },
+  "Il GDPR spiegato a sviluppatori e IT manager": {
+    "tldr": "Il GDPR, entrato in vigore nel 2018, ha radicalmente trasformato la gestione dei dati personali in Europa, rendendo la conoscenza della normativa un requisito tecnico fondamentale per gli operatori del settore. Il regolamento definisce la privacy non solo come riservatezza, ma come il diritto dell'individuo di controllare la diffusione delle proprie informazioni personali, consolidando un concetto le cui radici storiche affondano nel diritto americano alla \"solitudine\" e all'assenza di ingerenze esterne.",
+    "hash": "23242"
+  },
+  "Difesa Perimetrale delle Reti: Guida Completa tra Firewall, IDS/IPS e Zero Trust": {
+    "tldr": "La difesa perimetrale moderna richiede un approccio evoluto a causa della natura distribuita delle infrastrutture IT, andando oltre i tradizionali firewall per integrare soluzioni come IDS/IPS e VPN, e abbracciando il paradigma Zero Trust. Il firewall, come componente fondamentale, filtra il traffico di rete in base a policy definite sugli indirizzi IP, porte, protocolli e direzioni del flusso, applicando il principio di \"default deny\" per il traffico in ingresso.",
+    "hash": "23900"
+  },
+  "Fondamenti di Networking": {
+    "tldr": "Internet è una rete decentralizzata di reti autonome che utilizzano standard comuni per lo scambio di informazioni attraverso vari mezzi fisici, connettendo un ecosistema in continua espansione di dispositivi, dalle reti locali ai dispositivi mobili e IoT. Le reti locali, sia SOHO che aziendali, fungono da infrastrutture fondamentali per condividere risorse e accedere a Internet, diventando una competenza digitale essenziale.",
+    "hash": "14210"
   }
 }

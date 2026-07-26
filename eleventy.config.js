@@ -159,6 +159,24 @@ export default function (eleventyConfig) {
         return arr.slice(0, limit);
     });
 
+    eleventyConfig.addFilter("courseForUrl", (courses, url) => {
+        if (!Array.isArray(courses)) return null;
+        for (const c of courses) {
+            if (!Array.isArray(c.posts)) continue;
+            for (const p of c.posts) {
+                if (p.url === url) return c;
+            }
+        }
+        return null;
+    });
+
+    eleventyConfig.addFilter("absoluteImageUrl", (url, baseUrl) => {
+        if (!url) return "";
+        if (url.startsWith("http")) return url;
+        const separator = baseUrl.endsWith("/") ? "" : "/";
+        return baseUrl + separator + url.replace(/^\//, "");
+    });
+
     // =========================================
     // = COLLECTIONS
     // =========================================
@@ -210,6 +228,16 @@ export default function (eleventyConfig) {
                 .replace(/\s*([{}:;,])\s*/g, "$1")
                 .replace(/;}/g, "}")
                 .trim();
+        }
+        return content;
+    });
+
+    // Demote first <h1> inside .content to <h2> on post pages (fix duplicate h1)
+    eleventyConfig.addTransform("fix-heading-hierarchy", (content, outputPath) => {
+        if (outputPath && outputPath.includes("/blog/") && outputPath.endsWith(".html") && !outputPath.includes("/page/")) {
+            return content.replace(/<section class="content">([\s\S]*?)<\/section>/, (match) => {
+                return match.replace(/<h1 /, '<h2 ').replace(/<\/h1>/, '</h2>');
+            });
         }
         return content;
     });

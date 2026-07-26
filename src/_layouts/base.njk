@@ -18,34 +18,34 @@
       window.EMAILJS_SERVICE_ID = {{ emailjsServiceId | json | safe }};
       window.EMAILJS_TEMPLATE_ID = {{ emailjsTemplateId | json | safe }};
     </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
   </head>
 
   <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
     {% include "navbar.njk" %}
 
     <div class="header-spacer"></div>
 
-    <main class="container" style="flex: 1;">
+    <main id="main-content" class="container" style="flex: 1;">
       {{ content | safe }}
     </main>
 
     {% include "footer.njk" %}
-
-    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
-    <script>
-      window.pathPrefix = "{{ '' | url }}";
-      (function() {
-        const userTheme = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        let theme = 'light';
-        if (userTheme === 'dark' || userTheme === 'light') {
-          theme = userTheme;
-        } else {
-          theme = prefersDark ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-bs-theme', theme);
-      })();
-    </script>
 
     <!-- KaTeX -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
@@ -64,6 +64,11 @@
       });
     </script>
 
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
     <!-- AI assistant widget -->
     <div id="ai-assistant" class="ai-assistant-wrapper">
       <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
@@ -81,13 +86,14 @@
           </button>
         </div>
 
-        <div id="ai-messages" class="ai-chat-body">
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
           <div class="ai-welcome-msg">
             Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
           </div>
         </div>
 
         <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
           <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
           <button id="ai-send">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
@@ -223,6 +229,25 @@
             input.focus();
           }
         }
+      })();
+    </script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
       })();
     </script>
 

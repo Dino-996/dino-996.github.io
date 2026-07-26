@@ -112,10 +112,11 @@ title: Home
       <h3>Newsletter</h3>
       <p>Ricevi aggiornamenti sui nuovi articoli direttamente via email.</p>
       <div class="newsletter-input">
+        <label for="newsletter-email" class="visually-hidden">Indirizzo email</label>
         <input type="email" placeholder="La tua email" id="newsletter-email">
         <button class="btn btn-primary" id="newsletter-submit">Iscriviti</button>
       </div>
-      <div id="newsletter-message" class="newsletter-message" hidden></div>
+      <div id="newsletter-message" class="newsletter-message" hidden aria-live="polite"></div>
     </div>
 
     <!-- About CTA -->

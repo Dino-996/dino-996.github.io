@@ -1,72 +1,21 @@
 "use strict";
 (function () {
     // ===========================================
-    // = THEME TOGGLE
+    // = OS THEME — GISCUS SYNC
     // ===========================================
 
-    /* 
-    Notifica Giscus del cambio tema tramite postMessage.
-    L'iframe di Giscus ascolta questo evento e aggiorna il proprio tema senza ricaricare i commenti.
-    @param { 'light' | 'dark' } theme
-    */
-
     function syncGiscusTheme(theme) {
-        const iframe = document.querySelector('iframe.giscus-frame');
+        var iframe = document.querySelector('iframe.giscus-frame');
         if (!iframe) return;
         iframe.contentWindow.postMessage(
-            { giscus: { setConfig: { theme } } },
+            { giscus: { setConfig: { theme: theme } } },
             'https://giscus.app'
         );
     }
 
-    function initThemeToggle() {
-        const toggles = document.querySelectorAll('.theme-toggle');
-        if (toggles.length === 0) return;
-
-        function setActiveTheme(theme) {
-            toggles.forEach(toggle => {
-                const buttons = toggle.querySelectorAll('.theme-toggle-btn');
-                const slider = toggle.querySelector('.theme-toggle-slider');
-                buttons.forEach(b => {
-                    const isActive = b.dataset.theme === theme;
-                    b.classList.toggle('active', isActive);
-                    b.setAttribute('aria-pressed', isActive);
-                });
-                if (slider) {
-                    slider.style.transform = theme === 'dark' ? 'translateX(100%)' : 'translateX(0)';
-                }
-            });
-            localStorage.setItem('bs-theme', theme);
-            document.documentElement.setAttribute('data-bs-theme', theme);
-            syncGiscusTheme(theme);
-        }
-
-        const currentTheme = document.documentElement.getAttribute('data-bs-theme') || 'light';
-        toggles.forEach(toggle => {
-            const buttons = toggle.querySelectorAll('.theme-toggle-btn');
-            const slider = toggle.querySelector('.theme-toggle-slider');
-            buttons.forEach(b => {
-                const isActive = b.dataset.theme === currentTheme;
-                b.classList.toggle('active', isActive);
-                b.setAttribute('aria-pressed', isActive);
-            });
-            if (slider) {
-                slider.style.transform = currentTheme === 'dark' ? 'translateX(100%)' : 'translateX(0)';
-            }
-            buttons.forEach(btn => {
-                btn.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    setActiveTheme(this.dataset.theme);
-                });
-            });
-        });
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initThemeToggle);
-    } else {
-        initThemeToggle();
-    }
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+        syncGiscusTheme(e.matches ? 'dark' : 'light');
+    });
 
     // ===========================================
     // = BLOG SEARCH
@@ -148,8 +97,10 @@
     }
 
     // ===========================================
-    // = SMOOTH SCROOL FOR ANCHOR LINK
+    // = SMOOTH SCROLL FOR ANCHOR LINK
     // ===========================================
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
@@ -159,7 +110,7 @@
             if (target) {
                 e.preventDefault();
                 target.scrollIntoView({
-                    behavior: 'smooth',
+                    behavior: prefersReducedMotion ? 'auto' : 'smooth',
                     block: 'start'
                 });
             }
@@ -303,7 +254,7 @@
             const target = document.getElementById(id);
             if (target) {
                 const top = target.getBoundingClientRect().top + window.scrollY - NAV_OFFSET;
-                window.scrollTo({ top, behavior: 'smooth' });
+                window.scrollTo({ top, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
                 history.replaceState(null, '', `#${id}`);
             }
         });
@@ -322,7 +273,7 @@
                 });
                 const activeItem = listEl.querySelector(`.toc-item[data-target="${activeId}"]`);
                 if (activeItem) {
-                    activeItem.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                    activeItem.scrollIntoView({ block: 'nearest', behavior: prefersReducedMotion ? 'auto' : 'smooth' });
                 }
             }
         }, {

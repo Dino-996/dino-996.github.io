@@ -16,11 +16,12 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
 
 <!-- Search -->
 <div class="search-bar">
-  <input type="search" id="search-input" placeholder="Cerca un articolo per titolo..." aria-label="Cerca articoli" autocomplete="off">
+  <label for="search-input" class="visually-hidden">Cerca articoli</label>
+  <input type="search" id="search-input" placeholder="Cerca un articolo per titolo..." autocomplete="off">
   <button id="search-button">Cerca</button>
 </div>
 
-<div id="search-results" hidden></div>
+<div id="search-results" hidden aria-live="polite"></div>
 
 <!-- Post list -->
 <section id="posts-list">

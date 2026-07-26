@@ -1,6 +1,5 @@
 ---
 layout: page.njk
-title: "{{ course.name }}"
 permalink: "/courses/{{ course.slug }}/index.html"
 eleventyExcludeFromCollections: true
 pagination:
@@ -8,6 +7,10 @@ pagination:
   size: 1
   alias: course
 ---
+
+{% block head_extra %}
+<script>document.title = {{ course.name | json | safe }} + " · " + {{ site.title | json | safe }};</script>
+{% endblock %}
 
 <div class="mb-6">
   <div class="mb-2">

@@ -1,0 +1,23 @@
+---
+permalink: /sitemap.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  {%- for post in collections.posts %}
+  <url>
+    <loc>{{ site.url }}{{ post.url }}</loc>
+    <lastmod>{{ (post.data.postDate or post.date) | dateIso }}</lastmod>
+  </url>
+  {%- endfor %}
+  {% for pageUrl in ["/", "/blog/", "/about/", "/courses/"] %}
+  <url>
+    <loc>{{ site.url }}{{ pageUrl }}</loc>
+  </url>
+  {% endfor %}
+  {% for course in courses %}
+  <url>
+    <loc>{{ site.url }}/courses/{{ course.slug }}/</loc>
+  </url>
+  {% endfor %}
+</urlset>

@@ -1,17 +1,17 @@
 <header class="site-header">
   <div class="header-inner">
     <div class="header-left">
-      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M3 6h18M3 12h18M3 18h18"/>
         </svg>
       </button>
-      <nav class="navbar-desktop hide-mobile" id="desktop-nav">
-        <a class="btn btn-subscribe{% if page.url == '/' %} btn-primary{% endif %}" href="/">
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn btn-subscribe{% if page.url == '/' %} btn-primary{% endif %}" href="/"{% if page.url == '/' %} aria-current="page"{% endif %}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           Home
         </a>
-        <a class="btn btn-subscribe btn-subscribe-nav{% if '/blog/' in page.url %} btn-primary{% endif %}" href="/blog/">
+        <a class="btn btn-subscribe btn-subscribe-nav{% if '/blog/' in page.url %} btn-primary{% endif %}" href="/blog/"{% if '/blog/' in page.url %} aria-current="page"{% endif %}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           Blog
         </a>
@@ -21,28 +21,28 @@
     <a href="/" class="header-logo">dino-996</a>
 
     <div class="header-right gap-2 hide-mobile">
-      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav{% if '/courses/' in page.url %} btn-primary{% endif %}">Percorsi</a>
-      <a href="/about/" class="btn btn-subscribe{% if page.url == '/about/' %} btn-primary{% endif %}">Chi sono</a>
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav{% if '/courses/' in page.url %} btn-primary{% endif %}"{% if '/courses/' in page.url %} aria-current="page"{% endif %}>Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe{% if page.url == '/about/' %} btn-primary{% endif %}"{% if page.url == '/about/' %} aria-current="page"{% endif %}>Chi sono</a>
     </div>
   </div>
 </header>
 
 <!-- Mobile nav drawer -->
-<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;">
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
   <div class="container">
-    <a class="nav-link{% if page.url == '/' %} active{% endif %}" href="/">
+    <a class="nav-link{% if page.url == '/' %} active{% endif %}" href="/"{% if page.url == '/' %} aria-current="page"{% endif %}>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       Home
     </a>
-    <a class="nav-link{% if '/blog/' in page.url %} active{% endif %}" href="/blog/">
+    <a class="nav-link{% if '/blog/' in page.url %} active{% endif %}" href="/blog/"{% if '/blog/' in page.url %} aria-current="page"{% endif %}>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       Blog
     </a>
-    <a class="nav-link{% if '/courses/' in page.url %} active{% endif %}" href="/courses/">
+    <a class="nav-link{% if '/courses/' in page.url %} active{% endif %}" href="/courses/"{% if '/courses/' in page.url %} aria-current="page"{% endif %}>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
       Percorsi
     </a>
-    <a class="nav-link{% if page.url == '/about/' %} active{% endif %}" href="/about/">
+    <a class="nav-link{% if page.url == '/about/' %} active{% endif %}" href="/about/"{% if page.url == '/about/' %} aria-current="page"{% endif %}>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       Chi sono
     </a>
@@ -57,6 +57,11 @@
     toggle.addEventListener('click', function() {
       var isOpen = nav.style.display === 'block';
       nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
     });
   }
 })();
