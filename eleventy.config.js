@@ -17,6 +17,7 @@ export default function (eleventyConfig) {
     eleventyConfig.setOutputDirectory("dist");
     // copia file statici non processati
     eleventyConfig.addPassthroughCopy("src/assets");
+    eleventyConfig.addPassthroughCopy("src/google451dd7067b26c223.html");
     eleventyConfig.addPassthroughCopy(".nojekill");
     // cartella dei layout/template riutilizzabili
     eleventyConfig.setLayoutsDirectory("_layouts");
