@@ -7,7 +7,7 @@ eleventyExcludeFromCollections: true
   {%- for post in collections.posts %}
   <url>
     <loc>{{ site.url }}{{ post.url }}</loc>
-    <lastmod>{{ (post.data.postDate or post.date) | dateIso }}</lastmod>
+    <lastmod>{{ post.data.postDate | dateIso }}</lastmod>
   </url>
   {%- endfor %}
   {% for pageUrl in ["/", "/blog/", "/about/", "/courses/"] %}
