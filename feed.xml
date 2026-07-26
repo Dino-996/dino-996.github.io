@@ -278,8 +278,8 @@ if ($LASTEXITCODE -le 7) {
   
   <entry>
     <title> Regolamento UE 2016/679 (GDPR): Guida Integrata a Struttura, Principi, Ruoli e Ambito Applicativo</title>
-    <link href="https://dino-996.github.io/blog/post/" rel="alternate" type="text/html"/>
-    <id>https://dino-996.github.io/blog/post/</id>
+    <link href="https://dino-996.github.io/blog/guida-gdpr-regolamento/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/guida-gdpr-regolamento/</id>
     <published></published>
     <updated></updated>
     

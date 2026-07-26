@@ -28,7 +28,7 @@
 <meta property="og:description" content="Facciamo un&#39;analisi approfondita dello scheduling della CPU, una funzione vitale dei sistemi operativi progettata per massimizzare l&#39;efficienza attraverso la multiprogrammazione." />
 <meta property="og:site_name" content="dino-996 blog" />
 
-<meta property="og:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1784997357/sistemi_operativi_c5f0caf8fe.webp" />
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784997357/sistemi_operativi_c5f0caf8fe.webp" />
 
 
 <!-- Twitter Card -->
@@ -39,7 +39,7 @@
 <meta name="twitter:title" content="Scheduling della CPU" />
 <meta name="twitter:description" content="Facciamo un&#39;analisi approfondita dello scheduling della CPU, una funzione vitale dei sistemi operativi progettata per massimizzare l&#39;efficienza attraverso la multiprogrammazione." />
 
-<meta name="twitter:image" content="https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1784997357/sistemi_operativi_c5f0caf8fe.webp" />
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784997357/sistemi_operativi_c5f0caf8fe.webp" />
 
 
 <!-- Favicon -->
@@ -83,23 +83,39 @@
       window.EMAILJS_SERVICE_ID = "newsletter";
       window.EMAILJS_TEMPLATE_ID = "template_contatti";
     </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
   </head>
 
   <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
     <header class="site-header">
   <div class="header-inner">
     <div class="header-left">
-      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M3 6h18M3 12h18M3 18h18"/>
         </svg>
       </button>
-      <nav class="navbar-desktop hide-mobile" id="desktop-nav">
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
         <a class="btn btn-subscribe" href="/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           Home
         </a>
-        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/">
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/" aria-current="page">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           Blog
         </a>
@@ -116,13 +132,13 @@
 </header>
 
 <!-- Mobile nav drawer -->
-<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;">
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
   <div class="container">
     <a class="nav-link" href="/">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       Home
     </a>
-    <a class="nav-link active" href="/blog/">
+    <a class="nav-link active" href="/blog/" aria-current="page">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
       Blog
     </a>
@@ -145,6 +161,11 @@
     toggle.addEventListener('click', function() {
       var isOpen = nav.style.display === 'block';
       nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
     });
   }
 })();
@@ -153,7 +174,7 @@
 
     <div class="header-spacer"></div>
 
-    <main class="container" style="flex: 1;">
+    <main id="main-content" class="container" style="flex: 1;">
       
 
   
@@ -163,60 +184,78 @@
 
 <div class="reading-progress-bar" id="reading-progress-bar"></div>
 
-<!-- Post Header -->
-<header class="post-header">
-  
-    
-    
-    <span class="badge badge-category category">sistemi operativi</span>
-    
-  
-  <h1>Scheduling della CPU</h1>
-  <div class="post-meta">
-    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="32" height="32">
-    <span>Davide Sabia</span>
-    <span>·</span>
-    <time datetime="2020-02-21T00:00:00.000Z">21 febbraio 2020</time>
-    <span class="reading-time"></span>
-    
-      <span>·</span>
-      <time datetime="2026-07-25T17:25:16.000Z">Aggiornato: 25 luglio 2026</time>
-    
-  </div>
-  
-  <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784997357/sistemi_operativi_c5f0caf8fe.webp"
-       alt="Immagine generata con IA"
-       class="post-image"
-       fetchpriority="high">
-  
-</header>
-
-<!-- Mobile ToC toggle -->
-<div class="post-layout" style="margin-bottom: 16px;">
-  <div class="hide-desktop">
-    <button id="toc-toggle" class="btn btn-outline btn-sm" style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
-      <span>Indice</span>
-      <span id="toc-chevron" style="transition: transform 0.2s;">▾</span>
-    </button>
-    <div id="toc-mobile" style="display: none; margin-top: 8px;">
-      <div class="toc-card">
-        <ul class="toc-list" id="toc-list-mobile"></ul>
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn" aria-label="Collassa indice">▾</button>
       </div>
+      <ul class="toc-list" id="toc-list"></ul>
     </div>
-  </div>
-</div>
+  </aside>
 
-<div class="post-layout-wrapper">
-  <article class="post-layout">
-    
-    <div class="tldr-box">
-      <div class="tldr-label">In breve</div>
-      <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Lo scheduling della CPU gestisce l&#39;allocazione del processore tra processi concorrenti, bilanciando efficienza e reattività attraverso strategie preemptive o non preemptive e il minimo overhead del context switch. La valutazione degli algoritmi si basa su metriche quali utilizzo della CPU, throughput e tempi di attesa/risposta.</p>
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper hide-desktop" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
     </div>
+
+    <header class="post-header">
+      <div class="post-breadcrumb">
+        <a href="/">Home</a>
+        <span class="post-breadcrumb-sep">»</span>
+        
+        
+        <a href="/courses/">Percorsi</a>
+        <span class="post-breadcrumb-sep">»</span>
+        <a href="/courses/sistemi-operativi/">Sistemi Operativi</a>
+        
+      </div>
+
+      <h1>Scheduling della CPU</h1>
+
+      
+      <p class="post-description">Facciamo un&#39;analisi approfondita dello scheduling della CPU, una funzione vitale dei sistemi operativi progettata per massimizzare l&#39;efficienza attraverso la multiprogrammazione.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Aggiornato il 21 febbraio 2020</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+        <span class="post-meta-dot">·</span>
+        <span>Aggiornato: 25 luglio 2026</span>
+        
+      </div>
+    </header>
+
+    
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784997357/sistemi_operativi_c5f0caf8fe.webp"
+         alt="Immagine generata con IA"
+         class="post-hero-image"
+         fetchpriority="high">
     
 
-    <section class="content">
-      <h1 id="cose-lo-scheduling-della-cpu">Cos’è lo scheduling della CPU</h1>
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">In breve</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Lo scheduling della CPU gestisce l&#39;allocazione del processore tra processi concorrenti, bilanciando efficienza e reattività attraverso strategie preemptive o non preemptive e il minimo overhead del context switch. La valutazione degli algoritmi si basa su metriche quali utilizzo della CPU, throughput e tempi di attesa/risposta.</p>
+      </div>
+      
+
+      <section class="content">
+        <h2 id="cose-lo-scheduling-della-cpu">Cos’è lo scheduling della CPU</h2>
 <p>Lo <strong>scheduling della CPU</strong> è il meccanismo attraverso il quale il sistema operativo decide quale processo o thread debba essere eseguito in un determinato istante. Poiché un singolo core può eseguire un solo flusso di esecuzione alla volta, lo scheduler ha il compito di distribuire il tempo di CPU tra più entità concorrenti, garantendo efficienza, equità e reattività.</p>
 <p>Nei sistemi moderni lo scheduler è una componente critica del kernel: deve operare con latenza minima, comportamento prevedibile e capacità di scalare su architetture multicore o multiprocessore.</p>
 <h2 id="concetti-fondamentali">Concetti fondamentali</h2>
@@ -301,104 +340,97 @@
 </ul>
 <p>Le priorità possono essere modificate dinamicamente per migliorare la reattività delle applicazioni interattive e prevenire situazioni di starvation.</p>
 
-    </section>
-  </article>
+      </section>
+    </article>
 
-  <aside class="toc-sidebar hide-mobile" id="toc-sidebar">
-    <div class="toc-card">
-      <div class="toc-title">Indice</div>
-      <ul class="toc-list" id="toc-list"></ul>
+    <!-- Share & Tags -->
+    <div class="post-layout" style="padding: 24px 0; margin-top: 32px; border-top: 1px solid var(--border-subtle);">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/sistemi-operativi/" class="badge badge-outline">sistemi operativi</a>
+              
+            
+              
+              
+              <a href="/tags/scheduling/" class="badge badge-outline">scheduling</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center">
+          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--on-surface-variant);">Condividi</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fscheduling-della-cpu%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">IN</a>
+          <a href="https://twitter.com/intent/tweet?text=Scheduling%20della%20CPU&url=https://dino-996.github.io%2Fblog%2Fscheduling-della-cpu%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
+        </div>
+      </div>
     </div>
-  </aside>
-</div>
 
-<!-- Share & Tags -->
-<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
-  <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
-    <div class="d-flex flex-wrap gap-2">
-      
-        
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+      <nav class="d-flex flex-wrap justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div style="min-width: 0; max-width: 50%; flex: 1 1 auto;">
           
+          <a href="/blog/memoria-virtuale/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">← Precedente</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">La memoria virtuale</span>
+          </a>
           
-          <a href="/tags/sistemi-operativi/" class="badge badge-outline">sistemi operativi</a>
+        </div>
+        <div style="min-width: 0; max-width: 50%; text-align: right; flex: 1 1 auto;">
           
-        
+          <a href="/blog/thread/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Successivo →</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Thread</span>
+          </a>
           
-          
-          <a href="/tags/scheduling/" class="badge badge-outline">scheduling</a>
-          
-        
-      
+        </div>
+      </nav>
     </div>
-    <div class="d-flex gap-2">
-      <span class="font-label-sm" style="color: var(--on-surface-variant);">Condividi</span>
-      <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fscheduling-della-cpu%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="color: var(--secondary);">in</a>
-      <a href="https://twitter.com/intent/tweet?text=Scheduling%20della%20CPU&url=https://dino-996.github.io%2Fblog%2Fscheduling-della-cpu%2F" target="_blank" rel="noopener" aria-label="X" style="color: var(--secondary);">𝕏</a>
+    
+
+    <!-- Comments -->
+    <h2 class="post-layout" style="font-size: 1.25rem; margin-top: 48px; margin-bottom: 0;">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
     </div>
   </div>
-</div>
-
-<!-- Prev / Next -->
-
-
-
-
-
-<div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
-  <nav class="d-flex justify-content-between" aria-label="Navigazione articoli">
-    <div>
-      
-      <a href="/blog/memoria-virtuale/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 250px;">
-        <span class="d-block small">← Precedente</span>
-        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">La memoria virtuale</span>
-      </a>
-      
-    </div>
-    <div style="text-align: right;">
-      
-      <a href="/blog/thread/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 250px;">
-        <span class="d-block small">Successivo →</span>
-        <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Thread</span>
-      </a>
-      
-    </div>
-  </nav>
-</div>
-
-
-<!-- Comments -->
-<div class="post-layout giscus-wrapper">
-  <script>
-    (function () {
-      const saved = localStorage.getItem('bs-theme');
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const theme = (saved === 'dark' || saved === 'light') ? saved : (prefersDark ? 'dark' : 'light');
-      const script = document.createElement('script');
-      script.src = 'https://giscus.app/client.js';
-      script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
-      script.setAttribute('data-repo-id', 'R_kgDORNULOw');
-      script.setAttribute('data-category', 'Announcements');
-      script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
-      script.setAttribute('data-mapping', 'pathname');
-      script.setAttribute('data-strict', '0');
-      script.setAttribute('data-reactions-enabled', '1');
-      script.setAttribute('data-emit-metadata', '0');
-      script.setAttribute('data-input-position', 'top');
-      script.setAttribute('data-theme', theme);
-      script.setAttribute('data-lang', 'it');
-      script.setAttribute('data-loading', 'lazy');
-      script.setAttribute('crossorigin', 'anonymous');
-      script.async = true;
-      document.currentScript.replaceWith(script);
-    })();
-  </script>
-  <noscript>
-    <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
-      Per visualizzare i commenti è necessario abilitare JavaScript.
-      <br>
-      <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
-    </div>
-  </noscript>
 </div>
 
     </main>
@@ -418,22 +450,6 @@
 </footer>
 
 
-    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
-    <script>
-      window.pathPrefix = ".";
-      (function() {
-        const userTheme = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        let theme = 'light';
-        if (userTheme === 'dark' || userTheme === 'light') {
-          theme = userTheme;
-        } else {
-          theme = prefersDark ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-bs-theme', theme);
-      })();
-    </script>
-
     <!-- KaTeX -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
@@ -450,6 +466,11 @@
         });
       });
     </script>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
 
     <!-- AI assistant widget -->
     <div id="ai-assistant" class="ai-assistant-wrapper">
@@ -468,13 +489,14 @@
           </button>
         </div>
 
-        <div id="ai-messages" class="ai-chat-body">
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
           <div class="ai-welcome-msg">
             Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
           </div>
         </div>
 
         <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
           <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
           <button id="ai-send">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
@@ -610,6 +632,25 @@
             input.focus();
           }
         }
+      })();
+    </script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
       })();
     </script>
 

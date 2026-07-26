@@ -81,18 +81,34 @@
       window.EMAILJS_SERVICE_ID = "newsletter";
       window.EMAILJS_TEMPLATE_ID = "template_contatti";
     </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
   </head>
 
   <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
     <header class="site-header">
   <div class="header-inner">
     <div class="header-left">
-      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M3 6h18M3 12h18M3 18h18"/>
         </svg>
       </button>
-      <nav class="navbar-desktop hide-mobile" id="desktop-nav">
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
         <a class="btn btn-subscribe" href="/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           Home
@@ -114,7 +130,7 @@
 </header>
 
 <!-- Mobile nav drawer -->
-<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;">
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
   <div class="container">
     <a class="nav-link" href="/">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -143,6 +159,11 @@
     toggle.addEventListener('click', function() {
       var isOpen = nav.style.display === 'block';
       nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
     });
   }
 })();
@@ -151,7 +172,7 @@
 
     <div class="header-spacer"></div>
 
-    <main class="container" style="flex: 1;">
+    <main id="main-content" class="container" style="flex: 1;">
       
 
 <div class="mb-6">
@@ -335,22 +356,6 @@
 </footer>
 
 
-    <!-- Ripristina il tema scelto dall'utente prima del rendering -->
-    <script>
-      window.pathPrefix = ".";
-      (function() {
-        const userTheme = localStorage.getItem('bs-theme');
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        let theme = 'light';
-        if (userTheme === 'dark' || userTheme === 'light') {
-          theme = userTheme;
-        } else {
-          theme = prefersDark ? 'dark' : 'light';
-        }
-        document.documentElement.setAttribute('data-bs-theme', theme);
-      })();
-    </script>
-
     <!-- KaTeX -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
@@ -367,6 +372,11 @@
         });
       });
     </script>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
 
     <!-- AI assistant widget -->
     <div id="ai-assistant" class="ai-assistant-wrapper">
@@ -385,13 +395,14 @@
           </button>
         </div>
 
-        <div id="ai-messages" class="ai-chat-body">
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
           <div class="ai-welcome-msg">
             Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
           </div>
         </div>
 
         <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
           <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
           <button id="ai-send">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
@@ -527,6 +538,25 @@
             input.focus();
           }
         }
+      })();
+    </script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
       })();
     </script>
 
