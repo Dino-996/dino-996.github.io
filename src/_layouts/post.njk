@@ -57,7 +57,7 @@ layout: base.njk
         <img src="{{ authorAvatar | default('/assets/img/avatar/dino-996-32.png') }}" alt="{{ author | default('Davide Sabia') }}" class="avatar" width="24" height="24">
         <span>{{ author | default('Davide Sabia') }}</span>
         <span class="post-meta-dot">·</span>
-        <span>Aggiornato il {{ postDate | dateHuman }}</span>
+        <span>Pubblicato il {{ postDate | dateHuman }}</span>
         <span class="post-meta-dot">·</span>
         <span class="reading-time"></span>
         {% if updatedAt and (updatedAt | dateIso) != (postDate | dateIso) %}
