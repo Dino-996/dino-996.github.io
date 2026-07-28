@@ -303,318 +303,6 @@
   </entry>
   
   <entry>
-    <title>Guida alla sicurezza del NAS</title>
-    <link href="https://dino-996.github.io/blog/sicurezza-del-nas/" rel="alternate" type="text/html"/>
-    <id>https://dino-996.github.io/blog/sicurezza-del-nas/</id>
-    <published>2026-07-25T00:00:00.000Z</published>
-    <updated>2026-07-25T00:00:00.000Z</updated>
-    
-    <summary>Guida completa alla sicurezza del NAS: scopri come proteggere i tuoi dati con segmentazione VLAN, snapshot immutabili, livelli RAID e la regola di backup 3-2-1 per difenderti da ransomware e guasti hardware.</summary>
-    
-    
-    <content type="html"><![CDATA[
-&lt;h2 id=&quot;cose-un-nas-e-perche-dovresti-averne-uno&quot;&gt;Cos&#39;è un NAS e perché dovresti averne uno&lt;/h2&gt;
-&lt;p&gt;Nell&#39;era in cui la quantità di dati che produciamo cresce ogni anno in modo esponenziale, la domanda di storage affidabile, accessibile e sicuro è diventata una priorità non solo per le aziende, ma anche per i professionisti e gli appassionati di tecnologia. In questo contesto nasce il &lt;strong&gt;NAS&lt;/strong&gt; (Network Attached Storage): un dispositivo di archiviazione collegato direttamente alla rete locale, accessibile da tutti i dispositivi della stessa rete come se fosse un disco condiviso.&lt;/p&gt;
- &lt;figure style=&quot;border: 1px solid #ddd; border-radius: 5px; padding: 10px; display: inline-block; max-width: 620px; margin-top: 15px; margin-bottom: 15px;&quot;&gt;
-  &lt;img src=&quot;https://res.cloudinary.com/dcro2pbqr/image/upload/v1784927880/NAS_19f423f1d8.png&quot; alt=&quot;Un NAS appena configurato su una scrivania&quot; width=&quot;600&quot; height=&quot;338&quot; loading=&quot;lazy&quot; style=&quot;max-width: 100%; border-radius: 5px&quot;&gt;
-&lt;/figure&gt;
-&lt;p&gt;A differenza di un disco esterno USB, il NAS è sempre acceso, sempre connesso e gestibile tramite un&#39;interfaccia web. Al suo interno girano un sistema operativo dedicato (come &lt;strong&gt;DSM&lt;/strong&gt; di Synology o &lt;strong&gt;QTS&lt;/strong&gt; di QNAP) e una serie di applicazioni che lo trasformano in un vero e proprio server privato: file server, media server, sistema di backup automatico, piattaforma di sorveglianza e persino host per container Docker.&lt;/p&gt;
-&lt;p&gt;Dal punto di vista hardware, un NAS è composto da:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Uno o più &lt;strong&gt;bay&lt;/strong&gt; per dischi rigidi (HDD o SSD), da 2 a decine di slot a seconda del modello.&lt;/li&gt;
-&lt;li&gt;Un processore dedicato (spesso ARM o Intel Celeron nei modelli consumer).&lt;/li&gt;
-&lt;li&gt;Memoria RAM per gestire i servizi in esecuzione.&lt;/li&gt;
-&lt;li&gt;Interfacce di rete da 1 GbE a 10 GbE per i modelli professionali.&lt;br&gt;
-Il cuore della sua utilità sta nel fatto che i dati rimangono &lt;strong&gt;fisicamente a casa tua o nel tuo ufficio&lt;/strong&gt;, su hardware che controlli tu. Questo lo distingue radicalmente dai servizi cloud come Google Drive o Dropbox, e lo rende la scelta preferita da chi vuole esercitare la piena sovranità digitale sui propri dati.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;nas-vs-cloud-il-dilemma-della-sovranita-digitale&quot;&gt;NAS vs Cloud: il dilemma della sovranità digitale&lt;/h2&gt;
-&lt;p&gt;Quando si parla di archiviazione, la domanda ricorrente è: perché usare un NAS invece di un servizio cloud che è già pronto, sincronizzato e non richiede manutenzione? La risposta non è banale e dipende dalle priorità di ciascun utente.&lt;/p&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
-  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-    &lt;thead class=&quot;table-dark&quot;&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Criterio&lt;/th&gt;
-        &lt;th&gt;Cloud (Google Drive / Dropbox)&lt;/th&gt;
-        &lt;th&gt;NAS locale&lt;/th&gt;
-      &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Semplicità d&#39;uso&lt;/td&gt;
-        &lt;td&gt;Ottima — zero configurazione&lt;/td&gt;
-        &lt;td&gt;Richiede setup iniziale e manutenzione&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Privacy dei dati&lt;/td&gt;
-        &lt;td&gt;Dipende dai termini di servizio del fornitore&lt;/td&gt;
-        &lt;td&gt;Totale — i dati non lasciano mai la tua rete&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Velocità in LAN&lt;/td&gt;
-        &lt;td&gt;Limitata alla banda internet&lt;/td&gt;
-        &lt;td&gt;1–10 Gbps sulla rete locale&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Costo nel tempo&lt;/td&gt;
-        &lt;td&gt;Abbonamento mensile continuo&lt;/td&gt;
-        &lt;td&gt;Investimento una tantum in hardware&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Responsabilità sicurezza&lt;/td&gt;
-        &lt;td&gt;Delegata al fornitore&lt;/td&gt;
-        &lt;td&gt;100% a carico del proprietario&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Disponibilità offline&lt;/td&gt;
-        &lt;td&gt;Limitata (solo file sincronizzati)&lt;/td&gt;
-        &lt;td&gt;Completa — funziona senza internet&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-Per un percorso di apprendimento tecnico, il NAS è la scelta ideale perché obbliga a confrontarsi con concetti reali di networking, sicurezza e amministrazione di sistema. È, in parole povere, il massimo livello di sovranità digitale che un utente non enterprise possa raggiungere.
-&lt;h2 id=&quot;la-rete-come-prima-linea-di-difesa&quot;&gt;La rete come prima linea di difesa&lt;/h2&gt;
-&lt;p&gt;Prima di configurare qualsiasi aspetto del NAS stesso, è fondamentale comprendere l&#39;infrastruttura di rete in cui opera. Il NAS non è un&#39;isola: è un nodo della rete locale, e la sicurezza di quella rete è il presupposto di tutto il resto.&lt;/p&gt;
-&lt;h3 id=&quot;come-il-nas-ottiene-il-suo-indirizzo-ip-il-protocollo-dhcp&quot;&gt;Come il NAS ottiene il suo indirizzo IP: il protocollo DHCP&lt;/h3&gt;
-&lt;p&gt;Quando colleghi il NAS al router tramite cavo Ethernet, il dispositivo non conosce ancora quale indirizzo IP usare. Entra in gioco il &lt;strong&gt;protocollo DHCP (Dynamic Host Configuration Protocol)&lt;/strong&gt;, che automatizza l&#39;assegnazione degli indirizzi IP attraverso un processo in quattro fasi chiamato &lt;strong&gt;DORA&lt;/strong&gt;:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Discover:&lt;/strong&gt; Il NAS invia un messaggio broadcast sulla rete chiedendo: &lt;em&gt;&amp;quot;C&#39;è un server DHCP disponibile?&amp;quot;&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Offer:&lt;/strong&gt; Il router (che fa anche da server DHCP) risponde offrendo un indirizzo IP disponibile insieme a subnet mask, gateway e DNS.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Request:&lt;/strong&gt; Il NAS accetta formalmente l&#39;offerta inviando una richiesta di conferma.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Acknowledge:&lt;/strong&gt; Il router conferma l&#39;assegnazione e il NAS è ora raggiungibile sulla rete con quell&#39;indirizzo.&lt;br&gt;
-Per un NAS è buona pratica configurare una &lt;strong&gt;prenotazione DHCP&lt;/strong&gt; (o IP statico) sul router, in modo che riceva sempre lo stesso indirizzo IP. Questo è essenziale per configurare correttamente le regole del firewall e i percorsi di backup automatico, che dipendono da un indirizzo di destinazione stabile.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;segmentazione-della-rete-isola-il-nas-con-le-vlan&quot;&gt;Segmentazione della rete: isola il NAS con le VLAN&lt;/h3&gt;
-&lt;p&gt;La segmentazione della rete è la misura di sicurezza più efficace per proteggere il NAS da minacce interne, ovvero da dispositivi già presenti nella rete locale che potrebbero essere compromessi. L&#39;idea è semplice: invece di avere una rete piatta in cui tutti i dispositivi parlano liberamente tra loro, si divide la rete in &lt;strong&gt;segmenti logici separati&lt;/strong&gt; chiamati &lt;strong&gt;VLAN (Virtual LAN)&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Un esempio pratico di architettura segmentata per una rete domestica o di piccola impresa:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;192.168.1.x /24  →  VLAN &amp;quot;Client&amp;quot; (PC, smartphone, tablet)
-192.168.2.x /24  →  VLAN &amp;quot;NAS e Storage&amp;quot; (NAS, dischi di rete)
-192.168.3.x /24  →  VLAN &amp;quot;IoT&amp;quot; (telecamere, smart TV, dispositivi smart home)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Con questa architettura, anche se un PC nella VLAN Client viene infettato da ransomware, il malware non può raggiungere direttamente il NAS perché si trova in un segmento di rete separato. Il traffico tra VLAN deve passare obbligatoriamente attraverso il firewall del router, che può applicare regole granulari su quale comunicazione è permessa e quale no.&lt;/p&gt;
-&lt;h3 id=&quot;il-firewall-come-controllore-del-traffico&quot;&gt;Il firewall come controllore del traffico&lt;/h3&gt;
-&lt;p&gt;Un &lt;strong&gt;firewall&lt;/strong&gt; è il sistema che decide quale traffico di rete può passare e quale deve essere bloccato, basandosi su un insieme di regole definite dall&#39;amministratore. Ogni pacchetto che attraversa il confine tra due segmenti di rete viene ispezionato secondo questi criteri:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Monitoraggio del traffico:&lt;/strong&gt; Il firewall esamina tutti i pacchetti in transito tra le VLAN e verso internet.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Ispezione dei pacchetti:&lt;/strong&gt; Analizza header e contenuto per determinare se il traffico corrisponde a pattern legittimi o sospetti.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Regolazione del traffico:&lt;/strong&gt; Applica le policy definite (es. &lt;em&gt;&amp;quot;i PC della VLAN Client possono accedere al NAS solo sulla porta SMB 445, nient&#39;altro&amp;quot;&lt;/em&gt;).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Protezione da minacce esterne:&lt;/strong&gt; Blocca connessioni in entrata non autorizzate da internet verso i dispositivi interni.&lt;br&gt;
-Router moderni come quelli basati su &lt;strong&gt;pfSense&lt;/strong&gt;, &lt;strong&gt;OPNsense&lt;/strong&gt; o i prodotti &lt;strong&gt;Ubiquiti UniFi&lt;/strong&gt; offrono funzionalità complete di VLAN e firewall granulare, rendendoli la scelta preferita per chi vuole costruire un&#39;infrastruttura di rete seria a costi contenuti.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;raid-ridondanza-non-e-backup&quot;&gt;RAID: ridondanza non è backup&lt;/h2&gt;
-&lt;p&gt;Uno degli errori più comuni tra chi si avvicina per la prima volta al NAS è pensare che il RAID sia un sistema di backup. Non lo è. Il RAID (Redundant Array of Independent Disks) garantisce che il sistema continui a funzionare in caso di &lt;strong&gt;guasto fisico di un disco&lt;/strong&gt;, ma non protegge dalla cancellazione accidentale di file, da un attacco ransomware o da un errore umano: se cancelli un file, il RAID lo cancella su tutti i dischi istantaneamente.&lt;/p&gt;
-&lt;h3 id=&quot;i-livelli-raid-piu-comuni&quot;&gt;I livelli RAID più comuni&lt;/h3&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
-  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-    &lt;thead class=&quot;table-dark&quot;&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Livello RAID&lt;/th&gt;
-        &lt;th&gt;Dischi minimi&lt;/th&gt;
-        &lt;th&gt;Tolleranza guasti&lt;/th&gt;
-        &lt;th&gt;Spazio utile&lt;/th&gt;
-        &lt;th&gt;Caso d&#39;uso consigliato&lt;/th&gt;
-      &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 0 (Striping)&lt;/td&gt;
-        &lt;td&gt;2&lt;/td&gt;
-        &lt;td&gt;Nessuna&lt;/td&gt;
-        &lt;td&gt;100%&lt;/td&gt;
-        &lt;td&gt;Massime prestazioni, nessuna sicurezza&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 1 (Mirror)&lt;/td&gt;
-        &lt;td&gt;2&lt;/td&gt;
-        &lt;td&gt;1 disco&lt;/td&gt;
-        &lt;td&gt;50%&lt;/td&gt;
-        &lt;td&gt;NAS domestico, semplicità massima&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 5 (Parità distribuita)&lt;/td&gt;
-        &lt;td&gt;3&lt;/td&gt;
-        &lt;td&gt;1 disco&lt;/td&gt;
-        &lt;td&gt;(N-1)/N&lt;/td&gt;
-        &lt;td&gt;Compromesso spazio/sicurezza per PMI&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 6 (Doppia parità)&lt;/td&gt;
-        &lt;td&gt;4&lt;/td&gt;
-        &lt;td&gt;2 dischi&lt;/td&gt;
-        &lt;td&gt;(N-2)/N&lt;/td&gt;
-        &lt;td&gt;Dischi &gt; 4 TB, ambienti critici&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 10 (Mirror + Stripe)&lt;/td&gt;
-        &lt;td&gt;4&lt;/td&gt;
-        &lt;td&gt;1 disco per coppia&lt;/td&gt;
-        &lt;td&gt;50%&lt;/td&gt;
-        &lt;td&gt;Database, massima velocità + sicurezza&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Attenzione — RAID 5 e il rischio URE:&lt;/strong&gt; Durante la ricostruzione del RAID dopo la sostituzione di un disco guasto, il controller legge l&#39;intero contenuto degli altri dischi. Su dischi di capacità superiore a 4 TB, la probabilità di incontrare un &lt;strong&gt;Unrecoverable Read Error (URE)&lt;/strong&gt; è statisticamente significativa e può rendere la ricostruzione impossibile, causando la perdita totale dei dati. Per array con dischi da 4 TB o superiori, valuta seriamente RAID 6 o soluzioni come il RAID-Z2 di ZFS.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;hardening-iniziale-addio-allaccount-admin&quot;&gt;Hardening iniziale: addio all&#39;account &amp;quot;admin&amp;quot;&lt;/h2&gt;
-&lt;p&gt;Ogni NAS esce di fabbrica con un account amministratore denominato &amp;quot;admin&amp;quot;. Questo nome è il primo che qualsiasi bot o attaccante proverà in una scansione automatica. La prima operazione da eseguire, prima ancora di connettere il NAS a internet, è eliminare questo vettore di attacco ovvio seguendo tre passi:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Crea un nuovo account con un nome utente non prevedibile.&lt;/li&gt;
-&lt;li&gt;Assegnagli i privilegi di amministratore completi.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Disabilita&lt;/strong&gt; (non solo rinomina) l&#39;account &amp;quot;admin&amp;quot; originale.&lt;br&gt;
-Questo semplice intervento riduce drasticamente l&#39;efficacia degli attacchi a dizionario e brute-force automatizzati, che tipicamente non conoscono il nome utente e devono indovinare entrambe le credenziali.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;password-robuste-e-autenticazione-a-due-fattori&quot;&gt;Password robuste e autenticazione a due fattori&lt;/h2&gt;
-&lt;p&gt;I NAS esposti in rete sono bersaglio di attacchi brute-force continui. Una password di 8 caratteri alfanumerici può essere violata in pochi minuti con strumenti moderni. La combinazione di una &lt;strong&gt;passphrase lunga&lt;/strong&gt; (almeno 16 caratteri) e dell&#39;&lt;strong&gt;autenticazione a due fattori (2FA)&lt;/strong&gt; via app TOTP (come Google Authenticator o Aegis) rende questo tipo di attacco praticamente inefficace: anche se l&#39;attaccante scopre la password, non può accedere senza il codice temporaneo generato sul tuo dispositivo fisico.&lt;/p&gt;
-&lt;p&gt;Una misura complementare e altrettanto efficace è il &lt;strong&gt;blocco automatico dell&#39;IP&lt;/strong&gt; dopo 3–5 tentativi di login falliti. Questa funzionalità è disponibile nelle impostazioni di sicurezza di tutti i principali sistemi operativi NAS e rappresenta la difesa più semplice da configurare con il massimo ritorno in termini di protezione.&lt;/p&gt;
-&lt;h2 id=&quot;ridurre-la-superficie-di-attacco-chiudi-i-servizi-inutili&quot;&gt;Ridurre la superficie di attacco: chiudi i servizi inutili&lt;/h2&gt;
-&lt;p&gt;Un NAS moderno è una piattaforma versatile: può fare da server web, mail, multimedia e sistema di sorveglianza contemporaneamente. Il problema è che ogni servizio attivo corrisponde a una porta aperta sulla rete, ovvero una potenziale &lt;strong&gt;superficie di attacco&lt;/strong&gt;. Il principio guida è semplice: se non usi un servizio, disabilitalo.&lt;/p&gt;
-&lt;p&gt;Checklist dei servizi da disabilitare se non strettamente necessari:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Telnet&lt;/strong&gt; — protocollo non cifrato, obsoleto e intrinsecamente insicuro. Non esiste motivo valido per tenerlo attivo nel 2025.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;SSH&lt;/strong&gt; — potente ma pericoloso se esposto senza policy restrittive. Disabilitarlo se non si è esperti di amministrazione Linux; se necessario, limitarne l&#39;accesso a specifici indirizzi IP.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;FTP&lt;/strong&gt; — trasmette credenziali in chiaro. Utilizzare sempre &lt;strong&gt;SFTP&lt;/strong&gt; o &lt;strong&gt;FTPS&lt;/strong&gt; in alternativa.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;UPnP&lt;/strong&gt; — il peggiore di tutti: apre porte sul router in modo automatico e silenzioso, senza che tu ne sia consapevole. Va disabilitato sia sul NAS che sul router.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;smb-il-protocollo-dei-file-e-i-suoi-pericoli&quot;&gt;SMB: il protocollo dei file e i suoi pericoli&lt;/h2&gt;
-&lt;p&gt;Il protocollo &lt;strong&gt;SMB (Server Message Block)&lt;/strong&gt; è il linguaggio che Windows e i sistemi operativi moderni utilizzano per accedere alle cartelle condivise del NAS sulla rete locale. È comodo, integrato nativamente e non richiede configurazioni aggiuntive sul client. Tuttavia, nasconde un&#39;insidia storica molto seria.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;SMB v1 è vulnerabile&lt;/strong&gt; a exploit devastanti come &lt;strong&gt;EternalBlue&lt;/strong&gt;, il vettore che ha reso possibile l&#39;attacco globale WannaCry nel 2017, con danni stimati in miliardi di dollari. Nonostante questa vulnerabilità sia nota da anni, SMB v1 è ancora abilitato per default su alcuni NAS e versioni di Windows.&lt;/p&gt;
-&lt;p&gt;Per verificare quale versione SMB è attiva sul tuo sistema Linux o NAS con accesso shell:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;smbstatus --version
-testparm -s | grep -i &amp;quot;server min protocol&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Per forzare SMB v2 come minimo nel file di configurazione di Samba (&lt;code&gt;/etc/samba/smb.conf&lt;/code&gt;):&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;[global]
-  server min protocol = SMB2
-  server max protocol = SMB3
-  smb encrypt = required
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Dopo la modifica, riavvia il servizio con &lt;code&gt;systemctl restart smbd&lt;/code&gt;. Assicurati che tutti i client della rete supportino SMB v2 (Windows 7 e superiori lo supportano nativamente).&lt;/p&gt;
-&lt;h2 id=&quot;il-principio-del-minimo-privilegio-polp&quot;&gt;Il principio del minimo privilegio (PoLP)&lt;/h2&gt;
-&lt;p&gt;Il &lt;strong&gt;Principio del Minimo Privilegio&lt;/strong&gt; (Principle of Least Privilege, PoLP) stabilisce che ogni utente e processo deve avere accesso esclusivamente alle risorse strettamente necessarie per svolgere il proprio compito, e niente di più.&lt;/p&gt;
-&lt;p&gt;Applicato al NAS, questo significa:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Niente &amp;quot;Everyone&amp;quot;:&lt;/strong&gt; Non assegnare mai permessi di lettura o scrittura al gruppo &amp;quot;Tutti&amp;quot;. Ogni utente deve avere la propria cartella con permessi nominali. Condividere una cartella con accesso universale equivale a lasciare la porta di casa aperta.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Sola lettura dove possibile:&lt;/strong&gt; Se un utente deve solo fruire di contenuti multimediali, non dargli il permesso di scrittura. In caso di infezione del suo PC da parte di un virus o ransomware, il malware non potrà modificare o cancellare i file sul NAS perché la connessione SMB è in sola lettura.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;ACL granulari:&lt;/strong&gt; Usa le &lt;strong&gt;Access Control Lists (ACL)&lt;/strong&gt; per definire permessi a livello di singola cartella, singolo file o gruppo di utenti. I sistemi operativi NAS moderni (DSM, QTS) offrono interfacce grafiche complete per la gestione delle ACL compatibili con lo standard Windows NTFS.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;file-system-moderni-btrfs-e-zfs&quot;&gt;File system moderni: Btrfs e ZFS&lt;/h2&gt;
-&lt;p&gt;La scelta del file system su cui formattare i volumi del NAS ha implicazioni dirette sulla &lt;strong&gt;sicurezza e integrità dei dati nel lungo periodo&lt;/strong&gt;. Il tradizionale EXT4 è affidabile ma privo di meccanismi di rilevamento proattivo della corruzione dei dati.&lt;/p&gt;
-&lt;p&gt;I file system moderni come &lt;strong&gt;Btrfs&lt;/strong&gt; (usato da Synology) e &lt;strong&gt;ZFS&lt;/strong&gt; (usato da TrueNAS e altri) offrono funzionalità di sicurezza integrate che EXT4 non possiede:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Self-healing (auto-riparazione):&lt;/strong&gt; Entrambi implementano il checksumming di ogni blocco dati. Se un blocco viene corrotto silenziosamente da un difetto hardware (fenomeno noto come &lt;strong&gt;Bit Rot&lt;/strong&gt;), il file system lo rileva al momento della lettura e, se esiste una copia ridondante (come in RAID), lo ripara automaticamente senza intervento dell&#39;utente.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Snapshot atomici:&lt;/strong&gt; Permettono di registrare lo stato del file system in un dato istante in modo quasi istantaneo e con un consumo minimo di spazio (grazie alla tecnica &lt;strong&gt;copy-on-write&lt;/strong&gt;). Gli snapshot non sono copie complete dei dati, ma registrazioni delle differenze rispetto allo stato precedente.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;snapshot-la-macchina-del-tempo-contro-il-ransomware&quot;&gt;Snapshot: la macchina del tempo contro il ransomware&lt;/h2&gt;
-&lt;p&gt;Gli snapshot sono la &lt;strong&gt;difesa numero uno contro gli attacchi ransomware&lt;/strong&gt;. Ecco perché: se un virus cifra tutti i tuoi file alle 10:00, puoi ripristinare lo snapshot delle 09:55 in pochi secondi, annullando completamente l&#39;attacco come se non fosse mai avvenuto.&lt;/p&gt;
-&lt;p&gt;Per massimizzare l&#39;efficacia degli snapshot come strumento difensivo, configura quelli destinati al backup come &lt;strong&gt;immutabili (Read-Only)&lt;/strong&gt;. Questo impedisce al ransomware — anche se ha già ottenuto il controllo del sistema — di cancellare o modificare gli snapshot stessi. Uno snapshot in sola lettura è, per definizione, immune alla cifratura da parte di malware che agisce tramite permessi utente standard.&lt;/p&gt;
-&lt;p&gt;Una policy di snapshot ragionevole per un NAS domestico o di piccola impresa prevede:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Snapshot orari, conservati per 24 ore.&lt;/li&gt;
-&lt;li&gt;Snapshot giornalieri, conservati per 30 giorni.&lt;/li&gt;
-&lt;li&gt;Snapshot settimanali, conservati per 3 mesi.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;anatomia-di-un-attacco-ransomware-al-nas&quot;&gt;Anatomia di un attacco ransomware al NAS&lt;/h3&gt;
-&lt;p&gt;Comprendere il meccanismo con cui il ransomware colpisce un NAS è essenziale per costruire le difese corrette. Il processo si articola tipicamente in quattro fasi:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Infiltrazione:&lt;/strong&gt; Un PC della rete locale viene infettato tramite una mail di phishing o un sito web compromesso.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Scansione:&lt;/strong&gt; Il malware in esecuzione sul PC infetto esegue una scansione della rete locale alla ricerca di risorse condivise (il tuo NAS) raggiungibili tramite SMB.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cifratura:&lt;/strong&gt; Il malware utilizza la connessione SMB già autenticata del PC della vittima per sovrascrivere tutti i file sul NAS con versioni cifrate, senza mai dover violare direttamente il NAS.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Riscatto:&lt;/strong&gt; I file originali sono irrecuperabili e rimangono solo le richieste di pagamento.&lt;br&gt;
-La conclusione operativa è diretta: la &lt;strong&gt;segmentazione della rete&lt;/strong&gt; (per isolare il NAS dai PC potenzialmente infetti) e gli &lt;strong&gt;snapshot immutabili&lt;/strong&gt; sono le due contromisure che, combinate, rendono questo scenario non catastrofico. Se la VLAN del NAS è separata dalla VLAN dei client e il firewall blocca le connessioni SMB non autorizzate, il malware sul PC non riesce nemmeno a raggiungere il NAS per iniziare la cifratura.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;accesso-remoto-sicuro-mai-il-port-forwarding&quot;&gt;Accesso remoto sicuro: mai il port forwarding&lt;/h2&gt;
-&lt;p&gt;Aprire le porte del NAS direttamente su internet tramite port forwarding sul router (ad esempio le porte 5000 o 8000 di DSM) equivale a incollare la chiave di casa sulla porta d&#39;ingresso. Il NAS diventa immediatamente visibile a scanner globali come Shodan e diventa bersaglio di attacchi automatizzati.&lt;/p&gt;
-&lt;p&gt;Le alternative sicure sono due:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;VPN:&lt;/strong&gt; È la soluzione raccomandata. Ti connetti prima alla VPN della tua rete domestica o aziendale e poi accedi al NAS come se fossi fisicamente in loco, senza esporre nulla su internet. Tra le opzioni disponibili, &lt;strong&gt;WireGuard&lt;/strong&gt; è il protocollo moderno preferito per la sua semplicità e le sue prestazioni superiori rispetto a OpenVPN. Per chi non vuole gestire un server VPN proprio, &lt;strong&gt;Tailscale&lt;/strong&gt; (basato su WireGuard) offre una soluzione zero-config che non richiede IP fisso né apertura di porte sul router: i due dispositivi si trovano automaticamente tramite una rete mesh cifrata.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Reverse proxy con HTTPS:&lt;/strong&gt; Se è assolutamente necessario esporre un servizio specifico (ad esempio una web app o un&#39;interfaccia Nextcloud), usa un reverse proxy (come &lt;strong&gt;Nginx Proxy Manager&lt;/strong&gt; o &lt;strong&gt;Traefik&lt;/strong&gt;) con certificati TLS validi emessi da Let&#39;s Encrypt. Il reverse proxy gestisce la terminazione TLS e smista il traffico verso i servizi interni. In questo scenario, l&#39;unica porta aperta su internet è la 443 (HTTPS).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;crittografia-a-riposo-encryption&quot;&gt;Crittografia a riposo (Encryption)&lt;/h2&gt;
-&lt;p&gt;La crittografia a riposo risponde a uno scenario di minaccia spesso sottovalutato: il furto fisico del dispositivo. Se un malintenzionato accede fisicamente al NAS, può smontare i dischi e montarli su un altro computer per leggerne il contenuto senza alcuna credenziale.&lt;/p&gt;
-&lt;p&gt;La &lt;strong&gt;crittografia del volume (AES-256)&lt;/strong&gt;, disponibile su tutti i principali NAS consumer, rende i dischi inutilizzabili senza la chiave di sblocco. Il cifrario AES-256 opera in modalità &lt;strong&gt;simmetrica&lt;/strong&gt;: la stessa chiave viene usata per cifrare e decifrare i dati. Questa chiave è protetta da una passphrase scelta dall&#39;utente e non è mai memorizzata in chiaro sul dispositivo.&lt;/p&gt;
-&lt;p&gt;Da un punto di vista pratico, la crittografia del volume introduce un leggero overhead sulle prestazioni I/O (tipicamente tra il 5% e il 15% a seconda dell&#39;hardware), ma rappresenta un requisito non negoziabile per qualsiasi NAS che contenga dati sensibili o sia soggetto a normative come il GDPR. Molti NAS moderni integrano accelerazione hardware AES (istruzioni AES-NI) che riduce questo impatto al minimo.&lt;/p&gt;
-&lt;h2 id=&quot;la-regola-del-3-2-1&quot;&gt;La regola del 3-2-1&lt;/h2&gt;
-&lt;p&gt;Il backup è la rete di sicurezza finale contro qualsiasi scenario di perdita dei dati. La regola del &lt;strong&gt;3-2-1&lt;/strong&gt; è lo standard dell&#39;industria per una strategia di backup resiliente:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;3 copie dei dati:&lt;/strong&gt; L&#39;originale più due backup distinti. La ridondanza multipla protegge da guasti simultanei e da errori umani.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;2 supporti diversi:&lt;/strong&gt; Ad esempio il NAS stesso e un hard disk esterno. Non conservare tutti i backup sullo stesso tipo di supporto o sullo stesso sistema.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;1 copia off-site:&lt;/strong&gt; Una copia deve trovarsi fisicamente in un luogo diverso dall&#39;originale: casa di un familiare, ufficio, o un servizio cloud cifrato. Questo protegge da eventi catastrofici locali come incendi, allagamenti o furti.&lt;br&gt;
-Per automatizzare la copia verso un disco esterno USB collegato al NAS, uno script rsync su Linux è la soluzione più semplice ed efficace:&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;#!/bin/bash
-SORGENTE=&amp;quot;/volume1/dati&amp;quot;
-DESTINAZIONE=&amp;quot;/volumeUSB1/backup&amp;quot;
-LOG=&amp;quot;/var/log/backup_3-2-1.log&amp;quot;
-rsync -avz --delete --checksum &amp;quot;$SORGENTE&amp;quot; &amp;quot;$DESTINAZIONE&amp;quot; &amp;gt;&amp;gt; &amp;quot;$LOG&amp;quot; 2&amp;gt;&amp;amp;1
-echo &amp;quot;Backup completato il $(date)&amp;quot; &amp;gt;&amp;gt; &amp;quot;$LOG&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;L&#39;opzione &lt;code&gt;--checksum&lt;/code&gt; garantisce l&#39;integrità dei file confrontando il checksum e non solo la data di modifica, mentre &lt;code&gt;--delete&lt;/code&gt; sincronizza le cancellazioni mantenendo la destinazione allineata alla sorgente.&lt;/p&gt;
-&lt;h2 id=&quot;backup-immutabili-la-tecnologia-worm&quot;&gt;Backup immutabili: la tecnologia WORM&lt;/h2&gt;
-&lt;p&gt;I backup standard possono essere cancellati o cifrati da un ransomware con privilegi sufficienti. I &lt;strong&gt;backup immutabili&lt;/strong&gt; risolvono questo problema alla radice attraverso la tecnologia &lt;strong&gt;WORM (Write Once, Read Many)&lt;/strong&gt;, che impedisce la modifica o la cancellazione di un file per un periodo prestabilito (ad esempio 30 giorni), indipendentemente dai permessi dell&#39;utente.&lt;/p&gt;
-&lt;p&gt;Una volta scritto in modalità WORM, un file non può essere cancellato nemmeno dall&#39;amministratore del sistema prima della scadenza del periodo di retention. Questo rende i backup immutabili l&#39;ultima linea di difesa assoluta: anche in caso di compromissione totale del sistema, i dati di backup rimangono intatti e recuperabili.&lt;/p&gt;
-&lt;p&gt;Soluzioni come &lt;strong&gt;Synology Hyper Backup&lt;/strong&gt; e &lt;strong&gt;QNAP Hybrid Backup Sync&lt;/strong&gt; supportano nativamente la retention immutabile. Per chi adotta soluzioni cloud come destinazione off-site, provider come &lt;strong&gt;Backblaze B2&lt;/strong&gt; e &lt;strong&gt;AWS S3 Object Lock&lt;/strong&gt; offrono WORM nativamente.&lt;/p&gt;
-&lt;h2 id=&quot;aggiornamenti-del-firmware&quot;&gt;Aggiornamenti del firmware&lt;/h2&gt;
-&lt;p&gt;I NAS sono dispositivi critici esposti a minacce reali. Nel corso degli anni, sia QNAP che Synology hanno subito vulnerabilità gravi sfruttate attivamente in attacchi di massa (come DeadBolt nel 2022, che ha colpito decine di migliaia di NAS QNAP esposti in rete). In tutti questi casi, le patch correttive erano disponibili settimane o mesi prima che gli attacchi si diffondessero su larga scala.&lt;/p&gt;
-&lt;p&gt;La lezione è semplice: &lt;strong&gt;la maggior parte degli attacchi colpisce sistemi non aggiornati.&lt;/strong&gt; La configurazione raccomandata è:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Abilitare gli &lt;strong&gt;aggiornamenti di sicurezza automatici&lt;/strong&gt; nella dashboard del NAS.&lt;/li&gt;
-&lt;li&gt;Iscriversi ai bollettini di sicurezza del produttore (Synology Security Advisories, QNAP Security Advisory).&lt;/li&gt;
-&lt;li&gt;Pianificare un controllo manuale mensile per gli aggiornamenti delle applicazioni installate tramite il package manager del NAS.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;antivirus-sul-nas-serve-davvero&quot;&gt;Antivirus sul NAS: serve davvero?&lt;/h2&gt;
-&lt;p&gt;La risposta è sì, ma con una precisazione importante sull&#39;obiettivo. Un antivirus installato sul NAS non serve principalmente a proteggere il NAS stesso (che gira su Linux e non è il target diretto della maggior parte dei malware per Windows), ma a &lt;strong&gt;prevenire che il NAS diventi un distributore involontario di virus&lt;/strong&gt; per tutti i PC della rete che leggono i file su di esso.&lt;/p&gt;
-&lt;p&gt;I principali sistemi operativi NAS offrono pacchetti antivirus integrati come &lt;strong&gt;ClamAV&lt;/strong&gt; (open source, gratuito) o suite commerciali come McAfee (oggi &lt;strong&gt;Trellix&lt;/strong&gt; dopo il rebranding del 2022). Questi engine scansionano i file al momento dell&#39;upload e su base programmata, rilevando e mettendo in quarantena i file infetti prima che vengano distribuiti ai client della rete.&lt;/p&gt;
-&lt;p&gt;Per chi gestisce un NAS in contesto aziendale, è consigliabile integrare i &lt;strong&gt;log di accesso del NAS&lt;/strong&gt; con una soluzione SIEM (Security Information and Event Management) per rilevare pattern anomali come accessi a orari inusuali, upload massivi di file cifrati o tentativi di login ripetuti.&lt;/p&gt;
-&lt;h2 id=&quot;ups-la-sicurezza-elettrica&quot;&gt;UPS: la sicurezza elettrica&lt;/h2&gt;
-&lt;p&gt;Un aspetto della protezione dei dati spesso ignorato è la sicurezza elettrica. Un&#39;interruzione improvvisa di corrente mentre il NAS sta scrivendo dati su disco può corrompere il file system e, in scenari estremi, distruggere l&#39;intero volume RAID, rendendo irrecuperabili anche i dati ridondati.&lt;/p&gt;
-&lt;p&gt;Un &lt;strong&gt;UPS (Uninterruptible Power Supply)&lt;/strong&gt;, colloquialmente chiamato &amp;quot;gruppo di continuità&amp;quot;, elimina questo rischio. Collegato via USB al NAS, permette al sistema operativo di rilevare il blackout in tempo reale e di eseguire uno &lt;strong&gt;shutdown controllato&lt;/strong&gt; prima che la batteria si esaurisca, salvaguardando l&#39;integrità di tutti i dati in scrittura.&lt;/p&gt;
-&lt;p&gt;La maggior parte dei principali sistemi operativi NAS (DSM, QTS) include il supporto nativo per UPS via USB e permette di configurare la soglia di carica batteria sotto la quale attivare lo shutdown automatico. Per ambienti con più NAS o server, il protocollo &lt;strong&gt;NUT (Network UPS Tools)&lt;/strong&gt; permette a un singolo UPS di gestire lo shutdown coordinato di più macchine sulla stessa rete.&lt;/p&gt;
-&lt;h2 id=&quot;test-di-ripristino-la-prova-del-nove&quot;&gt;Test di ripristino: la prova del nove&lt;/h2&gt;
-&lt;p&gt;Qualsiasi strategia di backup, per quanto sofisticata, è priva di valore se non è mai stata testata. Un backup di cui non è stato verificato il ripristino è, operativamente, come se non esistesse.&lt;/p&gt;
-&lt;p&gt;La regola pratica è la seguente: &lt;strong&gt;almeno una volta ogni sei mesi&lt;/strong&gt;, simula un ripristino reale recuperando un file a caso dal tuo backup più vecchio. Se la procedura fallisce in un contesto controllato, non funzionerà durante un&#39;emergenza reale — quando il tempo è critico e la pressione è massima.&lt;/p&gt;
-&lt;p&gt;Il test di ripristino dovrebbe coprire:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Recupero di un singolo file da uno snapshot.&lt;/li&gt;
-&lt;li&gt;Recupero di una cartella completa dal backup off-site.&lt;/li&gt;
-&lt;li&gt;Verifica della leggibilità dei file recuperati (non basta che i file esistano, devono poter essere aperti correttamente).&lt;/li&gt;
-&lt;li&gt;Documentazione del tempo di ripristino (RTO — Recovery Time Objective), essenziale per valutare se il sistema di backup soddisfa i requisiti di continuità operativa.&lt;br&gt;
-Un NAS sicuro non è il risultato di un&#39;unica configurazione iniziale, ma di un processo continuo di aggiornamento, monitoraggio e verifica. Le misure descritte in questa guida, applicate in modo sistematico e integrate in una rete correttamente segmentata e protetta da firewall, trasformano il tuo NAS da un potenziale vettore di rischio a una fortezza digitale affidabile e sotto il tuo pieno controllo.&lt;/li&gt;
-&lt;/ul&gt;
-
-]]></content>
-    
-    
-    
-      
-      
-    <category term="cybersecurity"/>
-      
-    
-      
-      
-    <category term="NAS"/>
-      
-    
-      
-      
-    <category term="backup"/>
-      
-    
-      
-      
-    <category term="ransomware"/>
-      
-    
-      
-      
-    <category term="storage"/>
-      
-    
-  </entry>
-  
-  <entry>
     <title>Attacchi alla Rete</title>
     <link href="https://dino-996.github.io/blog/attacchi-alla-rete/" rel="alternate" type="text/html"/>
     <id>https://dino-996.github.io/blog/attacchi-alla-rete/</id>
@@ -1104,6 +792,318 @@ Cifratura file + propagazione laterale sulla rete
       
       
     <category term="normativa europea"/>
+      
+    
+  </entry>
+  
+  <entry>
+    <title>Guida alla sicurezza del NAS</title>
+    <link href="https://dino-996.github.io/blog/sicurezza-del-nas/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/sicurezza-del-nas/</id>
+    <published>2026-07-25T00:00:00.000Z</published>
+    <updated>2026-07-25T00:00:00.000Z</updated>
+    
+    <summary>Guida completa alla sicurezza del NAS: scopri come proteggere i tuoi dati con segmentazione VLAN, snapshot immutabili, livelli RAID e la regola di backup 3-2-1 per difenderti da ransomware e guasti hardware.</summary>
+    
+    
+    <content type="html"><![CDATA[
+&lt;h2 id=&quot;cose-un-nas-e-perche-dovresti-averne-uno&quot;&gt;Cos&#39;è un NAS e perché dovresti averne uno&lt;/h2&gt;
+&lt;p&gt;Nell&#39;era in cui la quantità di dati che produciamo cresce ogni anno in modo esponenziale, la domanda di storage affidabile, accessibile e sicuro è diventata una priorità non solo per le aziende, ma anche per i professionisti e gli appassionati di tecnologia. In questo contesto nasce il &lt;strong&gt;NAS&lt;/strong&gt; (Network Attached Storage): un dispositivo di archiviazione collegato direttamente alla rete locale, accessibile da tutti i dispositivi della stessa rete come se fosse un disco condiviso.&lt;/p&gt;
+ &lt;figure style=&quot;border: 1px solid #ddd; border-radius: 5px; padding: 10px; display: inline-block; max-width: 620px; margin-top: 15px; margin-bottom: 15px;&quot;&gt;
+  &lt;img src=&quot;https://res.cloudinary.com/dcro2pbqr/image/upload/v1784927880/NAS_19f423f1d8.png&quot; alt=&quot;Un NAS appena configurato su una scrivania&quot; width=&quot;600&quot; height=&quot;338&quot; loading=&quot;lazy&quot; style=&quot;max-width: 100%; border-radius: 5px&quot;&gt;
+&lt;/figure&gt;
+&lt;p&gt;A differenza di un disco esterno USB, il NAS è sempre acceso, sempre connesso e gestibile tramite un&#39;interfaccia web. Al suo interno girano un sistema operativo dedicato (come &lt;strong&gt;DSM&lt;/strong&gt; di Synology o &lt;strong&gt;QTS&lt;/strong&gt; di QNAP) e una serie di applicazioni che lo trasformano in un vero e proprio server privato: file server, media server, sistema di backup automatico, piattaforma di sorveglianza e persino host per container Docker.&lt;/p&gt;
+&lt;p&gt;Dal punto di vista hardware, un NAS è composto da:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Uno o più &lt;strong&gt;bay&lt;/strong&gt; per dischi rigidi (HDD o SSD), da 2 a decine di slot a seconda del modello.&lt;/li&gt;
+&lt;li&gt;Un processore dedicato (spesso ARM o Intel Celeron nei modelli consumer).&lt;/li&gt;
+&lt;li&gt;Memoria RAM per gestire i servizi in esecuzione.&lt;/li&gt;
+&lt;li&gt;Interfacce di rete da 1 GbE a 10 GbE per i modelli professionali.&lt;br&gt;
+Il cuore della sua utilità sta nel fatto che i dati rimangono &lt;strong&gt;fisicamente a casa tua o nel tuo ufficio&lt;/strong&gt;, su hardware che controlli tu. Questo lo distingue radicalmente dai servizi cloud come Google Drive o Dropbox, e lo rende la scelta preferita da chi vuole esercitare la piena sovranità digitale sui propri dati.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;nas-vs-cloud-il-dilemma-della-sovranita-digitale&quot;&gt;NAS vs Cloud: il dilemma della sovranità digitale&lt;/h2&gt;
+&lt;p&gt;Quando si parla di archiviazione, la domanda ricorrente è: perché usare un NAS invece di un servizio cloud che è già pronto, sincronizzato e non richiede manutenzione? La risposta non è banale e dipende dalle priorità di ciascun utente.&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Criterio&lt;/th&gt;
+        &lt;th&gt;Cloud (Google Drive / Dropbox)&lt;/th&gt;
+        &lt;th&gt;NAS locale&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Semplicità d&#39;uso&lt;/td&gt;
+        &lt;td&gt;Ottima — zero configurazione&lt;/td&gt;
+        &lt;td&gt;Richiede setup iniziale e manutenzione&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Privacy dei dati&lt;/td&gt;
+        &lt;td&gt;Dipende dai termini di servizio del fornitore&lt;/td&gt;
+        &lt;td&gt;Totale — i dati non lasciano mai la tua rete&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Velocità in LAN&lt;/td&gt;
+        &lt;td&gt;Limitata alla banda internet&lt;/td&gt;
+        &lt;td&gt;1–10 Gbps sulla rete locale&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Costo nel tempo&lt;/td&gt;
+        &lt;td&gt;Abbonamento mensile continuo&lt;/td&gt;
+        &lt;td&gt;Investimento una tantum in hardware&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Responsabilità sicurezza&lt;/td&gt;
+        &lt;td&gt;Delegata al fornitore&lt;/td&gt;
+        &lt;td&gt;100% a carico del proprietario&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Disponibilità offline&lt;/td&gt;
+        &lt;td&gt;Limitata (solo file sincronizzati)&lt;/td&gt;
+        &lt;td&gt;Completa — funziona senza internet&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+Per un percorso di apprendimento tecnico, il NAS è la scelta ideale perché obbliga a confrontarsi con concetti reali di networking, sicurezza e amministrazione di sistema. È, in parole povere, il massimo livello di sovranità digitale che un utente non enterprise possa raggiungere.
+&lt;h2 id=&quot;la-rete-come-prima-linea-di-difesa&quot;&gt;La rete come prima linea di difesa&lt;/h2&gt;
+&lt;p&gt;Prima di configurare qualsiasi aspetto del NAS stesso, è fondamentale comprendere l&#39;infrastruttura di rete in cui opera. Il NAS non è un&#39;isola: è un nodo della rete locale, e la sicurezza di quella rete è il presupposto di tutto il resto.&lt;/p&gt;
+&lt;h3 id=&quot;come-il-nas-ottiene-il-suo-indirizzo-ip-il-protocollo-dhcp&quot;&gt;Come il NAS ottiene il suo indirizzo IP: il protocollo DHCP&lt;/h3&gt;
+&lt;p&gt;Quando colleghi il NAS al router tramite cavo Ethernet, il dispositivo non conosce ancora quale indirizzo IP usare. Entra in gioco il &lt;strong&gt;protocollo DHCP (Dynamic Host Configuration Protocol)&lt;/strong&gt;, che automatizza l&#39;assegnazione degli indirizzi IP attraverso un processo in quattro fasi chiamato &lt;strong&gt;DORA&lt;/strong&gt;:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Discover:&lt;/strong&gt; Il NAS invia un messaggio broadcast sulla rete chiedendo: &lt;em&gt;&amp;quot;C&#39;è un server DHCP disponibile?&amp;quot;&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Offer:&lt;/strong&gt; Il router (che fa anche da server DHCP) risponde offrendo un indirizzo IP disponibile insieme a subnet mask, gateway e DNS.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Request:&lt;/strong&gt; Il NAS accetta formalmente l&#39;offerta inviando una richiesta di conferma.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Acknowledge:&lt;/strong&gt; Il router conferma l&#39;assegnazione e il NAS è ora raggiungibile sulla rete con quell&#39;indirizzo.&lt;br&gt;
+Per un NAS è buona pratica configurare una &lt;strong&gt;prenotazione DHCP&lt;/strong&gt; (o IP statico) sul router, in modo che riceva sempre lo stesso indirizzo IP. Questo è essenziale per configurare correttamente le regole del firewall e i percorsi di backup automatico, che dipendono da un indirizzo di destinazione stabile.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;segmentazione-della-rete-isola-il-nas-con-le-vlan&quot;&gt;Segmentazione della rete: isola il NAS con le VLAN&lt;/h3&gt;
+&lt;p&gt;La segmentazione della rete è la misura di sicurezza più efficace per proteggere il NAS da minacce interne, ovvero da dispositivi già presenti nella rete locale che potrebbero essere compromessi. L&#39;idea è semplice: invece di avere una rete piatta in cui tutti i dispositivi parlano liberamente tra loro, si divide la rete in &lt;strong&gt;segmenti logici separati&lt;/strong&gt; chiamati &lt;strong&gt;VLAN (Virtual LAN)&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Un esempio pratico di architettura segmentata per una rete domestica o di piccola impresa:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;192.168.1.x /24  →  VLAN &amp;quot;Client&amp;quot; (PC, smartphone, tablet)
+192.168.2.x /24  →  VLAN &amp;quot;NAS e Storage&amp;quot; (NAS, dischi di rete)
+192.168.3.x /24  →  VLAN &amp;quot;IoT&amp;quot; (telecamere, smart TV, dispositivi smart home)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Con questa architettura, anche se un PC nella VLAN Client viene infettato da ransomware, il malware non può raggiungere direttamente il NAS perché si trova in un segmento di rete separato. Il traffico tra VLAN deve passare obbligatoriamente attraverso il firewall del router, che può applicare regole granulari su quale comunicazione è permessa e quale no.&lt;/p&gt;
+&lt;h3 id=&quot;il-firewall-come-controllore-del-traffico&quot;&gt;Il firewall come controllore del traffico&lt;/h3&gt;
+&lt;p&gt;Un &lt;strong&gt;firewall&lt;/strong&gt; è il sistema che decide quale traffico di rete può passare e quale deve essere bloccato, basandosi su un insieme di regole definite dall&#39;amministratore. Ogni pacchetto che attraversa il confine tra due segmenti di rete viene ispezionato secondo questi criteri:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Monitoraggio del traffico:&lt;/strong&gt; Il firewall esamina tutti i pacchetti in transito tra le VLAN e verso internet.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Ispezione dei pacchetti:&lt;/strong&gt; Analizza header e contenuto per determinare se il traffico corrisponde a pattern legittimi o sospetti.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Regolazione del traffico:&lt;/strong&gt; Applica le policy definite (es. &lt;em&gt;&amp;quot;i PC della VLAN Client possono accedere al NAS solo sulla porta SMB 445, nient&#39;altro&amp;quot;&lt;/em&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Protezione da minacce esterne:&lt;/strong&gt; Blocca connessioni in entrata non autorizzate da internet verso i dispositivi interni.&lt;br&gt;
+Router moderni come quelli basati su &lt;strong&gt;pfSense&lt;/strong&gt;, &lt;strong&gt;OPNsense&lt;/strong&gt; o i prodotti &lt;strong&gt;Ubiquiti UniFi&lt;/strong&gt; offrono funzionalità complete di VLAN e firewall granulare, rendendoli la scelta preferita per chi vuole costruire un&#39;infrastruttura di rete seria a costi contenuti.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;raid-ridondanza-non-e-backup&quot;&gt;RAID: ridondanza non è backup&lt;/h2&gt;
+&lt;p&gt;Uno degli errori più comuni tra chi si avvicina per la prima volta al NAS è pensare che il RAID sia un sistema di backup. Non lo è. Il RAID (Redundant Array of Independent Disks) garantisce che il sistema continui a funzionare in caso di &lt;strong&gt;guasto fisico di un disco&lt;/strong&gt;, ma non protegge dalla cancellazione accidentale di file, da un attacco ransomware o da un errore umano: se cancelli un file, il RAID lo cancella su tutti i dischi istantaneamente.&lt;/p&gt;
+&lt;h3 id=&quot;i-livelli-raid-piu-comuni&quot;&gt;I livelli RAID più comuni&lt;/h3&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Livello RAID&lt;/th&gt;
+        &lt;th&gt;Dischi minimi&lt;/th&gt;
+        &lt;th&gt;Tolleranza guasti&lt;/th&gt;
+        &lt;th&gt;Spazio utile&lt;/th&gt;
+        &lt;th&gt;Caso d&#39;uso consigliato&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 0 (Striping)&lt;/td&gt;
+        &lt;td&gt;2&lt;/td&gt;
+        &lt;td&gt;Nessuna&lt;/td&gt;
+        &lt;td&gt;100%&lt;/td&gt;
+        &lt;td&gt;Massime prestazioni, nessuna sicurezza&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 1 (Mirror)&lt;/td&gt;
+        &lt;td&gt;2&lt;/td&gt;
+        &lt;td&gt;1 disco&lt;/td&gt;
+        &lt;td&gt;50%&lt;/td&gt;
+        &lt;td&gt;NAS domestico, semplicità massima&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 5 (Parità distribuita)&lt;/td&gt;
+        &lt;td&gt;3&lt;/td&gt;
+        &lt;td&gt;1 disco&lt;/td&gt;
+        &lt;td&gt;(N-1)/N&lt;/td&gt;
+        &lt;td&gt;Compromesso spazio/sicurezza per PMI&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 6 (Doppia parità)&lt;/td&gt;
+        &lt;td&gt;4&lt;/td&gt;
+        &lt;td&gt;2 dischi&lt;/td&gt;
+        &lt;td&gt;(N-2)/N&lt;/td&gt;
+        &lt;td&gt;Dischi &gt; 4 TB, ambienti critici&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 10 (Mirror + Stripe)&lt;/td&gt;
+        &lt;td&gt;4&lt;/td&gt;
+        &lt;td&gt;1 disco per coppia&lt;/td&gt;
+        &lt;td&gt;50%&lt;/td&gt;
+        &lt;td&gt;Database, massima velocità + sicurezza&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Attenzione — RAID 5 e il rischio URE:&lt;/strong&gt; Durante la ricostruzione del RAID dopo la sostituzione di un disco guasto, il controller legge l&#39;intero contenuto degli altri dischi. Su dischi di capacità superiore a 4 TB, la probabilità di incontrare un &lt;strong&gt;Unrecoverable Read Error (URE)&lt;/strong&gt; è statisticamente significativa e può rendere la ricostruzione impossibile, causando la perdita totale dei dati. Per array con dischi da 4 TB o superiori, valuta seriamente RAID 6 o soluzioni come il RAID-Z2 di ZFS.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;hardening-iniziale-addio-allaccount-admin&quot;&gt;Hardening iniziale: addio all&#39;account &amp;quot;admin&amp;quot;&lt;/h2&gt;
+&lt;p&gt;Ogni NAS esce di fabbrica con un account amministratore denominato &amp;quot;admin&amp;quot;. Questo nome è il primo che qualsiasi bot o attaccante proverà in una scansione automatica. La prima operazione da eseguire, prima ancora di connettere il NAS a internet, è eliminare questo vettore di attacco ovvio seguendo tre passi:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Crea un nuovo account con un nome utente non prevedibile.&lt;/li&gt;
+&lt;li&gt;Assegnagli i privilegi di amministratore completi.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Disabilita&lt;/strong&gt; (non solo rinomina) l&#39;account &amp;quot;admin&amp;quot; originale.&lt;br&gt;
+Questo semplice intervento riduce drasticamente l&#39;efficacia degli attacchi a dizionario e brute-force automatizzati, che tipicamente non conoscono il nome utente e devono indovinare entrambe le credenziali.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;password-robuste-e-autenticazione-a-due-fattori&quot;&gt;Password robuste e autenticazione a due fattori&lt;/h2&gt;
+&lt;p&gt;I NAS esposti in rete sono bersaglio di attacchi brute-force continui. Una password di 8 caratteri alfanumerici può essere violata in pochi minuti con strumenti moderni. La combinazione di una &lt;strong&gt;passphrase lunga&lt;/strong&gt; (almeno 16 caratteri) e dell&#39;&lt;strong&gt;autenticazione a due fattori (2FA)&lt;/strong&gt; via app TOTP (come Google Authenticator o Aegis) rende questo tipo di attacco praticamente inefficace: anche se l&#39;attaccante scopre la password, non può accedere senza il codice temporaneo generato sul tuo dispositivo fisico.&lt;/p&gt;
+&lt;p&gt;Una misura complementare e altrettanto efficace è il &lt;strong&gt;blocco automatico dell&#39;IP&lt;/strong&gt; dopo 3–5 tentativi di login falliti. Questa funzionalità è disponibile nelle impostazioni di sicurezza di tutti i principali sistemi operativi NAS e rappresenta la difesa più semplice da configurare con il massimo ritorno in termini di protezione.&lt;/p&gt;
+&lt;h2 id=&quot;ridurre-la-superficie-di-attacco-chiudi-i-servizi-inutili&quot;&gt;Ridurre la superficie di attacco: chiudi i servizi inutili&lt;/h2&gt;
+&lt;p&gt;Un NAS moderno è una piattaforma versatile: può fare da server web, mail, multimedia e sistema di sorveglianza contemporaneamente. Il problema è che ogni servizio attivo corrisponde a una porta aperta sulla rete, ovvero una potenziale &lt;strong&gt;superficie di attacco&lt;/strong&gt;. Il principio guida è semplice: se non usi un servizio, disabilitalo.&lt;/p&gt;
+&lt;p&gt;Checklist dei servizi da disabilitare se non strettamente necessari:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Telnet&lt;/strong&gt; — protocollo non cifrato, obsoleto e intrinsecamente insicuro. Non esiste motivo valido per tenerlo attivo nel 2025.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SSH&lt;/strong&gt; — potente ma pericoloso se esposto senza policy restrittive. Disabilitarlo se non si è esperti di amministrazione Linux; se necessario, limitarne l&#39;accesso a specifici indirizzi IP.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;FTP&lt;/strong&gt; — trasmette credenziali in chiaro. Utilizzare sempre &lt;strong&gt;SFTP&lt;/strong&gt; o &lt;strong&gt;FTPS&lt;/strong&gt; in alternativa.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;UPnP&lt;/strong&gt; — il peggiore di tutti: apre porte sul router in modo automatico e silenzioso, senza che tu ne sia consapevole. Va disabilitato sia sul NAS che sul router.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;smb-il-protocollo-dei-file-e-i-suoi-pericoli&quot;&gt;SMB: il protocollo dei file e i suoi pericoli&lt;/h2&gt;
+&lt;p&gt;Il protocollo &lt;strong&gt;SMB (Server Message Block)&lt;/strong&gt; è il linguaggio che Windows e i sistemi operativi moderni utilizzano per accedere alle cartelle condivise del NAS sulla rete locale. È comodo, integrato nativamente e non richiede configurazioni aggiuntive sul client. Tuttavia, nasconde un&#39;insidia storica molto seria.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;SMB v1 è vulnerabile&lt;/strong&gt; a exploit devastanti come &lt;strong&gt;EternalBlue&lt;/strong&gt;, il vettore che ha reso possibile l&#39;attacco globale WannaCry nel 2017, con danni stimati in miliardi di dollari. Nonostante questa vulnerabilità sia nota da anni, SMB v1 è ancora abilitato per default su alcuni NAS e versioni di Windows.&lt;/p&gt;
+&lt;p&gt;Per verificare quale versione SMB è attiva sul tuo sistema Linux o NAS con accesso shell:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;smbstatus --version
+testparm -s | grep -i &amp;quot;server min protocol&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per forzare SMB v2 come minimo nel file di configurazione di Samba (&lt;code&gt;/etc/samba/smb.conf&lt;/code&gt;):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;[global]
+  server min protocol = SMB2
+  server max protocol = SMB3
+  smb encrypt = required
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Dopo la modifica, riavvia il servizio con &lt;code&gt;systemctl restart smbd&lt;/code&gt;. Assicurati che tutti i client della rete supportino SMB v2 (Windows 7 e superiori lo supportano nativamente).&lt;/p&gt;
+&lt;h2 id=&quot;il-principio-del-minimo-privilegio-polp&quot;&gt;Il principio del minimo privilegio (PoLP)&lt;/h2&gt;
+&lt;p&gt;Il &lt;strong&gt;Principio del Minimo Privilegio&lt;/strong&gt; (Principle of Least Privilege, PoLP) stabilisce che ogni utente e processo deve avere accesso esclusivamente alle risorse strettamente necessarie per svolgere il proprio compito, e niente di più.&lt;/p&gt;
+&lt;p&gt;Applicato al NAS, questo significa:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Niente &amp;quot;Everyone&amp;quot;:&lt;/strong&gt; Non assegnare mai permessi di lettura o scrittura al gruppo &amp;quot;Tutti&amp;quot;. Ogni utente deve avere la propria cartella con permessi nominali. Condividere una cartella con accesso universale equivale a lasciare la porta di casa aperta.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Sola lettura dove possibile:&lt;/strong&gt; Se un utente deve solo fruire di contenuti multimediali, non dargli il permesso di scrittura. In caso di infezione del suo PC da parte di un virus o ransomware, il malware non potrà modificare o cancellare i file sul NAS perché la connessione SMB è in sola lettura.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;ACL granulari:&lt;/strong&gt; Usa le &lt;strong&gt;Access Control Lists (ACL)&lt;/strong&gt; per definire permessi a livello di singola cartella, singolo file o gruppo di utenti. I sistemi operativi NAS moderni (DSM, QTS) offrono interfacce grafiche complete per la gestione delle ACL compatibili con lo standard Windows NTFS.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;file-system-moderni-btrfs-e-zfs&quot;&gt;File system moderni: Btrfs e ZFS&lt;/h2&gt;
+&lt;p&gt;La scelta del file system su cui formattare i volumi del NAS ha implicazioni dirette sulla &lt;strong&gt;sicurezza e integrità dei dati nel lungo periodo&lt;/strong&gt;. Il tradizionale EXT4 è affidabile ma privo di meccanismi di rilevamento proattivo della corruzione dei dati.&lt;/p&gt;
+&lt;p&gt;I file system moderni come &lt;strong&gt;Btrfs&lt;/strong&gt; (usato da Synology) e &lt;strong&gt;ZFS&lt;/strong&gt; (usato da TrueNAS e altri) offrono funzionalità di sicurezza integrate che EXT4 non possiede:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Self-healing (auto-riparazione):&lt;/strong&gt; Entrambi implementano il checksumming di ogni blocco dati. Se un blocco viene corrotto silenziosamente da un difetto hardware (fenomeno noto come &lt;strong&gt;Bit Rot&lt;/strong&gt;), il file system lo rileva al momento della lettura e, se esiste una copia ridondante (come in RAID), lo ripara automaticamente senza intervento dell&#39;utente.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Snapshot atomici:&lt;/strong&gt; Permettono di registrare lo stato del file system in un dato istante in modo quasi istantaneo e con un consumo minimo di spazio (grazie alla tecnica &lt;strong&gt;copy-on-write&lt;/strong&gt;). Gli snapshot non sono copie complete dei dati, ma registrazioni delle differenze rispetto allo stato precedente.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;snapshot-la-macchina-del-tempo-contro-il-ransomware&quot;&gt;Snapshot: la macchina del tempo contro il ransomware&lt;/h2&gt;
+&lt;p&gt;Gli snapshot sono la &lt;strong&gt;difesa numero uno contro gli attacchi ransomware&lt;/strong&gt;. Ecco perché: se un virus cifra tutti i tuoi file alle 10:00, puoi ripristinare lo snapshot delle 09:55 in pochi secondi, annullando completamente l&#39;attacco come se non fosse mai avvenuto.&lt;/p&gt;
+&lt;p&gt;Per massimizzare l&#39;efficacia degli snapshot come strumento difensivo, configura quelli destinati al backup come &lt;strong&gt;immutabili (Read-Only)&lt;/strong&gt;. Questo impedisce al ransomware — anche se ha già ottenuto il controllo del sistema — di cancellare o modificare gli snapshot stessi. Uno snapshot in sola lettura è, per definizione, immune alla cifratura da parte di malware che agisce tramite permessi utente standard.&lt;/p&gt;
+&lt;p&gt;Una policy di snapshot ragionevole per un NAS domestico o di piccola impresa prevede:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Snapshot orari, conservati per 24 ore.&lt;/li&gt;
+&lt;li&gt;Snapshot giornalieri, conservati per 30 giorni.&lt;/li&gt;
+&lt;li&gt;Snapshot settimanali, conservati per 3 mesi.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;anatomia-di-un-attacco-ransomware-al-nas&quot;&gt;Anatomia di un attacco ransomware al NAS&lt;/h3&gt;
+&lt;p&gt;Comprendere il meccanismo con cui il ransomware colpisce un NAS è essenziale per costruire le difese corrette. Il processo si articola tipicamente in quattro fasi:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Infiltrazione:&lt;/strong&gt; Un PC della rete locale viene infettato tramite una mail di phishing o un sito web compromesso.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Scansione:&lt;/strong&gt; Il malware in esecuzione sul PC infetto esegue una scansione della rete locale alla ricerca di risorse condivise (il tuo NAS) raggiungibili tramite SMB.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Cifratura:&lt;/strong&gt; Il malware utilizza la connessione SMB già autenticata del PC della vittima per sovrascrivere tutti i file sul NAS con versioni cifrate, senza mai dover violare direttamente il NAS.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Riscatto:&lt;/strong&gt; I file originali sono irrecuperabili e rimangono solo le richieste di pagamento.&lt;br&gt;
+La conclusione operativa è diretta: la &lt;strong&gt;segmentazione della rete&lt;/strong&gt; (per isolare il NAS dai PC potenzialmente infetti) e gli &lt;strong&gt;snapshot immutabili&lt;/strong&gt; sono le due contromisure che, combinate, rendono questo scenario non catastrofico. Se la VLAN del NAS è separata dalla VLAN dei client e il firewall blocca le connessioni SMB non autorizzate, il malware sul PC non riesce nemmeno a raggiungere il NAS per iniziare la cifratura.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;accesso-remoto-sicuro-mai-il-port-forwarding&quot;&gt;Accesso remoto sicuro: mai il port forwarding&lt;/h2&gt;
+&lt;p&gt;Aprire le porte del NAS direttamente su internet tramite port forwarding sul router (ad esempio le porte 5000 o 8000 di DSM) equivale a incollare la chiave di casa sulla porta d&#39;ingresso. Il NAS diventa immediatamente visibile a scanner globali come Shodan e diventa bersaglio di attacchi automatizzati.&lt;/p&gt;
+&lt;p&gt;Le alternative sicure sono due:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;VPN:&lt;/strong&gt; È la soluzione raccomandata. Ti connetti prima alla VPN della tua rete domestica o aziendale e poi accedi al NAS come se fossi fisicamente in loco, senza esporre nulla su internet. Tra le opzioni disponibili, &lt;strong&gt;WireGuard&lt;/strong&gt; è il protocollo moderno preferito per la sua semplicità e le sue prestazioni superiori rispetto a OpenVPN. Per chi non vuole gestire un server VPN proprio, &lt;strong&gt;Tailscale&lt;/strong&gt; (basato su WireGuard) offre una soluzione zero-config che non richiede IP fisso né apertura di porte sul router: i due dispositivi si trovano automaticamente tramite una rete mesh cifrata.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Reverse proxy con HTTPS:&lt;/strong&gt; Se è assolutamente necessario esporre un servizio specifico (ad esempio una web app o un&#39;interfaccia Nextcloud), usa un reverse proxy (come &lt;strong&gt;Nginx Proxy Manager&lt;/strong&gt; o &lt;strong&gt;Traefik&lt;/strong&gt;) con certificati TLS validi emessi da Let&#39;s Encrypt. Il reverse proxy gestisce la terminazione TLS e smista il traffico verso i servizi interni. In questo scenario, l&#39;unica porta aperta su internet è la 443 (HTTPS).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;crittografia-a-riposo-encryption&quot;&gt;Crittografia a riposo (Encryption)&lt;/h2&gt;
+&lt;p&gt;La crittografia a riposo risponde a uno scenario di minaccia spesso sottovalutato: il furto fisico del dispositivo. Se un malintenzionato accede fisicamente al NAS, può smontare i dischi e montarli su un altro computer per leggerne il contenuto senza alcuna credenziale.&lt;/p&gt;
+&lt;p&gt;La &lt;strong&gt;crittografia del volume (AES-256)&lt;/strong&gt;, disponibile su tutti i principali NAS consumer, rende i dischi inutilizzabili senza la chiave di sblocco. Il cifrario AES-256 opera in modalità &lt;strong&gt;simmetrica&lt;/strong&gt;: la stessa chiave viene usata per cifrare e decifrare i dati. Questa chiave è protetta da una passphrase scelta dall&#39;utente e non è mai memorizzata in chiaro sul dispositivo.&lt;/p&gt;
+&lt;p&gt;Da un punto di vista pratico, la crittografia del volume introduce un leggero overhead sulle prestazioni I/O (tipicamente tra il 5% e il 15% a seconda dell&#39;hardware), ma rappresenta un requisito non negoziabile per qualsiasi NAS che contenga dati sensibili o sia soggetto a normative come il GDPR. Molti NAS moderni integrano accelerazione hardware AES (istruzioni AES-NI) che riduce questo impatto al minimo.&lt;/p&gt;
+&lt;h2 id=&quot;la-regola-del-3-2-1&quot;&gt;La regola del 3-2-1&lt;/h2&gt;
+&lt;p&gt;Il backup è la rete di sicurezza finale contro qualsiasi scenario di perdita dei dati. La regola del &lt;strong&gt;3-2-1&lt;/strong&gt; è lo standard dell&#39;industria per una strategia di backup resiliente:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;3 copie dei dati:&lt;/strong&gt; L&#39;originale più due backup distinti. La ridondanza multipla protegge da guasti simultanei e da errori umani.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;2 supporti diversi:&lt;/strong&gt; Ad esempio il NAS stesso e un hard disk esterno. Non conservare tutti i backup sullo stesso tipo di supporto o sullo stesso sistema.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;1 copia off-site:&lt;/strong&gt; Una copia deve trovarsi fisicamente in un luogo diverso dall&#39;originale: casa di un familiare, ufficio, o un servizio cloud cifrato. Questo protegge da eventi catastrofici locali come incendi, allagamenti o furti.&lt;br&gt;
+Per automatizzare la copia verso un disco esterno USB collegato al NAS, uno script rsync su Linux è la soluzione più semplice ed efficace:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;#!/bin/bash
+SORGENTE=&amp;quot;/volume1/dati&amp;quot;
+DESTINAZIONE=&amp;quot;/volumeUSB1/backup&amp;quot;
+LOG=&amp;quot;/var/log/backup_3-2-1.log&amp;quot;
+rsync -avz --delete --checksum &amp;quot;$SORGENTE&amp;quot; &amp;quot;$DESTINAZIONE&amp;quot; &amp;gt;&amp;gt; &amp;quot;$LOG&amp;quot; 2&amp;gt;&amp;amp;1
+echo &amp;quot;Backup completato il $(date)&amp;quot; &amp;gt;&amp;gt; &amp;quot;$LOG&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;L&#39;opzione &lt;code&gt;--checksum&lt;/code&gt; garantisce l&#39;integrità dei file confrontando il checksum e non solo la data di modifica, mentre &lt;code&gt;--delete&lt;/code&gt; sincronizza le cancellazioni mantenendo la destinazione allineata alla sorgente.&lt;/p&gt;
+&lt;h2 id=&quot;backup-immutabili-la-tecnologia-worm&quot;&gt;Backup immutabili: la tecnologia WORM&lt;/h2&gt;
+&lt;p&gt;I backup standard possono essere cancellati o cifrati da un ransomware con privilegi sufficienti. I &lt;strong&gt;backup immutabili&lt;/strong&gt; risolvono questo problema alla radice attraverso la tecnologia &lt;strong&gt;WORM (Write Once, Read Many)&lt;/strong&gt;, che impedisce la modifica o la cancellazione di un file per un periodo prestabilito (ad esempio 30 giorni), indipendentemente dai permessi dell&#39;utente.&lt;/p&gt;
+&lt;p&gt;Una volta scritto in modalità WORM, un file non può essere cancellato nemmeno dall&#39;amministratore del sistema prima della scadenza del periodo di retention. Questo rende i backup immutabili l&#39;ultima linea di difesa assoluta: anche in caso di compromissione totale del sistema, i dati di backup rimangono intatti e recuperabili.&lt;/p&gt;
+&lt;p&gt;Soluzioni come &lt;strong&gt;Synology Hyper Backup&lt;/strong&gt; e &lt;strong&gt;QNAP Hybrid Backup Sync&lt;/strong&gt; supportano nativamente la retention immutabile. Per chi adotta soluzioni cloud come destinazione off-site, provider come &lt;strong&gt;Backblaze B2&lt;/strong&gt; e &lt;strong&gt;AWS S3 Object Lock&lt;/strong&gt; offrono WORM nativamente.&lt;/p&gt;
+&lt;h2 id=&quot;aggiornamenti-del-firmware&quot;&gt;Aggiornamenti del firmware&lt;/h2&gt;
+&lt;p&gt;I NAS sono dispositivi critici esposti a minacce reali. Nel corso degli anni, sia QNAP che Synology hanno subito vulnerabilità gravi sfruttate attivamente in attacchi di massa (come DeadBolt nel 2022, che ha colpito decine di migliaia di NAS QNAP esposti in rete). In tutti questi casi, le patch correttive erano disponibili settimane o mesi prima che gli attacchi si diffondessero su larga scala.&lt;/p&gt;
+&lt;p&gt;La lezione è semplice: &lt;strong&gt;la maggior parte degli attacchi colpisce sistemi non aggiornati.&lt;/strong&gt; La configurazione raccomandata è:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Abilitare gli &lt;strong&gt;aggiornamenti di sicurezza automatici&lt;/strong&gt; nella dashboard del NAS.&lt;/li&gt;
+&lt;li&gt;Iscriversi ai bollettini di sicurezza del produttore (Synology Security Advisories, QNAP Security Advisory).&lt;/li&gt;
+&lt;li&gt;Pianificare un controllo manuale mensile per gli aggiornamenti delle applicazioni installate tramite il package manager del NAS.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;antivirus-sul-nas-serve-davvero&quot;&gt;Antivirus sul NAS: serve davvero?&lt;/h2&gt;
+&lt;p&gt;La risposta è sì, ma con una precisazione importante sull&#39;obiettivo. Un antivirus installato sul NAS non serve principalmente a proteggere il NAS stesso (che gira su Linux e non è il target diretto della maggior parte dei malware per Windows), ma a &lt;strong&gt;prevenire che il NAS diventi un distributore involontario di virus&lt;/strong&gt; per tutti i PC della rete che leggono i file su di esso.&lt;/p&gt;
+&lt;p&gt;I principali sistemi operativi NAS offrono pacchetti antivirus integrati come &lt;strong&gt;ClamAV&lt;/strong&gt; (open source, gratuito) o suite commerciali come McAfee (oggi &lt;strong&gt;Trellix&lt;/strong&gt; dopo il rebranding del 2022). Questi engine scansionano i file al momento dell&#39;upload e su base programmata, rilevando e mettendo in quarantena i file infetti prima che vengano distribuiti ai client della rete.&lt;/p&gt;
+&lt;p&gt;Per chi gestisce un NAS in contesto aziendale, è consigliabile integrare i &lt;strong&gt;log di accesso del NAS&lt;/strong&gt; con una soluzione SIEM (Security Information and Event Management) per rilevare pattern anomali come accessi a orari inusuali, upload massivi di file cifrati o tentativi di login ripetuti.&lt;/p&gt;
+&lt;h2 id=&quot;ups-la-sicurezza-elettrica&quot;&gt;UPS: la sicurezza elettrica&lt;/h2&gt;
+&lt;p&gt;Un aspetto della protezione dei dati spesso ignorato è la sicurezza elettrica. Un&#39;interruzione improvvisa di corrente mentre il NAS sta scrivendo dati su disco può corrompere il file system e, in scenari estremi, distruggere l&#39;intero volume RAID, rendendo irrecuperabili anche i dati ridondati.&lt;/p&gt;
+&lt;p&gt;Un &lt;strong&gt;UPS (Uninterruptible Power Supply)&lt;/strong&gt;, colloquialmente chiamato &amp;quot;gruppo di continuità&amp;quot;, elimina questo rischio. Collegato via USB al NAS, permette al sistema operativo di rilevare il blackout in tempo reale e di eseguire uno &lt;strong&gt;shutdown controllato&lt;/strong&gt; prima che la batteria si esaurisca, salvaguardando l&#39;integrità di tutti i dati in scrittura.&lt;/p&gt;
+&lt;p&gt;La maggior parte dei principali sistemi operativi NAS (DSM, QTS) include il supporto nativo per UPS via USB e permette di configurare la soglia di carica batteria sotto la quale attivare lo shutdown automatico. Per ambienti con più NAS o server, il protocollo &lt;strong&gt;NUT (Network UPS Tools)&lt;/strong&gt; permette a un singolo UPS di gestire lo shutdown coordinato di più macchine sulla stessa rete.&lt;/p&gt;
+&lt;h2 id=&quot;test-di-ripristino-la-prova-del-nove&quot;&gt;Test di ripristino: la prova del nove&lt;/h2&gt;
+&lt;p&gt;Qualsiasi strategia di backup, per quanto sofisticata, è priva di valore se non è mai stata testata. Un backup di cui non è stato verificato il ripristino è, operativamente, come se non esistesse.&lt;/p&gt;
+&lt;p&gt;La regola pratica è la seguente: &lt;strong&gt;almeno una volta ogni sei mesi&lt;/strong&gt;, simula un ripristino reale recuperando un file a caso dal tuo backup più vecchio. Se la procedura fallisce in un contesto controllato, non funzionerà durante un&#39;emergenza reale — quando il tempo è critico e la pressione è massima.&lt;/p&gt;
+&lt;p&gt;Il test di ripristino dovrebbe coprire:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Recupero di un singolo file da uno snapshot.&lt;/li&gt;
+&lt;li&gt;Recupero di una cartella completa dal backup off-site.&lt;/li&gt;
+&lt;li&gt;Verifica della leggibilità dei file recuperati (non basta che i file esistano, devono poter essere aperti correttamente).&lt;/li&gt;
+&lt;li&gt;Documentazione del tempo di ripristino (RTO — Recovery Time Objective), essenziale per valutare se il sistema di backup soddisfa i requisiti di continuità operativa.&lt;br&gt;
+Un NAS sicuro non è il risultato di un&#39;unica configurazione iniziale, ma di un processo continuo di aggiornamento, monitoraggio e verifica. Le misure descritte in questa guida, applicate in modo sistematico e integrate in una rete correttamente segmentata e protetta da firewall, trasformano il tuo NAS da un potenziale vettore di rischio a una fortezza digitale affidabile e sotto il tuo pieno controllo.&lt;/li&gt;
+&lt;/ul&gt;
+
+]]></content>
+    
+    
+    
+      
+      
+    <category term="cybersecurity"/>
+      
+    
+      
+      
+    <category term="NAS"/>
+      
+    
+      
+      
+    <category term="backup"/>
+      
+    
+      
+      
+    <category term="ransomware"/>
+      
+    
+      
+      
+    <category term="storage"/>
       
     
   </entry>
