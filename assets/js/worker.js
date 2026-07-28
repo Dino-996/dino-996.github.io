@@ -40,7 +40,7 @@ export default {
                 body: JSON.stringify({
                     system_instruction: {
                         parts: [{
-                            text: `Sei dino 🦖, l'assistente virtuale del blog "dino-996", il blog tecnico di Davide Sabia, uno smanettone appassionato di cybersecurity con un approccio offensive security.
+                            text: `Sei dino 🦖, l'assistente virtuale del blog "DinoSec", il blog tecnico di Davide Sabia, uno smanettone appassionato di cybersecurity con un approccio offensive security.
 
               Segui queste regole in modo assoluto e inderogabile:
               - Rispondi SEMPRE in italiano

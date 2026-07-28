@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  Fondamenti di informatica · dino-996 blog
+  Fondamenti di informatica · DinoSec
 </title>
 
 <!-- SEO meta tags -->
@@ -26,7 +26,7 @@
 
 <meta property="og:title" content="Fondamenti di informatica" />
 <meta property="og:description" content="Una guida completa ai fondamenti dell&#39;informatica per professionisti. Scopri come funzionano hardware, CPU multi-core, memorie (RAM, SSD NVMe), sistemi operativi, licenze software e le basi della sicurezza informatica." />
-<meta property="og:site_name" content="dino-996 blog" />
+<meta property="og:site_name" content="DinoSec" />
 
 <meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784996304/fondamenti_di_informatica_99f586fe6f.png" />
 
@@ -46,7 +46,7 @@
 <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
 
 <!-- RSS Feed -->
-<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -122,7 +122,7 @@
       </nav>
     </div>
 
-    <a href="/" class="header-logo">dino-996</a>
+    <a href="/" class="header-logo">DinoSec</a>
 
     <div class="header-right gap-2 hide-mobile">
       <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
@@ -189,7 +189,7 @@
     <div class="toc-card">
       <div class="toc-title">
         <span>Indice</span>
-        <button id="toc-collapse-btn" class="toc-collapse-btn" aria-label="Collassa indice">▾</button>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
       </div>
       <ul class="toc-list" id="toc-list"></ul>
     </div>
@@ -902,7 +902,7 @@ Il sistema operativo avvia tutti i suoi servizi e presenta la schermata di acces
             
           
         </div>
-        <div class="d-flex gap-2 align-items-center">
+        <div class="d-flex gap-2 align-items-center" style="margin-left: auto;">
           <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--on-surface-variant);">Condividi</span>
           <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Ffondamenti-di-informatica%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">IN</a>
           <a href="https://twitter.com/intent/tweet?text=Fondamenti%20di%20informatica&url=https://dino-996.github.io%2Fblog%2Ffondamenti-di-informatica%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
@@ -917,8 +917,8 @@ Il sistema operativo avvia tutti i suoi servizi e presenta la schermata di acces
     
     
     <div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
-      <nav class="d-flex flex-wrap justify-content-between gap-2" aria-label="Navigazione articoli">
-        <div style="min-width: 0; max-width: 50%; flex: 1 1 auto;">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div style="min-width: 0; max-width: calc(50% - 4px); flex: 1 1 auto;">
           
           <a href="/blog/tecniche-algoritmiche-java/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 100%; overflow: hidden; display: block;">
             <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">← Precedente</span>
@@ -926,7 +926,7 @@ Il sistema operativo avvia tutti i suoi servizi e presenta la schermata di acces
           </a>
           
         </div>
-        <div style="min-width: 0; max-width: 50%; text-align: right; flex: 1 1 auto;">
+        <div style="min-width: 0; max-width: calc(50% - 4px); text-align: right; flex: 1 1 auto;">
           
           <a href="/blog/guida-a-poweshell/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
             <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Successivo →</span>
@@ -977,16 +977,20 @@ Il sistema operativo avvia tutti i suoi servizi e presenta la schermata di acces
     </main>
 
     <footer class="site-footer">
-  <div class="footer-logo"><a href="/">dino-996</a></div>
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
   <nav class="footer-nav">
-    <a href="/about/">Chi sono</a>
-    <a href="/courses/">Percorsi</a>
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
     <a href="/blog/">Blog</a>
-    <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
   </nav>
   <div class="footer-copy">
-    &copy; <span class="current-year">2026</span> Davide Sabia. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+    &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
   </div>
 </footer>
 

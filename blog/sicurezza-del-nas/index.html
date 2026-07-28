@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 <title>
-  Guida alla sicurezza del NAS: proteggere la tua fortezza digitale · dino-996 blog
+  Guida alla sicurezza del NAS · DinoSec
 </title>
 
 <!-- SEO meta tags -->
@@ -24,9 +24,9 @@
 
 <meta property="og:url" content="https://dino-996.github.io/blog/sicurezza-del-nas/" />
 
-<meta property="og:title" content="Guida alla sicurezza del NAS: proteggere la tua fortezza digitale" />
+<meta property="og:title" content="Guida alla sicurezza del NAS" />
 <meta property="og:description" content="Guida completa alla sicurezza del NAS: scopri come proteggere i tuoi dati con segmentazione VLAN, snapshot immutabili, livelli RAID e la regola di backup 3-2-1 per difenderti da ransomware e guasti hardware." />
-<meta property="og:site_name" content="dino-996 blog" />
+<meta property="og:site_name" content="DinoSec" />
 
 <meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784995622/cybersecurity_9f8c97f2d6.png" />
 
@@ -36,7 +36,7 @@
 
 <meta name="twitter:url" content="https://dino-996.github.io/blog/sicurezza-del-nas/" />
 
-<meta name="twitter:title" content="Guida alla sicurezza del NAS: proteggere la tua fortezza digitale" />
+<meta name="twitter:title" content="Guida alla sicurezza del NAS" />
 <meta name="twitter:description" content="Guida completa alla sicurezza del NAS: scopri come proteggere i tuoi dati con segmentazione VLAN, snapshot immutabili, livelli RAID e la regola di backup 3-2-1 per difenderti da ransomware e guasti hardware." />
 
 <meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784995622/cybersecurity_9f8c97f2d6.png" />
@@ -46,7 +46,7 @@
 <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
 
 <!-- RSS Feed -->
-<link rel="alternate" type="application/rss+xml" title="dino-996 blog RSS Feed" href="/feed.xml" />
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
 
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -122,7 +122,7 @@
       </nav>
     </div>
 
-    <a href="/" class="header-logo">dino-996</a>
+    <a href="/" class="header-logo">DinoSec</a>
 
     <div class="header-right gap-2 hide-mobile">
       <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
@@ -189,7 +189,7 @@
     <div class="toc-card">
       <div class="toc-title">
         <span>Indice</span>
-        <button id="toc-collapse-btn" class="toc-collapse-btn" aria-label="Collassa indice">▾</button>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
       </div>
       <ul class="toc-list" id="toc-list"></ul>
     </div>
@@ -217,7 +217,7 @@
         
       </div>
 
-      <h1>Guida alla sicurezza del NAS: proteggere la tua fortezza digitale</h1>
+      <h1>Guida alla sicurezza del NAS</h1>
 
       
       <p class="post-description">Guida completa alla sicurezza del NAS: scopri come proteggere i tuoi dati con segmentazione VLAN, snapshot immutabili, livelli RAID e la regola di backup 3-2-1 per difenderti da ransomware e guasti hardware.</p>
@@ -232,7 +232,7 @@
         <span class="reading-time"></span>
         
         <span class="post-meta-dot">·</span>
-        <span>Ultimo aggiornamento: 25 luglio 2026</span>
+        <span>Ultimo aggiornamento: 28 luglio 2026</span>
         
       </div>
     </header>
@@ -248,7 +248,7 @@
       
       <div class="tldr-box">
         <div class="tldr-label">In breve</div>
-        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Un NAS è un dispositivo di archiviazione di rete versatile che funge da server privato per file, backup, media e altro ancora, offrendo sovranità digitale sui dati. A differenza del cloud, un NAS mantiene i dati fisicamente sotto il tuo controllo, richiedendo però una configurazione e una manutenzione iniziali.</p>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Un NAS è un dispositivo di archiviazione collegato alla rete che funge da server privato per file, backup e altre applicazioni, offrendo il pieno controllo sui dati fisicamente residenti nella propria rete. A differenza del cloud, un NAS richiede una configurazione iniziale e manutenzione, ma garantisce una completa sovranità digitale sui propri dati.</p>
       </div>
       
 
@@ -394,7 +394,9 @@ Router moderni come quelli basati su <strong>pfSense</strong>, <strong>OPNsense<
     </tbody>
   </table>
 </div>
-> **Attenzione — RAID 5 e il rischio URE:** Durante la ricostruzione del RAID dopo la sostituzione di un disco guasto, il controller legge l'intero contenuto degli altri dischi. Su dischi di capacità superiore a 4 TB, la probabilità di incontrare un **Unrecoverable Read Error (URE)** è statisticamente significativa e può rendere la ricostruzione impossibile, causando la perdita totale dei dati. Per array con dischi da 4 TB o superiori, valuta seriamente RAID 6 o soluzioni come il RAID-Z2 di ZFS.
+<blockquote>
+<p><strong>Attenzione — RAID 5 e il rischio URE:</strong> Durante la ricostruzione del RAID dopo la sostituzione di un disco guasto, il controller legge l'intero contenuto degli altri dischi. Su dischi di capacità superiore a 4 TB, la probabilità di incontrare un <strong>Unrecoverable Read Error (URE)</strong> è statisticamente significativa e può rendere la ricostruzione impossibile, causando la perdita totale dei dati. Per array con dischi da 4 TB o superiori, valuta seriamente RAID 6 o soluzioni come il RAID-Z2 di ZFS.</p>
+</blockquote>
 <h2 id="hardening-iniziale-addio-allaccount-admin">Hardening iniziale: addio all'account &quot;admin&quot;</h2>
 <p>Ogni NAS esce di fabbrica con un account amministratore denominato &quot;admin&quot;. Questo nome è il primo che qualsiasi bot o attaccante proverà in una scansione automatica. La prima operazione da eseguire, prima ancora di connettere il NAS a internet, è eliminare questo vettore di attacco ovvio seguendo tre passi:</p>
 <ol>
@@ -557,10 +559,10 @@ Un NAS sicuro non è il risultato di un'unica configurazione iniziale, ma di un 
             
           
         </div>
-        <div class="d-flex gap-2 align-items-center">
+        <div class="d-flex gap-2 align-items-center" style="margin-left: auto;">
           <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--on-surface-variant);">Condividi</span>
           <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fsicurezza-del-nas%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">IN</a>
-          <a href="https://twitter.com/intent/tweet?text=Guida%20alla%20sicurezza%20del%20NAS%3A%20proteggere%20la%20tua%20fortezza%20digitale&url=https://dino-996.github.io%2Fblog%2Fsicurezza-del-nas%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
+          <a href="https://twitter.com/intent/tweet?text=Guida%20alla%20sicurezza%20del%20NAS&url=https://dino-996.github.io%2Fblog%2Fsicurezza-del-nas%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
         </div>
       </div>
     </div>
@@ -572,20 +574,20 @@ Un NAS sicuro non è il risultato di un'unica configurazione iniziale, ma di un 
     
     
     <div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
-      <nav class="d-flex flex-wrap justify-content-between gap-2" aria-label="Navigazione articoli">
-        <div style="min-width: 0; max-width: 50%; flex: 1 1 auto;">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div style="min-width: 0; max-width: calc(50% - 4px); flex: 1 1 auto;">
           
-          <a href="/blog/attacchi-alla-rete/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 100%; overflow: hidden; display: block;">
+          <a href="/blog/guida-gdpr-regolamento/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 100%; overflow: hidden; display: block;">
             <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">← Precedente</span>
-            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Attacchi alla Rete</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> Regolamento UE 2016/679 (GDPR)</span>
           </a>
           
         </div>
-        <div style="min-width: 0; max-width: 50%; text-align: right; flex: 1 1 auto;">
+        <div style="min-width: 0; max-width: calc(50% - 4px); text-align: right; flex: 1 1 auto;">
           
-          <a href="/blog/guida-gdpr/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
+          <a href="/blog/attacchi-alla-rete/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
             <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Successivo →</span>
-            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Il GDPR spiegato a sviluppatori e IT manager</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Attacchi alla Rete</span>
           </a>
           
         </div>
@@ -632,16 +634,20 @@ Un NAS sicuro non è il risultato di un'unica configurazione iniziale, ma di un 
     </main>
 
     <footer class="site-footer">
-  <div class="footer-logo"><a href="/">dino-996</a></div>
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
   <nav class="footer-nav">
-    <a href="/about/">Chi sono</a>
-    <a href="/courses/">Percorsi</a>
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
     <a href="/blog/">Blog</a>
-    <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
-    <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
   </nav>
   <div class="footer-copy">
-    &copy; <span class="current-year">2026</span> Davide Sabia. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+    &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
   </div>
 </footer>
 
