@@ -142,5 +142,17 @@
   "Fondamenti di Networking": {
     "tldr": "Internet è una rete decentralizzata di reti autonome che utilizzano standard comuni per lo scambio di informazioni attraverso vari mezzi fisici, connettendo un ecosistema in continua espansione di dispositivi, dalle reti locali ai dispositivi mobili e IoT. Le reti locali, sia SOHO che aziendali, fungono da infrastrutture fondamentali per condividere risorse e accedere a Internet, diventando una competenza digitale essenziale.",
     "hash": "14210"
+  },
+  "Guida alla sicurezza del NAS": {
+    "tldr": "Un NAS è un dispositivo di storage di rete locale sempre attivo e gestibile tramite web, che trasforma il tuo hardware in un server privato per file, backup, media e altro. Offre sovranità digitale completa sui dati, a differenza dei servizi cloud, ma richiede una configurazione e manutenzione iniziali.",
+    "hash": "27789"
+  },
+  " Regolamento UE 2016/679 (GDPR)": {
+    "tldr": "Il GDPR stabilisce un quadro normativo completo per la protezione dei dati personali nell'UE, introducendo un approccio basato sulla responsabilità proattiva e sull'integrazione della privacy fin dalla progettazione. La sua applicazione è estesa a trattamenti automatizzati e non, con un significativo effetto extraterritoriale che copre anche entità non UE che offrono beni/servizi o monitorano individui nell'Unione.",
+    "hash": "15942"
+  },
+  "Il GDPR": {
+    "tldr": "Il GDPR ha radicalmente ridefinito la raccolta, conservazione e trattamento dei dati personali nell'UE, ponendo il diritto alla privacy come controllo individuale sulla diffusione delle proprie informazioni. Il concetto di privacy, radicato storicamente nel diritto alla \"riservatezza\" e all'autodeterminazione informativa, è ora un prerequisito tecnico essenziale per le operazioni di sviluppo software e gestione IT.",
+    "hash": "23242"
   }
 }

@@ -151,8 +151,11 @@
         button.className = 'copy-btn';
         button.textContent = 'Copia';
         const pre = block.parentElement;
-        pre.style.position = 'relative';
-        pre.appendChild(button);
+        const wrapper = document.createElement('div');
+        wrapper.className = 'code-block-wrapper';
+        pre.parentNode.insertBefore(wrapper, pre);
+        wrapper.appendChild(pre);
+        wrapper.appendChild(button);
         button.addEventListener('click', async () => {
             try {
                 await navigator.clipboard.writeText(block.textContent);
@@ -430,6 +433,6 @@
         newsletterBtn.addEventListener('click', subscribeNewsletter);
     }
 
-    console.log('✨ dino-996 blog loaded successfully!');
+    console.log('✨ DinoSec loaded successfully!');
 
 })();

@@ -86,6 +86,17 @@ title: Home
 
   <!-- Sidebar -->
   <aside class="sidebar-section md-col-span-3">
+    <!-- About CTA -->
+    <div class="cta-card">
+      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785267780/dino_transparent_af2b05ef49.png" alt="DinoSec" class="dino-cta-img">
+      <h3>Ciao, sono Davide</h3>
+      <p>Condivido qui articoli su development, networking e cybersecurity.</p>
+      <div class="d-flex gap-2" style="width: 100%;">
+        <a href="/about/" class="btn btn-primary" style="flex: 1;">Chi sono</a>
+        <a href="/courses/" class="btn btn-outline" style="flex: 1;">Percorsi</a>
+      </div>
+    </div>
+
     {% if allPosts | length > 0 %}
     <!-- Intanto -->
       <div class="sidebar-card">
@@ -117,16 +128,6 @@ title: Home
         <button class="btn btn-primary" id="newsletter-submit">Iscriviti</button>
       </div>
       <div id="newsletter-message" class="newsletter-message" hidden aria-live="polite"></div>
-    </div>
-
-    <!-- About CTA -->
-    <div class="cta-card">
-      <h3>Ciao, sono Davide</h3>
-      <p>Condivido qui articoli su development, networking e cybersecurity.</p>
-      <div class="d-flex gap-2" style="width: 100%;">
-        <a href="/about/" class="btn btn-primary" style="flex: 1;">Chi sono</a>
-        <a href="/courses/" class="btn btn-outline" style="flex: 1;">Percorsi</a>
-      </div>
     </div>
   </aside>
 </div>
