@@ -1,6 +1,6 @@
 {
   "name": "dino-996.github.io",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "description": "In this space i share everything that concerns my passions and interests, obviusly, like all my projects, that static website was also developed with me",
   "keywords": [
     "blog",
@@ -19,7 +19,7 @@
   "license": "ISC",
   "author": "Davide Sabia",
   "type": "module",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
     "dev": "npx @11ty/eleventy --serve",
     "build": "npx @11ty/eleventy",
