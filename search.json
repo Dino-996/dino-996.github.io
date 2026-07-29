@@ -1,5 +1,11 @@
 [
   {
+    "title": "Introduzione a Python",
+    "url": "/blog/introduzione-a-python/",
+    "description": "Guida introduttiva a Python: scopri la differenza tra compilazione e interpretazione, come usare pip e venv, i tipi di dato fondamentali e la sintassi delle funzioni.",
+    "date": "2026-07-29T00:00:00.000Z"
+  },
+  {
     "title": " Regolamento UE 2016/679 (GDPR)",
     "url": "/blog/guida-gdpr-regolamento/",
     "description": "Guida completa al Regolamento UE 2016/679 (GDPR): ambito applicativo, definizioni, ruoli aziendali (Titolare, DPO, Responsabile), principi cardine e misure tecniche.",

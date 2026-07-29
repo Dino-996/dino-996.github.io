@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Introduzione a Python · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Guida introduttiva a Python: scopri la differenza tra compilazione e interpretazione, come usare pip e venv, i tipi di dato fondamentali e la sintassi delle funzioni." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/introduzione-a-python/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/introduzione-a-python/" />
+
+<meta property="og:title" content="Introduzione a Python" />
+<meta property="og:description" content="Guida introduttiva a Python: scopri la differenza tra compilazione e interpretazione, come usare pip e venv, i tipi di dato fondamentali e la sintassi delle funzioni." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://dino-996.github.io/assets/img/webp/og-default.webp" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/introduzione-a-python/" />
+
+<meta name="twitter:title" content="Introduzione a Python" />
+<meta name="twitter:description" content="Guida introduttiva a Python: scopri la differenza tra compilazione e interpretazione, come usare pip e venv, i tipi di dato fondamentali e la sintassi delle funzioni." />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper hide-desktop" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      <div class="post-breadcrumb">
+        <a href="/">Home</a>
+        <span class="post-breadcrumb-sep">»</span>
+        
+        
+        <a href="/courses/">Percorsi</a>
+        <span class="post-breadcrumb-sep">»</span>
+        <a href="/courses/python/">Python</a>
+        
+      </div>
+
+      <h1>Introduzione a Python</h1>
+
+      
+      <p class="post-description">Guida introduttiva a Python: scopri la differenza tra compilazione e interpretazione, come usare pip e venv, i tipi di dato fondamentali e la sintassi delle funzioni.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 29 luglio 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+        <span class="post-meta-dot">·</span>
+        <span>Ultimo aggiornamento: 29 luglio 2026</span>
+        
+      </div>
+    </header>
+
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">In breve</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Python è un linguaggio interpretato che esegue il codice sorgente istruzione per istruzione a runtime, offrendo portabilità e debugging flessibile ma con un maggiore overhead. Adotta il duck typing, determinando la validità di un oggetto dai suoi attributi e metodi a runtime, piuttosto che dal suo tipo dichiarato.</p>
+      </div>
+      
+
+      <section class="content">
+        <h2 id="introduzione">Introduzione</h2>
+<p>Prima di addentrarci nella sintassi di Python è utile chiarire come un linguaggio di programmazione trasforma il codice sorgente (il codice così come lo scrive lo sviluppatore, prima di qualsiasi traduzione) in qualcosa che una macchina può eseguire. Esistono principalmente due strategie.</p>
+<p>La prima è la <strong>compilazione</strong>: un compilatore trasforma l'intero codice sorgente in linguaggio macchina (codice oggetto o assembly) prima dell'esecuzione, producendo un eseguibile. I vantaggi principali sono le elevate prestazioni a runtime e la possibilità di individuare molti errori già in fase di compilazione, prima ancora di eseguire il programma.</p>
+<p>La seconda è l'<strong>interpretazione</strong>: un interprete esegue direttamente il codice sorgente a runtime, istruzione per istruzione. I vantaggi risiedono nella portabilità, nel debugging interattivo e nella flessibilità dinamica; lo svantaggio principale è un overhead di esecuzione più elevato rispetto al codice compilato.</p>
+<p>Esistono anche forme ibride, come la compilazione <strong>JIT (Just-In-Time)</strong>: il codice sorgente viene prima tradotto in bytecode, un formato intermedio che non è eseguibile direttamente dalla CPU (a differenza del codice prodotto da una compilazione classica). Una macchina virtuale carica questo bytecode e lo esegue: inizialmente lo interpreta, per garantire un avvio rapido, salvo poi compilare a runtime, in codice macchina nativo, le porzioni di codice identificate come più critiche per le prestazioni durante l'esecuzione stessa.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Approccio</th> <th class="fw-semibold">Quando avviene la traduzione</th> <th class="fw-semibold">Punto di forza principale</th> <th class="fw-semibold">Limite principale</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Compilazione</td> <td>Prima dell'esecuzione, una tantum</td> <td>Prestazioni elevate, errori rilevati in anticipo</td> <td>Meno portabilità, ciclo di build più lento</td> </tr> <tr> <td class="fw-semibold">Interpretazione</td> <td>A runtime, istruzione per istruzione</td> <td>Portabilità, debugging interattivo</td> <td>Overhead di esecuzione</td> </tr> <tr> <td class="fw-semibold">JIT</td> <td>A runtime, su bytecode intermedio</td> <td>Avvio rapido con prestazioni che migliorano nel tempo</td> <td>Complessità implementativa della VM</td> </tr> </tbody> </table> </div>
+<h2 id="dove-si-colloca-python">Dove si colloca Python</h2>
+<p>Python è un linguaggio di programmazione <strong>interpretato</strong>, <strong>dinamico</strong> e <strong>fortemente tipizzato</strong>, che adotta sia il <em>duck typing</em> sia il <em>gradual typing</em>.</p>
+<p>Il <strong>duck typing</strong> è uno stile di tipizzazione dinamica in cui la validità di un oggetto è determinata dai metodi e dagli attributi che espone a runtime, piuttosto che dalla sua classe o dal tipo dichiarato. Il nome deriva dal detto &quot;se cammina come un'anatra e starnazza come un'anatra, allora è un'anatra&quot;: non conta cosa un oggetto dichiara di essere, ma cosa è in grado di fare. Python e JavaScript adottano questo approccio: se un oggetto espone un metodo <code>.quack()</code>, può essere usato ovunque sia richiesta un'anatra, indipendentemente dalla gerarchia di classi a cui appartiene.</p>
+<p>Il <strong>gradual typing</strong> è invece un sistema di tipi che permette di mescolare codice tipizzato staticamente e codice tipizzato dinamicamente all'interno dello stesso programma, introducendo un tipo speciale (spesso chiamato <code>Any</code> o <code>dynamic</code>, come <code>any</code> in TypeScript) che funge da &quot;ponte&quot; tra le due modalità: il type checker tratta questo tipo come compatibile con qualunque altro, sospendendo il controllo statico in quel punto specifico del codice. Questo approccio è particolarmente utile per l'adozione incrementale della tipizzazione statica in progetti nati come dinamici: è, ad esempio, il principio alla base della migrazione di codebase JavaScript verso TypeScript, dove è possibile tipizzare i moduli gradualmente senza dover riscrivere tutto in un'unica soluzione. In Python lo stesso principio si applica tramite le annotazioni di tipo (introdotte con le <em>type hint</em>), verificabili staticamente con strumenti come mypy pur restando facoltative a runtime.</p>
+<div class="alert alert-info d-flex" role="alert"> <div class="me-3"> <svg class="bi flex-shrink-0" width="24" height="24" role="img" aria-label="Nota:"> <use xlink:href="#info-fill"/> </svg> </div> <div> <strong>Nota:</strong> le annotazioni di tipo in Python non vengono verificate dall'interprete a runtime: servono a strumenti esterni (type checker, IDE) e alla documentazione del codice. È un dettaglio da tenere presente arrivando da linguaggi a tipizzazione statica come TypeScript. </div> </div>
+<p>Python supporta tutti gli stili di programmazione: imperativo, dichiarativo (ad esempio funzionale) e orientato agli oggetti, ma internamente tutto in Python è un oggetto. Il linguaggio pone una forte enfasi sulla leggibilità del codice, utilizzando un'indentazione significativa per delimitare le definizioni di funzioni, metodi e classi al posto delle parentesi graffe.</p>
+<h2 id="breve-storia-e-versioni">Breve storia e versioni</h2>
+<p>Python è stato ideato alla fine degli anni '80 da Guido van Rossum, che ne ha supervisionato personalmente lo sviluppo per molti anni, e rilasciato pubblicamente per la prima volta nel 1991. Il nome non ha nulla a che vedere con il rettile: deriva dal gruppo comico britannico Monty Python, di cui van Rossum era appassionato. Il linguaggio è oggi gestito, come progetto open source, dalla Python Software Foundation, che riceve proposte di modifica dalla comunità attraverso le <strong>Python Enhancement Proposal (PEP)</strong>.</p>
+<p>Le tappe principali della sua evoluzione sono:</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Versione</th> <th class="fw-semibold">Anno</th> <th class="fw-semibold">Nota</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Python 1.x</td> <td>1991</td> <td>Prima versione pubblica</td> </tr> <tr> <td class="fw-semibold">Python 2</td> <td>2000</td> <td>Ampiamente diffuso, oggi a fine vita</td> </tr> <tr> <td class="fw-semibold">Python 3</td> <td>2008</td> <td>Versione di riferimento attuale, non retrocompatibile con Python 2</td> </tr> </tbody> </table> </div> <div class="alert alert-warning d-flex" role="alert"> <div class="me-3"> <svg class="bi flex-shrink-0" width="24" height="24" role="img" aria-label="Attenzione:"> <use xlink:href="#exclamation-triangle-fill"/> </svg> </div> <div> <strong>Attenzione:</strong> Python 3 non è retrocompatibile con Python 2. Codice scritto per una versione non è garantito funzionare sull'altra senza modifiche. Nella serie 3.x lo sviluppo prosegue con rilasci regolari; al momento in cui scriviamo, la linea più recente è la 3.14, mentre la 3.13 resta comunque in manutenzione attiva fino alla fine del 2029. </div> </div>
+<p>Per quanto riguarda le implementazioni, <strong>CPython</strong> è quella di riferimento: scritta in C, è l'implementazione ufficiale adottata dalla maggior parte degli ambienti di sviluppo. Il codice Python viene interpretato sotto forma di bytecode per una macchina virtuale interna. Esistono però implementazioni alternative, come <strong>Jython</strong>, che genera bytecode eseguibile sulla JVM, permettendo l'interoperabilità con l'ecosistema Java.</p>
+<h2 id="caratteristiche-del-linguaggio">Caratteristiche del linguaggio</h2>
+<p>Python si definisce spesso &quot;multi-paradigma&quot;: consente di scrivere codice procedurale/di scripting così come codice orientato agli oggetti, spesso combinando i due stili nello stesso progetto.</p>
+<p>È un linguaggio <strong>interpretato</strong>: il codice non viene compilato in un eseguibile separato ed esiste un ambiente interattivo (la REPL) in cui è possibile eseguire istruzioni una per una e osservarne subito il risultato.</p>
+<p>È inoltre un linguaggio <strong>&quot;batteries-included&quot;</strong>: la libreria standard è estremamente ampia e copre la maggior parte delle esigenze comuni (gestione di file, rete, strutture dati, ecc.), risultando comunque facilmente estensibile tramite pacchetti di terze parti.</p>
+<p>Sul fronte della tipizzazione, le variabili si usano senza dichiararle esplicitamente e possono cambiare il tipo di oggetto a cui fanno riferimento nel corso dell'esecuzione, è questo il significato di &quot;dinamicamente tipizzato&quot;. La sintassi, infine, è volutamente compatta e non appartiene alla famiglia sintattica del C: l'indentazione stessa indica la nidificazione dei blocchi di codice, al posto delle parentesi graffe.</p>
+<p>Queste caratteristiche hanno reso Python particolarmente popolare per la prototipazione rapida, e in particolare per applicazioni di <em>data analytics</em>, che richiedono l'esplorazione, la trasformazione e l'integrazione di dati provenienti da sorgenti diverse, oltre allo sviluppo di modelli di analisi.</p>
+<h2 id="installazione-e-gestione-dellambiente">Installazione e gestione dell'ambiente</h2>
+<p>Python è preinstallato nella maggior parte degli ambienti operativi moderni; il comando tipico per invocarlo è <code>python3</code> (su Windows spesso <code>python3.exe</code>). Dove non fosse già presente, l'installazione può avvenire tramite i package manager di sistema (ad esempio Homebrew su macOS o Chocolatey su Windows).</p>
+<p>Uno script Python è tipicamente contenuto in un file con estensione <code>.py</code> (ad esempio <code>primo.py</code>) ed eseguito con <code>python3 primo.py</code>. In alternativa, lanciando <code>python</code> senza argomenti si accede alla modalità interattiva: un prompt di comandi in cui è possibile eseguire le istruzioni una per una. In questa modalità esiste una variabile implicita, denominata <code>_</code>, che mantiene automaticamente il risultato dell'ultima operazione eseguita; per uscire si utilizza <code>quit()</code> oppure la combinazione <code>ctrl-d</code>.</p>
+<h3 id="il-package-manager-pip">Il package manager pip</h3>
+<p><strong>pip</strong> è il package manager ufficiale di Python: gestisce l'installazione di pacchetti prelevandoli dal Python Package Index, disponibile all'indirizzo <a href="https://pypi.org/" target="_blank" rel="noopener noreferer">https://pypi.org/</a>. Il comando tipico è <code>pip</code> o <code>pip3</code>. Per lo sviluppo di base pip è raramente indispensabile, perché la libreria standard di Python è già molto ampia (in questo Python è simile a Java).</p>
+<p>Concretamente, pip cerca il pacchetto richiesto sul Python Package Index, ne scarica l'archivio (tipicamente in formato <code>.tar.gz</code> o <code>.whl</code>), ne risolve le dipendenze dichiarate e infine lo installa nella directory dei pacchetti dell'ambiente Python attivo. Per ispezionare dove un pacchetto è stato installato si può usare <code>pip show &lt;nome_pacchetto&gt;</code>.</p>
+<div class="alert alert-danger d-flex" role="alert"> <div class="me-3"> <svg class="bi flex-shrink-0" width="24" height="24" role="img" aria-label="Rischio:"> <use xlink:href="#exclamation-triangle-fill"/> </svg> </div> <div> <strong>Rischio:</strong> senza un ambiente dedicato, i pacchetti installati con pip finiscono a livello globale: tutte le esecuzioni di Python sulla macchina condivideranno le stesse dipendenze, con il rischio concreto di conflitti di versione tra progetti diversi. </div> </div>
+<h3 id="ambienti-virtuali-con-venv">Ambienti virtuali con venv</h3>
+<p>La buona prassi è dare a ogni progetto le proprie dipendenze isolate e, idealmente, anche la propria versione di Python. Lo strumento standard per farlo è <strong>venv</strong>, incluso nella libreria standard a partire da Python 3.3 e che non richiede alcuna installazione aggiuntiva. Per esigenze più avanzate, o per progetti ancora su Python 2, restano disponibili alternative come virtualenv o Anaconda.</p>
+<p>L'uso tipico prevede due passaggi: la creazione dell'ambiente e la sua attivazione, che varia in base al sistema operativo.</p>
+<ul class="nav nav-tabs" role="tablist"> <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#venv-windows">Windows</button></li> <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#venv-unix">macOS / Linux</button></li> </ul> <div class="tab-content border border-top-0 p-3"> <div class="tab-pane fade show active" id="venv-windows"> python3 -m venv nome_ambiente nome_ambiente\Scripts\activate.bat </div> <div class="tab-pane fade" id="venv-unix"> python3 -m venv nome_ambiente source nome_ambiente/bin/activate </div> </div>
+<p>Una volta attivato l'ambiente, tutti i pacchetti installati con pip vengono collocati nella cartella locale <code>nome_ambiente</code>, senza toccare l'installazione globale di Python. Per uscire dall'ambiente virtuale è sufficiente il comando <code>deactivate</code>.</p>
+<div class="accordion" id="pythonTroubleshootingAccordion"> <div class="accordion-item"> <h2 class="accordion-header"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseModuleNotFound"> pip install sembra funzionare ma l'import del modulo fallisce </button> </h2> <div id="collapseModuleNotFound" class="accordion-collapse collapse" data-bs-parent="#pythonTroubleshootingAccordion"> <div class="accordion-body"> Nella maggior parte dei casi l'ambiente virtuale non è attivo: il pacchetto è stato installato a livello globale (o in un altro ambiente), mentre lo script viene eseguito con l'interprete di un ambiente diverso. Verificare che l'ambiente corretto sia attivo prima di lanciare lo script. </div> </div> </div> <div class="accordion-item"> <h2 class="accordion-header"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTypeErrorSelf"> Chiamare un metodo restituisce un TypeError sul numero di argomenti </button> </h2> <div id="collapseTypeErrorSelf" class="accordion-collapse collapse" data-bs-parent="#pythonTroubleshootingAccordion"> <div class="accordion-body"> È l'errore più comune per chi arriva da altri linguaggi: un metodo di istanza deve sempre avere <code>self</code> come primo parametro nella sua firma, perché Python lo passa automaticamente ogni volta che il metodo viene invocato tramite un'istanza. Dimenticarlo genera un errore sul numero di argomenti attesi. </div> </div> </div> </div>
+<h2 id="panoramica-dei-tipi-di-dato">Panoramica dei tipi di dato</h2>
+<p>Python è un linguaggio fortemente tipizzato: ogni valore ha un tipo ben definito, anche se la variabile che lo referenzia non viene mai dichiarata esplicitamente. Ecco una panoramica sintetica dei tipi fondamentali.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Categoria</th> <th class="fw-semibold">Tipo</th> <th class="fw-semibold">Mutabilità</th> <th class="fw-semibold">Descrizione</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Numerico</td> <td>int, float, complex</td> <td>Immutabile</td> <td>Interi a precisione arbitraria, numeri in virgola mobile, numeri complessi</td> </tr> <tr> <td class="fw-semibold">Booleano</td> <td>bool</td> <td>Immutabile</td> <td>True o False; tecnicamente una sottoclasse di int (True == 1, False == 0)</td> </tr> <tr> <td class="fw-semibold">Testuale</td> <td>str</td> <td>Immutabile</td> <td>Sequenze di caratteri Unicode</td> </tr> <tr> <td class="fw-semibold">Sequenza</td> <td>list, tuple, range</td> <td>list mutabile; tuple e range immutabili</td> <td>Collezioni ordinate di elementi</td> </tr> <tr> <td class="fw-semibold">Insieme</td> <td>set, frozenset</td> <td>set mutabile; frozenset immutabile</td> <td>Collezioni non ordinate, senza duplicati</td> </tr> <tr> <td class="fw-semibold">Mappa</td> <td>dict</td> <td>Mutabile</td> <td>Coppie chiave-valore</td> </tr> <tr> <td class="fw-semibold">Speciale</td> <td>NoneType</td> <td>—</td> <td>Rappresenta l'assenza di un valore (None)</td> </tr> <tr> <td class="fw-semibold">Chiamabile</td> <td>function, class</td> <td>—</td> <td>Funzioni, lambda e classi sono oggetti di prim'ordine, chiamabili con ()</td> </tr> </tbody> </table> </div>
+<h2 id="variabili-e-costanti">Variabili e costanti</h2>
+<p>In Python non si usano parole chiave per creare variabili o costanti (a differenza, ad esempio, di Java, dove si scriverebbe <code>String variabile = &quot;variabile&quot;;</code>). È possibile associare un nome a qualsiasi oggetto tramite l'operatore di assegnazione <code>=</code>, con la sintassi <code>&lt;nome&gt; = &lt;valore&gt;</code>.</p>
+<p>Una variabile può essere riassegnata più volte nel corso del programma, anche a oggetti di tipo diverso a ogni riassegnazione:</p>
+<pre><code class="language-python">mia_variabile = 1
+mia_variabile = 2
+print(mia_variabile)
+print(type(mia_variabile))
+</code></pre>
+<p>Le costanti sono invece nomi pensati per essere assegnati una sola volta. Per convenzione si dichiarano a livello di modulo, così da risultare visibili a tutte le funzioni e classi del programma, e si scrivono in SCREAMING_SNAKE_CASE:</p>
+<pre><code class="language-python">MIA_COSTANTE = &quot;Stringa immutabile&quot;
+print(MIA_COSTANTE)
+print(type(MIA_COSTANTE))
+</code></pre>
+<p>Va precisato che si tratta di una convenzione, non di un vincolo imposto dal linguaggio: Python non offre un meccanismo nativo per impedire la riassegnazione di un nome scritto in maiuscolo. È qui utile richiamare il concetto di <strong>scope</strong> (ambito di visibilità): la regione di codice in cui una variabile, funzione o identificatore è accessibile e utilizzabile, ovvero &quot;dove&quot; quel nome ha significato all'interno del programma.</p>
+<p>Come da convenzione PEP 8, le variabili si scrivono sempre in snake_case e le costanti in SCREAMING_SNAKE_CASE.</p>
+<h2 id="funzioni-procedure-e-metodi">Funzioni, procedure e metodi</h2>
+<p>Una funzione è un blocco di codice riutilizzabile che compie un compito specifico, evitando di ripetere lo stesso codice più volte in modo lineare. Anche le funzioni, in Python, sono oggetti: possono essere assegnate a una variabile, passate come argomento ad altre funzioni, restituite come valore di ritorno (callback) o memorizzate in strutture dati come liste o dizionari. È il concetto di <strong>funzioni di primo ordine (first-class citizen)</strong>: le funzioni godono dello stesso status di qualsiasi altro valore del linguaggio, un requisito fondamentale per abilitare paradigmi come la programmazione funzionale, che fa uso massiccio di funzioni come <code>map</code> o <code>filter</code>.</p>
+<p>In gergo, le funzioni che restituiscono un valore vengono chiamate semplicemente funzioni, mentre quelle che non restituiscono nulla sono dette procedure. Le funzioni legate a una classe si chiamano invece metodi. Funzioni e metodi possono essere raggruppati in file o moduli e importati, integralmente o in parte, in altri programmi.</p>
+<blockquote>
+<p>In Python, anche le procedure restituiscono implicitamente l'oggetto <code>None</code> quando l'esecuzione giunge alla fine della funzione o incontra un <code>return</code> senza argomenti.</p>
+</blockquote>
+<p>La parola chiave <code>def</code> introduce la definizione, seguita dal nome della funzione, dai due punti e dall'eventuale elenco di parametri e corpo della funzione: <code>def &lt;nome_funzione&gt;(...):</code>.</p>
+<pre><code class="language-python">def somma(a, b):
+    totale = a + b
+    print(totale)
+    return
+<p>somma(1, 1)<br>
+</code></pre></p>
+<p>Questo è un esempio di <strong>procedura</strong>: non restituisce alcun valore esplicito. La versione seguente, invece, è una vera <strong>funzione</strong>, perché restituisce esplicitamente il risultato tramite la parola chiave <code>return</code>:</p>
+<pre><code class="language-python">def somma(a, b):
+    totale = a + b
+    return totale
+<p>print(somma(1, 1))<br>
+</code></pre></p>
+<p>Quando la stessa logica è legata a una classe, si parla di <strong>metodo</strong>. È importante ricordare che un metodo di istanza deve sempre includere <code>self</code> come primo parametro: Python lo passa automaticamente ogni volta che il metodo è invocato tramite un'istanza.</p>
+<pre><code class="language-python">class Calcolatrice:
+    def somma(self, a, b):
+        return a + b
+<p>calcolatrice = Calcolatrice()<br>
+totale = calcolatrice.somma(1, 1)<br>
+print(totale)<br>
+</code></pre></p>
+<p>Il significato pieno di questo esempio richiede i concetti di programmazione a oggetti, che verranno approfonditi in un articolo successivo del corso; per ora basta osservare come si definisca e si invochi il metodo <code>somma</code>. Le funzioni si invocano tramite il proprio nome seguito da <code>()</code>; la notazione a punto (<code>.</code>) si usa invece per chiamare funzioni definite all'interno di una classe o di un modulo, anche non definiti da noi:</p>
+<pre><code class="language-python">testo = &quot;Questa è una stringa di prova.&quot;
+testo.upper() # Risultato: QUESTA È UNA STRINGA DI PROVA.
+</code></pre>
+<h3 id="un-accenno-alle-classi-come-placeholder">Un accenno alle classi come placeholder</h3>
+<p>In Python il corpo di un blocco indentato (funzione, classe, ciclo) non può mai essere vuoto: se non c'è ancora logica da inserire, si usa la parola chiave <code>pass</code> come segnaposto sintattico:</p>
+<pre><code class="language-python">class Calcolatrice:
+    pass
+<p>calc = Calcolatrice()<br>
+</code></pre></p>
+<h2 id="commenti-e-docstring">Commenti e docstring</h2>
+<p>I commenti in Python iniziano sempre con <code>#</code>. A differenza di molti altri linguaggi, Python non prevede una sintassi dedicata ai commenti multi-riga: ogni riga di un blocco di commento deve iniziare con <code>#</code>. I commenti vengono completamente ignorati dall'interprete.</p>
+<p>La prima istruzione del corpo di una funzione, di un metodo o di una classe può facoltativamente essere una <strong>docstring</strong>, dichiarata con tre apici doppi (<code>&quot;&quot;&quot;</code>) allineati allo stesso livello di indentazione del blocco:</p>
+<pre><code class="language-python">def somma(a, b):
+    &quot;&quot;&quot;Calcola la somma di due numeri.
+<pre><code>Args:
+    a (int | float): Il primo addendo.
+    b (int | float): Il secondo addendo.
+
+Returns:
+    int | float: La somma di a e b.
+&amp;quot;&amp;quot;&amp;quot;
+return a + b
+</code></pre>
+<p></code></pre></p>
+<p>Essendo Python un linguaggio fortemente tipizzato, è preferibile evitare di ripetere il tipo nella docstring: conviene dichiararlo nella <strong>firma</strong> della funzione, ovvero nell'insieme di informazioni che ne descrivono nome e utilizzo senza dover leggere il corpo o l'implementazione. Per molti sviluppatori è l'approccio più pulito, perché evita duplicazione tra annotazioni di tipo e documentazione.</p>
+<p>La firma diventa quindi:</p>
+<pre><code class="language-python">def somma(a: int | float, b: int | float) -&gt; int | float:
+</code></pre>
+<p>Il simbolo <code>-&gt;</code> prima dei due punti indica all'interprete (e agli strumenti di analisi statica) che la funzione restituisce un intero o un numero in virgola mobile; entrambi i parametri accettano indifferentemente uno dei due tipi. La funzione completa, con docstring semplificata, diventa:</p>
+<pre><code class="language-python">def somma(a: int | float, b: int | float) -&gt; int | float:
+    &quot;&quot;&quot;Calcola la somma di due numeri.&quot;&quot;&quot;
+    return a + b
+</code></pre>
+<p>Le docstring vengono lette da strumenti di documentazione automatizzati e possono essere recuperate a runtime tramite l'attributo speciale <code>.__doc__</code>, richiamabile sul nome della funzione, del metodo o della classe. Il loro utilizzo è consigliato per programmi di qualsiasi dimensione in cui sia necessaria documentazione; le relative convenzioni di stile sono definite nella PEP 257, così come le convenzioni generali di stile del codice sono definite nella PEP 8.</p>
+<p>Le docstring possono anche fungere da test unitari leggeri (<strong>doctest</strong>), eseguibili sia tramite PyTest sia importando il modulo <code>doctest</code> della libreria standard, un argomento che verrà approfondito in un articolo dedicato al testing.</p>
+<h2 id="come-proseguira-il-modulo">Come proseguirà il modulo</h2>
+<p>Questo primo articolo introduce Python seguendo una visione volutamente parziale e procedurale del linguaggio, utile per fissare i concetti di base (variabili, funzioni, commenti, docstring) senza richiedere ancora nozioni di programmazione a oggetti. I prossimi passi del percorso saranno:</p>
+<ul>
+<li>la <strong>programmazione a oggetti in Python</strong>, che richiede la conoscenza dei concetti fondamentali della POO;</li>
+<li>le <strong>tecniche avanzate di programmazione</strong> in Python, una volta consolidate le basi procedurali e a oggetti.</li>
+</ul>
+<p>Per chi desidera approfondire da subito, restano utili riferimenti come il tutorial ufficiale su <a href="https://docs.python.org/3/tutorial/index.html" target="_blank" rel="noopener noreferer">https://docs.python.org/3/tutorial/index.html</a> e la guida introduttiva su <a href="https://www.python.org/about/gettingstarted/" target="_blank" rel="noopener noreferer">https://www.python.org/about/gettingstarted/</a>, oltre alle convenzioni di stile definite in PEP 8 (<a href="https://peps.python.org/pep-0008/" target="_blank" rel="noopener noreferer">https://peps.python.org/pep-0008/</a>) e PEP 257 (<a href="https://peps.python.org/pep-0257/" target="_blank" rel="noopener noreferer">https://peps.python.org/pep-0257/</a>).</p>
+
+      </section>
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout" style="padding: 24px 0; margin-top: 32px; border-top: 1px solid var(--border-subtle);">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/python/" class="badge badge-outline">python</a>
+              
+            
+              
+              
+              <a href="/tags/programmazione/" class="badge badge-outline">programmazione</a>
+              
+            
+              
+              
+              <a href="/tags/type-hinting/" class="badge badge-outline">type hinting</a>
+              
+            
+              
+              
+              <a href="/tags/ambienti-virtuali/" class="badge badge-outline">ambienti virtuali</a>
+              
+            
+              
+              
+              <a href="/tags/architettura-software/" class="badge badge-outline">architettura software</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center" style="margin-left: auto;">
+          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--on-surface-variant);">Condividi</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fintroduzione-a-python%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">IN</a>
+          <a href="https://twitter.com/intent/tweet?text=Introduzione%20a%20Python&url=https://dino-996.github.io%2Fblog%2Fintroduzione-a-python%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div style="min-width: 0; max-width: calc(50% - 4px); flex: 1 1 auto;">
+          
+        </div>
+        <div style="min-width: 0; max-width: calc(50% - 4px); text-align: right; flex: 1 1 auto;">
+          
+          <a href="/blog/guida-gdpr-regolamento/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Successivo →</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;"> Regolamento UE 2016/679 (GDPR)</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Comments -->
+    <h2 class="post-layout" style="font-size: 1.25rem; margin-top: 48px; margin-bottom: 0;">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

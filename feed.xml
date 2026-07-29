@@ -6,13 +6,184 @@
   <link href="https://dino-996.github.io/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://dino-996.github.io" rel="alternate" type="text/html"/>
   <id>https://dino-996.github.io/</id>
-  <updated>2026-07-27T00:00:00.000Z</updated>
+  <updated>2026-07-29T00:00:00.000Z</updated>
   <author>
     <name>Davide Sabia</name>
     <email>davidesabia22@gmail.com</email>
     <uri>https://dino-996.github.io</uri>
   </author>
 
+  
+  <entry>
+    <title>Introduzione a Python</title>
+    <link href="https://dino-996.github.io/blog/introduzione-a-python/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/introduzione-a-python/</id>
+    <published>2026-07-29T00:00:00.000Z</published>
+    <updated>2026-07-29T00:00:00.000Z</updated>
+    
+    <summary>Guida introduttiva a Python: scopri la differenza tra compilazione e interpretazione, come usare pip e venv, i tipi di dato fondamentali e la sintassi delle funzioni.</summary>
+    
+    
+    <content type="html"><![CDATA[
+&lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+&lt;p&gt;Prima di addentrarci nella sintassi di Python è utile chiarire come un linguaggio di programmazione trasforma il codice sorgente (il codice così come lo scrive lo sviluppatore, prima di qualsiasi traduzione) in qualcosa che una macchina può eseguire. Esistono principalmente due strategie.&lt;/p&gt;
+&lt;p&gt;La prima è la &lt;strong&gt;compilazione&lt;/strong&gt;: un compilatore trasforma l&#39;intero codice sorgente in linguaggio macchina (codice oggetto o assembly) prima dell&#39;esecuzione, producendo un eseguibile. I vantaggi principali sono le elevate prestazioni a runtime e la possibilità di individuare molti errori già in fase di compilazione, prima ancora di eseguire il programma.&lt;/p&gt;
+&lt;p&gt;La seconda è l&#39;&lt;strong&gt;interpretazione&lt;/strong&gt;: un interprete esegue direttamente il codice sorgente a runtime, istruzione per istruzione. I vantaggi risiedono nella portabilità, nel debugging interattivo e nella flessibilità dinamica; lo svantaggio principale è un overhead di esecuzione più elevato rispetto al codice compilato.&lt;/p&gt;
+&lt;p&gt;Esistono anche forme ibride, come la compilazione &lt;strong&gt;JIT (Just-In-Time)&lt;/strong&gt;: il codice sorgente viene prima tradotto in bytecode, un formato intermedio che non è eseguibile direttamente dalla CPU (a differenza del codice prodotto da una compilazione classica). Una macchina virtuale carica questo bytecode e lo esegue: inizialmente lo interpreta, per garantire un avvio rapido, salvo poi compilare a runtime, in codice macchina nativo, le porzioni di codice identificate come più critiche per le prestazioni durante l&#39;esecuzione stessa.&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Approccio&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Quando avviene la traduzione&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Punto di forza principale&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Limite principale&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Compilazione&lt;/td&gt; &lt;td&gt;Prima dell&#39;esecuzione, una tantum&lt;/td&gt; &lt;td&gt;Prestazioni elevate, errori rilevati in anticipo&lt;/td&gt; &lt;td&gt;Meno portabilità, ciclo di build più lento&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Interpretazione&lt;/td&gt; &lt;td&gt;A runtime, istruzione per istruzione&lt;/td&gt; &lt;td&gt;Portabilità, debugging interattivo&lt;/td&gt; &lt;td&gt;Overhead di esecuzione&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;JIT&lt;/td&gt; &lt;td&gt;A runtime, su bytecode intermedio&lt;/td&gt; &lt;td&gt;Avvio rapido con prestazioni che migliorano nel tempo&lt;/td&gt; &lt;td&gt;Complessità implementativa della VM&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
+&lt;h2 id=&quot;dove-si-colloca-python&quot;&gt;Dove si colloca Python&lt;/h2&gt;
+&lt;p&gt;Python è un linguaggio di programmazione &lt;strong&gt;interpretato&lt;/strong&gt;, &lt;strong&gt;dinamico&lt;/strong&gt; e &lt;strong&gt;fortemente tipizzato&lt;/strong&gt;, che adotta sia il &lt;em&gt;duck typing&lt;/em&gt; sia il &lt;em&gt;gradual typing&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;Il &lt;strong&gt;duck typing&lt;/strong&gt; è uno stile di tipizzazione dinamica in cui la validità di un oggetto è determinata dai metodi e dagli attributi che espone a runtime, piuttosto che dalla sua classe o dal tipo dichiarato. Il nome deriva dal detto &amp;quot;se cammina come un&#39;anatra e starnazza come un&#39;anatra, allora è un&#39;anatra&amp;quot;: non conta cosa un oggetto dichiara di essere, ma cosa è in grado di fare. Python e JavaScript adottano questo approccio: se un oggetto espone un metodo &lt;code&gt;.quack()&lt;/code&gt;, può essere usato ovunque sia richiesta un&#39;anatra, indipendentemente dalla gerarchia di classi a cui appartiene.&lt;/p&gt;
+&lt;p&gt;Il &lt;strong&gt;gradual typing&lt;/strong&gt; è invece un sistema di tipi che permette di mescolare codice tipizzato staticamente e codice tipizzato dinamicamente all&#39;interno dello stesso programma, introducendo un tipo speciale (spesso chiamato &lt;code&gt;Any&lt;/code&gt; o &lt;code&gt;dynamic&lt;/code&gt;, come &lt;code&gt;any&lt;/code&gt; in TypeScript) che funge da &amp;quot;ponte&amp;quot; tra le due modalità: il type checker tratta questo tipo come compatibile con qualunque altro, sospendendo il controllo statico in quel punto specifico del codice. Questo approccio è particolarmente utile per l&#39;adozione incrementale della tipizzazione statica in progetti nati come dinamici: è, ad esempio, il principio alla base della migrazione di codebase JavaScript verso TypeScript, dove è possibile tipizzare i moduli gradualmente senza dover riscrivere tutto in un&#39;unica soluzione. In Python lo stesso principio si applica tramite le annotazioni di tipo (introdotte con le &lt;em&gt;type hint&lt;/em&gt;), verificabili staticamente con strumenti come mypy pur restando facoltative a runtime.&lt;/p&gt;
+&lt;div class=&quot;alert alert-info d-flex&quot; role=&quot;alert&quot;&gt; &lt;div class=&quot;me-3&quot;&gt; &lt;svg class=&quot;bi flex-shrink-0&quot; width=&quot;24&quot; height=&quot;24&quot; role=&quot;img&quot; aria-label=&quot;Nota:&quot;&gt; &lt;use xlink:href=&quot;#info-fill&quot;/&gt; &lt;/svg&gt; &lt;/div&gt; &lt;div&gt; &lt;strong&gt;Nota:&lt;/strong&gt; le annotazioni di tipo in Python non vengono verificate dall&#39;interprete a runtime: servono a strumenti esterni (type checker, IDE) e alla documentazione del codice. È un dettaglio da tenere presente arrivando da linguaggi a tipizzazione statica come TypeScript. &lt;/div&gt; &lt;/div&gt;
+&lt;p&gt;Python supporta tutti gli stili di programmazione: imperativo, dichiarativo (ad esempio funzionale) e orientato agli oggetti, ma internamente tutto in Python è un oggetto. Il linguaggio pone una forte enfasi sulla leggibilità del codice, utilizzando un&#39;indentazione significativa per delimitare le definizioni di funzioni, metodi e classi al posto delle parentesi graffe.&lt;/p&gt;
+&lt;h2 id=&quot;breve-storia-e-versioni&quot;&gt;Breve storia e versioni&lt;/h2&gt;
+&lt;p&gt;Python è stato ideato alla fine degli anni &#39;80 da Guido van Rossum, che ne ha supervisionato personalmente lo sviluppo per molti anni, e rilasciato pubblicamente per la prima volta nel 1991. Il nome non ha nulla a che vedere con il rettile: deriva dal gruppo comico britannico Monty Python, di cui van Rossum era appassionato. Il linguaggio è oggi gestito, come progetto open source, dalla Python Software Foundation, che riceve proposte di modifica dalla comunità attraverso le &lt;strong&gt;Python Enhancement Proposal (PEP)&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Le tappe principali della sua evoluzione sono:&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Versione&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Anno&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Nota&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Python 1.x&lt;/td&gt; &lt;td&gt;1991&lt;/td&gt; &lt;td&gt;Prima versione pubblica&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Python 2&lt;/td&gt; &lt;td&gt;2000&lt;/td&gt; &lt;td&gt;Ampiamente diffuso, oggi a fine vita&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Python 3&lt;/td&gt; &lt;td&gt;2008&lt;/td&gt; &lt;td&gt;Versione di riferimento attuale, non retrocompatibile con Python 2&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt; &lt;div class=&quot;alert alert-warning d-flex&quot; role=&quot;alert&quot;&gt; &lt;div class=&quot;me-3&quot;&gt; &lt;svg class=&quot;bi flex-shrink-0&quot; width=&quot;24&quot; height=&quot;24&quot; role=&quot;img&quot; aria-label=&quot;Attenzione:&quot;&gt; &lt;use xlink:href=&quot;#exclamation-triangle-fill&quot;/&gt; &lt;/svg&gt; &lt;/div&gt; &lt;div&gt; &lt;strong&gt;Attenzione:&lt;/strong&gt; Python 3 non è retrocompatibile con Python 2. Codice scritto per una versione non è garantito funzionare sull&#39;altra senza modifiche. Nella serie 3.x lo sviluppo prosegue con rilasci regolari; al momento in cui scriviamo, la linea più recente è la 3.14, mentre la 3.13 resta comunque in manutenzione attiva fino alla fine del 2029. &lt;/div&gt; &lt;/div&gt;
+&lt;p&gt;Per quanto riguarda le implementazioni, &lt;strong&gt;CPython&lt;/strong&gt; è quella di riferimento: scritta in C, è l&#39;implementazione ufficiale adottata dalla maggior parte degli ambienti di sviluppo. Il codice Python viene interpretato sotto forma di bytecode per una macchina virtuale interna. Esistono però implementazioni alternative, come &lt;strong&gt;Jython&lt;/strong&gt;, che genera bytecode eseguibile sulla JVM, permettendo l&#39;interoperabilità con l&#39;ecosistema Java.&lt;/p&gt;
+&lt;h2 id=&quot;caratteristiche-del-linguaggio&quot;&gt;Caratteristiche del linguaggio&lt;/h2&gt;
+&lt;p&gt;Python si definisce spesso &amp;quot;multi-paradigma&amp;quot;: consente di scrivere codice procedurale/di scripting così come codice orientato agli oggetti, spesso combinando i due stili nello stesso progetto.&lt;/p&gt;
+&lt;p&gt;È un linguaggio &lt;strong&gt;interpretato&lt;/strong&gt;: il codice non viene compilato in un eseguibile separato ed esiste un ambiente interattivo (la REPL) in cui è possibile eseguire istruzioni una per una e osservarne subito il risultato.&lt;/p&gt;
+&lt;p&gt;È inoltre un linguaggio &lt;strong&gt;&amp;quot;batteries-included&amp;quot;&lt;/strong&gt;: la libreria standard è estremamente ampia e copre la maggior parte delle esigenze comuni (gestione di file, rete, strutture dati, ecc.), risultando comunque facilmente estensibile tramite pacchetti di terze parti.&lt;/p&gt;
+&lt;p&gt;Sul fronte della tipizzazione, le variabili si usano senza dichiararle esplicitamente e possono cambiare il tipo di oggetto a cui fanno riferimento nel corso dell&#39;esecuzione, è questo il significato di &amp;quot;dinamicamente tipizzato&amp;quot;. La sintassi, infine, è volutamente compatta e non appartiene alla famiglia sintattica del C: l&#39;indentazione stessa indica la nidificazione dei blocchi di codice, al posto delle parentesi graffe.&lt;/p&gt;
+&lt;p&gt;Queste caratteristiche hanno reso Python particolarmente popolare per la prototipazione rapida, e in particolare per applicazioni di &lt;em&gt;data analytics&lt;/em&gt;, che richiedono l&#39;esplorazione, la trasformazione e l&#39;integrazione di dati provenienti da sorgenti diverse, oltre allo sviluppo di modelli di analisi.&lt;/p&gt;
+&lt;h2 id=&quot;installazione-e-gestione-dellambiente&quot;&gt;Installazione e gestione dell&#39;ambiente&lt;/h2&gt;
+&lt;p&gt;Python è preinstallato nella maggior parte degli ambienti operativi moderni; il comando tipico per invocarlo è &lt;code&gt;python3&lt;/code&gt; (su Windows spesso &lt;code&gt;python3.exe&lt;/code&gt;). Dove non fosse già presente, l&#39;installazione può avvenire tramite i package manager di sistema (ad esempio Homebrew su macOS o Chocolatey su Windows).&lt;/p&gt;
+&lt;p&gt;Uno script Python è tipicamente contenuto in un file con estensione &lt;code&gt;.py&lt;/code&gt; (ad esempio &lt;code&gt;primo.py&lt;/code&gt;) ed eseguito con &lt;code&gt;python3 primo.py&lt;/code&gt;. In alternativa, lanciando &lt;code&gt;python&lt;/code&gt; senza argomenti si accede alla modalità interattiva: un prompt di comandi in cui è possibile eseguire le istruzioni una per una. In questa modalità esiste una variabile implicita, denominata &lt;code&gt;_&lt;/code&gt;, che mantiene automaticamente il risultato dell&#39;ultima operazione eseguita; per uscire si utilizza &lt;code&gt;quit()&lt;/code&gt; oppure la combinazione &lt;code&gt;ctrl-d&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;il-package-manager-pip&quot;&gt;Il package manager pip&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;pip&lt;/strong&gt; è il package manager ufficiale di Python: gestisce l&#39;installazione di pacchetti prelevandoli dal Python Package Index, disponibile all&#39;indirizzo &lt;a href=&quot;https://pypi.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://pypi.org/&lt;/a&gt;. Il comando tipico è &lt;code&gt;pip&lt;/code&gt; o &lt;code&gt;pip3&lt;/code&gt;. Per lo sviluppo di base pip è raramente indispensabile, perché la libreria standard di Python è già molto ampia (in questo Python è simile a Java).&lt;/p&gt;
+&lt;p&gt;Concretamente, pip cerca il pacchetto richiesto sul Python Package Index, ne scarica l&#39;archivio (tipicamente in formato &lt;code&gt;.tar.gz&lt;/code&gt; o &lt;code&gt;.whl&lt;/code&gt;), ne risolve le dipendenze dichiarate e infine lo installa nella directory dei pacchetti dell&#39;ambiente Python attivo. Per ispezionare dove un pacchetto è stato installato si può usare &lt;code&gt;pip show &amp;lt;nome_pacchetto&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&quot;alert alert-danger d-flex&quot; role=&quot;alert&quot;&gt; &lt;div class=&quot;me-3&quot;&gt; &lt;svg class=&quot;bi flex-shrink-0&quot; width=&quot;24&quot; height=&quot;24&quot; role=&quot;img&quot; aria-label=&quot;Rischio:&quot;&gt; &lt;use xlink:href=&quot;#exclamation-triangle-fill&quot;/&gt; &lt;/svg&gt; &lt;/div&gt; &lt;div&gt; &lt;strong&gt;Rischio:&lt;/strong&gt; senza un ambiente dedicato, i pacchetti installati con pip finiscono a livello globale: tutte le esecuzioni di Python sulla macchina condivideranno le stesse dipendenze, con il rischio concreto di conflitti di versione tra progetti diversi. &lt;/div&gt; &lt;/div&gt;
+&lt;h3 id=&quot;ambienti-virtuali-con-venv&quot;&gt;Ambienti virtuali con venv&lt;/h3&gt;
+&lt;p&gt;La buona prassi è dare a ogni progetto le proprie dipendenze isolate e, idealmente, anche la propria versione di Python. Lo strumento standard per farlo è &lt;strong&gt;venv&lt;/strong&gt;, incluso nella libreria standard a partire da Python 3.3 e che non richiede alcuna installazione aggiuntiva. Per esigenze più avanzate, o per progetti ancora su Python 2, restano disponibili alternative come virtualenv o Anaconda.&lt;/p&gt;
+&lt;p&gt;L&#39;uso tipico prevede due passaggi: la creazione dell&#39;ambiente e la sua attivazione, che varia in base al sistema operativo.&lt;/p&gt;
+&lt;ul class=&quot;nav nav-tabs&quot; role=&quot;tablist&quot;&gt; &lt;li class=&quot;nav-item&quot;&gt;&lt;button class=&quot;nav-link active&quot; data-bs-toggle=&quot;tab&quot; data-bs-target=&quot;#venv-windows&quot;&gt;Windows&lt;/button&gt;&lt;/li&gt; &lt;li class=&quot;nav-item&quot;&gt;&lt;button class=&quot;nav-link&quot; data-bs-toggle=&quot;tab&quot; data-bs-target=&quot;#venv-unix&quot;&gt;macOS / Linux&lt;/button&gt;&lt;/li&gt; &lt;/ul&gt; &lt;div class=&quot;tab-content border border-top-0 p-3&quot;&gt; &lt;div class=&quot;tab-pane fade show active&quot; id=&quot;venv-windows&quot;&gt; python3 -m venv nome_ambiente nome_ambiente&#92;Scripts&#92;activate.bat &lt;/div&gt; &lt;div class=&quot;tab-pane fade&quot; id=&quot;venv-unix&quot;&gt; python3 -m venv nome_ambiente source nome_ambiente/bin/activate &lt;/div&gt; &lt;/div&gt;
+&lt;p&gt;Una volta attivato l&#39;ambiente, tutti i pacchetti installati con pip vengono collocati nella cartella locale &lt;code&gt;nome_ambiente&lt;/code&gt;, senza toccare l&#39;installazione globale di Python. Per uscire dall&#39;ambiente virtuale è sufficiente il comando &lt;code&gt;deactivate&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&quot;accordion&quot; id=&quot;pythonTroubleshootingAccordion&quot;&gt; &lt;div class=&quot;accordion-item&quot;&gt; &lt;h2 class=&quot;accordion-header&quot;&gt; &lt;button class=&quot;accordion-button collapsed&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#collapseModuleNotFound&quot;&gt; pip install sembra funzionare ma l&#39;import del modulo fallisce &lt;/button&gt; &lt;/h2&gt; &lt;div id=&quot;collapseModuleNotFound&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#pythonTroubleshootingAccordion&quot;&gt; &lt;div class=&quot;accordion-body&quot;&gt; Nella maggior parte dei casi l&#39;ambiente virtuale non è attivo: il pacchetto è stato installato a livello globale (o in un altro ambiente), mentre lo script viene eseguito con l&#39;interprete di un ambiente diverso. Verificare che l&#39;ambiente corretto sia attivo prima di lanciare lo script. &lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;accordion-item&quot;&gt; &lt;h2 class=&quot;accordion-header&quot;&gt; &lt;button class=&quot;accordion-button collapsed&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#collapseTypeErrorSelf&quot;&gt; Chiamare un metodo restituisce un TypeError sul numero di argomenti &lt;/button&gt; &lt;/h2&gt; &lt;div id=&quot;collapseTypeErrorSelf&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#pythonTroubleshootingAccordion&quot;&gt; &lt;div class=&quot;accordion-body&quot;&gt; È l&#39;errore più comune per chi arriva da altri linguaggi: un metodo di istanza deve sempre avere &lt;code&gt;self&lt;/code&gt; come primo parametro nella sua firma, perché Python lo passa automaticamente ogni volta che il metodo viene invocato tramite un&#39;istanza. Dimenticarlo genera un errore sul numero di argomenti attesi. &lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;/div&gt;
+&lt;h2 id=&quot;panoramica-dei-tipi-di-dato&quot;&gt;Panoramica dei tipi di dato&lt;/h2&gt;
+&lt;p&gt;Python è un linguaggio fortemente tipizzato: ogni valore ha un tipo ben definito, anche se la variabile che lo referenzia non viene mai dichiarata esplicitamente. Ecco una panoramica sintetica dei tipi fondamentali.&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Categoria&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Tipo&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Mutabilità&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Descrizione&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Numerico&lt;/td&gt; &lt;td&gt;int, float, complex&lt;/td&gt; &lt;td&gt;Immutabile&lt;/td&gt; &lt;td&gt;Interi a precisione arbitraria, numeri in virgola mobile, numeri complessi&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Booleano&lt;/td&gt; &lt;td&gt;bool&lt;/td&gt; &lt;td&gt;Immutabile&lt;/td&gt; &lt;td&gt;True o False; tecnicamente una sottoclasse di int (True == 1, False == 0)&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Testuale&lt;/td&gt; &lt;td&gt;str&lt;/td&gt; &lt;td&gt;Immutabile&lt;/td&gt; &lt;td&gt;Sequenze di caratteri Unicode&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Sequenza&lt;/td&gt; &lt;td&gt;list, tuple, range&lt;/td&gt; &lt;td&gt;list mutabile; tuple e range immutabili&lt;/td&gt; &lt;td&gt;Collezioni ordinate di elementi&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Insieme&lt;/td&gt; &lt;td&gt;set, frozenset&lt;/td&gt; &lt;td&gt;set mutabile; frozenset immutabile&lt;/td&gt; &lt;td&gt;Collezioni non ordinate, senza duplicati&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Mappa&lt;/td&gt; &lt;td&gt;dict&lt;/td&gt; &lt;td&gt;Mutabile&lt;/td&gt; &lt;td&gt;Coppie chiave-valore&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Speciale&lt;/td&gt; &lt;td&gt;NoneType&lt;/td&gt; &lt;td&gt;—&lt;/td&gt; &lt;td&gt;Rappresenta l&#39;assenza di un valore (None)&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Chiamabile&lt;/td&gt; &lt;td&gt;function, class&lt;/td&gt; &lt;td&gt;—&lt;/td&gt; &lt;td&gt;Funzioni, lambda e classi sono oggetti di prim&#39;ordine, chiamabili con ()&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
+&lt;h2 id=&quot;variabili-e-costanti&quot;&gt;Variabili e costanti&lt;/h2&gt;
+&lt;p&gt;In Python non si usano parole chiave per creare variabili o costanti (a differenza, ad esempio, di Java, dove si scriverebbe &lt;code&gt;String variabile = &amp;quot;variabile&amp;quot;;&lt;/code&gt;). È possibile associare un nome a qualsiasi oggetto tramite l&#39;operatore di assegnazione &lt;code&gt;=&lt;/code&gt;, con la sintassi &lt;code&gt;&amp;lt;nome&amp;gt; = &amp;lt;valore&amp;gt;&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Una variabile può essere riassegnata più volte nel corso del programma, anche a oggetti di tipo diverso a ogni riassegnazione:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;mia_variabile = 1
+mia_variabile = 2
+print(mia_variabile)
+print(type(mia_variabile))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le costanti sono invece nomi pensati per essere assegnati una sola volta. Per convenzione si dichiarano a livello di modulo, così da risultare visibili a tutte le funzioni e classi del programma, e si scrivono in SCREAMING_SNAKE_CASE:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;MIA_COSTANTE = &amp;quot;Stringa immutabile&amp;quot;
+print(MIA_COSTANTE)
+print(type(MIA_COSTANTE))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Va precisato che si tratta di una convenzione, non di un vincolo imposto dal linguaggio: Python non offre un meccanismo nativo per impedire la riassegnazione di un nome scritto in maiuscolo. È qui utile richiamare il concetto di &lt;strong&gt;scope&lt;/strong&gt; (ambito di visibilità): la regione di codice in cui una variabile, funzione o identificatore è accessibile e utilizzabile, ovvero &amp;quot;dove&amp;quot; quel nome ha significato all&#39;interno del programma.&lt;/p&gt;
+&lt;p&gt;Come da convenzione PEP 8, le variabili si scrivono sempre in snake_case e le costanti in SCREAMING_SNAKE_CASE.&lt;/p&gt;
+&lt;h2 id=&quot;funzioni-procedure-e-metodi&quot;&gt;Funzioni, procedure e metodi&lt;/h2&gt;
+&lt;p&gt;Una funzione è un blocco di codice riutilizzabile che compie un compito specifico, evitando di ripetere lo stesso codice più volte in modo lineare. Anche le funzioni, in Python, sono oggetti: possono essere assegnate a una variabile, passate come argomento ad altre funzioni, restituite come valore di ritorno (callback) o memorizzate in strutture dati come liste o dizionari. È il concetto di &lt;strong&gt;funzioni di primo ordine (first-class citizen)&lt;/strong&gt;: le funzioni godono dello stesso status di qualsiasi altro valore del linguaggio, un requisito fondamentale per abilitare paradigmi come la programmazione funzionale, che fa uso massiccio di funzioni come &lt;code&gt;map&lt;/code&gt; o &lt;code&gt;filter&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;In gergo, le funzioni che restituiscono un valore vengono chiamate semplicemente funzioni, mentre quelle che non restituiscono nulla sono dette procedure. Le funzioni legate a una classe si chiamano invece metodi. Funzioni e metodi possono essere raggruppati in file o moduli e importati, integralmente o in parte, in altri programmi.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In Python, anche le procedure restituiscono implicitamente l&#39;oggetto &lt;code&gt;None&lt;/code&gt; quando l&#39;esecuzione giunge alla fine della funzione o incontra un &lt;code&gt;return&lt;/code&gt; senza argomenti.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;La parola chiave &lt;code&gt;def&lt;/code&gt; introduce la definizione, seguita dal nome della funzione, dai due punti e dall&#39;eventuale elenco di parametri e corpo della funzione: &lt;code&gt;def &amp;lt;nome_funzione&amp;gt;(...):&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def somma(a, b):
+    totale = a + b
+    print(totale)
+    return
+
+somma(1, 1)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Questo è un esempio di &lt;strong&gt;procedura&lt;/strong&gt;: non restituisce alcun valore esplicito. La versione seguente, invece, è una vera &lt;strong&gt;funzione&lt;/strong&gt;, perché restituisce esplicitamente il risultato tramite la parola chiave &lt;code&gt;return&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def somma(a, b):
+    totale = a + b
+    return totale
+
+print(somma(1, 1))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Quando la stessa logica è legata a una classe, si parla di &lt;strong&gt;metodo&lt;/strong&gt;. È importante ricordare che un metodo di istanza deve sempre includere &lt;code&gt;self&lt;/code&gt; come primo parametro: Python lo passa automaticamente ogni volta che il metodo è invocato tramite un&#39;istanza.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;class Calcolatrice:
+    def somma(self, a, b):
+        return a + b
+
+calcolatrice = Calcolatrice()
+totale = calcolatrice.somma(1, 1)
+print(totale)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il significato pieno di questo esempio richiede i concetti di programmazione a oggetti, che verranno approfonditi in un articolo successivo del corso; per ora basta osservare come si definisca e si invochi il metodo &lt;code&gt;somma&lt;/code&gt;. Le funzioni si invocano tramite il proprio nome seguito da &lt;code&gt;()&lt;/code&gt;; la notazione a punto (&lt;code&gt;.&lt;/code&gt;) si usa invece per chiamare funzioni definite all&#39;interno di una classe o di un modulo, anche non definiti da noi:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;testo = &amp;quot;Questa è una stringa di prova.&amp;quot;
+testo.upper() # Risultato: QUESTA È UNA STRINGA DI PROVA.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;un-accenno-alle-classi-come-placeholder&quot;&gt;Un accenno alle classi come placeholder&lt;/h3&gt;
+&lt;p&gt;In Python il corpo di un blocco indentato (funzione, classe, ciclo) non può mai essere vuoto: se non c&#39;è ancora logica da inserire, si usa la parola chiave &lt;code&gt;pass&lt;/code&gt; come segnaposto sintattico:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;class Calcolatrice:
+    pass
+
+calc = Calcolatrice()
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;commenti-e-docstring&quot;&gt;Commenti e docstring&lt;/h2&gt;
+&lt;p&gt;I commenti in Python iniziano sempre con &lt;code&gt;#&lt;/code&gt;. A differenza di molti altri linguaggi, Python non prevede una sintassi dedicata ai commenti multi-riga: ogni riga di un blocco di commento deve iniziare con &lt;code&gt;#&lt;/code&gt;. I commenti vengono completamente ignorati dall&#39;interprete.&lt;/p&gt;
+&lt;p&gt;La prima istruzione del corpo di una funzione, di un metodo o di una classe può facoltativamente essere una &lt;strong&gt;docstring&lt;/strong&gt;, dichiarata con tre apici doppi (&lt;code&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/code&gt;) allineati allo stesso livello di indentazione del blocco:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def somma(a, b):
+    &amp;quot;&amp;quot;&amp;quot;Calcola la somma di due numeri.
+
+    Args:
+        a (int | float): Il primo addendo.
+        b (int | float): Il secondo addendo.
+
+    Returns:
+        int | float: La somma di a e b.
+    &amp;quot;&amp;quot;&amp;quot;
+    return a + b
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Essendo Python un linguaggio fortemente tipizzato, è preferibile evitare di ripetere il tipo nella docstring: conviene dichiararlo nella &lt;strong&gt;firma&lt;/strong&gt; della funzione, ovvero nell&#39;insieme di informazioni che ne descrivono nome e utilizzo senza dover leggere il corpo o l&#39;implementazione. Per molti sviluppatori è l&#39;approccio più pulito, perché evita duplicazione tra annotazioni di tipo e documentazione.&lt;/p&gt;
+&lt;p&gt;La firma diventa quindi:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def somma(a: int | float, b: int | float) -&amp;gt; int | float:
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il simbolo &lt;code&gt;-&amp;gt;&lt;/code&gt; prima dei due punti indica all&#39;interprete (e agli strumenti di analisi statica) che la funzione restituisce un intero o un numero in virgola mobile; entrambi i parametri accettano indifferentemente uno dei due tipi. La funzione completa, con docstring semplificata, diventa:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def somma(a: int | float, b: int | float) -&amp;gt; int | float:
+    &amp;quot;&amp;quot;&amp;quot;Calcola la somma di due numeri.&amp;quot;&amp;quot;&amp;quot;
+    return a + b
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le docstring vengono lette da strumenti di documentazione automatizzati e possono essere recuperate a runtime tramite l&#39;attributo speciale &lt;code&gt;.__doc__&lt;/code&gt;, richiamabile sul nome della funzione, del metodo o della classe. Il loro utilizzo è consigliato per programmi di qualsiasi dimensione in cui sia necessaria documentazione; le relative convenzioni di stile sono definite nella PEP 257, così come le convenzioni generali di stile del codice sono definite nella PEP 8.&lt;/p&gt;
+&lt;p&gt;Le docstring possono anche fungere da test unitari leggeri (&lt;strong&gt;doctest&lt;/strong&gt;), eseguibili sia tramite PyTest sia importando il modulo &lt;code&gt;doctest&lt;/code&gt; della libreria standard, un argomento che verrà approfondito in un articolo dedicato al testing.&lt;/p&gt;
+&lt;h2 id=&quot;come-proseguira-il-modulo&quot;&gt;Come proseguirà il modulo&lt;/h2&gt;
+&lt;p&gt;Questo primo articolo introduce Python seguendo una visione volutamente parziale e procedurale del linguaggio, utile per fissare i concetti di base (variabili, funzioni, commenti, docstring) senza richiedere ancora nozioni di programmazione a oggetti. I prossimi passi del percorso saranno:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;la &lt;strong&gt;programmazione a oggetti in Python&lt;/strong&gt;, che richiede la conoscenza dei concetti fondamentali della POO;&lt;/li&gt;
+&lt;li&gt;le &lt;strong&gt;tecniche avanzate di programmazione&lt;/strong&gt; in Python, una volta consolidate le basi procedurali e a oggetti.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Per chi desidera approfondire da subito, restano utili riferimenti come il tutorial ufficiale su &lt;a href=&quot;https://docs.python.org/3/tutorial/index.html&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://docs.python.org/3/tutorial/index.html&lt;/a&gt; e la guida introduttiva su &lt;a href=&quot;https://www.python.org/about/gettingstarted/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://www.python.org/about/gettingstarted/&lt;/a&gt;, oltre alle convenzioni di stile definite in PEP 8 (&lt;a href=&quot;https://peps.python.org/pep-0008/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://peps.python.org/pep-0008/&lt;/a&gt;) e PEP 257 (&lt;a href=&quot;https://peps.python.org/pep-0257/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://peps.python.org/pep-0257/&lt;/a&gt;).&lt;/p&gt;
+
+]]></content>
+    
+    
+    
+      
+      
+    <category term="python"/>
+      
+    
+      
+      
+    <category term="programmazione"/>
+      
+    
+      
+      
+    <category term="type hinting"/>
+      
+    
+      
+      
+    <category term="ambienti virtuali"/>
+      
+    
+      
+      
+    <category term="architettura software"/>
+      
+    
+  </entry>
   
   <entry>
     <title> Regolamento UE 2016/679 (GDPR)</title>
