@@ -154,5 +154,9 @@
   "Il GDPR": {
     "tldr": "Il GDPR ha radicalmente ridefinito la raccolta, conservazione e trattamento dei dati personali nell'UE, ponendo il diritto alla privacy come controllo individuale sulla diffusione delle proprie informazioni. Il concetto di privacy, radicato storicamente nel diritto alla \"riservatezza\" e all'autodeterminazione informativa, è ora un prerequisito tecnico essenziale per le operazioni di sviluppo software e gestione IT.",
     "hash": "23242"
+  },
+  "Introduzione a Python": {
+    "tldr": "Python, come linguaggio interpretato, esegue il codice sorgente a runtime istruzione per istruzione, offrendo portabilità e flessibilità. Adotta un approccio ibrido JIT, traducendo il codice in bytecode intermedio che viene poi ottimizzato a runtime per migliorare le prestazioni.",
+    "hash": "23653"
   }
 }

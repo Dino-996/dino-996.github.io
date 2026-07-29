@@ -6,6 +6,10 @@ layout: base.njk
   {% if image %}
     <link rel="preload" href="{{ image }}" as="image" fetchpriority="high">
   {% endif %}
+  <!-- Import Bootstrap CSS into a dedicated layer without resetting custom CSS -->
+  <style>
+    @import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css") layer(bootstrap-raw);
+  </style>
 {% endblock %}
 
 <div class="reading-progress-bar" id="reading-progress-bar"></div>
