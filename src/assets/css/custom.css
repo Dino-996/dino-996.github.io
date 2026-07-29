@@ -2,7 +2,6 @@
    Design System
    ======================================== */
 
-@layer bootstrap-raw, site;
 @import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,400;0,600;1,400&display=swap');
 
 /* ========================================
@@ -1007,7 +1006,7 @@ p { margin: 0 0 1em; line-height: 1.6; }
   aspect-ratio: 16/9;
   object-fit: cover;
   background: var(--surface-container-high);
-  border-radius: 14px;
+  border-radius: 0;
 }
 
 /* ========================================

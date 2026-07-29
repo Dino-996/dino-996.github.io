@@ -156,7 +156,7 @@
     "hash": "23242"
   },
   "Introduzione a Python": {
-    "tldr": "Python, come linguaggio interpretato, esegue il codice sorgente a runtime istruzione per istruzione, offrendo portabilità e flessibilità. Adotta un approccio ibrido JIT, traducendo il codice in bytecode intermedio che viene poi ottimizzato a runtime per migliorare le prestazioni.",
-    "hash": "23653"
+    "tldr": "I linguaggi di programmazione vengono eseguiti tramite compilazione, interpretazione o approcci JIT ibridi, ciascuno con compromessi distinti in termini di prestazioni, portabilità e flessibilità. Python è prevalentemente interpretato, utilizzando il duck typing per la sua tipizzazione dinamica flessibile.",
+    "hash": "23623"
   }
 }
