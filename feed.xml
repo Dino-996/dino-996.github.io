@@ -58,9 +58,20 @@
 &lt;h3 id=&quot;ambienti-virtuali-con-venv&quot;&gt;Ambienti virtuali con venv&lt;/h3&gt;
 &lt;p&gt;La buona prassi è dare a ogni progetto le proprie dipendenze isolate e, idealmente, anche la propria versione di Python. Lo strumento standard per farlo è &lt;strong&gt;venv&lt;/strong&gt;, incluso nella libreria standard a partire da Python 3.3 e che non richiede alcuna installazione aggiuntiva. Per esigenze più avanzate, o per progetti ancora su Python 2, restano disponibili alternative come virtualenv o Anaconda.&lt;/p&gt;
 &lt;p&gt;L&#39;uso tipico prevede due passaggi: la creazione dell&#39;ambiente e la sua attivazione, che varia in base al sistema operativo.&lt;/p&gt;
-&lt;ul class=&quot;nav nav-tabs&quot; role=&quot;tablist&quot;&gt; &lt;li class=&quot;nav-item&quot;&gt;&lt;button class=&quot;nav-link active&quot; data-bs-toggle=&quot;tab&quot; data-bs-target=&quot;#venv-windows&quot;&gt;Windows&lt;/button&gt;&lt;/li&gt; &lt;li class=&quot;nav-item&quot;&gt;&lt;button class=&quot;nav-link&quot; data-bs-toggle=&quot;tab&quot; data-bs-target=&quot;#venv-unix&quot;&gt;macOS / Linux&lt;/button&gt;&lt;/li&gt; &lt;/ul&gt; &lt;div class=&quot;tab-content border border-top-0 p-3&quot;&gt; &lt;div class=&quot;tab-pane fade show active&quot; id=&quot;venv-windows&quot;&gt; python3 -m venv nome_ambiente nome_ambiente&#92;Scripts&#92;activate.bat &lt;/div&gt; &lt;div class=&quot;tab-pane fade&quot; id=&quot;venv-unix&quot;&gt; python3 -m venv nome_ambiente source nome_ambiente/bin/activate &lt;/div&gt; &lt;/div&gt;
+&lt;h4 id=&quot;windows&quot;&gt;Windows&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;python3 -m venv nome_ambiente nome_ambiente&#92;Scripts&#92;activate.bat
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h4 id=&quot;macos-linux&quot;&gt;macOS / Linux&lt;/h4&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;python3 -m venv nome_ambiente source nome_ambiente/bin/activate
+&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Una volta attivato l&#39;ambiente, tutti i pacchetti installati con pip vengono collocati nella cartella locale nome_ambiente, senza toccare l&#39;installazione globale di Python. Per uscire dall&#39;ambiente virtuale è sufficiente il comando deactivate.&lt;/p&gt;
-&lt;div class=&quot;accordion&quot; id=&quot;pythonTroubleshootingAccordion&quot;&gt; &lt;div class=&quot;accordion-item&quot;&gt; &lt;h2 class=&quot;accordion-header&quot;&gt; &lt;button class=&quot;accordion-button collapsed&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#collapseModuleNotFound&quot;&gt; pip install sembra funzionare ma l&#39;import del modulo fallisce &lt;/button&gt; &lt;/h2&gt; &lt;div id=&quot;collapseModuleNotFound&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#pythonTroubleshootingAccordion&quot;&gt; &lt;div class=&quot;accordion-body&quot;&gt; Nella maggior parte dei casi l&#39;ambiente virtuale non è attivo: il pacchetto è stato installato a livello globale (o in un altro ambiente), mentre lo script viene eseguito con l&#39;interprete di un ambiente diverso. Verificare che l&#39;ambiente corretto sia attivo prima di lanciare lo script. &lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;div class=&quot;accordion-item&quot;&gt; &lt;h2 class=&quot;accordion-header&quot;&gt; &lt;button class=&quot;accordion-button collapsed&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#collapseTypeErrorSelf&quot;&gt; Chiamare un metodo restituisce un TypeError sul numero di argomenti &lt;/button&gt; &lt;/h2&gt; &lt;div id=&quot;collapseTypeErrorSelf&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#pythonTroubleshootingAccordion&quot;&gt; &lt;div class=&quot;accordion-body&quot;&gt; È l&#39;errore più comune per chi arriva da altri linguaggi: un metodo di istanza deve sempre avere &lt;code&gt;self&lt;/code&gt; come primo parametro nella sua firma, perché Python lo passa automaticamente ogni volta che il metodo viene invocato tramite un&#39;istanza. Dimenticarlo genera un errore sul numero di argomenti attesi. &lt;/div&gt; &lt;/div&gt; &lt;/div&gt; &lt;/div&gt;
+&lt;blockquote&gt;
+&lt;h3 id=&quot;errori-comuni&quot;&gt;Errori comuni&lt;/h3&gt;
+&lt;h4 id=&quot;pip-install-sembra-funzionare-ma-limport-del-modulo-fallisce&quot;&gt;pip install sembra funzionare ma l&#39;import del modulo fallisce&lt;/h4&gt;
+&lt;p&gt;Nella maggior parte dei casi l&#39;ambiente virtuale non è attivo: il pacchetto è stato installato a livello globale (o in un altro ambiente), mentre lo script viene eseguito con l&#39;interprete di un ambiente diverso. Verificare che l&#39;ambiente corretto sia attivo prima di lanciare lo script.&lt;/p&gt;
+&lt;h4 id=&quot;chiamare-un-metodo-restituisce-un-typeerror-sul-numero-di-argomenti&quot;&gt;Chiamare un metodo restituisce un TypeError sul numero di argomenti&lt;/h4&gt;
+&lt;p&gt;È l&#39;errore più comune per chi arriva da altri linguaggi: un metodo di istanza deve sempre avere &lt;code&gt;self&lt;/code&gt; come primo parametro nella sua firma, perché Python lo passa automaticamente ogni volta che il metodo viene invocato tramite un&#39;istanza. Dimenticarlo genera un errore sul numero di argomenti attesi.&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;h2 id=&quot;panoramica-dei-tipi-di-dato&quot;&gt;Panoramica dei tipi di dato&lt;/h2&gt;
 &lt;p&gt;Python è un linguaggio fortemente tipizzato: ogni valore ha un tipo ben definito, anche se la variabile che lo referenzia non viene mai dichiarata esplicitamente. Ecco una panoramica sintetica dei tipi fondamentali.&lt;/p&gt;
 &lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Categoria&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Tipo&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Mutabilità&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Descrizione&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Numerico&lt;/td&gt; &lt;td&gt;int, float, complex&lt;/td&gt; &lt;td&gt;Immutabile&lt;/td&gt; &lt;td&gt;Interi a precisione arbitraria, numeri in virgola mobile, numeri complessi&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Booleano&lt;/td&gt; &lt;td&gt;bool&lt;/td&gt; &lt;td&gt;Immutabile&lt;/td&gt; &lt;td&gt;True o False; tecnicamente una sottoclasse di int (True == 1, False == 0)&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Testuale&lt;/td&gt; &lt;td&gt;str&lt;/td&gt; &lt;td&gt;Immutabile&lt;/td&gt; &lt;td&gt;Sequenze di caratteri Unicode&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Sequenza&lt;/td&gt; &lt;td&gt;list, tuple, range&lt;/td&gt; &lt;td&gt;list mutabile; tuple e range immutabili&lt;/td&gt; &lt;td&gt;Collezioni ordinate di elementi&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Insieme&lt;/td&gt; &lt;td&gt;set, frozenset&lt;/td&gt; &lt;td&gt;set mutabile; frozenset immutabile&lt;/td&gt; &lt;td&gt;Collezioni non ordinate, senza duplicati&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Mappa&lt;/td&gt; &lt;td&gt;dict&lt;/td&gt; &lt;td&gt;Mutabile&lt;/td&gt; &lt;td&gt;Coppie chiave-valore&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Speciale&lt;/td&gt; &lt;td&gt;NoneType&lt;/td&gt; &lt;td&gt;—&lt;/td&gt; &lt;td&gt;Rappresenta l&#39;assenza di un valore (None)&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Chiamabile&lt;/td&gt; &lt;td&gt;function, class&lt;/td&gt; &lt;td&gt;—&lt;/td&gt; &lt;td&gt;Funzioni, lambda e classi sono oggetti di prim&#39;ordine, chiamabili con ()&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
@@ -90,21 +101,18 @@ print(type(MIA_COSTANTE))
     totale = a + b
     print(totale)
     return
-
 somma(1, 1)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Questo è un esempio di &lt;strong&gt;procedura&lt;/strong&gt;: non restituisce alcun valore esplicito. La versione seguente, invece, è una vera &lt;strong&gt;funzione&lt;/strong&gt;, perché restituisce esplicitamente il risultato tramite la parola chiave &lt;code&gt;return&lt;/code&gt;:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def somma(a, b):
     totale = a + b
     return totale
-
 print(somma(1, 1))
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Quando la stessa logica è legata a una classe, si parla di &lt;strong&gt;metodo&lt;/strong&gt;. È importante ricordare che un metodo di istanza deve sempre includere &lt;code&gt;self&lt;/code&gt; come primo parametro: Python lo passa automaticamente ogni volta che il metodo è invocato tramite un&#39;istanza.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;class Calcolatrice:
     def somma(self, a, b):
         return a + b
-
 calcolatrice = Calcolatrice()
 totale = calcolatrice.somma(1, 1)
 print(totale)
@@ -117,7 +125,6 @@ testo.upper() # Risultato: QUESTA È UNA STRINGA DI PROVA.
 &lt;p&gt;In Python il corpo di un blocco indentato (funzione, classe, ciclo) non può mai essere vuoto: se non c&#39;è ancora logica da inserire, si usa la parola chiave &lt;code&gt;pass&lt;/code&gt; come segnaposto sintattico:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;class Calcolatrice:
     pass
-
 calc = Calcolatrice()
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&quot;commenti-e-docstring&quot;&gt;Commenti e docstring&lt;/h2&gt;
@@ -125,11 +132,9 @@ calc = Calcolatrice()
 &lt;p&gt;La prima istruzione del corpo di una funzione, di un metodo o di una classe può facoltativamente essere una &lt;strong&gt;docstring&lt;/strong&gt;, dichiarata con tre apici doppi (&lt;code&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/code&gt;) allineati allo stesso livello di indentazione del blocco:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def somma(a, b):
     &amp;quot;&amp;quot;&amp;quot;Calcola la somma di due numeri.
-
     Args:
         a (int | float): Il primo addendo.
         b (int | float): Il secondo addendo.
-
     Returns:
         int | float: La somma di a e b.
     &amp;quot;&amp;quot;&amp;quot;
@@ -5038,80 +5043,18 @@ Torvalds accettò il nome, sebbene in seguito il progetto fosse spesso identific
 &lt;p&gt;Senza lo stack software GNU, il kernel Linux non fornirebbe un ambiente di runtime (&lt;em&gt;l&#39;infrastruttura di base necessaria per far funzionare i programmi&lt;/em&gt;) completo; simmetricamente, gli strumenti GNU necessitano di un kernel per eseguire le syscall (&lt;em&gt;chiamate di sistema che i programmi fanno al kernel per usare l&#39;hardware, come ad esempio chiedere il permesso di salvare un file sul disco&lt;/em&gt;).&lt;/p&gt;
 &lt;h2 id=&quot;gerarchia-dello-stack-software-e-hardware&quot;&gt;Gerarchia dello stack software e hardware&lt;/h2&gt;
 &lt;p&gt;Il &lt;strong&gt;flusso di esecuzione&lt;/strong&gt; può essere rappresentato come una pila di livelli indipendenti:&lt;/p&gt;
-  &lt;div class=&quot;accordion mb-3&quot; id=&quot;stackSoftware&quot;&gt;
-    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
-      &lt;h2 class=&quot;accordion-header&quot;&gt;
-        &lt;button class=&quot;accordion-button bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item1&quot;&gt;
-          Applicazione utente
-        &lt;/button&gt;
-      &lt;/h2&gt;
-      &lt;div id=&quot;item1&quot; class=&quot;accordion-collapse collapse show&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
-        &lt;div class=&quot;accordion-body&quot;&gt;
-          Browser, editor di testo, tool di sviluppo. Comunicano con il sistema tramite le API (&lt;i&gt;ponti di comunicazione che permettono a software diversi di scambiarsi informazioni in modo standardizzato&lt;/i&gt;) fornite dal software di base o dai framework grafici.
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
-      &lt;h2 class=&quot;accordion-header&quot;&gt;
-        &lt;button class=&quot;accordion-button collapsed bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item2&quot;&gt;
-          Interfaccia grafica (GUI / Display Server)
-        &lt;/button&gt;
-      &lt;/h2&gt;
-      &lt;div id=&quot;item2&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
-        &lt;div class=&quot;accordion-body&quot;&gt;
-          &lt;strong&gt;Wayland&lt;/strong&gt; o &lt;strong&gt;X11&lt;/strong&gt; (&lt;i&gt;protocolli di comunicazione che definiscono le regole per far interagire il compositore (il server grafico) con le applicazioni (client)&lt;/i&gt;), insieme ai &lt;strong&gt;Desktop Environment&lt;/strong&gt; (GNOME, KDE). Gestiscono l&#39;output visuale e l&#39;input utente.
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
-      &lt;h2 class=&quot;accordion-header&quot;&gt;
-        &lt;button class=&quot;accordion-button collapsed bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item3&quot;&gt;
-          Software di base (Userland GNU)
-        &lt;/button&gt;
-      &lt;/h2&gt;
-      &lt;div id=&quot;item3&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
-        &lt;div class=&quot;accordion-body&quot;&gt;
-          La shell (&lt;strong&gt;Bash&lt;/strong&gt;), le librerie di sistema (&lt;strong&gt;glibc&lt;/strong&gt;) e le utility core. Forniscono l&#39;ambiente di runtime necessario alle applicazioni.
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
-      &lt;h2 class=&quot;accordion-header&quot;&gt;
-        &lt;button class=&quot;accordion-button collapsed bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item4&quot;&gt;
-          Linux (Kernel)
-        &lt;/button&gt;
-      &lt;/h2&gt;
-      &lt;div id=&quot;item4&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
-        &lt;div class=&quot;accordion-body&quot;&gt;
-          Il &lt;i&gt;vigile urbano&lt;/i&gt; delle risorse. Gestisce i driver, la memoria e i processi attraverso le system call.
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
-      &lt;h2 class=&quot;accordion-header&quot;&gt;
-        &lt;button class=&quot;accordion-button collapsed bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item5&quot;&gt;
-          Firmware (BIOS / UEFI)
-        &lt;/button&gt;
-      &lt;/h2&gt;
-      &lt;div id=&quot;item5&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
-        &lt;div class=&quot;accordion-body&quot;&gt;
-          Software di basso livello integrato nella scheda madre che inizializza l&#39;hardware e passa il controllo al bootloader.
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;accordion-item border border-primary rounded-3 shadow-sm&quot;&gt;
-      &lt;h2 class=&quot;accordion-header&quot;&gt;
-        &lt;button class=&quot;accordion-button collapsed bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item6&quot;&gt;
-          Hardware
-        &lt;/button&gt;
-      &lt;/h2&gt;
-      &lt;div id=&quot;item6&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
-        &lt;div class=&quot;accordion-body&quot;&gt;
-          Il piano fisico (CPU, RAM, Storage, etc.).
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
+&lt;h3 id=&quot;applicazione-utente&quot;&gt;Applicazione utente&lt;/h3&gt;
+&lt;p&gt;Browser, editor di testo, tool di sviluppo. Comunicanο con il sistema tramite le API (&lt;em&gt;ponti di comunicazione che permettono a software diversi di scambiarsi informazioni in modo standardizzato&lt;/em&gt;) fornite dal software di base o dai framework grafici.&lt;/p&gt;
+&lt;h3 id=&quot;interfaccia-grafica-gui-display-server&quot;&gt;Interfaccia grafica (GUI / Display Server)&lt;/h3&gt;
+&lt;p&gt;&lt;strong&gt;Wayland&lt;/strong&gt; o &lt;strong&gt;X11&lt;/strong&gt; (&lt;em&gt;protocolli di comunicazione che definiscono le regole per far interagire il compositore (il server grafico) con le applicazioni (client)&lt;/em&gt;), insieme ai &lt;strong&gt;Desktop Environment&lt;/strong&gt; (GNOME, KDE). Gestiscono l&#39;output visuale e l&#39;input utente.&lt;/p&gt;
+&lt;h3 id=&quot;software-di-base-userland-gnu&quot;&gt;Software di base (Userland GNU)&lt;/h3&gt;
+&lt;p&gt;La shell (&lt;strong&gt;Bash&lt;/strong&gt;), le librerie di sistema (&lt;strong&gt;glibc&lt;/strong&gt;) e le utility core. Forniscono l&#39;ambiente di runtime necessario alle applicazioni.&lt;/p&gt;
+&lt;h3 id=&quot;linux-kernel&quot;&gt;Linux (Kernel)&lt;/h3&gt;
+&lt;p&gt;Il &lt;em&gt;vigile urbano&lt;/em&gt; delle risorse. Gestisce i driver, la memoria e i processi attraverso le system call.&lt;/p&gt;
+&lt;h3 id=&quot;firmware-bios-uefi&quot;&gt;Firmware (BIOS / UEFI)&lt;/h3&gt;
+&lt;p&gt;Software di basso livello integrato nella scheda madre che inizializza l&#39;hardware e passa il controllo al bootloader.&lt;/p&gt;
+&lt;h3 id=&quot;hardware&quot;&gt;Hardware&lt;/h3&gt;
+&lt;p&gt;Il piano fisico (CPU, RAM, Storage, ecc.).&lt;/p&gt;
 &lt;h2 id=&quot;protocolli-grafici&quot;&gt;Protocolli grafici&lt;/h2&gt;
 &lt;p&gt;&lt;strong&gt;Wayland&lt;/strong&gt; e &lt;strong&gt;X11&lt;/strong&gt; sono protocolli grafici usati in Linux per gestire la comunicazione tra applicazioni e schermo. X11 è il sistema tradizionale, nato negli anni &#39;80, mentre Wayland è la sua evoluzione moderna, progettata per hardware e scenari attuali.&lt;/p&gt;
 &lt;ul&gt;
@@ -5123,102 +5066,27 @@ Torvalds accettò il nome, sebbene in seguito il progetto fosse spesso identific
 &lt;p&gt;Un &lt;strong&gt;Desktop Environment&lt;/strong&gt; (&lt;strong&gt;DE&lt;/strong&gt;) è un ecosistema di componenti software che lavorano in sinergia per fornire un&#39;interfaccia grafica coerente. A differenza di Windows o macOS, dove l&#39;interfaccia è accoppiata profondamente al kernel, in ambiente Linux il &lt;strong&gt;DE è un &lt;em&gt;plugin&lt;/em&gt; di alto livello&lt;/strong&gt;, quindi intercambiabile.&lt;/p&gt;
 &lt;h3 id=&quot;architettura-dello-stack-grafico&quot;&gt;Architettura dello stack grafico&lt;/h3&gt;
 &lt;p&gt;Per il &lt;strong&gt;rendering delle finestre&lt;/strong&gt;, il sistema attraversa tre strati principali:&lt;/p&gt;
-&lt;div class=&quot;accordion mb-3&quot; id=&quot;stackSoftware&quot;&gt;
-    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
-      &lt;h2 class=&quot;accordion-header&quot;&gt;
-        &lt;button class=&quot;accordion-button bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item1&quot;&gt;
-          Display Server (X11 o Wayland)
-        &lt;/button&gt;
-      &lt;/h2&gt;
-      &lt;div id=&quot;item1&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
-        &lt;div class=&quot;accordion-body&quot;&gt;
-          Protocollo di base per la comunicazione tra hardware (GPU, input) e client grafici (le applicazioni attualmente aperte e visibili sullo schermo). Gestisce i messaggi di I/O.
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
-      &lt;h2 class=&quot;accordion-header&quot;&gt;
-        &lt;button class=&quot;accordion-button bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item2&quot;&gt;
-          Window Manager (WM)
-        &lt;/button&gt;
-      &lt;/h2&gt;
-      &lt;div id=&quot;item2&quot; class=&quot;accordion-collapse collapse&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
-        &lt;div class=&quot;accordion-body&quot;&gt;
-          Software che controlla il posizionamento e l&#39;aspetto delle finestre (bordi, pulsanti, ridimensionamento). Esempi di WM possono essere Mutter (GNOME), KWin (KDE) o gestori stand-alone come i3.
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-    &lt;div class=&quot;accordion-item border border-primary rounded-3 mb-2 shadow-sm&quot;&gt;
-      &lt;h2 class=&quot;accordion-header&quot;&gt;
-        &lt;button class=&quot;accordion-button bg-primary-subtle&quot; type=&quot;button&quot; data-bs-toggle=&quot;collapse&quot; data-bs-target=&quot;#item3&quot;&gt;
-          Desktop Environment (DE)
-        &lt;/button&gt;
-      &lt;/h2&gt;
-      &lt;div id=&quot;item3&quot; class=&quot;accordion-collapse collapse show&quot; data-bs-parent=&quot;#stackSoftware&quot;&gt;
-        &lt;div class=&quot;accordion-body&quot;&gt;
-          Pacchetto completo che include il WM e una suite di applicazioni (file manager, terminale, impostazioni) che condividono librerie grafiche e design logico.
-          &lt;br&gt;
-          I componenti fondamentali di un DE sono:
-          &lt;ul&gt;
-            &lt;li&gt;
-              &lt;strong&gt;Pannello/Taskbar&lt;/strong&gt;: Gestione finestre e menu di avvio.
-            &lt;/li&gt;
-            &lt;li&gt;
-              &lt;strong&gt;File manager&lt;/strong&gt;: Interfaccia per la navigazione del file system (es. Nautilus o Dolphin).
-            &lt;/li&gt;
-            &lt;li&gt;
-              &lt;strong&gt;System settings&lt;/strong&gt;: Centro di controllo per hardware e reti (evita la modifica manuale dei file in /etc).
-            &lt;/li&gt;
-            &lt;li&gt;
-              &lt;strong&gt;Display manager&lt;/strong&gt;: Gestisce il login grafico (es. GDM o SDDM).
-            &lt;/li&gt;
-          &lt;/ul&gt;
-          &lt;div class=&quot;mb-3&quot;&gt;
-            &lt;strong&gt;Principali desktop environment e librerie&lt;/strong&gt;
-          &lt;/div&gt;
-          &lt;!--TABELLA--&gt;
-          &lt;div class=&quot;container mb-3&quot;&gt;
-            &lt;div class=&quot;table-responsive shadow-sm rounded&quot;&gt;
-              &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-                &lt;thead class=&quot;table-dark&quot;&gt;
-                  &lt;tr&gt;
-                    &lt;th&gt;DE&lt;/th&gt;
-                    &lt;th&gt;Libreria&lt;/th&gt;
-                    &lt;th&gt;Filosofia&lt;/th&gt;
-                  &lt;/tr&gt;
-                &lt;/thead&gt;
-                &lt;tbody&gt;
-                  &lt;tr&gt;
-                    &lt;td class=&quot;fw-semibold&quot;&gt;GNOME&lt;/td&gt;
-                    &lt;td&gt;GTK&lt;/td&gt;
-                    &lt;td&gt;
-                      Minimalismo, workflow orientato alla produttività e astrazione
-                    &lt;/td&gt;
-                  &lt;/tr&gt;
-                  &lt;tr&gt;
-                    &lt;td class=&quot;fw-semibold&quot;&gt;KDE Plasma&lt;/td&gt;
-                    &lt;td&gt;Qt&lt;/td&gt;
-                    &lt;td&gt;Estrema personalizzazione e modularità&lt;/td&gt;
-                  &lt;/tr&gt;
-                  &lt;tr&gt;
-                    &lt;td class=&quot;fw-semibold&quot;&gt;XFCE&lt;/td&gt;
-                    &lt;td&gt;GTK&lt;/td&gt;
-                    &lt;td&gt;Leggerezza e stabilità per hardware datato o server&lt;/td&gt;
-                  &lt;/tr&gt;
-                  &lt;tr&gt;
-                    &lt;td class=&quot;fw-semibold&quot;&gt;Pantheon&lt;/td&gt;
-                    &lt;td&gt;GTK&lt;/td&gt;
-                    &lt;td&gt;Estetica curata e semplicità (derivato da &lt;a href=&quot;https://elementary.io/it/&quot;&gt;elementaryOS&lt;/a&gt;)&lt;/td&gt;
-                  &lt;/tr&gt;
-                &lt;/tbody&gt;
-              &lt;/table&gt;
-            &lt;/div&gt;
-          &lt;/div&gt;
-          &lt;!--FINE TABELLA--&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
+&lt;h2 id=&quot;display-server-x11-o-wayland&quot;&gt;Display Server (X11 o Wayland)&lt;/h2&gt;
+&lt;p&gt;Protocollo di base per la comunicazione tra hardware (GPU, input) e client grafici (le applicazioni attualmente aperte e visibili sullo schermo). Gestisce i messaggi di I/O.&lt;/p&gt;
+&lt;h2 id=&quot;window-manager-wm&quot;&gt;Window Manager (WM)&lt;/h2&gt;
+&lt;p&gt;Software che controlla il posizionamento e l&#39;aspetto delle finestre (bordi, pulsanti, ridimensionamento). Esempi di WM possono essere Mutter (GNOME), KWin (KDE) o gestori stand-alone come i3.&lt;/p&gt;
+&lt;h2 id=&quot;desktop-environment-de&quot;&gt;Desktop Environment (DE)&lt;/h2&gt;
+&lt;p&gt;Pacchetto completo che include il WM e una suite di applicazioni (file manager, terminale, impostazioni) che condividono librerie grafiche e design logico.&lt;/p&gt;
+&lt;p&gt;I componenti fondamentali di un DE sono:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Pannello/Taskbar&lt;/strong&gt;: Gestione finestre e menu di avvio.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;File manager&lt;/strong&gt;: Interfaccia per la navigazione del file system (es. Nautilus o Dolphin).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;System settings&lt;/strong&gt;: Centro di controllo per hardware e reti (evita la modifica manuale dei file in &lt;code&gt;/etc&lt;/code&gt;).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Display manager&lt;/strong&gt;: Gestisce il login grafico (es. GDM o SDDM).&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h2 id=&quot;modularita-e-server-headless&quot;&gt;Modularità e Server Headless&lt;/h2&gt;
 &lt;p&gt;L&#39;assenza di interfaccia grafica definisce un sistema &lt;strong&gt;Headless&lt;/strong&gt;. Questa configurazione è standard in ambito server per ottimizzare:&lt;/p&gt;
 &lt;ul&gt;
@@ -5289,7 +5157,10 @@ Esistono &lt;strong&gt;due filosofie dominanti&lt;/strong&gt; che determinano l&
 &lt;li&gt;&lt;strong&gt;Per la Privacy (es. &lt;a href=&quot;https://tails.net&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;Tails&lt;/a&gt;)&lt;/strong&gt;: Progettate per non lasciare tracce sul computer. Tutto il traffico internet passa attraverso la rete Tor e, una volta spento il PC, ogni dato viene cancellato dalla RAM.&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Per l&#39;Educazione (es. &lt;a href=&quot;https://endlessglobal.com&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;Endless OS&lt;/a&gt;)&lt;/strong&gt;: Pensate per zone con scarsa connettività internet, includono intere enciclopedie e corsi offline.&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class=&quot;p-2 border border-info rounded-3 bg-primary bg-info-subtle shadow-sm&quot;&gt;&lt;strong&gt;Piccola nota editoriale&lt;/strong&gt;: nei prossimi articoli parlerò di &lt;i&gt;Linux&lt;/i&gt; intendendo sempre il sistema completo GNU/Linux. Stallman probabilmente non sarebbe d&#39;accordo, ma prometto che lo citiamo correttamente ogni volta che conta davvero.&lt;/div&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;Piccola nota&lt;/strong&gt;: nei prossimi articoli parlerò di &lt;i&gt;Linux&lt;/i&gt; intendendo sempre il sistema completo GNU/Linux. Stallman probabilmente non sarebbe d&#39;accordo, ma prometto che lo citeremo correttamente ogni volta che conta davvero.&lt;/p&gt;
+&lt;/blockquote&gt;
+
 ]]></content>
     
     

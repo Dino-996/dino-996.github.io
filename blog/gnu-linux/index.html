@@ -67,7 +67,6 @@
 
 <!-- Katex -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
-
     
 
     <!-- EmailJS -->
@@ -232,7 +231,7 @@
         <span class="reading-time"></span>
         
         <span class="post-meta-dot">·</span>
-        <span>Ultimo aggiornamento: 25 luglio 2026</span>
+        <span>Ultimo aggiornamento: 29 luglio 2026</span>
         
       </div>
     </header>
@@ -248,7 +247,7 @@
       
       <div class="tldr-box">
         <div class="tldr-label">In breve</div>
-        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Linux, inizialmente un kernel creato da Linus Torvalds per curiosità nel 1991, è ora uno standard globale grazie alla sua architettura aperta, allo sviluppo collaborativo e all&#39;evoluzione, inclusa la creazione di Git. Il progetto, oggi supportato da migliaia di sviluppatori e aziende, ha affrontato sfide di gestione della community adottando un Codice di Condotta formale nel 2018 per favorire un ambiente più inclusivo.</p>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Linux, nato come un kernel creato per divertimento da Linus Torvalds nel 1991, è oggi un progetto collaborativo globale mantenuto da migliaia di sviluppatori e aziende leader. Il suo successo deriva dalla combinazione di innovazioni tecniche come Git e un&#39;evoluzione della gestione della community verso una maggiore inclusività, sancita dall&#39;adozione di un Codice di Condotta nel 2018.</p>
       </div>
       
 
@@ -322,80 +321,18 @@ Torvalds accettò il nome, sebbene in seguito il progetto fosse spesso identific
 <p>Senza lo stack software GNU, il kernel Linux non fornirebbe un ambiente di runtime (<em>l'infrastruttura di base necessaria per far funzionare i programmi</em>) completo; simmetricamente, gli strumenti GNU necessitano di un kernel per eseguire le syscall (<em>chiamate di sistema che i programmi fanno al kernel per usare l'hardware, come ad esempio chiedere il permesso di salvare un file sul disco</em>).</p>
 <h2 id="gerarchia-dello-stack-software-e-hardware">Gerarchia dello stack software e hardware</h2>
 <p>Il <strong>flusso di esecuzione</strong> può essere rappresentato come una pila di livelli indipendenti:</p>
-  <div class="accordion mb-3" id="stackSoftware">
-    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
-      <h2 class="accordion-header">
-        <button class="accordion-button bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item1">
-          Applicazione utente
-        </button>
-      </h2>
-      <div id="item1" class="accordion-collapse collapse show" data-bs-parent="#stackSoftware">
-        <div class="accordion-body">
-          Browser, editor di testo, tool di sviluppo. Comunicano con il sistema tramite le API (<i>ponti di comunicazione che permettono a software diversi di scambiarsi informazioni in modo standardizzato</i>) fornite dal software di base o dai framework grafici.
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item2">
-          Interfaccia grafica (GUI / Display Server)
-        </button>
-      </h2>
-      <div id="item2" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
-        <div class="accordion-body">
-          <strong>Wayland</strong> o <strong>X11</strong> (<i>protocolli di comunicazione che definiscono le regole per far interagire il compositore (il server grafico) con le applicazioni (client)</i>), insieme ai <strong>Desktop Environment</strong> (GNOME, KDE). Gestiscono l'output visuale e l'input utente.
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item3">
-          Software di base (Userland GNU)
-        </button>
-      </h2>
-      <div id="item3" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
-        <div class="accordion-body">
-          La shell (<strong>Bash</strong>), le librerie di sistema (<strong>glibc</strong>) e le utility core. Forniscono l'ambiente di runtime necessario alle applicazioni.
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item4">
-          Linux (Kernel)
-        </button>
-      </h2>
-      <div id="item4" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
-        <div class="accordion-body">
-          Il <i>vigile urbano</i> delle risorse. Gestisce i driver, la memoria e i processi attraverso le system call.
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item5">
-          Firmware (BIOS / UEFI)
-        </button>
-      </h2>
-      <div id="item5" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
-        <div class="accordion-body">
-          Software di basso livello integrato nella scheda madre che inizializza l'hardware e passa il controllo al bootloader.
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item border border-primary rounded-3 shadow-sm">
-      <h2 class="accordion-header">
-        <button class="accordion-button collapsed bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item6">
-          Hardware
-        </button>
-      </h2>
-      <div id="item6" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
-        <div class="accordion-body">
-          Il piano fisico (CPU, RAM, Storage, etc.).
-        </div>
-      </div>
-    </div>
-  </div>
+<h3 id="applicazione-utente">Applicazione utente</h3>
+<p>Browser, editor di testo, tool di sviluppo. Comunicanο con il sistema tramite le API (<em>ponti di comunicazione che permettono a software diversi di scambiarsi informazioni in modo standardizzato</em>) fornite dal software di base o dai framework grafici.</p>
+<h3 id="interfaccia-grafica-gui-display-server">Interfaccia grafica (GUI / Display Server)</h3>
+<p><strong>Wayland</strong> o <strong>X11</strong> (<em>protocolli di comunicazione che definiscono le regole per far interagire il compositore (il server grafico) con le applicazioni (client)</em>), insieme ai <strong>Desktop Environment</strong> (GNOME, KDE). Gestiscono l'output visuale e l'input utente.</p>
+<h3 id="software-di-base-userland-gnu">Software di base (Userland GNU)</h3>
+<p>La shell (<strong>Bash</strong>), le librerie di sistema (<strong>glibc</strong>) e le utility core. Forniscono l'ambiente di runtime necessario alle applicazioni.</p>
+<h3 id="linux-kernel">Linux (Kernel)</h3>
+<p>Il <em>vigile urbano</em> delle risorse. Gestisce i driver, la memoria e i processi attraverso le system call.</p>
+<h3 id="firmware-bios-uefi">Firmware (BIOS / UEFI)</h3>
+<p>Software di basso livello integrato nella scheda madre che inizializza l'hardware e passa il controllo al bootloader.</p>
+<h3 id="hardware">Hardware</h3>
+<p>Il piano fisico (CPU, RAM, Storage, ecc.).</p>
 <h2 id="protocolli-grafici">Protocolli grafici</h2>
 <p><strong>Wayland</strong> e <strong>X11</strong> sono protocolli grafici usati in Linux per gestire la comunicazione tra applicazioni e schermo. X11 è il sistema tradizionale, nato negli anni '80, mentre Wayland è la sua evoluzione moderna, progettata per hardware e scenari attuali.</p>
 <ul>
@@ -407,102 +344,27 @@ Torvalds accettò il nome, sebbene in seguito il progetto fosse spesso identific
 <p>Un <strong>Desktop Environment</strong> (<strong>DE</strong>) è un ecosistema di componenti software che lavorano in sinergia per fornire un'interfaccia grafica coerente. A differenza di Windows o macOS, dove l'interfaccia è accoppiata profondamente al kernel, in ambiente Linux il <strong>DE è un <em>plugin</em> di alto livello</strong>, quindi intercambiabile.</p>
 <h3 id="architettura-dello-stack-grafico">Architettura dello stack grafico</h3>
 <p>Per il <strong>rendering delle finestre</strong>, il sistema attraversa tre strati principali:</p>
-<div class="accordion mb-3" id="stackSoftware">
-    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
-      <h2 class="accordion-header">
-        <button class="accordion-button bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item1">
-          Display Server (X11 o Wayland)
-        </button>
-      </h2>
-      <div id="item1" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
-        <div class="accordion-body">
-          Protocollo di base per la comunicazione tra hardware (GPU, input) e client grafici (le applicazioni attualmente aperte e visibili sullo schermo). Gestisce i messaggi di I/O.
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
-      <h2 class="accordion-header">
-        <button class="accordion-button bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item2">
-          Window Manager (WM)
-        </button>
-      </h2>
-      <div id="item2" class="accordion-collapse collapse" data-bs-parent="#stackSoftware">
-        <div class="accordion-body">
-          Software che controlla il posizionamento e l'aspetto delle finestre (bordi, pulsanti, ridimensionamento). Esempi di WM possono essere Mutter (GNOME), KWin (KDE) o gestori stand-alone come i3.
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item border border-primary rounded-3 mb-2 shadow-sm">
-      <h2 class="accordion-header">
-        <button class="accordion-button bg-primary-subtle" type="button" data-bs-toggle="collapse" data-bs-target="#item3">
-          Desktop Environment (DE)
-        </button>
-      </h2>
-      <div id="item3" class="accordion-collapse collapse show" data-bs-parent="#stackSoftware">
-        <div class="accordion-body">
-          Pacchetto completo che include il WM e una suite di applicazioni (file manager, terminale, impostazioni) che condividono librerie grafiche e design logico.
-          <br>
-          I componenti fondamentali di un DE sono:
-          <ul>
-            <li>
-              <strong>Pannello/Taskbar</strong>: Gestione finestre e menu di avvio.
-            </li>
-            <li>
-              <strong>File manager</strong>: Interfaccia per la navigazione del file system (es. Nautilus o Dolphin).
-            </li>
-            <li>
-              <strong>System settings</strong>: Centro di controllo per hardware e reti (evita la modifica manuale dei file in /etc).
-            </li>
-            <li>
-              <strong>Display manager</strong>: Gestisce il login grafico (es. GDM o SDDM).
-            </li>
-          </ul>
-          <div class="mb-3">
-            <strong>Principali desktop environment e librerie</strong>
-          </div>
-          <!--TABELLA-->
-          <div class="container mb-3">
-            <div class="table-responsive shadow-sm rounded">
-              <table class="table table-bordered table-striped table-hover align-middle mb-0">
-                <thead class="table-dark">
-                  <tr>
-                    <th>DE</th>
-                    <th>Libreria</th>
-                    <th>Filosofia</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="fw-semibold">GNOME</td>
-                    <td>GTK</td>
-                    <td>
-                      Minimalismo, workflow orientato alla produttività e astrazione
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="fw-semibold">KDE Plasma</td>
-                    <td>Qt</td>
-                    <td>Estrema personalizzazione e modularità</td>
-                  </tr>
-                  <tr>
-                    <td class="fw-semibold">XFCE</td>
-                    <td>GTK</td>
-                    <td>Leggerezza e stabilità per hardware datato o server</td>
-                  </tr>
-                  <tr>
-                    <td class="fw-semibold">Pantheon</td>
-                    <td>GTK</td>
-                    <td>Estetica curata e semplicità (derivato da <a href="https://elementary.io/it/">elementaryOS</a>)</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <!--FINE TABELLA-->
-        </div>
-      </div>
-    </div>
-  </div>
+<h2 id="display-server-x11-o-wayland">Display Server (X11 o Wayland)</h2>
+<p>Protocollo di base per la comunicazione tra hardware (GPU, input) e client grafici (le applicazioni attualmente aperte e visibili sullo schermo). Gestisce i messaggi di I/O.</p>
+<h2 id="window-manager-wm">Window Manager (WM)</h2>
+<p>Software che controlla il posizionamento e l'aspetto delle finestre (bordi, pulsanti, ridimensionamento). Esempi di WM possono essere Mutter (GNOME), KWin (KDE) o gestori stand-alone come i3.</p>
+<h2 id="desktop-environment-de">Desktop Environment (DE)</h2>
+<p>Pacchetto completo che include il WM e una suite di applicazioni (file manager, terminale, impostazioni) che condividono librerie grafiche e design logico.</p>
+<p>I componenti fondamentali di un DE sono:</p>
+<ul>
+<li>
+<p><strong>Pannello/Taskbar</strong>: Gestione finestre e menu di avvio.</p>
+</li>
+<li>
+<p><strong>File manager</strong>: Interfaccia per la navigazione del file system (es. Nautilus o Dolphin).</p>
+</li>
+<li>
+<p><strong>System settings</strong>: Centro di controllo per hardware e reti (evita la modifica manuale dei file in <code>/etc</code>).</p>
+</li>
+<li>
+<p><strong>Display manager</strong>: Gestisce il login grafico (es. GDM o SDDM).</p>
+</li>
+</ul>
 <h2 id="modularita-e-server-headless">Modularità e Server Headless</h2>
 <p>L'assenza di interfaccia grafica definisce un sistema <strong>Headless</strong>. Questa configurazione è standard in ambito server per ottimizzare:</p>
 <ul>
@@ -573,7 +435,9 @@ Esistono <strong>due filosofie dominanti</strong> che determinano l'esperienza d
 <li><strong>Per la Privacy (es. <a href="https://tails.net" target="_blank" rel="noopener noreferer">Tails</a>)</strong>: Progettate per non lasciare tracce sul computer. Tutto il traffico internet passa attraverso la rete Tor e, una volta spento il PC, ogni dato viene cancellato dalla RAM.</li>
 <li><strong>Per l'Educazione (es. <a href="https://endlessglobal.com" target="_blank" rel="noopener noreferer">Endless OS</a>)</strong>: Pensate per zone con scarsa connettività internet, includono intere enciclopedie e corsi offline.</li>
 </ul>
-<div class="p-2 border border-info rounded-3 bg-primary bg-info-subtle shadow-sm"><strong>Piccola nota editoriale</strong>: nei prossimi articoli parlerò di <i>Linux</i> intendendo sempre il sistema completo GNU/Linux. Stallman probabilmente non sarebbe d'accordo, ma prometto che lo citiamo correttamente ogni volta che conta davvero.</div>
+<blockquote>
+<p><strong>Piccola nota</strong>: nei prossimi articoli parlerò di <i>Linux</i> intendendo sempre il sistema completo GNU/Linux. Stallman probabilmente non sarebbe d'accordo, ma prometto che lo citeremo correttamente ogni volta che conta davvero.</p>
+</blockquote>
 
       </section>
     </article>
@@ -601,9 +465,9 @@ Esistono <strong>due filosofie dominanti</strong> che determinano l'esperienza d
             
           
         </div>
-        <div class="d-flex gap-2 align-items-center" style="margin-left: auto;">
-          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--on-surface-variant);">Condividi</span>
-          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fgnu-linux%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">IN</a>
+        <div class="d-flex gap-2 align-items-center" style="margin-left: auto; margin-top:20px">
+          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--secondary);">Condividi</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fgnu-linux%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">SU</a>
           <a href="https://twitter.com/intent/tweet?text=GNU%2FLinux&url=https://dino-996.github.io%2Fblog%2Fgnu-linux%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
         </div>
       </div>

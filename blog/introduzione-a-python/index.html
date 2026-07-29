@@ -67,7 +67,6 @@
 
 <!-- Katex -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
-
     
 
     <!-- EmailJS -->
@@ -250,7 +249,7 @@
       
       <div class="tldr-box">
         <div class="tldr-label">In breve</div>
-        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Python è un linguaggio interpretato che traduce il codice sorgente istruzione per istruzione a runtime, offrendo portabilità e flessibilità a discapito di un overhead di esecuzione maggiore. Sebbene l&#39;interpretazione sia il suo modello principale, implementazioni moderne spesso utilizzano la compilazione Just-In-Time (JIT) per ottimizzare le prestazioni a runtime.</p>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Python è un linguaggio interpretato che esegue il codice sorgente istruzione per istruzione a runtime, offrendo portabilità e debugging interattivo, ma con un potenziale overhead di esecuzione. Esistono anche approcci ibridi come la compilazione JIT, che traduce il codice in bytecode intermedio per poi compilarlo dinamicamente in codice macchina ottimizzando le prestazioni a runtime.</p>
       </div>
       
 
@@ -288,9 +287,20 @@
 <h3 id="ambienti-virtuali-con-venv">Ambienti virtuali con venv</h3>
 <p>La buona prassi è dare a ogni progetto le proprie dipendenze isolate e, idealmente, anche la propria versione di Python. Lo strumento standard per farlo è <strong>venv</strong>, incluso nella libreria standard a partire da Python 3.3 e che non richiede alcuna installazione aggiuntiva. Per esigenze più avanzate, o per progetti ancora su Python 2, restano disponibili alternative come virtualenv o Anaconda.</p>
 <p>L'uso tipico prevede due passaggi: la creazione dell'ambiente e la sua attivazione, che varia in base al sistema operativo.</p>
-<ul class="nav nav-tabs" role="tablist"> <li class="nav-item"><button class="nav-link active" data-bs-toggle="tab" data-bs-target="#venv-windows">Windows</button></li> <li class="nav-item"><button class="nav-link" data-bs-toggle="tab" data-bs-target="#venv-unix">macOS / Linux</button></li> </ul> <div class="tab-content border border-top-0 p-3"> <div class="tab-pane fade show active" id="venv-windows"> python3 -m venv nome_ambiente nome_ambiente\Scripts\activate.bat </div> <div class="tab-pane fade" id="venv-unix"> python3 -m venv nome_ambiente source nome_ambiente/bin/activate </div> </div>
+<h4 id="windows">Windows</h4>
+<pre><code class="language-bash">python3 -m venv nome_ambiente nome_ambiente\Scripts\activate.bat
+</code></pre>
+<h4 id="macos-linux">macOS / Linux</h4>
+<pre><code class="language-bash">python3 -m venv nome_ambiente source nome_ambiente/bin/activate
+</code></pre>
 <p>Una volta attivato l'ambiente, tutti i pacchetti installati con pip vengono collocati nella cartella locale nome_ambiente, senza toccare l'installazione globale di Python. Per uscire dall'ambiente virtuale è sufficiente il comando deactivate.</p>
-<div class="accordion" id="pythonTroubleshootingAccordion"> <div class="accordion-item"> <h2 class="accordion-header"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseModuleNotFound"> pip install sembra funzionare ma l'import del modulo fallisce </button> </h2> <div id="collapseModuleNotFound" class="accordion-collapse collapse" data-bs-parent="#pythonTroubleshootingAccordion"> <div class="accordion-body"> Nella maggior parte dei casi l'ambiente virtuale non è attivo: il pacchetto è stato installato a livello globale (o in un altro ambiente), mentre lo script viene eseguito con l'interprete di un ambiente diverso. Verificare che l'ambiente corretto sia attivo prima di lanciare lo script. </div> </div> </div> <div class="accordion-item"> <h2 class="accordion-header"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTypeErrorSelf"> Chiamare un metodo restituisce un TypeError sul numero di argomenti </button> </h2> <div id="collapseTypeErrorSelf" class="accordion-collapse collapse" data-bs-parent="#pythonTroubleshootingAccordion"> <div class="accordion-body"> È l'errore più comune per chi arriva da altri linguaggi: un metodo di istanza deve sempre avere <code>self</code> come primo parametro nella sua firma, perché Python lo passa automaticamente ogni volta che il metodo viene invocato tramite un'istanza. Dimenticarlo genera un errore sul numero di argomenti attesi. </div> </div> </div> </div>
+<blockquote>
+<h3 id="errori-comuni">Errori comuni</h3>
+<h4 id="pip-install-sembra-funzionare-ma-limport-del-modulo-fallisce">pip install sembra funzionare ma l'import del modulo fallisce</h4>
+<p>Nella maggior parte dei casi l'ambiente virtuale non è attivo: il pacchetto è stato installato a livello globale (o in un altro ambiente), mentre lo script viene eseguito con l'interprete di un ambiente diverso. Verificare che l'ambiente corretto sia attivo prima di lanciare lo script.</p>
+<h4 id="chiamare-un-metodo-restituisce-un-typeerror-sul-numero-di-argomenti">Chiamare un metodo restituisce un TypeError sul numero di argomenti</h4>
+<p>È l'errore più comune per chi arriva da altri linguaggi: un metodo di istanza deve sempre avere <code>self</code> come primo parametro nella sua firma, perché Python lo passa automaticamente ogni volta che il metodo viene invocato tramite un'istanza. Dimenticarlo genera un errore sul numero di argomenti attesi.</p>
+</blockquote>
 <h2 id="panoramica-dei-tipi-di-dato">Panoramica dei tipi di dato</h2>
 <p>Python è un linguaggio fortemente tipizzato: ogni valore ha un tipo ben definito, anche se la variabile che lo referenzia non viene mai dichiarata esplicitamente. Ecco una panoramica sintetica dei tipi fondamentali.</p>
 <div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Categoria</th> <th class="fw-semibold">Tipo</th> <th class="fw-semibold">Mutabilità</th> <th class="fw-semibold">Descrizione</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Numerico</td> <td>int, float, complex</td> <td>Immutabile</td> <td>Interi a precisione arbitraria, numeri in virgola mobile, numeri complessi</td> </tr> <tr> <td class="fw-semibold">Booleano</td> <td>bool</td> <td>Immutabile</td> <td>True o False; tecnicamente una sottoclasse di int (True == 1, False == 0)</td> </tr> <tr> <td class="fw-semibold">Testuale</td> <td>str</td> <td>Immutabile</td> <td>Sequenze di caratteri Unicode</td> </tr> <tr> <td class="fw-semibold">Sequenza</td> <td>list, tuple, range</td> <td>list mutabile; tuple e range immutabili</td> <td>Collezioni ordinate di elementi</td> </tr> <tr> <td class="fw-semibold">Insieme</td> <td>set, frozenset</td> <td>set mutabile; frozenset immutabile</td> <td>Collezioni non ordinate, senza duplicati</td> </tr> <tr> <td class="fw-semibold">Mappa</td> <td>dict</td> <td>Mutabile</td> <td>Coppie chiave-valore</td> </tr> <tr> <td class="fw-semibold">Speciale</td> <td>NoneType</td> <td>—</td> <td>Rappresenta l'assenza di un valore (None)</td> </tr> <tr> <td class="fw-semibold">Chiamabile</td> <td>function, class</td> <td>—</td> <td>Funzioni, lambda e classi sono oggetti di prim'ordine, chiamabili con ()</td> </tr> </tbody> </table> </div>
@@ -320,22 +330,22 @@ print(type(MIA_COSTANTE))
     totale = a + b
     print(totale)
     return
-<p>somma(1, 1)<br>
-</code></pre></p>
+somma(1, 1)
+</code></pre>
 <p>Questo è un esempio di <strong>procedura</strong>: non restituisce alcun valore esplicito. La versione seguente, invece, è una vera <strong>funzione</strong>, perché restituisce esplicitamente il risultato tramite la parola chiave <code>return</code>:</p>
 <pre><code class="language-python">def somma(a, b):
     totale = a + b
     return totale
-<p>print(somma(1, 1))<br>
-</code></pre></p>
+print(somma(1, 1))
+</code></pre>
 <p>Quando la stessa logica è legata a una classe, si parla di <strong>metodo</strong>. È importante ricordare che un metodo di istanza deve sempre includere <code>self</code> come primo parametro: Python lo passa automaticamente ogni volta che il metodo è invocato tramite un'istanza.</p>
 <pre><code class="language-python">class Calcolatrice:
     def somma(self, a, b):
         return a + b
-<p>calcolatrice = Calcolatrice()<br>
-totale = calcolatrice.somma(1, 1)<br>
-print(totale)<br>
-</code></pre></p>
+calcolatrice = Calcolatrice()
+totale = calcolatrice.somma(1, 1)
+print(totale)
+</code></pre>
 <p>Il significato pieno di questo esempio richiede i concetti di programmazione a oggetti, che verranno approfonditi in un articolo successivo del corso; per ora basta osservare come si definisca e si invochi il metodo <code>somma</code>. Le funzioni si invocano tramite il proprio nome seguito da <code>()</code>; la notazione a punto (<code>.</code>) si usa invece per chiamare funzioni definite all'interno di una classe o di un modulo, anche non definiti da noi:</p>
 <pre><code class="language-python">testo = &quot;Questa è una stringa di prova.&quot;
 testo.upper() # Risultato: QUESTA È UNA STRINGA DI PROVA.
@@ -344,23 +354,21 @@ testo.upper() # Risultato: QUESTA È UNA STRINGA DI PROVA.
 <p>In Python il corpo di un blocco indentato (funzione, classe, ciclo) non può mai essere vuoto: se non c'è ancora logica da inserire, si usa la parola chiave <code>pass</code> come segnaposto sintattico:</p>
 <pre><code class="language-python">class Calcolatrice:
     pass
-<p>calc = Calcolatrice()<br>
-</code></pre></p>
+calc = Calcolatrice()
+</code></pre>
 <h2 id="commenti-e-docstring">Commenti e docstring</h2>
 <p>I commenti in Python iniziano sempre con <code>#</code>. A differenza di molti altri linguaggi, Python non prevede una sintassi dedicata ai commenti multi-riga: ogni riga di un blocco di commento deve iniziare con <code>#</code>. I commenti vengono completamente ignorati dall'interprete.</p>
 <p>La prima istruzione del corpo di una funzione, di un metodo o di una classe può facoltativamente essere una <strong>docstring</strong>, dichiarata con tre apici doppi (<code>&quot;&quot;&quot;</code>) allineati allo stesso livello di indentazione del blocco:</p>
 <pre><code class="language-python">def somma(a, b):
     &quot;&quot;&quot;Calcola la somma di due numeri.
-<pre><code>Args:
-    a (int | float): Il primo addendo.
-    b (int | float): Il secondo addendo.
-
-Returns:
-    int | float: La somma di a e b.
-&amp;quot;&amp;quot;&amp;quot;
-return a + b
+    Args:
+        a (int | float): Il primo addendo.
+        b (int | float): Il secondo addendo.
+    Returns:
+        int | float: La somma di a e b.
+    &quot;&quot;&quot;
+    return a + b
 </code></pre>
-<p></code></pre></p>
 <p>Essendo Python un linguaggio fortemente tipizzato, è preferibile evitare di ripetere il tipo nella docstring: conviene dichiararlo nella <strong>firma</strong> della funzione, ovvero nell'insieme di informazioni che ne descrivono nome e utilizzo senza dover leggere il corpo o l'implementazione. Per molti sviluppatori è l'approccio più pulito, perché evita duplicazione tra annotazioni di tipo e documentazione.</p>
 <p>La firma diventa quindi:</p>
 <pre><code class="language-python">def somma(a: int | float, b: int | float) -&gt; int | float:
@@ -416,9 +424,9 @@ return a + b
             
           
         </div>
-        <div class="d-flex gap-2 align-items-center" style="margin-left: auto;">
-          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--on-surface-variant);">Condividi</span>
-          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fintroduzione-a-python%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">IN</a>
+        <div class="d-flex gap-2 align-items-center" style="margin-left: auto; margin-top:20px">
+          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--secondary);">Condividi</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fintroduzione-a-python%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">SU</a>
           <a href="https://twitter.com/intent/tweet?text=Introduzione%20a%20Python&url=https://dino-996.github.io%2Fblog%2Fintroduzione-a-python%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
         </div>
       </div>
