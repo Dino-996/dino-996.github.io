@@ -8,8 +8,8 @@
     "hash": "22924"
   },
   "GNU/Linux": {
-    "tldr": "Linux, inizialmente un kernel creato da Linus Torvalds per curiosità nel 1991, è ora uno standard globale grazie alla sua architettura aperta, allo sviluppo collaborativo e all'evoluzione, inclusa la creazione di Git. Il progetto, oggi supportato da migliaia di sviluppatori e aziende, ha affrontato sfide di gestione della community adottando un Codice di Condotta formale nel 2018 per favorire un ambiente più inclusivo.",
-    "hash": "28258"
+    "tldr": "Linux è nato nel 1991 come kernel sviluppato da Linus Torvalds per curiosità personale, evolvendosi in un pilastro dell'open source grazie alla collaborazione globale e a una filosofia di condivisione. La sua traiettoria è stata influenzata dalle brillanti innovazioni tecniche di Torvalds, come Git, e da un recente focus sulla creazione di una community più inclusiva attraverso l'adozione di un Codice di Condotta.",
+    "hash": "21929"
   },
   "Processi": {
     "tldr": "Un processo è un programma attivo con aree di memoria distinte (testo, dati, heap, stack) e, nei sistemi moderni, può essere composto da thread per un'esecuzione concorrente. Le architetture multicore consentono il parallelismo reale assegnando processi/thread a core fisici distinti, a differenza del time slicing dei sistemi single-core che simula il parallelismo.",
@@ -156,7 +156,43 @@
     "hash": "23242"
   },
   "Introduzione a Python": {
-    "tldr": "I linguaggi di programmazione vengono eseguiti tramite compilazione, interpretazione o approcci JIT ibridi, ciascuno con compromessi distinti in termini di prestazioni, portabilità e flessibilità. Python è prevalentemente interpretato, utilizzando il duck typing per la sua tipizzazione dinamica flessibile.",
-    "hash": "23623"
+    "tldr": "Python è primariamente un linguaggio interpretato, che esegue il codice sorgente a runtime, offrendo portabilità e flessibilità, ma con un potenziale overhead di esecuzione. Sistemi ibridi come JIT compilano bytecode intermedio a runtime per ottimizzare le prestazioni, combinando i vantaggi di interpretazione e compilazione.",
+    "hash": "22451"
+  },
+  "Unpacking e assegnazione": {
+    "tldr": "L'unpacking in Python consente di assegnare elementi di iterabili a variabili multiple in un'unica istruzione, migliorando leggibilità e riducendo verbosità, inclusi scambi di valori diretti e iterazioni strutturate su dati complessi. La corrispondenza esatta tra numero di variabili e elementi è cruciale, a meno di non utilizzare l'operatore `*` per gestire collezioni di dimensioni variabili.",
+    "hash": "11137"
+  },
+  "Sottoprogrammi": {
+    "tldr": "In Python, la programmazione procedurale si basa su funzioni definite con `def`, trattate come oggetti di prima classe e documentate tramite docstring. Il passaggio dei parametri avviene per assegnazione, con modifiche che impattano oggetti mutabili ma non quelli immutabili.",
+    "hash": "15869"
+  },
+  "Controllo del flusso": {
+    "tldr": "In Python, i cicli `while` gestiscono iterazioni definite da condizioni booleane con un numero di esecuzioni non predeterminabile, mentre i cicli `for` iterano su sequenze esauribili. Per ottimizzare i `while`, si possono impiegare meccanismi di salvaguardia contro cicli infiniti e l'operatore walrus per una sintassi più compatta.",
+    "hash": "9777"
+  },
+  "Generatori": {
+    "tldr": "I generatori Python sono iteratori speciali che producono valori on-demand tramite la valutazione pigra, eliminando la necessità di memorizzare intere sequenze in memoria. La parola chiave `yield` sospende temporaneamente l'esecuzione della funzione generatrice, conservandone lo stato per permettere la ripresa dal punto di interruzione.",
+    "hash": "14731"
+  },
+  "Classi e Oggetti": {
+    "tldr": "In Python, le classi agiscono come blueprint per creare oggetti, che possiedono uno stato (attributi, specifici dell'istanza o condivisi) e un comportamento (metodi). La distinzione tra attributi di classe e di istanza, insieme ai metodi decorati come `@classmethod`, permette una gestione flessibile e modulare della programmazione orientata agli oggetti.",
+    "hash": "14958"
+  },
+  "Jupyter": {
+    "tldr": "Il progetto Jupyter estende la console interattiva, integrando codice, documentazione e risultati in un unico documento JSON (`.ipynb`) composto da celle eseguibili (codice, Markdown, raw) gestite da kernel dedicati per diversi linguaggi. Questa architettura modulare supporta un'interazione flessibile per prototipazione, esplorazione dati e reporting, con vari client disponibili per diverse esigenze.",
+    "hash": "9474"
+  },
+  "NumPy": {
+    "tldr": "NumPy è la libreria Python fondamentale per il calcolo scientifico, fornendo array N-dimensionali (ndarray) ottimizzati in C per prestazioni elevate e un'interoperabilità essenziale con l'ecosistema scientifico. La sua sintassi matematica-orientata e le proprietà strutturali degli ndarray, come `ndim`, `shape` e `dtype`, consentono manipolazioni efficienti e codice espressivo.",
+    "hash": "17295"
+  },
+  "Pandas": {
+    "tldr": "Pandas, libreria Python _de facto_ per l'analisi dati, estende NumPy con strutture dati intuitive per dati strutturati, principalmente Series (array 1D etichettati) e DataFrame (tabelle 2D). Queste strutture permettono operazioni efficienti e flessibili, assimilando comportamenti di array NumPy e dizionari Python per manipolazioni e selezioni di dati.",
+    "hash": "16971"
+  },
+  "AI ACT: Novità e Scadenze": {
+    "tldr": "Il Digital Omnibus sull'IA posticipa al 2 dicembre 2027 gli obblighi per i sistemi ad alto rischio standalone e al 2 agosto 2028 per quelli integrati in prodotti regolamentati. Le imprese \"small mid-cap\" beneficiano di semplificazioni, mentre un nuovo divieto assoluto entra in vigore il 2 dicembre 2026.",
+    "hash": "10483"
   }
 }
