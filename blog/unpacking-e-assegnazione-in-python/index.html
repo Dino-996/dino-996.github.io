@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Unpacking e assegnazione · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Esplora le potenzialità dell&#39;unpacking e dell&#39;assegnazione multipla in Python: dallo scambio immediato di variabili all&#39;uso avanzato degli operatori * e ** in cicli, collezioni e funzioni (*args e **kwargs)." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/unpacking-e-assegnazione-in-python/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/unpacking-e-assegnazione-in-python/" />
+
+<meta property="og:title" content="Unpacking e assegnazione" />
+<meta property="og:description" content="Esplora le potenzialità dell&#39;unpacking e dell&#39;assegnazione multipla in Python: dallo scambio immediato di variabili all&#39;uso avanzato degli operatori * e ** in cicli, collezioni e funzioni (*args e **kwargs)." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/unpacking-e-assegnazione-in-python/" />
+
+<meta name="twitter:title" content="Unpacking e assegnazione" />
+<meta name="twitter:description" content="Esplora le potenzialità dell&#39;unpacking e dell&#39;assegnazione multipla in Python: dallo scambio immediato di variabili all&#39;uso avanzato degli operatori * e ** in cicli, collezioni e funzioni (*args e **kwargs)." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper hide-desktop" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      <div class="post-breadcrumb">
+        <a href="/">Home</a>
+        <span class="post-breadcrumb-sep">»</span>
+        
+        
+        <a href="/courses/">Percorsi</a>
+        <span class="post-breadcrumb-sep">»</span>
+        <a href="/courses/python/">Python</a>
+        
+      </div>
+
+      <h1>Unpacking e assegnazione</h1>
+
+      
+      <p class="post-description">Esplora le potenzialità dell&#39;unpacking e dell&#39;assegnazione multipla in Python: dallo scambio immediato di variabili all&#39;uso avanzato degli operatori * e ** in cicli, collezioni e funzioni (*args e **kwargs).</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 31 luglio 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+        <span class="post-meta-dot">·</span>
+        <span>Ultimo aggiornamento: 31 luglio 2026</span>
+        
+      </div>
+    </header>
+
+    
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png"
+         alt="Immagine generata con AI"
+         class="post-hero-image"
+         fetchpriority="high">
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">In breve</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">L&#39;unpacking in Python, basato sull&#39;iterazione interna, consente di assegnare elementi di iterabili a variabili multiple in un&#39;unica istruzione, migliorando leggibilità e riducendo verbosità, inclusi scambi di valori e iterazioni su strutture composte. È fondamentale che il numero di variabili corrisponda agli elementi, pena `ValueError`, a meno di non utilizzare l&#39;operatore `*`.</p>
+      </div>
+      
+
+      <section class="content">
+        <h2 id="introduzione">Introduzione</h2>
+<p>In Python, l'<strong>unpacking</strong> (spacchettamento) è un meccanismo potente che consente di estrarre gli elementi contenuti in una struttura dati, come una lista, una tupla o un dizionario, e di assegnarli direttamente a una o più variabili in modo contestuale e leggibile.</p>
+<p>Questa funzionalità si basa sull'iterazione interna degli oggetti. Quando si esegue un'assegnazione multipla, Python itera sulla collezione a destra dell'uguale e distribuisce i valori alle variabili specificate a sinistra, seguendo l'ordine di iterazione.</p>
+<h2 id="assegnazione-multipla-le-basi">Assegnazione multipla, le basi</h2>
+<p>L'assegnazione multipla (multiple assignment) permette di assegnare più variabili in una sola istruzione, separando i nomi delle variabili con una virgola. Python esegue automaticamente l'unpacking della struttura dati a destra dell'operatore di assegnazione.</p>
+<pre><code class="language-python">primo, secondo, terzo = (1, 2, 3)
+print(primo)
+print(secondo)
+print(terzo)
+</code></pre>
+<p>Lo stesso comportamento funziona con qualsiasi iterabile, incluse le liste.</p>
+<pre><code class="language-python">a, b, c = [&quot;rosso&quot;, &quot;verde&quot;, &quot;blu&quot;]
+</code></pre>
+<p><strong>Vantaggio chiave:</strong> questo approccio riduce la verbosità del codice e migliora la leggibilità, specialmente quando si lavora con funzioni che restituiscono tuple o dati strutturati.</p>
+<h3 id="cosa-succede-quando-il-numero-di-elementi-non-corrisponde">Cosa succede quando il numero di elementi non corrisponde</h3>
+<p>Un errore comune per chi inizia a lavorare con l'unpacking è dimenticare che il numero di variabili a sinistra deve corrispondere esattamente al numero di elementi dell'iterabile a destra, a meno di non usare l'operatore <code>*</code> descritto più avanti. Se i conteggi non coincidono, Python solleva un'eccezione.</p>
+<pre><code class="language-python">a, b = [1, 2, 3]
+</code></pre>
+<p>Questo codice genera un errore di tipo ValueError, poiché la lista contiene tre elementi ma sono state fornite solo due variabili di destinazione. Conoscere questo comportamento aiuta a scrivere codice più robusto, evitando assunzioni implicite sulla forma dei dati in ingresso.</p>
+<h2 id="scambio-di-valori-senza-variabile-temporanea">Scambio di valori senza variabile temporanea</h2>
+<p>Uno degli utilizzi più eleganti dell'assegnazione multipla è lo scambio di valori tra due variabili senza la necessità di una variabile temporanea.</p>
+<pre><code class="language-python">a = 10
+b = 20
+a, b = b, a
+print(a)
+print(b)
+</code></pre>
+<p>Python valuta prima l'intero lato destro dell'espressione, dove <code>b, a</code> crea una tupla temporanea <code>(20, 10)</code>, e poi esegue l'unpacking a sinistra. Questo elimina il rischio di errori legati all'uso di variabili temporanee e rende il codice più conciso.</p>
+<h2 id="unpacking-nei-cicli-for">Unpacking nei cicli for</h2>
+<p>L'unpacking è estremamente utile quando si iterano su strutture dati composte, come liste di tuple o dizionari.</p>
+<h3 id="uso-con-dizionari">Uso con dizionari</h3>
+<p>Il metodo <code>items()</code> dei dizionari restituisce un oggetto vista contenente coppie chiave-valore sotto forma di tuple. L'unpacking rende l'iterazione molto chiara.</p>
+<pre><code class="language-python">persona = {&quot;nome&quot;: &quot;Anna&quot;, &quot;eta&quot;: 25}
+for chiave, valore in persona.items():
+    print(f&quot;{chiave}: {valore}&quot;)
+</code></pre>
+<h3 id="uso-con-enumerate">Uso con enumerate()</h3>
+<p>La funzione <code>enumerate()</code> è un altro caso classico: restituisce una sequenza di tuple contenenti l'indice e l'elemento corrispondente.</p>
+<pre><code class="language-python">nomi = [&quot;Anna&quot;, &quot;Luca&quot;, &quot;Marco&quot;]
+for indice, nome in enumerate(nomi):
+    print(f&quot;{indice}: {nome}&quot;)
+</code></pre>
+<h3 id="uso-con-zip">Uso con zip()</h3>
+<p>Un pattern altrettanto comune consiste nel combinare <code>zip()</code> con l'unpacking per iterare simultaneamente su più sequenze parallele, ad esempio due liste che rappresentano rispettivamente chiavi e valori raccolti da fonti diverse.</p>
+<pre><code class="language-python">nomi = [&quot;Anna&quot;, &quot;Luca&quot;, &quot;Marco&quot;]
+ruoli = [&quot;Developer&quot;, &quot;Tester&quot;, &quot;Architect&quot;]
+for nome, ruolo in zip(nomi, ruoli):
+    print(f&quot;{nome} lavora come {ruolo}&quot;)
+</code></pre>
+<h2 id="loperatore-nellunpacking-raccogliere-e-ignorare">L'operatore * nell'unpacking, raccogliere e ignorare</h2>
+<p>L'operatore <code>*</code> (star) ha un ruolo speciale durante l'unpacking, detto anche unpacking esteso: può essere utilizzato per raccogliere più elementi rimanenti in un'unica variabile sotto forma di lista.</p>
+<pre><code class="language-python">numeri = [1, 2, 3, 4, 5]
+primo, secondo, *resto = numeri
+print(primo)
+print(secondo)
+print(resto)
+</code></pre>
+<p>È possibile utilizzare questa tecnica anche per ignorare elementi che non interessano, usando convenzionalmente il nome <code>_</code> per la variabile di scarto.</p>
+<pre><code class="language-python">primo, *_, ultimo = numeri
+print(primo)
+print(ultimo)
+</code></pre>
+<h2 id="loperatore-per-lespansione-di-collezioni">L'operatore * per l'espansione di collezioni</h2>
+<p>L'operatore <code>*</code> può essere utilizzato anche per spacchettare il contenuto di liste o tuple all'interno di una nuova collezione. Questa operazione è nota come unpacking in fase di costruzione.</p>
+<pre><code class="language-python">a = [1, 2, 3]
+b = [4, 5, 6]
+unione = [*a, *b]
+print(unione)
+</code></pre>
+<p>Lo stesso principio vale per le tuple.</p>
+<pre><code class="language-python">t1 = (1, 2)
+t2 = (3, 4)
+t3 = (*t1, *t2)
+print(t3)
+</code></pre>
+<h2 id="loperatore-per-i-dizionari">L'operatore ** per i dizionari</h2>
+<p>L'operatore <code>**</code> (doppio star) svolge un ruolo analogo per i dizionari: permette di espandere le coppie chiave-valore all'interno di un nuovo dizionario. È particolarmente utile per unire dizionari o per creare copie con valori sovrascritti.</p>
+<pre><code class="language-python">dati_personali = {&quot;nome&quot;: &quot;Anna&quot;}
+dati_lavoro = {&quot;ruolo&quot;: &quot;Developer&quot;, &quot;azienda&quot;: &quot;TechCorp&quot;}
+profilo = {**dati_personali, **dati_lavoro}
+print(profilo)
+</code></pre>
+<h2 id="packing-il-ruolo-opposto-di">Packing, il ruolo opposto di *</h2>
+<p>Quando l'operatore <code>*</code> viene utilizzato in un contesto di assegnazione a sinistra, esegue il packing (impacchettamento). Il packing raccoglie più valori in un'unica lista.</p>
+<pre><code class="language-python">primo, *altri = [10, 20, 30, 40]
+print(altri)
+</code></pre>
+<h2 id="unpacking-e-packing-nelle-funzioni-args-e-kwargs">Unpacking e packing nelle funzioni, args e kwargs</h2>
+<p>L'unpacking e il packing sono pilastri fondamentali nella definizione e chiamata delle funzioni in Python, consentendo una gestione flessibile degli argomenti.</p>
+<h3 id="raccogliere-argomenti-posizionali-con-args">Raccogliere argomenti posizionali con args</h3>
+<p>Quando una funzione deve accettare un numero arbitrario di argomenti posizionali, si utilizza <code>*args</code> nella firma. Python raccoglie tutti gli argomenti posizionali extra in una tupla.</p>
+<pre><code class="language-python">def somma(*numeri):
+    return sum(numeri)
+print(somma(1, 2, 3, 4))
+</code></pre>
+<h3 id="raccogliere-argomenti-nominati-con-kwargs">Raccogliere argomenti nominati con kwargs</h3>
+<p>Analogamente, <code>**kwargs</code> raccoglie tutti gli argomenti passati con nome (keyword arguments) in un dizionario.</p>
+<pre><code class="language-python">def stampa_info(**dati):
+    for chiave, valore in dati.items():
+        print(f&quot;{chiave}: {valore}&quot;)
+stampa_info(nome=&quot;Luca&quot;, eta=30)
+</code></pre>
+<h3 id="passare-collezioni-come-argomenti-unpacking-in-chiamata">Passare collezioni come argomenti, unpacking in chiamata</h3>
+<p>Durante la chiamata di una funzione, è possibile fare l'operazione inversa: spacchettare una lista o una tupla in argomenti posizionali con <code>*</code>, o un dizionario in argomenti nominati con <code>**</code>. Questo rende il codice molto flessibile e riduce la necessità di wrapper.</p>
+<pre><code class="language-python">valori = (1, 2, 3)
+somma(*valori)
+dati = {&quot;nome&quot;: &quot;Anna&quot;, &quot;eta&quot;: 25}
+stampa_info(**dati)
+</code></pre>
+<h3 id="forzare-argomenti-keyword-only-con-lasterisco-isolato">Forzare argomenti keyword-only con l'asterisco isolato</h3>
+<p>Un pattern legato all'unpacking, ma spesso sottovalutato, consiste nell'uso di un asterisco isolato nella firma di una funzione per forzare gli argomenti successivi a essere passati esclusivamente per nome. Questo migliora la leggibilità delle chiamate e riduce gli errori legati all'ordine dei parametri, un aspetto rilevante per la manutenibilità del codice in team.</p>
+<pre><code class="language-python">def crea_utente(nome, eta, *, ruolo=&quot;guest&quot;):
+    return {&quot;nome&quot;: nome, &quot;eta&quot;: eta, &quot;ruolo&quot;: ruolo}
+crea_utente(&quot;Anna&quot;, 25, ruolo=&quot;admin&quot;)
+</code></pre>
+<p>In questo esempio, <code>ruolo</code> può essere fornito soltanto specificandone esplicitamente il nome, non come terzo argomento posizionale.</p>
+<h2 id="best-practice-e-pattern-avanzati">Best practice e pattern avanzati</h2>
+<h3 id="pattern-matching-strutturale">Pattern matching strutturale</h3>
+<p>Le versioni moderne di Python integrano l'unpacking nei costrutti di pattern matching, consentendo estrazioni complesse in modo dichiarativo.</p>
+<pre><code class="language-python">dati = [&quot;utente&quot;, {&quot;nome&quot;: &quot;Marco&quot;, &quot;ruolo&quot;: &quot;admin&quot;}]
+match dati:
+    case [&quot;utente&quot;, {&quot;nome&quot;: nome, &quot;ruolo&quot;: ruolo}]:
+        print(f&quot;Utente {nome} con ruolo {ruolo}&quot;)
+    case _:
+        print(&quot;Formato dati non riconosciuto&quot;)
+</code></pre>
+<h3 id="unpacking-con-namedtuple">Unpacking con NamedTuple</h3>
+<p>L'unpacking si applica in modo naturale anche alle <code>namedtuple</code>, una struttura dati molto usata per modellare record leggibili e immutabili, tema rilevante per chi punta a una chiarezza architetturale superiore rispetto a semplici tuple anonime.</p>
+<pre><code class="language-python">from collections import namedtuple
+Punto = namedtuple(&quot;Punto&quot;, [&quot;x&quot;, &quot;y&quot;])
+p = Punto(3, 4)
+x, y = p
+print(x)
+print(y)
+</code></pre>
+<h3 id="design-pattern-e-python">Design pattern e Python</h3>
+<p>L'unpacking e l'espansione di collezioni sono alla base di numerosi design pattern:</p>
+<ul>
+<li><strong>Factory Pattern:</strong> utilizzare l'unpacking per disaccoppiare la creazione di oggetti.</li>
+<li><strong>Decorator Pattern:</strong> <code>*args</code> e <code>**kwargs</code> permettono di scrivere decoratori generici che preservano la firma delle funzioni originali.</li>
+<li><strong>Adapter Pattern:</strong> l'uso di <code>**</code> per adattare dizionari di configurazione a firme di funzioni è una pratica comune per rendere le interfacce più flessibili.</li>
+</ul>
+<h3 id="una-nota-sulle-prestazioni">Una nota sulle prestazioni</h3>
+<p>Dal punto di vista dell'efficienza del codice, l'unpacking non introduce un overhead significativo rispetto all'accesso per indice: il costo computazionale resta paragonabile, mentre il guadagno in leggibilità e in riduzione della probabilità di errori umani è concreto. Per questo motivo l'unpacking è generalmente preferibile quando la struttura dei dati è nota e stabile.</p>
+<h2 id="attenzione-usi-distinti-di-e">Attenzione, usi distinti di * e **</h2>
+<p>È fondamentale non confondere i diversi usi di <code>*</code> e <code>**</code>, che ricorrono in due contesti completamente separati del linguaggio:</p>
+<ul>
+<li><strong>Operatori matematici:</strong> <code>2 * 3</code> per la moltiplicazione, <code>2 ** 3</code> per l'elevamento a potenza.</li>
+<li><strong>Operatori di unpacking e packing:</strong> <code>*valori</code> e <code>**dati</code> in contesti di assegnazione, definizione o chiamata di funzione.</li>
+</ul>
+<p>Comprendere questa differenza è essenziale per sfruttare appieno una delle caratteristiche più potenti e caratteristiche dello stile Python, evitando al contempo ambiguità di lettura nel codice.</p>
+<h2 id="riepilogo-delle-sintassi-principali">Riepilogo delle sintassi principali</h2>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Contesto</th>
+        <th>Sintassi</th>
+        <th>Comportamento</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Assegnazione multipla</td>
+        <td><code>a, b = x, y</code></td>
+        <td>Unpacking di iterabili</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Unpacking esteso</td>
+        <td><code>a, *b = [1,2,3]</code></td>
+        <td>Packing degli elementi rimanenti in b</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Costruzione di collezioni</td>
+        <td><code>[*a, *b]</code></td>
+        <td>Espansione di iterabili in nuove liste</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Definizione funzione</td>
+        <td><code>def f(*args, **kwargs)</code></td>
+        <td>Packing di argomenti posizionali e nominati</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Chiamata funzione</td>
+        <td><code>f(*lista, **dict)</code></td>
+        <td>Unpacking di iterabili e dizionari in argomenti</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Argomenti keyword-only</td>
+        <td><code>def f(a, b, *, c)</code></td>
+        <td>Forza c a essere passato solo per nome</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+      </section>
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout" style="padding: 24px 0; margin-top: 32px; border-top: 1px solid var(--border-subtle);">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/python/" class="badge badge-outline">python</a>
+              
+            
+              
+              
+              <a href="/tags/unpacking/" class="badge badge-outline">unpacking</a>
+              
+            
+              
+              
+              <a href="/tags/argskwargs/" class="badge badge-outline">argskwargs</a>
+              
+            
+              
+              
+              <a href="/tags/sintassi/" class="badge badge-outline">sintassi</a>
+              
+            
+              
+              
+              <a href="/tags/assegnazione/" class="badge badge-outline">assegnazione</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center" style="margin-left: auto; margin-top:20px">
+          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--secondary);">Condividi</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Funpacking-e-assegnazione-in-python%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">SU</a>
+          <a href="https://twitter.com/intent/tweet?text=Unpacking%20e%20assegnazione&url=https://dino-996.github.io%2Fblog%2Funpacking-e-assegnazione-in-python%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div style="min-width: 0; max-width: calc(50% - 4px); flex: 1 1 auto;">
+          
+        </div>
+        <div style="min-width: 0; max-width: calc(50% - 4px); text-align: right; flex: 1 1 auto;">
+          
+          <a href="/blog/sottoprogrammi-in-python/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Successivo →</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Sottoprogrammi</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Comments -->
+    <h2 class="post-layout" style="font-size: 1.25rem; margin-top: 48px; margin-bottom: 0;">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

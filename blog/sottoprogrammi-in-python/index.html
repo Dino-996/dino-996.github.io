@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Sottoprogrammi · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Scopri i pilastri della programmazione procedurale in Python: dalle funzioni e l&#39;organizzazione modulare del codice tramite package, fino all&#39;uso ottimale di strutture dati, comprehension e slicing." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/sottoprogrammi-in-python/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/sottoprogrammi-in-python/" />
+
+<meta property="og:title" content="Sottoprogrammi" />
+<meta property="og:description" content="Scopri i pilastri della programmazione procedurale in Python: dalle funzioni e l&#39;organizzazione modulare del codice tramite package, fino all&#39;uso ottimale di strutture dati, comprehension e slicing." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/sottoprogrammi-in-python/" />
+
+<meta name="twitter:title" content="Sottoprogrammi" />
+<meta name="twitter:description" content="Scopri i pilastri della programmazione procedurale in Python: dalle funzioni e l&#39;organizzazione modulare del codice tramite package, fino all&#39;uso ottimale di strutture dati, comprehension e slicing." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper hide-desktop" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      <div class="post-breadcrumb">
+        <a href="/">Home</a>
+        <span class="post-breadcrumb-sep">»</span>
+        
+        
+        <a href="/courses/">Percorsi</a>
+        <span class="post-breadcrumb-sep">»</span>
+        <a href="/courses/python/">Python</a>
+        
+      </div>
+
+      <h1>Sottoprogrammi</h1>
+
+      
+      <p class="post-description">Scopri i pilastri della programmazione procedurale in Python: dalle funzioni e l&#39;organizzazione modulare del codice tramite package, fino all&#39;uso ottimale di strutture dati, comprehension e slicing.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 31 luglio 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+        <span class="post-meta-dot">·</span>
+        <span>Ultimo aggiornamento: 31 luglio 2026</span>
+        
+      </div>
+    </header>
+
+    
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png"
+         alt="Immagine generata con AI"
+         class="post-hero-image"
+         fetchpriority="high">
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">In breve</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">In Python, la programmazione procedurale si basa su funzioni definite con `def`, che sono oggetti di prima classe e sempre restituiscono un valore, gestendo parametri tramite pass-by-assignment. L&#39;organizzazione del codice procede attraverso moduli e package, sfruttando la flessibilità del passaggio di argomenti con valori di default e notazioni posizionali/nominali.</p>
+      </div>
+      
+
+      <section class="content">
+        <h2 id="introduzione">Introduzione</h2>
+<p>La programmazione procedurale costituisce uno dei pilastri fondamentali nello sviluppo software in Python. Basata sulla scomposizione di un problema complesso in blocchi di codice riutilizzabili e modulari, questo paradigma permette di scrivere applicazioni manutenibili, efficienti e facilmente testabili.</p>
+<p>In questa guida analizzeremo i concetti chiave della programmazione procedurale in Python, la creazione di sottoprogrammi, l'organizzazione del codice tramite moduli e package, fino all'utilizzo ottimale dei tipi di dati sequenziali e strutturati.</p>
+<h2 id="sottoprogrammi-e-architettura-delle-funzioni-in-python">Sottoprogrammi e architettura delle funzioni in Python</h2>
+<p>In Python tutti i sottoprogrammi sono formalmente definiti come funzioni. Non esiste una distinzione sintattica rigida tra &quot;procedure&quot; e &quot;funzioni&quot;, qualsiasi blocco di codice definito tramite la parola chiave <code>def</code> restituisce sempre un valore. Quando una funzione non contiene un'istruzione <code>return</code> esplicita, il linguaggio restituisce automaticamente l'oggetto <code>None</code>.</p>
+<p>Dal punto di vista architetturale, le funzioni in Python sono oggetti di prima classe (<em>first-class objects</em>). Questo significa che possono essere assegnate a variabili, passate come argomenti ad altre funzioni o restituite come valori di ritorno, consentendo l'implementazione di pattern avanzati come le <em>closure</em>.</p>
+<h3 id="sintassi-e-documentazione-delle-funzioni">Sintassi e documentazione delle funzioni</h3>
+<p>La definizione di una funzione richiede una sintassi chiara. È buona norma integrare immediatamente sotto la firma della funzione un literal stringa denominato docstring, utilizzato per documentare lo scopo dell'algoritmo secondo la convenzione PEP 257.</p>
+<p>Sintassi base di definizione:</p>
+<pre><code class="language-python">def nome_funzione(parametro1: float, parametro2: float) -&gt; float:
+    &quot;&quot;&quot;Descrizione sintetica del comportamento della funzione.&quot;&quot;&quot;
+    risultato = parametro1 + parametro2
+    return risultato
+</code></pre>
+<p>Esempio pratico per il calcolo del discriminante di un'equazione di secondo grado:</p>
+<pre><code class="language-python">def discriminante(a: float, b: float, c: float) -&gt; float:
+    &quot;&quot;&quot;Calcola il discriminante (delta) di un'equazione di secondo grado.&quot;&quot;&quot;
+    return (b ** 2 - 4 * a * c)
+</code></pre>
+<h3 id="valutazione-e-passaggio-dei-parametri">Valutazione e passaggio dei parametri</h3>
+<p>Il modello di passaggio dei parametri in Python segue la semantica del pass-by-assignment (noto anche come <em>pass-by-object-reference</em>). Gli argomenti passati a una funzione sono riferimenti a oggetti in memoria. Se l'oggetto passato è immutabile, ad esempio interi, stringhe o tuple, le modifiche all'interno della funzione non altereranno la variabile originale. Se l'oggetto è mutabile, ad esempio liste o dizionari, le modifiche apportate nello scope della funzione si rifletteranno sull'oggetto esterno.</p>
+<p>Python offre grande flessibilità nella gestione degli argomenti, consentendo di impostare valori di default e di utilizzare sia la notazione posizionale che quella nominale (<em>keyword arguments</em>).</p>
+<pre><code class="language-python">def welcome(nome: str, cdl: str = 'Informatica', anno: str = 'primo') -&gt; str:
+    &quot;&quot;&quot;Genera una stringa formattata di benvenuto per lo studente.&quot;&quot;&quot;
+    return f&quot;{nome} è uno studente del {anno} anno del cdl in {cdl}&quot;
+</code></pre>
+<p>Invocazioni valide della funzione con differenti combinazioni di argomenti:</p>
+<pre><code class="language-python">messaggio1 = welcome('Mario', 'Ing. Informatica', 'secondo')
+messaggio2 = welcome('Mario')
+messaggio3 = welcome(nome='Mario', cdl='Ing. Informatica', anno='secondo')
+messaggio4 = welcome('Mario', anno='secondo')
+</code></pre>
+<h3 id="separatori-dei-parametri-per-il-controllo-delle-api">Separatori dei parametri per il controllo delle API</h3>
+<p>Per garantire una chiara separazione delle responsabilità e proteggere l'interfaccia delle librerie, Python permette di limitare l'uso dei parametri attraverso i separatori <code>/</code> e <code>*</code>.</p>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Posizione del parametro</th>
+        <th>Comportamento consentito</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Prima di /</td>
+        <td>Esclusivamente posizionale</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Tra / e *</td>
+        <td>Sia posizionale che nominale</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Dopo *</td>
+        <td>Esclusivamente nominale</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<pre><code class="language-python">def wlc(nome: str, /, cdl: str, *, anno: str = 'I') -&gt; str:
+    &quot;&quot;&quot;Funzione con vincoli rigidi sulla tipologia di argomenti.&quot;&quot;&quot;
+    return f&quot;{nome} - {cdl} - {anno}&quot;
+</code></pre>
+<p>Esempi di chiamate valide ed errate:</p>
+<pre><code class="language-python">wlc('Mario', 'Informatica', anno='II')
+wlc('Mario', cdl='Informatica')
+</code></pre>
+<h3 id="funzioni-con-numero-variabile-di-argomenti">Funzioni con numero variabile di argomenti</h3>
+<p>Oltre ai parametri posizionali e nominali con vincoli rigidi, Python consente di definire funzioni capaci di accettare un numero arbitrario di argomenti tramite le notazioni <code>*args</code> e <code>**kwargs</code>. Questo pattern è ampiamente utilizzato nelle librerie standard e di terze parti per costruire interfacce flessibili.</p>
+<pre><code class="language-python">def somma_valori(*args: float) -&gt; float:
+    &quot;&quot;&quot;Somma un numero arbitrario di valori numerici.&quot;&quot;&quot;
+    return sum(args)
+</code></pre>
+<pre><code class="language-python">def stampa_dettagli(**kwargs: str) -&gt; None:
+    &quot;&quot;&quot;Stampa una coppia chiave, valore per ogni argomento nominale ricevuto.&quot;&quot;&quot;
+    for chiave, valore in kwargs.items():
+        print(f&quot;{chiave}, {valore}&quot;)
+</code></pre>
+<h2 id="modularita-del-codice-moduli-e-package">Modularità del codice, moduli e package</h2>
+<p>Man mano che la dimensione del software cresce, l'organizzazione del codice all'interno di un unico file diventa inefficace. Python gestisce la modularità tramite moduli e package.</p>
+<h3 id="moduli-in-python">Moduli in Python</h3>
+<p>Un modulo è semplicemente un file di testo contenente codice Python con estensione <code>.py</code>. Per utilizzare le funzioni e le variabili definite in un altro modulo, si utilizza l'istruzione <code>import</code>.</p>
+<p>Supponendo che il file <code>equazioni.py</code> contenga la definizione della funzione <code>discriminante</code>, è possibile importare e utilizzare il codice con diverse sintassi:</p>
+<pre><code class="language-python">import equazioni
+risultato = equazioni.discriminante(1, -5, 6)
+</code></pre>
+<pre><code class="language-python">import equazioni as eq
+risultato = eq.discriminante(1, -5, 6)
+</code></pre>
+<pre><code class="language-python">from equazioni import discriminante
+risultato = discriminante(1, -5, 6)
+</code></pre>
+<pre><code class="language-python">from equazioni import discriminante as discr
+risultato = discr(1, -5, 6)
+</code></pre>
+<p>L'uso dell'istruzione <code>from modulo import *</code> è fortemente sconsigliato dalle linee guida ufficiali PEP 8, in quanto inquina il namespace locale e rende difficile tracciare l'origine dei simboli utilizzati.</p>
+<p>Una buona pratica quando un modulo viene sia importato che eseguito direttamente è racchiudere il codice destinato all'esecuzione diretta all'interno del blocco condizionale seguente, così da evitarne l'esecuzione involontaria in fase di import.</p>
+<pre><code class="language-python">if __name__ == &quot;__main__&quot;:
+    risultato = discriminante(1, -5, 6)
+    print(risultato)
+</code></pre>
+<h3 id="risoluzione-dei-moduli-e-organizzazione-in-package">Risoluzione dei moduli e organizzazione in package</h3>
+<p>Quando viene eseguita un'istruzione <code>import</code>, l'interprete Python ricerca il modulo richiesto seguendo un ordine preciso.</p>
+<ul>
+<li>La cartella corrente di esecuzione del file.</li>
+<li>I percorsi specificati nella variabile d'ambiente <code>PYTHONPATH</code>.</li>
+<li>I percorsi standard delle librerie di sistema installate nell'ambiente Python, elencati in <code>sys.path</code>.</li>
+</ul>
+<p>Un package è una directory organizzata che raggruppa più moduli correlati. Per essere riconosciuta come package strutturato nelle versioni tradizionali di Python, la directory deve contenere un file di inizializzazione denominato <code>__init__.py</code>, che può anche essere vuoto.</p>
+<p>Esempio di importazione da una struttura a directory nidificata:</p>
+<pre><code class="language-python">import sound.effects.echo
+sound.effects.echo.echofilter(input_bytes, output_bytes)
+</code></pre>
+<h2 id="tipi-di-dati-sequenziali-e-strutture-di-collezioni">Tipi di dati sequenziali e strutture di collezioni</h2>
+<p>Python mette a disposizione una serie di tipi di dati nativi pensati per memorizzare collezioni di elementi. La comprensione di queste strutture è fondamentale per ottimizzare le prestazioni e l'allocazione della memoria.</p>
+<h3 id="panoramica-dei-tipi-sequenziali">Panoramica dei tipi sequenziali</h3>
+<p>Ogni tipo strutturato supporta sia una sintassi letterale rapida che l'uso della propria funzione costruttrice, come <code>str()</code>, <code>list()</code>, <code>tuple()</code>, <code>set()</code> e <code>dict()</code>.</p>
+<h3 id="il-tipo-set">Il tipo set</h3>
+<p>Un <code>set</code> è una collezione non ordinata di elementi univoci, particolarmente utile quando è necessario garantire l'assenza di duplicati o eseguire in modo efficiente controlli di appartenenza e operazioni insiemistiche.</p>
+<pre><code class="language-python">prodotti_attivi = {'server', 'switch', 'router'}
+prodotti_dismessi = {'hub', 'switch'}
+</code></pre>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Operazione</th> <th>Descrizione</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">s.add(x)</td> <td>Aggiunge l'elemento x all'insieme, se non già presente</td> </tr> <tr> <td class="fw-semibold">s.remove(x)</td> <td>Rimuove l'elemento x, sollevando un'eccezione se assente</td> </tr> <tr> <td class="fw-semibold">s.discard(x)</td> <td>Rimuove l'elemento x senza sollevare eccezioni se assente</td> </tr> <tr> <td class="fw-semibold">s1 union s2</td> <td>Restituisce l'unione tra due insiemi</td> </tr> <tr> <td class="fw-semibold">s1 intersection s2</td> <td>Restituisce l'intersezione tra due insiemi</td> </tr> </tbody> </table> </div>
+<pre><code class="language-python">prodotti_attivi.add('firewall')
+tutti_prodotti = prodotti_attivi.union(prodotti_dismessi)
+comuni = prodotti_attivi.intersection(prodotti_dismessi)
+</code></pre>
+<p>Grazie alla struttura interna basata su tabelle hash, l'operazione di verifica di appartenenza, ad esempio <code>'switch' in prodotti_attivi</code>, risulta generalmente più efficiente rispetto alla stessa verifica eseguita su una lista di dimensioni comparabili.</p>
+<h3 id="il-tipo-dict">Il tipo dict</h3>
+<p>Un <code>dict</code> è una collezione di coppie chiave, valore che consente di associare a ciascun elemento un identificatore univoco anziché una posizione numerica, risultando particolarmente adatto a rappresentare dati strutturati e configurazioni.</p>
+<pre><code class="language-python">studente = {'nome': 'Mario', 'cdl': 'Informatica', 'anno': 'secondo'}
+</code></pre>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Operazione</th> <th>Descrizione</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">d[chiave]</td> <td>Accede al valore associato alla chiave, sollevando un'eccezione se assente</td> </tr> <tr> <td class="fw-semibold">d.get(chiave, default)</td> <td>Accede al valore associato alla chiave, restituendo un default se assente</td> </tr> <tr> <td class="fw-semibold">d.keys()</td> <td>Restituisce le chiavi presenti nel dizionario</td> </tr> <tr> <td class="fw-semibold">d.values()</td> <td>Restituisce i valori presenti nel dizionario</td> </tr> <tr> <td class="fw-semibold">d.items()</td> <td>Restituisce le coppie chiave, valore presenti nel dizionario</td> </tr> <tr> <td class="fw-semibold">d.update(altro_dict)</td> <td>Aggiorna il dizionario con le coppie chiave, valore di un altro dizionario</td> </tr> </tbody> </table> </div>
+<pre><code class="language-python">corso = studente.get('cdl', 'Non specificato')
+for chiave, valore in studente.items():
+    print(f&quot;{chiave}, {valore}&quot;)
+</code></pre>
+<p>A partire da Python 3.7 l'ordine di inserimento delle chiavi in un dizionario viene mantenuto in modo stabile, una caratteristica che ha reso il <code>dict</code> una struttura sempre più utilizzata anche in contesti dove in passato si sarebbe preferita una lista di tuple.</p>
+<h3 id="restituzione-di-valori-multipli-tramite-tuple">Restituzione di valori multipli tramite tuple</h3>
+<p>Un pattern ampiamente utilizzato nella programmazione procedurale in Python è la restituzione di più valori da una singola funzione. Mentre in linguaggi come C o Java occorre definire strutture rigide, in Python la funzione può semplicemente restituire una tupla, sfruttando la tecnica dell'unboxing, detta anche <em>tuple unpacking</em>.</p>
+<p>Esempio di ricerca del valore massimo in una lista di misurazioni:</p>
+<pre><code class="language-python">def massima(temperature: list) -&gt; tuple:
+    &quot;&quot;&quot;Individua l'indice e il valore massimo all'interno di una sequenza.&quot;&quot;&quot;
+    pos_max = 0
+    for i in range(1, len(temperature)):
+        if temperature[i] &gt; temperature[pos_max]:
+            pos_max = i
+    return pos_max, temperature[pos_max]
+</code></pre>
+<p>Invocazione e spacchettamento diretto del risultato:</p>
+<pre><code class="language-python">dati_meteo = [18.2, 22.5, 19.1, 25.4, 21.0]
+indice_max, valore_max = massima(dati_meteo)
+</code></pre>
+<h3 id="comprehension-per-la-costruzione-di-collezioni">Comprehension per la costruzione di collezioni</h3>
+<p>Accanto ai cicli espliciti, Python offre le comprehension come pattern idiomatico per costruire liste, dizionari e insiemi in modo più conciso e generalmente più performante rispetto a un ciclo <code>for</code> equivalente.</p>
+<pre><code class="language-python">dati_meteo = [18.2, 22.5, 19.1, 25.4, 21.0]
+sopra_soglia = [t for t in dati_meteo if t &gt; 20]
+</code></pre>
+<pre><code class="language-python">indici_valori = {i: t for i, t in enumerate(dati_meteo)}
+</code></pre>
+<h2 id="operazioni-avanzate-con-le-liste-e-slicing">Operazioni avanzate con le liste e slicing</h2>
+<p>La lista è la struttura dati mutabile più utilizzata in Python. Consente l'annidamento arbitrariamente complesso, con liste multi-dimensionali, e mette a disposizione una serie di metodi nativi per la manipolazione degli elementi.</p>
+<pre><code class="language-python">numeri = [1, 2, 3, 4]
+matrice = [[1, 2], [3, 4]]
+valore = matrice[0][0]
+</code></pre>
+<h3 id="operazioni-fondamentali-sulle-liste">Operazioni fondamentali sulle liste</h3>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Operazione</th>
+        <th>Descrizione</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">l[i] e l[-i]</td>
+        <td>Accesso diretto tramite indice positivo o negativo, partendo dal fondo</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">l.append(x)</td>
+        <td>Inserisce l'elemento in coda alla lista</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">l.insert(i, x)</td>
+        <td>Posiziona l'elemento all'indice i</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">l.pop() e l.pop(i)</td>
+        <td>Rimuove e restituisce l'ultimo elemento o quello in posizione i</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">l.clear()</td>
+        <td>Svuota completamente la lista</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">len(l)</td>
+        <td>Restituisce il numero di elementi della lista</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">l.sort(key=None, reverse=False)</td>
+        <td>Ordina la lista in-place</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<pre><code class="language-python">prodotti = ['server', 'switch', 'router']
+prodotti.append('firewall')
+elemento_rimosso = prodotti.pop(1)
+prodotti.sort(reverse=True)
+</code></pre>
+<h3 id="la-tecnica-dello-slicing">La tecnica dello slicing</h3>
+<p>Lo slicing è un meccanismo che permette di estrarre sotto-sequenze da liste o stringhe tramite la notazione <code>lista[start:stop]</code>. L'elemento corrispondente all'indice <code>stop</code> è sempre escluso.</p>
+<p>Regole operative dello slicing:</p>
+<ul>
+<li>Il valore di default di <code>start</code> è <code>0</code>.</li>
+<li>Il valore di default di <code>stop</code> è la lunghezza totale della sequenza, ottenibile con <code>len(l)</code>.</li>
+<li>La notazione <code>lista[:i]</code> estrae gli elementi dall'inizio fino all'indice <code>i-1</code>.</li>
+<li>La notazione <code>lista[i:]</code> estrae gli elementi dall'indice <code>i</code> fino alla fine.</li>
+<li>L'espressione <code>lista[:]</code> crea una copia superficiale, detta <em>shallow copy</em>, dell'intera lista.</li>
+</ul>
+<p>A differenza dell'accesso diretto tramite indice singolo, che solleva l'eccezione <code>IndexError</code> in caso di sconfinamento, lo slicing è protetto e gestisce in modo sicuro gli indici fuori intervallo.</p>
+<pre><code class="language-python">stringa = 'Prova'
+sub1 = stringa[0:3]
+sub2 = stringa[2:100]
+sub3 = stringa[7:99]
+</code></pre>
+<p>La comprensione dell'indicizzazione a separatori costituisce la chiave visiva per padroneggiare lo slicing, gli indici non vanno intesi come posizioni sugli elementi, ma come delimitatori posizionati prima e dopo ciascun carattere o elemento della sequenza.</p>
+
+      </section>
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout" style="padding: 24px 0; margin-top: 32px; border-top: 1px solid var(--border-subtle);">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/python/" class="badge badge-outline">python</a>
+              
+            
+              
+              
+              <a href="/tags/sottoprogrammi/" class="badge badge-outline">sottoprogrammi</a>
+              
+            
+              
+              
+              <a href="/tags/programmazione-procedurale/" class="badge badge-outline">programmazione procedurale</a>
+              
+            
+              
+              
+              <a href="/tags/moduli/" class="badge badge-outline">moduli</a>
+              
+            
+              
+              
+              <a href="/tags/package/" class="badge badge-outline">package</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center" style="margin-left: auto; margin-top:20px">
+          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--secondary);">Condividi</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fsottoprogrammi-in-python%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">SU</a>
+          <a href="https://twitter.com/intent/tweet?text=Sottoprogrammi&url=https://dino-996.github.io%2Fblog%2Fsottoprogrammi-in-python%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div style="min-width: 0; max-width: calc(50% - 4px); flex: 1 1 auto;">
+          
+          <a href="/blog/unpacking-e-assegnazione-in-python/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">← Precedente</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Unpacking e assegnazione</span>
+          </a>
+          
+        </div>
+        <div style="min-width: 0; max-width: calc(50% - 4px); text-align: right; flex: 1 1 auto;">
+          
+          <a href="/blog/controllo-del-flusso-in-python/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Successivo →</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Controllo del flusso</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Comments -->
+    <h2 class="post-layout" style="font-size: 1.25rem; margin-top: 48px; margin-bottom: 0;">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

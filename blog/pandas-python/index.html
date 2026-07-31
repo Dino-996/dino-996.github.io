@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Pandas · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Padroneggia Pandas per l&#39;analisi dati in Python: dalle strutture Series e DataFrame alle operazioni SQL-like, fino alle best practice per la vettorizzazione, il method chaining e l&#39;ottimizzazione della memoria." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/pandas-python/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/pandas-python/" />
+
+<meta property="og:title" content="Pandas" />
+<meta property="og:description" content="Padroneggia Pandas per l&#39;analisi dati in Python: dalle strutture Series e DataFrame alle operazioni SQL-like, fino alle best practice per la vettorizzazione, il method chaining e l&#39;ottimizzazione della memoria." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/pandas-python/" />
+
+<meta name="twitter:title" content="Pandas" />
+<meta name="twitter:description" content="Padroneggia Pandas per l&#39;analisi dati in Python: dalle strutture Series e DataFrame alle operazioni SQL-like, fino alle best practice per la vettorizzazione, il method chaining e l&#39;ottimizzazione della memoria." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper hide-desktop" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      <div class="post-breadcrumb">
+        <a href="/">Home</a>
+        <span class="post-breadcrumb-sep">»</span>
+        
+        
+        <a href="/courses/">Percorsi</a>
+        <span class="post-breadcrumb-sep">»</span>
+        <a href="/courses/python/">Python</a>
+        
+      </div>
+
+      <h1>Pandas</h1>
+
+      
+      <p class="post-description">Padroneggia Pandas per l&#39;analisi dati in Python: dalle strutture Series e DataFrame alle operazioni SQL-like, fino alle best practice per la vettorizzazione, il method chaining e l&#39;ottimizzazione della memoria.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 31 luglio 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+        <span class="post-meta-dot">·</span>
+        <span>Ultimo aggiornamento: 31 luglio 2026</span>
+        
+      </div>
+    </header>
+
+    
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png"
+         alt="Immagine generata con AI"
+         class="post-hero-image"
+         fetchpriority="high">
+    
+
+    <article class="post-layout">
+      
+
+      <section class="content">
+        <h2 id="introduzione">Introduzione</h2>
+<p>Pandas è una libreria open-source per Python che fornisce strutture dati e strumenti di analisi ad alte prestazioni. Nata come estensione di NumPy, ne eredita la potenza di calcolo vettorializzato, aggiungendo un'interfaccia intuitiva e flessibile per la manipolazione di dati strutturati. È lo standard <em>de facto</em> per il data science e l'analisi dati, supportando l'integrazione con librerie come SciPy per l'analisi statistica, Matplotlib per la visualizzazione e Scikit-learn per il machine learning.</p>
+<p>Per installare Pandas, è sufficiente utilizzare pip:</p>
+<pre><code class="language-bash">pip install pandas
+<p></code></pre></p>
+<p>L'importazione standard, insieme a NumPy, è:</p>
+<pre><code class="language-python">import numpy as np
+import pandas as pd
+<p></code></pre></p>
+<h2 id="strutture-dati-fondamentali">Strutture dati fondamentali</h2>
+<p>Pandas si basa su due strutture dati principali, pensate per gestire dati rispettivamente in una e due dimensioni, ed è proprio dalla loro comprensione che parte ogni analisi efficace.</p>
+<h3 id="la-series">La Series</h3>
+<p>Una <code>Series</code> è un array monodimensionale etichettato, in grado di contenere dati di qualsiasi tipo. Ogni elemento è associato a un indice, che può essere personalizzato. Una Series può essere creata a partire da diversi tipi di dati (liste, array NumPy, dizionari). Se l'indice non viene specificato, verrà creato automaticamente un indice posizionale.</p>
+<pre><code class="language-python">serie1 = pd.Series(np.random.randn(4), index=['a', 'b', 'c', 'd'])
+dizionario = {&quot;b&quot;: 1, &quot;a&quot;: 0, &quot;c&quot;: 2}
+serie2 = pd.Series(dizionario)
+<p></code></pre></p>
+<h4 id="operare-con-le-series">Operare con le Series</h4>
+<p>Le Series sono estremamente flessibili e possono essere utilizzate come array NumPy o come dizionari Python. Questo duplice comportamento le rende uno strumento potente per lo sviluppatore.</p>
+<ul>
+<li><strong>Come array NumPy:</strong> supportano operazioni vettoriali e lo slicing. La funzione <code>to_numpy()</code> restituisce l'array sottostante: a seconda del dtype della Series, questo può essere una vista o una copia dei dati, quindi è buona pratica non fare affidamento implicito sull'uno o sull'altro comportamento quando si scrive codice manutenibile.</li>
+<li><strong>Come dizionario:</strong> è possibile accedere agli elementi tramite l'indice (es. <code>serie[&quot;a&quot;]</code>) e verificare l'appartenenza con l'operatore <code>in</code>.</li>
+</ul>
+<h3 id="il-dataframe">Il DataFrame</h3>
+<p>Un <code>DataFrame</code> è una struttura dati bidimensionale, simile a un foglio di calcolo o a una tabella di un database. È composto da righe e colonne, dove ogni colonna è una <code>Series</code> e può contenere dati di tipo diverso. La sintassi per creare un DataFrame è molto flessibile.</p>
+<pre><code class="language-python">dati = {
+    &quot;one&quot;: pd.Series([1.0, 2.0, 3.0], index=[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;]),
+    &quot;two&quot;: pd.Series([1.0, 2.0, 3.0, 4.0], index=[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;])
+}
+df = pd.DataFrame(dati)
+<p></code></pre></p>
+<h2 id="operazioni-sui-dataframe">Operazioni sui DataFrame</h2>
+<p>La vera potenza di Pandas risiede nella facilità con cui si possono manipolare i dati in un DataFrame. Le operazioni di selezione, aggiunta e cancellazione di colonne seguono la sintassi dei dizionari.</p>
+<pre><code class="language-python">colonna_one = df[&quot;one&quot;]
+colonna_one = df.one
+df[&quot;three&quot;] = df[&quot;one&quot;] * df[&quot;two&quot;]
+del df[&quot;three&quot;]
+df.pop(&quot;two&quot;)
+<p></code></pre></p>
+<h3 id="accesso-ai-dati-loc-vs-iloc">Accesso ai dati: <code>loc</code> vs <code>iloc</code></h3>
+<p>La selezione di righe e celle può essere effettuata tramite due metodi principali, che servono a scopi leggermente diversi. La chiarezza nell'uso di questi metodi è fondamentale per scrivere codice pulito e privo di errori.</p>
+<ul>
+<li><code>loc</code>: <strong>basato sulle etichette.</strong> L'indice della riga viene specificato. <code>df.loc['a']</code> seleziona la riga con indice 'a'.</li>
+<li><code>iloc</code>: <strong>basato sulla posizione.</strong> L'indice intero della riga viene specificato. <code>df.iloc[0]</code> seleziona la prima riga.</li>
+</ul>
+<p>Entrambi i metodi accettano singoli valori, liste, slice (fette) e array booleani, offrendo massima flessibilità.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Operazione</th> <th>Sintassi</th> <th>Risultato</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Selezionare colonna/e</td> <td><code>df[colonne]</code></td> <td>Series / DataFrame</td> </tr> <tr> <td class="fw-semibold">Selezionare riga/e da etichetta</td> <td><code>df.loc[indici]</code></td> <td>Series / DataFrame</td> </tr> <tr> <td class="fw-semibold">Selezionare riga/e da posizione</td> <td><code>df.iloc[posizioni]</code></td> <td>Series / DataFrame</td> </tr> <tr> <td class="fw-semibold">Slice di righe</td> <td><code>df[start:end]</code></td> <td>DataFrame</td> </tr> </tbody> </table> </div>
+<h3 id="iterazione-su-un-dataframe">Iterazione su un DataFrame</h3>
+<p>Sebbene l'iterazione esplicita non sia l'approccio più performante, a volte è necessaria. Pandas fornisce due metodi principali:</p>
+<ul>
+<li><code>iterrows()</code>: itera sulle righe restituendo una Series per ciascuna. Nota, può essere meno efficiente e non sempre garantisce la conservazione del tipo di dato originale.</li>
+<li><code>itertuples()</code>: itera sulle righe restituendo una tupla con nome. È generalmente più performante di <code>iterrows()</code>.</li>
+</ul>
+<pre><code class="language-python">for index, row in df.iterrows():
+    print(f&quot;Indice: {index}, Valore colonna 'one': {row['one']}&quot;)
+for row in df.itertuples():
+    print(f&quot;Indice: {row.Index}, Valore colonna 'one': {row.one}&quot;)
+<p></code></pre></p>
+<h2 id="gestione-dei-valori-mancanti">Gestione dei valori mancanti</h2>
+<p>Uno degli scenari più frequenti nell'analisi di dati reali è la presenza di valori mancanti, spesso rappresentati come <code>NaN</code>. Gestirli correttamente è un requisito di base per garantire l'affidabilità di qualsiasi pipeline di analisi.</p>
+<p>Pandas mette a disposizione un set di funzioni dedicate:</p>
+<ul>
+<li><code>isna()</code> / <code>notna()</code>: restituiscono una maschera booleana che indica, rispettivamente, quali valori sono mancanti o validi.</li>
+<li><code>dropna()</code>: rimuove le righe o le colonne contenenti valori mancanti.</li>
+<li><code>fillna()</code>: sostituisce i valori mancanti con un valore specifico, con il valore precedente/successivo, o con un valore calcolato (es. la media della colonna).</li>
+</ul>
+<pre><code class="language-python">df[&quot;voti&quot;].isna()
+df.dropna(axis=0)
+df[&quot;voti&quot;] = df[&quot;voti&quot;].fillna(df[&quot;voti&quot;].mean())
+<p></code></pre></p>
+<p>Scegliere tra <code>dropna()</code> e <code>fillna()</code> non è mai una decisione puramente tecnica, ma dipende dal contesto del dominio, va sempre valutato se un valore mancante rappresenta un dato assente per errore o un'informazione essa stessa significativa.</p>
+<h2 id="un-caso-duso-esplorazione-del-dataset-titanic">Un caso d'uso: esplorazione del dataset Titanic</h2>
+<p>Un classico scenario di data science prevede il caricamento di un dataset, la sua esplorazione e la sua visualizzazione. Con Pandas, l'intero flusso di lavoro può essere gestito in un unico ambiente, senza la necessità di strumenti esterni come DBMS o fogli di calcolo.</p>
+<p>L'approccio tradizionale prevederebbe, in sequenza, di caricare i dati su un DBMS, utilizzare un linguaggio come Java o Python per leggerli, usare SQL per trasformarli e infine esportarli in Excel per la visualizzazione. Con Pandas, tutto questo viene semplificato in un unico notebook, sfruttando funzioni già pronte per leggere il dato, esplorarlo, elaborarlo e visualizzarlo.</p>
+<h2 id="operazioni-sql-like-in-pandas">Operazioni SQL-like in Pandas</h2>
+<p>Pandas offre funzionalità che replicano le operazioni tipiche dell'SQL, permettendo ai professionisti di sfruttare la loro conoscenza del linguaggio di query.</p>
+<h3 id="join-e-concatenazione">Join e concatenazione</h3>
+<p>La libreria mette a disposizione tre metodi principali per combinare dati da DataFrame diversi.</p>
+<h4 id="join"><code>join()</code></h4>
+<p>Perfetto quando si vogliono unire due DataFrame basandosi sugli indici delle righe. Parametri chiave come <code>how</code> ('inner', 'left', 'right', 'outer') permettono di specificare il tipo di join.</p>
+<pre><code class="language-python">df1 = pd.DataFrame({'Nome': ['Mario', 'Luigi']}, index=['CF1', 'CF2'])
+df2 = pd.DataFrame({'Cognome': ['Rossi', 'Verdi']}, index=['CF1', 'CF3'])
+df3 = df1.join(df2, how='outer')
+<p></code></pre></p>
+<h4 id="merge"><code>merge()</code></h4>
+<p>È una versione più generale di <code>join</code>. È la scelta ideale quando la colonna su cui effettuare il join non è l'indice.</p>
+<ul>
+<li><code>on</code>: nome della colonna comune.</li>
+<li><code>left_on</code> / <code>right_on</code>: nomi delle colonne quando questi sono diversi nei due DataFrame.</li>
+</ul>
+<pre><code class="language-python">df1 = pd.DataFrame({'Nome': ['Mario', 'Luigi'], 'Codice': ['CF1', 'CF2']})
+df2 = pd.DataFrame({'Cognome': ['Rossi', 'Verdi'], 'Codice': ['CF1', 'CF3']})
+df3 = df1.merge(df2, on='Codice', how='inner')
+<p></code></pre></p>
+<h4 id="concat"><code>concat()</code></h4>
+<p>Permette di concatenare più DataFrame, sia per righe (<code>axis=0</code>) che per colonne (<code>axis=1</code>). È utile per aggiungere nuovi dati o feature al dataset.</p>
+<pre><code class="language-python">df_righe = pd.concat([df1, df2], axis=0)
+df_colonne = pd.concat([df1, df2], axis=1)
+<p></code></pre></p>
+<h3 id="grouping-group-by">Grouping (GROUP BY)</h3>
+<p>L'operazione di raggruppamento, simile al GROUP BY di SQL, è fondamentale per l'aggregazione dei dati. Si utilizza la funzione <code>groupby()</code> a cui viene passata una lista di colonne su cui raggruppare.</p>
+<pre><code class="language-python">raggruppato = df.groupby(['colonna1', 'colonna2'])
+<p></code></pre></p>
+<p>Sul risultato, si possono applicare funzioni di aggregazione come <code>sum()</code>, <code>mean()</code>, <code>count()</code>, <code>std()</code>, e molte altre.</p>
+<h2 id="importazione-ed-esportazione-dei-dati">Importazione ed esportazione dei dati</h2>
+<p>Pandas supporta un'ampia gamma di formati di file per importare ed esportare dati, semplificando l'integrazione con diversi sistemi.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Tipo</th> <th>Lettura</th> <th>Salvataggio</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">CSV</td> <td><code>pd.read_csv()</code></td> <td><code>df.to_csv()</code></td> </tr> <tr> <td class="fw-semibold">JSON</td> <td><code>pd.read_json()</code></td> <td><code>df.to_json()</code></td> </tr> <tr> <td class="fw-semibold">Excel</td> <td><code>pd.read_excel()</code></td> <td><code>df.to_excel()</code></td> </tr> <tr> <td class="fw-semibold">SQL</td> <td><code>pd.read_sql()</code></td> <td><code>df.to_sql()</code></td> </tr> </tbody> </table> </div>
+<p>Un aspetto spesso trascurato riguarda la sicurezza in fase di lettura dei dati: formati come il pickle (<code>pd.read_pickle()</code>) eseguono deserializzazione di oggetti Python arbitrari e, se applicati a file provenienti da fonti non fidate, possono comportare l'esecuzione di codice non controllato. Come buona pratica di sicurezza del software, è opportuno limitare l'uso di questo formato a file generati e controllati internamente, preferendo formati come CSV, JSON o Parquet quando i dati provengono da fonti esterne.</p>
+<h2 id="esplorazione-rapida-dei-dati">Esplorazione rapida dei dati</h2>
+<p>Prima di iniziare qualsiasi analisi, è cruciale comprendere la struttura e le caratteristiche del dataset. Pandas offre funzioni dedicate a questo scopo.</p>
+<ul>
+<li><code>head()</code> / <code>tail()</code>: visualizza le prime/ultime righe del DataFrame.</li>
+<li><code>shape</code>: restituisce le dimensioni (righe, colonne).</li>
+<li><code>info()</code>: fornisce un riepilogo del DataFrame, inclusi i tipi di dato e il numero di valori non nulli.</li>
+<li><code>describe()</code>: genera statistiche descrittive per le colonne numeriche (conteggio, media, deviazione standard, min, max, quartili).</li>
+</ul>
+<p>A queste si aggiungono funzioni come <code>sum()</code>, <code>mean()</code>, <code>std()</code>, <code>value_counts()</code> per un'analisi più mirata.</p>
+<h2 id="visualizzazione-dei-dati-con-matplotlib">Visualizzazione dei dati con Matplotlib</h2>
+<p>Pandas si integra perfettamente con Matplotlib, la libreria di plotting più popolare in Python. Il metodo <code>plot()</code> di Series e DataFrame è un wrapper che semplifica la creazione di grafici.</p>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+df['colonna'].plot(kind='bar')
+plt.show()
+<p></code></pre></p>
+<p>La potenza di questo approccio risiede nella possibilità di specificare il tipo di grafico attraverso il parametro <code>kind</code>. Per visualizzazioni più avanzate, come i diagrammi di dispersione a matrice, è disponibile il modulo <code>pandas.plotting</code>.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>kind</th> <th>Grafico</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold"><code>'bar'</code> / <code>'barh'</code></td> <td>Bar plot</td> </tr> <tr> <td class="fw-semibold"><code>'hist'</code></td> <td>Istogramma</td> </tr> <tr> <td class="fw-semibold"><code>'box'</code></td> <td>Boxplot</td> </tr> <tr> <td class="fw-semibold"><code>'scatter'</code></td> <td>Scatter plot</td> </tr> <tr> <td class="fw-semibold"><code>'pie'</code></td> <td>Grafico a torta</td> </tr> </tbody> </table> </div>
+<h2 id="vettorizzazione-il-cuore-dellefficienza">Vettorizzazione: il cuore dell'efficienza</h2>
+<p>Le operazioni vettoriali sono uno dei pilastri su cui si basa la potenza di Pandas. Invece di iterare elemento per elemento, si applicano operazioni a intere serie di dati, sfruttando l'ottimizzazione in C e le capacità di NumPy.</p>
+<h3 id="vettorizzazione-su-series">Vettorizzazione su Series</h3>
+<p>Le operazioni aritmetiche e di confronto tra Series vengono eseguite componente per componente, allineando gli elementi in base all'indice. Se un indice non è presente in una delle due Series, il risultato sarà <code>NaN</code>.</p>
+<pre><code class="language-python">serie = pd.Series([1, 2, 3, 4], index=['a', 'b', 'c', 'd'])
+print(serie * 2)
+print(serie[1:] + serie[:-1])
+<p></code></pre></p>
+<h3 id="vettorizzazione-su-dataframe">Vettorizzazione su DataFrame</h3>
+<p>Anche per i DataFrame è possibile applicare operazioni vettoriali. Il concetto di broadcast di NumPy permette di eseguire operazioni tra un DataFrame e un valore scalare, un array o un altro DataFrame di forma compatibile.</p>
+<p>L'asse di applicazione può essere controllato tramite il parametro <code>axis</code> in molte funzioni, <code>axis=0</code> (o <code>axis='index'</code>) applica l'operazione per ogni colonna ed è il comportamento predefinito, mentre <code>axis=1</code> (o <code>axis='columns'</code>) applica l'operazione per ogni riga.</p>
+<p>Per applicare una funzione personalizzata, si utilizza il metodo <code>apply()</code>.</p>
+<pre><code class="language-python">def valuta_voto(x):
+    if x &gt;= 18.0:
+        return &quot;Promosso&quot;
+    else:
+        return &quot;Bocciato&quot;
+df[&quot;risultati&quot;] = df[&quot;voti&quot;].apply(valuta_voto)
+<p></code></pre></p>
+<h2 id="best-practice-chiarezza-architetturale-con-il-method-chaining">Best practice: chiarezza architetturale con il method chaining</h2>
+<p>Quando una trasformazione dei dati richiede più passaggi in sequenza (filtraggio, creazione di nuove colonne, raggruppamento), scrivere ogni passaggio come una riassegnazione separata rende il codice difficile da leggere e da manutenere. Il metodo <code>pipe()</code> permette di incapsulare ogni trasformazione in una funzione pura e di comporle in una catena leggibile dall'alto verso il basso, con evidenti benefici in termini di modularità e linearità logica del codice.</p>
+<pre><code class="language-python">def rimuovi_mancanti(dataframe):
+    return dataframe.dropna()
+def aggiungi_colonna_risultati(dataframe):
+    return dataframe.assign(risultati=dataframe[&quot;voti&quot;].apply(valuta_voto))
+df_finale = (
+    df
+    .pipe(rimuovi_mancanti)
+    .pipe(aggiungi_colonna_risultati)
+)
+<p></code></pre></p>
+<p>Ogni funzione della catena ha una singola responsabilità e può essere testata in isolamento, un principio di progettazione che si applica altrettanto bene al codice di analisi dati quanto a un qualsiasi altro sistema software.</p>
+<h2 id="copie-e-viste-unattenzione-alla-manutenibilita">Copie e viste: un'attenzione alla manutenibilità</h2>
+<p>La distinzione tra copie e viste in Pandas può creare comportamenti inattesi se non gestita correttamente. Comprendere questo concetto è fondamentale per evitare bug e garantire la manutenibilità del codice. Il principio &quot;explicit is better than implicit&quot; guida la gestione di questo aspetto.</p>
+<h3 id="scenario-1-creare-un-dataframe-indipendente">Scenario 1: creare un DataFrame indipendente</h3>
+<p>Quando si vuole lavorare su una copia del dato originale senza modificarlo, si utilizza il metodo <code>copy()</code>.</p>
+<pre><code class="language-python">df2 = df1.copy()
+<p></code></pre></p>
+<h3 id="scenario-2-aggiornare-un-dataframe-da-un-altro">Scenario 2: aggiornare un DataFrame da un altro</h3>
+<p>Se l'obiettivo è aggiornare i valori di un DataFrame (df1) con quelli di un altro (df2), il metodo <code>update()</code> è la soluzione più chiara e sicura. Anche in questo caso, è consigliabile creare una copia per l'elaborazione intermedia.</p>
+<pre><code class="language-python">df2 = df1.copy()
+df1.update(df2)
+<p></code></pre></p>
+<p>Questo approccio evita l'uso di catene di indicizzazione che potrebbero generare il famoso SettingWithCopyWarning, rendendo il codice più robusto e prevedibile.</p>
+<h2 id="ottimizzazione-delle-prestazioni-e-memoria">Ottimizzazione delle prestazioni e memoria</h2>
+<p>Oltre alla vettorizzazione, un'altra leva di ottimizzazione spesso sottovalutata riguarda la scelta dei tipi di dato. Colonne testuali con un numero limitato di valori distinti (es. categorie, stati, etichette) possono essere convertite al tipo <code>category</code> tramite <code>astype('category')</code>, riducendo sensibilmente l'occupazione di memoria e velocizzando operazioni come <code>groupby()</code> su dataset di grandi dimensioni.</p>
+<pre><code class="language-python">df[&quot;categoria&quot;] = df[&quot;categoria&quot;].astype(&quot;category&quot;)
+<p></code></pre></p>
+<p>Questa è una delle ottimizzazioni con il miglior rapporto tra sforzo di implementazione e beneficio ottenuto, particolarmente rilevante quando si lavora con dataset che non entrano comodamente in memoria.</p>
+<h2 id="conclusioni">Conclusioni</h2>
+<p>Pandas si conferma come uno strumento indispensabile per chiunque lavori con dati in Python. La sua curva di apprendimento è dolce, ma nasconde una potenza enorme che, se sfruttata correttamente, permette di scrivere codice efficiente, leggibile e manutenibile. L'adozione di best practice come l'uso delle operazioni vettoriali, la comprensione delle strutture dati, la corretta gestione di copie e viste, e un'attenzione mirata a prestazioni e sicurezza, sono fondamentali per trasformare un semplice script di analisi in un sistema robusto e scalabile. L'integrazione nativa con SQL, Excel e le librerie di visualizzazione lo rende un coltellino svizzero per il data scientist moderno.</p>
+
+      </section>
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout" style="padding: 24px 0; margin-top: 32px; border-top: 1px solid var(--border-subtle);">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/python/" class="badge badge-outline">python</a>
+              
+            
+              
+              
+              <a href="/tags/pandas/" class="badge badge-outline">pandas</a>
+              
+            
+              
+              
+              <a href="/tags/data-science/" class="badge badge-outline">data science</a>
+              
+            
+              
+              
+              <a href="/tags/data-frame/" class="badge badge-outline">data frame</a>
+              
+            
+              
+              
+              <a href="/tags/analisi-dei-dati/" class="badge badge-outline">analisi dei dati</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center" style="margin-left: auto; margin-top:20px">
+          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--secondary);">Condividi</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fpandas-python%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">SU</a>
+          <a href="https://twitter.com/intent/tweet?text=Pandas&url=https://dino-996.github.io%2Fblog%2Fpandas-python%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div style="min-width: 0; max-width: calc(50% - 4px); flex: 1 1 auto;">
+          
+          <a href="/blog/numpy-python/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">← Precedente</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">NumPy</span>
+          </a>
+          
+        </div>
+        <div style="min-width: 0; max-width: calc(50% - 4px); text-align: right; flex: 1 1 auto;">
+          
+          <a href="/blog/ai-act-cosa-cambia-il-due-agosto/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Successivo →</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">AI ACT: Novità e Scadenze</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Comments -->
+    <h2 class="post-layout" style="font-size: 1.25rem; margin-top: 48px; margin-bottom: 0;">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

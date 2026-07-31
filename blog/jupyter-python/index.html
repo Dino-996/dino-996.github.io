@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Jupyter · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Scopri l&#39;ecosistema Jupyter e i notebook eseguibili: dall&#39;architettura di celle e kernel alle best practice per il versionamento del codice, fino alla trasformazione dei report in dashboard interattive con Voilà e Papermill." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/jupyter-python/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/jupyter-python/" />
+
+<meta property="og:title" content="Jupyter" />
+<meta property="og:description" content="Scopri l&#39;ecosistema Jupyter e i notebook eseguibili: dall&#39;architettura di celle e kernel alle best practice per il versionamento del codice, fino alla trasformazione dei report in dashboard interattive con Voilà e Papermill." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/jupyter-python/" />
+
+<meta name="twitter:title" content="Jupyter" />
+<meta name="twitter:description" content="Scopri l&#39;ecosistema Jupyter e i notebook eseguibili: dall&#39;architettura di celle e kernel alle best practice per il versionamento del codice, fino alla trasformazione dei report in dashboard interattive con Voilà e Papermill." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper hide-desktop" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      <div class="post-breadcrumb">
+        <a href="/">Home</a>
+        <span class="post-breadcrumb-sep">»</span>
+        
+        
+        <a href="/courses/">Percorsi</a>
+        <span class="post-breadcrumb-sep">»</span>
+        <a href="/courses/python/">Python</a>
+        
+      </div>
+
+      <h1>Jupyter</h1>
+
+      
+      <p class="post-description">Scopri l&#39;ecosistema Jupyter e i notebook eseguibili: dall&#39;architettura di celle e kernel alle best practice per il versionamento del codice, fino alla trasformazione dei report in dashboard interattive con Voilà e Papermill.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 31 luglio 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+        <span class="post-meta-dot">·</span>
+        <span>Ultimo aggiornamento: 31 luglio 2026</span>
+        
+      </div>
+    </header>
+
+    
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png"
+         alt="Immagine generata con AI"
+         class="post-hero-image"
+         fetchpriority="high">
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">In breve</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Jupyter, derivato da IPython, è un ecosistema open-source che unifica codice, documentazione e risultati in documenti `.ipynb` strutturati in celle per favorire la prototipazione e la condivisione interattiva. La sua architettura basata su kernel dedicati supporta molteplici linguaggi, permettendo l&#39;esecuzione modulare del codice tramite diversi client.</p>
+      </div>
+      
+
+      <section class="content">
+        <h2 id="introduzione">Introduzione</h2>
+<p>Python è un linguaggio di programmazione che ha conosciuto una crescita esponenziale negli ultimi anni, affermandosi come strumento di riferimento in ambito didattico, nella ricerca scientifica e nel data science. La sua popolarità deriva da una combinazione vincente di fattori: una curva di apprendimento contenuta, un ambiente interattivo che favorisce la sperimentazione e un ecosistema straordinariamente ricco di librerie e progetti open source. Tra questi, il progetto Jupyter rappresenta uno dei pilastri fondamentali per lo sviluppo e la condivisione di codice interattivo.</p>
+<h3 id="il-progetto-jupyter-e-i-notebook-eseguibili">Il progetto Jupyter e i notebook eseguibili</h3>
+<p>Nato nel 2014 come spin-off del progetto IPython, Jupyter è nato con l'obiettivo di estendere il concetto di console interattiva, migliorando la condivisione del codice e includendo in un unico ambiente documentazione, codice, risultati e visualizzazioni. Il nome stesso, Jupyter, è un acronimo che rende omaggio ai tre linguaggi inizialmente supportati: <strong>Ju</strong>lia, <strong>Pyt</strong>hon e <strong>R</strong>.</p>
+<p>L'idea centrale del progetto è il notebook eseguibile e condivisibile (executable notebook, documento interattivo che unisce codice ed esposizione testuale): un documento che può contenere codice, testo formattato (Markdown), formule matematiche (LaTeX), grafici, immagini e altri contenuti multimediali. Questa flessibilità rende il notebook uno strumento ideale per la prototipazione rapida, l'esplorazione di dati e la creazione di report interattivi.</p>
+<h4 id="architettura-e-formati">Architettura e formati</h4>
+<p>Un notebook Jupyter è, a tutti gli effetti, un file JSON con estensione <code>.ipynb</code>. La sua struttura interna è organizzata in celle, che si suddividono in tre tipologie:</p>
+<ul>
+<li><strong>Celle di codice:</strong> contengono il codice eseguibile (ad esempio Python, R, Julia) e, una volta eseguite, incorporano al proprio interno anche l'output prodotto (testo, grafici, tabelle). L'output non è quindi una cella a sé stante, ma un elemento allegato alla cella di codice che lo ha generato.</li>
+<li><strong>Celle Markdown:</strong> contengono testo formattato, titoli, elenchi, immagini e formule, utili per documentare il flusso di lavoro.</li>
+<li><strong>Celle raw:</strong> contengono testo non elaborato dal motore di rendering, utile in casi particolari di conversione del notebook verso altri formati (ad esempio tramite nbconvert).</li>
+</ul>
+<p>L'esecuzione del codice avviene tramite un kernel (kernel, processo separato responsabile dell'esecuzione del codice e della restituzione dei risultati al frontend). Ogni linguaggio supportato ha il proprio kernel dedicato: Python utilizza tipicamente il kernel <code>ipykernel</code>, mentre R e Julia dispongono di kernel equivalenti pensati appositamente per i rispettivi linguaggi. Questa architettura permette di eseguire le celle singolarmente o in sequenza, rendendo il processo di sviluppo interattivo e modulare.</p>
+<h4 id="client-per-jupyter">Client per Jupyter</h4>
+<p>Esistono diversi modi per interagire con i notebook Jupyter, ciascuno pensato per un contesto d'uso differente.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Client</th> <th>Come si avvia</th> <th>Caso d'uso consigliato</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">JupyterLab</td> <td>Installazione via <code>pip install jupyterlab</code>, avvio con <code>jupyter lab</code> su <code>localhost:8888</code></td> <td>Ambiente web completo, ideale per progetti data science strutturati con più file</td> </tr> <tr> <td class="fw-semibold">Classic Notebook</td> <td>Avvio con <code>jupyter notebook</code></td> <td>Interfaccia essenziale, adatta a chi predilige un'esperienza minimale</td> </tr> <tr> <td class="fw-semibold">Estensione VS Code</td> <td>Estensione <code>ms-toolsai.jupyter</code></td> <td>Sviluppo integrato con debug, versionamento e refactoring nello stesso IDE</td> </tr> <tr> <td class="fw-semibold">Cloud provider</td> <td>Accesso via browser tramite l'account del provider</td> <td>Calcolo scalabile senza configurazione locale, utile per dataset di grandi dimensioni o GPU condivise</td> </tr> </tbody> </table> </div>
+<p>Tra i cloud provider, piattaforme come Google Colab offrono da anni supporto nativo per i notebook Jupyter; anche i principali cloud provider enterprise (Amazon Web Services, Microsoft Azure) mettono a disposizione soluzioni native per l'esecuzione di notebook, facilitando l'accesso a risorse di calcolo condivise senza necessità di configurazione locale.</p>
+<h3 id="best-practice-per-luso-dei-notebook">Best practice per l'uso dei notebook</h3>
+<p>Sebbene i notebook siano estremamente potenti, è importante utilizzarli con criterio, specialmente in contesti professionali. Ecco alcune buone pratiche da seguire.</p>
+<ol>
+<li><strong>Usali per l'esplorazione, non per la produzione:</strong> i notebook sono ideali per la prototipazione rapida e l'analisi esplorativa, ma non sono adatti per sviluppare software in produzione. Per applicazioni robuste, è preferibile scrivere moduli Python standard e importarli nel notebook.</li>
+<li><strong>Mantieni le celle brevi e descrittive:</strong> ogni cella dovrebbe svolgere una singola funzione logica. Usa le celle Markdown per commentare e spiegare il flusso del lavoro.</li>
+<li><strong>Gestisci lo stato con attenzione:</strong> le variabili definite in una cella sono visibili in tutte le celle successive. Questo può portare a uno stato &quot;sporco&quot; e a risultati imprevedibili se si eseguono le celle fuori ordine. Per evitarlo, è buona norma eseguire il notebook dall'inizio ogni volta che si apportano modifiche significative.</li>
+<li><strong>Versiona i notebook con strumenti adatti:</strong> i file <code>.ipynb</code> contengono molto metadata e output, rendendo i diff tradizionali (come quelli di Git) difficili da leggere. Strumenti come <code>nbdime</code> permettono di fare diff e merge in modo efficace.</li>
+<li><strong>Ripulisci gli output prima del commit:</strong> versionare un notebook con output binari (grafici, immagini) gonfia inutilmente la cronologia del repository e rischia di esporre dati sensibili elaborati durante l'analisi. È buona norma configurare uno strumento che rimuova automaticamente gli output prima di ogni commit, integrandolo come git hook.</li>
+</ol>
+<p>bash</p>
+<pre><code class="language-bash">pip install nbstripout
+nbstripout --install
+</code></pre>
+<h3 id="un-esempio-pratico-numpy-e-matplotlib">Un esempio pratico: NumPy e Matplotlib</h3>
+<p>Per comprendere appieno la potenza di un notebook, vediamo un breve esempio che integra calcolo numerico e visualizzazione. Assicurati di aver installato le librerie NumPy e Matplotlib (ad esempio con <code>!pip install numpy matplotlib</code> all'inizio del notebook).</p>
+<p>python</p>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+</code></pre>
+<p>Creiamo un array di numeri interi e convertiamolo in virgola mobile per mostrare il concetto di casting.</p>
+<p>python</p>
+<pre><code class="language-python">x = np.array([1, 2, 3], dtype=np.int16)
+y = x.astype(np.float64)
+x.dtype, y.dtype
+</code></pre>
+<p>L'output sarà <code>(dtype('int16'), dtype('float64'))</code>, che dimostra come Python (tramite NumPy) gestisca in modo esplicito i tipi di dato.</p>
+<p>Infine, generiamo un grafico che combina una funzione sinusoidale con un decadimento esponenziale.</p>
+<p>python</p>
+<pre><code class="language-python">t = np.linspace(0, 2*np.pi, 200)
+y = np.sin(3*t) * np.exp(-t/5)
+plt.figure()
+plt.plot(t, y)
+plt.title('Esempio NumPy + Matplotlib')
+plt.xlabel('t')
+plt.ylabel('y')
+plt.show()
+</code></pre>
+<h3 id="oltre-lesplorazione-dai-notebook-alle-applicazioni">Oltre l'esplorazione: dai notebook alle applicazioni</h3>
+<p>Una volta superata la fase di prototipazione, esistono strumenti maturi che permettono di portare un notebook oltre il proprio contesto originario, senza dover necessariamente riscrivere tutto in un'applicazione tradizionale.</p>
+<ul>
+<li><strong>Voilà:</strong> trasforma un notebook esistente in un'applicazione web standalone, nascondendo il codice sorgente e mostrando solo l'interfaccia grafica risultante (grafici, widget, testo). È utile per condividere un dashboard interattivo con utenti non tecnici.</li>
+</ul>
+<p>bash</p>
+<pre><code class="language-bash">pip install voila
+voila nome_notebook.ipynb
+</code></pre>
+<ul>
+<li><strong>Papermill:</strong> consente di eseguire un notebook da riga di comando iniettando parametri diversi ad ogni esecuzione, rendendo possibile l'automazione e la schedulazione di notebook parametrici (ad esempio in una pipeline CI/CD).</li>
+</ul>
+<p>bash</p>
+<pre><code class="language-bash">pip install papermill
+papermill notebook_input.ipynb notebook_output.ipynb -p parametro valore
+</code></pre>
+<h3 id="limiti-dei-notebook-e-considerazioni-finali">Limiti dei notebook e considerazioni finali</h3>
+<p>Nonostante i loro indubbi vantaggi, i notebook presentano anche alcuni limiti che è bene conoscere.</p>
+<ul>
+<li><strong>Non sostituiscono un IDE:</strong> non offrono le stesse funzionalità di debug, refactoring e testing di un ambiente di sviluppo integrato.</li>
+<li><strong>Rischio di incoerenza:</strong> come accennato, l'esecuzione non lineare delle celle può portare a risultati errati se non si presta attenzione.</li>
+<li><strong>Versionamento complesso:</strong> i file JSON possono generare conflitti difficili da risolvere in ambienti di sviluppo collaborativo, se non si adottano strumenti dedicati come quelli descritti in precedenza.</li>
+</ul>
+<p>In sintesi, Jupyter è uno strumento eccezionale per l'apprendimento, la ricerca e la data science, ma va integrato con altre pratiche e strumenti per uno sviluppo software professionale. La sua capacità di unire codice, dati e narrazione lo rende un alleato prezioso per chiunque lavori con i dati, a patto di conoscerne bene i limiti e di adottare le pratiche di igiene del codice e del repository descritte in questo articolo.</p>
+<p><strong>Nota sull'approfondimento:</strong> per una trattazione più estesa delle librerie scientifiche di Python e delle tecniche di data visualization, si consiglia di esplorare la documentazione ufficiale di NumPy, Matplotlib e degli altri strumenti dell'ecosistema PyData.</p>
+
+      </section>
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout" style="padding: 24px 0; margin-top: 32px; border-top: 1px solid var(--border-subtle);">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/python/" class="badge badge-outline">python</a>
+              
+            
+              
+              
+              <a href="/tags/jupyter/" class="badge badge-outline">jupyter</a>
+              
+            
+              
+              
+              <a href="/tags/data-science/" class="badge badge-outline">data science</a>
+              
+            
+              
+              
+              <a href="/tags/notebook/" class="badge badge-outline">notebook</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center" style="margin-left: auto; margin-top:20px">
+          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--secondary);">Condividi</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fjupyter-python%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">SU</a>
+          <a href="https://twitter.com/intent/tweet?text=Jupyter&url=https://dino-996.github.io%2Fblog%2Fjupyter-python%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div style="min-width: 0; max-width: calc(50% - 4px); flex: 1 1 auto;">
+          
+          <a href="/blog/classi-e-oggetti-in-python/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">← Precedente</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Classi e Oggetti</span>
+          </a>
+          
+        </div>
+        <div style="min-width: 0; max-width: calc(50% - 4px); text-align: right; flex: 1 1 auto;">
+          
+          <a href="/blog/numpy-python/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Successivo →</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">NumPy</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Comments -->
+    <h2 class="post-layout" style="font-size: 1.25rem; margin-top: 48px; margin-bottom: 0;">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

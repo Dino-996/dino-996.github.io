@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Classi e Oggetti · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Padroneggia la programmazione orientata agli oggetti in Python: scopri come definire classi e istanze, applicare i pilastri dell&#39;OOP e utilizzare strumenti moderni come @property, dataclasses e __slots__ per scrivere codice modulare ed efficiente." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/classi-e-oggetti-in-python/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/classi-e-oggetti-in-python/" />
+
+<meta property="og:title" content="Classi e Oggetti" />
+<meta property="og:description" content="Padroneggia la programmazione orientata agli oggetti in Python: scopri come definire classi e istanze, applicare i pilastri dell&#39;OOP e utilizzare strumenti moderni come @property, dataclasses e __slots__ per scrivere codice modulare ed efficiente." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/classi-e-oggetti-in-python/" />
+
+<meta name="twitter:title" content="Classi e Oggetti" />
+<meta name="twitter:description" content="Padroneggia la programmazione orientata agli oggetti in Python: scopri come definire classi e istanze, applicare i pilastri dell&#39;OOP e utilizzare strumenti moderni come @property, dataclasses e __slots__ per scrivere codice modulare ed efficiente." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper hide-desktop" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      <div class="post-breadcrumb">
+        <a href="/">Home</a>
+        <span class="post-breadcrumb-sep">»</span>
+        
+        
+        <a href="/courses/">Percorsi</a>
+        <span class="post-breadcrumb-sep">»</span>
+        <a href="/courses/python/">Python</a>
+        
+      </div>
+
+      <h1>Classi e Oggetti</h1>
+
+      
+      <p class="post-description">Padroneggia la programmazione orientata agli oggetti in Python: scopri come definire classi e istanze, applicare i pilastri dell&#39;OOP e utilizzare strumenti moderni come @property, dataclasses e __slots__ per scrivere codice modulare ed efficiente.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 31 luglio 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+        <span class="post-meta-dot">·</span>
+        <span>Ultimo aggiornamento: 31 luglio 2026</span>
+        
+      </div>
+    </header>
+
+    
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png"
+         alt="Immagine generata con AI"
+         class="post-hero-image"
+         fetchpriority="high">
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">In breve</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Le classi Python fungono da blueprint per creare oggetti con stato (attributi) e comportamento (metodi), consentendo la modellazione di entità complesse e riutilizzabili. Gli attributi di classe sono condivisi tra tutte le istanze, mentre gli attributi di istanza sono specifici di ciascun oggetto.</p>
+      </div>
+      
+
+      <section class="content">
+        <h2 id="introduzione">Introduzione</h2>
+<p>Le classi in Python sono il pilastro della programmazione orientata agli oggetti (OOP). Esse rappresentano un modello, un &quot;progetto&quot; o &quot;blueprint&quot; per creare strutture dati complesse che legano insieme informazioni (dati) e comportamenti (funzionalità). Questo approccio consente di modellare il mondo reale in codice, organizzando i programmi in componenti modulari, riutilizzabili e manutenibili.</p>
+<h2 id="classi-e-oggetti-il-modello-e-le-istanze">Classi e oggetti, il modello e le istanze</h2>
+<p>Una classe è una descrizione astratta. Pensatela come il progetto di una casa: definisce la struttura, le stanze e le porte, ma non è una casa in sé. Per avere una casa concreta, dovete costruirla seguendo quel progetto. Allo stesso modo, per utilizzare una classe, dovete crearne delle <strong>istanze</strong>, cioè degli oggetti concreti.</p>
+<pre><code class="language-python">class Automobile:
+    &quot;&quot;&quot;Un modello per rappresentare un'automobile.&quot;&quot;&quot;
+    pass
+</code></pre>
+<p>In questo frammento abbiamo definito una classe <code>Automobile</code>. Tuttavia non abbiamo ancora un'automobile. Per creare un'istanza dobbiamo &quot;chiamare&quot; la classe come una funzione.</p>
+<pre><code class="language-python">auto_rossa = Automobile()
+auto_blu = Automobile()
+</code></pre>
+<p>Le variabili <code>auto_rossa</code> e <code>auto_blu</code> sono due oggetti indipendenti, creati a partire dallo stesso modello. Ognuno avrà la sua identità e, come vedremo, il suo stato specifico.</p>
+<h2 id="lo-stato-e-il-comportamento-attributi-e-metodi">Lo stato e il comportamento, attributi e metodi</h2>
+<p>Ogni oggetto è caratterizzato da due elementi fondamentali.</p>
+<ul>
+<li><strong>Stato (dati):</strong> sono i valori che descrivono l'oggetto, memorizzati in <strong>attributi</strong> (o variabili di istanza).</li>
+<li><strong>Comportamento (operazioni):</strong> sono le azioni che l'oggetto può compiere, definite come <strong>metodi</strong> (funzioni definite all'interno della classe).</li>
+</ul>
+<h3 id="attributi-di-classe-contro-attributi-di-istanza">Attributi di classe contro attributi di istanza</h3>
+<p>Una distinzione fondamentale in Python è tra attributi definiti a livello di <strong>classe</strong> e quelli definiti a livello di <strong>istanza</strong>.</p>
+<ul>
+<li><strong>Attributi di classe:</strong> sono condivisi da tutte le istanze della classe. Se lo modifichi, il cambiamento si riflette su tutti gli oggetti.</li>
+<li><strong>Attributi di istanza:</strong> sono specifici per ogni singolo oggetto. Ogni istanza può avere valori diversi per questi attributi.</li>
+</ul>
+<pre><code class="language-python">class Cane:
+    specie = &quot;Mammifero&quot;
+    def __init__(self, nome):
+        self.nome = nome
+    def abbaia(self):
+        print(f&quot;{self.nome} dice, Bau!&quot;)
+</code></pre>
+<pre><code class="language-python"># Creo due istanze della classe Cane
+fido = Cane(&quot;Fido&quot;)
+rex = Cane(&quot;Rex&quot;)
+print(fido.specie) # Mammifero
+print(rex.specie) # Mammifero
+print(fido.nome) # Fido
+print(rex.nome) # Rex
+fido.abbaia() # Fido dice, Bau!
+rex.abbaia() # Rex dice, Bau!
+# Modifico l'attributo della classe Cane
+Cane.specie = &quot;Canide&quot;
+print(fido.specie) # Canide
+print(rex.specie) # Canide
+</code></pre>
+<h3 id="metodi-di-classe-e-metodi-statici">Metodi di classe e metodi statici</h3>
+<p>Oltre agli attributi, anche i metodi possono operare a diversi livelli. Python offre due decoratori dedicati a questo scopo, che completano il quadro visto sopra per gli attributi.</p>
+<ul>
+<li><strong><code>@classmethod</code>:</strong> riceve come primo argomento la classe stessa (convenzionalmente chiamato <code>cls</code>) invece dell'istanza. È utile per creare metodi &quot;factory&quot;, cioè costruttori alternativi.</li>
+<li><strong><code>@staticmethod</code>:</strong> non riceve automaticamente né l'istanza né la classe. È essenzialmente una funzione normale collocata dentro la classe per motivi di organizzazione logica.</li>
+</ul>
+<pre><code class="language-python">class Cane:
+    specie = &quot;mammifero&quot;
+    def __init__(self, nome, eta):
+        self.nome = nome
+        self.eta = eta
+    @classmethod
+    def da_eta_in_mesi(cls, nome, eta_in_mesi):
+        return cls(nome, eta_in_mesi // 12)
+    @staticmethod
+    def e_specie_valida(specie):
+        return specie in (&quot;mammifero&quot;, &quot;canide&quot;)
+</code></pre>
+<pre><code class="language-python">cucciolo = Cane.da_eta_in_mesi(&quot;Bella&quot;, 18)
+print(cucciolo.eta) # 1
+print(Cane.e_specie_valida(&quot;mammifero&quot;)) # True
+</code></pre>
+<p>Per orientarsi rapidamente tra i tre tipi di metodo, ecco un riepilogo.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Tipo di metodo</th> <th>Primo parametro</th> <th>Caso d'uso tipico</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Metodo di istanza</td> <td>self</td> <td>Operare sui dati specifici di un oggetto</td> </tr> <tr> <td class="fw-semibold">Metodo di classe</td> <td>cls</td> <td>Costruttori alternativi, logica legata alla classe</td> </tr> <tr> <td class="fw-semibold">Metodo statico</td> <td>nessuno</td> <td>Funzioni di utilità logicamente correlate alla classe</td> </tr> </tbody> </table> </div>
+<h3 id="il-metodo-costruttore-init">Il metodo costruttore <code>__init__</code></h3>
+<p>Il metodo <code>__init__</code> è un metodo speciale che Python esegue automaticamente al momento della creazione di un nuovo oggetto (istanza). Il suo scopo è inizializzare lo stato dell'oggetto, ovvero impostare i valori iniziali degli attributi di istanza.</p>
+<pre><code class="language-python">class Persona:
+    def __init__(self, nome, eta):
+        self.nome = nome
+        self.eta = eta
+        self.anno_corrente = 2026
+    def descriviti(self):
+        return f&quot;Mi chiamo {self.nome} e ho {self.eta} anni.&quot;
+</code></pre>
+<pre><code class="language-python">anna = Persona(&quot;Anna&quot;, 25)
+print(anna.nome)
+print(anna.eta)
+print(anna.anno_corrente)
+print(anna.descriviti())
+</code></pre>
+<p>Il parametro <code>self</code> è una convenzione (ma non una parola chiave) che rappresenta l'istanza corrente dell'oggetto. Quando si chiama un metodo come <code>anna.descriviti()</code>, Python traduce automaticamente questa chiamata in <code>Persona.descriviti(anna)</code>, passando l'oggetto <code>anna</code> come primo argomento al metodo.</p>
+<h3 id="il-metodo-str-per-una-rappresentazione-chiara">Il metodo <code>__str__</code> per una rappresentazione chiara</h3>
+<p>Per migliorare la leggibilità del codice, soprattutto durante il debugging, è buona prassi definire il metodo <code>__str__</code>. Questo metodo restituisce una rappresentazione dell'oggetto come stringa, che viene utilizzata dalle funzioni <code>print()</code> e <code>str()</code>.</p>
+<pre><code class="language-python">class Persona:
+    def __init__(self, nome, eta):
+        self.nome = nome
+        self.eta = eta
+    def __str__(self):
+        return f&quot;Persona, {self.nome} ({self.eta} anni)&quot;
+</code></pre>
+<pre><code class="language-python">anna = Persona(&quot;Anna&quot;, 25)
+print(anna)
+</code></pre>
+<h2 id="principi-fondamentali-della-poo">Principi fondamentali della POO</h2>
+<p>Le classi sono il mezzo attraverso cui si realizzano i quattro pilastri della programmazione orientata agli oggetti.</p>
+<h3 id="incapsulamento">Incapsulamento</h3>
+<p>L'incapsulamento è il principio che consiste nel raggruppare dati e metodi che operano su quei dati all'interno di un'unica entità, la classe, nascondendo i dettagli implementativi interni. In Python non esistono meccanismi di &quot;private&quot; o &quot;protected&quot; rigidi come in altri linguaggi (Java, C++). Tuttavia esiste una convenzione di naming per indicare che un attributo o metodo è &quot;privato&quot; e non dovrebbe essere accessibile dall'esterno: usare un underscore <code>_</code> come prefisso.</p>
+<pre><code class="language-python">class ContoBancario:
+    def __init__(self, saldo_iniziale):
+        self._saldo = saldo_iniziale
+    def deposita(self, importo):
+        if importo &gt; 0:
+            self._saldo += importo
+            return True
+        return False
+    def preleva(self, importo):
+        if 0 &lt; importo &lt;= self._saldo:
+            self._saldo -= importo
+            return True
+        return False
+    def mostra_saldo(self):
+        return f&quot;Saldo disponibile, {self._saldo}€&quot;
+</code></pre>
+<p>In questo esempio, l'attributo <code>_saldo</code> è &quot;protetto&quot;. Un utente della classe <code>ContoBancario</code> non dovrebbe accedervi direttamente, ma è incoraggiato a usare i metodi <code>deposita</code>, <code>preleva</code> e <code>mostra_saldo</code>. Questo incapsula la logica di business e previene operazioni non valide, come prelievi che andrebbero in negativo.</p>
+<h3 id="ereditarieta">Ereditarietà</h3>
+<p>L'ereditarietà permette di creare una nuova classe (sottoclasse o classe figlia) che eredita attributi e metodi da una classe esistente (superclasse o classe genitore). È un potente meccanismo per il riutilizzo del codice e per creare gerarchie concettuali, ad esempio un &quot;Cane&quot; è un &quot;Animale&quot;.</p>
+<pre><code class="language-python">class Animale:
+    def __init__(self, nome):
+        self.nome = nome
+    def fai_suono(self):
+        return &quot;...&quot;
+</code></pre>
+<pre><code class="language-python">class Cane(Animale):
+    def fai_suono(self):
+        return &quot;Bau! Bau!&quot;
+</code></pre>
+<pre><code class="language-python">class Gatto(Animale):
+    def fai_suono(self):
+        return &quot;Miao! Miao!&quot;
+</code></pre>
+<pre><code class="language-python">animale = Animale(&quot;Bestia&quot;)
+cane = Cane(&quot;Fido&quot;)
+gatto = Gatto(&quot;Felix&quot;)
+print(animale.fai_suono()) # ...
+print(cane.fai_suono()) # Bau! Bau!
+print(gatto.fai_suono()) # Miao! Miao!
+</code></pre>
+<p>Quando si progetta una gerarchia, vale la pena tenere presente il principio &quot;composizione sopra ereditarietà&quot;: se la relazione tra due classi non è chiaramente di tipo &quot;è un&quot;, spesso è più chiaro e manutenibile che una classe contenga un'istanza dell'altra come attributo, invece di ereditare da essa.</p>
+<h3 id="polimorfismo">Polimorfismo</h3>
+<p>Il polimorfismo è la capacità di oggetti di classi diverse di rispondere allo stesso messaggio, cioè alla stessa chiamata di metodo, in modi specifici per la loro classe. Nell'esempio precedente, il polimorfismo si manifesta nel fatto che il metodo <code>fai_suono()</code> viene chiamato su oggetti di tipo <code>Animale</code>, <code>Cane</code> e <code>Gatto</code>, e ogni oggetto esegue la sua implementazione specifica.</p>
+<h3 id="astrazione">Astrazione</h3>
+<p>L'astrazione è la pratica di nascondere la complessità implementativa e di esporre all'utente solo le funzionalità essenziali. Nell'esempio di <code>ContoBancario</code>, l'utente non ha bisogno di sapere come viene gestito il saldo internamente: gli basta sapere che può depositare, prelevare e visualizzare il saldo. Un'astrazione più avanzata in Python si ottiene con le <strong>classi astratte</strong>, tramite il modulo <code>abc</code>, che definiscono interfacce che le sottoclassi sono obbligate a implementare.</p>
+<pre><code class="language-python">from abc import ABC, abstractmethod
+class Veicolo(ABC):
+    @abstractmethod
+    def avvia(self):
+        &quot;&quot;&quot;Metodo astratto, deve essere implementato dalle sottoclassi.&quot;&quot;&quot;
+        pass
+</code></pre>
+<pre><code class="language-python">class Auto(Veicolo):
+    def avvia(self):
+        return &quot;Motore dell'auto avviato.&quot;
+</code></pre>
+<pre><code class="language-python">class Moto(Veicolo):
+    def avvia(self):
+        return &quot;Motore della moto avviato.&quot;
+</code></pre>
+<p>Un'alternativa più moderna e flessibile alle classi astratte è <code>typing.Protocol</code>, che permette di definire un'interfaccia basata sul cosiddetto &quot;duck typing strutturale&quot;: una classe soddisfa il protocollo semplicemente implementando i metodi richiesti, senza doverlo ereditare esplicitamente. Questo strumento è utile quando si vuole tipizzare un'interfaccia senza imporre una relazione di ereditarietà rigida tra le classi coinvolte.</p>
+<h2 id="best-practice-e-strumenti-moderni-per-classi-python">Best practice e strumenti moderni per classi Python</h2>
+<p>Per scrivere codice Python moderno, efficiente e manutenibile, è importante adottare alcune best practice.</p>
+<h3 id="type-hints-annotazioni-di-tipo">Type hints, annotazioni di tipo</h3>
+<p>Le type hints migliorano la leggibilità e la manutenibilità del codice, specialmente in progetti di grandi dimensioni. Permettono agli IDE di offrire un autocompletamento più efficace e a strumenti come <code>mypy</code> di effettuare un'analisi statica del codice, rilevando potenziali bug di tipo.</p>
+<pre><code class="language-python">class Persona:
+    def __init__(self, nome: str, eta: int) -&gt; None:
+        self.nome: str = nome
+        self.eta: int = eta
+    def descriviti(self) -&gt; str:
+        return f&quot;Mi chiamo {self.nome} e ho {self.eta} anni.&quot;
+    def compleanno(self) -&gt; None:
+        self.eta += 1
+</code></pre>
+<h3 id="data-classes">Data classes</h3>
+<p>In Python 3.7, il modulo <code>dataclasses</code> è stato introdotto per semplificare la creazione di classi il cui scopo principale è memorizzare dati. Una <code>dataclass</code> genera automaticamente metodi come <code>__init__</code>, <code>__repr__</code> (simile a <code>__str__</code>), <code>__eq__</code> e altri, riducendo drasticamente il boilerplate.</p>
+<pre><code class="language-python">from dataclasses import dataclass
+@dataclass
+class Prodotto:
+    nome: str
+    prezzo: float
+    quantita: int = 0
+</code></pre>
+<pre><code class="language-python">prodotto = Prodotto(&quot;Laptop&quot;, 1200.50, 5)
+print(prodotto) # Prodotto(nome='Laptop', prezzo=1200.5, quantita=5)
+</code></pre>
+<h3 id="il-decoratore-property">Il decoratore <code>@property</code></h3>
+<p>Il decoratore <code>@property</code> permette di definire metodi che possono essere acceduti come se fossero attributi. È utile per aggiungere logica di controllo, come una validazione, all'accesso o alla modifica di un attributo, senza cambiare l'interfaccia pubblica della classe.</p>
+<pre><code class="language-python">import math
+class Cerchio:
+    def __init__(self, raggio: float):
+        self._raggio = raggio
+    @property
+    def raggio(self) -&gt; float:
+        &quot;&quot;&quot;Getter per il raggio.&quot;&quot;&quot;
+        return self._raggio
+    @raggio.setter
+    def raggio(self, valore: float) -&gt; None:
+        &quot;&quot;&quot;Setter per il raggio, che garantisce un valore positivo.&quot;&quot;&quot;
+        if valore &lt; 0:
+            raise ValueError(&quot;Il raggio non può essere negativo&quot;)
+        self._raggio = valore
+    @property
+    def area(self) -&gt; float:
+        &quot;&quot;&quot;Proprietà calcolata, non ha un setter.&quot;&quot;&quot;
+        return math.pi * (self._raggio ** 2)
+</code></pre>
+<pre><code class="language-python">c = Cerchio(5)
+print(c.raggio) # 5
+c.raggio = 10
+print(c.area) # 314.159
+</code></pre>
+<h3 id="ottimizzare-la-memoria-con-slots">Ottimizzare la memoria con <code>__slots__</code></h3>
+<p>Per impostazione predefinita, ogni istanza di una classe Python mantiene un dizionario interno (<code>__dict__</code>) per memorizzare i propri attributi, il che è flessibile ma consuma memoria. Quando si creano molte istanze della stessa classe, ad esempio in applicazioni che gestiscono grandi volumi di dati, definire <code>__slots__</code> permette di dichiarare esplicitamente quali attributi sono ammessi, eliminando il dizionario interno e riducendo l'overhead di memoria.</p>
+<pre><code class="language-python">class Punto:
+    __slots__ = (&quot;x&quot;, &quot;y&quot;)
+    def __init__(self, x: float, y: float):
+        self.x = x
+        self.y = y
+</code></pre>
+<pre><code class="language-python">p = Punto(1.0, 2.0)
+print(p.x, p.y) # 1.0 2.0
+</code></pre>
+<h3 id="attenzione-agli-argomenti-di-default-mutabili">Attenzione agli argomenti di default mutabili</h3>
+<p>Un errore molto comune, anche tra sviluppatori con esperienza, è utilizzare un oggetto mutabile (come una lista o un dizionario) come valore predefinito di un parametro. In Python, l'oggetto di default viene creato una sola volta, alla definizione della funzione, e condiviso tra tutte le chiamate successive: questo può portare a comportamenti inattesi.</p>
+<pre><code class="language-python">class Carrello:
+    def __init__(self, articoli=None):
+        self.articoli = articoli if articoli is not None else []
+    def aggiungi(self, articolo):
+        self.articoli.append(articolo)
+</code></pre>
+<p>Usare <code>None</code> come valore predefinito e assegnare la lista vuota all'interno del metodo, come mostrato sopra, è la pratica corretta per evitare che tutte le istanze condividano involontariamente la stessa lista.</p>
+<h2 id="classi-come-modelli-riutilizzabili">Classi come modelli riutilizzabili</h2>
+<p>La vera potenza delle classi risiede nella loro capacità di essere riutilizzate per creare innumerevoli oggetti, ognuno con il proprio stato indipendente, garantendo modularità e organizzazione.</p>
+<pre><code class="language-python">persona1 = Persona(&quot;Luca&quot;, 30)
+persona2 = Persona(&quot;Maria&quot;, 28)
+persona3 = Persona(&quot;Marco&quot;, 40)
+</code></pre>
+<p>Tutti e tre gli oggetti condividono la stessa struttura e gli stessi metodi, ma ognuno mantiene i propri dati personali. Questa <strong>separazione</strong> e questo <strong>incapsulamento</strong> sono il fondamento per la scrittura di software robusto, scalabile e manutenibile, capace di modellare con efficacia tanto le entità concrete del mondo reale quanto i concetti astratti della logica di business.</p>
+
+      </section>
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout" style="padding: 24px 0; margin-top: 32px; border-top: 1px solid var(--border-subtle);">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/python/" class="badge badge-outline">python</a>
+              
+            
+              
+              
+              <a href="/tags/programmazione-orientata-agli-oggetti/" class="badge badge-outline">programmazione orientata agli oggetti</a>
+              
+            
+              
+              
+              <a href="/tags/oop/" class="badge badge-outline">OOP</a>
+              
+            
+              
+              
+              <a href="/tags/classi-e-oggetti/" class="badge badge-outline">classi e oggetti</a>
+              
+            
+              
+              
+              <a href="/tags/data-classes/" class="badge badge-outline">data classes</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center" style="margin-left: auto; margin-top:20px">
+          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--secondary);">Condividi</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fclassi-e-oggetti-in-python%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">SU</a>
+          <a href="https://twitter.com/intent/tweet?text=Classi%20e%20Oggetti&url=https://dino-996.github.io%2Fblog%2Fclassi-e-oggetti-in-python%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div style="min-width: 0; max-width: calc(50% - 4px); flex: 1 1 auto;">
+          
+          <a href="/blog/i-generatori-in-python/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">← Precedente</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Generatori</span>
+          </a>
+          
+        </div>
+        <div style="min-width: 0; max-width: calc(50% - 4px); text-align: right; flex: 1 1 auto;">
+          
+          <a href="/blog/jupyter-python/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Successivo →</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Jupyter</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Comments -->
+    <h2 class="post-layout" style="font-size: 1.25rem; margin-top: 48px; margin-bottom: 0;">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

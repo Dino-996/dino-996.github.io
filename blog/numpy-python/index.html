@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  NumPy · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Esplora le potenzialità di NumPy per il calcolo scientifico in Python: impara a gestire l&#39;oggetto ndarray, padroneggia la differenza tra viste e copie, e velocizza i tuoi calcoli con vettorizzazione, broadcasting e Numba." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/numpy-python/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/numpy-python/" />
+
+<meta property="og:title" content="NumPy" />
+<meta property="og:description" content="Esplora le potenzialità di NumPy per il calcolo scientifico in Python: impara a gestire l&#39;oggetto ndarray, padroneggia la differenza tra viste e copie, e velocizza i tuoi calcoli con vettorizzazione, broadcasting e Numba." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/numpy-python/" />
+
+<meta name="twitter:title" content="NumPy" />
+<meta name="twitter:description" content="Esplora le potenzialità di NumPy per il calcolo scientifico in Python: impara a gestire l&#39;oggetto ndarray, padroneggia la differenza tra viste e copie, e velocizza i tuoi calcoli con vettorizzazione, broadcasting e Numba." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper hide-desktop" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      <div class="post-breadcrumb">
+        <a href="/">Home</a>
+        <span class="post-breadcrumb-sep">»</span>
+        
+        
+        <a href="/courses/">Percorsi</a>
+        <span class="post-breadcrumb-sep">»</span>
+        <a href="/courses/python/">Python</a>
+        
+      </div>
+
+      <h1>NumPy</h1>
+
+      
+      <p class="post-description">Esplora le potenzialità di NumPy per il calcolo scientifico in Python: impara a gestire l&#39;oggetto ndarray, padroneggia la differenza tra viste e copie, e velocizza i tuoi calcoli con vettorizzazione, broadcasting e Numba.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 31 luglio 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+        <span class="post-meta-dot">·</span>
+        <span>Ultimo aggiornamento: 31 luglio 2026</span>
+        
+      </div>
+    </header>
+
+    
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png"
+         alt="Immagine generata con AI"
+         class="post-hero-image"
+         fetchpriority="high">
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">In breve</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">NumPy, il pacchetto fondamentale per il calcolo scientifico in Python, fornisce array multidimensionali ottimizzati (`ndarray`) che offrono prestazioni elevate e una sintassi espressiva per la manipolazione di dati. La sua importanza è sottolineata dal suo ruolo di base per molte altre librerie scientifiche, garantendo interoperabilità e velocità grazie all&#39;implementazione in C di strutture dati contigue.</p>
+      </div>
+      
+
+      <section class="content">
+        <h2 id="introduzione">Introduzione</h2>
+<p>NumPy (Numerical Python) è il pacchetto fondamentale per il data science e il calcolo scientifico in Python. Si tratta di una libreria open source che fornisce strutture dati ottimizzate e funzioni per la manipolazione di array multidimensionali, offrendo prestazioni paragonabili a quelle di MatLab. La sua importanza è tale che molte altre librerie popolari, come Pandas, SciPy, scikit-learn, TensorFlow e PyTorch, si basano su di essa per le loro operazioni numeriche.</p>
+<h2 id="perche-scegliere-numpy">Perché scegliere NumPy</h2>
+<ul>
+<li><strong>Prestazioni:</strong> gli array NumPy sono implementati in C e risiedono in blocchi di memoria contigui, rendendo le operazioni molto più veloci rispetto alle liste Python native.</li>
+<li><strong>Compatibilità:</strong> funge da base per l'intero ecosistema scientifico Python, garantendo interoperabilità tra librerie.</li>
+<li><strong>Espressività:</strong> la sintassi è vicina al linguaggio matematico, consentendo di scrivere codice chiaro e compatto.</li>
+</ul>
+<h2 id="installazione-e-import">Installazione e import</h2>
+<p>Per installare NumPy è sufficiente eseguire:</p>
+<pre><code class="language-bash">pip install numpy
+</code></pre>
+<p>E per importarlo nei propri script si utilizza convenzionalmente l'alias <code>np</code>:</p>
+<pre><code class="language-python">import numpy as np
+</code></pre>
+<h2 id="loggetto-ndarray">L'oggetto ndarray</h2>
+<p>Il cuore di NumPy è l'array N-dimensionale, o <code>ndarray</code>. Si tratta di una griglia di valori, tutti dello stesso tipo (<code>dtype</code>), con dimensioni fisse. A differenza delle liste Python, un ndarray non supporta operazioni dinamiche come <code>append</code> o <code>delete</code> in-place: per modificare la dimensione è necessario creare un nuovo array.</p>
+<h3 id="creazione-di-un-ndarray">Creazione di un ndarray</h3>
+<p>Esistono diversi modi per creare un array NumPy. I più comuni sono i seguenti.</p>
+<p>Da una lista Python:</p>
+<pre><code class="language-python">a = np.array([1, 2, 3])
+</code></pre>
+<p>Array multidimensionale:</p>
+<pre><code class="language-python">b = np.array([[1, 2], [3, 4]])
+</code></pre>
+<p>Array di zeri e di uni:</p>
+<pre><code class="language-python">zeros = np.zeros((3, 3))
+ones = np.ones((2, 2))
+</code></pre>
+<p>Matrice identità:</p>
+<pre><code class="language-python">identity = np.eye(3)
+</code></pre>
+<p>Sequenze lineari:</p>
+<pre><code class="language-python">seq = np.arange(0, 10, 2)
+lin = np.linspace(0, 1, 5)
+<p></code></pre></p>
+<p><code>seq</code> produce l'array <code>[0 2 4 6 8]</code>, mentre <code>lin</code> restituisce 5 valori equidistanti tra 0 e 1.</p>
+<h3 id="proprieta-fondamentali">Proprietà fondamentali</h3>
+<p>Un ndarray espone diverse proprietà utili per conoscerne la struttura:</p>
+<ul>
+<li><code>ndim</code>: numero di dimensioni.</li>
+<li><code>shape</code>: tupla che descrive la dimensione di ogni asse.</li>
+<li><code>size</code>: numero totale di elementi.</li>
+<li><code>dtype</code>: tipo di dato degli elementi.</li>
+<li><code>itemsize</code>: numero di byte occupati da ogni elemento.</li>
+</ul>
+<p>Esempio su un array bidimensionale:</p>
+<pre><code class="language-python">a2D = np.array([[1, 2, 3], [4, 5, 6]])
+print('ndim:', a2D.ndim)
+print('shape:', a2D.shape)
+print('size:', a2D.size)
+print('dtype:', a2D.dtype)
+print('itemsize:', a2D.itemsize)
+<p></code></pre></p>
+<p>L'output restituisce <code>ndim = 2</code>, <code>shape = (2, 3)</code>, <code>size = 6</code>, <code>dtype = int64</code> e <code>itemsize = 8</code> byte per elemento sui sistemi 64-bit più diffusi come Linux e macOS. Su Windows il tipo intero di default può invece risultare <code>int32</code>: è quindi buona prassi non dare per scontato il <code>dtype</code> predefinito e, quando la portabilità del codice tra sistemi operativi diversi è importante, specificarlo sempre esplicitamente in fase di creazione dell'array.</p>
+<p>Per un array tridimensionale:</p>
+<pre><code class="language-python">a3D = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
+print('ndim:', a3D.ndim)
+print('shape:', a3D.shape)
+print('size:', a3D.size)
+</code></pre>
+<p>In questo caso <code>ndim</code> vale 3, <code>shape</code> è <code>(2, 2, 3)</code> e <code>size</code> è 12.</p>
+<h2 id="shape-e-reshape-la-flessibilita-della-vista">Shape e reshape, la flessibilità della vista</h2>
+<p>Gli array NumPy sono allocati in un unico blocco di memoria contiguo, anche quando sono multidimensionali. Questo garantisce accessi veloci e permette di separare il <em>data buffer</em> (i dati grezzi) dalla <em>view</em> (l'interpretazione di quei dati). La forma (<code>shape</code>) di un array può essere modificata senza alterare il buffer sottostante, semplicemente creando una nuova vista.</p>
+<p>Partiamo da un array monodimensionale di 12 elementi:</p>
+<pre><code class="language-python">a = np.arange(0, 12)
+print(a.shape)
+</code></pre>
+<p>Possiamo ridefinirlo come matrice 3x4:</p>
+<pre><code class="language-python">b = a.reshape((3, 4))
+print(b.shape)
+print(b)
+</code></pre>
+<p>Il risultato è la matrice seguente.</p>
+<pre><code class="language-text">[[ 0  1  2  3]
+ [ 4  5  6  7]
+ [ 8  9 10 11]]
+</code></pre>
+<p>Oppure come vettore colonna (12x1):</p>
+<pre><code class="language-python">c = a.reshape((12, 1))
+print(c.shape)
+</code></pre>
+<p>In entrambi i casi <code>b</code> e <code>c</code> condividono lo stesso buffer di <code>a</code>. Questa condivisione è alla base del concetto di vista, che approfondiamo nella prossima sezione.</p>
+<h3 id="layout-di-memoria-ordine-c-e-ordine-fortran">Layout di memoria, ordine C e ordine Fortran</h3>
+<p>Il modo in cui gli elementi di un array multidimensionale vengono effettivamente disposti nel blocco di memoria contiguo dipende da un parametro chiamato ordine di memorizzazione. NumPy supporta due convenzioni principali:</p>
+<ul>
+<li><strong>Ordine C (row-major):</strong> gli elementi di ogni riga sono contigui in memoria. È l'ordine di default in NumPy e coincide con la convenzione del linguaggio C.</li>
+<li><strong>Ordine Fortran (column-major):</strong> gli elementi di ogni colonna sono contigui in memoria. È la convenzione usata da Fortran e da alcune librerie di algebra lineare storiche.</li>
+</ul>
+<p>Questo diventa rilevante quando NumPy scambia dati con librerie esterne che si aspettano un ordine specifico, oppure quando si vuole ottimizzare l'accesso sequenziale a righe o colonne per ridurre i cache miss.</p>
+<pre><code class="language-python">a = np.array([[1, 2, 3], [4, 5, 6]], order='C')
+b = np.array([[1, 2, 3], [4, 5, 6]], order='F')
+</code></pre>
+<p>Anche <code>reshape()</code> accetta lo stesso parametro, per controllare l'ordine con cui gli elementi vengono riletti durante la ridefinizione della forma:</p>
+<pre><code class="language-python">c = np.arange(6).reshape((2, 3), order='F')
+</code></pre>
+<p>Per il lettore alle prime armi la regola pratica è: lasciare il default (<code>order='C'</code>) a meno che non si stia interfacciando NumPy con codice esterno che richiede esplicitamente l'ordine Fortran.</p>
+<h2 id="viste-e-copie-quando-i-dati-sono-condivisi">Viste e copie, quando i dati sono condivisi</h2>
+<p>Una delle caratteristiche più importanti, e talvolta insidiose, di NumPy è che lo slicing di un ndarray crea una vista, non una copia. Ciò significa che due variabili diverse possono riferirsi allo stesso data buffer: di conseguenza, modifiche effettuate su una vista si riflettono su tutte le altre viste che condividono il buffer.</p>
+<p>Il motivo principale per cui NumPy privilegia le viste è prestazionale: non viene allocata nuova memoria e le operazioni risultano più veloci.</p>
+<pre><code class="language-python">a = np.arange(0, 4)
+b = a[:]
+b[0] = 9
+print(a[0])
+</code></pre>
+<p>In questo esempio anche <code>a[0]</code> diventa <code>9</code>, perché <code>b</code> è una vista sullo stesso buffer di <code>a</code>. Per evitare questo comportamento è necessario creare una copia esplicita tramite il metodo <code>copy()</code>:</p>
+<pre><code class="language-python">a = np.arange(0, 4)
+b = a[:].copy()
+b[0] = 9
+print(a[0])
+</code></pre>
+<p>Qui <code>a[0]</code> resta <code>0</code>, perché <code>b</code> è ora un array indipendente.</p>
+<h3 id="slicing-e-indexing-un-discrimine-cruciale">Slicing e indexing, un discrimine cruciale</h3>
+<p>In NumPy l'accesso tramite slicing (con la notazione dei due punti) crea sempre una vista, mentre l'accesso tramite indici interi, liste di indici (<em>fancy indexing</em>) o maschere booleane crea sempre una copia.</p>
+<pre><code class="language-python">arr = np.array([1, 2, 4, 8, 16, 32])
+vista = arr[1:4:2]
+print(vista.base)
+print(vista.flags.owndata)
+copia = arr[[1, 3]]
+print(copia.base)
+print(copia.flags.owndata)
+mask = [False, True, False, True, False, False]
+copia_bool = arr[mask]
+</code></pre>
+<p>La tabella seguente riassume il comportamento delle diverse tecniche di accesso.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Tecnica di accesso</th> <th>Risultato</th> <th>flags.owndata</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Slicing (arr[1:4:2])</td> <td>Vista sullo stesso buffer</td> <td>False</td> </tr> <tr> <td class="fw-semibold">Fancy indexing (arr[[1, 3]])</td> <td>Copia indipendente</td> <td>True</td> </tr> <tr> <td class="fw-semibold">Boolean indexing (arr[mask])</td> <td>Copia indipendente</td> <td>True</td> </tr> </tbody> </table> </div>
+<p>Questo comportamento ha implicazioni pratiche: se si modifica l'array originale dopo aver creato una vista, la vista riflette il cambiamento, mentre la copia rimane invariata.</p>
+<pre><code class="language-python">arr[1] = 100
+print(vista)
+print(copia)
+</code></pre>
+<p>Dopo la modifica, <code>vista</code> diventa <code>[100 8]</code>, mentre <code>copia</code> resta <code>[2 8]</code>.</p>
+<h2 id="universal-functions-operazioni-vettorizzate">Universal Functions, operazioni vettorizzate</h2>
+<p>Le operazioni elemento per elemento (<em>element-wise</em>) sono all'ordine del giorno in data science. Con le liste Python, per eseguirle è necessario ciclare esplicitamente con dei loop, il che risulta estremamente lento per grandi volumi di dati.</p>
+<p>NumPy risolve il problema con le Universal Functions (ufunc): funzioni che operano su tutti gli elementi di un array in modo vettorizzato, eseguendo il calcolo direttamente in C. NumPy mette a disposizione numerose decine di ufunc, e molte di esse sono accessibili anche tramite overload degli operatori, rendendo il codice più leggibile.</p>
+<pre><code class="language-python">x1 = np.array([1, 2, 3])
+x2 = np.array([4, 5, 6])
+somma = np.add(x1, x2)
+differenza = np.subtract(x1, x2)
+prodotto = np.multiply(x1, x2)
+divisione = np.divide(x1, x2)
+potenza = np.power(x1, 2)
+radice = np.sqrt(x1)
+matrice_prodotto = np.matmul(x1.reshape(1, 3), x2.reshape(3, 1))
+</code></pre>
+<p>Le prime cinque operazioni sono equivalenti, rispettivamente, agli operatori <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> e <code>**</code>. L'ultima riga, <code>np.matmul</code>, esegue invece un prodotto matriciale vero e proprio, e non un'operazione element-wise.</p>
+<h3 id="un-test-di-prestazioni">Un test di prestazioni</h3>
+<p>Per apprezzare la differenza di velocità, si consideri l'aggiunta di 1 a ogni elemento di un array di 10 milioni di elementi.</p>
+<pre><code class="language-python">import numpy as np
+n = 10000000
+arr = np.arange(n, dtype=np.int64)
+lst = list(range(n))
+t_numpy = arr + 1
+t_list_comp = [x + 1 for x in lst]
+t_list_loop = lst[:]
+for i in range(len(t_list_loop)):
+    t_list_loop[i] += 1
+</code></pre>
+<p>I tempi medi rilevati su un sistema di riferimento sono i seguenti:</p>
+<ul>
+<li>NumPy: 0,005304 s</li>
+<li>List comprehension: 0,303015 s</li>
+<li>Loop esplicito: 0,553153 s</li>
+</ul>
+<p>NumPy risulta essere circa due ordini di grandezza più veloce, grazie alla vettorizzazione e alla gestione contigua della memoria.</p>
+<h2 id="broadcast-quando-le-forme-non-corrispondono">Broadcast, quando le forme non corrispondono</h2>
+<p>Cosa succede quando si applica una ufunc tra due array di forma diversa, o tra un array e uno scalare? NumPy cerca di riadattare gli array più piccoli attraverso un meccanismo chiamato broadcast, che espande virtualmente le dimensioni mancanti o di dimensione 1 per renderli compatibili.</p>
+<h3 id="regole-del-broadcast">Regole del broadcast</h3>
+<ol>
+<li><strong>Allineamento delle dimensioni:</strong> se i due array hanno un numero diverso di dimensioni, quello con meno dimensioni viene allungato a sinistra aggiungendo assi di dimensione 1. Esempio: <code>a.shape = (2, 3, 4)</code>, <code>b.shape = (3, 4)</code> diventa <code>b</code> trattato come <code>(1, 3, 4)</code>.</li>
+<li><strong>Confronto dimensione per dimensione, partendo da destra:</strong> se le dimensioni sono uguali l'operazione è valida; se una delle due è 1, quell'asse viene allungato per eguagliare l'altro senza copiare fisicamente i dati; se entrambe sono diverse e nessuna è 1, si genera un errore.</li>
+</ol>
+<h3 id="esempi-di-broadcast">Esempi di broadcast</h3>
+<pre><code class="language-python">a = np.array([1.0, 2.0, 3.0])
+b = 2.0
+c = a * b
+print(c)
+</code></pre>
+<p>In questo caso <code>b</code> viene trattato come <code>[2.0, 2.0, 2.0]</code> e il risultato è <code>[2.0, 4.0, 6.0]</code>.</p>
+<pre><code class="language-python">a = np.arange(12).reshape(3, 4)
+b = np.array([10, 20, 30, 40])
+c = a + b
+</code></pre>
+<p>Qui <code>b</code>, di forma <code>(4,)</code>, viene allungato a <code>(3, 4)</code> sommando riga per riga.</p>
+<p>Casi validi di broadcast:</p>
+<ul>
+<li><code>a.shape = (2, 3, 4)</code>, <code>b.shape = (1, 3, 4)</code>: valido, <code>b</code> viene allungato sul primo asse.</li>
+<li><code>a.shape = (2, 1, 4)</code>, <code>b.shape = (1, 3, 4)</code>: valido, entrambi vengono allungati per ottenere <code>(2, 3, 4)</code>.</li>
+</ul>
+<p>Caso di errore:</p>
+<ul>
+<li><code>a.shape = (2, 2, 4)</code>, <code>b.shape = (1, 3, 4)</code>: errore, perché la seconda dimensione (2 contro 3) non è compatibile.</li>
+</ul>
+<p>Il risultato di un'operazione con broadcast ha forma pari alla massima tra le dimensioni di input per ogni asse.</p>
+<h2 id="creazione-avanzata-di-array">Creazione avanzata di array</h2>
+<p>Oltre alla conversione da liste, NumPy offre routine dedicate per creare array con valori significativi e per comporre array esistenti.</p>
+<h3 id="array-creation-routines">Array creation routines</h3>
+<pre><code class="language-python">x = np.zeros((3, 2))
+x = np.ones(4)
+x = np.empty((4, 3))
+</code></pre>
+<p>Va precisato che <code>np.empty()</code> non genera valori casuali: restituisce un array la cui memoria non viene inizializzata, contenente quindi qualunque dato fosse già presente in quella porzione di RAM al momento dell'allocazione. È più veloce di <code>np.zeros()</code> proprio perché salta la fase di azzeramento, ma va usato solo quando si ha la certezza di sovrascrivere ogni elemento prima di leggerlo.</p>
+<h3 id="composizione-di-array-esistenti">Composizione di array esistenti</h3>
+<p>È possibile impilare array verticalmente (<code>vstack</code>) o orizzontalmente (<code>hstack</code>).</p>
+<p>Stack verticale, per righe:</p>
+<pre><code class="language-python">a1 = np.array([1, 2, 3])
+a2 = np.array([4, 5, 6])
+v = np.vstack((a1, a2))
+</code></pre>
+<p>Il risultato è la matrice <code>[[1 2 3] [4 5 6]]</code>.</p>
+<p>Stack orizzontale, per colonne:</p>
+<pre><code class="language-python">h = np.hstack((a1, a2))
+</code></pre>
+<p>Il risultato è l'array <code>[1 2 3 4 5 6]</code>.</p>
+<h2 id="modifica-di-un-ndarray">Modifica di un ndarray</h2>
+<p>Le operazioni di modifica, come inserimento, cancellazione e concatenazione, non avvengono in-place ma restituiscono un nuovo array. È importante ricordarlo per evitare sprechi di memoria o comportamenti inattesi.</p>
+<h3 id="inserimento-con-npinsert">Inserimento con np.insert</h3>
+<pre><code class="language-python">a = np.array([[1, 1], [2, 2], [3, 3]])
+np.insert(a, 1, 5, axis=1)
+</code></pre>
+<p>Il risultato inserisce una colonna di valori <code>5</code> tra le colonne esistenti, ottenendo <code>[[1 5 1] [2 5 2] [3 5 3]]</code>.</p>
+<h3 id="concatenazione-con-npconcatenate">Concatenazione con np.concatenate</h3>
+<p>Concatenazione per righe (axis=0):</p>
+<pre><code class="language-python">a = np.array([[1, 2], [3, 4]])
+b = np.array([[5, 6]])
+np.concatenate((a, b), axis=0)
+</code></pre>
+<p>Concatenazione per colonne (axis=1), che richiede <code>b</code> trasposto:</p>
+<pre><code class="language-python">np.concatenate((a, b.T), axis=1)
+</code></pre>
+<p>Concatenazione su un unico asse, con appiattimento del risultato:</p>
+<pre><code class="language-python">np.concatenate((a, b), axis=None)
+</code></pre>
+<h3 id="append-e-delete">Append e delete</h3>
+<pre><code class="language-python">arr = np.array([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
+np.delete(arr, 1, 0)
+</code></pre>
+<p>Questa istruzione rimuove la seconda riga (indice 1) lungo l'asse 0, restituendo <code>[[1 2 3 4] [9 10 11 12]]</code>.</p>
+<h2 id="strumenti-avanzati-einsum-e-numba">Strumenti avanzati: einsum e Numba</h2>
+<p>Per chi supera le operazioni di base, NumPy e il suo ecosistema offrono due strumenti particolarmente utili quando le ufunc standard non bastano più.</p>
+<h3 id="npeinsum-per-operazioni-tensoriali">np.einsum per operazioni tensoriali</h3>
+<p><code>np.einsum</code> permette di esprimere operazioni tra array usando la notazione degli indici tipica del calcolo tensoriale, offrendo un controllo fine su quali assi vengono sommati o mantenuti. È particolarmente utile quando si lavora con tensori multidimensionali e si vuole evitare la creazione di array intermedi inutili, con benefici sia in termini di leggibilità del codice sia, in molti casi, di prestazioni.</p>
+<pre><code class="language-python">a = np.arange(6).reshape(2, 3)
+b = np.arange(6).reshape(3, 2)
+prodotto = np.einsum('ij,jk-&gt;ik', a, b)
+</code></pre>
+<p>La stringa <code>'ij,jk-&gt;ik'</code> descrive esplicitamente quali indici vengono moltiplicati e sommati, rendendo <code>np.einsum</code> uno strumento potente ma da usare con attenzione, poiché una notazione errata produce risultati silenziosamente sbagliati anziché un errore.</p>
+<h3 id="numba-per-laccelerazione-dei-loop">Numba per l'accelerazione dei loop</h3>
+<p>Quando un algoritmo non si presta facilmente alla vettorizzazione, ad esempio per la presenza di dipendenze sequenziali tra un'iterazione e la successiva, Numba permette di compilare funzioni Python in codice macchina al primo utilizzo (compilazione <em>Just-In-Time</em>), avvicinando le prestazioni a quelle del C senza abbandonare la sintassi Python.</p>
+<pre><code class="language-python">from numba import jit
+<p>@jit(nopython=True)<br>
+def somma_cumulativa(arr):<br>
+risultato = np.zeros_like(arr)<br>
+acc = 0<br>
+for i in range(len(arr)):<br>
+acc += arr[i]<br>
+risultato[i] = acc<br>
+return risultato<br>
+</code></pre></p>
+<p>L'opzione <code>nopython=True</code> forza Numba a compilare la funzione senza ricadere sull'interprete Python standard in caso di codice non supportato, garantendo il massimo guadagno prestazionale.</p>
+<h2 id="best-practice-per-un-uso-efficiente-di-numpy">Best practice per un uso efficiente di NumPy</h2>
+<p>Per ottenere il massimo dalle prestazioni e dalla chiarezza del codice, si consiglia di:</p>
+<ul>
+<li><strong>Specificare sempre il <code>dtype</code></strong> quando si creano array, per controllare l'occupazione di memoria (ad esempio <code>np.float32</code> invece di <code>float64</code> se la precisione non è critica) e per garantire un comportamento coerente tra sistemi operativi diversi.</li>
+<li><strong>Preferire <code>np.asarray()</code> a <code>np.array()</code></strong> quando si ricevono dati che potrebbero già essere un ndarray: <code>np.asarray()</code> evita di creare una copia se l'input è già un array NumPy.</li>
+<li><strong>Evitare loop Python espliciti:</strong> utilizzare sempre le ufunc vettorizzate o, se strettamente necessario, strumenti come Numba per compilare il loop.</li>
+<li><strong>Utilizzare il broadcasting</strong> invece di espandere manualmente gli array con <code>np.tile</code> o <code>np.repeat</code>, per risparmiare memoria e tempo.</li>
+<li><strong>Sfruttare l'indicizzazione avanzata</strong> (fancy e boolean) per selezioni complesse, ricordando però che producono sempre copie e non viste.</li>
+<li><strong>Per operazioni tensoriali complesse</strong>, valutare l'uso di <code>np.einsum</code>, che offre un controllo fine sulla contrazione degli indici.</li>
+<li><strong>Prestare attenzione all'ordine di memorizzazione</strong> (<code>order='C'</code> o <code>order='F'</code>) quando si interfaccia NumPy con librerie esterne che si aspettano una convenzione specifica.</li>
+</ul>
+<p>NumPy è uno strumento potente e flessibile. Comprendere a fondo i meccanismi di memoria, vista e broadcast è fondamentale per scrivere codice performante e privo di effetti collaterali. Con queste basi, si è pronti ad affrontare con sicurezza l'intero ecosistema scientifico Python.</p>
+
+      </section>
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout" style="padding: 24px 0; margin-top: 32px; border-top: 1px solid var(--border-subtle);">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/python/" class="badge badge-outline">python</a>
+              
+            
+              
+              
+              <a href="/tags/numpy/" class="badge badge-outline">numpy</a>
+              
+            
+              
+              
+              <a href="/tags/data-science/" class="badge badge-outline">data science</a>
+              
+            
+              
+              
+              <a href="/tags/calcolo-scientifico/" class="badge badge-outline">calcolo scientifico</a>
+              
+            
+              
+              
+              <a href="/tags/vettorizzazione/" class="badge badge-outline">vettorizzazione</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center" style="margin-left: auto; margin-top:20px">
+          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--secondary);">Condividi</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fnumpy-python%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">SU</a>
+          <a href="https://twitter.com/intent/tweet?text=NumPy&url=https://dino-996.github.io%2Fblog%2Fnumpy-python%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div style="min-width: 0; max-width: calc(50% - 4px); flex: 1 1 auto;">
+          
+          <a href="/blog/jupyter-python/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">← Precedente</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Jupyter</span>
+          </a>
+          
+        </div>
+        <div style="min-width: 0; max-width: calc(50% - 4px); text-align: right; flex: 1 1 auto;">
+          
+          <a href="/blog/pandas-python/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Successivo →</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Pandas</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Comments -->
+    <h2 class="post-layout" style="font-size: 1.25rem; margin-top: 48px; margin-bottom: 0;">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

@@ -1,5 +1,59 @@
 [
   {
+    "title": "Unpacking e assegnazione",
+    "url": "/blog/unpacking-e-assegnazione-in-python/",
+    "description": "Esplora le potenzialità dell'unpacking e dell'assegnazione multipla in Python: dallo scambio immediato di variabili all'uso avanzato degli operatori * e ** in cicli, collezioni e funzioni (*args e **kwargs).",
+    "date": "2026-07-31T00:00:00.000Z"
+  },
+  {
+    "title": "Sottoprogrammi",
+    "url": "/blog/sottoprogrammi-in-python/",
+    "description": "Scopri i pilastri della programmazione procedurale in Python: dalle funzioni e l'organizzazione modulare del codice tramite package, fino all'uso ottimale di strutture dati, comprehension e slicing.",
+    "date": "2026-07-31T00:00:00.000Z"
+  },
+  {
+    "title": "Controllo del flusso",
+    "url": "/blog/controllo-del-flusso-in-python/",
+    "description": "Padroneggia il controllo del flusso in Python: scopri le differenze tra cicli for e while, l'uso idiomatico di enumerate() e zip(), e come ottimizzare la memoria evitando gli anti-pattern di iterazione.",
+    "date": "2026-07-31T00:00:00.000Z"
+  },
+  {
+    "title": "Generatori",
+    "url": "/blog/i-generatori-in-python/",
+    "description": "Scopri come funzionano i generatori in Python: sfrutta la lazy evaluation e la parola chiave yield per elaborare grandi flussi di dati in streaming, creare pipeline efficienti e ottimizzare l'uso della memoria RAM.",
+    "date": "2026-07-31T00:00:00.000Z"
+  },
+  {
+    "title": "Classi e Oggetti",
+    "url": "/blog/classi-e-oggetti-in-python/",
+    "description": "Padroneggia la programmazione orientata agli oggetti in Python: scopri come definire classi e istanze, applicare i pilastri dell'OOP e utilizzare strumenti moderni come @property, dataclasses e __slots__ per scrivere codice modulare ed efficiente.",
+    "date": "2026-07-31T00:00:00.000Z"
+  },
+  {
+    "title": "Jupyter",
+    "url": "/blog/jupyter-python/",
+    "description": "Scopri l'ecosistema Jupyter e i notebook eseguibili: dall'architettura di celle e kernel alle best practice per il versionamento del codice, fino alla trasformazione dei report in dashboard interattive con Voilà e Papermill.",
+    "date": "2026-07-31T00:00:00.000Z"
+  },
+  {
+    "title": "NumPy",
+    "url": "/blog/numpy-python/",
+    "description": "Esplora le potenzialità di NumPy per il calcolo scientifico in Python: impara a gestire l'oggetto ndarray, padroneggia la differenza tra viste e copie, e velocizza i tuoi calcoli con vettorizzazione, broadcasting e Numba.",
+    "date": "2026-07-31T00:00:00.000Z"
+  },
+  {
+    "title": "Pandas",
+    "url": "/blog/pandas-python/",
+    "description": "Padroneggia Pandas per l'analisi dati in Python: dalle strutture Series e DataFrame alle operazioni SQL-like, fino alle best practice per la vettorizzazione, il method chaining e l'ottimizzazione della memoria.",
+    "date": "2026-07-31T00:00:00.000Z"
+  },
+  {
+    "title": "AI ACT: Novità e Scadenze",
+    "url": "/blog/ai-act-cosa-cambia-il-due-agosto/",
+    "description": "Scopri come il Digital Omnibus ha ridefinito le scadenze dell'EU AI Act. Cosa cambia davvero entro il 2 agosto 2026 tra obblighi di trasparenza e rinvii per l'alto rischio.",
+    "date": "2026-07-30T00:00:00.000Z"
+  },
+  {
     "title": "Introduzione a Python",
     "url": "/blog/introduzione-a-python/",
     "description": "Guida introduttiva a Python: scopri la differenza tra compilazione e interpretazione, come usare pip e venv, i tipi di dato fondamentali e la sintassi delle funzioni.",

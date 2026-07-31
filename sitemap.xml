@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://dino-996.github.io/blog/unpacking-e-assegnazione-in-python/</loc>
+    <lastmod>2026-07-31T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/blog/sottoprogrammi-in-python/</loc>
+    <lastmod>2026-07-31T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/blog/controllo-del-flusso-in-python/</loc>
+    <lastmod>2026-07-31T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/blog/i-generatori-in-python/</loc>
+    <lastmod>2026-07-31T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/blog/classi-e-oggetti-in-python/</loc>
+    <lastmod>2026-07-31T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/blog/jupyter-python/</loc>
+    <lastmod>2026-07-31T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/blog/numpy-python/</loc>
+    <lastmod>2026-07-31T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/blog/pandas-python/</loc>
+    <lastmod>2026-07-31T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/blog/ai-act-cosa-cambia-il-due-agosto/</loc>
+    <lastmod>2026-07-30T00:00:00.000Z</lastmod>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/blog/introduzione-a-python/</loc>
     <lastmod>2026-07-29T00:00:00.000Z</lastmod>
   </url>

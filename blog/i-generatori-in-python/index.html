@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Generatori · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Scopri come funzionano i generatori in Python: sfrutta la lazy evaluation e la parola chiave yield per elaborare grandi flussi di dati in streaming, creare pipeline efficienti e ottimizzare l&#39;uso della memoria RAM." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/i-generatori-in-python/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/i-generatori-in-python/" />
+
+<meta property="og:title" content="Generatori" />
+<meta property="og:description" content="Scopri come funzionano i generatori in Python: sfrutta la lazy evaluation e la parola chiave yield per elaborare grandi flussi di dati in streaming, creare pipeline efficienti e ottimizzare l&#39;uso della memoria RAM." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/i-generatori-in-python/" />
+
+<meta name="twitter:title" content="Generatori" />
+<meta name="twitter:description" content="Scopri come funzionano i generatori in Python: sfrutta la lazy evaluation e la parola chiave yield per elaborare grandi flussi di dati in streaming, creare pipeline efficienti e ottimizzare l&#39;uso della memoria RAM." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper hide-desktop" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      <div class="post-breadcrumb">
+        <a href="/">Home</a>
+        <span class="post-breadcrumb-sep">»</span>
+        
+        
+        <a href="/courses/">Percorsi</a>
+        <span class="post-breadcrumb-sep">»</span>
+        <a href="/courses/python/">Python</a>
+        
+      </div>
+
+      <h1>Generatori</h1>
+
+      
+      <p class="post-description">Scopri come funzionano i generatori in Python: sfrutta la lazy evaluation e la parola chiave yield per elaborare grandi flussi di dati in streaming, creare pipeline efficienti e ottimizzare l&#39;uso della memoria RAM.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 31 luglio 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+        <span class="post-meta-dot">·</span>
+        <span>Ultimo aggiornamento: 31 luglio 2026</span>
+        
+      </div>
+    </header>
+
+    
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png"
+         alt="Immagine generata con AI"
+         class="post-hero-image"
+         fetchpriority="high">
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">In breve</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">In Python, i generatori sono funzioni che utilizzano `yield` per produrre iteratori, generando valori su richiesta con &quot;lazy evaluation&quot; e conservando lo stato interno tra le chiamate. Questa capacità di sospendere e riprendere l&#39;esecuzione li rende efficienti nella gestione di sequenze di dati ampie o infinite.</p>
+      </div>
+      
+
+      <section class="content">
+        <h2 id="introduzione">Introduzione</h2>
+<p>Un <strong>generatore</strong> (generator) in Python è una funzione o un'espressione che restituisce uno speciale tipo di iteratore chiamato <em>generator iterator</em>. A differenza delle normali strutture dati, un generatore non calcola e non conserva tutti i suoi valori in memoria in anticipo: genera ogni valore solo quando viene richiesto. Questo comportamento viene definito <strong>lazy evaluation</strong> (valutazione pigra).</p>
+<h2 id="generatori-e-iteratori">Generatori e iteratori</h2>
+<p>Un generatore è un particolare tipo di iteratore, cioè un oggetto che permette di attraversare una sequenza di valori uno alla volta mediante il protocollo di iterazione (i metodi <code>__iter__()</code> e <code>__next__()</code>). La differenza sostanziale è che un iteratore standard, come una lista, contiene già tutti i suoi elementi in memoria:</p>
+<pre><code class="language-python">numeri = [1, 2, 3, 4, 5]
+<p></code></pre></p>
+<p>Un generatore, invece, produce gli elementi solo quando servono:</p>
+<pre><code class="language-python">def numeri():
+    yield 1
+    yield 2
+    yield 3
+<p></code></pre></p>
+<p>In questo caso i valori non vengono creati tutti contemporaneamente, ma vengono prodotti progressivamente durante l'iterazione. Il generatore mantiene il proprio stato interno, rendendo possibile la ripresa dell'esecuzione dopo ogni valore prodotto.</p>
+<h2 id="la-parola-chiave-yield">La parola chiave yield</h2>
+<p>Una funzione generatrice si comporta come una normale funzione, ma contiene una o più espressioni <code>yield</code>. La parola chiave <code>yield</code>:</p>
+<ul>
+<li>restituisce temporaneamente un valore;</li>
+<li>sospende l'esecuzione della funzione;</li>
+<li>conserva lo stato corrente (variabili locali, punto di esecuzione, gestione delle eccezioni);</li>
+<li>permette di riprendere l'esecuzione dal punto in cui era stata interrotta.</li>
+</ul>
+<p><strong>Esempio base:</strong></p>
+<pre><code class="language-python">def conta():
+    yield 1
+    yield 2
+    yield 3
+<p></code></pre></p>
+<p>Creiamo il generatore:</p>
+<pre><code class="language-python">generatore = conta()
+<p></code></pre></p>
+<p>A questo punto la funzione non è ancora stata eseguita: è stato creato un oggetto generatore. Possiamo ottenere i valori uno alla volta con la funzione <code>next()</code>:</p>
+<pre><code class="language-python">print(next(generatore))
+print(next(generatore))
+print(next(generatore))
+<p></code></pre></p>
+<p>Quando non ci sono più valori disponibili, Python solleva l'eccezione <code>StopIteration</code>. Per questo motivo, è quasi sempre preferibile iterare con un ciclo <code>for</code>, che gestisce automaticamente l'eccezione.</p>
+<h2 id="sospensione-e-ripresa-dello-stato">Sospensione e ripresa dello stato</h2>
+<p>La caratteristica più importante dei generatori è che mantengono il proprio stato interno tra una chiamata e l'altra. Quando Python incontra uno <code>yield</code>:</p>
+<ul>
+<li>restituisce il valore corrente;</li>
+<li>mette in pausa l'esecuzione;</li>
+<li>salva tutte le informazioni necessarie per riprendere successivamente.</li>
+</ul>
+<p>Queste informazioni includono il punto di esecuzione raggiunto, le variabili locali e lo stato delle istruzioni <code>try</code>. Quando il generatore viene richiamato nuovamente, riparte esattamente dal punto della sospensione.</p>
+<p><strong>Esempio con loop e variabile di stato:</strong></p>
+<pre><code class="language-python">def contatore():
+    numero = 0
+    while numero &lt; 3:
+        yield numero
+        numero += 1
+<p></code></pre></p>
+<p>Utilizzo:</p>
+<pre><code class="language-python">for valore in contatore():
+    print(valore)
+<p></code></pre></p>
+<p>Output:</p>
+<pre><code>0
+1
+2
+<p></code></pre></p>
+<p>La variabile <code>numero</code> mantiene il proprio valore tra un <code>yield</code> e il successivo, dimostrando come lo stato venga preservato.</p>
+<h2 id="metodi-avanzati-dei-generatori">Metodi avanzati dei generatori</h2>
+<p>Oltre a <code>next()</code>, l'oggetto generatore espone un piccolo insieme di metodi che permettono una comunicazione bidirezionale con il chiamante, non solo la produzione passiva di valori.</p>
+<h3 id="send-inviare-un-valore-al-generatore">Send: inviare un valore al generatore</h3>
+<p>Il metodo <code>send(valore)</code> riprende l'esecuzione del generatore e &quot;inietta&quot; un valore nel punto esatto in cui l'espressione <code>yield</code> era sospesa. Quel valore diventa il risultato dell'espressione <code>yield</code> stessa.</p>
+<pre><code class="language-python">def contatore_incrementale():
+    totale = 0
+    while True:
+        incremento = yield totale
+        if incremento is not None:
+            totale += incremento
+<p></code></pre></p>
+<p>Utilizzo:</p>
+<pre><code class="language-python">gen = contatore_incrementale()
+print(next(gen))
+print(gen.send(5))
+print(gen.send(10))
+<p></code></pre></p>
+<p>Il primo <code>next()</code> è sempre necessario per portare il generatore al primo punto di sospensione, prima di poter usare <code>send()</code>.</p>
+<h3 id="throw-sollevare-uneccezione-allinterno-del-generatore">Throw: sollevare un'eccezione all'interno del generatore</h3>
+<p>Il metodo <code>throw(eccezione)</code> permette di sollevare un'eccezione esattamente nel punto in cui il generatore è sospeso, così che possa gestirla con un blocco <code>try</code>/<code>except</code> interno.</p>
+<pre><code class="language-python">def generatore_robusto():
+    try:
+        while True:
+            yield &quot;valore normale&quot;
+    except ValueError:
+        yield &quot;eccezione gestita&quot;
+<p></code></pre></p>
+<h3 id="close-terminare-un-generatore">Close: terminare un generatore</h3>
+<p>Il metodo <code>close()</code> interrompe definitivamente il generatore sollevando internamente <code>GeneratorExit</code>. È utile per liberare risorse quando un generatore non deve più essere consumato, e viene spesso invocato automaticamente dal garbage collector o dai blocchi <code>finally</code>.</p>
+<div class="alert alert-info" role="alert"> La combinazione di <code>yield</code>, <code>send()</code>, <code>throw()</code> e <code>close()</code> costituisce il protocollo completo su cui, storicamente, sono state costruite le prime forme di coroutine in Python, prima dell'introduzione della sintassi <code>async</code>/<code>await</code>. </div>
+<h2 id="generatori-e-memoria">Generatori e memoria</h2>
+<p>Il vantaggio principale dei generatori è il basso utilizzo di memoria. Una lista crea e conserva tutti gli elementi contemporaneamente:</p>
+<pre><code class="language-python">numeri = [x for x in range(1000000)]
+<p></code></pre></p>
+<p>Tutti i valori vengono memorizzati in un'unica struttura. Un generatore, invece, produce gli elementi solo quando richiesti:</p>
+<pre><code class="language-python">numeri = (x for x in range(1000000))
+<p></code></pre></p>
+<p>In questo secondo caso Python mantiene solo le informazioni necessarie per generare il valore successivo. Questo rende i generatori particolarmente utili per:</p>
+<ul>
+<li>grandi quantità di dati;</li>
+<li>lettura di file molto grandi;</li>
+<li>elaborazioni in streaming;</li>
+<li>sequenze potenzialmente infinite.</li>
+</ul>
+<h3 id="verificare-la-differenza-con-sysgetsizeof">Verificare la differenza con sys.getsizeof</h3>
+<p>La differenza di ingombro in memoria non è solo teorica: può essere misurata direttamente con il modulo <code>sys</code>.</p>
+<pre><code class="language-python">import sys
+lista = [x for x in range(10000)]
+generatore = (x for x in range(10000))
+print(sys.getsizeof(lista))
+print(sys.getsizeof(generatore))
+<p></code></pre></p>
+<p>L'oggetto generatore occupa uno spazio costante e trascurabile, indipendentemente dal numero di elementi che potenzialmente può produrre, mentre la lista cresce proporzionalmente al numero di elementi contenuti.</p>
+<div class="alert alert-warning" role="alert"> I valori esatti restituiti da <code>sys.getsizeof()</code> dipendono dalla versione di Python e dall'architettura della macchina: eseguire il codice localmente per ottenere i numeri reali prima di citarli in un contesto pubblicato. </div>
+<h2 id="generator-expression">Generator expression</h2>
+<p>Oltre alle funzioni con <code>yield</code>, Python permette di creare generatori tramite una sintassi simile alle list comprehension.</p>
+<p><strong>Lista (valutazione immediata):</strong></p>
+<pre><code class="language-python">quadrati = [x * x for x in range(5)]
+<p></code></pre></p>
+<p><strong>Generatore (valutazione pigra):</strong></p>
+<pre><code class="language-python">quadrati = (x * x for x in range(5))
+<p></code></pre></p>
+<p>La differenza principale è che <code>[]</code> crea immediatamente una lista, mentre <code>()</code> crea un generatore che calcola i valori quando servono.</p>
+<h2 id="generatori-infiniti">Generatori infiniti</h2>
+<p>Poiché i generatori producono valori su richiesta, possono rappresentare anche sequenze senza una fine definita.</p>
+<p><strong>Esempio di sequenza infinita:</strong></p>
+<pre><code class="language-python">def numeri_infiniti():
+    numero = 0
+    while True:
+        yield numero
+        numero += 1
+<p></code></pre></p>
+<p>Questo generatore può continuare indefinitamente senza occupare memoria proporzionale al numero di valori prodotti. Per interrompere l'iterazione, si può utilizzare un <code>break</code> o un'istruzione condizionale all'esterno.</p>
+<h2 id="costruire-pipeline-di-elaborazione">Costruire pipeline di elaborazione</h2>
+<p>I generatori si prestano naturalmente alla creazione di pipeline di elaborazione dati, dove ogni stadio trasforma o filtra il flusso in arrivo. Ad esempio:</p>
+<pre><code class="language-python">def lettore(file_path):
+    with open(file_path) as f:
+        for riga in f:
+            yield riga.strip()
+<p>def filtra_righe(iterable, parola_chiave):<br>
+for riga in iterable:<br>
+if parola_chiave in riga:<br>
+yield riga</p>
+<p>def trasforma_maiuscolo(iterable):<br>
+for riga in iterable:<br>
+yield riga.upper()</p>
+<p></code></pre></p>
+<p>Utilizzo:</p>
+<pre><code class="language-python">flusso = lettore(&quot;dati.txt&quot;)
+filtrato = filtra_righe(flusso, &quot;errore&quot;)
+maiuscolo = trasforma_maiuscolo(filtrato)
+for riga in maiuscolo:
+    print(riga)
+<p></code></pre></p>
+<p>Ogni passaggio produce un generatore, e i dati fluiscono senza mai caricare l'intero file in memoria.</p>
+<h2 id="yield-from-per-la-composizione">Yield from per la composizione</h2>
+<p>Python permette di delegare la generazione di valori a un sub-generatore o a qualsiasi iterabile tramite l'istruzione <code>yield from</code>. Questo semplifica la composizione di generatori più complessi.</p>
+<p><strong>Esempio:</strong></p>
+<pre><code class="language-python">def sottogeneratore():
+    yield 10
+    yield 20
+<p>def generatore_principale():<br>
+yield 1<br>
+yield from sottogeneratore()<br>
+yield 30</p>
+<p></code></pre></p>
+<p>Utilizzo:</p>
+<pre><code class="language-python">for v in generatore_principale():
+    print(v)
+<p></code></pre></p>
+<p><code>yield from</code> si occupa automaticamente di iterare il sub-generatore e di propagare eventuali eccezioni, rendendo il codice più pulito e manutenibile.</p>
+<div class="alert alert-warning" role="alert"> L'istruzione <code>yield from</code> è disponibile a partire da Python 3.3 (introdotta dalla PEP 380). Riferimento di versione da confermare prima della pubblicazione. </div>
+<h2 id="generatori-come-context-manager">Generatori come context manager</h2>
+<p>Uno degli usi più professionali dei generatori sfrutta esattamente la loro capacità di sospendersi e riprendersi: il decoratore <code>@contextmanager</code> del modulo <code>contextlib</code> permette di trasformare un generatore in un context manager utilizzabile con l'istruzione <code>with</code>.</p>
+<pre><code class="language-python">from contextlib import contextmanager
+<p>@contextmanager<br>
+def apri_risorsa(nome):<br>
+print(&quot;apertura di&quot;, nome)<br>
+try:<br>
+yield nome<br>
+finally:<br>
+print(&quot;chiusura di&quot;, nome)</p>
+<p></code></pre></p>
+<p>Utilizzo:</p>
+<pre><code class="language-python">with apri_risorsa(&quot;connessione_db&quot;) as risorsa:
+    print(&quot;uso di&quot;, risorsa)
+<p></code></pre></p>
+<p>Il codice prima dello <code>yield</code> viene eseguito all'ingresso del blocco <code>with</code>, mentre il codice nel blocco <code>finally</code> viene eseguito automaticamente all'uscita, anche in presenza di eccezioni. Questo pattern è largamente usato per gestire in modo sicuro file, connessioni di rete, lock e transazioni.</p>
+<h2 id="integrazione-con-itertools">Integrazione con itertools</h2>
+<p>Il modulo <code>itertools</code> fornisce una serie di strumenti progettati per lavorare con iteratori e generatori, permettendo di costruire cicli di elaborazione efficienti.</p>
+<h3 id="islice-prelevare-una-porzione-di-un-generatore">Islice: prelevare una porzione di un generatore</h3>
+<pre><code class="language-python">from itertools import islice
+<p>def numeri_infiniti():<br>
+numero = 0<br>
+while True:<br>
+yield numero<br>
+numero += 1</p>
+<p>primi_cinque = islice(numeri_infiniti(), 5)<br>
+print(list(primi_cinque))</p>
+<p></code></pre></p>
+<h3 id="cycle-ripetere-una-sequenza-allinfinito">Cycle: ripetere una sequenza all'infinito</h3>
+<pre><code class="language-python">from itertools import cycle, islice
+<p>colori = cycle([&quot;rosso&quot;, &quot;verde&quot;, &quot;blu&quot;])<br>
+print(list(islice(colori, 7)))</p>
+<p></code></pre></p>
+<h3 id="tee-duplicare-un-iteratore-in-piu-flussi-indipendenti">Tee: duplicare un iteratore in più flussi indipendenti</h3>
+<pre><code class="language-python">from itertools import tee
+<p>originale = (x for x in range(5))<br>
+copia_a, copia_b = tee(originale, 2)<br>
+print(list(copia_a))<br>
+print(list(copia_b))</p>
+<p></code></pre></p>
+<p>Queste funzioni si combinano perfettamente con i generatori per creare trasformazioni dati complesse con un impatto minimo sulla memoria.</p>
+<h2 id="generatori-e-programmazione-asincrona">Generatori e programmazione asincrona</h2>
+<p>Sebbene non siano direttamente utilizzati per la concorrenza, i generatori hanno ispirato il modello delle coroutine in Python, evolutosi poi nelle parole chiave <code>async</code>/<code>await</code>. La capacità di sospendere e riprendere l'esecuzione è alla base sia dei generatori che delle funzioni asincrone.</p>
+<p>Python offre anche i cosiddetti async generator, che combinano <code>async def</code> con <code>yield</code> per produrre valori in un contesto asincrono, consumabili con <code>async for</code>.</p>
+<pre><code class="language-python">async def genera_dati_asincroni():
+    for i in range(3):
+        yield i
+<p></code></pre></p>
+<p>Utilizzo tipico all'interno di codice asincrono:</p>
+<pre><code class="language-python">async def consuma():
+    async for valore in genera_dati_asincroni():
+        print(valore)
+<p></code></pre></p>
+<div class="alert alert-warning" role="alert"> Gli async generator sono disponibili a partire da Python 3.6 (PEP 525). Riferimento di versione da confermare prima della pubblicazione. </div>
+<p>Comprendere i generatori aiuta quindi ad affrontare con maggiore consapevolezza anche temi più avanzati come la programmazione asincrona e il coordinamento di flussi di dati in tempo reale.</p>
+<h2 id="uninsidia-comune-lesaurimento-del-generatore">Un'insidia comune, l'esaurimento del generatore</h2>
+<p>Un generatore può essere iterato una sola volta. Una volta consumati tutti i valori, o interrotta l'iterazione, il generatore è esaurito e non può essere &quot;riavvolto&quot;.</p>
+<pre><code class="language-python">quadrati = (x * x for x in range(5))
+print(list(quadrati))
+print(list(quadrati))
+<p></code></pre></p>
+<p>Il secondo <code>list(quadrati)</code> restituisce una sequenza vuota, perché il generatore ha già prodotto tutti i suoi valori. Per iterare più volte sugli stessi dati è necessario ricreare il generatore da capo, oppure, se serve conservare i valori per riutilizzarli, valutare l'uso di una struttura dati tradizionale come una lista.</p>
+<h2 id="confronto-tra-funzioni-normali-e-generatori">Confronto tra funzioni normali e generatori</h2>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Funzione normale</th> <th>Generatore</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Restituisce un valore con <code>return</code></td> <td>Produce valori con <code>yield</code></td> </tr> <tr> <td class="fw-semibold">Termina completamente dopo il <code>return</code></td> <td>Sospende e riprende l'esecuzione</td> </tr> <tr> <td class="fw-semibold">Perde lo stato locale dopo la chiamata</td> <td>Mantiene lo stato tra le chiamate</td> </tr> <tr> <td class="fw-semibold">Calcola tutti i risultati subito</td> <td>Calcola i risultati quando servono</td> </tr> <tr> <td class="fw-semibold">Può richiedere molta memoria</td> <td>Usa poca memoria</td> </tr> <tr> <td class="fw-semibold">Può essere richiamata ripetutamente</td> <td>Si esaurisce dopo una sola iterazione completa</td> </tr> </tbody> </table> </div>
+<h2 id="quando-usare-i-generatori">Quando usare i generatori</h2>
+<p>I generatori sono particolarmente indicati quando:</p>
+<ul>
+<li>si devono elaborare grandi quantità di dati;</li>
+<li>non è necessario avere tutti i valori contemporaneamente;</li>
+<li>si vuole creare una pipeline di elaborazione efficiente;</li>
+<li>si lavora con dati prodotti progressivamente (streaming);</li>
+<li>si desidera scrivere codice più leggibile e modulare per sequenze complesse;</li>
+<li>si deve gestire in modo sicuro l'apertura e la chiusura di una risorsa, tramite il pattern context manager.</li>
+</ul>
+<p>Grazie alla loro capacità di produrre valori su richiesta mantenendo lo stato interno, i generatori rappresentano uno degli strumenti più potenti di Python per scrivere codice efficiente, orientato all'elaborazione sequenziale e facilmente manutenibile.</p>
+
+      </section>
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout" style="padding: 24px 0; margin-top: 32px; border-top: 1px solid var(--border-subtle);">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/python/" class="badge badge-outline">python</a>
+              
+            
+              
+              
+              <a href="/tags/generatori/" class="badge badge-outline">generatori</a>
+              
+            
+              
+              
+              <a href="/tags/lazyevaluation/" class="badge badge-outline">lazyevaluation</a>
+              
+            
+              
+              
+              <a href="/tags/yieldpython/" class="badge badge-outline">yieldpython</a>
+              
+            
+              
+              
+              <a href="/tags/ottimizzazione-memoria/" class="badge badge-outline">ottimizzazione memoria</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center" style="margin-left: auto; margin-top:20px">
+          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--secondary);">Condividi</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fi-generatori-in-python%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">SU</a>
+          <a href="https://twitter.com/intent/tweet?text=Generatori&url=https://dino-996.github.io%2Fblog%2Fi-generatori-in-python%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div style="min-width: 0; max-width: calc(50% - 4px); flex: 1 1 auto;">
+          
+          <a href="/blog/controllo-del-flusso-in-python/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">← Precedente</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Controllo del flusso</span>
+          </a>
+          
+        </div>
+        <div style="min-width: 0; max-width: calc(50% - 4px); text-align: right; flex: 1 1 auto;">
+          
+          <a href="/blog/classi-e-oggetti-in-python/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Successivo →</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Classi e Oggetti</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Comments -->
+    <h2 class="post-layout" style="font-size: 1.25rem; margin-top: 48px; margin-bottom: 0;">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Controllo del flusso · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Padroneggia il controllo del flusso in Python: scopri le differenze tra cicli for e while, l&#39;uso idiomatico di enumerate() e zip(), e come ottimizzare la memoria evitando gli anti-pattern di iterazione." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/controllo-del-flusso-in-python/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/controllo-del-flusso-in-python/" />
+
+<meta property="og:title" content="Controllo del flusso" />
+<meta property="og:description" content="Padroneggia il controllo del flusso in Python: scopri le differenze tra cicli for e while, l&#39;uso idiomatico di enumerate() e zip(), e come ottimizzare la memoria evitando gli anti-pattern di iterazione." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/controllo-del-flusso-in-python/" />
+
+<meta name="twitter:title" content="Controllo del flusso" />
+<meta name="twitter:description" content="Padroneggia il controllo del flusso in Python: scopri le differenze tra cicli for e while, l&#39;uso idiomatico di enumerate() e zip(), e come ottimizzare la memoria evitando gli anti-pattern di iterazione." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+
+<!-- Katex -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn btn-subscribe" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn btn-subscribe btn-subscribe-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
+      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png" as="image" fetchpriority="high">
+  
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper hide-desktop" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      <div class="post-breadcrumb">
+        <a href="/">Home</a>
+        <span class="post-breadcrumb-sep">»</span>
+        
+        
+        <a href="/courses/">Percorsi</a>
+        <span class="post-breadcrumb-sep">»</span>
+        <a href="/courses/python/">Python</a>
+        
+      </div>
+
+      <h1>Controllo del flusso</h1>
+
+      
+      <p class="post-description">Padroneggia il controllo del flusso in Python: scopri le differenze tra cicli for e while, l&#39;uso idiomatico di enumerate() e zip(), e come ottimizzare la memoria evitando gli anti-pattern di iterazione.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 31 luglio 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+        <span class="post-meta-dot">·</span>
+        <span>Ultimo aggiornamento: 31 luglio 2026</span>
+        
+      </div>
+    </header>
+
+    
+    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png"
+         alt="Immagine generata con AI"
+         class="post-hero-image"
+         fetchpriority="high">
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">In breve</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">In Python, `while` gestisce iterazioni definite da una condizione booleana, mentre `for` itera su elementi di oggetti iterabili. Entrambi supportano `break`, `continue` e `else`, con `while` che richiede attenzione per prevenire cicli infiniti e può beneficiare dell&#39;operatore walrus per una maggiore compattezza.</p>
+      </div>
+      
+
+      <section class="content">
+        <h2 id="introduzione">Introduzione</h2>
+<p>Nel contesto dello sviluppo software e dell'architettura del codice, le strutture iterative rappresentano uno dei pilastri fondamentali per determinare l'efficienza e la manutenibilità di un'applicazione. In Python, il controllo del flusso iterativo è gestito principalmente da due costrutti, il ciclo <code>while</code> e il ciclo <code>for</code>.</p>
+<p>Comprendere la differenza concettuale ed esecutiva tra iterazione definita e indefinita è essenziale per scrivere codice modulare, sicuro e performante.</p>
+<h2 id="introduzione-alla-logica-iterativa">Introduzione alla logica iterativa</h2>
+<p>Python distingue la gestione delle ripetizioni in base alla natura della fonte dei dati e alle condizioni di arresto:</p>
+<ul>
+<li><strong>Ciclo <code>while</code> (iterazione indefinita):</strong> esegue un blocco di codice fintanto che una condizione booleana rimane vera. Il numero preciso di iterazioni non è noto a priori.</li>
+<li><strong>Ciclo <code>for</code> (iterazione definita):</strong> attraversa gli elementi appartenenti a un oggetto iterabile (liste, tuple, dizionari, stringhe, generatori), terminando automaticamente all'esaurimento della sequenza.</li>
+</ul>
+<p>Entrambe le strutture consentono la personalizzazione del flusso di esecuzione tramite le istruzioni <code>break</code>, <code>continue</code> e la clausola <code>else</code>.</p>
+<h2 id="il-ciclo-while-gestione-delle-iterazioni-indefinite">Il ciclo while, gestione delle iterazioni indefinite</h2>
+<p>Il ciclo <code>while</code> valuta un'espressione booleana prima di ogni ciclo di esecuzione. La struttura sintattica fondamentale è la seguente:</p>
+<pre><code class="language-python">condizione = True
+while condizione:
+    condizione = False
+<p></code></pre></p>
+<p>Di seguito un esempio di conteggio progressivo:</p>
+<pre><code class="language-python">contatore = 0
+while contatore &lt; 5:
+    print(contatore)
+    contatore += 1
+<p></code></pre></p>
+<h3 id="prevenzione-dei-cicli-infiniti-ed-efficienza-delle-risorse">Prevenzione dei cicli infiniti ed efficienza delle risorse</h3>
+<p>Nei sistemi di produzione, un ciclo <code>while</code> privo di un'adeguata condizione di uscita o di uno stato di alterazione delle variabili di controllo può generare un blocco del thread di esecuzione o un consumo anomalo di CPU.</p>
+<p>Esempio di anti-pattern non sicuro:</p>
+<pre><code class="language-python">while True:
+    print(&quot;Elaborazione in corso...&quot;)
+<p></code></pre></p>
+<p>Per garantire la sicurezza e la resilienza del software, è raccomandato implementare meccanismi di salvaguardia basati su limite di tentativi o timeout:</p>
+<pre><code class="language-python">tentativi_massimi = 5
+tentativo_attuale = 0
+connessione_stabilita = False
+while not connessione_stabilita and tentativo_attuale &lt; tentativi_massimi:
+    print(f&quot;Tentativo di connessione {tentativo_attuale + 1}...&quot;)
+    tentativo_attuale += 1
+<p></code></pre></p>
+<h3 id="ottimizzazione-dei-cicli-while-con-il-walrus-operator">Ottimizzazione dei cicli while con il walrus operator</h3>
+<p>Un pattern moderno per rendere più compatte e leggibili le condizioni di uscita nei cicli <code>while</code> consiste nell'uso dell'operatore di assegnazione nel contesto di un'espressione (walrus operator), che permette di assegnare e valutare un valore nella stessa riga:</p>
+<pre><code class="language-python">dati_grezzi = iter([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, None])
+while (elemento := next(dati_grezzi, None)) is not None:
+    print(elemento)
+<p></code></pre></p>
+<p>Questo approccio riduce la duplicazione di codice tra l'inizializzazione della variabile e la sua valutazione all'interno della condizione.</p>
+<h2 id="il-ciclo-for-iterazione-su-sequenze-e-oggetti-iterabili">Il ciclo for, iterazione su sequenze e oggetti iterabili</h2>
+<p>Il ciclo <code>for</code> in Python si discosta dal modello basato su indice tradizionalmente presente in linguaggi come C o Java. Python utilizza un pattern basato su iteratori, accedendo direttamente ai valori forniti dall'oggetto iterabile.</p>
+<p>La sintassi di base è:</p>
+<pre><code class="language-python">for elemento in sequenza:
+    pass
+<p></code></pre></p>
+<p>Esempio di iterazione su una lista di stringhe:</p>
+<pre><code class="language-python">frutti = [&quot;mela&quot;, &quot;banana&quot;, &quot;kiwi&quot;]
+for frutto in frutti:
+    print(frutto)
+<p></code></pre></p>
+<h3 id="generazione-di-sequenze-numeriche-con-range">Generazione di sequenze numeriche con range()</h3>
+<p>Quando occorre eseguire un blocco di codice per un numero determinato di volte senza basarsi su una lista preesistente, si utilizza la funzione built-in <code>range()</code>.</p>
+<pre><code class="language-python">for numero in range(5):
+    print(numero)
+<p></code></pre></p>
+<p>La funzione <code>range()</code> non alloca l'intera sequenza in memoria, ma genera i valori on-demand, garantendo un'ottima efficienza di memoria anche con intervalli di grandi dimensioni.</p>
+<h3 id="iterazione-idiomatica-con-enumerate-e-zip">Iterazione idiomatica con enumerate() e zip()</h3>
+<p>In contesti in cui è necessario accedere sia all'indice posizionale sia al valore dell'elemento, l'uso di <code>range(len(lista))</code> è considerato un anti-pattern. La soluzione idiomatica è l'impiego di <code>enumerate()</code>.</p>
+<pre><code class="language-python">nomi = [&quot;Anna&quot;, &quot;Luca&quot;, &quot;Marco&quot;]
+for indice, nome in enumerate(nomi):
+    print(f&quot;Posizione {indice}, {nome}&quot;)
+<p></code></pre></p>
+<p>Per iterare contemporaneamente su più sequenze in modo parallelo e lineare, è possibile combinare <code>enumerate()</code> con <code>zip()</code>:</p>
+<pre><code class="language-python">nomi = [&quot;Anna&quot;, &quot;Luca&quot;, &quot;Marco&quot;]
+ruoli = [&quot;Developer&quot;, &quot;DevOps&quot;, &quot;Architect&quot;]
+for indice, (nome, ruolo) in enumerate(zip(nomi, ruoli)):
+    print(f&quot;ID {indice}, {nome}, Ruolo, {ruolo}&quot;)
+<p></code></pre></p>
+<h2 id="controllo-del-flusso-break-continue-ed-else-nei-cicli">Controllo del flusso, break, continue ed else nei cicli</h2>
+<p>Python mette a disposizione tre costrutti per alterare l'esecuzione standard dei cicli.</p>
+<h3 id="interruzione-immediata-con-break">Interruzione immediata con break</h3>
+<p>L'istruzione <code>break</code> termina immediatamente il ciclo più interno in cui è contenuta, trasferendo l'esecuzione alla prima istruzione esterna al ciclo.</p>
+<pre><code class="language-python">for numero in range(10):
+    if numero == 5:
+        break
+    print(numero)
+<p></code></pre></p>
+<h3 id="salto-delliterazione-con-continue">Salto dell'iterazione con continue</h3>
+<p>L'istruzione <code>continue</code> interrompe l'esecuzione del blocco corrente per l'iterazione in corso e passa immediatamente all'iterazione successiva.</p>
+<pre><code class="language-python">for numero in range(5):
+    if numero == 2:
+        continue
+    print(numero)
+<p></code></pre></p>
+<h3 id="uso-avanzato-della-clausola-else">Uso avanzato della clausola else</h3>
+<p>Una caratteristica distintiva di Python è la possibilità di associare un blocco <code>else</code> a un ciclo. Il codice contenuto in <code>else</code> viene eseguito esclusivamente se il ciclo giunge a completamento naturale, ovvero senza incontrare alcuna istruzione <code>break</code>.</p>
+<pre><code class="language-python">for numero in range(3):
+    print(numero)
+else:
+    print(&quot;Ciclo completato con successo.&quot;)
+<p></code></pre></p>
+<p>Se il ciclo viene interrotto prematuramente tramite <code>break</code>, la clausola <code>else</code> viene ignorata:</p>
+<pre><code class="language-python">for numero in range(3):
+    if numero == 1:
+        break
+else:
+    print(&quot;Questo messaggio non verrà stampato.&quot;)
+<p></code></pre></p>
+<p>Lo stesso meccanismo si applica identicamente al ciclo <code>while</code>, la clausola <code>else</code> viene eseguita solo se la condizione booleana diventa falsa senza che sia mai stata incontrata un'istruzione <code>break</code>:</p>
+<pre><code class="language-python">tentativi = 0
+while tentativi &lt; 3:
+    tentativi += 1
+else:
+    print(&quot;Condizione while esaurita senza interruzioni.&quot;)
+<p></code></pre></p>
+<h2 id="anti-pattern-comuni-e-ottimizzazione-delle-prestazioni">Anti-pattern comuni e ottimizzazione delle prestazioni</h2>
+<h3 id="modifica-di-una-sequenza-durante-literazione">Modifica di una sequenza durante l'iterazione</h3>
+<p>Modificare la dimensione o gli elementi di una lista mentre la si sta percorrendo con un ciclo <code>for</code> genera comportamenti indeterminati o salti negli indici.</p>
+<p>Anti-pattern da evitare:</p>
+<pre><code class="language-python">numeri = [1, 2, 3, 4, 5]
+for n in numeri:
+    if n % 2 == 0:
+        numeri.remove(n)
+<p></code></pre></p>
+<p>Approccio corretto tramite filtraggio su una nuova struttura dati o tramite list comprehension:</p>
+<pre><code class="language-python">numeri = [1, 2, 3, 4, 5]
+numeri_pari_rimossi = [n for n in numeri if n % 2 != 0]
+<p></code></pre></p>
+<h3 id="comprehension-e-generatori-lalternativa-pythonica-ai-cicli-classici">Comprehension e generatori, l'alternativa pythonica ai cicli classici</h3>
+<p>Quando lo scopo del ciclo è trasformare o filtrare una sequenza, l'uso delle list comprehension o delle generator expressions migliora la leggibilità e le prestazioni esecutive.</p>
+<pre><code class="language-python">import sys
+quadrati_lista = [x ** 2 for x in range(1000)]
+quadrati_generatore = (x ** 2 for x in range(1000))
+print(f&quot;Dimensione lista, {sys.getsizeof(quadrati_lista)} byte&quot;)
+print(f&quot;Dimensione generatore, {sys.getsizeof(quadrati_generatore)} byte&quot;)
+<p></code></pre></p>
+<p>L'uso dei generatori consente di elaborare flussi di dati di dimensioni arbitrarie riducendo l'impatto sulla memoria RAM dell'infrastruttura. Per generare sequenze infinite in modo lazy, senza dover gestire manualmente un contatore in un ciclo <code>while</code>, la libreria standard mette a disposizione anche il modulo <code>itertools</code>, con funzioni come <code>count()</code> per produrre progressioni numeriche illimitate da consumare con moderazione, tipicamente in combinazione con <code>break</code> o <code>islice()</code>.</p>
+<h2 id="tabella-comparativa-delle-strutture-iterative">Tabella comparativa delle strutture iterative</h2>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Caratteristica</th> <th>Ciclo for</th> <th>Ciclo while</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Tipo di iterazione</td> <td>Definita, basata su iterabile</td> <td>Indefinita, basata su condizione</td> </tr> <tr> <td class="fw-semibold">Rischio di loop infinito</td> <td>Minimo, termina con l'esaurimento della sequenza</td> <td>Presente, richiede clausole di salvaguardia</td> </tr> <tr> <td class="fw-semibold">Caso d'uso tipico</td> <td>Attraversamento di liste, tuple, dizionari, generatori</td> <td>Attesa di uno stato o di un evento esterno</td> </tr> <tr> <td class="fw-semibold">Supporto a break, continue, else</td> <td>Sì</td> <td>Sì</td> </tr> </tbody> </table> </div>
+<h2 id="considerazioni-architetturali-e-linee-guida-per-la-scelta">Considerazioni architetturali e linee guida per la scelta</h2>
+<p>Per garantire chiarezza architetturale e manutenibilità all'interno di progetti software complessi, è consigliabile attenersi alle seguenti linee guida:</p>
+<ol>
+<li><strong>Prediligere for rispetto a while:</strong> quando la fonte dati è una sequenza o un iterabile, il ciclo <code>for</code> elimina il rischio di cicli infiniti accidentali.</li>
+<li><strong>Utilizzare while con clausole di salvaguardia:</strong> assicurarsi che ogni ciclo <code>while</code> preveda un numero massimo di iterazioni ammesse o un meccanismo di timeout esplicito.</li>
+<li><strong>Sfruttare il protocollo iteratore:</strong> evitare l'uso di indici numerici manuali quando è possibile accedere direttamente agli oggetti o utilizzare funzioni helper come <code>enumerate()</code> e <code>zip()</code>.</li>
+<li><strong>Adottare la valutazione pigra per dataset di grandi dimensioni:</strong> ricorrere ai generatori quando si processano flussi dati elaborati da I/O o database.</li>
+</ol>
+
+      </section>
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout" style="padding: 24px 0; margin-top: 32px; border-top: 1px solid var(--border-subtle);">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/python/" class="badge badge-outline">python</a>
+              
+            
+              
+              
+              <a href="/tags/ciclo-for/" class="badge badge-outline">ciclo for</a>
+              
+            
+              
+              
+              <a href="/tags/ciclo-while/" class="badge badge-outline">ciclo while</a>
+              
+            
+              
+              
+              <a href="/tags/iteratori/" class="badge badge-outline">iteratori</a>
+              
+            
+              
+              
+              <a href="/tags/controllo-del-flusso/" class="badge badge-outline">controllo del flusso</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center" style="margin-left: auto; margin-top:20px">
+          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--secondary);">Condividi</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fcontrollo-del-flusso-in-python%2F" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">SU</a>
+          <a href="https://twitter.com/intent/tweet?text=Controllo%20del%20flusso&url=https://dino-996.github.io%2Fblog%2Fcontrollo-del-flusso-in-python%2F" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div style="min-width: 0; max-width: calc(50% - 4px); flex: 1 1 auto;">
+          
+          <a href="/blog/sottoprogrammi-in-python/" class="btn btn-outline btn-sm" style="text-align: left; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">← Precedente</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Sottoprogrammi</span>
+          </a>
+          
+        </div>
+        <div style="min-width: 0; max-width: calc(50% - 4px); text-align: right; flex: 1 1 auto;">
+          
+          <a href="/blog/i-generatori-in-python/" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
+            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Successivo →</span>
+            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Generatori</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Comments -->
+    <h2 class="post-layout" style="font-size: 1.25rem; margin-top: 48px; margin-bottom: 0;">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+    <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+  </div>
+</footer>
+
+
+    <!-- KaTeX -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false},
+            {left: '\\(', right: '\\)', display: false},
+            {left: '\\[', right: '\\]', display: true}
+          ]
+        });
+      });
+    </script>
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
+        <span>🦖</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
+        const toggle = document.getElementById("ai-toggle");
+        const win = document.getElementById("ai-chat-window");
+        const closeBtn = document.getElementById("ai-close");
+        const input = document.getElementById("ai-input");
+        const send = document.getElementById("ai-send");
+        const messages = document.getElementById("ai-messages");
+
+        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
+          console.error("Elementi AI widget non trovati nel DOM!");
+          return;
+        }
+
+        toggle.addEventListener("click", () => {
+          const isHidden = win.hasAttribute("hidden");
+          win.toggleAttribute("hidden", !isHidden);
+          toggle.setAttribute("aria-expanded", String(isHidden));
+          if (isHidden) input.focus();
+        });
+
+        closeBtn.addEventListener("click", () => {
+          win.setAttribute("hidden", "");
+          toggle.setAttribute("aria-expanded", "false");
+        });
+
+        input.addEventListener("keydown", e => {
+          if (e.key === "Enter") sendMessage();
+        });
+
+        send.addEventListener("click", sendMessage);
+
+        function addMessage(text, role) {
+          const div = document.createElement("div");
+          div.className = `ai-msg ai-msg-${role}`;
+          div.innerHTML = text;
+          messages.appendChild(div);
+          messages.scrollTop = messages.scrollHeight;
+          return div;
+        }
+
+        function typeWriter(text, element, speed = 15) {
+          let i = 0;
+          let currentHtml = "";
+          element.innerHTML = "";
+
+          function type() {
+            if (i < text.length) {
+              if (text.charAt(i) === "<") {
+                const tagEnd = text.indexOf(">", i);
+                if (tagEnd !== -1) {
+                  currentHtml += text.substring(i, tagEnd + 1);
+                  i = tagEnd + 1;
+                }
+              } else {
+                currentHtml += text.charAt(i);
+                i++;
+              }
+              element.innerHTML = currentHtml;
+              messages.scrollTop = messages.scrollHeight;
+              setTimeout(type, speed);
+            }
+          }
+          type();
+        }
+
+        async function sendMessage() {
+          const query = input.value.trim();
+          if (!query) return;
+
+          send.disabled = true;
+          input.disabled = true;
+
+          addMessage(query, "user");
+          input.value = "";
+          const responseContainer = addMessage('Sto cercando…', "bot");
+
+          let context = "";
+          try {
+            const idx = await fetch("/search.json").then(r => r.json());
+            const baseUrl = window.location.origin;
+            context = idx
+              .slice(0, 15)
+              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
+              .join("\n\n");
+          } catch (err) {
+            console.warn("Impossibile caricare search.json:", err);
+          }
+
+          try {
+            const res = await fetch(WORKER_URL, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ query, context }),
+            });
+
+            if (!res.ok) {
+              const errText = await res.text();
+              console.error("Errore dal worker:", res.status, errText);
+              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
+              return;
+            }
+
+            const data = await res.json();
+
+            let answer = "";
+            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
+              answer = data.candidates[0].content.parts[0].text;
+            } else if (data?.error?.message) {
+              answer = `Errore dall'AI: ${data.error.message}`;
+            } else {
+              console.warn("Struttura risposta inattesa:", data);
+              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
+            }
+            responseContainer.innerHTML = "";
+            typeWriter(answer, responseContainer);
+
+          } catch (err) {
+            console.error("Errore fetch:", err);
+            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
+          } finally {
+            send.disabled = false;
+            input.disabled = false;
+            input.focus();
+          }
+        }
+      })();
+    </script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>
