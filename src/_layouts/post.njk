@@ -70,10 +70,15 @@ layout: base.njk
     </header>
 
     {% if image %}
-    <img src="{{ image }}"
-         alt="{{ imageAlt | default('Immagine di copertina') }}"
-         class="post-hero-image"
-         fetchpriority="high">
+    <figure class="post-hero">
+      <img src="{{ image }}"
+           alt="{{ imageAlt | default('Immagine di copertina') }}"
+           class="post-hero-image"
+           fetchpriority="high">
+      {% if imageAlt %}
+      <figcaption class="post-hero-caption">{{ imageAlt }}</figcaption>
+      {% endif %}
+    </figure>
     {% endif %}
 
     <article class="post-layout">

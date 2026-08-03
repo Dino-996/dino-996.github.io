@@ -1083,11 +1083,21 @@ p { margin: 0 0 1em; line-height: 1.6; }
   width: 100%;
   max-width: 720px;
   display: block;
-  margin: 0 auto 28px;
+  margin: 0 auto 12px;
   aspect-ratio: 16/9;
   object-fit: cover;
   background: var(--surface-container-high);
   border-radius: 0;
+}
+
+.post-hero-caption {
+  max-width: 720px;
+  margin: 0 auto 28px;
+  text-align: center;
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--secondary);
 }
 
 /* ========================================
