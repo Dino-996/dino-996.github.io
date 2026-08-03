@@ -36,7 +36,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
 
 <!-- Pagination -->
 {% if pagination.pages.length > 1 %}
-<nav class="pagination-bar" aria-label="Navigazione pagine blog">
+<nav id="pagination" class="pagination-bar" aria-label="Navigazione pagine blog">
   <div>
     {% if pagination.previousPageHref %}
       <a href="{{ pagination.previousPageHref }}" class="btn btn-outline btn-sm">

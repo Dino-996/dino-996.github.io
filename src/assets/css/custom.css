@@ -551,7 +551,7 @@ p { margin: 0 0 1em; line-height: 1.6; }
   border-bottom: 1px solid var(--border-subtle);
 }
 
-.article-item:last-child { border-bottom: none; }
+.article-item:last-child:not(.search-result-item) { border-bottom: none; }
 
 .article-item-category {
   display: inline-block;
@@ -593,22 +593,10 @@ p { margin: 0 0 1em; line-height: 1.6; }
   margin-top: 20px;
 }
 
-.share-label,
-.share-link {
-  font-family: var(--font-label);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  line-height: 1;
-  color: var(--secondary);
-}
-
-.share-link {
-  text-decoration: none;
-}
-
-.share-link:hover {
-  color: var(--primary);
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .article-nav-half {
@@ -1400,12 +1388,12 @@ code {
    Search
    ======================================== */
 .search-bar {
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--border-subtle);
-  overflow: hidden;
-  margin-bottom: 32px;
-}
+   display: flex;
+   align-items: stretch;
+   border: 1px solid var(--border-subtle);
+   overflow: hidden;
+   margin-bottom: 32px;
+ }
 
 .search-bar input {
   flex: 1;
@@ -1420,6 +1408,22 @@ code {
 .search-bar input:focus { outline: 2px solid var(--primary); outline-offset: 2px; }
 
 .search-bar input::placeholder { color: var(--tertiary); }
+
+.search-bar input::-webkit-search-cancel-button {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  background: var(--tertiary);
+  cursor: pointer;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6L6 18'/%3E%3C/svg%3E");
+}
+
+.search-bar input::-webkit-search-cancel-button:hover {
+  background: var(--secondary);
+}
 
 .search-bar button {
   padding: 12px 20px;
