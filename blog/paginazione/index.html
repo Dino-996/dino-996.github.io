@@ -228,17 +228,22 @@
         <span class="post-meta-dot">·</span>
         <span class="reading-time"></span>
         
-        <span class="post-meta-dot">·</span>
-        <span>Ultimo aggiornamento: 25 luglio 2026</span>
+          <span class="post-meta-dot">·</span>
+          <span>Aggiornato il 25 luglio 2026</span>
         
       </div>
     </header>
 
     
-    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784997357/sistemi_operativi_c5f0caf8fe.webp"
-         alt="Immagine generata con IA"
-         class="post-hero-image"
-         fetchpriority="high">
+    <figure class="post-hero">
+      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784997357/sistemi_operativi_c5f0caf8fe.webp"
+           alt="Immagine generata con IA"
+           class="post-hero-image"
+           fetchpriority="high">
+      
+      <figcaption class="post-hero-caption">Immagine generata con IA</figcaption>
+      
+    </figure>
     
 
     <article class="post-layout">
@@ -250,7 +255,7 @@
       
 
       <section class="content">
-        <h2 id="introduzione">Introduzione</h2>
+          <h2 id="introduzione">Introduzione</h2>
 <p>In questo articolo si descrive come la <strong>Memory Management Unit (MMU)</strong> converta gli indirizzi logici in fisici suddividendo la memoria in pagine e frame, supportata da strutture hardware come il <strong>TLB</strong> per accelerare le traduzioni. Vengono esaminate diverse configurazioni delle tabelle delle pagine, incluse quelle gerarchiche, invertite e basate su hash, insieme ai meccanismi di protezione e condivisione del codice. Approfondiamo inoltre il concetto di <strong>swapping</strong>, analizzando le differenze tra l'approccio standard e quello utilizzato nei sistemi mobili come <strong>iOS</strong> e <strong>Android</strong>, con esempi concreti di implementazione nelle architetture <strong>Intel IA-32</strong>, <strong>x86-64</strong> e <strong>ARMv8</strong>, evidenziandone le specifiche granularità e i livelli di traduzione.</p>
 <h2 id="concetti-fondamentali-e-meccanismo-di-traduzione">Concetti Fondamentali e Meccanismo di Traduzione</h2>
 <p>L'architettura della paginazione suddivide la memoria in blocchi di dimensione fissa:</p>

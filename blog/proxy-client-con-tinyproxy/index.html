@@ -226,17 +226,22 @@
         <span class="post-meta-dot">·</span>
         <span class="reading-time"></span>
         
-        <span class="post-meta-dot">·</span>
-        <span>Ultimo aggiornamento: 25 luglio 2026</span>
+          <span class="post-meta-dot">·</span>
+          <span>Aggiornato il 25 luglio 2026</span>
         
       </div>
     </header>
 
     
-    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784996184/tinyproxy_47f35dbdf7.png"
-         alt="Immagine generata con IA"
-         class="post-hero-image"
-         fetchpriority="high">
+    <figure class="post-hero">
+      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784996184/tinyproxy_47f35dbdf7.png"
+           alt="Immagine generata con IA"
+           class="post-hero-image"
+           fetchpriority="high">
+      
+      <figcaption class="post-hero-caption">Immagine generata con IA</figcaption>
+      
+    </figure>
     
 
     <article class="post-layout">
@@ -248,7 +253,7 @@
       
 
       <section class="content">
-        <h3 id="proxy-client-con-tinyproxy">Proxy client con tinyproxy</h3>
+          <h3 id="proxy-client-con-tinyproxy">Proxy client con tinyproxy</h3>
 <p>Questa guida descrive la configurazione di un proxy client locale su Linux (Ubuntu 24.04) in grado di forzare tutto il traffico TCP generato dal sistema attraverso un proxy HTTP trasparente. L'obiettivo è ottenere un controllo centralizzato del traffico in uscita, utile per scenari di filtraggio, logging, debugging applicativo o instradamento verso un proxy remoto.</p>
 <p>L'architettura si basa sulla combinazione di quattro componenti, ciascuno con un ruolo ben definito:</p>
 <pre><code>Applicazione → iptables (REDIRECT) → redsocks → tinyproxy → Internet

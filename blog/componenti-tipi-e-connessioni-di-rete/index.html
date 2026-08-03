@@ -226,17 +226,22 @@
         <span class="post-meta-dot">·</span>
         <span class="reading-time"></span>
         
-        <span class="post-meta-dot">·</span>
-        <span>Ultimo aggiornamento: 25 luglio 2026</span>
+          <span class="post-meta-dot">·</span>
+          <span>Aggiornato il 25 luglio 2026</span>
         
       </div>
     </header>
 
     
-    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784999691/networking_c518ca7505.webp"
-         alt="Immagine generata con IA"
-         class="post-hero-image"
-         fetchpriority="high">
+    <figure class="post-hero">
+      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1784999691/networking_c518ca7505.webp"
+           alt="Immagine generata con IA"
+           class="post-hero-image"
+           fetchpriority="high">
+      
+      <figcaption class="post-hero-caption">Immagine generata con IA</figcaption>
+      
+    </figure>
     
 
     <article class="post-layout">
@@ -248,7 +253,7 @@
       
 
       <section class="content">
-        <h2 id="architettura-client-e-server">Architettura Client e Server</h2>
+          <h2 id="architettura-client-e-server">Architettura Client e Server</h2>
 <p>Tutti i dispositivi connessi a una rete che partecipano attivamente alla comunicazione sono classificati come <strong>host</strong>. Nelle reti moderne, un host può assumere il ruolo di client, di server o di entrambi simultaneamente: è il software installato a determinarne il comportamento.</p>
 <p>I <strong>server</strong> sono host equipaggiati con software dedicato a erogare servizi — pagine web, email, autenticazione, database. Ogni servizio richiede un processo server specifico: un host che eroga sia un sito web che la posta elettronica esegue in parallelo un web server (ad esempio Nginx o Apache) e un mail server (ad esempio Postfix).</p>
 <p>I <strong>client</strong> sono host su cui è installato software in grado di richiedere e consumare tali servizi: un browser web, un client di posta, un'applicazione mobile. In un'architettura client-server classica i ruoli sono distinti e stabili, il che consente ottimizzazione delle risorse, scalabilità orizzontale e gestione centralizzata della sicurezza — principi fondanti nell'ingegneria di sistemi distribuiti e nei microservizi.</p>

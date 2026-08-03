@@ -25,7 +25,8 @@
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+
+  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
 &lt;p&gt;In Python, l&#39;&lt;strong&gt;unpacking&lt;/strong&gt; (spacchettamento) è un meccanismo potente che consente di estrarre gli elementi contenuti in una struttura dati, come una lista, una tupla o un dizionario, e di assegnarli direttamente a una o più variabili in modo contestuale e leggibile.&lt;/p&gt;
 &lt;p&gt;Questa funzionalità si basa sull&#39;iterazione interna degli oggetti. Quando si esegue un&#39;assegnazione multipla, Python itera sulla collezione a destra dell&#39;uguale e distribuisce i valori alle variabili specificate a sinistra, seguendo l&#39;ordine di iterazione.&lt;/p&gt;
 &lt;h2 id=&quot;assegnazione-multipla-le-basi&quot;&gt;Assegnazione multipla, le basi&lt;/h2&gt;
@@ -220,6 +221,7 @@ print(y)
     &lt;/tbody&gt;
   &lt;/table&gt;
 &lt;/div&gt;
+
 ]]></content>
     
     
@@ -262,7 +264,8 @@ print(y)
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+
+  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
 &lt;p&gt;La programmazione procedurale costituisce uno dei pilastri fondamentali nello sviluppo software in Python. Basata sulla scomposizione di un problema complesso in blocchi di codice riutilizzabili e modulari, questo paradigma permette di scrivere applicazioni manutenibili, efficienti e facilmente testabili.&lt;/p&gt;
 &lt;p&gt;In questa guida analizzeremo i concetti chiave della programmazione procedurale in Python, la creazione di sottoprogrammi, l&#39;organizzazione del codice tramite moduli e package, fino all&#39;utilizzo ottimale dei tipi di dati sequenziali e strutturati.&lt;/p&gt;
 &lt;h2 id=&quot;sottoprogrammi-e-architettura-delle-funzioni-in-python&quot;&gt;Sottoprogrammi e architettura delle funzioni in Python&lt;/h2&gt;
@@ -491,6 +494,7 @@ sub3 = stringa[7:99]
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;La comprensione dell&#39;indicizzazione a separatori costituisce la chiave visiva per padroneggiare lo slicing, gli indici non vanno intesi come posizioni sugli elementi, ma come delimitatori posizionati prima e dopo ciascun carattere o elemento della sequenza.&lt;/p&gt;
 
+
 ]]></content>
     
     
@@ -533,7 +537,8 @@ sub3 = stringa[7:99]
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+
+  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
 &lt;p&gt;Nel contesto dello sviluppo software e dell&#39;architettura del codice, le strutture iterative rappresentano uno dei pilastri fondamentali per determinare l&#39;efficienza e la manutenibilità di un&#39;applicazione. In Python, il controllo del flusso iterativo è gestito principalmente da due costrutti, il ciclo &lt;code&gt;while&lt;/code&gt; e il ciclo &lt;code&gt;for&lt;/code&gt;.&lt;/p&gt;
 &lt;p&gt;Comprendere la differenza concettuale ed esecutiva tra iterazione definita e indefinita è essenziale per scrivere codice modulare, sicuro e performante.&lt;/p&gt;
 &lt;h2 id=&quot;introduzione-alla-logica-iterativa&quot;&gt;Introduzione alla logica iterativa&lt;/h2&gt;
@@ -693,6 +698,7 @@ print(f&amp;quot;Dimensione generatore, {sys.getsizeof(quadrati_generatore)} byt
 &lt;li&gt;&lt;strong&gt;Adottare la valutazione pigra per dataset di grandi dimensioni:&lt;/strong&gt; ricorrere ai generatori quando si processano flussi dati elaborati da I/O o database.&lt;/li&gt;
 &lt;/ol&gt;
 
+
 ]]></content>
     
     
@@ -735,7 +741,8 @@ print(f&amp;quot;Dimensione generatore, {sys.getsizeof(quadrati_generatore)} byt
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+
+  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
 &lt;p&gt;Un &lt;strong&gt;generatore&lt;/strong&gt; (generator) in Python è una funzione o un&#39;espressione che restituisce uno speciale tipo di iteratore chiamato &lt;em&gt;generator iterator&lt;/em&gt;. A differenza delle normali strutture dati, un generatore non calcola e non conserva tutti i suoi valori in memoria in anticipo: genera ogni valore solo quando viene richiesto. Questo comportamento viene definito &lt;strong&gt;lazy evaluation&lt;/strong&gt; (valutazione pigra).&lt;/p&gt;
 &lt;h2 id=&quot;generatori-e-iteratori&quot;&gt;Generatori e iteratori&lt;/h2&gt;
 &lt;p&gt;Un generatore è un particolare tipo di iteratore, cioè un oggetto che permette di attraversare una sequenza di valori uno alla volta mediante il protocollo di iterazione (i metodi &lt;code&gt;__iter__()&lt;/code&gt; e &lt;code&gt;__next__()&lt;/code&gt;). La differenza sostanziale è che un iteratore standard, come una lista, contiene già tutti i suoi elementi in memoria:&lt;/p&gt;
@@ -1021,6 +1028,7 @@ print(list(quadrati))
 &lt;/ul&gt;
 &lt;p&gt;Grazie alla loro capacità di produrre valori su richiesta mantenendo lo stato interno, i generatori rappresentano uno degli strumenti più potenti di Python per scrivere codice efficiente, orientato all&#39;elaborazione sequenziale e facilmente manutenibile.&lt;/p&gt;
 
+
 ]]></content>
     
     
@@ -1063,7 +1071,8 @@ print(list(quadrati))
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+
+  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
 &lt;p&gt;Le classi in Python sono il pilastro della programmazione orientata agli oggetti (OOP). Esse rappresentano un modello, un &amp;quot;progetto&amp;quot; o &amp;quot;blueprint&amp;quot; per creare strutture dati complesse che legano insieme informazioni (dati) e comportamenti (funzionalità). Questo approccio consente di modellare il mondo reale in codice, organizzando i programmi in componenti modulari, riutilizzabili e manutenibili.&lt;/p&gt;
 &lt;h2 id=&quot;classi-e-oggetti-il-modello-e-le-istanze&quot;&gt;Classi e oggetti, il modello e le istanze&lt;/h2&gt;
 &lt;p&gt;Una classe è una descrizione astratta. Pensatela come il progetto di una casa: definisce la struttura, le stanze e le porte, ma non è una casa in sé. Per avere una casa concreta, dovete costruirla seguendo quel progetto. Allo stesso modo, per utilizzare una classe, dovete crearne delle &lt;strong&gt;istanze&lt;/strong&gt;, cioè degli oggetti concreti.&lt;/p&gt;
@@ -1306,6 +1315,7 @@ persona3 = Persona(&amp;quot;Marco&amp;quot;, 40)
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Tutti e tre gli oggetti condividono la stessa struttura e gli stessi metodi, ma ognuno mantiene i propri dati personali. Questa &lt;strong&gt;separazione&lt;/strong&gt; e questo &lt;strong&gt;incapsulamento&lt;/strong&gt; sono il fondamento per la scrittura di software robusto, scalabile e manutenibile, capace di modellare con efficacia tanto le entità concrete del mondo reale quanto i concetti astratti della logica di business.&lt;/p&gt;
 
+
 ]]></content>
     
     
@@ -1348,7 +1358,8 @@ persona3 = Persona(&amp;quot;Marco&amp;quot;, 40)
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+
+  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
 &lt;p&gt;Python è un linguaggio di programmazione che ha conosciuto una crescita esponenziale negli ultimi anni, affermandosi come strumento di riferimento in ambito didattico, nella ricerca scientifica e nel data science. La sua popolarità deriva da una combinazione vincente di fattori: una curva di apprendimento contenuta, un ambiente interattivo che favorisce la sperimentazione e un ecosistema straordinariamente ricco di librerie e progetti open source. Tra questi, il progetto Jupyter rappresenta uno dei pilastri fondamentali per lo sviluppo e la condivisione di codice interattivo.&lt;/p&gt;
 &lt;h3 id=&quot;il-progetto-jupyter-e-i-notebook-eseguibili&quot;&gt;Il progetto Jupyter e i notebook eseguibili&lt;/h3&gt;
 &lt;p&gt;Nato nel 2014 come spin-off del progetto IPython, Jupyter è nato con l&#39;obiettivo di estendere il concetto di console interattiva, migliorando la condivisione del codice e includendo in un unico ambiente documentazione, codice, risultati e visualizzazioni. Il nome stesso, Jupyter, è un acronimo che rende omaggio ai tre linguaggi inizialmente supportati: &lt;strong&gt;Ju&lt;/strong&gt;lia, &lt;strong&gt;Pyt&lt;/strong&gt;hon e &lt;strong&gt;R&lt;/strong&gt;.&lt;/p&gt;
@@ -1428,6 +1439,7 @@ papermill notebook_input.ipynb notebook_output.ipynb -p parametro valore
 &lt;p&gt;In sintesi, Jupyter è uno strumento eccezionale per l&#39;apprendimento, la ricerca e la data science, ma va integrato con altre pratiche e strumenti per uno sviluppo software professionale. La sua capacità di unire codice, dati e narrazione lo rende un alleato prezioso per chiunque lavori con i dati, a patto di conoscerne bene i limiti e di adottare le pratiche di igiene del codice e del repository descritte in questo articolo.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Nota sull&#39;approfondimento:&lt;/strong&gt; per una trattazione più estesa delle librerie scientifiche di Python e delle tecniche di data visualization, si consiglia di esplorare la documentazione ufficiale di NumPy, Matplotlib e degli altri strumenti dell&#39;ecosistema PyData.&lt;/p&gt;
 
+
 ]]></content>
     
     
@@ -1465,7 +1477,8 @@ papermill notebook_input.ipynb notebook_output.ipynb -p parametro valore
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+
+  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
 &lt;p&gt;NumPy (Numerical Python) è il pacchetto fondamentale per il data science e il calcolo scientifico in Python. Si tratta di una libreria open source che fornisce strutture dati ottimizzate e funzioni per la manipolazione di array multidimensionali, offrendo prestazioni paragonabili a quelle di MatLab. La sua importanza è tale che molte altre librerie popolari, come Pandas, SciPy, scikit-learn, TensorFlow e PyTorch, si basano su di essa per le loro operazioni numeriche.&lt;/p&gt;
 &lt;h2 id=&quot;perche-scegliere-numpy&quot;&gt;Perché scegliere NumPy&lt;/h2&gt;
 &lt;ul&gt;
@@ -1741,6 +1754,7 @@ def somma_cumulativa(arr):
 &lt;/ul&gt;
 &lt;p&gt;NumPy è uno strumento potente e flessibile. Comprendere a fondo i meccanismi di memoria, vista e broadcast è fondamentale per scrivere codice performante e privo di effetti collaterali. Con queste basi, si è pronti ad affrontare con sicurezza l&#39;intero ecosistema scientifico Python.&lt;/p&gt;
 
+
 ]]></content>
     
     
@@ -1783,7 +1797,8 @@ def somma_cumulativa(arr):
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+
+  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
 &lt;p&gt;Pandas è una libreria open-source per Python che fornisce strutture dati e strumenti di analisi ad alte prestazioni. Nata come estensione di NumPy, ne eredita la potenza di calcolo vettorializzato, aggiungendo un&#39;interfaccia intuitiva e flessibile per la manipolazione di dati strutturati. È lo standard &lt;em&gt;de facto&lt;/em&gt; per il data science e l&#39;analisi dati, supportando l&#39;integrazione con librerie come SciPy per l&#39;analisi statistica, Matplotlib per la visualizzazione e Scikit-learn per il machine learning.&lt;/p&gt;
 &lt;p&gt;Per installare Pandas, è sufficiente utilizzare pip:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;pip install pandas
@@ -1978,6 +1993,7 @@ df1.update(df2)
 &lt;h2 id=&quot;conclusioni&quot;&gt;Conclusioni&lt;/h2&gt;
 &lt;p&gt;Pandas si conferma come uno strumento indispensabile per chiunque lavori con dati in Python. La sua curva di apprendimento è dolce, ma nasconde una potenza enorme che, se sfruttata correttamente, permette di scrivere codice efficiente, leggibile e manutenibile. L&#39;adozione di best practice come l&#39;uso delle operazioni vettoriali, la comprensione delle strutture dati, la corretta gestione di copie e viste, e un&#39;attenzione mirata a prestazioni e sicurezza, sono fondamentali per trasformare un semplice script di analisi in un sistema robusto e scalabile. L&#39;integrazione nativa con SQL, Excel e le librerie di visualizzazione lo rende un coltellino svizzero per il data scientist moderno.&lt;/p&gt;
 
+
 ]]></content>
     
     
@@ -2020,7 +2036,8 @@ df1.update(df2)
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;ai-act-e-la-scadenza-del-2-agosto-2026-cosa-cambia-davvero-per-le-aziende&quot;&gt;Ai act e la scadenza del 2 agosto 2026: cosa cambia davvero per le aziende&lt;/h2&gt;
+
+  &lt;h2 id=&quot;ai-act-e-la-scadenza-del-2-agosto-2026-cosa-cambia-davvero-per-le-aziende&quot;&gt;Ai act e la scadenza del 2 agosto 2026: cosa cambia davvero per le aziende&lt;/h2&gt;
 &lt;p&gt;Il 2 agosto 2026 resta una data cerchiata in rosso nei piani di compliance di molte aziende europee. Ma rispetto a quanto pianificato fino a poche settimane fa, il quadro normativo è cambiato in modo sostanziale: un pacchetto di modifiche noto come Digital Omnibus sull&#39;IA ha ridisegnato il calendario degli obblighi più gravosi del Regolamento (UE) 2024/1689, l&#39;EU AI Act. Chi ha impostato la propria roadmap sulla vecchia scadenza rischia ora di lavorare sulle priorità sbagliate.&lt;/p&gt;
 &lt;p&gt;Questo articolo aggiorna la guida operativa alla luce dell&#39;esito definitivo del processo legislativo: cosa è realmente dovuto il 2 agosto 2026, cosa è stato rinviato, e quali azioni concrete un&#39;azienda deve completare nelle prossime settimane.&lt;/p&gt;
 &lt;h3 id=&quot;il-percorso-normativo-fino-ad-oggi&quot;&gt;Il percorso normativo fino ad oggi&lt;/h3&gt;
@@ -2090,6 +2107,7 @@ Gli obblighi di trasparenza dell&#39;Articolo 50 restano fermi al 2 agosto 2026:
 &lt;h3 id=&quot;conclusione&quot;&gt;Conclusione&lt;/h3&gt;
 &lt;p&gt;Il rinvio degli obblighi sull&#39;alto rischio non è un segnale che l&#39;AI Act stia perdendo forza, ma il riconoscimento che l&#39;ecosistema, inclusi gli organismi di standardizzazione, non era pronto per la scadenza originaria. Per le aziende, la lezione operativa è duplice: il 2 agosto 2026 resta una data reale per la trasparenza, e il tempo aggiuntivo sull&#39;alto rischio va investito, non archiviato. Chi tratta la governance dell&#39;IA come una leva di fiducia verso clienti e partner, anziché come un adempimento da rimandare, sarà meglio posizionato quando la scadenza del 2 dicembre 2027 arriverà davvero.&lt;/p&gt;
 
+
 ]]></content>
     
     
@@ -2127,7 +2145,8 @@ Gli obblighi di trasparenza dell&#39;Articolo 50 restano fermi al 2 agosto 2026:
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+
+  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
 &lt;p&gt;Prima di addentrarci nella sintassi di Python è utile chiarire come un linguaggio di programmazione trasforma il codice sorgente (il codice così come lo scrive lo sviluppatore, prima di qualsiasi traduzione) in qualcosa che una macchina può eseguire. Esistono principalmente due strategie.&lt;/p&gt;
 &lt;p&gt;La prima è la &lt;strong&gt;compilazione&lt;/strong&gt;: un compilatore trasforma l&#39;intero codice sorgente in linguaggio macchina (codice oggetto o assembly) prima dell&#39;esecuzione, producendo un eseguibile. I vantaggi principali sono le elevate prestazioni a runtime e la possibilità di individuare molti errori già in fase di compilazione, prima ancora di eseguire il programma.&lt;/p&gt;
 &lt;p&gt;La seconda è l&#39;&lt;strong&gt;interpretazione&lt;/strong&gt;: un interprete esegue direttamente il codice sorgente a runtime, istruzione per istruzione. I vantaggi risiedono nella portabilità, nel debugging interattivo e nella flessibilità dinamica; lo svantaggio principale è un overhead di esecuzione più elevato rispetto al codice compilato.&lt;/p&gt;
@@ -2261,6 +2280,7 @@ calc = Calcolatrice()
 &lt;/ul&gt;
 &lt;p&gt;Per chi desidera approfondire da subito, restano utili riferimenti come il tutorial ufficiale su &lt;a href=&quot;https://docs.python.org/3/tutorial/index.html&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://docs.python.org/3/tutorial/index.html&lt;/a&gt; e la guida introduttiva su &lt;a href=&quot;https://www.python.org/about/gettingstarted/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://www.python.org/about/gettingstarted/&lt;/a&gt;, oltre alle convenzioni di stile definite in PEP 8 (&lt;a href=&quot;https://peps.python.org/pep-0008/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://peps.python.org/pep-0008/&lt;/a&gt;) e PEP 257 (&lt;a href=&quot;https://peps.python.org/pep-0257/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://peps.python.org/pep-0257/&lt;/a&gt;).&lt;/p&gt;
 
+
 ]]></content>
     
     
@@ -2303,7 +2323,8 @@ calc = Calcolatrice()
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+
+  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
 &lt;p&gt;Il &lt;strong&gt;Regolamento Generale sulla Protezione dei Dati&lt;/strong&gt; — noto con l&#39;acronimo &lt;strong&gt;GDPR&lt;/strong&gt; (&lt;em&gt;General Data Protection Regulation&lt;/em&gt;) e identificato formalmente come &lt;strong&gt;Regolamento UE 2016/679&lt;/strong&gt; — costituisce il quadro normativo di riferimento per la protezione dei dati personali nell&#39;Unione Europea. Entrato in vigore il &lt;strong&gt;25 maggio 2018&lt;/strong&gt;, ha abrogato la Direttiva 95/46/CE e, in Italia, ha adeguato il D.Lgs. 196/2003 (Codice Privacy) tramite il D.Lgs. 101/2018.&lt;/p&gt;
 &lt;p&gt;Il Regolamento non si limita a definire regole e obblighi formali: istituisce un vero e proprio &lt;strong&gt;organigramma di responsabilità&lt;/strong&gt;, assegnando a ciascun soggetto coinvolto un ruolo preciso con relativi diritti e doveri. Al contempo, introduce un approccio basato sulla responsabilizzazione proattiva (&lt;strong&gt;accountability&lt;/strong&gt;), imponendo misure tecniche e organizzative adeguate al rischio e richiedendo che la protezione dei dati sia integrata fin dalla progettazione dei sistemi (&lt;strong&gt;privacy by design&lt;/strong&gt; e &lt;strong&gt;privacy by default&lt;/strong&gt;). Comprendere questa struttura è fondamentale per chiunque operi in ambito IT, sviluppo software o gestione aziendale, poiché ogni decisione tecnica si riflette direttamente sulle figure giuridiche in gioco.&lt;/p&gt;
 &lt;h2 id=&quot;ambito-di-applicazione&quot;&gt;Ambito di Applicazione&lt;/h2&gt;
@@ -2554,6 +2575,7 @@ calc = Calcolatrice()
 &lt;h3 id=&quot;impresa-e-gruppo-imprenditoriale-artt-418-419&quot;&gt;Impresa e Gruppo Imprenditoriale (Artt. 4.18–4.19)&lt;/h3&gt;
 &lt;p&gt;Il GDPR definisce l&#39;&lt;strong&gt;impresa&lt;/strong&gt; come la persona fisica o giuridica che esercita un&#39;attività economica (indipendentemente dalla forma giuridica). Il &lt;strong&gt;gruppo imprenditoriale&lt;/strong&gt; è costituito dall&#39;impresa controllante e dalle controllate. Tale concetto assume rilievo strategico sia per la nomina di un DPO unico di gruppo, sia per il trasferimento intra-gruppo di dati verso Paesi terzi tramite le clausole contrattuali vincolanti d&#39;impresa (&lt;em&gt;Binding Corporate Rules - BCR&lt;/em&gt;).&lt;/p&gt;
 
+
 ]]></content>
     
     
@@ -2591,7 +2613,8 @@ calc = Calcolatrice()
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;dalla-teoria-allanalisi-delle-minacce-reali&quot;&gt;Dalla teoria all&#39;analisi delle minacce reali&lt;/h2&gt;
+
+  &lt;h2 id=&quot;dalla-teoria-allanalisi-delle-minacce-reali&quot;&gt;Dalla teoria all&#39;analisi delle minacce reali&lt;/h2&gt;
 &lt;p&gt;In un ecosistema digitale sempre più interconnesso, comprendere la natura e il funzionamento degli attacchi informatici non è un optional riservato agli specialisti della sicurezza: è una competenza fondamentale per qualsiasi professionista IT. Sviluppatori che scrivono codice, IT manager che progettano infrastrutture e appassionati di tecnologia si trovano quotidianamente esposti a minacce che spaziano da semplici campagne di phishing ad attacchi sofisticati orchestrati da attori statali.&lt;/p&gt;
 &lt;p&gt;Questo articolo offre una panoramica strutturata delle principali categorie di attacco, analizza casi reali come WannaCry e SolarWinds, e introduce i framework professionali utilizzati per riconoscere, analizzare e contrastare le minacce.&lt;/p&gt;
 &lt;h2 id=&quot;il-panorama-del-malware&quot;&gt;Il panorama del malware&lt;/h2&gt;
@@ -2902,6 +2925,7 @@ Cifratura file + propagazione laterale sulla rete
 &lt;/ul&gt;
 &lt;p&gt;Gli IoC vengono condivisi attraverso piattaforme di threat intelligence come &lt;strong&gt;MISP&lt;/strong&gt; (&lt;em&gt;Malware Information Sharing Platform&lt;/em&gt;) e feed commerciali (CrowdStrike, Recorded Future, VirusTotal). Il concetto si è evoluto verso gli &lt;strong&gt;IoA&lt;/strong&gt; (&lt;em&gt;Indicators of Attack&lt;/em&gt;), che si concentrano sui comportamenti degli attaccanti piuttosto che sugli artefatti statici, risultando più efficaci contro minacce nuove e zero-day.&lt;/p&gt;
 
+
 ]]></content>
     
     
@@ -2944,7 +2968,8 @@ Cifratura file + propagazione laterale sulla rete
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;guida-completa-al-regolamento-ue-2016679&quot;&gt;Guida completa al Regolamento (UE) 2016/679&lt;/h2&gt;
+
+  &lt;h2 id=&quot;guida-completa-al-regolamento-ue-2016679&quot;&gt;Guida completa al Regolamento (UE) 2016/679&lt;/h2&gt;
 &lt;p&gt;Il Regolamento Generale sulla Protezione dei Dati — noto universalmente con l&#39;acronimo inglese &lt;strong&gt;GDPR&lt;/strong&gt; (&lt;em&gt;General Data Protection Regulation&lt;/em&gt;) — è uno dei testi normativi più impattanti mai prodotti dall&#39;Unione Europea in ambito digitale. Entrato in applicazione il 25 maggio 2018, ha ridisegnato in modo radicale il modo in cui organizzazioni pubbliche e private raccolgono, conservano e trattano i dati personali di cittadini europei. Per chi lavora nello sviluppo software o nella gestione IT, conoscere il GDPR non è una questione di buona educazione normativa: è un prerequisito tecnico.&lt;/p&gt;
 &lt;h2 id=&quot;cosa-intendiamo-con-privacy&quot;&gt;Cosa intendiamo con &amp;quot;privacy&amp;quot;&lt;/h2&gt;
 &lt;p&gt;Prima di entrare nel merito del regolamento, è utile chiarire il concetto stesso di privacy, spesso usato in modo impreciso. Con il termine &lt;strong&gt;privacy&lt;/strong&gt; intendiamo comunemente il diritto di ogni individuo alla riservatezza, ma la definizione è più ampia: si tratta del &lt;strong&gt;diritto dell&#39;individuo a controllare la diffusione delle informazioni che lo riguardano&lt;/strong&gt;, esercitando una sorta di proprietà sui propri dati personali.&lt;/p&gt;
@@ -3043,6 +3068,7 @@ Cifratura file + propagazione laterale sulla rete
 &lt;p&gt;&lt;strong&gt;Gestione dei log e dei tempi di conservazione.&lt;/strong&gt; I log applicativi e di sistema spesso contengono indirizzi IP, identificatori utente e altre informazioni personali. È necessario definire politiche di retention con scadenze precise e implementare processi automatizzati di cancellazione o anonimizzazione alla scadenza del periodo consentito.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Notifica dei data breach (Art. 33-34).&lt;/strong&gt; In caso di violazione della sicurezza che comporti la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l&#39;accesso non autorizzato a dati personali, il titolare del trattamento ha l&#39;obbligo di notificare l&#39;incidente all&#39;Autorità di controllo competente &lt;strong&gt;entro 72 ore&lt;/strong&gt; dalla scoperta, salvo che sia improbabile che la violazione presenti un rischio per i diritti e le libertà delle persone fisiche. Un sistema di incident response ben strutturato, con procedure chiare e responsabilità assegnate, non è un&#39;opzione: è un obbligo normativo.&lt;/p&gt;
 
+
 ]]></content>
     
     
@@ -3085,7 +3111,8 @@ Cifratura file + propagazione laterale sulla rete
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;cose-un-nas-e-perche-dovresti-averne-uno&quot;&gt;Cos&#39;è un NAS e perché dovresti averne uno&lt;/h2&gt;
+
+  &lt;h2 id=&quot;cose-un-nas-e-perche-dovresti-averne-uno&quot;&gt;Cos&#39;è un NAS e perché dovresti averne uno&lt;/h2&gt;
 &lt;p&gt;Nell&#39;era in cui la quantità di dati che produciamo cresce ogni anno in modo esponenziale, la domanda di storage affidabile, accessibile e sicuro è diventata una priorità non solo per le aziende, ma anche per i professionisti e gli appassionati di tecnologia. In questo contesto nasce il &lt;strong&gt;NAS&lt;/strong&gt; (Network Attached Storage): un dispositivo di archiviazione collegato direttamente alla rete locale, accessibile da tutti i dispositivi della stessa rete come se fosse un disco condiviso.&lt;/p&gt;
  &lt;figure style=&quot;border: 1px solid #ddd; border-radius: 5px; padding: 10px; display: inline-block; max-width: 620px; margin-top: 15px; margin-bottom: 15px;&quot;&gt;
   &lt;img src=&quot;https://res.cloudinary.com/dcro2pbqr/image/upload/v1784927880/NAS_19f423f1d8.png&quot; alt=&quot;Un NAS appena configurato su una scrivania&quot; width=&quot;600&quot; height=&quot;338&quot; loading=&quot;lazy&quot; style=&quot;max-width: 100%; border-radius: 5px&quot;&gt;
@@ -3355,6 +3382,7 @@ echo &amp;quot;Backup completato il $(date)&amp;quot; &amp;gt;&amp;gt; &amp;quot
 Un NAS sicuro non è il risultato di un&#39;unica configurazione iniziale, ma di un processo continuo di aggiornamento, monitoraggio e verifica. Le misure descritte in questa guida, applicate in modo sistematico e integrate in una rete correttamente segmentata e protetta da firewall, trasformano il tuo NAS da un potenziale vettore di rischio a una fortezza digitale affidabile e sotto il tuo pieno controllo.&lt;/li&gt;
 &lt;/ul&gt;
 
+
 ]]></content>
     
     
@@ -3397,7 +3425,8 @@ Un NAS sicuro non è il risultato di un&#39;unica configurazione iniziale, ma di
     
     
     <content type="html"><![CDATA[
-&lt;h2 id=&quot;la-difesa-perimetrale-delle-reti&quot;&gt;La difesa perimetrale delle reti&lt;/h2&gt;
+
+  &lt;h2 id=&quot;la-difesa-perimetrale-delle-reti&quot;&gt;La difesa perimetrale delle reti&lt;/h2&gt;
 &lt;p&gt;Nell&#39;era in cui le infrastrutture IT si estendono su cloud pubblici, reti ibride e dispositivi mobili, costruire un perimetro di sicurezza solido non è più un&#39;opzione: è un prerequisito fondamentale. Oltre il 70% degli attacchi esterni viene neutralizzato grazie a un perimetro correttamente configurato. Questo articolo guida sviluppatori, IT manager e professionisti di rete attraverso i componenti chiave della difesa perimetrale — dai firewall tradizionali ai Next-Generation Firewall, dai sistemi IDS/IPS alle VPN, fino al paradigma moderno del Zero Trust.&lt;/p&gt;
 &lt;h2 id=&quot;il-concetto-di-perimetro-di-rete&quot;&gt;Il concetto di perimetro di rete&lt;/h2&gt;
 &lt;p&gt;Il &lt;strong&gt;perimetro di rete&lt;/strong&gt; è il confine digitale che separa la rete locale interna (&lt;em&gt;trusted zone&lt;/em&gt;) dalle reti esterne non affidabili come Internet (&lt;em&gt;untrusted zone&lt;/em&gt;). L&#39;analogia classica è quella di un edificio: mura, porte e finestre determinano chi può entrare e chi deve restare fuori. La difesa perimetrale si occupa esattamente di questo controllo degli accessi, applicandolo al flusso di dati.&lt;/p&gt;
@@ -3664,6 +3693,7 @@ AllowedIPs = 10.0.0.2/32
 &lt;li&gt;&lt;strong&gt;Log retention e alerting:&lt;/strong&gt; configurare la retention dei log per almeno 90 giorni e integrare gli alert con un SIEM o un sistema di notifica (es. Slack/email per eventi critici).&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;Revisione periodica delle ACL:&lt;/strong&gt; rimuovere regole obsolete e verificare che il principio del least privilege sia rispettato almeno trimestralmente.&lt;/li&gt;
 &lt;/ul&gt;
+
 
 ]]></content>
     

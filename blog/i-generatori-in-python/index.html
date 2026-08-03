@@ -228,17 +228,19 @@
         <span class="post-meta-dot">·</span>
         <span class="reading-time"></span>
         
-        <span class="post-meta-dot">·</span>
-        <span>Ultimo aggiornamento: 31 luglio 2026</span>
-        
       </div>
     </header>
 
     
-    <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png"
-         alt="Immagine generata con AI"
-         class="post-hero-image"
-         fetchpriority="high">
+    <figure class="post-hero">
+      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png"
+           alt="Immagine generata con AI"
+           class="post-hero-image"
+           fetchpriority="high">
+      
+      <figcaption class="post-hero-caption">Immagine generata con AI</figcaption>
+      
+    </figure>
     
 
     <article class="post-layout">
@@ -250,7 +252,7 @@
       
 
       <section class="content">
-        <h2 id="introduzione">Introduzione</h2>
+          <h2 id="introduzione">Introduzione</h2>
 <p>Un <strong>generatore</strong> (generator) in Python è una funzione o un'espressione che restituisce uno speciale tipo di iteratore chiamato <em>generator iterator</em>. A differenza delle normali strutture dati, un generatore non calcola e non conserva tutti i suoi valori in memoria in anticipo: genera ogni valore solo quando viene richiesto. Questo comportamento viene definito <strong>lazy evaluation</strong> (valutazione pigra).</p>
 <h2 id="generatori-e-iteratori">Generatori e iteratori</h2>
 <p>Un generatore è un particolare tipo di iteratore, cioè un oggetto che permette di attraversare una sequenza di valori uno alla volta mediante il protocollo di iterazione (i metodi <code>__iter__()</code> e <code>__next__()</code>). La differenza sostanziale è che un iteratore standard, come una lista, contiene già tutti i suoi elementi in memoria:</p>
