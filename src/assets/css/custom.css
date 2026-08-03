@@ -1488,6 +1488,7 @@ code {
 }
 
 .ai-btn-pulse {
+  position: relative;
   width: 56px;
   height: 56px;
   border-radius: 50%;
@@ -1504,6 +1505,36 @@ code {
 }
 
 .ai-btn-pulse:hover { transform: scale(1.1); }
+
+/* Badge IA persistente sul pulsante chiuso: visibile prima ancora di aprire la chat */
+.ai-toggle-badge {
+  position: absolute;
+  bottom: -4px;
+  right: -4px;
+  background: var(--surface-container-lowest);
+  color: var(--primary);
+  border: 1.5px solid var(--primary);
+  border-radius: 999px;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1;
+  padding: 3px 5px;
+}
+
+/* Badge IA persistente nell'header della chat: resta visibile anche quando
+   il messaggio di benvenuto scorre fuori vista in conversazioni lunghe */
+.ai-badge {
+  background: var(--surface-container-lowest);
+  color: var(--secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  padding: 2px 6px;
+}
 
 .ai-card {
   width: 360px;
