@@ -118,6 +118,17 @@ export default function (eleventyConfig) {
         return new Date(date).toISOString();
     });
 
+    eleventyConfig.addFilter("dateDay", (date) => {
+        if(!date) {
+            return "";
+        }
+        const d = new Date(date);
+        if(Number.isNaN(d.getTime())) {
+            return "";
+        }
+        return d.toISOString().slice(0, 10);
+    });
+
     eleventyConfig.addFilter("dateHuman", (date) => {
         if (!date) {
             return "Data non disponibile.";

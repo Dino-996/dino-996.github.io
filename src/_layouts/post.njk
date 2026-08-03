@@ -62,9 +62,9 @@ layout: base.njk
         <span>Pubblicato il {{ postDate | dateHuman }}</span>
         <span class="post-meta-dot">·</span>
         <span class="reading-time"></span>
-        {% if updatedAt and (updatedAt | dateIso) != (postDate | dateIso) %}
-        <span class="post-meta-dot">·</span>
-        <span>Ultimo aggiornamento: {{ updatedAt | dateHuman }}</span>
+        {% if updatedAt and (updatedAt | dateDay) > (postDate | dateDay) %}
+          <span class="post-meta-dot">·</span>
+          <span>Aggiornato il {{ updatedAt | dateHuman }}</span>
         {% endif %}
       </div>
     </header>

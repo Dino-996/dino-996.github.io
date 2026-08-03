@@ -20,4 +20,6 @@ eleventyComputed:
   authorAvatar: "{{ post.authorAvatar }}"
 ---
 
-{% if post.content %}{{ post.content | markdownBlock | safe }}{% endif %}
+{% if post.content %}
+  {{ post.content | markdownBlock | safe }}
+{% endif %}

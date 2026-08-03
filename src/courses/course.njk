@@ -23,7 +23,7 @@ pagination:
 </div>
 
 {% if course.posts.length > 0 %}
-  {% for post in course.posts %}
+  {% for post in course.posts.reverse() %}
   {{ listCard(post, { compact: true, truncate: 300, image: "right" }) }}
   {% endfor %}
 {% endif %}
