@@ -148,7 +148,7 @@
     "hash": "27789"
   },
   " Regolamento UE 2016/679 (GDPR)": {
-    "tldr": "Il GDPR stabilisce un quadro normativo completo per la protezione dei dati personali nell'UE, introducendo un approccio basato sulla responsabilità proattiva e sull'integrazione della privacy fin dalla progettazione. La sua applicazione è estesa a trattamenti automatizzati e non, con un significativo effetto extraterritoriale che copre anche entità non UE che offrono beni/servizi o monitorano individui nell'Unione.",
+    "tldr": "Il GDPR, operativo dal 25 maggio 2018, definisce un organigramma di responsabilità e un approccio basato sull'accountability, privacy by design e by default per la protezione dei dati personali nell'UE. La sua applicazione è sia territoriale estesa con effetto extraterritoriale, sia materiale ai trattamenti automatizzati e non, escludendo attività di sicurezza nazionale e quelle esclusivamente personali o domestiche.",
     "hash": "15942"
   },
   "Il GDPR": {
@@ -156,7 +156,7 @@
     "hash": "23242"
   },
   "Introduzione a Python": {
-    "tldr": "Python è primariamente un linguaggio interpretato, che esegue il codice sorgente a runtime, offrendo portabilità e flessibilità, ma con un potenziale overhead di esecuzione. Sistemi ibridi come JIT compilano bytecode intermedio a runtime per ottimizzare le prestazioni, combinando i vantaggi di interpretazione e compilazione.",
+    "tldr": "Python è un linguaggio interpretato, dinamicamente tipizzato con duck typing, che esegue il codice istruzione per istruzione a runtime per flessibilità e portabilità. Tecniche come la compilazione Just-In-Time (JIT) migliorano le prestazioni del codice intermedio (bytecode) trasformandolo dinamicamente in codice macchina nativo durante l'esecuzione.",
     "hash": "22451"
   },
   "Unpacking e assegnazione": {
@@ -194,13 +194,5 @@
   "AI ACT: Novità e Scadenze": {
     "tldr": "Il Digital Omnibus sull'IA posticipa al 2 dicembre 2027 gli obblighi per i sistemi ad alto rischio standalone e al 2 agosto 2028 per quelli integrati in prodotti regolamentati. Le imprese \"small mid-cap\" beneficiano di semplificazioni, mentre un nuovo divieto assoluto entra in vigore il 2 dicembre 2026.",
     "hash": "10483"
-  },
-  "Introduzione a Python": {
-    "tldr": "Python è un linguaggio interpretato, dinamicamente tipizzato con duck typing, che esegue il codice istruzione per istruzione a runtime per flessibilità e portabilità. Tecniche come la compilazione Just-In-Time (JIT) migliorano le prestazioni del codice intermedio (bytecode) trasformandolo dinamicamente in codice macchina nativo durante l'esecuzione.",
-    "hash": "22451"
-  },
-  " Regolamento UE 2016/679 (GDPR)": {
-    "tldr": "Il GDPR, operativo dal 25 maggio 2018, definisce un organigramma di responsabilità e un approccio basato sull'accountability, privacy by design e by default per la protezione dei dati personali nell'UE. La sua applicazione è sia territoriale estesa con effetto extraterritoriale, sia materiale ai trattamenti automatizzati e non, escludendo attività di sicurezza nazionale e quelle esclusivamente personali o domestiche.",
-    "hash": "15942"
   }
 }
