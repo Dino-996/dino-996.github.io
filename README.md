@@ -12,7 +12,7 @@ Personal blog and portfolio built with [Eleventy](https://www.11ty.dev/) 3.1 and
 - **Static site generator:** Eleventy v3.1
 - **Templating:** Nunjucks
 - **Design system:** Custom CSS (Material Design 3 palette, CSS Grid 12-col, zero frameworks)
-- **Typography:** Libre Caslon Text (serif headings), Red Hat Text / Red Hat Display (sans)
+- **Typography:** Libre Caslon Text (serif headings), Inter (sans)
 - **CMS:** Strapi (headless) on Render
 - **AI features:** Google Gemini for TL;DR summaries and chat assistant
 - **Comments:** Giscus (GitHub Discussions)

@@ -7,11 +7,11 @@
         </svg>
       </button>
       <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
-        <a class="btn btn-subscribe{% if page.url == '/' %} btn-primary{% endif %}" href="/"{% if page.url == '/' %} aria-current="page"{% endif %}>
+        <a class="btn nav-btn{% if page.url == '/' %} btn-primary{% endif %}" href="/"{% if page.url == '/' %} aria-current="page"{% endif %}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           Home
         </a>
-        <a class="btn btn-subscribe btn-subscribe-nav{% if '/blog/' in page.url %} btn-primary{% endif %}" href="/blog/"{% if '/blog/' in page.url %} aria-current="page"{% endif %}>
+        <a class="btn nav-btn nav-btn-nav{% if '/blog/' in page.url %} btn-primary{% endif %}" href="/blog/"{% if '/blog/' in page.url %} aria-current="page"{% endif %}>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           Blog
         </a>
@@ -21,8 +21,8 @@
     <a href="/" class="header-logo">DinoSec</a>
 
     <div class="header-right gap-2 hide-mobile">
-      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav{% if '/courses/' in page.url %} btn-primary{% endif %}"{% if '/courses/' in page.url %} aria-current="page"{% endif %}>Percorsi</a>
-      <a href="/about/" class="btn btn-subscribe{% if page.url == '/about/' %} btn-primary{% endif %}"{% if page.url == '/about/' %} aria-current="page"{% endif %}>Chi sono</a>
+      <a href="/courses/" class="btn nav-btn nav-btn-nav{% if '/courses/' in page.url %} btn-primary{% endif %}"{% if '/courses/' in page.url %} aria-current="page"{% endif %}>Percorsi</a>
+      <a href="/about/" class="btn nav-btn{% if page.url == '/about/' %} btn-primary{% endif %}"{% if page.url == '/about/' %} aria-current="page"{% endif %}>Chi sono</a>
     </div>
   </div>
 </header>

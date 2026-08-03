@@ -5,6 +5,8 @@ import matter from "gray-matter";
 import slugify from "slugify";
 import path from "path";
 import fs from "fs";
+import { transform as minifyCss } from "lightningcss";
+import { slugifyIt } from "./src/lib/utils.js";
 import "dotenv/config";
 
 export default function (eleventyConfig) {
@@ -18,7 +20,7 @@ export default function (eleventyConfig) {
     // copia file statici non processati
     eleventyConfig.addPassthroughCopy("src/assets");
     eleventyConfig.addPassthroughCopy("src/google451dd7067b26c223.html");
-    eleventyConfig.addPassthroughCopy(".nojekill");
+    eleventyConfig.addPassthroughCopy(".nojekyll");
     // cartella dei layout/template riutilizzabili
     eleventyConfig.setLayoutsDirectory("_layouts");
     // cartella degli include/parziali
@@ -27,8 +29,8 @@ export default function (eleventyConfig) {
     eleventyConfig.setDataDirectory("_data");
     // formati di template processati da Eleventy
     eleventyConfig.setTemplateFormats(["njk", "html", "md"]);
-    // mostra i log di Eleventy durante la build
-    eleventyConfig.setQuietMode(true); // Disabilita in produzione
+    // log di build minimi (per debug: impostare false)
+    eleventyConfig.setQuietMode(true);
     // configurazione del modello nunjucks
     eleventyConfig.setNunjucksEnvironmentOptions({
         throwOnUndefined: false, // il rendering fallisce se una variabile è indefinita
@@ -138,18 +140,7 @@ export default function (eleventyConfig) {
         return content.length > 160 ? content.slice(0, 160) + "..." : content;
     });
 
-    eleventyConfig.addFilter("slug", (str) => {
-        if (!str) {
-            return "";
-        }
-        return slugify(str, {
-            lower: true,
-            strict: true,
-            locale: "it",
-            replacement: "-",
-            trim: true
-        });
-    });
+    eleventyConfig.addFilter("slug", (str) => slugifyIt(str));
 
     eleventyConfig.addFilter("json", (value) => {
         return JSON.stringify(value);
@@ -221,17 +212,6 @@ export default function (eleventyConfig) {
     // =========================================
     // = TRANSFORMS
     // =========================================
-    eleventyConfig.addTransform("minify-css", async (content, outputPath) => {
-        if (outputPath && outputPath.endsWith(".css")) {
-            return content
-                .replace(/\/\*[\s\S]*?\*\//g, "")
-                .replace(/\s+/g, " ")
-                .replace(/\s*([{}:;,])\s*/g, "$1")
-                .replace(/;}/g, "}")
-                .trim();
-        }
-        return content;
-    });
 
     // Demote first <h1> inside .content to <h2> on post pages (fix duplicate h1)
     eleventyConfig.addTransform("fix-heading-hierarchy", (content, outputPath) => {
@@ -247,22 +227,22 @@ export default function (eleventyConfig) {
     // = POST-BUILD
     // =========================================
     eleventyConfig.on("eleventy.after", () => {
-        // Minify CSS in dist
+        // Minify CSS in dist (via passthrough copy, so it never passes through transforms)
         const cssDir = path.join("dist", "assets", "css");
         if (fs.existsSync(cssDir)) {
             const files = fs.readdirSync(cssDir).filter(f => f.endsWith(".css"));
             for (const file of files) {
                 const filePath = path.join(cssDir, file);
-                let content = fs.readFileSync(filePath, "utf-8");
-                const minified = content
-                    .replace(/\/\*[\s\S]*?\*\//g, "")
-                    .replace(/\s+/g, " ")
-                    .replace(/\s*([{}:;,])\s*/g, "$1")
-                    .replace(/;}/g, "}")
-                    .trim();
+                const source = fs.readFileSync(filePath, "utf-8");
+                const { code } = minifyCss({
+                    filename: filePath,
+                    code: Buffer.from(source),
+                    minify: true,
+                });
+                const minified = code.toString("utf-8");
                 fs.writeFileSync(filePath, minified, "utf-8");
-                const saved = content.length - minified.length;
-                console.log(`[minify] ${file}: ${content.length} → ${minified.length} bytes (-${saved})`);
+                const saved = Buffer.byteLength(source) - Buffer.byteLength(minified);
+                console.log(`[minify] ${file}: ${Buffer.byteLength(source)} → ${Buffer.byteLength(minified)} bytes (-${saved})`);
             }
         }
 

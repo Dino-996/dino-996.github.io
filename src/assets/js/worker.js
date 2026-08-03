@@ -85,7 +85,7 @@ export default {
 
         } catch (error) {
             console.error("Errore worker:", error.message);
-            return new Response(JSON.stringify({ error: error.message }), {
+            return new Response(JSON.stringify({ error: "Errore interno del server. Riprova più tardi." }), {
                 status: 500,
                 headers: { ...corsHeaders, "Content-Type": "application/json; charset=utf-8" },
             });

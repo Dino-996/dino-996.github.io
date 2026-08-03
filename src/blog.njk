@@ -9,6 +9,8 @@ pagination:
 permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumber + 1 }}/index.html{% else %}/blog/index.html{% endif %}"
 ---
 
+{% from "article-card.njk" import listCard %}
+
 <div class="mb-6">
   <h1 class="font-headline-lg mb-2">Blog</h1>
   <p class="text-muted">Esplora tutti gli articoli</p>
@@ -26,36 +28,7 @@ permalink: "{% if pagination.pageNumber > 0 %}/blog/page/{{ pagination.pageNumbe
 <!-- Post list -->
 <section id="posts-list">
   {% for post in posts %}
-  <article class="article-item article-item-horizontal">
-    <div class="article-item-body">
-    {% if post.data.strapiTags %}
-      {% set topTag = post.data.strapiTags.split(",") | first | trim %}
-      {% if topTag and topTag != "posts" %}
-      <a href="/tags/{{ topTag | slugify }}/" class="badge badge-category article-item-category">{{ topTag }}</a>
-      {% endif %}
-    {% endif %}
-    <h2 class="article-item-title">
-      <a href="{{ post.url }}">{{ post.data.title }}</a>
-    </h2>
-    {% if post.data.description %}
-    <p class="article-item-excerpt">{{ post.data.description | truncate(200) }}</p>
-    {% endif %}
-    <div class="article-item-meta">
-      <time datetime="{{ post.data.postDate | dateIso }}">{{ post.data.postDate | dateHuman }}</time>
-      {% if post.data.author %}
-       · {{ post.data.author }}
-      {% endif %}
-    </div>
-    </div>
-    {% if post.data.image %}
-    <a href="{{ post.url }}" class="article-item-image-wrap article-item-image-right">
-      <img src="{{ post.data.image }}"
-           alt="{{ post.data.imageAlt | default(post.data.title) }}"
-           class="article-item-image"
-           loading="lazy">
-    </a>
-    {% endif %}
-  </article>
+  {{ listCard(post, { image: "right", truncate: 200, showAuthor: true }) }}
   {% endfor %}
 </section>
 

@@ -39,6 +39,15 @@
             }
         }
 
+        function escapeHtml(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
         function renderResults(query) {
             const q = query.trim().toLowerCase();
             if (!q) {
@@ -60,7 +69,7 @@
             if (filtered.length === 0) {
                 searchResults.innerHTML = `
                     <div style="text-align: center; padding: 32px 16px; color: var(--secondary);">
-                    Nessun articolo trovato per "<strong>${query}</strong>"
+                    Nessun articolo trovato per "<strong>${escapeHtml(query)}</strong>"
                     </div>`;
                 return;
             }
@@ -70,9 +79,9 @@
                     ${filtered.map(p => `
                         <article class="article-item search-result-item" style="padding: 16px;">
                             <h3 style="font-family: var(--font-serif); font-size: 1.125rem; font-weight: 600; margin-bottom: 8px;">
-                                <a href="${p.url}">${p.title}</a>
+                                <a href="${escapeHtml(p.url)}">${escapeHtml(p.title)}</a>
                             </h3>
-                            ${p.description ? `<p>${p.description}</p>` : ''}
+                            ${p.description ? `<p>${escapeHtml(p.description)}</p>` : ''}
                         </article>`).join('')}
                 </div>`;
             }
@@ -103,6 +112,8 @@
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        // i link della ToC hanno il loro handler dedicato (setupTocClick) con offset corretto
+        if (anchor.closest('.toc-list')) return;
         anchor.addEventListener('click', function (e) {
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
@@ -122,12 +133,17 @@
     // ===========================================
 
     let lastScroll = 0;
+    let headerFrame = null;
     const siteHeader = document.querySelector('.site-header');
     if (siteHeader) {
         window.addEventListener('scroll', () => {
-            const currentScroll = window.pageYOffset;
-            siteHeader.style.boxShadow = currentScroll > 50 ? '0 2px 8px rgba(0,0,0,0.06)' : 'none';
-            lastScroll = currentScroll;
+            if (headerFrame) return;
+            headerFrame = requestAnimationFrame(() => {
+                const currentScroll = window.pageYOffset;
+                siteHeader.style.boxShadow = currentScroll > 50 ? '0 2px 8px rgba(0,0,0,0.06)' : 'none';
+                lastScroll = currentScroll;
+                headerFrame = null;
+            });
         });
     }
 

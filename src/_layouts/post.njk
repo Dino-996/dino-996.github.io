@@ -6,6 +6,8 @@ layout: base.njk
   {% if image %}
     <link rel="preload" href="{{ image }}" as="image" fetchpriority="high">
   {% endif %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
 {% endblock %}
 
 <div class="reading-progress-bar" id="reading-progress-bar"></div>
@@ -96,7 +98,7 @@ layout: base.njk
     </article>
 
     <!-- Share & Tags -->
-    <div class="post-layout" style="padding: 24px 0; margin-top: 32px; border-top: 1px solid var(--border-subtle);">
+    <div class="post-layout post-section">
       <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
         <div class="d-flex flex-wrap gap-2">
           {% if strapiTags %}
@@ -108,10 +110,10 @@ layout: base.njk
             {% endfor %}
           {% endif %}
         </div>
-        <div class="d-flex gap-2 align-items-center" style="margin-left: auto; margin-top:20px">
-          <span style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; line-height: 1; color: var(--secondary);">Condividi</span>
-          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url ~ page.url | urlencode }}" target="_blank" rel="noopener" aria-label="LinkedIn" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">SU</a>
-          <a href="https://twitter.com/intent/tweet?text={{ title | urlencode }}&url={{ site.url ~ page.url | urlencode }}" target="_blank" rel="noopener" aria-label="X" style="font-family: var(--font-label); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.05em; line-height: 1; color: var(--secondary);">𝕏</a>
+        <div class="d-flex gap-2 align-items-center share-block">
+          <span class="share-label">Condividi</span>
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url={{ site.url ~ page.url | urlencode }}" target="_blank" rel="noopener" aria-label="LinkedIn" class="share-link">SU</a>
+          <a href="https://twitter.com/intent/tweet?text={{ title | urlencode }}&url={{ site.url ~ page.url | urlencode }}" target="_blank" rel="noopener" aria-label="X" class="share-link">𝕏</a>
         </div>
       </div>
     </div>
@@ -122,21 +124,21 @@ layout: base.njk
     {% set nextPostUrl = post.nextPostUrl %}
     {% set nextPostTitle = post.nextPostTitle %}
     {% if prevPostUrl or nextPostUrl %}
-    <div class="post-layout" style="padding: 24px 0; margin-top: 24px; border-top: 1px solid var(--border-subtle);">
+    <div class="post-layout post-section post-section-sm">
       <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
-        <div style="min-width: 0; max-width: calc(50% - 4px); flex: 1 1 auto;">
+        <div class="article-nav-half">
           {% if prevPostUrl %}
-          <a href="{{ prevPostUrl }}" class="btn btn-outline btn-sm" style="text-align: left; max-width: 100%; overflow: hidden; display: block;">
-            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">← Precedente</span>
-            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ prevPostTitle }}</span>
+          <a href="{{ prevPostUrl }}" class="btn btn-outline btn-sm article-nav-btn">
+            <span class="d-block small article-nav-label">← Precedente</span>
+            <span class="d-block article-nav-title">{{ prevPostTitle }}</span>
           </a>
           {% endif %}
         </div>
-        <div style="min-width: 0; max-width: calc(50% - 4px); text-align: right; flex: 1 1 auto;">
+        <div class="article-nav-half article-nav-right">
           {% if nextPostUrl %}
-          <a href="{{ nextPostUrl }}" class="btn btn-outline btn-sm" style="text-align: right; max-width: 100%; overflow: hidden; display: block;">
-            <span class="d-block small" style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Successivo →</span>
-            <span class="d-block" style="font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ nextPostTitle }}</span>
+          <a href="{{ nextPostUrl }}" class="btn btn-outline btn-sm article-nav-btn article-nav-btn-right">
+            <span class="d-block small article-nav-label">Successivo →</span>
+            <span class="d-block article-nav-title">{{ nextPostTitle }}</span>
           </a>
           {% endif %}
         </div>
@@ -145,7 +147,7 @@ layout: base.njk
     {% endif %}
 
     <!-- Commenti -->
-    <h2 class="post-layout" style="font-size: 1.25rem; margin-top: 48px; margin-bottom: 0;">Commenti</h2>
+    <h2 class="post-layout comment-heading">Commenti</h2>
     <div class="post-layout giscus-wrapper">
       <script>
         (function () {
@@ -179,3 +181,23 @@ layout: base.njk
     </div>
   </div>
 </div>
+
+{% block scripts %}
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+    data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      });
+    });
+  </script>
+{% endblock %}

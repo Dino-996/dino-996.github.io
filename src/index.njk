@@ -3,6 +3,8 @@ layout: page.njk
 title: Home
 ---
 
+{% from "article-card.njk" import gridCard %}
+
 <div class="grid-12">
   <!-- Main content -->
   <div class="md-col-span-9">
@@ -21,8 +23,8 @@ title: Home
            fetchpriority="high">
       {% endif %}
       <div class="featured-article-content">
-        {% if firstPost.displayTags %}
-          {% set topTag = firstPost.displayTags.split(",") | first | trim %}
+        {% if firstPost.strapiTags %}
+          {% set topTag = firstPost.strapiTags.split(",") | first | trim %}
           {% if topTag and topTag != "posts" %}
           <a href="/tags/{{ topTag | slugify }}/" class="badge badge-category" style="align-self: flex-start;">{{ topTag }}</a>
           {% endif %}
@@ -49,29 +51,7 @@ title: Home
     <div class="article-grid mb-6">
       {% for post in allPosts %}
       {% if loop.index0 >= 1 and loop.index0 < 7 %}
-      <article class="article-item">
-        {% if post.image %}
-        <div class="article-item-image-wrap">
-          <img src="{{ post.image }}"
-               alt="{{ post.imageAlt | default(post.title) }}"
-               class="article-item-image"
-               loading="lazy">
-        </div>
-        {% endif %}
-        {% if post.displayTags %}
-          {% set topTag = post.displayTags.split(",") | first | trim %}
-          {% if topTag and topTag != "posts" %}
-          <a href="/tags/{{ topTag | slugify }}/" class="badge badge-category article-item-category">{{ topTag }}</a>
-          {% endif %}
-        {% endif %}
-        <h2 class="article-item-title">
-          <a href="{{ post.url }}">{{ post.title }}</a>
-        </h2>
-        {% if post.description %}
-        <p class="article-item-excerpt">{{ post.description | truncate(120) }}</p>
-        {% endif %}
-        <div class="article-item-meta">{{ post.date | dateHuman }}</div>
-      </article>
+      {{ gridCard(post) }}
       {% endif %}
       {% endfor %}
     </div>

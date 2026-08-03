@@ -1,10 +1,12 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { createHash } from "node:crypto";
 import fs from "fs";
 import process from "process";
 import path from "path";
 import posts from "./posts.js";
 
 const CACHE_FILE = ".cache/tldr-cache.json";
+const CONCURRENCY = 3;
 
 function loadCache() {
   if (fs.existsSync(CACHE_FILE)) {
@@ -18,7 +20,30 @@ function saveCache(cache) {
   fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2), "utf-8");
 }
 
-console.log("[tldr] Il file tldr.js è stato caricato da Eleventy!");
+function contentHash(content) {
+  return createHash("sha1").update(content).digest("hex").slice(0, 12);
+}
+
+async function generateTldr(model, post) {
+  const prompt = `Sei un assistente tecnico. Riassumi questo articolo in 2 frasi concise per un lettore esperto. Rispondi SOLO con le 2 frasi, senza prefissi o etichette.\n\n${post.content.slice(0, 3000)}`;
+  const response = await model.generateContent(prompt);
+  return response.response.text().trim();
+}
+
+async function mapWithConcurrency(items, limit, worker) {
+  const results = new Array(items.length);
+  let nextIndex = 0;
+
+  async function run() {
+    while (nextIndex < items.length) {
+      const index = nextIndex++;
+      results[index] = await worker(items[index], index);
+    }
+  }
+
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, run));
+  return results;
+}
 
 export default async function () {
   const key = process.env.GEMINI_API_KEY;
@@ -39,28 +64,23 @@ export default async function () {
     return result;
   }
 
-  for (const post of allPosts) {
-    if (!post.title) continue;
+  const pending = allPosts
+    .filter(post => post.title && post.content)
+    .filter(post => cache[post.title]?.hash !== contentHash(post.content));
 
-    const cacheKey = post.title;
-    const content = post.content || "";
-    const contentHash = content.length.toString();
-    if (cache[cacheKey]?.hash === contentHash) continue;
-
+  await mapWithConcurrency(pending, CONCURRENCY, async (post) => {
     console.log(`[tldr] Generazione TL;DR per: ${post.title}`);
-
     try {
-      const prompt = `Sei un assistente tecnico. Riassumi questo articolo in 2 frasi concise per un lettore esperto. Rispondi SOLO con le 2 frasi, senza prefissi o etichette.\n\n${content.slice(0, 3000)}`;
-      const response = await model.generateContent(prompt);
-      const tldr = response.response.text().trim();
-
-      result[cacheKey] = { tldr, hash: contentHash };
-      console.log(`[tldr] ✓ ${post.title}`);
+      const tldr = await generateTldr(model, post);
+      result[post.title] = { tldr, hash: contentHash(post.content) };
+      console.log(`[tldr] OK ${post.title}`);
     } catch (err) {
-      console.error(`[tldr] ✗ Errore per "${post.title}":`, err.message);
+      console.error(`[tldr] Errore per "${post.title}":`, err.message);
     }
-  }
+  });
 
-  saveCache(result);
+  if (pending.length > 0) {
+    saveCache(result);
+  }
   return result;
 }

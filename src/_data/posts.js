@@ -1,10 +1,6 @@
 import 'dotenv/config';
 import process from "process";
-
-function decodeHtml(str) {
-  if (!str) return str;
-  return str.replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-}
+import { decodeHtml, emptyPost } from "../lib/utils.js";
 
 async function fetchWithRetry(url, options, retries = 3, baseDelay = 1500) {
     for (let i = 0; i < retries; i++) {
@@ -40,24 +36,7 @@ export default async function () {
 
         if (!data || data.length === 0) {
             console.warn("[posts] Nessun dato ricevuto da Strapi");
-            return [{
-                permalink: false,
-                title: '',
-                description: '',
-                tags: [],
-                strapiTags: '',
-                displayTags: '',
-                date: new Date(),
-                updatedAt: null,
-                excerpt: '',
-                slug: '_empty',
-                content: '',
-                author: '',
-                authorAvatar: null,
-                image: null,
-                imageAlt: '',
-                url: '',
-            }];
+            return [emptyPost()];
         }
 
         const data_map = data.map((item) => {
@@ -79,7 +58,6 @@ export default async function () {
                 description: decodeHtml(a.description ?? ''),
                 tags: ['posts', ...flatTags],
                 strapiTags: displayFlatTags.join(","),
-                displayTags: displayFlatTags.join(","),
                 course: courseName,
                 date: postDate,
                 updatedAt: a.updatedAt ? new Date(a.updatedAt) : null,
@@ -115,23 +93,6 @@ export default async function () {
 
     } catch (err) {
         console.error('[posts] Fetch fallito:', err.message);
-        return [{
-            permalink: false,
-            title: '',
-            description: '',
-            tags: [],
-            strapiTags: '',
-            displayTags: '',
-            date: new Date(),
-            updatedAt: null,
-            excerpt: '',
-            slug: '_empty',
-            content: '',
-            author: '',
-            authorAvatar: null,
-            image: null,
-            imageAlt: '',
-            url: '',
-        }];
+        return [emptyPost()];
     }
 }

@@ -1,4 +1,5 @@
 import posts from "./posts.js";
+import { slugifyIt } from "../lib/utils.js";
 
 export default async function () {
     const allPosts = await posts();
@@ -11,8 +12,8 @@ export default async function () {
         if (!courseMap[name]) {
             courseMap[name] = {
                 name,
-                slug: name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''),
-                description: `Corso su ${name.toLowerCase()}`,
+                slug: slugifyIt(name),
+                description: `Approfondisci su ${name.toLowerCase()}`,
                 posts: [],
             };
         }

@@ -8,6 +8,8 @@ pagination:
   alias: course
 ---
 
+{% from "article-card.njk" import listCard %}
+
 {% block head_extra %}
 <script>document.title = {{ course.name | json | safe }} + " · " + {{ site.title | json | safe }};</script>
 {% endblock %}
@@ -22,24 +24,6 @@ pagination:
 
 {% if course.posts.length > 0 %}
   {% for post in course.posts %}
-  <article class="article-item" style="padding-left: 0; padding-right: 0;">
-    <h2 class="article-item-title" style="font-size: 1.125rem;">
-      <a href="{{ post.url }}">{{ post.title }}</a>
-    </h2>
-    {% if post.description %}
-    <p class="article-item-excerpt">{{ post.description | truncate(200) }}</p>
-    {% endif %}
-    <div class="article-item-meta">
-      <time datetime="{{ post.date | dateIso }}">{{ post.date | dateHuman }}</time>
-      {% if post.strapiTags %}
-        {% for t in post.strapiTags.split(",") %}
-          {% set cleanTag = t | trim %}
-          {% if cleanTag and cleanTag != "posts" %}
-            <span class="badge badge-outline" style="font-size: 0.625rem; margin-left: 4px;">{{ cleanTag }}</span>
-          {% endif %}
-        {% endfor %}
-      {% endif %}
-    </div>
-  </article>
+  {{ listCard(post, { compact: true, truncate: 300, image: "right" }) }}
   {% endfor %}
 {% endif %}

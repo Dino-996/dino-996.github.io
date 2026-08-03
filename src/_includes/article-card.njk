@@ -1,0 +1,78 @@
+{#
+  Macros per card articolo.
+  - gridCard(post): card a griglia (home) — post in forma "piatta" (dati post)
+  - listCard(post, opts): card a lista — supporta sia post piatti che item di collezione (post.data.*)
+    opts: { image: "right", truncate: N, compact: true, showAuthor: true, showTags: true, relatedTags: true, excludeTag: "tag" }
+#}
+
+{% macro topBadge(post, extraClass) %}
+  {% set d = post.data if post.data else post %}
+  {% if d.strapiTags %}
+    {% set topTag = d.strapiTags.split(",") | first | trim %}
+    {% if topTag and topTag != "posts" %}
+    <a href="/tags/{{ topTag | slugify }}/" class="badge badge-category{% if extraClass %} {{ extraClass }}{% endif %}">{{ topTag }}</a>
+    {% endif %}
+  {% endif %}
+{% endmacro %}
+
+{% macro gridCard(post) %}
+<article class="article-item">
+  {% if post.image %}
+  <div class="article-item-image-wrap">
+    <img src="{{ post.image }}" alt="{{ post.imageAlt | default(post.title) }}" class="article-item-image" loading="lazy">
+  </div>
+  {% endif %}
+  {{ topBadge(post, "article-item-category") }}
+  <h2 class="article-item-title">
+    <a href="{{ post.url }}">{{ post.title }}</a>
+  </h2>
+  {% if post.description %}
+  <p class="article-item-excerpt">{{ post.description | truncate(120) }}</p>
+  {% endif %}
+  <div class="article-item-meta">{{ post.date | dateHuman }}</div>
+</article>
+{% endmacro %}
+
+{% macro listCard(post, opts) %}
+  {% set o = opts or {} %}
+  {% set d = post.data if post.data else post %}
+  {% set dateVal = d.postDate or d.date %}
+<article class="article-item{% if o.image == "right" %} article-item-horizontal{% endif %}{% if o.compact %} card-compact{% endif %}">
+  <div class="article-item-body">
+    {{ topBadge(post, "article-item-category") }}
+    <h2 class="article-item-title{% if o.compact %} article-item-title-sm{% endif %}">
+      <a href="{{ post.url }}">{{ d.title }}</a>
+    </h2>
+    {% if d.description %}
+    <p class="article-item-excerpt">{{ d.description | truncate(o.truncate or 200) }}</p>
+    {% endif %}
+    <div class="article-item-meta">
+      <time datetime="{{ dateVal | dateIso }}">{{ dateVal | dateHuman }}</time>
+      {% if o.showAuthor and d.author %} · {{ d.author }}{% endif %}
+      {% if o.showTags and d.strapiTags %}
+        {% for t in d.strapiTags.split(",") %}
+          {% set cleanTag = t | trim %}
+          {% if cleanTag and cleanTag != "posts" %}
+          <span class="badge badge-outline badge-tag-mini">{{ cleanTag }}</span>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+    </div>
+    {% if o.relatedTags %}
+    <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+      {% for t in (d.strapiTags or "").split(",") %}
+        {% set cleanTag = t | trim %}
+        {% if cleanTag != "posts" and cleanTag != o.excludeTag and cleanTag != "" %}
+          <a href="/tags/{{ cleanTag | slugify }}/" class="badge badge-outline" style="font-size: 0.625rem;">{{ cleanTag }}</a>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  {% if o.image == "right" and d.image %}
+  <a href="{{ post.url }}" class="article-item-image-wrap article-item-image-right">
+    <img src="{{ d.image }}" alt="{{ d.imageAlt | default(d.title) }}" class="article-item-image" loading="lazy">
+  </a>
+  {% endif %}
+</article>
+{% endmacro %}

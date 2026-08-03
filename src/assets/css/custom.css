@@ -2,7 +2,7 @@
    Design System
    ======================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,400;0,600;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap');
 
 /* ========================================
    Design Tokens
@@ -47,8 +47,8 @@
   --inverse-on-surface: #f0f1f1;
 
   --font-serif: 'Libre Caslon Text', Georgia, serif;
-  --font-sans: 'Red Hat Text', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-label: 'Red Hat Display', sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-label: 'Inter', sans-serif;
 
   --container-max: 1400px;
   --gutter: 24px;
@@ -320,7 +320,7 @@ p { margin: 0 0 1em; line-height: 1.6; }
 .hamburger-btn:hover { color: var(--primary); }
 
 /* Subscribe button */
-.btn-subscribe {
+.nav-btn {
   background: var(--primary-container);
   color: var(--on-primary-container);
   font-family: var(--font-label);
@@ -335,7 +335,7 @@ p { margin: 0 0 1em; line-height: 1.6; }
   transition: background 0.15s;
 }
 
-.btn-subscribe:hover {
+.nav-btn:hover {
   background: var(--primary);
   color: var(--on-primary);
 }
@@ -445,7 +445,7 @@ p { margin: 0 0 1em; line-height: 1.6; }
 }
 
 .btn-sm { padding: 6px 14px; font-size: 0.6875rem; }
-.btn-subscribe-nav { padding: 6px 14px; }
+.nav-btn-nav { padding: 6px 14px; }
 
 /* ========================================
    Badges / Category Labels
@@ -562,6 +562,91 @@ p { margin: 0 0 1em; line-height: 1.6; }
   font-size: 1.5rem;
   font-weight: 700;
   margin-bottom: 8px;
+}
+
+.article-item-title-sm {
+  font-size: 1.125rem;
+}
+
+.card-compact {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.badge-tag-mini {
+  font-size: 0.625rem;
+  margin-left: 4px;
+}
+
+.post-section {
+  padding: 24px 0;
+  margin-top: 32px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.post-section-sm {
+  margin-top: 24px;
+}
+
+.share-block {
+  margin-left: auto;
+  margin-top: 20px;
+}
+
+.share-label,
+.share-link {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1;
+  color: var(--secondary);
+}
+
+.share-link {
+  text-decoration: none;
+}
+
+.share-link:hover {
+  color: var(--primary);
+}
+
+.article-nav-half {
+  min-width: 0;
+  max-width: calc(50% - 4px);
+  flex: 1 1 auto;
+}
+
+.article-nav-right {
+  text-align: right;
+}
+
+.article-nav-btn {
+  text-align: left;
+  max-width: 100%;
+  overflow: hidden;
+  display: block;
+}
+
+.article-nav-btn-right {
+  text-align: right;
+}
+
+.article-nav-label,
+.article-nav-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.article-nav-title {
+  font-weight: 600;
+}
+
+.comment-heading {
+  font-size: 1.25rem;
+  margin-top: 48px;
+  margin-bottom: 0;
 }
 
 .article-item-title a { color: var(--on-surface); }
@@ -854,16 +939,26 @@ p { margin: 0 0 1em; line-height: 1.6; }
 
 .footer-nav a {
   font-size: 1rem;
-  color: var(--secondary);
+  color: var(--primary);
 }
 
-.footer-nav a:hover { color: var(--on-surface); }
+.footer-nav a:hover {
+  color: var(--on-surface);
+}
 
 .footer-copy {
   font-size: 0.8125rem;
   color: var(--tertiary);
   max-width: 600px;
   margin: 0 auto;
+}
+
+.footer-copy a {
+  color: var(--primary);
+}
+
+.footer-copy a:hover {
+  color: var(--on-surface);
 }
 
 /* ========================================
