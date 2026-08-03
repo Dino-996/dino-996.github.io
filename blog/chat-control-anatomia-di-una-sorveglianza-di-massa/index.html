@@ -646,15 +646,17 @@
 
     <!-- AI assistant widget -->
     <div id="ai-assistant" class="ai-assistant-wrapper">
-      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
-        <span>🦖</span>
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente virtuale basato su intelligenza artificiale">
+        <span aria-hidden="true">🦖</span>
+        <span class="ai-toggle-badge" aria-hidden="true">IA</span>
       </button>
 
       <div id="ai-chat-window" class="ai-card" hidden>
         <div class="ai-card-header">
           <div class="d-flex align-items-center gap-2">
-            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <div class="ai-avatar-mini"><span aria-hidden="true">🦖</span></div>
             <span id="ai-title" class="fw-bold">dino</span>
+            <span class="ai-badge" aria-label="Assistente basato su intelligenza artificiale">IA</span>
           </div>
           <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>

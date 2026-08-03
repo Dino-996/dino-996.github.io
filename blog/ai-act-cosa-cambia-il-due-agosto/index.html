@@ -245,6 +245,11 @@
 
     <article class="post-layout">
       
+      <div class="tldr-box">
+        <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">La scadenza del 2 agosto 2026 per l&#39;AI Act è stata significativamente modificata dal Digital Omnibus, rinviando gli obblighi per i sistemi ad alto rischio standalone al 2 dicembre 2027. Sono state introdotte semplificazioni per le &quot;small mid-cap&quot; e un nuovo divieto assoluto a partire dal 2 dicembre 2026.</p>
+      </div>
+      
 
       <section class="content">
         <h2 id="ai-act-e-la-scadenza-del-2-agosto-2026-cosa-cambia-davvero-per-le-aziende">Ai act e la scadenza del 2 agosto 2026: cosa cambia davvero per le aziende</h2>
@@ -477,15 +482,17 @@ Gli obblighi di trasparenza dell'Articolo 50 restano fermi al 2 agosto 2026: dis
 
     <!-- AI assistant widget -->
     <div id="ai-assistant" class="ai-assistant-wrapper">
-      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente IA">
-        <span>🦖</span>
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente virtuale basato su intelligenza artificiale">
+        <span aria-hidden="true">🦖</span>
+        <span class="ai-toggle-badge" aria-hidden="true">IA</span>
       </button>
 
       <div id="ai-chat-window" class="ai-card" hidden>
         <div class="ai-card-header">
           <div class="d-flex align-items-center gap-2">
-            <div class="ai-avatar-mini"><span>🦖</span></div>
+            <div class="ai-avatar-mini"><span aria-hidden="true">🦖</span></div>
             <span id="ai-title" class="fw-bold">dino</span>
+            <span class="ai-badge" aria-label="Assistente basato su intelligenza artificiale">IA</span>
           </div>
           <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
