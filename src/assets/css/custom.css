@@ -551,8 +551,6 @@ p { margin: 0 0 1em; line-height: 1.6; }
   border-bottom: 1px solid var(--border-subtle);
 }
 
-.article-item:last-child:not(.search-result-item) { border-bottom: none; }
-
 .article-item-category {
   display: inline-block;
   margin-bottom: 8px;
@@ -1452,6 +1450,7 @@ code {
 .search-result-item h3 a:hover { color: var(--primary); }
 
 .search-result-item p { font-size: 0.9375rem; color: var(--secondary); }
+
 /* ========================================
    Pagination
    ======================================== */

@@ -1,1 +1,6 @@
-{}
+{
+  "Unpacking e assegnazione": {
+    "tldr": "In Python, l'unpacking tramite assegnazione multipla consente di estrarre elementi da iterabili direttamente in variabili, migliorando leggibilità e riducendo verbosità. Questo meccanismo, che richiede una corrispondenza esatta tra variabili ed elementi (a meno dell'operatore `*`), è utile anche per scambi di valori concisi e per iterazioni strutturate, come con `dict.items()` o `enumerate()`.",
+    "hash": "015ca99b2b3e"
+  }
+}
