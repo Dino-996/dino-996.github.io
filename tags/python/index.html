@@ -49,7 +49,7 @@
 <!-- Google Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Red+Hat+Display:wght@700&family=Red+Hat+Text:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
 
 <!-- Custom CSS -->
 <link rel="stylesheet" href="/assets/css/custom.css" />
@@ -57,14 +57,8 @@
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
-<!-- Prism -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
-<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
-  data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+<!-- Prism + KaTeX caricati solo sui post: vedere head_extra e scripts in _layouts/post.njk -->
 
-<!-- Katex -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
     
 
     <!-- EmailJS -->
@@ -108,11 +102,11 @@
         </svg>
       </button>
       <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
-        <a class="btn btn-subscribe" href="/">
+        <a class="btn nav-btn" href="/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           Home
         </a>
-        <a class="btn btn-subscribe btn-subscribe-nav" href="/blog/">
+        <a class="btn nav-btn nav-btn-nav" href="/blog/">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
           Blog
         </a>
@@ -122,8 +116,8 @@
     <a href="/" class="header-logo">DinoSec</a>
 
     <div class="header-right gap-2 hide-mobile">
-      <a href="/courses/" class="btn btn-subscribe btn-subscribe-nav">Percorsi</a>
-      <a href="/about/" class="btn btn-subscribe">Chi sono</a>
+      <a href="/courses/" class="btn nav-btn nav-btn-nav">Percorsi</a>
+      <a href="/about/" class="btn nav-btn">Chi sono</a>
     </div>
   </div>
 </header>
@@ -173,6 +167,8 @@
 
     <main id="main-content" class="container" style="flex: 1;">
       
+
+
 
 <div class="mb-6">
   <div class="mb-1">
@@ -333,351 +329,531 @@
 
 
   
-    <article class="article-item" style="padding-left: 0; padding-right: 0;">
-      <h2 class="article-item-title" style="font-size: 1.125rem;">
-        <a href="/blog/unpacking-e-assegnazione-in-python/">Unpacking e assegnazione</a>
-      </h2>
-      
-      <p class="article-item-excerpt">Esplora le potenzialità dell&#39;unpacking e dell&#39;assegnazione multipla in Python: dallo scambio immediato di variabili all&#39;uso avanzato degli operatori * e ** in cicli, collezioni e funzioni (*args e...</p>
-      
-      <div class="article-item-meta">
-        <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
-      </div>
-      <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
-        
-        
-          
-          
-        
-          
-          
-            <a href="/tags/unpacking/" class="badge badge-outline" style="font-size: 0.625rem;">unpacking</a>
-          
-        
-          
-          
-            <a href="/tags/argskwargs/" class="badge badge-outline" style="font-size: 0.625rem;">argskwargs</a>
-          
-        
-          
-          
-            <a href="/tags/sintassi/" class="badge badge-outline" style="font-size: 0.625rem;">sintassi</a>
-          
-        
-          
-          
-            <a href="/tags/assegnazione/" class="badge badge-outline" style="font-size: 0.625rem;">assegnazione</a>
-          
-        
-      </div>
-    </article>
   
-    <article class="article-item" style="padding-left: 0; padding-right: 0;">
-      <h2 class="article-item-title" style="font-size: 1.125rem;">
-        <a href="/blog/sottoprogrammi-in-python/">Sottoprogrammi</a>
-      </h2>
-      
-      <p class="article-item-excerpt">Scopri i pilastri della programmazione procedurale in Python: dalle funzioni e l&#39;organizzazione modulare del codice tramite package, fino all&#39;uso ottimale di strutture dati, comprehension e slicing.</p>
-      
-      <div class="article-item-meta">
-        <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
-      </div>
-      <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
-        
-        
-          
-          
-        
-          
-          
-            <a href="/tags/sottoprogrammi/" class="badge badge-outline" style="font-size: 0.625rem;">sottoprogrammi</a>
-          
-        
-          
-          
-            <a href="/tags/programmazione-procedurale/" class="badge badge-outline" style="font-size: 0.625rem;">programmazione procedurale</a>
-          
-        
-          
-          
-            <a href="/tags/moduli/" class="badge badge-outline" style="font-size: 0.625rem;">moduli</a>
-          
-        
-          
-          
-            <a href="/tags/package/" class="badge badge-outline" style="font-size: 0.625rem;">package</a>
-          
-        
-      </div>
-    </article>
   
-    <article class="article-item" style="padding-left: 0; padding-right: 0;">
-      <h2 class="article-item-title" style="font-size: 1.125rem;">
-        <a href="/blog/controllo-del-flusso-in-python/">Controllo del flusso</a>
-      </h2>
-      
-      <p class="article-item-excerpt">Padroneggia il controllo del flusso in Python: scopri le differenze tra cicli for e while, l&#39;uso idiomatico di enumerate() e zip(), e come ottimizzare la memoria evitando gli anti-pattern di...</p>
-      
-      <div class="article-item-meta">
-        <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
-      </div>
-      <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
-        
-        
-          
-          
-        
-          
-          
-            <a href="/tags/ciclo-for/" class="badge badge-outline" style="font-size: 0.625rem;">ciclo for</a>
-          
-        
-          
-          
-            <a href="/tags/ciclo-while/" class="badge badge-outline" style="font-size: 0.625rem;">ciclo while</a>
-          
-        
-          
-          
-            <a href="/tags/iteratori/" class="badge badge-outline" style="font-size: 0.625rem;">iteratori</a>
-          
-        
-          
-          
-            <a href="/tags/controllo-del-flusso/" class="badge badge-outline" style="font-size: 0.625rem;">controllo del flusso</a>
-          
-        
-      </div>
-    </article>
   
-    <article class="article-item" style="padding-left: 0; padding-right: 0;">
-      <h2 class="article-item-title" style="font-size: 1.125rem;">
-        <a href="/blog/i-generatori-in-python/">Generatori</a>
-      </h2>
-      
-      <p class="article-item-excerpt">Scopri come funzionano i generatori in Python: sfrutta la lazy evaluation e la parola chiave yield per elaborare grandi flussi di dati in streaming, creare pipeline efficienti e ottimizzare l&#39;uso...</p>
-      
-      <div class="article-item-meta">
-        <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
-      </div>
-      <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
-        
-        
-          
-          
-        
-          
-          
-            <a href="/tags/generatori/" class="badge badge-outline" style="font-size: 0.625rem;">generatori</a>
-          
-        
-          
-          
-            <a href="/tags/lazyevaluation/" class="badge badge-outline" style="font-size: 0.625rem;">lazyevaluation</a>
-          
-        
-          
-          
-            <a href="/tags/yieldpython/" class="badge badge-outline" style="font-size: 0.625rem;">yieldpython</a>
-          
-        
-          
-          
-            <a href="/tags/ottimizzazione-memoria/" class="badge badge-outline" style="font-size: 0.625rem;">ottimizzazione memoria</a>
-          
-        
-      </div>
-    </article>
   
-    <article class="article-item" style="padding-left: 0; padding-right: 0;">
-      <h2 class="article-item-title" style="font-size: 1.125rem;">
-        <a href="/blog/classi-e-oggetti-in-python/">Classi e Oggetti</a>
-      </h2>
-      
-      <p class="article-item-excerpt">Padroneggia la programmazione orientata agli oggetti in Python: scopri come definire classi e istanze, applicare i pilastri dell&#39;OOP e utilizzare strumenti moderni come @property, dataclasses e...</p>
-      
-      <div class="article-item-meta">
-        <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
-      </div>
-      <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
-        
-        
-          
-          
-        
-          
-          
-            <a href="/tags/programmazione-orientata-agli-oggetti/" class="badge badge-outline" style="font-size: 0.625rem;">programmazione orientata agli oggetti</a>
-          
-        
-          
-          
-            <a href="/tags/oop/" class="badge badge-outline" style="font-size: 0.625rem;">OOP</a>
-          
-        
-          
-          
-            <a href="/tags/classi-e-oggetti/" class="badge badge-outline" style="font-size: 0.625rem;">classi e oggetti</a>
-          
-        
-          
-          
-            <a href="/tags/data-classes/" class="badge badge-outline" style="font-size: 0.625rem;">data classes</a>
-          
-        
-      </div>
-    </article>
+<article class="article-item card-compact">
+  <div class="article-item-body">
+    
   
-    <article class="article-item" style="padding-left: 0; padding-right: 0;">
-      <h2 class="article-item-title" style="font-size: 1.125rem;">
-        <a href="/blog/jupyter-python/">Jupyter</a>
-      </h2>
-      
-      <p class="article-item-excerpt">Scopri l&#39;ecosistema Jupyter e i notebook eseguibili: dall&#39;architettura di celle e kernel alle best practice per il versionamento del codice, fino alla trasformazione dei report in dashboard...</p>
-      
-      <div class="article-item-meta">
-        <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
-      </div>
-      <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
-        
-        
-          
-          
-        
-          
-          
-            <a href="/tags/jupyter/" class="badge badge-outline" style="font-size: 0.625rem;">jupyter</a>
-          
-        
-          
-          
-            <a href="/tags/data-science/" class="badge badge-outline" style="font-size: 0.625rem;">data science</a>
-          
-        
-          
-          
-            <a href="/tags/notebook/" class="badge badge-outline" style="font-size: 0.625rem;">notebook</a>
-          
-        
-      </div>
-    </article>
   
-    <article class="article-item" style="padding-left: 0; padding-right: 0;">
-      <h2 class="article-item-title" style="font-size: 1.125rem;">
-        <a href="/blog/numpy-python/">NumPy</a>
-      </h2>
-      
-      <p class="article-item-excerpt">Esplora le potenzialità di NumPy per il calcolo scientifico in Python: impara a gestire l&#39;oggetto ndarray, padroneggia la differenza tra viste e copie, e velocizza i tuoi calcoli con vettorizzazione,...</p>
-      
-      <div class="article-item-meta">
-        <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
-      </div>
-      <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
-        
-        
-          
-          
-        
-          
-          
-            <a href="/tags/numpy/" class="badge badge-outline" style="font-size: 0.625rem;">numpy</a>
-          
-        
-          
-          
-            <a href="/tags/data-science/" class="badge badge-outline" style="font-size: 0.625rem;">data science</a>
-          
-        
-          
-          
-            <a href="/tags/calcolo-scientifico/" class="badge badge-outline" style="font-size: 0.625rem;">calcolo scientifico</a>
-          
-        
-          
-          
-            <a href="/tags/vettorizzazione/" class="badge badge-outline" style="font-size: 0.625rem;">vettorizzazione</a>
-          
-        
-      </div>
-    </article>
+    
+    
+    <a href="/tags/python/" class="badge badge-category article-item-category">python</a>
+    
   
-    <article class="article-item" style="padding-left: 0; padding-right: 0;">
-      <h2 class="article-item-title" style="font-size: 1.125rem;">
-        <a href="/blog/pandas-python/">Pandas</a>
-      </h2>
+
+    <h2 class="article-item-title article-item-title-sm">
+      <a href="/blog/unpacking-e-assegnazione-in-python/">Unpacking e assegnazione</a>
+    </h2>
+    
+    <p class="article-item-excerpt">Esplora le potenzialità dell&#39;unpacking e dell&#39;assegnazione multipla in Python: dallo scambio immediato di variabili all&#39;uso avanzato degli operatori * e ** in cicli, collezioni e funzioni (*args e...</p>
+    
+    <div class="article-item-meta">
+      <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
       
-      <p class="article-item-excerpt">Padroneggia Pandas per l&#39;analisi dati in Python: dalle strutture Series e DataFrame alle operazioni SQL-like, fino alle best practice per la vettorizzazione, il method chaining e l&#39;ottimizzazione...</p>
       
-      <div class="article-item-meta">
-        <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
-      </div>
-      <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+    </div>
+    
+    <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+      
         
         
-          
-          
+      
         
-          
-          
-            <a href="/tags/pandas/" class="badge badge-outline" style="font-size: 0.625rem;">pandas</a>
-          
         
-          
-          
-            <a href="/tags/data-science/" class="badge badge-outline" style="font-size: 0.625rem;">data science</a>
-          
+          <a href="/tags/unpacking/" class="badge badge-outline" style="font-size: 0.625rem;">unpacking</a>
         
-          
-          
-            <a href="/tags/data-frame/" class="badge badge-outline" style="font-size: 0.625rem;">data frame</a>
-          
+      
         
-          
-          
-            <a href="/tags/analisi-dei-dati/" class="badge badge-outline" style="font-size: 0.625rem;">analisi dei dati</a>
-          
         
-      </div>
-    </article>
+          <a href="/tags/argskwargs/" class="badge badge-outline" style="font-size: 0.625rem;">argskwargs</a>
+        
+      
+        
+        
+          <a href="/tags/sintassi/" class="badge badge-outline" style="font-size: 0.625rem;">sintassi</a>
+        
+      
+        
+        
+          <a href="/tags/assegnazione/" class="badge badge-outline" style="font-size: 0.625rem;">assegnazione</a>
+        
+      
+    </div>
+    
+  </div>
   
-    <article class="article-item" style="padding-left: 0; padding-right: 0;">
-      <h2 class="article-item-title" style="font-size: 1.125rem;">
-        <a href="/blog/introduzione-a-python/">Introduzione a Python</a>
-      </h2>
+</article>
+
+  
+  
+  
+  
+  
+<article class="article-item card-compact">
+  <div class="article-item-body">
+    
+  
+  
+    
+    
+    <a href="/tags/python/" class="badge badge-category article-item-category">python</a>
+    
+  
+
+    <h2 class="article-item-title article-item-title-sm">
+      <a href="/blog/sottoprogrammi-in-python/">Sottoprogrammi</a>
+    </h2>
+    
+    <p class="article-item-excerpt">Scopri i pilastri della programmazione procedurale in Python: dalle funzioni e l&#39;organizzazione modulare del codice tramite package, fino all&#39;uso ottimale di strutture dati, comprehension e slicing.</p>
+    
+    <div class="article-item-meta">
+      <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
       
-      <p class="article-item-excerpt">Guida introduttiva a Python: scopri la differenza tra compilazione e interpretazione, come usare pip e venv, i tipi di dato fondamentali e la sintassi delle funzioni.</p>
       
-      <div class="article-item-meta">
-        <time datetime="2026-07-29T00:00:00.000Z">29 luglio 2026</time>
-      </div>
-      <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+    </div>
+    
+    <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+      
         
         
-          
-          
+      
         
-          
-          
-            <a href="/tags/programmazione/" class="badge badge-outline" style="font-size: 0.625rem;">programmazione</a>
-          
         
-          
-          
-            <a href="/tags/type-hinting/" class="badge badge-outline" style="font-size: 0.625rem;">type hinting</a>
-          
+          <a href="/tags/sottoprogrammi/" class="badge badge-outline" style="font-size: 0.625rem;">sottoprogrammi</a>
         
-          
-          
-            <a href="/tags/ambienti-virtuali/" class="badge badge-outline" style="font-size: 0.625rem;">ambienti virtuali</a>
-          
+      
         
-          
-          
-            <a href="/tags/architettura-software/" class="badge badge-outline" style="font-size: 0.625rem;">architettura software</a>
-          
         
-      </div>
-    </article>
+          <a href="/tags/programmazione-procedurale/" class="badge badge-outline" style="font-size: 0.625rem;">programmazione procedurale</a>
+        
+      
+        
+        
+          <a href="/tags/moduli/" class="badge badge-outline" style="font-size: 0.625rem;">moduli</a>
+        
+      
+        
+        
+          <a href="/tags/package/" class="badge badge-outline" style="font-size: 0.625rem;">package</a>
+        
+      
+    </div>
+    
+  </div>
+  
+</article>
+
+  
+  
+  
+  
+  
+<article class="article-item card-compact">
+  <div class="article-item-body">
+    
+  
+  
+    
+    
+    <a href="/tags/python/" class="badge badge-category article-item-category">python</a>
+    
+  
+
+    <h2 class="article-item-title article-item-title-sm">
+      <a href="/blog/controllo-del-flusso-in-python/">Controllo del flusso</a>
+    </h2>
+    
+    <p class="article-item-excerpt">Padroneggia il controllo del flusso in Python: scopri le differenze tra cicli for e while, l&#39;uso idiomatico di enumerate() e zip(), e come ottimizzare la memoria evitando gli anti-pattern di...</p>
+    
+    <div class="article-item-meta">
+      <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
+      
+      
+    </div>
+    
+    <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+      
+        
+        
+      
+        
+        
+          <a href="/tags/ciclo-for/" class="badge badge-outline" style="font-size: 0.625rem;">ciclo for</a>
+        
+      
+        
+        
+          <a href="/tags/ciclo-while/" class="badge badge-outline" style="font-size: 0.625rem;">ciclo while</a>
+        
+      
+        
+        
+          <a href="/tags/iteratori/" class="badge badge-outline" style="font-size: 0.625rem;">iteratori</a>
+        
+      
+        
+        
+          <a href="/tags/controllo-del-flusso/" class="badge badge-outline" style="font-size: 0.625rem;">controllo del flusso</a>
+        
+      
+    </div>
+    
+  </div>
+  
+</article>
+
+  
+  
+  
+  
+  
+<article class="article-item card-compact">
+  <div class="article-item-body">
+    
+  
+  
+    
+    
+    <a href="/tags/python/" class="badge badge-category article-item-category">python</a>
+    
+  
+
+    <h2 class="article-item-title article-item-title-sm">
+      <a href="/blog/i-generatori-in-python/">Generatori</a>
+    </h2>
+    
+    <p class="article-item-excerpt">Scopri come funzionano i generatori in Python: sfrutta la lazy evaluation e la parola chiave yield per elaborare grandi flussi di dati in streaming, creare pipeline efficienti e ottimizzare l&#39;uso...</p>
+    
+    <div class="article-item-meta">
+      <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
+      
+      
+    </div>
+    
+    <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+      
+        
+        
+      
+        
+        
+          <a href="/tags/generatori/" class="badge badge-outline" style="font-size: 0.625rem;">generatori</a>
+        
+      
+        
+        
+          <a href="/tags/lazyevaluation/" class="badge badge-outline" style="font-size: 0.625rem;">lazyevaluation</a>
+        
+      
+        
+        
+          <a href="/tags/yieldpython/" class="badge badge-outline" style="font-size: 0.625rem;">yieldpython</a>
+        
+      
+        
+        
+          <a href="/tags/ottimizzazione-memoria/" class="badge badge-outline" style="font-size: 0.625rem;">ottimizzazione memoria</a>
+        
+      
+    </div>
+    
+  </div>
+  
+</article>
+
+  
+  
+  
+  
+  
+<article class="article-item card-compact">
+  <div class="article-item-body">
+    
+  
+  
+    
+    
+    <a href="/tags/python/" class="badge badge-category article-item-category">python</a>
+    
+  
+
+    <h2 class="article-item-title article-item-title-sm">
+      <a href="/blog/classi-e-oggetti-in-python/">Classi e Oggetti</a>
+    </h2>
+    
+    <p class="article-item-excerpt">Padroneggia la programmazione orientata agli oggetti in Python: scopri come definire classi e istanze, applicare i pilastri dell&#39;OOP e utilizzare strumenti moderni come @property, dataclasses e...</p>
+    
+    <div class="article-item-meta">
+      <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
+      
+      
+    </div>
+    
+    <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+      
+        
+        
+      
+        
+        
+          <a href="/tags/programmazione-orientata-agli-oggetti/" class="badge badge-outline" style="font-size: 0.625rem;">programmazione orientata agli oggetti</a>
+        
+      
+        
+        
+          <a href="/tags/oop/" class="badge badge-outline" style="font-size: 0.625rem;">OOP</a>
+        
+      
+        
+        
+          <a href="/tags/classi-e-oggetti/" class="badge badge-outline" style="font-size: 0.625rem;">classi e oggetti</a>
+        
+      
+        
+        
+          <a href="/tags/data-classes/" class="badge badge-outline" style="font-size: 0.625rem;">data classes</a>
+        
+      
+    </div>
+    
+  </div>
+  
+</article>
+
+  
+  
+  
+  
+  
+<article class="article-item card-compact">
+  <div class="article-item-body">
+    
+  
+  
+    
+    
+    <a href="/tags/python/" class="badge badge-category article-item-category">python</a>
+    
+  
+
+    <h2 class="article-item-title article-item-title-sm">
+      <a href="/blog/jupyter-python/">Jupyter</a>
+    </h2>
+    
+    <p class="article-item-excerpt">Scopri l&#39;ecosistema Jupyter e i notebook eseguibili: dall&#39;architettura di celle e kernel alle best practice per il versionamento del codice, fino alla trasformazione dei report in dashboard...</p>
+    
+    <div class="article-item-meta">
+      <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
+      
+      
+    </div>
+    
+    <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+      
+        
+        
+      
+        
+        
+          <a href="/tags/jupyter/" class="badge badge-outline" style="font-size: 0.625rem;">jupyter</a>
+        
+      
+        
+        
+          <a href="/tags/data-science/" class="badge badge-outline" style="font-size: 0.625rem;">data science</a>
+        
+      
+        
+        
+          <a href="/tags/notebook/" class="badge badge-outline" style="font-size: 0.625rem;">notebook</a>
+        
+      
+    </div>
+    
+  </div>
+  
+</article>
+
+  
+  
+  
+  
+  
+<article class="article-item card-compact">
+  <div class="article-item-body">
+    
+  
+  
+    
+    
+    <a href="/tags/python/" class="badge badge-category article-item-category">python</a>
+    
+  
+
+    <h2 class="article-item-title article-item-title-sm">
+      <a href="/blog/numpy-python/">NumPy</a>
+    </h2>
+    
+    <p class="article-item-excerpt">Esplora le potenzialità di NumPy per il calcolo scientifico in Python: impara a gestire l&#39;oggetto ndarray, padroneggia la differenza tra viste e copie, e velocizza i tuoi calcoli con vettorizzazione,...</p>
+    
+    <div class="article-item-meta">
+      <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
+      
+      
+    </div>
+    
+    <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+      
+        
+        
+      
+        
+        
+          <a href="/tags/numpy/" class="badge badge-outline" style="font-size: 0.625rem;">numpy</a>
+        
+      
+        
+        
+          <a href="/tags/data-science/" class="badge badge-outline" style="font-size: 0.625rem;">data science</a>
+        
+      
+        
+        
+          <a href="/tags/calcolo-scientifico/" class="badge badge-outline" style="font-size: 0.625rem;">calcolo scientifico</a>
+        
+      
+        
+        
+          <a href="/tags/vettorizzazione/" class="badge badge-outline" style="font-size: 0.625rem;">vettorizzazione</a>
+        
+      
+    </div>
+    
+  </div>
+  
+</article>
+
+  
+  
+  
+  
+  
+<article class="article-item card-compact">
+  <div class="article-item-body">
+    
+  
+  
+    
+    
+    <a href="/tags/python/" class="badge badge-category article-item-category">python</a>
+    
+  
+
+    <h2 class="article-item-title article-item-title-sm">
+      <a href="/blog/pandas-python/">Pandas</a>
+    </h2>
+    
+    <p class="article-item-excerpt">Padroneggia Pandas per l&#39;analisi dati in Python: dalle strutture Series e DataFrame alle operazioni SQL-like, fino alle best practice per la vettorizzazione, il method chaining e l&#39;ottimizzazione...</p>
+    
+    <div class="article-item-meta">
+      <time datetime="2026-07-31T00:00:00.000Z">31 luglio 2026</time>
+      
+      
+    </div>
+    
+    <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+      
+        
+        
+      
+        
+        
+          <a href="/tags/pandas/" class="badge badge-outline" style="font-size: 0.625rem;">pandas</a>
+        
+      
+        
+        
+          <a href="/tags/data-science/" class="badge badge-outline" style="font-size: 0.625rem;">data science</a>
+        
+      
+        
+        
+          <a href="/tags/data-frame/" class="badge badge-outline" style="font-size: 0.625rem;">data frame</a>
+        
+      
+        
+        
+          <a href="/tags/analisi-dei-dati/" class="badge badge-outline" style="font-size: 0.625rem;">analisi dei dati</a>
+        
+      
+    </div>
+    
+  </div>
+  
+</article>
+
+  
+  
+  
+  
+  
+<article class="article-item card-compact">
+  <div class="article-item-body">
+    
+  
+  
+    
+    
+    <a href="/tags/python/" class="badge badge-category article-item-category">python</a>
+    
+  
+
+    <h2 class="article-item-title article-item-title-sm">
+      <a href="/blog/introduzione-a-python/">Introduzione a Python</a>
+    </h2>
+    
+    <p class="article-item-excerpt">Guida introduttiva a Python: scopri la differenza tra compilazione e interpretazione, come usare pip e venv, i tipi di dato fondamentali e la sintassi delle funzioni.</p>
+    
+    <div class="article-item-meta">
+      <time datetime="2026-07-29T00:00:00.000Z">29 luglio 2026</time>
+      
+      
+    </div>
+    
+    <div class="d-flex flex-wrap gap-1" style="margin-top: 8px;">
+      
+        
+        
+      
+        
+        
+          <a href="/tags/programmazione/" class="badge badge-outline" style="font-size: 0.625rem;">programmazione</a>
+        
+      
+        
+        
+          <a href="/tags/type-hinting/" class="badge badge-outline" style="font-size: 0.625rem;">type hinting</a>
+        
+      
+        
+        
+          <a href="/tags/ambienti-virtuali/" class="badge badge-outline" style="font-size: 0.625rem;">ambienti virtuali</a>
+        
+      
+        
+        
+          <a href="/tags/architettura-software/" class="badge badge-outline" style="font-size: 0.625rem;">architettura software</a>
+        
+      
+    </div>
+    
+  </div>
+  
+</article>
+
   
 
 
@@ -689,7 +865,7 @@
     <div style="display: flex; flex-direction: column">
       <a href="/about/">Chi sono</a>
       <a href="/courses/">Percorsi</a>
-    <a href="/blog/">Blog</a>
+      <a href="/blog/">Blog</a>
     </div>
     <div style="display: flex; flex-direction: column">
       <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
@@ -697,31 +873,16 @@
     </div>
   </nav>
   <div class="footer-copy">
-    &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+    &copy; <span class="current-year">2026</span> DinoSec. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+    <!-- Trasparenza AI -->
+    <p class="small text-muted">
+      Scopri di più sulla <a href="/about#trasparenza">politica sull'uso dell'IA</a>.
+    </p>
   </div>
-  <!-- Trasparenza AI -->
-  <p class="small text-muted">
-    Scopri di più sulla <a href="/about#trasparenza">politica sull'uso dell'IA</a>.
-  </p>
 </footer>
 
 
-    <!-- KaTeX -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function() {
-        renderMathInElement(document.body, {
-          delimiters: [
-            {left: '$$', right: '$$', display: true},
-            {left: '$', right: '$', display: false},
-            {left: '\\(', right: '\\)', display: false},
-            {left: '\\[', right: '\\]', display: true}
-          ]
-        });
-      });
-    </script>
+
 
     <!-- Scroll to top -->
     <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
@@ -763,135 +924,8 @@
       </div>
     </div>
 
-    <script>
-      (function () {
-        const WORKER_URL = "https://dino996githubio.davidesabia22.workers.dev/";
-        const toggle = document.getElementById("ai-toggle");
-        const win = document.getElementById("ai-chat-window");
-        const closeBtn = document.getElementById("ai-close");
-        const input = document.getElementById("ai-input");
-        const send = document.getElementById("ai-send");
-        const messages = document.getElementById("ai-messages");
-
-        if (!toggle || !win || !closeBtn || !input || !send || !messages) {
-          console.error("Elementi AI widget non trovati nel DOM!");
-          return;
-        }
-
-        toggle.addEventListener("click", () => {
-          const isHidden = win.hasAttribute("hidden");
-          win.toggleAttribute("hidden", !isHidden);
-          toggle.setAttribute("aria-expanded", String(isHidden));
-          if (isHidden) input.focus();
-        });
-
-        closeBtn.addEventListener("click", () => {
-          win.setAttribute("hidden", "");
-          toggle.setAttribute("aria-expanded", "false");
-        });
-
-        input.addEventListener("keydown", e => {
-          if (e.key === "Enter") sendMessage();
-        });
-
-        send.addEventListener("click", sendMessage);
-
-        function addMessage(text, role) {
-          const div = document.createElement("div");
-          div.className = `ai-msg ai-msg-${role}`;
-          div.innerHTML = text;
-          messages.appendChild(div);
-          messages.scrollTop = messages.scrollHeight;
-          return div;
-        }
-
-        function typeWriter(text, element, speed = 15) {
-          let i = 0;
-          let currentHtml = "";
-          element.innerHTML = "";
-
-          function type() {
-            if (i < text.length) {
-              if (text.charAt(i) === "<") {
-                const tagEnd = text.indexOf(">", i);
-                if (tagEnd !== -1) {
-                  currentHtml += text.substring(i, tagEnd + 1);
-                  i = tagEnd + 1;
-                }
-              } else {
-                currentHtml += text.charAt(i);
-                i++;
-              }
-              element.innerHTML = currentHtml;
-              messages.scrollTop = messages.scrollHeight;
-              setTimeout(type, speed);
-            }
-          }
-          type();
-        }
-
-        async function sendMessage() {
-          const query = input.value.trim();
-          if (!query) return;
-
-          send.disabled = true;
-          input.disabled = true;
-
-          addMessage(query, "user");
-          input.value = "";
-          const responseContainer = addMessage('Sto cercando…', "bot");
-
-          let context = "";
-          try {
-            const idx = await fetch("/search.json").then(r => r.json());
-            const baseUrl = window.location.origin;
-            context = idx
-              .slice(0, 15)
-              .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
-              .join("\n\n");
-          } catch (err) {
-            console.warn("Impossibile caricare search.json:", err);
-          }
-
-          try {
-            const res = await fetch(WORKER_URL, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({ query, context }),
-            });
-
-            if (!res.ok) {
-              const errText = await res.text();
-              console.error("Errore dal worker:", res.status, errText);
-              responseContainer.innerHTML = `Errore dal server (${res.status}). Riprova più tardi.`;
-              return;
-            }
-
-            const data = await res.json();
-
-            let answer = "";
-            if (data?.candidates?.[0]?.content?.parts?.[0]?.text) {
-              answer = data.candidates[0].content.parts[0].text;
-            } else if (data?.error?.message) {
-              answer = `Errore dall'AI: ${data.error.message}`;
-            } else {
-              console.warn("Struttura risposta inattesa:", data);
-              answer = "Mi dispiace, non sono riuscito a generare una risposta.";
-            }
-            responseContainer.innerHTML = "";
-            typeWriter(answer, responseContainer);
-
-          } catch (err) {
-            console.error("Errore fetch:", err);
-            responseContainer.innerHTML = "Errore di comunicazione con l'assistente.";
-          } finally {
-            send.disabled = false;
-            input.disabled = false;
-            input.focus();
-          }
-        }
-      })();
-    </script>
+    <!-- AI assistant widget -->
+    <script src="/assets/js/ai-widget.js" defer></script>
 
     <!-- Scroll to top logic -->
     <script>
