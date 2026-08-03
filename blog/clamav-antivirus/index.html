@@ -246,7 +246,7 @@
     <article class="post-layout">
       
       <div class="tldr-box">
-        <div class="tldr-label">In breve</div>
+        <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
         <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">ClamAV è un antivirus modulare per Linux/Unix basato su componenti distinti come `freshclam` per gli aggiornamenti, `clamd` per la scansione residente e `clamdscan`/`clamscan` per l&#39;interazione. L&#39;installazione su Debian/Ubuntu avviene tramite pacchetti `apt` specifici per ciascun componente.</p>
       </div>
       
@@ -546,6 +546,14 @@ groups
 <div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>File</th> <th>Ruolo</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">/etc/clamav/clamd.conf</td> <td>File di configurazione principale del demone clamd.</td> </tr> <tr> <td class="fw-semibold">/etc/clamav/freshclam.conf</td> <td>File di configurazione dell'aggiornatore freshclam.</td> </tr> <tr> <td class="fw-semibold">/var/run/clamav/clamd.ctl</td> <td>File socket Unix utilizzato dai client (clamdscan e altri) per comunicare con clamd.</td> </tr> <tr> <td class="fw-semibold">~/.local/bin/clamav-watch.sh</td> <td>Script eseguibile del watchdog basato su inotify.</td> </tr> <tr> <td class="fw-semibold">~/.config/systemd/user/clamav-watch.service</td> <td>Definizione del servizio systemd utente per il watchdog.</td> </tr> <tr> <td class="fw-semibold">/etc/systemd/system/clamav-fullscan.service</td> <td>Definizione del servizio systemd per la scansione completa pianificata.</td> </tr> <tr> <td class="fw-semibold">/etc/systemd/system/clamav-fullscan.timer</td> <td>Timer systemd che pianifica l'esecuzione notturna della scansione completa.</td> </tr> <tr> <td class="fw-semibold">/var/lib/clamav/</td> <td>Directory contenente il database delle firme virali.</td> </tr> <tr> <td class="fw-semibold">/var/log/clamav/</td> <td>Directory dei file di log generati da ClamAV.</td> </tr> </tbody> </table> </div>
 
       </section>
+
+      <!-- Disclaimer AI -->
+      <footer class="mt-4 pt-3 border-top">
+        <p class="text-muted small mb-0">
+          <em>Articolo scritto con il supporto di LLM per la formattazione e la struttura del codice.</em>
+        </p>
+      </footer>
+
     </article>
 
     <!-- Share & Tags -->
@@ -622,7 +630,7 @@ groups
     </div>
     
 
-    <!-- Comments -->
+    <!-- Commenti -->
     <h2 class="post-layout" style="font-size: 1.25rem; margin-top: 48px; margin-bottom: 0;">Commenti</h2>
     <div class="post-layout giscus-wrapper">
       <script>
@@ -676,6 +684,10 @@ groups
   <div class="footer-copy">
     &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
   </div>
+  <!-- Trasparenza AI -->
+  <p class="small text-muted">
+    Contenuti ideati e scritti dagli autori. Scopri di più sulla <a href="/about#trasparenza">politica sull'uso dell'IA</a>.
+  </p>
 </footer>
 
 

@@ -246,7 +246,7 @@
     <article class="post-layout">
       
       <div class="tldr-box">
-        <div class="tldr-label">In breve</div>
+        <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
         <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">L&#39;articolo descrive una configurazione di proxy client locale su Linux utilizzando tinyproxy, redsocks e iptables per reindirizzare tutto il traffico TCP di sistema attraverso un proxy HTTP trasparente. Lo schema proposto include opzionalmente danted per il supporto SOCKS5, offrendo controllo centralizzato del traffico in uscita per filtraggio, logging o routing avanzato.</p>
       </div>
       
@@ -501,6 +501,14 @@ sudo ufw deny in on wlp0s20f3 to any port 12345
 <p>Il traffico non viene completamente instradato attraverso il proxy nonostante le regole iptables siano attive. In questo caso la causa è quasi sempre il traffico UDP (DNS o QUIC/HTTP-3), che per progettazione non viene intercettato da questo setup. La soluzione consiste nell'applicare le misure descritte nella sezione dedicata alla gestione di DNS e UDP/QUIC.</p>
 
       </section>
+
+      <!-- Disclaimer AI -->
+      <footer class="mt-4 pt-3 border-top">
+        <p class="text-muted small mb-0">
+          <em>Articolo scritto con il supporto di LLM per la formattazione e la struttura del codice.</em>
+        </p>
+      </footer>
+
     </article>
 
     <!-- Share & Tags -->
@@ -577,7 +585,7 @@ sudo ufw deny in on wlp0s20f3 to any port 12345
     </div>
     
 
-    <!-- Comments -->
+    <!-- Commenti -->
     <h2 class="post-layout" style="font-size: 1.25rem; margin-top: 48px; margin-bottom: 0;">Commenti</h2>
     <div class="post-layout giscus-wrapper">
       <script>
@@ -631,6 +639,10 @@ sudo ufw deny in on wlp0s20f3 to any port 12345
   <div class="footer-copy">
     &copy; <span class="current-year">2026</span> Dino-996. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
   </div>
+  <!-- Trasparenza AI -->
+  <p class="small text-muted">
+    Contenuti ideati e scritti dagli autori. Scopri di più sulla <a href="/about#trasparenza">politica sull'uso dell'IA</a>.
+  </p>
 </footer>
 
 
