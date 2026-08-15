@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Guida completa a Docker · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Panoramica completa sull&#39;architettura e sul funzionamento dei container Docker. La guida copre i comandi essenziali per la gestione di immagini e volumi, la scrittura di Dockerfile multi-stage, l&#39;uso di Docker Compose e la configurazione dell&#39;ambiente su Windows tramite WSL2." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/post/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/post/" />
+
+<meta property="og:title" content="Guida completa a Docker" />
+<meta property="og:description" content="Panoramica completa sull&#39;architettura e sul funzionamento dei container Docker. La guida copre i comandi essenziali per la gestione di immagini e volumi, la scrittura di Dockerfile multi-stage, l&#39;uso di Docker Compose e la configurazione dell&#39;ambiente su Windows tramite WSL2." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1786799376/docker_d65228857a.jpg" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/post/" />
+
+<meta name="twitter:title" content="Guida completa a Docker" />
+<meta name="twitter:description" content="Panoramica completa sull&#39;architettura e sul funzionamento dei container Docker. La guida copre i comandi essenziali per la gestione di immagini e volumi, la scrittura di Dockerfile multi-stage, l&#39;uso di Docker Compose e la configurazione dell&#39;ambiente su Windows tramite WSL2." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1786799376/docker_d65228857a.jpg" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism + KaTeX caricati solo sui post: vedere head_extra e scripts in _layouts/post.njk -->
+
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn nav-btn" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn nav-btn nav-btn-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <a href="/courses/" class="btn nav-btn nav-btn-nav">Percorsi</a>
+      <a href="/about/" class="btn nav-btn">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1786799376/docker_d65228857a.jpg" as="image" fetchpriority="high">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper hide-desktop" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      <div class="post-breadcrumb">
+        <a href="/">Home</a>
+        <span class="post-breadcrumb-sep">»</span>
+        
+        
+        <a href="/blog/">Blog</a>
+        
+      </div>
+
+      <h1>Guida completa a Docker</h1>
+
+      
+      <p class="post-description">Panoramica completa sull&#39;architettura e sul funzionamento dei container Docker. La guida copre i comandi essenziali per la gestione di immagini e volumi, la scrittura di Dockerfile multi-stage, l&#39;uso di Docker Compose e la configurazione dell&#39;ambiente su Windows tramite WSL2.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 10 agosto 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+          <span class="post-meta-dot">·</span>
+          <span>Aggiornato il 15 agosto 2026</span>
+        
+      </div>
+    </header>
+
+    
+    <figure class="post-hero">
+      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1786799376/docker_d65228857a.jpg"
+           alt="Immagine generata con AI"
+           class="post-hero-image"
+           fetchpriority="high">
+      
+      <figcaption class="post-hero-caption">Immagine generata con AI</figcaption>
+      
+    </figure>
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Docker è una piattaforma di containerizzazione che impacchetta applicazioni e loro dipendenze in immagini immutabili, permettendo l&#39;esecuzione di istanze isolate (container) in modo efficiente. I concetti chiave includono immagini (filesystem e istruzioni), container (istanze in esecuzione), registry (archivi di immagini) e Dockerfile (istruzioni per la creazione di immagini).</p>
+      </div>
+      
+
+      <section class="content">
+          <h2 id="cose-docker">Cos'è docker</h2>
+<p>Docker è una piattaforma di containerizzazione, permette di eseguire applicazioni in ambienti isolati (container) che includono tutto il necessario per funzionare: codice, runtime, librerie, dipendenze di sistema, senza dover installare nulla direttamente sulla macchina host.</p>
+<p>La differenza principale rispetto a una macchina virtuale è che i container condividono il kernel del sistema operativo host, risultando molto più leggeri e veloci da avviare.</p>
+<h2 id="concetti-fondamentali">Concetti fondamentali</h2>
+<p><strong>Immagine (image)</strong> Un pacchetto immutabile che contiene filesystem, dipendenze e istruzioni per eseguire un'applicazione. Le immagini sono composte da layer sovrapposti, ognuno corrispondente a un'istruzione del Dockerfile che l'ha generata.</p>
+<p><strong>Container</strong> Un'istanza in esecuzione di un'immagine. È possibile avviare più container dalla stessa immagine, ognuno isolato dagli altri.</p>
+<p><strong>Registry</strong> Un archivio di immagini scaricabili. Docker Hub è il registry pubblico predefinito (es. <code>node:22</code>, <code>postgres:16</code>, <code>yanwk/comfyui-boot</code>).</p>
+<p><strong>Dockerfile</strong> Un file di testo con le istruzioni per costruire un'immagine personalizzata.</p>
+<p><strong>Volume</strong> Uno spazio di archiviazione gestito da Docker, indipendente dal ciclo di vita del container, usato per persistere dati.</p>
+<h2 id="comandi-essenziali">Comandi essenziali</h2>
+<h3 id="gestione-container">Gestione container</h3>
+<pre><code class="language-powershell">docker run &lt;opzioni&gt; &lt;immagine&gt;
+docker ps
+docker ps -a
+docker stop &lt;nome-o-id&gt;
+docker rm &lt;nome-o-id&gt;
+docker exec -it &lt;nome-o-id&gt; bash
+docker logs &lt;nome-o-id&gt;
+docker logs -f &lt;nome-o-id&gt;
+</code></pre>
+<p>In ordine, i comandi sopra: avviano un container da un'immagine (scaricandola se non presente), elencano i container in esecuzione, elencano tutti i container anche quelli fermi, fermano un container, rimuovono un container fermo, eseguono un comando dentro un container già attivo, mostrano i log e infine li mostrano in tempo reale.</p>
+<h3 id="opzioni-piu-usate-con-docker-run">Opzioni più usate con docker run</h3>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Opzione</th> <th>Effetto</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">--rm</td> <td>Rimuove il container automaticamente allo stop</td> </tr> <tr> <td class="fw-semibold">-it</td> <td>Modalità interattiva con terminale allegato</td> </tr> <tr> <td class="fw-semibold">-d</td> <td>Modalità detached, esegue in background</td> </tr> <tr> <td class="fw-semibold">--name</td> <td>Assegna un nome al container</td> </tr> <tr> <td class="fw-semibold">-p host:container</td> <td>Mappa una porta dell'host su una del container</td> </tr> <tr> <td class="fw-semibold">-v</td> <td>Monta un volume o bind mount</td> </tr> <tr> <td class="fw-semibold">-e</td> <td>Imposta una variabile d'ambiente</td> </tr> <tr> <td class="fw-semibold">--gpus all</td> <td>Espone le GPU al container (richiede NVIDIA Container Toolkit)</td> </tr> <tr> <td class="fw-semibold">-w</td> <td>Imposta la working directory dentro il container</td> </tr> </tbody> </table> </div>
+<h3 id="gestione-immagini">Gestione immagini</h3>
+<pre><code class="language-powershell">docker pull &lt;immagine&gt;
+docker images
+docker rmi &lt;immagine&gt;
+docker build -t &lt;nome-immagine&gt; .
+</code></pre>
+<p>Questi comandi scaricano un'immagine senza avviarla, elencano le immagini locali, rimuovono un'immagine e costruiscono un'immagine da un Dockerfile nella directory corrente.</p>
+<h2 id="persistenza-dei-dati-bind-mount-vs-volume">Persistenza dei dati, bind mount vs volume</h2>
+<p>Per default un container è effimero: tutto ciò che si scrive al suo interno sparisce quando viene rimosso. Esistono due modi per persistere i dati.</p>
+<p><strong>Bind mount</strong>, collega una cartella reale dell'host al container:</p>
+<pre><code class="language-powershell">docker run -v &quot;C:\percorso\cartella:/app&quot; &lt;immagine&gt;
+</code></pre>
+<p>I file sono visibili e gestibili direttamente da Windows. Utile quando si vuole editare il codice con il proprio editor mentre gira nel container.</p>
+<p><strong>Volume Docker</strong>, spazio gestito internamente da Docker, non visibile come cartella Windows:</p>
+<pre><code class="language-powershell">docker volume create nome-volume
+docker run -v nome-volume:/app &lt;immagine&gt;
+</code></pre>
+<p>Il volume sopravvive alla rimozione del container ma resta isolato, facile da eliminare del tutto:</p>
+<pre><code class="language-powershell">docker volume rm nome-volume
+docker volume ls
+</code></pre>
+<p><strong>Combinazione tipica</strong> (codice sincronizzato, dipendenze isolate):</p>
+<pre><code class="language-powershell">docker run -v &quot;${PWD}:/app&quot; -v node-modules-cache:/app/node_modules -w /app node:22 npm install
+</code></pre>
+<p>Questo pattern evita che <code>node_modules</code> venga scritto sul disco Windows, dove su WSL2 l'I/O tra molti file piccoli è più lento rispetto al filesystem interno di Docker.</p>
+<h2 id="rete-e-porte">Rete e porte</h2>
+<pre><code class="language-powershell">-p 4200:4200
+-p 8080:4200
+</code></pre>
+<p>La prima riga mappa la porta 4200 del container sulla 4200 dell'host, la seconda mappa su una porta host diversa (8080 verso 4200).</p>
+<p>Molti dev server (Angular, Vite, ecc.) per default ascoltano solo su <code>localhost</code> dentro il container. Serve avviarli con un'opzione che li faccia ascoltare su tutte le interfacce, altrimenti non sono raggiungibili dall'host anche con la porta mappata correttamente (es. <code>ng serve --host 0.0.0.0</code>).</p>
+<h3 id="reti-docker-personalizzate">Reti Docker personalizzate</h3>
+<p>Oltre al mapping di porte verso l'host, Docker permette di creare reti bridge dedicate per far comunicare più container tra loro tramite hostname, senza esporre porte all'esterno:</p>
+<pre><code class="language-powershell">docker network create --driver bridge rete-progetto
+docker run -d --network rete-progetto --name db postgres:16
+docker run -d --network rete-progetto --name backend mio-progetto
+</code></pre>
+<p>Su una rete personalizzata, il container <code>backend</code> può raggiungere il database semplicemente usando <code>db</code> come hostname, invece di dover conoscere il suo indirizzo IP. Docker Compose crea automaticamente una rete di questo tipo per ogni progetto, motivo per cui i servizi definiti in un <code>docker-compose.yml</code> si vedono tra loro per nome senza configurazione aggiuntiva.</p>
+<h2 id="dockerfile">Dockerfile</h2>
+<p>Un Dockerfile descrive come costruire un'immagine, istruzione per istruzione.</p>
+<pre><code class="language-dockerfile">FROM node:22
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 4200
+CMD [&quot;npm&quot;, &quot;start&quot;, &quot;--&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;]
+</code></pre>
+<p>Istruzioni principali:</p>
+<ul>
+<li><code>FROM</code>, immagine base di partenza</li>
+<li><code>WORKDIR</code>, directory di lavoro dentro il container</li>
+<li><code>COPY</code> / <code>ADD</code>, copia file dall'host all'immagine</li>
+<li><code>RUN</code>, esegue comandi in fase di build (installazioni, download)</li>
+<li><code>ENV</code>, imposta variabili d'ambiente</li>
+<li><code>EXPOSE</code>, documenta quali porte usa il container (non le pubblica da sola, serve comunque <code>-p</code> al run)</li>
+<li><code>CMD</code>, comando eseguito all'avvio del container (uno solo, sovrascrivibile)</li>
+<li><code>ENTRYPOINT</code>, simile a <code>CMD</code> ma meno facilmente sovrascrivibile, spesso usato insieme</li>
+</ul>
+<p>Build e run:</p>
+<pre><code class="language-powershell">docker build -t mio-progetto .
+docker run --rm -it -p 4200:4200 mio-progetto
+</code></pre>
+<p>Ogni <code>RUN</code> che scarica file pesanti (es. un checkpoint AI) li incorpora permanentemente nei layer dell'immagine, aumentandone le dimensioni su disco in modo fisso, diverso dallo scaricarli a runtime in un container effimero, dove occupano spazio solo mentre il container esiste.</p>
+<h3 id="multi-stage-build">Multi-stage build</h3>
+<p>Per immagini di produzione, costruire e servire l'applicazione nello stesso stage porta a immagini gonfiate da strumenti di build non necessari a runtime (compilatori, dipendenze di sviluppo). Il pattern multi-stage separa la fase di build da quella di esecuzione, copiando nell'immagine finale solo gli artefatti compilati:</p>
+<pre><code class="language-dockerfile">FROM node:22 AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+<p>FROM node:22 AS runtime<br>
+WORKDIR /app<br>
+COPY --from=build /app/dist ./dist<br>
+COPY package*.json ./<br>
+RUN npm ci --omit=dev<br>
+EXPOSE 4200<br>
+CMD [&quot;node&quot;, &quot;dist/server.js&quot;]<br>
+</code></pre></p>
+<p>Lo stage <code>build</code> contiene tutte le dipendenze e i tool necessari alla compilazione, lo stage <code>runtime</code> eredita solo ciò che serve per far girare l'app, con un'immagine finale sensibilmente più piccola e con una superficie di attacco ridotta.</p>
+<div class="alert alert-info" role="alert"> Il comando <code>npm ci</code> installa le dipendenze esattamente come bloccate nel file di lock, a differenza di <code>npm install</code> che può aggiornarle. È la scelta preferibile in fase di build per garantire riproducibilità. </div>
+<h3 id="dockerignore">.dockerignore</h3>
+<p>Così come <code>.gitignore</code> esclude file dal controllo versione, un file <code>.dockerignore</code> nella directory del progetto esclude file dal contesto di build inviato al demone Docker:</p>
+<pre><code class="language-text">node_modules
+.git
+dist
+*.log
+.env
+</code></pre>
+<p>Senza questo file, l'intera cartella <code>node_modules</code> locale (spesso enorme) viene inviata al demone a ogni build, rallentando il processo e rischiando di sovrascrivere dipendenze già installate correttamente dentro il container.</p>
+<h3 id="esecuzione-non-privilegiata">Esecuzione non privilegiata</h3>
+<p>Per default, i processi in un container Docker girano come utente <code>root</code>. In caso di vulnerabilità nell'applicazione, questo aumenta il potenziale impatto di un attacco. Le immagini ufficiali Node, tra cui <code>node:22</code>, includono già un utente non privilegiato predefinito che può essere attivato nel Dockerfile:</p>
+<pre><code class="language-dockerfile">FROM node:22
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+USER node
+EXPOSE 4200
+CMD [&quot;npm&quot;, &quot;start&quot;, &quot;--&quot;, &quot;--host&quot;, &quot;0.0.0.0&quot;]
+</code></pre>
+<h3 id="healthcheck">Healthcheck</h3>
+<p>L'istruzione <code>HEALTHCHECK</code> permette a Docker di monitorare autonomamente lo stato di salute di un container, informazione visibile in <code>docker ps</code> e utilizzata da Docker Compose per gestire l'ordine di avvio dei servizi dipendenti:</p>
+<pre><code class="language-dockerfile">HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD curl -f http://localhost:4200 || exit 1
+</code></pre>
+<p>Se il comando restituisce un codice diverso da zero per il numero di tentativi configurato, il container viene marcato come <code>unhealthy</code>.</p>
+<h2 id="docker-compose">Docker compose</h2>
+<p>Per progetti con più servizi collegati (es. backend Spring Boot + database Postgres), Docker Compose evita di scrivere comandi <code>docker run</code> lunghi e ripetuti.</p>
+<p><code>docker-compose.yml</code>:</p>
+<pre><code class="language-yaml">services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: test
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - &quot;5432:5432&quot;
+  backend:
+    build: .
+    ports:
+      - &quot;8080:8080&quot;
+    depends_on:
+      - db
+volumes:
+  pgdata:
+</code></pre>
+<p>Comandi:</p>
+<pre><code class="language-powershell">docker compose up
+docker compose up -d
+docker compose down
+docker compose down -v
+</code></pre>
+<p>In ordine: avviano tutti i servizi definiti, li avviano in background, fermano tutto, fermano e rimuovono anche i volumi nominati.</p>
+<h2 id="gpu-su-windows-wsl2">Gpu su windows (wsl2)</h2>
+<p>Per usare <code>--gpus all</code> servono tre prerequisiti:</p>
+<ol>
+<li>Docker Desktop configurato con backend WSL2 (non Hyper-V puro)</li>
+<li>Driver NVIDIA aggiornati lato Windows (non dentro la distro WSL)</li>
+<li>Integrazione WSL2 abilitata per la distro in uso nelle impostazioni di Docker Desktop</li>
+</ol>
+<p>Se <code>--gpus all</code> fallisce con un errore relativo al driver, di solito la causa è WSL2 non aggiornato (<code>wsl --update</code>) o l'integrazione non abilitata per la distro corretta. La sezione 13 approfondisce i comandi WSL utili in questi casi.</p>
+<h2 id="pulizia-e-gestione-dello-spazio">Pulizia e gestione dello spazio</h2>
+<pre><code class="language-powershell">docker system df
+docker system prune
+docker system prune --volumes
+docker image prune -a
+</code></pre>
+<p>In ordine: mostrano quanto spazio occupano immagini, container, volumi e cache di build, rimuovono container fermi/immagini non taggate/cache inutilizzata, fanno lo stesso rimuovendo anche i volumi non referenziati, e rimuovono tutte le immagini non usate da nessun container anche se taggate.</p>
+<p>Su Windows, lo storage effettivo di Docker vive nel disco virtuale di WSL2 (file <code>.vhdx</code>). Anche dopo un <code>prune</code>, il file può restare fisicamente grande sul disco Windows finché non viene compattato:</p>
+<pre><code class="language-powershell">wsl --shutdown
+</code></pre>
+<p>seguito da un'ottimizzazione del vhdx tramite <code>diskpart</code> o strumenti dedicati, se lo spazio recuperato non basta. La sezione 13 include anche un comando WSL nativo per ridurre dinamicamente questo spazio.</p>
+<h2 id="sicurezza-dellimmagine">Sicurezza dell'immagine</h2>
+<p>Oltre alle buone pratiche di costruzione (multi-stage, utente non privilegiato, <code>.dockerignore</code>), è buona norma scansionare periodicamente le immagini alla ricerca di vulnerabilità note nelle dipendenze e nei pacchetti di sistema inclusi, prima di promuoverle in produzione:</p>
+<pre><code class="language-powershell">trivy image &lt;nome-immagine&gt;
+</code></pre>
+<div class="alert alert-info" role="alert"> La scansione delle immagini dovrebbe far parte della pipeline CI/CD, non essere un controllo manuale occasionale: bloccare automaticamente il deploy di immagini con vulnerabilità critiche note riduce sensibilmente la superficie di rischio. </div>
+<h2 id="casi-pratici-di-riferimento">Casi pratici di riferimento</h2>
+<p>Ambiente ComfyUI completamente effimero (nessuna persistenza, download ogni volta):</p>
+<pre><code class="language-powershell">docker run --rm -it --gpus all -p 8188:8188 --name comfyui-ephemeral yanwk/comfyui-boot:cu124-slim
+</code></pre>
+<p>Ambiente ComfyUI con modelli persistenti tra un test e l'altro nella stessa giornata:</p>
+<pre><code class="language-powershell">docker volume create test-vol
+docker run --rm -it --gpus all -p 8188:8188 -v test-vol:/root --name comfyui-ephemeral yanwk/comfyui-boot:cu124-slim
+docker volume rm test-vol
+</code></pre>
+<p>Sviluppo Angular senza Node installato su Windows:</p>
+<pre><code class="language-powershell">docker run --rm -it -v &quot;${PWD}:/app&quot; -v node-cache:/app/node_modules -w /app -p 4200:4200 node:22 npm start -- --host 0.0.0.0
+</code></pre>
+<p>Database Postgres per test locali di un backend Spring Boot:</p>
+<pre><code class="language-powershell">docker volume create pgdata-progetto
+docker run --rm -it --name pg-test -e POSTGRES_PASSWORD=test -p 5432:5432 -v pgdata-progetto:/var/lib/postgresql/data postgres:16
+</code></pre>
+<h2 id="buone-pratiche">Buone pratiche</h2>
+<ul>
+<li>Usa <code>--rm</code> di default per container di test, evita accumulo di container fermi dimenticati</li>
+<li>Preferisci volumi nominati ai bind mount quando i dati non devono essere navigabili da Windows (più veloci su WSL2, più facili da eliminare in blocco)</li>
+<li>Assegna nomi univoci a volumi e container per progetto, per evitare collisioni tra progetti diversi</li>
+<li>Non installare dipendenze pesanti in <code>RUN</code> se servono solo per test occasionali: preferisci scaricarle a runtime in un container effimero</li>
+<li>Controlla periodicamente <code>docker system df</code> per capire dove va lo spazio, prima che il vhdx di WSL2 diventi ingombrante</li>
+<li>Per progetti multi-servizio, passa a Docker Compose appena i comandi <code>docker run</code> diventano difficili da ricordare o coordinare a mano</li>
+<li>Usa build multi-stage e un utente non privilegiato nelle immagini destinate alla produzione, non solo negli ambienti di test locali</li>
+<li>Escludi sempre <code>node_modules</code>, <code>.git</code> e file sensibili tramite <code>.dockerignore</code> per build più rapide e immagini più pulite</li>
+</ul>
+<h2 id="comandi-wsl-utili-per-docker-desktop-su-windows">Comandi WSL utili per Docker Desktop su Windows</h2>
+<p>Docker Desktop su Windows si appoggia a WSL2 per eseguire i container. Conoscere i comandi WSL principali aiuta a diagnosticare e risolvere i problemi più comuni, oltre a tenere sotto controllo le risorse assegnate.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Comando</th> <th>Effetto</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold" colspan="2">Gestione distribuzioni</td> </tr> <tr> <td class="fw-semibold">wsl -l -v</td> <td>Lista delle distro installate, con versione WSL e stato</td> </tr> <tr> <td class="fw-semibold">wsl -l --online</td> <td>Lista delle distro disponibili da installare</td> </tr> <tr> <td class="fw-semibold">wsl --install <Distro></td> <td>Installa una distro (es. Ubuntu)</td> </tr> <tr> <td class="fw-semibold">wsl --install --no-distribution</td> <td>Installa solo la piattaforma WSL, senza distro</td> </tr> <tr> <td class="fw-semibold">wsl --unregister <Distro></td> <td>Disinstalla completamente una distro, cancellandone anche i dati</td> </tr> <tr> <td class="fw-semibold">wsl --set-default <Distro></td> <td>Imposta la distro di default</td> </tr> <tr> <td class="fw-semibold">wsl --set-version <Distro> 2</td> <td>Converte una distro da WSL1 a WSL2</td> </tr> <tr> <td class="fw-semibold" colspan="2">Avvio e controllo</td> </tr> <tr> <td class="fw-semibold">wsl</td> <td>Avvia la distro di default</td> </tr> <tr> <td class="fw-semibold">wsl -d <Distro></td> <td>Avvia una distro specifica</td> </tr> <tr> <td class="fw-semibold">wsl --shutdown</td> <td>Spegne tutte le istanze WSL, utile dopo problemi con Docker</td> </tr> <tr> <td class="fw-semibold">wsl --terminate <Distro></td> <td>Spegne una singola distro senza toccare le altre</td> </tr> <tr> <td class="fw-semibold">wsl --status</td> <td>Mostra la versione di default e lo stato generale</td> </tr> <tr> <td class="fw-semibold" colspan="2">Aggiornamenti</td> </tr> <tr> <td class="fw-semibold">wsl --update</td> <td>Aggiorna il kernel Linux di WSL</td> </tr> <tr> <td class="fw-semibold">wsl --update --pre-release</td> <td>Aggiorna alla versione pre-release, utile per bug fix recenti</td> </tr> <tr> <td class="fw-semibold">wsl --version</td> <td>Mostra le versioni di WSL, kernel e componenti correlati</td> </tr> <tr> <td class="fw-semibold" colspan="2">Risorse e configurazione</td> </tr> <tr> <td class="fw-semibold">wsl --manage <Distro> --set-sparse true</td> <td>Riduce dinamicamente lo spazio occupato dal vhdx</td> </tr> <tr> <td class="fw-semibold" colspan="2">Diagnostica rapida per problemi Docker</td> </tr> <tr> <td class="fw-semibold">wsl -l -v</td> <td>Verifica che docker-desktop e docker-desktop-data siano presenti e in stato Running</td> </tr> <tr> <td class="fw-semibold">wsl --status</td> <td>Controlla che la versione di default sia 2, non 1</td> </tr> </tbody> </table> </div>
+<p>Per limitare RAM e CPU assegnate a WSL2, utile se Docker consuma troppa memoria, si crea o modifica un file <code>.wslconfig</code> in <code>C:\Users\&lt;utente&gt;\</code>:</p>
+<pre><code class="language-ini">[wsl2]
+memory=8GB
+processors=4
+</code></pre>
+<p>Dopo aver modificato il file, è sempre necessario eseguire <code>wsl --shutdown</code> seguito da un riavvio della distro perché le modifiche abbiano effetto.</p>
+
+      </section>
+
+      <!-- Disclaimer AI -->
+      <footer class="mt-4 pt-3 border-top">
+        <p class="text-muted small mb-0">
+          <em>Articolo scritto con il supporto di LLM per la formattazione e la struttura del codice.</em>
+        </p>
+      </footer>
+
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout post-section">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/docker/" class="badge badge-outline">docker</a>
+              
+            
+              
+              
+              <a href="/tags/container/" class="badge badge-outline">container</a>
+              
+            
+              
+              
+              <a href="/tags/devops/" class="badge badge-outline">devops</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center share-block">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fpost%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+            Condividi su LinkedIn
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Guida%20completa%20a%20Docker&url=https://dino-996.github.io%2Fblog%2Fpost%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su X">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+            Condividi su X
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout post-section post-section-sm">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div class="article-nav-half">
+          
+        </div>
+        <div class="article-nav-half article-nav-right">
+          
+          <a href="/blog/unpacking-e-assegnazione-in-python/" class="btn btn-outline btn-sm article-nav-btn article-nav-btn-right">
+            <span class="d-block small article-nav-label">Successivo →</span>
+            <span class="d-block article-nav-title">Unpacking e assegnazione</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Commenti -->
+    <h2 class="post-layout comment-heading">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+    data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      });
+    });
+  </script>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> DinoSec. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+    <!-- Trasparenza AI -->
+    <p class="small text-muted">
+      Scopri di più sulla <a href="/about#trasparenza">politica sull'uso dell'IA</a>.
+    </p>
+  </div>
+</footer>
+
+
+
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente virtuale basato su intelligenza artificiale">
+        <span aria-hidden="true">🦖</span>
+        <span class="ai-toggle-badge" aria-hidden="true">IA</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span aria-hidden="true">🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+            <span class="ai-badge" aria-label="Assistente basato su intelligenza artificiale">IA</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI assistant widget -->
+    <script src="/assets/js/ai-widget.js" defer></script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

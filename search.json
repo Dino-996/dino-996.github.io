@@ -1,5 +1,11 @@
 [
   {
+    "title": "Guida completa a Docker",
+    "url": "/blog/post/",
+    "description": "Panoramica completa sull'architettura e sul funzionamento dei container Docker. La guida copre i comandi essenziali per la gestione di immagini e volumi, la scrittura di Dockerfile multi-stage, l'uso di Docker Compose e la configurazione dell'ambiente su Windows tramite WSL2.",
+    "date": "2026-08-10T00:00:00.000Z"
+  },
+  {
     "title": "Unpacking e assegnazione",
     "url": "/blog/unpacking-e-assegnazione-in-python/",
     "description": "Esplora le potenzialità dell'unpacking e dell'assegnazione multipla in Python: dallo scambio immediato di variabili all'uso avanzato degli operatori * e ** in cicli, collezioni e funzioni (*args e **kwargs).",

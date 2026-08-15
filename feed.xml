@@ -6,13 +6,267 @@
   <link href="https://dino-996.github.io/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://dino-996.github.io" rel="alternate" type="text/html"/>
   <id>https://dino-996.github.io/</id>
-  <updated>2026-07-31T00:00:00.000Z</updated>
+  <updated>2026-08-10T00:00:00.000Z</updated>
   <author>
     <name>Davide Sabia</name>
     <email>davidesabia22@gmail.com</email>
     <uri>https://dino-996.github.io</uri>
   </author>
 
+  
+  <entry>
+    <title>Guida completa a Docker</title>
+    <link href="https://dino-996.github.io/blog/post/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/post/</id>
+    <published>2026-08-10T00:00:00.000Z</published>
+    <updated>2026-08-10T00:00:00.000Z</updated>
+    
+    <summary>Panoramica completa sull&#39;architettura e sul funzionamento dei container Docker. La guida copre i comandi essenziali per la gestione di immagini e volumi, la scrittura di Dockerfile multi-stage, l&#39;uso di Docker Compose e la configurazione dell&#39;ambiente su Windows tramite WSL2.</summary>
+    
+    
+    <content type="html"><![CDATA[
+
+  &lt;h2 id=&quot;cose-docker&quot;&gt;Cos&#39;è docker&lt;/h2&gt;
+&lt;p&gt;Docker è una piattaforma di containerizzazione, permette di eseguire applicazioni in ambienti isolati (container) che includono tutto il necessario per funzionare: codice, runtime, librerie, dipendenze di sistema, senza dover installare nulla direttamente sulla macchina host.&lt;/p&gt;
+&lt;p&gt;La differenza principale rispetto a una macchina virtuale è che i container condividono il kernel del sistema operativo host, risultando molto più leggeri e veloci da avviare.&lt;/p&gt;
+&lt;h2 id=&quot;concetti-fondamentali&quot;&gt;Concetti fondamentali&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;Immagine (image)&lt;/strong&gt; Un pacchetto immutabile che contiene filesystem, dipendenze e istruzioni per eseguire un&#39;applicazione. Le immagini sono composte da layer sovrapposti, ognuno corrispondente a un&#39;istruzione del Dockerfile che l&#39;ha generata.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Container&lt;/strong&gt; Un&#39;istanza in esecuzione di un&#39;immagine. È possibile avviare più container dalla stessa immagine, ognuno isolato dagli altri.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Registry&lt;/strong&gt; Un archivio di immagini scaricabili. Docker Hub è il registry pubblico predefinito (es. &lt;code&gt;node:22&lt;/code&gt;, &lt;code&gt;postgres:16&lt;/code&gt;, &lt;code&gt;yanwk/comfyui-boot&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Dockerfile&lt;/strong&gt; Un file di testo con le istruzioni per costruire un&#39;immagine personalizzata.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Volume&lt;/strong&gt; Uno spazio di archiviazione gestito da Docker, indipendente dal ciclo di vita del container, usato per persistere dati.&lt;/p&gt;
+&lt;h2 id=&quot;comandi-essenziali&quot;&gt;Comandi essenziali&lt;/h2&gt;
+&lt;h3 id=&quot;gestione-container&quot;&gt;Gestione container&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker run &amp;lt;opzioni&amp;gt; &amp;lt;immagine&amp;gt;
+docker ps
+docker ps -a
+docker stop &amp;lt;nome-o-id&amp;gt;
+docker rm &amp;lt;nome-o-id&amp;gt;
+docker exec -it &amp;lt;nome-o-id&amp;gt; bash
+docker logs &amp;lt;nome-o-id&amp;gt;
+docker logs -f &amp;lt;nome-o-id&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In ordine, i comandi sopra: avviano un container da un&#39;immagine (scaricandola se non presente), elencano i container in esecuzione, elencano tutti i container anche quelli fermi, fermano un container, rimuovono un container fermo, eseguono un comando dentro un container già attivo, mostrano i log e infine li mostrano in tempo reale.&lt;/p&gt;
+&lt;h3 id=&quot;opzioni-piu-usate-con-docker-run&quot;&gt;Opzioni più usate con docker run&lt;/h3&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Opzione&lt;/th&gt; &lt;th&gt;Effetto&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;--rm&lt;/td&gt; &lt;td&gt;Rimuove il container automaticamente allo stop&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;-it&lt;/td&gt; &lt;td&gt;Modalità interattiva con terminale allegato&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;-d&lt;/td&gt; &lt;td&gt;Modalità detached, esegue in background&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;--name&lt;/td&gt; &lt;td&gt;Assegna un nome al container&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;-p host:container&lt;/td&gt; &lt;td&gt;Mappa una porta dell&#39;host su una del container&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;-v&lt;/td&gt; &lt;td&gt;Monta un volume o bind mount&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;-e&lt;/td&gt; &lt;td&gt;Imposta una variabile d&#39;ambiente&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;--gpus all&lt;/td&gt; &lt;td&gt;Espone le GPU al container (richiede NVIDIA Container Toolkit)&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;-w&lt;/td&gt; &lt;td&gt;Imposta la working directory dentro il container&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
+&lt;h3 id=&quot;gestione-immagini&quot;&gt;Gestione immagini&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker pull &amp;lt;immagine&amp;gt;
+docker images
+docker rmi &amp;lt;immagine&amp;gt;
+docker build -t &amp;lt;nome-immagine&amp;gt; .
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Questi comandi scaricano un&#39;immagine senza avviarla, elencano le immagini locali, rimuovono un&#39;immagine e costruiscono un&#39;immagine da un Dockerfile nella directory corrente.&lt;/p&gt;
+&lt;h2 id=&quot;persistenza-dei-dati-bind-mount-vs-volume&quot;&gt;Persistenza dei dati, bind mount vs volume&lt;/h2&gt;
+&lt;p&gt;Per default un container è effimero: tutto ciò che si scrive al suo interno sparisce quando viene rimosso. Esistono due modi per persistere i dati.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Bind mount&lt;/strong&gt;, collega una cartella reale dell&#39;host al container:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker run -v &amp;quot;C:&#92;percorso&#92;cartella:/app&amp;quot; &amp;lt;immagine&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I file sono visibili e gestibili direttamente da Windows. Utile quando si vuole editare il codice con il proprio editor mentre gira nel container.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Volume Docker&lt;/strong&gt;, spazio gestito internamente da Docker, non visibile come cartella Windows:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker volume create nome-volume
+docker run -v nome-volume:/app &amp;lt;immagine&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il volume sopravvive alla rimozione del container ma resta isolato, facile da eliminare del tutto:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker volume rm nome-volume
+docker volume ls
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Combinazione tipica&lt;/strong&gt; (codice sincronizzato, dipendenze isolate):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker run -v &amp;quot;${PWD}:/app&amp;quot; -v node-modules-cache:/app/node_modules -w /app node:22 npm install
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Questo pattern evita che &lt;code&gt;node_modules&lt;/code&gt; venga scritto sul disco Windows, dove su WSL2 l&#39;I/O tra molti file piccoli è più lento rispetto al filesystem interno di Docker.&lt;/p&gt;
+&lt;h2 id=&quot;rete-e-porte&quot;&gt;Rete e porte&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;-p 4200:4200
+-p 8080:4200
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;La prima riga mappa la porta 4200 del container sulla 4200 dell&#39;host, la seconda mappa su una porta host diversa (8080 verso 4200).&lt;/p&gt;
+&lt;p&gt;Molti dev server (Angular, Vite, ecc.) per default ascoltano solo su &lt;code&gt;localhost&lt;/code&gt; dentro il container. Serve avviarli con un&#39;opzione che li faccia ascoltare su tutte le interfacce, altrimenti non sono raggiungibili dall&#39;host anche con la porta mappata correttamente (es. &lt;code&gt;ng serve --host 0.0.0.0&lt;/code&gt;).&lt;/p&gt;
+&lt;h3 id=&quot;reti-docker-personalizzate&quot;&gt;Reti Docker personalizzate&lt;/h3&gt;
+&lt;p&gt;Oltre al mapping di porte verso l&#39;host, Docker permette di creare reti bridge dedicate per far comunicare più container tra loro tramite hostname, senza esporre porte all&#39;esterno:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker network create --driver bridge rete-progetto
+docker run -d --network rete-progetto --name db postgres:16
+docker run -d --network rete-progetto --name backend mio-progetto
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Su una rete personalizzata, il container &lt;code&gt;backend&lt;/code&gt; può raggiungere il database semplicemente usando &lt;code&gt;db&lt;/code&gt; come hostname, invece di dover conoscere il suo indirizzo IP. Docker Compose crea automaticamente una rete di questo tipo per ogni progetto, motivo per cui i servizi definiti in un &lt;code&gt;docker-compose.yml&lt;/code&gt; si vedono tra loro per nome senza configurazione aggiuntiva.&lt;/p&gt;
+&lt;h2 id=&quot;dockerfile&quot;&gt;Dockerfile&lt;/h2&gt;
+&lt;p&gt;Un Dockerfile descrive come costruire un&#39;immagine, istruzione per istruzione.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;FROM node:22
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . .
+EXPOSE 4200
+CMD [&amp;quot;npm&amp;quot;, &amp;quot;start&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--host&amp;quot;, &amp;quot;0.0.0.0&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Istruzioni principali:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;FROM&lt;/code&gt;, immagine base di partenza&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;WORKDIR&lt;/code&gt;, directory di lavoro dentro il container&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;COPY&lt;/code&gt; / &lt;code&gt;ADD&lt;/code&gt;, copia file dall&#39;host all&#39;immagine&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RUN&lt;/code&gt;, esegue comandi in fase di build (installazioni, download)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ENV&lt;/code&gt;, imposta variabili d&#39;ambiente&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;EXPOSE&lt;/code&gt;, documenta quali porte usa il container (non le pubblica da sola, serve comunque &lt;code&gt;-p&lt;/code&gt; al run)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CMD&lt;/code&gt;, comando eseguito all&#39;avvio del container (uno solo, sovrascrivibile)&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ENTRYPOINT&lt;/code&gt;, simile a &lt;code&gt;CMD&lt;/code&gt; ma meno facilmente sovrascrivibile, spesso usato insieme&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Build e run:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker build -t mio-progetto .
+docker run --rm -it -p 4200:4200 mio-progetto
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ogni &lt;code&gt;RUN&lt;/code&gt; che scarica file pesanti (es. un checkpoint AI) li incorpora permanentemente nei layer dell&#39;immagine, aumentandone le dimensioni su disco in modo fisso, diverso dallo scaricarli a runtime in un container effimero, dove occupano spazio solo mentre il container esiste.&lt;/p&gt;
+&lt;h3 id=&quot;multi-stage-build&quot;&gt;Multi-stage build&lt;/h3&gt;
+&lt;p&gt;Per immagini di produzione, costruire e servire l&#39;applicazione nello stesso stage porta a immagini gonfiate da strumenti di build non necessari a runtime (compilatori, dipendenze di sviluppo). Il pattern multi-stage separa la fase di build da quella di esecuzione, copiando nell&#39;immagine finale solo gli artefatti compilati:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;FROM node:22 AS build
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+FROM node:22 AS runtime
+WORKDIR /app
+COPY --from=build /app/dist ./dist
+COPY package*.json ./
+RUN npm ci --omit=dev
+EXPOSE 4200
+CMD [&amp;quot;node&amp;quot;, &amp;quot;dist/server.js&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Lo stage &lt;code&gt;build&lt;/code&gt; contiene tutte le dipendenze e i tool necessari alla compilazione, lo stage &lt;code&gt;runtime&lt;/code&gt; eredita solo ciò che serve per far girare l&#39;app, con un&#39;immagine finale sensibilmente più piccola e con una superficie di attacco ridotta.&lt;/p&gt;
+&lt;div class=&quot;alert alert-info&quot; role=&quot;alert&quot;&gt; Il comando &lt;code&gt;npm ci&lt;/code&gt; installa le dipendenze esattamente come bloccate nel file di lock, a differenza di &lt;code&gt;npm install&lt;/code&gt; che può aggiornarle. È la scelta preferibile in fase di build per garantire riproducibilità. &lt;/div&gt;
+&lt;h3 id=&quot;dockerignore&quot;&gt;.dockerignore&lt;/h3&gt;
+&lt;p&gt;Così come &lt;code&gt;.gitignore&lt;/code&gt; esclude file dal controllo versione, un file &lt;code&gt;.dockerignore&lt;/code&gt; nella directory del progetto esclude file dal contesto di build inviato al demone Docker:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;node_modules
+.git
+dist
+*.log
+.env
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Senza questo file, l&#39;intera cartella &lt;code&gt;node_modules&lt;/code&gt; locale (spesso enorme) viene inviata al demone a ogni build, rallentando il processo e rischiando di sovrascrivere dipendenze già installate correttamente dentro il container.&lt;/p&gt;
+&lt;h3 id=&quot;esecuzione-non-privilegiata&quot;&gt;Esecuzione non privilegiata&lt;/h3&gt;
+&lt;p&gt;Per default, i processi in un container Docker girano come utente &lt;code&gt;root&lt;/code&gt;. In caso di vulnerabilità nell&#39;applicazione, questo aumenta il potenziale impatto di un attacco. Le immagini ufficiali Node, tra cui &lt;code&gt;node:22&lt;/code&gt;, includono già un utente non privilegiato predefinito che può essere attivato nel Dockerfile:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;FROM node:22
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+USER node
+EXPOSE 4200
+CMD [&amp;quot;npm&amp;quot;, &amp;quot;start&amp;quot;, &amp;quot;--&amp;quot;, &amp;quot;--host&amp;quot;, &amp;quot;0.0.0.0&amp;quot;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;healthcheck&quot;&gt;Healthcheck&lt;/h3&gt;
+&lt;p&gt;L&#39;istruzione &lt;code&gt;HEALTHCHECK&lt;/code&gt; permette a Docker di monitorare autonomamente lo stato di salute di un container, informazione visibile in &lt;code&gt;docker ps&lt;/code&gt; e utilizzata da Docker Compose per gestire l&#39;ordine di avvio dei servizi dipendenti:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-dockerfile&quot;&gt;HEALTHCHECK --interval=30s --timeout=5s --retries=3 CMD curl -f http://localhost:4200 || exit 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Se il comando restituisce un codice diverso da zero per il numero di tentativi configurato, il container viene marcato come &lt;code&gt;unhealthy&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;docker-compose&quot;&gt;Docker compose&lt;/h2&gt;
+&lt;p&gt;Per progetti con più servizi collegati (es. backend Spring Boot + database Postgres), Docker Compose evita di scrivere comandi &lt;code&gt;docker run&lt;/code&gt; lunghi e ripetuti.&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;docker-compose.yml&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-yaml&quot;&gt;services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: test
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - &amp;quot;5432:5432&amp;quot;
+  backend:
+    build: .
+    ports:
+      - &amp;quot;8080:8080&amp;quot;
+    depends_on:
+      - db
+volumes:
+  pgdata:
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Comandi:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker compose up
+docker compose up -d
+docker compose down
+docker compose down -v
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In ordine: avviano tutti i servizi definiti, li avviano in background, fermano tutto, fermano e rimuovono anche i volumi nominati.&lt;/p&gt;
+&lt;h2 id=&quot;gpu-su-windows-wsl2&quot;&gt;Gpu su windows (wsl2)&lt;/h2&gt;
+&lt;p&gt;Per usare &lt;code&gt;--gpus all&lt;/code&gt; servono tre prerequisiti:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Docker Desktop configurato con backend WSL2 (non Hyper-V puro)&lt;/li&gt;
+&lt;li&gt;Driver NVIDIA aggiornati lato Windows (non dentro la distro WSL)&lt;/li&gt;
+&lt;li&gt;Integrazione WSL2 abilitata per la distro in uso nelle impostazioni di Docker Desktop&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Se &lt;code&gt;--gpus all&lt;/code&gt; fallisce con un errore relativo al driver, di solito la causa è WSL2 non aggiornato (&lt;code&gt;wsl --update&lt;/code&gt;) o l&#39;integrazione non abilitata per la distro corretta. La sezione 13 approfondisce i comandi WSL utili in questi casi.&lt;/p&gt;
+&lt;h2 id=&quot;pulizia-e-gestione-dello-spazio&quot;&gt;Pulizia e gestione dello spazio&lt;/h2&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker system df
+docker system prune
+docker system prune --volumes
+docker image prune -a
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In ordine: mostrano quanto spazio occupano immagini, container, volumi e cache di build, rimuovono container fermi/immagini non taggate/cache inutilizzata, fanno lo stesso rimuovendo anche i volumi non referenziati, e rimuovono tutte le immagini non usate da nessun container anche se taggate.&lt;/p&gt;
+&lt;p&gt;Su Windows, lo storage effettivo di Docker vive nel disco virtuale di WSL2 (file &lt;code&gt;.vhdx&lt;/code&gt;). Anche dopo un &lt;code&gt;prune&lt;/code&gt;, il file può restare fisicamente grande sul disco Windows finché non viene compattato:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;wsl --shutdown
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;seguito da un&#39;ottimizzazione del vhdx tramite &lt;code&gt;diskpart&lt;/code&gt; o strumenti dedicati, se lo spazio recuperato non basta. La sezione 13 include anche un comando WSL nativo per ridurre dinamicamente questo spazio.&lt;/p&gt;
+&lt;h2 id=&quot;sicurezza-dellimmagine&quot;&gt;Sicurezza dell&#39;immagine&lt;/h2&gt;
+&lt;p&gt;Oltre alle buone pratiche di costruzione (multi-stage, utente non privilegiato, &lt;code&gt;.dockerignore&lt;/code&gt;), è buona norma scansionare periodicamente le immagini alla ricerca di vulnerabilità note nelle dipendenze e nei pacchetti di sistema inclusi, prima di promuoverle in produzione:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;trivy image &amp;lt;nome-immagine&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;alert alert-info&quot; role=&quot;alert&quot;&gt; La scansione delle immagini dovrebbe far parte della pipeline CI/CD, non essere un controllo manuale occasionale: bloccare automaticamente il deploy di immagini con vulnerabilità critiche note riduce sensibilmente la superficie di rischio. &lt;/div&gt;
+&lt;h2 id=&quot;casi-pratici-di-riferimento&quot;&gt;Casi pratici di riferimento&lt;/h2&gt;
+&lt;p&gt;Ambiente ComfyUI completamente effimero (nessuna persistenza, download ogni volta):&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker run --rm -it --gpus all -p 8188:8188 --name comfyui-ephemeral yanwk/comfyui-boot:cu124-slim
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ambiente ComfyUI con modelli persistenti tra un test e l&#39;altro nella stessa giornata:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker volume create test-vol
+docker run --rm -it --gpus all -p 8188:8188 -v test-vol:/root --name comfyui-ephemeral yanwk/comfyui-boot:cu124-slim
+docker volume rm test-vol
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Sviluppo Angular senza Node installato su Windows:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker run --rm -it -v &amp;quot;${PWD}:/app&amp;quot; -v node-cache:/app/node_modules -w /app -p 4200:4200 node:22 npm start -- --host 0.0.0.0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Database Postgres per test locali di un backend Spring Boot:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-powershell&quot;&gt;docker volume create pgdata-progetto
+docker run --rm -it --name pg-test -e POSTGRES_PASSWORD=test -p 5432:5432 -v pgdata-progetto:/var/lib/postgresql/data postgres:16
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;buone-pratiche&quot;&gt;Buone pratiche&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Usa &lt;code&gt;--rm&lt;/code&gt; di default per container di test, evita accumulo di container fermi dimenticati&lt;/li&gt;
+&lt;li&gt;Preferisci volumi nominati ai bind mount quando i dati non devono essere navigabili da Windows (più veloci su WSL2, più facili da eliminare in blocco)&lt;/li&gt;
+&lt;li&gt;Assegna nomi univoci a volumi e container per progetto, per evitare collisioni tra progetti diversi&lt;/li&gt;
+&lt;li&gt;Non installare dipendenze pesanti in &lt;code&gt;RUN&lt;/code&gt; se servono solo per test occasionali: preferisci scaricarle a runtime in un container effimero&lt;/li&gt;
+&lt;li&gt;Controlla periodicamente &lt;code&gt;docker system df&lt;/code&gt; per capire dove va lo spazio, prima che il vhdx di WSL2 diventi ingombrante&lt;/li&gt;
+&lt;li&gt;Per progetti multi-servizio, passa a Docker Compose appena i comandi &lt;code&gt;docker run&lt;/code&gt; diventano difficili da ricordare o coordinare a mano&lt;/li&gt;
+&lt;li&gt;Usa build multi-stage e un utente non privilegiato nelle immagini destinate alla produzione, non solo negli ambienti di test locali&lt;/li&gt;
+&lt;li&gt;Escludi sempre &lt;code&gt;node_modules&lt;/code&gt;, &lt;code&gt;.git&lt;/code&gt; e file sensibili tramite &lt;code&gt;.dockerignore&lt;/code&gt; per build più rapide e immagini più pulite&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;comandi-wsl-utili-per-docker-desktop-su-windows&quot;&gt;Comandi WSL utili per Docker Desktop su Windows&lt;/h2&gt;
+&lt;p&gt;Docker Desktop su Windows si appoggia a WSL2 per eseguire i container. Conoscere i comandi WSL principali aiuta a diagnosticare e risolvere i problemi più comuni, oltre a tenere sotto controllo le risorse assegnate.&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Comando&lt;/th&gt; &lt;th&gt;Effetto&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot; colspan=&quot;2&quot;&gt;Gestione distribuzioni&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl -l -v&lt;/td&gt; &lt;td&gt;Lista delle distro installate, con versione WSL e stato&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl -l --online&lt;/td&gt; &lt;td&gt;Lista delle distro disponibili da installare&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl --install &lt;Distro&gt;&lt;/td&gt; &lt;td&gt;Installa una distro (es. Ubuntu)&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl --install --no-distribution&lt;/td&gt; &lt;td&gt;Installa solo la piattaforma WSL, senza distro&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl --unregister &lt;Distro&gt;&lt;/td&gt; &lt;td&gt;Disinstalla completamente una distro, cancellandone anche i dati&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl --set-default &lt;Distro&gt;&lt;/td&gt; &lt;td&gt;Imposta la distro di default&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl --set-version &lt;Distro&gt; 2&lt;/td&gt; &lt;td&gt;Converte una distro da WSL1 a WSL2&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot; colspan=&quot;2&quot;&gt;Avvio e controllo&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl&lt;/td&gt; &lt;td&gt;Avvia la distro di default&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl -d &lt;Distro&gt;&lt;/td&gt; &lt;td&gt;Avvia una distro specifica&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl --shutdown&lt;/td&gt; &lt;td&gt;Spegne tutte le istanze WSL, utile dopo problemi con Docker&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl --terminate &lt;Distro&gt;&lt;/td&gt; &lt;td&gt;Spegne una singola distro senza toccare le altre&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl --status&lt;/td&gt; &lt;td&gt;Mostra la versione di default e lo stato generale&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot; colspan=&quot;2&quot;&gt;Aggiornamenti&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl --update&lt;/td&gt; &lt;td&gt;Aggiorna il kernel Linux di WSL&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl --update --pre-release&lt;/td&gt; &lt;td&gt;Aggiorna alla versione pre-release, utile per bug fix recenti&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl --version&lt;/td&gt; &lt;td&gt;Mostra le versioni di WSL, kernel e componenti correlati&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot; colspan=&quot;2&quot;&gt;Risorse e configurazione&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl --manage &lt;Distro&gt; --set-sparse true&lt;/td&gt; &lt;td&gt;Riduce dinamicamente lo spazio occupato dal vhdx&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot; colspan=&quot;2&quot;&gt;Diagnostica rapida per problemi Docker&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl -l -v&lt;/td&gt; &lt;td&gt;Verifica che docker-desktop e docker-desktop-data siano presenti e in stato Running&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;wsl --status&lt;/td&gt; &lt;td&gt;Controlla che la versione di default sia 2, non 1&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
+&lt;p&gt;Per limitare RAM e CPU assegnate a WSL2, utile se Docker consuma troppa memoria, si crea o modifica un file &lt;code&gt;.wslconfig&lt;/code&gt; in &lt;code&gt;C:&#92;Users&#92;&amp;lt;utente&amp;gt;&#92;&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;[wsl2]
+memory=8GB
+processors=4
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Dopo aver modificato il file, è sempre necessario eseguire &lt;code&gt;wsl --shutdown&lt;/code&gt; seguito da un riavvio della distro perché le modifiche abbiano effetto.&lt;/p&gt;
+
+
+]]></content>
+    
+    
+    
+      
+      
+    <category term="docker"/>
+      
+    
+      
+      
+    <category term="container"/>
+      
+    
+      
+      
+    <category term="devops"/>
+      
+    
+  </entry>
   
   <entry>
     <title>Unpacking e assegnazione</title>
@@ -3410,333 +3664,6 @@ Un NAS sicuro non è il risultato di un&#39;unica configurazione iniziale, ma di
       
       
     <category term="storage"/>
-      
-    
-  </entry>
-  
-  <entry>
-    <title>Difesa Perimetrale delle Reti: Guida Completa tra Firewall, IDS/IPS e Zero Trust</title>
-    <link href="https://dino-996.github.io/blog/difesa-perimetrale-delle-reti/" rel="alternate" type="text/html"/>
-    <id>https://dino-996.github.io/blog/difesa-perimetrale-delle-reti/</id>
-    <published>2026-07-24T00:00:00.000Z</published>
-    <updated>2026-07-24T00:00:00.000Z</updated>
-    
-    <summary>Scopri come proteggere la tua rete IT. Una guida completa a firewall (NGFW), IDS/IPS, VPN, DMZ, WAF e modello Zero Trust per prevenire gli attacchi informatici e blindare l&#39;infrastruttura.</summary>
-    
-    
-    <content type="html"><![CDATA[
-
-  &lt;h2 id=&quot;la-difesa-perimetrale-delle-reti&quot;&gt;La difesa perimetrale delle reti&lt;/h2&gt;
-&lt;p&gt;Nell&#39;era in cui le infrastrutture IT si estendono su cloud pubblici, reti ibride e dispositivi mobili, costruire un perimetro di sicurezza solido non è più un&#39;opzione: è un prerequisito fondamentale. Oltre il 70% degli attacchi esterni viene neutralizzato grazie a un perimetro correttamente configurato. Questo articolo guida sviluppatori, IT manager e professionisti di rete attraverso i componenti chiave della difesa perimetrale — dai firewall tradizionali ai Next-Generation Firewall, dai sistemi IDS/IPS alle VPN, fino al paradigma moderno del Zero Trust.&lt;/p&gt;
-&lt;h2 id=&quot;il-concetto-di-perimetro-di-rete&quot;&gt;Il concetto di perimetro di rete&lt;/h2&gt;
-&lt;p&gt;Il &lt;strong&gt;perimetro di rete&lt;/strong&gt; è il confine digitale che separa la rete locale interna (&lt;em&gt;trusted zone&lt;/em&gt;) dalle reti esterne non affidabili come Internet (&lt;em&gt;untrusted zone&lt;/em&gt;). L&#39;analogia classica è quella di un edificio: mura, porte e finestre determinano chi può entrare e chi deve restare fuori. La difesa perimetrale si occupa esattamente di questo controllo degli accessi, applicandolo al flusso di dati.&lt;/p&gt;
-&lt;p&gt;Con la diffusione dello smart working e dei servizi cloud, il perimetro non è più un confine fisico ben definito. Questo ha reso necessaria un&#39;evoluzione profonda degli strumenti e dei modelli di sicurezza, che approfondiremo nella sezione dedicata al Zero Trust.&lt;/p&gt;
-&lt;h2 id=&quot;il-firewall&quot;&gt;Il firewall&lt;/h2&gt;
-&lt;p&gt;Il &lt;strong&gt;firewall&lt;/strong&gt; è il componente cardine della difesa perimetrale. Può essere implementato come dispositivo hardware dedicato (&lt;em&gt;appliance&lt;/em&gt;) o come software installato su un host, e il suo compito fondamentale è filtrare il traffico di rete in base a un insieme di regole predefinite chiamate &lt;em&gt;policy&lt;/em&gt;.&lt;/p&gt;
-&lt;figure style=&quot;border: 1px solid #ddd; border-radius: 5px; padding: 10px; display: inline-block; max-width: 620px; margin-top: 15px; margin-bottom: 15px;&quot;&gt;
-  &lt;img src=&quot;https://res.cloudinary.com/dcro2pbqr/image/upload/w_600,q_auto,f_auto/v1784921909/Router_364583df7e.jpg&quot; alt=&quot;Appliance hardware Cisco e altre apparecchiature di rete montate in un rack, con cablaggio Ethernet e fibra ottica&quot; width=&quot;600&quot; height=&quot;338&quot; loading=&quot;lazy&quot; style=&quot;max-width: 100%; border-radius: 5px&quot;&gt;
-&lt;/figure&gt;
-&lt;h3 id=&quot;criteri-di-filtraggio&quot;&gt;Criteri di filtraggio&lt;/h3&gt;
-&lt;p&gt;Un firewall tradizionale prende decisioni basandosi su tre parametri principali:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Indirizzo IP sorgente/destinazione:&lt;/strong&gt; consente o blocca il traffico proveniente da o diretto verso specifici indirizzi o blocchi di rete.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Porta e protocollo:&lt;/strong&gt; permette, ad esempio, il traffico web sulle porte 80 (HTTP) e 443 (HTTPS), bloccando tutto il resto.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Direzione del flusso:&lt;/strong&gt; distingue tra traffico in ingresso (&lt;em&gt;inbound&lt;/em&gt;) e in uscita (&lt;em&gt;outbound&lt;/em&gt;).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;traffico-inbound-e-outbound&quot;&gt;Traffico inbound e outbound&lt;/h3&gt;
-&lt;p&gt;Il traffico &lt;strong&gt;inbound&lt;/strong&gt; è quello che tenta di entrare nella rete dall&#39;esterno. La regola aurea è il principio di &lt;em&gt;default deny&lt;/em&gt;: tutto ciò che non è esplicitamente autorizzato viene bloccato. Si aprono solo le porte strettamente necessarie, ad esempio la 443 per un web server pubblico.&lt;/p&gt;
-&lt;p&gt;Il traffico &lt;strong&gt;outbound&lt;/strong&gt; — quello generato internamente verso Internet — è spesso sottovalutato, ma è altrettanto critico. Un malware che ha compromesso un host interno tenterà di contattare il proprio server di comando e controllo (&lt;em&gt;Command &amp;amp; Control&lt;/em&gt;, C&amp;amp;C) o di esfiltrare dati sensibili verso l&#39;esterno. Un firewall ben configurato monitora e filtra anche questa direzione, bloccando connessioni non autorizzate verso destinazioni esterne.&lt;/p&gt;
-&lt;h3 id=&quot;stateless-vs-stateful-inspection&quot;&gt;Stateless vs Stateful inspection&lt;/h3&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
-  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-    &lt;thead class=&quot;table-dark&quot;&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Caratteristica&lt;/th&gt;
-        &lt;th&gt;Stateless (packet filtering)&lt;/th&gt;
-        &lt;th&gt;Stateful inspection&lt;/th&gt;
-      &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Metodo di analisi&lt;/td&gt;
-        &lt;td&gt;Esamina ogni pacchetto in isolamento&lt;/td&gt;
-        &lt;td&gt;Traccia lo stato dell&#39;intera sessione TCP/UDP&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Memoria di sessione&lt;/td&gt;
-        &lt;td&gt;Nessuna: ogni pacchetto è indipendente&lt;/td&gt;
-        &lt;td&gt;Mantiene una tabella delle connessioni attive&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Livello di sicurezza&lt;/td&gt;
-        &lt;td&gt;Basso: vulnerabile a spoofing e frammentazione&lt;/td&gt;
-        &lt;td&gt;Alto: riconosce traffico fuori contesto&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Caso d&#39;uso tipico&lt;/td&gt;
-        &lt;td&gt;Router perimetrali semplici, ACL di base&lt;/td&gt;
-        &lt;td&gt;Firewall aziendali moderni (pfSense, Fortinet)&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;I firewall moderni sono quasi esclusivamente &lt;em&gt;stateful&lt;/em&gt;: se un host interno richiede una pagina a un server esterno, il firewall registra quella connessione e lascia passare solo la risposta corrispondente. Un pacchetto in ingresso non richiesto viene scartato automaticamente.&lt;/p&gt;
-&lt;h2 id=&quot;acl-le-regole-del-firewall&quot;&gt;ACL: le regole del firewall&lt;/h2&gt;
-&lt;p&gt;Le &lt;strong&gt;Access Control Lists (ACL)&lt;/strong&gt; sono l&#39;insieme ordinato di regole che definisce la policy del firewall. L&#39;ordine è fondamentale: le regole vengono valutate in sequenza e la prima che corrisponde determina l&#39;azione. Un esempio tipico di policy per un server web:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;ALLOW 192.168.1.50 -&amp;gt; ANY PORT 443
-ALLOW ANY -&amp;gt; 192.168.1.100 PORT 80
-DENY ANY -&amp;gt; ANY
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;L&#39;ultima regola esemplifica il principio di &lt;strong&gt;Implicit Deny&lt;/strong&gt;: qualsiasi traffico non esplicitamente autorizzato viene bloccato. È il fondamento di ogni policy di sicurezza solida.&lt;/p&gt;
-&lt;h2 id=&quot;nat-e-sicurezza-perimetrale&quot;&gt;NAT e sicurezza perimetrale&lt;/h2&gt;
-&lt;p&gt;Il &lt;strong&gt;Network Address Translation (NAT)&lt;/strong&gt; nasce per risolvere l&#39;esaurimento degli indirizzi IPv4, ma offre un effetto collaterale di sicurezza: nasconde gli indirizzi IP privati della LAN agli host su Internet. I pacchetti non richiesti dall&#39;esterno vengono automaticamente scartati dal router NAT perché quest&#39;ultimo non ha alcuna entry nella propria tabella di traduzione a cui inoltrarli.&lt;/p&gt;
-&lt;p&gt;Esistono tuttavia due pratiche pericolose da evitare:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Port forwarding:&lt;/strong&gt; aprire una porta specifica sul router per raggiungere un dispositivo interno (DVR, NAS, RDP) annulla la protezione NAT per quell&#39;host. Se il dispositivo ha una vulnerabilità o una password debole, l&#39;attaccante ha accesso diretto alla LAN.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;DMZ host sui router domestici:&lt;/strong&gt; espone completamente un indirizzo IP interno a tutto il traffico proveniente da Internet. Non va mai utilizzata in contesti produttivi o domestici con dati sensibili.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;L&#39;alternativa sicura in entrambi i casi è l&#39;uso di una VPN.&lt;/p&gt;
-&lt;h2 id=&quot;ids-e-ips-rilevare-e-prevenire-le-intrusioni&quot;&gt;IDS e IPS: rilevare e prevenire le intrusioni&lt;/h2&gt;
-&lt;p&gt;Gli strumenti IDS e IPS lavorano sul contenuto del traffico di rete, andando oltre il semplice controllo di porte e indirizzi IP.&lt;/p&gt;
-&lt;p&gt;Un &lt;strong&gt;Intrusion Detection System (IDS)&lt;/strong&gt; opera in modalità passiva: analizza il traffico in copia e genera alert quando rileva pattern sospetti o firme di attacchi noti. Non interferisce con il flusso dati, il che lo rende sicuro da usare anche in ambienti critici, ma non blocca nulla.&lt;/p&gt;
-&lt;p&gt;Un &lt;strong&gt;Intrusion Prevention System (IPS)&lt;/strong&gt; opera in modalità inline, posizionato direttamente nel percorso del traffico. Quando riconosce una firma d&#39;attacco, scarta il pacchetto istantaneamente prima che raggiunga il bersaglio. Richiede una configurazione più accurata per evitare falsi positivi che bloccherebbero traffico legittimo.&lt;/p&gt;
-&lt;h3 id=&quot;snort-e-suricata-i-motori-open-source&quot;&gt;Snort e Suricata: i motori open source&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;Snort&lt;/strong&gt; e &lt;strong&gt;Suricata&lt;/strong&gt; sono i due motori IDS/IPS open source più diffusi al mondo. Entrambi si basano su un sistema di &lt;em&gt;firme&lt;/em&gt; — pattern di byte o comportamenti — che corrispondono a exploit e malware noti. Suricata aggiunge il supporto nativo al multi-threading e all&#39;analisi di protocolli applicativi (HTTP, TLS, DNS), rendendolo più performante su hardware moderno.&lt;/p&gt;
-&lt;p&gt;Esempio di regola Suricata per rilevare un tentativo di SQL Injection:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-suricata&quot;&gt;alert tcp $EXTERNAL_NET any -&amp;gt; $HTTP_SERVERS 80 &#92;
-(msg:&amp;quot;SQL Injection UNION SELECT attempt&amp;quot;; &#92;
-flow:established,to_server; &#92;
-content:&amp;quot;UNION&amp;quot;; nocase; &#92;
-content:&amp;quot;SELECT&amp;quot;; nocase; distance:1; &#92;
-classtype:web-application-attack; sid:1000001; rev:1;)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;La regola intercetta connessioni TCP stabilite verso i web server che contengono i termini &lt;code&gt;UNION&lt;/code&gt; e &lt;code&gt;SELECT&lt;/code&gt; in sequenza ravvicinata, firma tipica di un attacco SQL Injection basato su UNION.&lt;/p&gt;
-&lt;h2 id=&quot;la-dmz-la-zona-cuscinetto&quot;&gt;La DMZ: la zona cuscinetto&lt;/h2&gt;
-&lt;p&gt;La &lt;strong&gt;Demilitarized Zone (DMZ)&lt;/strong&gt; è un segmento di rete separato, posizionato tra la LAN interna e Internet, dove vengono collocati i server che devono essere raggiungibili dall&#39;esterno: web server, mail server, server DNS pubblici.&lt;/p&gt;
-&lt;figure style=&quot;border: 1px solid #ddd; border-radius: 5px; padding: 10px; display: inline-block; max-width: 620px; margin-top: 15px; margin-bottom: 15px;&quot;&gt;
-  &lt;img src=&quot;https://res.cloudinary.com/dcro2pbqr/image/upload/w_600,q_auto,f_auto/v1784925817/DMZ_dda426bf81.png&quot; alt=&quot;Diagramma della DMZ con doppio firewall tra LAN interna e Internet&quot; width=&quot;600&quot; height=&quot;338&quot; loading=&quot;lazy&quot; style=&quot;max-width: 100%; border-radius: 5px&quot;&gt;
-  &lt;figcaption style=&quot;font-size: 0.9em; color: #666; margin-top: 8px;&quot;&gt;Architettura a doppio firewall: la DMZ isola i server pubblici dalla rete interna&lt;/figcaption&gt;
-&lt;/figure&gt;
-&lt;p&gt;L&#39;architettura a doppio firewall garantisce che, anche se un attaccante compromette un server in DMZ, sia ancora separato dalla rete interna da un ulteriore strato di controllo. Il danno viene contenuto (&lt;em&gt;breach containment&lt;/em&gt;) e i dati sensibili rimangono protetti.&lt;/p&gt;
-&lt;h2 id=&quot;vpn-il-tunnel-sicuro&quot;&gt;VPN: il tunnel sicuro&lt;/h2&gt;
-&lt;p&gt;La &lt;strong&gt;Virtual Private Network (VPN)&lt;/strong&gt; crea un canale crittografato attraverso una rete pubblica come Internet, garantendo tre proprietà fondamentali:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Confidenzialità:&lt;/strong&gt; i dati nel tunnel sono cifrati e illeggibili a chiunque li intercetti.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Integrità:&lt;/strong&gt; qualsiasi manomissione dei dati in transito viene rilevata e il pacchetto scartato.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Autenticazione:&lt;/strong&gt; solo i client con le credenziali o i certificati corretti possono stabilire il tunnel.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;La VPN è la risposta corretta a scenari come lo smart working, l&#39;accesso remoto sicuro ai sistemi aziendali e l&#39;interconnessione di sedi geograficamente distribuite (&lt;em&gt;site-to-site&lt;/em&gt;).&lt;/p&gt;
-&lt;h3 id=&quot;protocolli-vpn-a-confronto&quot;&gt;Protocolli VPN a confronto&lt;/h3&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
-  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-    &lt;thead class=&quot;table-dark&quot;&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Protocollo&lt;/th&gt;
-        &lt;th&gt;Caso d&#39;uso principale&lt;/th&gt;
-        &lt;th&gt;Punti di forza&lt;/th&gt;
-        &lt;th&gt;Limitazioni&lt;/th&gt;
-      &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;IPsec/IKEv2&lt;/td&gt;
-        &lt;td&gt;Site-to-site, VPN aziendali&lt;/td&gt;
-        &lt;td&gt;Robusto, nativo su molti OS, supporto hardware offload&lt;/td&gt;
-        &lt;td&gt;Configurazione complessa, spesso bloccato da NAT&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;OpenVPN&lt;/td&gt;
-        &lt;td&gt;Accesso remoto, ambienti eterogenei&lt;/td&gt;
-        &lt;td&gt;Altamente configurabile, gira su TCP/UDP, TLS 1.3&lt;/td&gt;
-        &lt;td&gt;Overhead maggiore, richiede client dedicato&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;WireGuard&lt;/td&gt;
-        &lt;td&gt;Accesso remoto moderno, cloud&lt;/td&gt;
-        &lt;td&gt;Codebase ridotto (~4.000 righe), crittografia moderna, latenza minima&lt;/td&gt;
-        &lt;td&gt;Meno maturo di IPsec, IP statico richiesto&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;WireGuard&lt;/strong&gt; si è affermato come standard de facto nelle nuove implementazioni grazie alla sua semplicità e alle performance superiori rispetto a OpenVPN. Il kernel Linux lo include nativamente dalla versione 5.6. Un esempio di configurazione lato server:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;[Interface]
-Address = 10.0.0.1/24
-ListenPort = 51820
-PrivateKey = &amp;lt;SERVER_PRIVATE_KEY&amp;gt;
-[Peer]
-PublicKey = &amp;lt;CLIENT_PUBLIC_KEY&amp;gt;
-AllowedIPs = 10.0.0.2/32
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2 id=&quot;web-application-firewall-waf&quot;&gt;Web Application Firewall (WAF)&lt;/h2&gt;
-&lt;p&gt;Un &lt;strong&gt;Web Application Firewall (WAF)&lt;/strong&gt; opera al livello applicativo (Layer 7) ed è specializzato nell&#39;analisi del traffico HTTP/HTTPS. Mentre un firewall tradizionale controlla chi può &amp;quot;bussare alla porta&amp;quot;, il WAF analizza il contenuto della richiesta stessa — i parametri GET/POST, gli header HTTP, i cookie — per rilevare attacchi specifici delle applicazioni web.&lt;/p&gt;
-&lt;p&gt;Le minacce che un WAF mitiga includono:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;SQL Injection:&lt;/strong&gt; tentativo di manipolare le query al database tramite input non sanificato.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cross-Site Scripting (XSS):&lt;/strong&gt; iniezione di script malevoli in pagine servite ad altri utenti.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;CSRF (Cross-Site Request Forgery):&lt;/strong&gt; induzione di azioni non autorizzate su un utente autenticato.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Path Traversal:&lt;/strong&gt; accesso a file al di fuori del web root tramite sequenze &lt;code&gt;../&lt;/code&gt;.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Soluzioni come &lt;strong&gt;ModSecurity&lt;/strong&gt; (integrato con Nginx/Apache) e il &lt;strong&gt;WAF di Cloudflare&lt;/strong&gt; sono ampiamente utilizzate in produzione. Il WAF è essenziale per qualsiasi applicazione web esposta su Internet, in particolare per e-commerce e portali con dati utente.&lt;/p&gt;
-&lt;h2 id=&quot;next-generation-firewall-ngfw&quot;&gt;Next-Generation Firewall (NGFW)&lt;/h2&gt;
-&lt;p&gt;I &lt;strong&gt;Next-Generation Firewall (NGFW)&lt;/strong&gt; superano i limiti dei firewall tradizionali introducendo la &lt;strong&gt;Deep Packet Inspection (DPI)&lt;/strong&gt;: il firewall non si limita a leggere l&#39;intestazione del pacchetto, ma ne analizza il payload per identificare l&#39;applicazione e il comportamento sottostante.&lt;/p&gt;
-&lt;p&gt;Le funzionalità distintive di un NGFW:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Application Awareness:&lt;/strong&gt; distingue tra traffico di Google Meet e BitTorrent anche se entrambi usano la porta 443.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Integrazione IPS:&lt;/strong&gt; il motore di prevenzione delle intrusioni è embedded e aggiornato in tempo reale.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;SSL/TLS Inspection:&lt;/strong&gt; decripta e re-cripta il traffico HTTPS per analizzarne il contenuto.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Sandboxing:&lt;/strong&gt; i file sospetti vengono eseguiti in un ambiente isolato per rilevare comportamenti malevoli prima che raggiungano gli endpoint.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Threat Intelligence:&lt;/strong&gt; si integra con feed di minacce globali per bloccare IP e domini noti come malevoli.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Vendor di riferimento nel mercato NGFW: &lt;strong&gt;Palo Alto Networks&lt;/strong&gt;, &lt;strong&gt;Fortinet FortiGate&lt;/strong&gt;, &lt;strong&gt;Cisco Firepower&lt;/strong&gt; e la soluzione open source &lt;strong&gt;pfSense&lt;/strong&gt; con pacchetti Snort/Suricata.&lt;/p&gt;
-&lt;h2 id=&quot;server-proxy-e-reverse-proxy&quot;&gt;Server proxy e reverse proxy&lt;/h2&gt;
-&lt;p&gt;Il &lt;strong&gt;proxy server&lt;/strong&gt; si interpone tra gli host interni e Internet, offrendo molteplici funzionalità di sicurezza e ottimizzazione:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Content filtering:&lt;/strong&gt; blocca l&#39;accesso a categorie di siti non autorizzati (phishing, social network, malware distribution).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Anonimizzazione:&lt;/strong&gt; gli host di destinazione vedono l&#39;IP del proxy, non quello dell&#39;utente finale.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Caching:&lt;/strong&gt; riduce la latenza e il consumo di banda salvando localmente le risorse frequentemente richieste.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;SSL Inspection:&lt;/strong&gt; in combinazione con un certificato CA interno, permette di analizzare anche il traffico HTTPS.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Il &lt;strong&gt;reverse proxy&lt;/strong&gt; opera in direzione opposta: si posiziona davanti ai server interni e gestisce le richieste in ingresso dall&#39;esterno. Le sue funzioni principali sono il &lt;strong&gt;load balancing&lt;/strong&gt; tra più istanze applicative, la terminazione SSL e la protezione contro attacchi diretti agli indirizzi IP dei server. &lt;strong&gt;Nginx&lt;/strong&gt; e &lt;strong&gt;HAProxy&lt;/strong&gt; sono le soluzioni open source più diffuse in questo ruolo.&lt;/p&gt;
-&lt;h2 id=&quot;honeypot-larte-dellinganno&quot;&gt;Honeypot: l&#39;arte dell&#39;inganno&lt;/h2&gt;
-&lt;p&gt;Un &lt;strong&gt;honeypot&lt;/strong&gt; è un sistema deliberatamente vulnerabile, privo di dati reali, che viene esposto sulla rete per attirare gli attaccanti. Il suo valore è duplice:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Early Warning:&lt;/strong&gt; qualsiasi interazione con l&#39;honeypot è un indicatore certo di attività malevola, poiché nessun utente legittimo ha motivo di accedervi.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Threat Intelligence:&lt;/strong&gt; permette di osservare le tecniche, le tattiche e le procedure (TTP) degli attaccanti in un ambiente controllato e sicuro, senza rischiare i sistemi di produzione.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Strumenti open source come &lt;strong&gt;Cowrie&lt;/strong&gt; (emula SSH/Telnet) e &lt;strong&gt;Honeyd&lt;/strong&gt; consentono di creare honeypot realistici con risorse minime. In ambienti enterprise si parla di &lt;strong&gt;deception technology&lt;/strong&gt;, con reti intere di honeypot distribuite per rilevare movimenti laterali post-compromissione.&lt;/p&gt;
-&lt;h2 id=&quot;difesa-da-dos-e-ddos&quot;&gt;Difesa da DoS e DDoS&lt;/h2&gt;
-&lt;p&gt;Gli attacchi &lt;strong&gt;Denial of Service (DoS)&lt;/strong&gt; e &lt;strong&gt;Distributed Denial of Service (DDoS)&lt;/strong&gt; mirano a rendere un servizio irraggiungibile saturandone le risorse con traffico spazzatura. Le contromisure si articolano su più livelli:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Rate limiting:&lt;/strong&gt; limita il numero di richieste accettate per unità di tempo da un singolo IP. Configurabile sia sul firewall che sul reverse proxy (es. &lt;code&gt;limit_req_zone&lt;/code&gt; in Nginx).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Anycast routing:&lt;/strong&gt; distribuisce il traffico d&#39;attacco su data center geograficamente distribuiti, diluendone l&#39;impatto.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Scrubbing center:&lt;/strong&gt; servizi cloud specializzati (Cloudflare, Akamai, AWS Shield) che analizzano e &amp;quot;puliscono&amp;quot; il traffico prima che raggiunga l&#39;infrastruttura del cliente.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;SYN cookies:&lt;/strong&gt; tecnica kernel che neutralizza i SYN flood senza mantenere stato per ogni connessione half-open.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Per una protezione efficace contro DDoS volumetrici di grandi dimensioni, un servizio di mitigazione cloud è l&#39;unica soluzione praticabile, poiché la capacità di assorbimento supera quella di qualsiasi singola infrastruttura on-premise.&lt;/p&gt;
-&lt;h2 id=&quot;monitoraggio-log-e-siem&quot;&gt;Monitoraggio, log e SIEM&lt;/h2&gt;
-&lt;p&gt;Il principio fondamentale è semplice: &lt;strong&gt;se non logghi, sei cieco&lt;/strong&gt;. I log del firewall, dell&#39;IPS e dei sistemi di autenticazione sono la fonte primaria di evidenza forense in caso di incidente.&lt;/p&gt;
-&lt;figure style=&quot;border: 1px solid #ddd; border-radius: 5px; padding: 10px; display: inline-block; max-width: 620px; margin-top: 15px; margin-bottom: 15px;&quot;&gt;
-  &lt;img src=&quot;https://res.cloudinary.com/dcro2pbqr/image/upload/w_600,q_auto,f_auto/v1784922219/SIEM_5f26bc9774.png&quot; alt=&quot;Dashboard SIEM con eventi di sicurezza correlati in tempo reale&quot; width=&quot;600&quot; height=&quot;338&quot; loading=&quot;lazy&quot; style=&quot;max-width: 100%; border-radius: 5px&quot;&gt;
-&lt;/figure&gt;
-&lt;p&gt;Un &lt;strong&gt;Security Information and Event Management (SIEM)&lt;/strong&gt; centralizza e correla eventi provenienti da fonti eterogenee in tempo reale. La sua potenza risiede nella &lt;em&gt;correlazione&lt;/em&gt;: un singolo evento fallito può essere rumore di fondo, ma 100 tentativi falliti di autenticazione SSH seguiti da un login riuscito dallo stesso IP nell&#39;arco di un secondo sono un indicatore critico di compromissione.&lt;/p&gt;
-&lt;p&gt;Soluzioni SIEM di riferimento: &lt;strong&gt;Splunk&lt;/strong&gt; (enterprise), &lt;strong&gt;IBM QRadar&lt;/strong&gt;, &lt;strong&gt;Microsoft Sentinel&lt;/strong&gt; (cloud-native) e l&#39;open source &lt;strong&gt;Elastic SIEM&lt;/strong&gt; basato su ELK Stack.&lt;/p&gt;
-&lt;h2 id=&quot;siem-e-soc-la-difesa-attiva&quot;&gt;SIEM e SOC: la difesa attiva&lt;/h2&gt;
-&lt;p&gt;Nelle organizzazioni di medie e grandi dimensioni, la difesa perimetrale è orchestrata da un &lt;strong&gt;Security Operations Center (SOC)&lt;/strong&gt;: un team dedicato che monitora h24 gli alert generati dal SIEM, investigando gli incidenti e coordinando la risposta.&lt;/p&gt;
-&lt;p&gt;Il flusso operativo tipico segue il framework &lt;strong&gt;OODA Loop&lt;/strong&gt; (Observe, Orient, Decide, Act): il SIEM osserva gli eventi, il SOC analyst li valuta nel contesto dell&#39;infrastruttura, decide se si tratta di un falso positivo o di un vero incidente, e attiva le procedure di risposta (&lt;em&gt;playbook&lt;/em&gt;) predefinite.&lt;/p&gt;
-&lt;h2 id=&quot;zero-trust-il-modello-di-sicurezza-per-lera-cloud&quot;&gt;Zero Trust: il modello di sicurezza per l&#39;era cloud&lt;/h2&gt;
-&lt;p&gt;Il modello &lt;strong&gt;Zero Trust&lt;/strong&gt; nasce dal riconoscimento che il perimetro tradizionale non esiste più. Con il cloud, il BYOD e lo smart working, la distinzione netta tra &amp;quot;dentro sicuro&amp;quot; e &amp;quot;fuori pericoloso&amp;quot; è diventata obsoleta. Un attaccante che ha compromesso un endpoint interno appare esattamente come un utente legittimo agli occhi di un firewall perimetrale.&lt;/p&gt;
-&lt;p&gt;Il principio fondante è &lt;strong&gt;&amp;quot;Never Trust, Always Verify&amp;quot;&lt;/strong&gt;: ogni singola richiesta — indipendentemente dalla sua provenienza, che sia dalla LAN, dalla VPN o da un cloud provider — deve essere verificata prima di essere autorizzata.&lt;/p&gt;
-&lt;p&gt;I pilastri implementativi del Zero Trust:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Identity as the new perimeter:&lt;/strong&gt; autenticazione forte (MFA) per ogni accesso, basata su identità utente e dispositivo, non su posizione di rete.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Least privilege access:&lt;/strong&gt; ogni utente e servizio accede solo alle risorse strettamente necessarie al proprio ruolo.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Micro-segmentazione:&lt;/strong&gt; la rete interna è suddivisa in segmenti isolati per limitare il movimento laterale post-compromissione.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Continuous verification:&lt;/strong&gt; la fiducia non viene concessa una volta sola al login, ma rivalutata continuamente durante la sessione.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Framework e standard di riferimento: &lt;strong&gt;NIST SP 800-207&lt;/strong&gt;, &lt;strong&gt;Google BeyondCorp&lt;/strong&gt; e le soluzioni &lt;strong&gt;SASE&lt;/strong&gt; (Secure Access Service Edge) di vendor come Zscaler e Cloudflare Access.&lt;/p&gt;
-&lt;h2 id=&quot;hardware-vs-software-firewall&quot;&gt;Hardware vs software firewall&lt;/h2&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
-  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-    &lt;thead class=&quot;table-dark&quot;&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Tipo&lt;/th&gt;
-        &lt;th&gt;Esempi&lt;/th&gt;
-        &lt;th&gt;Vantaggi&lt;/th&gt;
-        &lt;th&gt;Limitazioni&lt;/th&gt;
-      &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Hardware (appliance)&lt;/td&gt;
-        &lt;td&gt;Fortinet FortiGate, Cisco Firepower, pfSense su Netgate&lt;/td&gt;
-        &lt;td&gt;Alta throughput, protezione dell&#39;intera rete, hardware dedicato (ASIC)&lt;/td&gt;
-        &lt;td&gt;Costo elevato, manutenzione fisica richiesta&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Software (host-based)&lt;/td&gt;
-        &lt;td&gt;Windows Defender Firewall, iptables/nftables, ufw&lt;/td&gt;
-        &lt;td&gt;Protegge il singolo host anche se la LAN è compromessa, nessun costo hardware&lt;/td&gt;
-        &lt;td&gt;Consuma risorse del sistema, gestione distribuita complessa&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-&lt;p&gt;La strategia corretta non è scegliere l&#39;uno o l&#39;altro, ma adottarli entrambi. Il firewall perimetrale hardware filtra il traffico a livello di rete; il firewall software su ogni host garantisce un secondo livello di protezione (&lt;em&gt;defense in depth&lt;/em&gt;) nel caso in cui un attaccante riesca a muoversi lateralmente all&#39;interno della LAN.&lt;/p&gt;
-&lt;h2 id=&quot;caso-studio-anatomia-di-un-breach&quot;&gt;Caso studio: anatomia di un breach&lt;/h2&gt;
-&lt;p&gt;Il seguente scenario illustra come un perimetro mal configurato possa portare a una compromissione completa dell&#39;infrastruttura. Si tratta di un pattern reale e ricorrente nei report di incident response.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Sequenza dell&#39;attacco:&lt;/strong&gt;&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Una porta RDP (3389) lasciata aperta sul firewall perimetrale per consentire l&#39;accesso remoto a un tecnico, senza VPN.&lt;/li&gt;
-&lt;li&gt;Un attacco brute force automatizzato riesce in meno di 4 ore sfruttando una password di 8 caratteri senza policy di lockout.&lt;/li&gt;
-&lt;li&gt;L&#39;attaccante ottiene una sessione RDP sul server e inizia il movimento laterale attraverso la rete interna, facilitato dall&#39;assenza di segmentazione VLAN.&lt;/li&gt;
-&lt;li&gt;In 48 ore vengono esfiltrati 50 GB di dati sensibili verso un server esterno, non rilevati per assenza di monitoraggio outbound.&lt;/li&gt;
-&lt;li&gt;Deploy di ransomware che cifra l&#39;intera infrastruttura, inclusi i backup non isolati dalla rete.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;p&gt;&lt;strong&gt;Come si poteva prevenire:&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Chiudere la porta RDP esposta e sostituirla con accesso via VPN con MFA.&lt;/li&gt;
-&lt;li&gt;Implementare una policy di lockout account dopo 5 tentativi falliti.&lt;/li&gt;
-&lt;li&gt;Segmentare la rete con VLAN per limitare il movimento laterale.&lt;/li&gt;
-&lt;li&gt;Monitorare e limitare il traffico outbound anomalo con regole firewall e un SIEM.&lt;/li&gt;
-&lt;li&gt;Isolare i backup su un segmento di rete non raggiungibile dagli host di produzione (regola 3-2-1).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;checklist-di-hardening-perimetrale&quot;&gt;Checklist di hardening perimetrale&lt;/h2&gt;
-&lt;p&gt;Le seguenti misure costituiscono la baseline di sicurezza per qualsiasi infrastruttura esposta su Internet:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Default deny:&lt;/strong&gt; tutto il traffico non esplicitamente autorizzato viene bloccato, sia inbound che outbound.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Disabilitare UPnP:&lt;/strong&gt; impedisce ai dispositivi di aprire autonomamente porte sul router senza supervisione amministrativa.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Stealth mode:&lt;/strong&gt; il firewall non risponde ai ping ICMP dall&#39;esterno, riducendo la superficie di discovery.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Geo-blocking:&lt;/strong&gt; blocca il traffico proveniente da aree geografiche con cui non si intrattengono rapporti commerciali.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Aggiornamento firme IDS/IPS:&lt;/strong&gt; le signature di Snort/Suricata devono essere aggiornate quotidianamente tramite feed ufficiali (Talos per Snort, ET Open per Suricata).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Separazione degli accessi di gestione:&lt;/strong&gt; le interfacce di amministrazione del firewall devono essere accessibili solo da un segmento di management dedicato, mai da Internet.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Log retention e alerting:&lt;/strong&gt; configurare la retention dei log per almeno 90 giorni e integrare gli alert con un SIEM o un sistema di notifica (es. Slack/email per eventi critici).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Revisione periodica delle ACL:&lt;/strong&gt; rimuovere regole obsolete e verificare che il principio del least privilege sia rispettato almeno trimestralmente.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-]]></content>
-    
-    
-    
-      
-      
-    <category term="cybersecurity"/>
-      
-    
-      
-      
-    <category term="networksecurity"/>
-      
-    
-      
-      
-    <category term="IDS"/>
-      
-    
-      
-      
-    <category term="IPS"/>
-      
-    
-      
-      
-    <category term="zero trust"/>
-      
-    
-      
-      
-    <category term="firewall"/>
-      
-    
-      
-      
-    <category term="SIEM"/>
-      
-    
-      
-      
-    <category term="DMZ"/>
       
     
   </entry>
