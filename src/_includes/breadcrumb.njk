@@ -1,0 +1,15 @@
+{# Breadcrumb trail — parziale riutilizzabile #}
+{# Parametri: crumbs = [{label, url}] #}
+{% if crumbs and crumbs.length > 0 %}
+<nav aria-label="Breadcrumb" class="breadcrumb">
+  <ol>
+    {% for crumb in crumbs %}
+      {% if loop.last %}
+        <li aria-current="page">{{ crumb.label }}</li>
+      {% else %}
+        <li><a href="{{ crumb.url }}">{{ crumb.label }}</a></li>
+      {% endif %}
+    {% endfor %}
+  </ol>
+</nav>
+{% endif %}

@@ -36,18 +36,23 @@ layout: base.njk
     </div>
 
     <header class="post-header">
-      <div class="post-breadcrumb">
-        <a href="/">Home</a>
-        <span class="post-breadcrumb-sep">»</span>
-        {% set postCourse = courses | courseForUrl(page.url) %}
-        {% if postCourse %}
-        <a href="/courses/">Percorsi</a>
-        <span class="post-breadcrumb-sep">»</span>
-        <a href="/courses/{{ postCourse.slug }}/">{{ postCourse.name }}</a>
-        {% else %}
-        <a href="/blog/">Blog</a>
+      {% set postCourse = courses | courseForUrl(page.url) %}
+      {% set crumbs = [] %}
+      {% set crumbs = crumbs.concat([{ label: "Home", url: "/" }]) %}
+      {% if postCourse %}
+        {% set crumbs = crumbs.concat([{ label: "Percorsi", url: "/courses/" }]) %}
+        {% set crumbs = crumbs.concat([{ label: postCourse.name, url: "/courses/" + postCourse.slug + "/" }]) %}
+      {% else %}
+        {% set crumbs = crumbs.concat([{ label: "Blog", url: "/blog/" }]) %}
+        {% if tags and tags.length > 0 %}
+          {% set tagSlug = tags[0] %}
+          {% if tagSlug != "post" %}
+            {% set crumbs = crumbs.concat([{ label: tagSlug, url: "/tags/" + tagSlug + "/" }]) %}
+          {% endif %}
         {% endif %}
-      </div>
+      {% endif %}
+      {% set crumbs = crumbs.concat([{ label: title }]) %}
+      {% include "breadcrumb.njk" %}
 
       <h1>{{ title }}</h1>
 
