@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+# ============================================================
+# SDD Pre-Commit Hook (versionato con Husky)
+# Blocca commit di src/ o lib/ senza aggiornamenti in features/
+# ============================================================
+
+CHANGED_SRC=$(git diff --cached --name-only | grep -E '^src/|^lib/')
+CHANGED_SPEC=$(git diff --cached --name-only | grep -E '^features/')
+
+if [ -n "$CHANGED_SRC" ] && [ -z "$CHANGED_SPEC" ]; then
+    echo ""
+    echo "ERRORE SDD: Modifiche rilevate in src/ o lib/ senza aggiornamenti in features/"
+    echo "Aggiorna o spunta i task in features/<nome>/tasks.md prima di completare il commit."
+    echo ""
+    echo "File modificati in src/lib:"
+    echo "$CHANGED_SRC"
+    echo ""
+    exit 1
+fi
+
+npx eslint src/assets/js src/lib --max-warnings=0
