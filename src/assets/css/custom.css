@@ -974,6 +974,13 @@ p { margin: 0 0 1em; line-height: 1.6; }
   border-right: 1px solid var(--border-subtle);
 }
 
+/* Hide mobile ToC when desktop sidebar is visible */
+@media (min-width: 1200px) {
+  .toc-mobile-wrapper {
+    display: none;
+  }
+}
+
 .toc-sidebar .toc-card {
   border: none;
   box-shadow: none;
@@ -1111,7 +1118,7 @@ p { margin: 0 0 1em; line-height: 1.6; }
 /* ========================================
    Responsive — tablet / mobile
    ======================================== */
-@media (max-width: 1023px) {
+@media (max-width: 1199px) {
   .toc-sidebar {
     display: none;
   }
@@ -1124,6 +1131,13 @@ p { margin: 0 0 1em; line-height: 1.6; }
 
   .post-hero-image {
     border-radius: 10px;
+  }
+}
+
+/* Tablet portrait (768-1023px): sidebar sparisce, mostra mobile ToC */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .toc-mobile-wrapper {
+    display: block;
   }
 }
 
