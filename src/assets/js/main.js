@@ -5,7 +5,7 @@
     // ===========================================
 
     function syncGiscusTheme(theme) {
-        var iframe = document.querySelector('iframe.giscus-frame');
+        const iframe = document.querySelector('iframe.giscus-frame');
         if (!iframe) return;
         iframe.contentWindow.postMessage(
             { giscus: { setConfig: { theme: theme } } },
@@ -132,7 +132,6 @@
     // = HEADER SCROLL
     // ===========================================
 
-    let lastScroll = 0;
     let headerFrame = null;
     const siteHeader = document.querySelector('.site-header');
     if (siteHeader) {
@@ -141,7 +140,6 @@
             headerFrame = requestAnimationFrame(() => {
                 const currentScroll = window.pageYOffset;
                 siteHeader.style.boxShadow = currentScroll > 50 ? '0 2px 8px rgba(0,0,0,0.06)' : 'none';
-                lastScroll = currentScroll;
                 headerFrame = null;
             });
         });
@@ -319,6 +317,7 @@
         if (tocMobileList && headings.length > 0) {
             const links = buildToc(tocMobileList, headings);
             setupTocClick(tocMobileList);
+            setupScrollSpy(tocMobileList, headings, links);
         }
     }
 
