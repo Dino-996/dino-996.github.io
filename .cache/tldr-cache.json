@@ -14,5 +14,9 @@
   "Guida completa a Docker": {
     "tldr": "Docker è una piattaforma per l'esecuzione di applicazioni in container isolati, più leggeri e veloci delle VM, che condividono il kernel del sistema operativo host. I concetti chiave includono immagini (snapshot immutabili per la creazione di container), container (istanze in esecuzione di immagini), Dockerfile (per la definizione delle immagini) e registry (per la condivisione delle immagini).",
     "hash": "88478c341a19"
+  },
+  "Reti wireless e mobili": {
+    "tldr": "Le reti wireless comprendono tecnologie come cellulare, Wi-Fi, Bluetooth e NFC, ciascuna ottimizzata per specifici ambiti d'uso e raggio d'azione, e spesso coesistono su un singolo dispositivo per funzionalità integrate. Il GPS, pur basato su satelliti, è una tecnologia complementare per la geolocalizzazione che può essere potenziata da sistemi ibridi e dati da altre reti per una maggiore precisione in diverse condizioni ambientali.",
+    "hash": "6540d639f69d"
   }
 }
