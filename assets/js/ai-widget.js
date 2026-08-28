@@ -81,7 +81,7 @@
             const idx = await fetch("/search.json").then(r => r.json());
             const baseUrl = window.location.origin;
             context = idx
-                .slice(0, 15)
+                .slice(0, idx.length)
                 .map(p => `- "${p.title}" - ${p.description}\n  Link: <a href="${baseUrl}${p.url}" target="_blank">${p.title}</a>`)
                 .join("\n\n");
         } catch (err) {
