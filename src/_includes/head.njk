@@ -64,3 +64,11 @@
 <link rel="preconnect" href="https://cdn.jsdelivr.net" />
 
 <!-- Prism + KaTeX caricati solo sui post: vedere head_extra e scripts in _layouts/post.njk -->
+
+{% if analyticsWebsiteId %}
+{# Umami Cloud — analytics privacy-first, no cookie, rispetta DNT #}
+<script async defer
+  src="{{ analyticsScriptUrl }}"
+  data-website-id="{{ analyticsWebsiteId }}"
+  data-do-not-track="true"></script>
+{% endif %}
