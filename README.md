@@ -24,16 +24,25 @@ Personal blog and portfolio built with [Eleventy](https://www.11ty.dev/) 3.1 and
 
 - Blog with pagination, tags, and search
 - Courses section grouping posts by topic (via Strapi `course` field)
-- Light/dark mode with persistence via `localStorage`
+- Featured article highlighted on homepage
+- Breadcrumb navigation (blog / course paths)
+- Related posts section at the end of each article
+- Light/dark mode toggle with `localStorage` persistence + OS `prefers-color-scheme` fallback
+- SEO Advanced — JSON-LD schemas (WebSite, Article, BreadcrumbList)
+- Sitemap.xml + `/sitemap-tags.xml` with all tags
 - AI-generated article summaries (TL;DR)
 - AI chat assistant ("dino") for technical questions
+- Cloudflare Workers proxy for AI requests (ESLint-validated)
 - KaTeX math rendering
 - Syntax highlighting for code blocks
+- Lazy loading images (above-the-fold excluded for LCP)
+- TOC mobile with scrollspy (< 1200px)
 - **Newsletter** with Supabase storage and EmailJS delivery
   - Subscribe with email validation and DB insert
   - Confirmation email with responsive HTML template
   - One-click unsubscribe via unique token
   - Auto-cleanup of unsubscribed users every 5 days (GitHub Actions cron)
+- **Analytics Privacy** — Umami Cloud (cookie-free, DNT-respecting, no third-party cookies)
 - Responsive design
 - **Lighthouse 100/100** on all categories
 
@@ -80,6 +89,8 @@ npm run build-local
 | `EMAILJS_SERVICE_ID` | EmailJS service ID |
 | `EMAILJS_TEMPLATE_ID` | EmailJS template ID for confirmation |
 | `ALLOWED_ORIGIN` | Allowed CORS origin for the AI worker |
+| `ANALYTICS_WEBSITE_ID` | Umami Cloud website ID (optional — omit to disable analytics) |
+| `ANALYTICS_SCRIPT_URL` | Umami Cloud script URL (e.g. `https://cloud.umami.is/script.js`) |
 
 ## Project Structure
 

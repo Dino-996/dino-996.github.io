@@ -1,75 +1,45 @@
-# Task Atomici — Analytics Privacy-First (Umami Cloud)
+# Task Atomici — Analytics Privacy
 
 ---
 
-## Dipendenze tra Task
+## Task 1: Verifica Implementazione ✅
 
-```
-Task 1 → Task 2 → Task 3 → Task 4 → Task 5
-```
+**File verificati:** `eleventy.config.js`, `src/_includes/head.njk`, `.env.example`
+**Durata stimata:** < 5 minuti
 
----
-
-## Task 1: Esporre le variabili d'ambiente Umami ai template
-
-**File interessati:** `eleventy.config.js`
-**Durata stimata:** < 2 minuti
-
-- [x] **Task 1.1:** Aggiungere `analyticsWebsiteId` e `analyticsScriptUrl` in `eleventy.config.js` (seguendo lo stesso pattern di `supabaseUrl`)
+- [x] **Task 1.1:** Verificare che `analyticsWebsiteId` sia esposto in `eleventy.config.js` (riga 45)
+- [x] **Task 1.2:** Verificare che `analyticsScriptUrl` sia esposto in `eleventy.config.js` (riga 46)
+- [x] **Task 1.3:** Verificare che `head.njk` contenga lo snippet Umami condizionale (righe 68-74)
+- [x] **Task 1.4:** Verificare che `.env.example` documenti le variabili `ANALYTICS_*`
 
 ---
 
-## Task 2: Inietttare lo snippet Umami in head.njk
-
-**File interessati:** `src/_includes/head.njk`
-**Durata stimata:** < 3 minuti
-
-- [x] **Task 2.1:** Aggiungere lo snippet Umami prima della chiusura `</head>` con:
-  - Check `{% if analyticsWebsiteId %}` come guardrail
-  - Check `window.doNotTrack === "1"` in JS per rispettare DNT
-  - `async defer` sull'attributo dello script
-
----
-
-## Task 3: Creare .env.example
-
-**File interessati:** `.env.example`
-**Durata stimata:** < 1 minuto
-
-- [x] **Task 3.1:** Creare `.env.example` con tutte le variabili documentate
-
----
-
-## Task 4: Verificare che .gitignore escluda .env
-
-**File interessati:** `.gitignore`
-**Durata stimata:** < 1 minuto
-
-- [x] **Task 4.1:** Verificare che `.env` sia in `.gitignore`; era già presente
-
----
-
-## Task 5: Validazione
+## Task 2: Validazione ✅
 
 **File interessati:** —
-**Durata stimata:** < 1 minuto
+**Durata stimata:** < 5 minuti
 
-- [x] **Task 5.1:** `npm run lint` → exit 0
-- [x] **Task 5.2:** `npm run build` → exit 0
-
----
-
-## Esecuzione
-
-1. Spuntare la checkbox di ogni task completato
-2. Dopo ogni task: lint → build → se passano si prosegue
-3. Al termine: `git add . && git commit -m "feat(analytics): aggiungi Umami Cloud privacy-first"`
+- [x] **Task 2.1:** `npm run build` → exit 0 ✅
+- [x] **Task 2.2:** `npm run lint` → exit 0 ✅
+- [x] **Task 2.3:** `npm test` → exit 0 ✅
 
 ---
 
-## Gestione Errori
+## Task 3: Documentazione ✅
 
-Se un task fallisce dopo 2 tentativi:
-```bash
-git reset --hard HEAD~1
-```
+**File interessati:** `features/analytics-privacy/`
+**Durata stimata:** < 2 minuti
+
+- [x] **Task 3.1:** Creare `tasks.md`
+- [x] **Task 3.2:** Creare `plan.md`
+
+---
+
+## Criteri di Accettazione
+
+- [x] `npm run lint` termina senza errori
+- [x] `npm run build` termina con exit code 0
+- [x] Lo snippet Umami è condizionale (solo se `ANALYTICS_WEBSITE_ID` è impostato)
+- [x] Lo snippet usa `data-do-not-track="true"` per rispettare DNT
+- [x] Le variabili d'ambiente sono documentate in `.env.example`
+- [x] Nessun cookie creato (Umami è cookie-free)
