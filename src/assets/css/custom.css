@@ -2157,12 +2157,17 @@ code {
    ======================================== */
 .related-posts {
   margin-top: var(--space-4, 2rem);
+  padding: var(--space-3, 1.5rem);
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 0;
+  background: var(--surface-raised, #f9fafb);
 }
 
 .related-posts h2 {
   margin-bottom: var(--space-3, 1.5rem);
   font-size: 1.25rem;
   font-weight: 600;
+  border: none;
 }
 
 .related-posts-grid {
@@ -2174,10 +2179,10 @@ code {
 .related-post-card {
   display: flex;
   flex-direction: column;
-  border-radius: 12px;
+  border-radius: 0;
   overflow: hidden;
-  border: 1px solid var(--border-color, #e5e7eb);
-  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border, #e5e7eb);
+  background: var(--surface-raised, #ffffff);
   text-decoration: none;
   color: inherit;
   transition: transform 0.2s ease, box-shadow 0.2s ease;

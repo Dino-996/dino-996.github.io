@@ -50,9 +50,19 @@ Task 1 → Task 2 → Task 3 → Task 4
 
 ---
 
+## Task 5: Fix Layout ✅
+**File interessati:** `src/assets/css/custom.css`
+
+- [x] **Task 5.1:** Dark mode background — usa `var(--surface-raised)` che eredita dal tema
+- [x] **Task 5.2:** Rimuovi bordo heading — `border: none` su `h2`
+- [x] **Task 5.3:** Card rettangolari — `border-radius: 0`
+
+---
+
 ## Stato dei Task
 
 - [x] **Task 1: Aggiungere Filter `relatedPosts`**
 - [x] **Task 2: Modificare Template `post.njk`**
 - [x] **Task 3: Aggiungere Stili in `custom.css`**
 - [x] **Task 4: Validazione e Test**
+- [x] **Task 5: Fix Layout**
