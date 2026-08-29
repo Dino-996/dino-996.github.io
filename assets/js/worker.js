@@ -1,5 +1,5 @@
 export default {
-    async fetch(request, env, ctx) {
+    async fetch(request, env) {
         const allowedOrigins = [
             "https://dino-996.github.io",
             ...(env.ALLOWED_ORIGIN ? [env.ALLOWED_ORIGIN] : [])

@@ -1,11 +1,46 @@
 "use strict";
 (function () {
     // ===========================================
+    // = THEME TOGGLE
+    // ===========================================
+
+    function initThemeToggle() {
+        const btn = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('theme-icon-sun');
+        const moonIcon = document.getElementById('theme-icon-moon');
+        if (!btn) return;
+
+        function getPreferredTheme() {
+            const stored = localStorage.getItem('theme');
+            if (stored) return stored;
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-bs-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (sunIcon && moonIcon) {
+                sunIcon.style.display = theme === 'dark' ? 'block' : 'none';
+                moonIcon.style.display = theme === 'dark' ? 'none' : 'block';
+            }
+            syncGiscusTheme(theme);
+        }
+
+        btn.addEventListener('click', function () {
+            const current = document.documentElement.getAttribute('data-bs-theme') || 'light';
+            applyTheme(current === 'dark' ? 'light' : 'dark');
+        });
+
+        // Apply saved or OS preference on load
+        applyTheme(getPreferredTheme());
+    }
+
+    // ===========================================
     // = OS THEME — GISCUS SYNC
     // ===========================================
 
     function syncGiscusTheme(theme) {
-        var iframe = document.querySelector('iframe.giscus-frame');
+        const iframe = document.querySelector('iframe.giscus-frame');
         if (!iframe) return;
         iframe.contentWindow.postMessage(
             { giscus: { setConfig: { theme: theme } } },
@@ -132,7 +167,6 @@
     // = HEADER SCROLL
     // ===========================================
 
-    let lastScroll = 0;
     let headerFrame = null;
     const siteHeader = document.querySelector('.site-header');
     if (siteHeader) {
@@ -141,7 +175,6 @@
             headerFrame = requestAnimationFrame(() => {
                 const currentScroll = window.pageYOffset;
                 siteHeader.style.boxShadow = currentScroll > 50 ? '0 2px 8px rgba(0,0,0,0.06)' : 'none';
-                lastScroll = currentScroll;
                 headerFrame = null;
             });
         });
@@ -319,6 +352,7 @@
         if (tocMobileList && headings.length > 0) {
             const links = buildToc(tocMobileList, headings);
             setupTocClick(tocMobileList);
+            setupScrollSpy(tocMobileList, headings, links);
         }
     }
 
@@ -450,5 +484,8 @@
     }
 
     console.log('✨ DinoSec loaded successfully!');
+
+    // Init theme toggle
+    initThemeToggle();
 
 })();
