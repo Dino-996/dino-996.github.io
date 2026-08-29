@@ -218,7 +218,7 @@ layout: base.njk
             {% if rp.strapiTags %}
               {% set firstTag = rp.strapiTags.split(",")[0] | trim %}
               {% if firstTag and firstTag != "post" and firstTag != "posts" %}
-              <span class="badge badge-outline">{{ firstTag }}</span>
+              <span class="badge">{{ firstTag }}</span>
               {% endif %}
             {% endif %}
             <h3 class="related-post-title">{{ rp.title }}</h3>

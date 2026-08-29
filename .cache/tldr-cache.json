@@ -18,5 +18,97 @@
   "Reti wireless e mobili": {
     "tldr": "Le reti wireless comprendono tecnologie come cellulare, Wi-Fi, Bluetooth e NFC, ciascuna ottimizzata per specifici ambiti d'uso e raggio d'azione, e spesso coesistono su un singolo dispositivo per funzionalità integrate. Il GPS, pur basato su satelliti, è una tecnologia complementare per la geolocalizzazione che può essere potenziata da sistemi ibridi e dati da altre reti per una maggiore precisione in diverse condizioni ambientali.",
     "hash": "6540d639f69d"
+  },
+  "Classi e Oggetti": {
+    "tldr": "Le classi in Python definiscono blueprint per creare oggetti, ciascuno con uno stato (attributi) e un comportamento (metodi). Gli attributi di classe sono condivisi tra tutte le istanze, mentre gli attributi di istanza sono specifici per ogni oggetto.",
+    "hash": "090d45655ea7"
+  },
+  "Generatori": {
+    "tldr": "I generatori Python, definiti da funzioni con `yield`, producono iteratori che valutano pigramente i propri elementi, conservando lo stato tra le chiamate per riprendere l'esecuzione. Questa capacità di sospensione e ripresa dello stato consente un uso efficiente della memoria evitando il pre-calcolo dell'intera sequenza.",
+    "hash": "d343b7f9a27a"
+  },
+  "Jupyter": {
+    "tldr": "Il progetto Jupyter estende le console interattive con notebook eseguibili che integrano codice, testo formattato e output, supportando nativamente Julia, Python e R. La sua architettura basata su celle (codice, Markdown, raw) e kernel dedicati per linguaggio consente uno sviluppo iterativo e una documentazione integrata, con l'interazione gestita tramite diversi client.",
+    "hash": "e42ebf808fa1"
+  },
+  "NumPy": {
+    "tldr": "NumPy è la libreria Python fondamentale per il calcolo scientifico, basata sull'efficiente struttura dati `ndarray` per operazioni vettoriali e matriciali ad alte prestazioni. La sua importanza è sottolineata dalla sua adozione come base da parte di numerose altre librerie nell'ecosistema scientifico Python.",
+    "hash": "7c3d129309ac"
+  },
+  "Pandas": {
+    "tldr": "Pandas offre le strutture dati `Series` (unidimensionale etichettata) e `DataFrame` (bidimensionale tabellare) per la manipolazione efficiente di dati strutturati, estendendo la potenza di NumPy con un'interfaccia intuitiva. Queste strutture permettono operazioni vettoriali, accesso simile ai dizionari e manipolazioni complesse di colonne e righe per l'analisi dati.",
+    "hash": "4f145508ea92"
+  },
+  "AI ACT: Novità e Scadenze": {
+    "tldr": "Il Regolamento UE sull'IA Act è stato modificato dal Digital Omnibus, posticipando la scadenza degli obblighi per i sistemi ad alto rischio standalone al 2 dicembre 2027 e per l'IA integrata nei prodotti regolamentati al 2 agosto 2028.\nLe modifiche introducono anche una nuova categoria di \"small mid-cap\" con requisiti semplificati e un nuovo divieto applicabile dal 2 dicembre 2026.",
+    "hash": "811941388027"
+  },
+  "Introduzione a Python": {
+    "tldr": "Python è primariamente un linguaggio interpretato, eseguendo il codice sorgente istruzione per istruzione a runtime per favorire portabilità e debugging. La sua natura dinamica e fortemente tipizzata, unita al duck typing, determina la validità degli oggetti in base alle loro capacità piuttosto che a dichiarazioni statiche.",
+    "hash": "81b6552c391c"
+  },
+  " Regolamento UE 2016/679 (GDPR)": {
+    "tldr": "Il GDPR disciplina il trattamento di dati personali, automatizzato e non, applicandosi anche a entità extra-UE che trattano dati di residenti UE o offrono loro beni/servizi. Il Regolamento introduce un modello basato sull'accountability, privacy by design/default, definendo responsabilità precise e richiedendo misure adeguate al rischio.",
+    "hash": "581ef34b7455"
+  },
+  "Attacchi alla Rete": {
+    "tldr": "L'articolo delinea le categorie principali di malware (virus, worm, trojan, ransomware) e le relative contromisure tecniche.\nVengono inoltre analizzati casi di attacco reali per comprendere le dinamiche evolutive delle minacce digitali e l'importanza di framework professionali.",
+    "hash": "4b6565a55a74"
+  },
+  "Il GDPR": {
+    "tldr": "Il GDPR impone alle organizzazioni un controllo radicale sulla raccolta, conservazione e trattamento dei dati personali europei, essenziale per gli operatori IT. Il concetto di privacy, evolutosi dal diritto a \"essere lasciati soli\", si concretizza nel controllo individuale sulla diffusione delle proprie informazioni personali.",
+    "hash": "9989f4bf239a"
+  },
+  "Guida alla sicurezza del NAS": {
+    "tldr": "Un NAS (Network Attached Storage) è un dispositivo di archiviazione di rete sempre attivo, che offre controllo completo sui dati e funzionalità server versatili. Viene preferito rispetto al cloud per la sovranità digitale e la privacy dei dati, nonostante richieda una configurazione e manutenzione iniziali.",
+    "hash": "add6a6a4b724"
+  },
+  "Difesa Perimetrale delle Reti: Guida Completa tra Firewall, IDS/IPS e Zero Trust": {
+    "tldr": "La difesa perimetrale moderna, evoluta da firewall tradizionali e IDS/IPS verso approcci come il Zero Trust, è fondamentale per proteggere le infrastrutture IT distribuite e ibride. Un perimetro ben configurato, che controlla rigorosamente il traffico inbound ed outbound tramite policy, è cruciale per neutralizzare la maggior parte degli attacchi esterni.",
+    "hash": "789de9ef606d"
+  },
+  "Chat Control: anatomia di una sorveglianza di massa europea": {
+    "tldr": "La direttiva ePrivacy, che garantisce la segretezza delle comunicazioni, è entrata in conflitto con la riclassificazione dei servizi OTT come NI-ICS e con le pratiche di scansione volontaria dei provider per rilevare CSAM. Per colmare questo vuoto normativo e legittimare le scansioni, è stata introdotta una deroga temporanea tramite il Regolamento (UE) 2021/1232.",
+    "hash": "3a1c39893833"
+  },
+  "Resilienza dei Dati e strategie di Backup": {
+    "tldr": "La perdita di dati, causata da fattori quali errore umano, guasti hardware o attacchi malware, può essere mitigata adottando la regola del 3-2-1 e strategie di backup efficaci (completo, incrementale, differenziale). Le metriche chiave RPO (Recovery Point Objective) e RTO (Recovery Time Objective) definiscono il punto di ripristino desiderato e il tempo massimo per il recupero, guidando la pianificazione strategica.",
+    "hash": "e53bdbf0ee05"
+  },
+  "Mezzi trasmissivi": {
+    "tldr": "Le reti comunicano dati tramite cavi in rame (per LAN aziendali/residenziali a breve-media distanza tramite doppino intrecciato UTP/STP), fibra ottica o trasmissioni wireless, ciascuna con caratteristiche specifiche di banda, distanza e immunità ai disturbi. Il doppino intrecciato, in particolare, riduce l'EMI e il crosstalk tramite l'intreccio delle coppie, con varianti UTP e STP differenziate dalla presenza di schermature.",
+    "hash": "79ad136c46c8"
+  },
+  "Componenti, tipi e connessioni di rete": {
+    "tldr": "L'architettura client-server classica distingue ruoli stabili per servizi centralizzati, mentre le reti P2P decentralizzano risorse e funzionalità su ogni nodo. Modelli ibridi combinano elementi di entrambi, con evoluzioni moderne come blockchain e IPFS che esplorano forme avanzate di distribuzione.",
+    "hash": "f76ddc359596"
+  },
+  "Il filesystem di linux": {
+    "tldr": "Il Filesystem Hierarchy Standard (FHS) definisce la struttura e il contenuto delle directory su un sistema Linux, basandosi su un modello ad albero con una directory radice `/`. Questo standard garantisce coerenza e portabilità tra le diverse distribuzioni, permettendo agli utenti di localizzare file e configurazioni in modo prevedibile.",
+    "hash": "d0354f3eb27a"
+  },
+  "ClamAV su Linux: guida completa a installazione, scansione e monitoraggio in tempo reale": {
+    "tldr": "ClamAV è un toolkit antivirus open-source per Unix/Linux, caratterizzato da un'architettura modulare con componenti distinti per l'aggiornamento delle firme (`freshclam`), la scansione in memoria (`clamd`) e l'esecuzione di scansioni rapide (`clamdscan`) o standalone (`clamscan`). L'installazione su Debian/Ubuntu si effettua tramite `apt install clamav clamav-daemon clamav-freshclam`, con i servizi `clamav-freshclam` e `clamav-daemon` che dovrebbero avviarsi automaticamente.",
+    "hash": "ce531542815a"
+  },
+  "Comandi di base della shell": {
+    "tldr": "La shell è un'interfaccia testuale per interagire con il sistema operativo, interpretando comandi esterni o interni per gestire input/output e risorse. Il prompt del terminale fornisce informazioni contestuali cruciali come utente, host, directory corrente e privilegi di esecuzione.",
+    "hash": "86583a1f2168"
+  },
+  "Tecniche algoritmiche per dev Java": {
+    "tldr": "Questa guida pratica si concentra sull'utilizzo di Java 17+ e delle strutture dati standard (`List`, `Set`, `Map`) per risolvere problemi comuni con collezioni di dati. Illustra tecniche per l'iterazione e l'aggregazione, confrontando implementazioni imperative e funzionali con Stream API, inclusa l'analisi della complessità computazionale.",
+    "hash": "9dccbc4a38d4"
+  },
+  "Fondamenti di informatica": {
+    "tldr": "L'ICT comprende le tecnologie per la gestione digitale delle informazioni, fondamentale per le operazioni aziendali moderne, mentre l'hardware rappresenta la componente fisica dei sistemi informatici, inseparabile dal software per il loro funzionamento. I diversi tipi di computer, dai supercomputer ai personal computer, sono ottimizzati per specifiche applicazioni e volumi di elaborazione.",
+    "hash": "fd6ed9c3472e"
+  },
+  "Guida completa a powershell": {
+    "tldr": "PowerShell, uno shell e linguaggio di scripting orientato agli oggetti, manipola oggetti strutturati tramite cmdlet per un'automazione e gestione sistemistica potente. Si raccomanda PowerShell 7+ per la sua natura cross-platform, open source e basata sul runtime .NET moderno, distinguendosi dal legacy Windows PowerShell 5.1.",
+    "hash": "354553c63539"
+  },
+  "Fondamenti di Sicurezza Informatica": {
+    "tldr": "La cybersecurity protegge sistemi e dati da minacce digitali attraverso un approccio olistico che va oltre il perimetro tradizionale, adottando modelli come la Zero Trust Architecture. Il settore offre ruoli specialistici come analisti, penetration tester e incident responder, operanti in contesti come SOC e CERT, conformemente a normative quali NIS2 e ISO 27001.",
+    "hash": "a4e6f8ab27db"
   }
 }
