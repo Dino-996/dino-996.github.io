@@ -175,6 +175,39 @@ export default function (eleventyConfig) {
         return null;
     });
 
+    eleventyConfig.addFilter("breadcrumbs", (url) => {
+        if (!url) return [{ label: "Home", url: "/" }];
+        const crumbs = [{ label: "Home", url: "/" }];
+        if (url.startsWith("/blog/") && url !== "/blog/") {
+            crumbs.push({ label: "Blog", url: "/blog/" });
+            const match = url.match(/^\/blog\/([^/]+)\//);
+            if (match) {
+                const slug = match[1].replace(/-/g, " ");
+                crumbs.push({ label: slug.charAt(0).toUpperCase() + slug.slice(1) });
+            }
+        } else if (url.startsWith("/courses/")) {
+            crumbs.push({ label: "Percorsi", url: "/courses/" });
+            const match = url.match(/^\/courses\/([^/]+)\//);
+            if (match) {
+                const courseSlug = match[1];
+                crumbs.push({ label: courseSlug.charAt(0).toUpperCase() + courseSlug.slice(1) });
+            }
+        } else if (url.startsWith("/tags/")) {
+            crumbs.push({ label: "Tag", url: "/tags/" });
+            const match = url.match(/^\/tags\/([^/]+)\//);
+            if (match) {
+                const tagSlug = match[1].replace(/-/g, " ");
+                crumbs.push({ label: tagSlug.charAt(0).toUpperCase() + tagSlug.slice(1) });
+            }
+        } else if (url === "/blog/" || url === "/courses/" || url === "/tags/") {
+            // Listing pages - add section name only
+            if (url === "/blog/") crumbs.push({ label: "Blog" });
+            else if (url === "/courses/") crumbs.push({ label: "Percorsi" });
+            else if (url === "/tags/") crumbs.push({ label: "Tag" });
+        }
+        return crumbs;
+    });
+
     eleventyConfig.addFilter("absoluteImageUrl", (url, baseUrl) => {
         if (!url) return "";
         if (url.startsWith("http")) return url;

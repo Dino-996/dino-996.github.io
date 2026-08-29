@@ -2,7 +2,7 @@
 layout: base.njk
 ---
 
-{% set crumbs = [{ label: "Home", url: "/" }, { label: title }] %}
+{% set crumbs = page.url | breadcrumbs %}
 {% include "breadcrumb.njk" %}
 
 {{ content | safe }}

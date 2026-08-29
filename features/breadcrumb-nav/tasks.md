@@ -5,7 +5,7 @@
 ## Dipendenze tra Task
 
 ```
-Task 1 → Task 2 → Task 3 → Task 4
+Task 1 → Task 2 → Task 3 → Task 4 → Task 5 → Task 6
 ```
 
 ---
@@ -33,7 +33,7 @@ Task 1 → Task 2 → Task 3 → Task 4
 **File interessati:** `src/_layouts/page.njk`
 **Durata stimata:** < 2 minuti
 
-- [ ] **Task 3.1:** Generare l'array `crumbs` per una pagina (Home → Titolo) e includere `breadcrumb.njk` sopra `{{ content | safe }}`
+- [x] **Task 3.1:** Usare il filter `breadcrumbs` per generare crumbs dinamicamente basato su URL path
 
 ---
 
@@ -48,13 +48,24 @@ Task 1 → Task 2 → Task 3 → Task 4
 
 ---
 
-## Task 5: Validazione
+## Task 5: Aggiungere filter dinamico breadcrumbs in eleventy.config.js
+
+**File interessati:** `eleventy.config.js`
+**Durata stimata:** < 3 minuti
+
+- [x] **Task 5.1:** Aggiungere filter `breadcrumbs` che genera crumbs basato su URL path (/blog/, /courses/, /tags/)
+- [x] **Task 5.2:** Gestire listing pages (home, /blog/, /courses/, /tags/) vs sottopagine
+
+---
+
+## Task 6: Validazione
 
 **File interessati:** —
 **Durata stimata:** < 1 minuto
 
-- [ ] **Task 5.1:** `npm run lint` → exit 0
-- [ ] **Task 5.2:** `npm run build` → exit 0
+- [x] **Task 6.1:** `npm run lint` → exit 0
+- [x] **Task 6.2:** `npm run build` → exit 0
+- [x] **Task 6.3:** Verifica breadcrumb su /courses/python (Home > Percorsi > Python)
 
 ---
 
