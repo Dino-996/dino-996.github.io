@@ -1,0 +1,12 @@
+---
+permalink: /sitemap-tags.xml
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{%- for tag in collections.tagList %}
+  <url>
+    <loc>{{ site.url }}/tags/{{ tag | slugify }}/</loc>
+  </url>
+{%- endfor %}
+</urlset>

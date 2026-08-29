@@ -1,82 +1,35 @@
-# Piano Tecnico — Sitemap per Categorie
+# Plan — Sitemap Categories
 
 ---
 
-## 1. Componenti e Modelli
+## 1. Approccio Architetturale
 
-### Sitemap tags
+**Obiettivo:** Creare `/sitemap-tags.xml` con tutte le pagine tag.
 
-```xml
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://dino-996.github.io/tags/cybersecurity/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.6</priority>
-  </url>
-</urlset>
-```
-
-### Priorità calcolata
-
-| Numero di post con quel tag | Priority |
-|---|---|
-| 1-2 | 0.4 |
-| 3-5 | 0.6 |
-| 6-10 | 0.7 |
-| > 10 | 0.8 |
+**Approccio:** Nuovo file Nunjucks che itera su `collections.tagList` già disponibile in Eleventy.
 
 ---
 
-## 2. Contratti API / Interfacce
+## 2. File da Creare
 
-Nessun contratto. File XML statico generato da Eleventy.
-
----
-
-## 3. Flusso dei Dati
-
-```
-Build Eleventy
-    ↓
-posts.js → estrae tutti i tag unici con conteggio post
-    ↓
-sitemap-tags.njk (template) → genera sitemap-tags.xml
-    ↓
-sitemap.njk esistente → link a sitemap-tags.xml
-    ↓
-robots.njk → conferma sitemap in robots.txt (già presente)
-```
+| File | Azione |
+|------|--------|
+| `src/tags/sitemap-tags.njk` | Nuovo file con permalink `/sitemap-tags.xml` |
 
 ---
 
-## 4. File Impact List
+## 3. Logica
 
-| File | Azione | Descrizione |
-|---|---|---|
-| `src/sitemap-tags.njk` | CREATE | Template per la generazione di sitemap-tags.xml |
-| `src/sitemap.njk` | MODIFY | Aggiungere <sitemap> link a sitemap-tags.xml |
-| `eleventy.config.js` | MODIFY | Registrare sitemap-tags.xml come output file |
-| `src/_data/posts.js` | MODIFY | Esportare `getAllTags()` con conteggio post |
+- Usare `collections.tagList` per ottenere tutti i tag
+- Per ogni tag, generare un `<url>` con `<loc>` in formato `/tags/<tag | slugify>/`
+- Struttura XML identica a `sitemap.njk` esistente
 
 ---
 
-## 5. Dipendenze Esterne
+## 4. Verifica
 
-Nessuna. La sitemap è un file XML standard.
-
----
-
-## 6. Risk Analysis
-
-| Rischio | Probabilità | Impatto | Mitigazione |
-|---|---|---|---|
-| URL tag non esistente nel build | Bassa | Basso | I tag vengono estratti solo dai post effettivamente presenti |
-| Sitemap vuota | Bassa | Basso | Se non ci sono tag, il file non viene generato |
-
----
-
-## 7. Approvazione
-
-- [ ] Piano rivisto e approvato
-- [ ] File Impact List validato
+- [x] `npm run build` → exit 0, sitemap-tags.xml generato
+- [x] Contiene tutti i tag (113 URL)
+- [x] URL formattati correttamente
+- [x] `npm run lint` → exit 0
+- [x] `npm test` → exit 0
