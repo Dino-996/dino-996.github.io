@@ -8,6 +8,46 @@ layout: base.njk
   {% endif %}
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+  <!-- SEO: JSON-LD Article schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": {{ title | dump }},
+    "url": "{{ site.url }}{{ page.url }}",
+    {% if date %}"datePublished": "{{ page.date | dateIso }}",{% endif %}
+    {% if updatedAt %}"dateModified": "{{ updatedAt | dateIso }}",{% endif %}
+    "author": {
+      "@type": "Person",
+      "name": "{{ author | default(site.author) }}"
+    },
+    {% if image %}"image": "{{ site.url }}{{ image }}",{% endif %}
+    "publisher": {
+      "@type": "Person",
+      "name": "{{ site.author }}"
+    }
+  }
+  </script>
+
+  <!-- SEO: JSON-LD BreadcrumbList schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {% set crumbsList = page.url | breadcrumbs %}
+      {% for crumb in crumbsList %}
+      {
+        "@type": "ListItem",
+        "position": {{ loop.index }},
+        "name": {{ crumb.label | dump }}{% if crumb.url %},
+        "item": "{{ site.url }}{{ crumb.url }}"{% endif %}
+      }{% if not loop.last %},{% endif %}
+      {% endfor %}
+    ]
+  }
+  </script>
 {% endblock %}
 
 <div class="reading-progress-bar" id="reading-progress-bar"></div>

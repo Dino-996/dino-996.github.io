@@ -5,6 +5,24 @@
     {% include "head.njk" %}
     {% block head_extra %}{% endblock %}
 
+    <!-- SEO: JSON-LD WebSite schema (homepage only) -->
+    {% if page.url == "/" %}
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "{{ site.title }}",
+      "url": "{{ site.url }}",
+      "description": "{{ site.description }}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ site.url }}/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+    {% endif %}
+
     <!-- EmailJS -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 

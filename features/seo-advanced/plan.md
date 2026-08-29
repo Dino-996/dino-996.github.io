@@ -1,87 +1,58 @@
-# Piano Tecnico — SEO Advanced
+# Plan — SEO Advanced
 
 ---
 
-## 1. Componenti e Modelli
+## 1. Approccio Architetturale
 
-### Schema Article (JSON-LD)
+**Obiettivo:** Aggiungere JSON-LD structured data per migliorare SEO e visibilità Google.
 
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Titolo del post",
-  "author": { "@type": "Person", "name": "Davide Sabia" },
-  "datePublished": "2024-01-15",
-  "dateModified": "2024-01-16",
-  "image": "https://url-immagine.jpg"
-}
-```
-
-### Schema WebSite (JSON-LD)
-
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "DinoSec",
-  "url": "https://dino-996.github.io",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://dino-996.github.io/search?q={search_term_string}",
-    "query-input": "required name=search_term_string"
-  }
-}
-```
+**Tre schemi richiesti:**
+1. **WebSite** → homepage (`base.njk`)
+2. **Article** → ogni post (`post.njk`, blocco `head_extra`)
+3. **BreadcrumbList** → ogni post (`post.njk`, blocco `head_extra`)
 
 ---
 
-## 2. Contratti API / Interfacce
+## 2. File da Modificare
 
-Nessun contratto. Markup inline nei template Nunjucks.
-
----
-
-## 3. Flusso dei Dati
-
-```
-Build Eleventy
-    ↓
-head.njk → schema WebSite JSON-LD (tutte le pagine)
-post.njk → schema Article JSON-LD (solo post)
-    ↓
-I tag <script type="application/ld+json"> sono nel <head>
-```
+| File | Modifica |
+|------|----------|
+| `src/_layouts/base.njk` | Aggiungere WebSite schema con SearchAction (solo su homepage) |
+| `src/_layouts/post.njk` | Aggiungere Article schema + BreadcrumbList schema nel blocco `head_extra` |
 
 ---
 
-## 4. File Impact List
+## 3. Logica
 
-| File | Azione | Descrizione |
-|---|---|---|
-| `src/_includes/head.njk` | MODIFY | Aggiungere schema WebSite JSON-LD nel <head> |
-| `src/_layouts/post.njk` | MODIFY | Aggiungere schema Article JSON-LD nel <head> del post |
-| `src/_layouts/base.njk` | MODIFY | Canonical URL e title dinamico |
-| `src/assets/css/custom.css` | MODIFY | Eventuali micro-correzioni CSS per meta display |
+### WebSite Schema (homepage)
+- Condizione: `page.url == "/"`
+- Posizione: dopo `{% include "head.njk" %}` e `{% block head_extra %}{% endblock %}`
 
----
+### Article Schema (post)
+- Uso del blocco `head_extra` esistente
+- Campi: headline, url, datePublished, dateModified, author, image, publisher
 
-## 5. Dipendenze Esterne
-
-Nessuna. I structured data sono markup statico generato da Eleventy.
-
----
-
-## 6. Risk Analysis
-
-| Rischio | Probabilità | Impatto | Mitigazione |
-|---|---|---|---|
-| Schema malformato invalidato da Google Rich Results Test | Media | Medio | Validare con Google Rich Results Test dopo il deploy |
-| Duplicate schema (stesso article in più pagine) | Bassa | Basso | Article schema solo in post, mai in page o tag |
+### BreadcrumbList Schema (post)
+- Uso del filter `breadcrumbs` già esistente
+- Mappa ogni crumb in ListItem con position, name, item
 
 ---
 
-## 7. Approvazione
+## 4. Casi Limite
 
-- [ ] Piano rivisto e approvato
-- [ ] File Impact List validato
+| Caso | Comportamento |
+|------|---------------|
+| Post senza immagine | Campo `image` omesso dal JSON-LD |
+| Post senza updatedAt | Campo `dateModified` omesso |
+| Breadcrumb senza URL (label finale) | Campo `item` omesso |
+
+---
+
+## 5. Verifica
+
+- [x] `npm run build` → exit 0
+- [x] Homepage contiene WebSite schema valido
+- [x] Post contiene Article schema
+- [x] Post contiene BreadcrumbList schema
+- [x] `npm run lint` → exit 0
+- [x] `npm test` → exit 0

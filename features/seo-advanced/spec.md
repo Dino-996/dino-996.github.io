@@ -5,55 +5,95 @@
 ## 1. Contesto e Obiettivo
 
 **Problema di business:**
-Il blog ha le basi SEO (meta description, Open Graph, canonical URL) ma manca lo structured data schema.org per gli articoli, che migliora la visibilità nei risultati di ricerca con snippet arricchiti (ricette, star rating, breadcrumb nei SERP). Inoltre alcune pagine hanno title e meta description generici che non maximizzano il CTR.
+Il blog manca di structured data per migliorare la visibilità nei motori di ricerca. Google non trova i dati semanticamente strutturati per articoli, homepage e pagine di categorie.
 
-**Risultato atteso:**
-Ogni post include un tag `<script type="application/ld+json">` con schema `Article`, la homepage include schema `WebSite` con ricerca站内, e i title tag sono ottimizzati per ogni pagina.
-
----
-
-## 2. Requisiti Funzionali (Happy Path)
-
-| # | Azione | Risposta / Comportamento |
-|---|---|---|
-| 1 | Googlebot indicizza un post | Lo structured data Article è presente e validato |
-| 2 | Utente condivide un post su social | L'Open Graph mostra thumbnail, titolo e descrizione corretti |
-| 3 | Utente cerca qualcosa nel blog (motori con barra di ricerca) | Lo schema WebSite abilita la ricerca站内 |
-| 4 | Il title tag di ogni pagina è unico e descrittivo | Ogni pagina ha `<title>Pagina · BlogName</title>` |
+**Obiettivo:**
+Aggiungere JSON-LD structured data per:
+- **WebSite** (search box) nella homepage
+- **Article** (blog post) in ogni articolo
+- **BreadcrumbList** per le pagine dei post
 
 ---
 
-## 3. Casi Limite ed Errori (Edge Cases)
+## 2. Structured Data Richiesti
 
-| Condizione | Comportamento atteso |
-|---|---|
-| Post senza autore specificato | L'autore è il default da `site.json` |
-| Post senza data modificata (solo data pubblicazione) | `dateModified` = `datePublished` |
-| Post senza immagine | Lo schema Article usa l'immagine di default OG |
-| La pagina è una pagina statica (non un post) | Nessuno schema Article, ma canonical e title restano corretti |
+### WebSite Schema (homepage)
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "dino-996 blog",
+  "url": "https://dino-996.github.io/",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://dino-996.github.io/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+```
+
+### Article Schema (ogni post)
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Titolo articolo",
+  "url": "https://dino-996.github.io/percorso/articolo",
+  "datePublished": "2025-01-15",
+  "dateModified": "2025-01-20",
+  "author": {
+    "@type": "Person",
+    "name": "Davide Sabia"
+  },
+  "image": "https://dino-996.github.io/immagini/cover.jpg"
+}
+```
+
+### BreadcrumbList Schema (post)
+```json
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://dino-996.github.io/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://dino-996.github.io/blog/" },
+    { "@type": "ListItem", "position": 3, "name": "Titolo Articolo" }
+  ]
+}
+```
 
 ---
 
-## 4. Criteri di Accettazione
+## 3. Output Atteso
 
-- [ ] Ogni post ha un tag `<script type="application/ld+json">` con schema `Article` valido
-- [ ] Lo schema include: `@type: Article`, `headline`, `author`, `datePublished`, `dateModified`, `image`
-- [ ] La homepage ha schema `WebSite` con `potentialAction` SearchAction
-- [ ] Tutte le pagine hanno title univoco (non generico)
-- [ ] Il canonical URL è sempre presente su ogni pagina
-- [ ] `npm run lint` termina senza errori
-- [ ] `npm run build` termina con exit code 0
+- Homepage: tag `<script type="application/ld+json">` con WebSite schema nel `<head>`
+- Post: tag `<script type="application/ld+json">` con Article schema nel `<head>`
+- Post: tag `<script type="application/ld+json">` con BreadcrumbList schema nel `<head>`
+- Pagina tag: nessuno schema (non necessario per ora)
 
 ---
 
-## 5. Dipendenze
+## 4. Vincoli
 
-- [ ] `head.njk` come punto di iniezione degli structured data
-- [ ] `post.njk` per iniettare lo schema Article per ogni post
-- [ ] `site.json` per author e url di default
+- I tag JSON-LD vanno nel `<head>` (via `{% block head_extra %}`)
+- Non modificare la struttura HTML esistente
+- Nessuna logica di business nei template — usare filtri esistenti o creare filtri ad-hoc
+- Reutilizzare le variabili esistenti: `title`, `page.url`, `date`, `image`, `author`
 
 ---
 
-## 6. Retrocompatibilità
+## 5. Criteri di Accettazione
 
-Nessun comportamento esistente viene modificato. Gli structured data sono silenziosi: non alterano il rendering visivo. Se lo schema è malformato, i motori lo ignorano senza danni.
+- [ ] `npm run build` → exit 0
+- [ ] Homepage contiene WebSite schema valido
+- [ ] Post contiene Article schema + BreadcrumbList schema
+- [ ] Nessun errore di validazione JSON-LD
+- [ ] `npm run lint` → exit 0
+- [ ] `npm test` → exit 0
+
+---
+
+## 6. File da Modificare
+
+- `src/_layouts/base.njk` — iniettare WebSite schema nella homepage
+- `src/_layouts/post.njk` — iniettare Article + BreadcrumbList schema nel blocco `head_extra`

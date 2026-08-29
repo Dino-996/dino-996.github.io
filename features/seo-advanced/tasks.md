@@ -5,54 +5,45 @@
 ## Dipendenze tra Task
 
 ```
-Task 1 → Task 2 → Task 3 → Task 4
+Task 1 → Task 2 → Task 3
 ```
 
 ---
 
-## Task 1: Leggere i template esistenti
-
-**File interessati:** `src/_includes/head.njk`, `src/_layouts/post.njk`, `src/_layouts/base.njk`
+## Task 1: Aggiungere WebSite Schema in `base.njk` ✅
+**File interessati:** `src/_layouts/base.njk`
 **Durata stimata:** < 3 minuti
 
-- [ ] **Task 1.1:** Leggere `head.njk` per capire la struttura del `<head>` e dove sono gli meta tag esistenti
-- [ ] **Task 1.2:** Leggere `post.njk` e `base.njk` per capire come vengono passati i dati di pagina
+- [x] **Task 1.1:** Aggiungere WebSite JSON-LD schema nel `<head>` di base.njk (solo homepage `page.url == "/"`)
+- [x] **Task 1.2:** Includere SearchAction per la search box
 
 ---
 
-## Task 2: Aggiungere schema WebSite in head.njk
-
-**File interessati:** `src/_includes/head.njk`
-**Durata stimata:** < 3 minuti
-
-- [ ] **Task 2.1:** Aggiungere `<script type="application/ld+json">` con schema `WebSite` e `SearchAction` nel `<head>`
-
----
-
-## Task 3: Aggiungere schema Article in post.njk
-
+## Task 2: Aggiungere Article + BreadcrumbList Schema in `post.njk` ✅
 **File interessati:** `src/_layouts/post.njk`
 **Durata stimata:** < 3 minuti
 
-- [ ] **Task 3.1:** Aggiungere `<script type="application/ld+json">` con schema `Article` (headline, author, datePublished, dateModified, image)
-- [ ] **Task 3.2:** Usare i dati del frontmatter del post per popolare i campi dello schema
+- [x] **Task 2.1:** Aggiungere Article schema nel blocco `head_extra`
+- [x] **Task 2.2:** Aggiungere BreadcrumbList schema usando il filter `breadcrumbs`
+- [x] **Task 2.3:** Gestire i casi limine (senza image, senza updatedAt, label finale senza URL)
 
 ---
 
-## Task 4: Ottimizzare title tag
-
-**File interessati:** `src/_layouts/base.njk`, `src/_includes/head.njk`
-**Durata stimata:** < 3 minuti
-
-- [ ] **Task 4.1:** Verificare che ogni pagina abbia un title unico nel formato `Titolo Pagina · DinoSec`
-- [ ] **Task 4.2:** Aggiungere canonical URL se non presente
-
----
-
-## Task 5: Validazione
-
+## Task 3: Validazione e Test ✅
 **File interessati:** —
-**Durata stimata:** < 1 minuto
+**Durata stimata:** < 2 minuti
 
-- [ ] **Task 5.1:** `npm run lint` → exit 0
-- [ ] **Task 5.2:** `npm run build` → exit 0
+- [x] **Task 3.1:** `npm run build` → exit 0
+- [x] **Task 3.2:** Verificare WebSite schema nella homepage (JSON.parse valido ✅)
+- [x] **Task 3.3:** Verificare Article schema nei post
+- [x] **Task 3.4:** Verificare BreadcrumbList schema nei post
+- [x] **Task 3.5:** `npm run lint` → exit 0
+- [x] **Task 3.6:** `npm test` → exit 0 (6/6 pass)
+
+---
+
+## Stato dei Task
+
+- [x] **Task 1: Aggiungere WebSite Schema in `base.njk`**
+- [x] **Task 2: Aggiungere Article + BreadcrumbList Schema in `post.njk`**
+- [x] **Task 3: Validazione e Test**
