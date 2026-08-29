@@ -1,5 +1,5 @@
-{% macro featuredArticle() %}
-{% set featured = featuredArticleData | default({}) %}
+{% macro featuredArticle(featured) %}
+{% set featured = featured | default({}) %}
 
 {% if featured.title or featured.url %}
 <article class="featured-article mb-6">
@@ -28,7 +28,7 @@
       <time datetime="{{ featured.date | dateIso }}">{{ featured.date | dateHuman }}</time>
       {% endif %}
       {% if featured.author %}
-      {% if featured.date %}·{% endif %}<span>{{ featured.author }}</span>
+      {% if featured.date %} · {% endif %}<span>{{ featured.author }}</span>
       {% endif %}
     </div>
   </div>

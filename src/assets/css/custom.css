@@ -509,7 +509,7 @@ p { margin: 0 0 1em; line-height: 1.6; }
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  padding: 3px 8px;
+  padding: 3px 6px;
   line-height: 1;
 }
 
@@ -2159,7 +2159,6 @@ code {
   margin-top: var(--space-4, 2rem);
   margin-bottom: var(--space-4, 2rem);
   padding: var(--space-3, 1.5rem);
-  border: 1px solid var(--border, #e5e7eb);
   border-radius: 0;
   background: var(--surface-raised, #f9fafb);
 }
