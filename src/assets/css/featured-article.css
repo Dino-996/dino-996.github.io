@@ -1,0 +1,75 @@
+/* FeaturedArticle CSS Component
+   Design sistema gradient card con variabili CSS esistenti
+*/
+
+.featured-article {
+  /* Card layout principale - gradient visivo coerente */
+  position: relative;
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+  box-shadow: var(--shadow-xl);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.featured-article:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-2xl);
+}
+
+.featured-article-image {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+}
+
+.featured-article-content {
+  padding: 1.5rem;
+  color: var(--text-on-primary, #ffffff);
+}
+
+.featured-article-title {
+  margin: 0.5rem 0 0.75rem 0;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  font-weight: 700;
+}
+
+.featured-article-title a {
+  color: inherit;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.featured-article-title a:hover {
+  opacity: 0.8;
+}
+
+.featured-article-excerpt {
+  margin: 0.75rem 0;
+  line-height: 1.6;
+  opacity: 0.9;
+  font-size: 0.95rem;
+}
+
+.article-item-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin-top: 1rem;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .featured-article-title {
+    font-size: 1.25rem;
+  }
+  
+  .featured-article-content {
+    padding: 1.25rem;
+  }
+}

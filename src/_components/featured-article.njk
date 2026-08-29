@@ -1,0 +1,37 @@
+{% macro featuredArticle() %}
+{% set featured = featuredArticleData | default({}) %}
+
+{% if featured.title or featured.url %}
+<article class="featured-article mb-6">
+  {% if featured.image %}
+  <img src="{{ featured.image }}"
+       alt="{{ featured.imageAlt | default(featured.title) | default('Featured article image') }}"
+       class="featured-article-image"
+       loading="eager"
+       fetchpriority="high">
+  {% endif %}
+  <div class="featured-article-content">
+    {% if featured.strapiTags %}
+      {% set topTag = featured.strapiTags.split(",") | first | trim %}
+      {% if topTag and topTag != "posts" %}
+      <a href="/tags/{{ topTag | slugify }}/" class="badge badge-category" style="align-self: flex-start;">{{ topTag }}</a>
+      {% endif %}
+    {% endif %}
+    <h1 class="featured-article-title">
+      <a href="{{ featured.url }}">{{ featured.title }}</a>
+    </h1>
+    {% if featured.description %}
+    <p class="featured-article-excerpt">{{ featured.description }}</p>
+    {% endif %}
+    <div class="article-item-meta">
+      {% if featured.date %}
+      <time datetime="{{ featured.date | dateIso }}">{{ featured.date | dateHuman }}</time>
+      {% endif %}
+      {% if featured.author %}
+      {% if featured.date %}·{% endif %}<span>{{ featured.author }}</span>
+      {% endif %}
+    </div>
+  </div>
+</article>
+{% endif %}
+{% endmacro %}

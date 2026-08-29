@@ -4,6 +4,7 @@ title: Home
 ---
 
 {% from "article-card.njk" import gridCard %}
+{% from "_components/featured-article.njk" import featuredArticle %}
 
 <div class="grid-12">
   <!-- Main content -->
@@ -13,36 +14,8 @@ title: Home
     {% set firstPost = allPosts | first %}
 
     {% if firstPost %}
-    <!-- Featured Article -->
-    <article class="featured-article mb-6">
-      {% if firstPost.image %}
-      <img src="{{ firstPost.image }}"
-           alt="{{ firstPost.imageAlt | default(firstPost.title) }}"
-           class="featured-article-image"
-           loading="eager"
-           fetchpriority="high">
-      {% endif %}
-      <div class="featured-article-content">
-        {% if firstPost.strapiTags %}
-          {% set topTag = firstPost.strapiTags.split(",") | first | trim %}
-          {% if topTag and topTag != "posts" %}
-          <a href="/tags/{{ topTag | slugify }}/" class="badge badge-category" style="align-self: flex-start;">{{ topTag }}</a>
-          {% endif %}
-        {% endif %}
-        <h1 class="featured-article-title">
-          <a href="{{ firstPost.url }}">{{ firstPost.title }}</a>
-        </h1>
-        {% if firstPost.description %}
-        <p class="featured-article-excerpt">{{ firstPost.description }}</p>
-        {% endif %}
-        <div class="article-item-meta">
-          <time datetime="{{ firstPost.date | dateIso }}">{{ firstPost.date | dateHuman }}</time>
-          {% if firstPost.author %}
-           · <span>{{ firstPost.author }}</span>
-          {% endif %}
-        </div>
-      </div>
-    </article>
+    {% set featuredArticleData = firstPost %}
+    {{ featuredArticle() }}
     {% endif %}
 
     {% if allPosts | length > 1 %}
