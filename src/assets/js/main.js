@@ -1,6 +1,41 @@
 "use strict";
 (function () {
     // ===========================================
+    // = THEME TOGGLE
+    // ===========================================
+
+    function initThemeToggle() {
+        const btn = document.getElementById('theme-toggle');
+        const sunIcon = document.getElementById('theme-icon-sun');
+        const moonIcon = document.getElementById('theme-icon-moon');
+        if (!btn) return;
+
+        function getPreferredTheme() {
+            const stored = localStorage.getItem('theme');
+            if (stored) return stored;
+            return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        }
+
+        function applyTheme(theme) {
+            document.documentElement.setAttribute('data-bs-theme', theme);
+            localStorage.setItem('theme', theme);
+            if (sunIcon && moonIcon) {
+                sunIcon.style.display = theme === 'dark' ? 'block' : 'none';
+                moonIcon.style.display = theme === 'dark' ? 'none' : 'block';
+            }
+            syncGiscusTheme(theme);
+        }
+
+        btn.addEventListener('click', function () {
+            const current = document.documentElement.getAttribute('data-bs-theme') || 'light';
+            applyTheme(current === 'dark' ? 'light' : 'dark');
+        });
+
+        // Apply saved or OS preference on load
+        applyTheme(getPreferredTheme());
+    }
+
+    // ===========================================
     // = OS THEME — GISCUS SYNC
     // ===========================================
 
@@ -449,5 +484,8 @@
     }
 
     console.log('✨ DinoSec loaded successfully!');
+
+    // Init theme toggle
+    initThemeToggle();
 
 })();

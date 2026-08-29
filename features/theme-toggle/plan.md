@@ -1,81 +1,46 @@
-# Piano Tecnico — Theme Toggle
+# Plan — Theme Toggle
 
 ---
 
-## 1. Componenti e Modelli
+## 1. Approccio Architetturale
 
-Nessuna nuova struttura dati. L'intervento è su HTML (toggle), CSS (tema switch) e JS (persistenza).
-
-### Schema HTML del toggle
-
-```html
-<button
-  id="theme-toggle"
-  aria-label="Attiva tema scuro"
-  title="Cambia tema">
-  <!-- icona sole o luna, commutata via JS -->
-</button>
-```
-
-### Schema CSS
-
-```css
-:root { --bg: #ffffff; --text: #1a1a1a; }
-[data-theme="dark"] { --bg: #1a1a1a; --text: #ffffff; }
-```
+**Obiettivo:** Bottone toggle nel navbar per alternare manualmente tra tema chiaro e scuro, con persistenza in localStorage.
 
 ---
 
-## 2. Contratti API / Interfacce
+## 2. File da Modificare
 
-Nessun contratto API. L'interfaccia è un bottone nel DOM che:
-- Al click commuta `data-theme` su `<html>`
-- Salva/legge da `localStorage` la chiave `theme`
-
----
-
-## 3. Flusso dei Dati
-
-```
-Prima visita (nessun localStorage)
-    ↓
-JS legge prefers-color-scheme → imposta data-theme sull'html
-    ↓
-Utente clicca toggle
-    ↓
-JS toggla data-theme (dark↔light) + salva in localStorage
-    ↓
-CSS applica le variabili in base a data-theme
-```
+| File | Modifica |
+|------|----------|
+| `src/_includes/navbar.njk` | Aggiungere bottone toggle con SVG sun/moon icons |
+| `src/assets/css/custom.css` | Stili per `.theme-toggle-btn` + completare CSS variables dark |
+| `src/assets/js/main.js` | Funzione `initThemeToggle()` con logica completa |
 
 ---
 
-## 4. File Impact List
+## 3. Logica JS
 
-| File | Azione | Descrizione |
-|---|---|---|
-| `src/_includes/navbar.njk` | MODIFY | Aggiungere il bottone toggle nel navbar |
-| `src/assets/js/main.js` | MODIFY | Aggiungere logica toggle + localStorage + prefers-color-scheme init |
-| `src/assets/css/custom.css` | MODIFY | Aggiungere stili per il bottone toggle e animazione |
-
----
-
-## 5. Dipendenze Esterne
-
-Nessuna. Solo CSS e JS vanilla.
+1. `getPreferredTheme()`: legge `localStorage.theme` → fallback `prefers-color-scheme`
+2. `applyTheme(theme)`: setta `data-bs-theme` su `<html>`, salva in localStorage, gestisce icon visibility, sincronizza Giscus
+3. Click listener sul bottone: alterna light ↔ dark
+4. Init: applica tema preferito all'avvio
 
 ---
 
-## 6. Risk Analysis
+## 4. Casi Limite
 
-| Rischio | Probabilità | Impatto | Mitigazione |
-|---|---|---|---|
-| FOUC (flash of unstyled content) al primo caricamento | Media | Basso | Inline `<script>` nel `<head>` che setta il tema prima del render |
-| localStorage non disponibile | Bassa | Basso | Fallback a prefers-color-scheme |
+| Caso | Comportamento |
+|------|---------------|
+| localStorage non disponibile | Fallback `prefers-color-scheme` |
+| JS disabilitato | CSS media query gestisce il tema (comportamento invariato) |
+| Nessuna preferenza OS | Default light |
 
 ---
 
-## 7. Approvazione
+## 5. Verifica
 
-- [ ] Piano rivisto e approvato
-- [ ] File Impact List validato
+- [x] `npm run build` → exit 0
+- [x] Bottone toggle visibile nel navbar (header-right)
+- [x] Sun/Moon icons presenti
+- [x] `npm run lint` → exit 0
+- [x] `npm test` → exit 0

@@ -57,12 +57,40 @@
 }
 
 /* ========================================
+   Theme Toggle Button
+   ======================================== */
+.theme-toggle-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  cursor: pointer;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
+}
+.theme-toggle-btn:hover {
+  background: var(--surface-raised);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.theme-toggle-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ========================================
    Dark Mode
    ======================================== */
 [data-bs-theme="dark"] {
   --surface: #121214;
   --surface-dim: #0a0a0c;
   --surface-bright: #38383a;
+  --bg: #0e0e10;
+  --bg-secondary: #16161a;
+  --surface-raised: #1c1c20;
   --surface-container: #1e1e20;
   --surface-container-low: #1a1a1c;
   --surface-container-high: #29292b;
@@ -72,6 +100,11 @@
   --sidebar-bg: #18181a;
   --on-surface: #e8e8e8;
   --on-surface-variant: #90a890;
+  --border: #2a2a30;
+  --border-subtle: #2a2a2a;
+  --text: #e8e8ec;
+  --text-secondary: #9898a4;
+  --text-muted: #68687a;
   --primary: #81c784;
   --primary-container: #1b5e20;
   --on-primary: #1a1c1c;
@@ -87,6 +120,24 @@
   --tertiary-container: #464747;
   --on-tertiary: #1a1c1c;
   --on-tertiary-container: #e4e2e2;
+  --primary-hover: #6a58e0;
+  --primary-rgb: 124, 106, 247;
+  --primary-bg: rgba(124, 106, 247, 0.1);
+  --success: #4caf7d;
+  --warning: #e6a23c;
+  --danger: #e05252;
+  --link: #8f9eff;
+  --link-hover: #b3bfff;
+  --code-bg: #1e1e24;
+  --pre-bg: #1a1a1e;
+  --table-border: #2a2a30;
+  --table-stripe: #121214;
+  --table-hover: #1c1c22;
+  --shadow: rgba(0, 0, 0, 0.4);
+  --shadow-sm: rgba(0, 0, 0, 0.25);
+  --shadow-md: rgba(0, 0, 0, 0.35);
+  --shadow-lg: rgba(0, 0, 0, 0.5);
+  --shadow-color: rgba(0, 0, 0, 0.3);
   --outline: #6a7e6a;
   --outline-variant: #3a4d3a;
   --error: #ffb4ab;
