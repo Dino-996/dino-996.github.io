@@ -164,6 +164,11 @@ export default function (eleventyConfig) {
         return arr.slice(0, limit);
     });
 
+    eleventyConfig.addFilter("sliceFrom", (arr, start, count) => {
+        if (!Array.isArray(arr)) return [];
+        return arr.slice(start, start + count);
+    });
+
     eleventyConfig.addFilter("courseForUrl", (courses, url) => {
         if (!Array.isArray(courses)) return null;
         for (const c of courses) {

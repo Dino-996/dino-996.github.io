@@ -10,12 +10,11 @@ title: Home
   <!-- Main content -->
   <div class="md-col-span-9">
 
-    {% set allPosts = posts | default([]) %}
+    {% set allPosts = posts %}
     {% set firstPost = allPosts | first %}
 
     {% if firstPost %}
-    {% set featuredArticleData = firstPost %}
-    {{ featuredArticle() }}
+    {{ featuredArticle(firstPost) }}
     {% endif %}
 
     {% if allPosts | length > 1 %}
@@ -51,18 +50,21 @@ title: Home
     </div>
 
     {% if allPosts | length > 0 %}
-    <!-- Intanto -->
-      <div class="sidebar-card">
+    {# Intanto: 4 articles from the middle onwards (ceil of total / 2) #}
+    {% set totalPosts = allPosts | length %}
+    {% set midpoint = ((totalPosts + 1) / 2) | round(0, 'ceil') | int %}
+    {% set intantoPosts = allPosts | sliceFrom(midpoint, 4) %}
+    {% if intantoPosts | length > 0 %}
+    <div class="sidebar-card">
       <div class="sidebar-card-title" style="font-size: 1rem;">Intanto</div>
-      {% for post in allPosts %}
-      {% if loop.index0 < 4 %}
+      {% for post in intantoPosts %}
       <div class="sidebar-news-item">
         <a href="{{ post.url }}">{{ post.title }}</a>
         <div class="date">{{ post.date | dateHuman }}</div>
       </div>
-      {% endif %}
       {% endfor %}
     </div>
+    {% endif %}
     {% endif %}
 
     <!-- Newsletter -->
