@@ -1,58 +1,37 @@
-# Piano Tecnico — Worker.js Lint
+# Plan — Worker JS Lint
 
 ---
 
-## 1. Componenti e Modelli
+## 1. Approccio Architetturale
 
-Nessuna nuova struttura dati. L'intervento è solo sulla configurazione ESLint.
+**Obiettivo:** Includere `worker.js` nel linting ESLint con globals appropriati per l'ambiente Cloudflare Workers.
 
----
-
-## 2. Contratti API / Interfacce
-
-Nessuna modifica a contratti. Lo script `npm run lint` continua a chiamare `eslint src/assets/js src/lib`.
+**Approccio:** Modificare `eslint.config.js` per:
+1. Rimuovere `worker.js` dalla lista `ignores`
+2. Aggiungere un blocco dedicato con `globals.serviceworker` + Cloudflare Workers globals
 
 ---
 
-## 3. Flusso dei Dati
+## 2. File da Modificare
 
-```
-npm run lint
-    ↓
-eslint.config.js — aggiungere un 4° contesto per worker.js
-    ↓
-ESLint valida worker.js con globals Cloudflare Workers
-```
+| File | Modifica |
+|------|----------|
+| `eslint.config.js` | Rimuovere ignore + aggiungere blocco dedicato |
+| `src/assets/js/worker.js` | Rimuovere parametro `ctx` non usato |
 
 ---
 
-## 4. File Impact List
+## 3. Globals Necessari
 
-| File | Azione | Descrizione |
-|---|---|---|
-| `eslint.config.js` | MODIFY | Aggiungere contesto `worker` per `src/assets/js/worker.js` con `globals.serviceworker` + `globals.env` |
-
----
-
-## 5. Dipendenze Esterne
-
-| Risorsa | Versione | Uso |
-|---|---|---|
-| globals | ^15.x | `globals.serviceworker` già presente, `globals.env` per `env` |
-| ESLint flat config | ^9.x | Struttura già in uso |
+| Global | Tipo | Motivo |
+|--------|------|--------|
+| `globals.serviceworker` | readonly | Response, Request, Headers, fetch, JSON, etc. |
+| `env` | readonly | Cloudflare Workers `env` parameter |
+| `waitUntil` | readonly | Cloudflare Workers `ctx.waitUntil` |
 
 ---
 
-## 6. Risk Analysis
+## 4. Verifica
 
-| Rischio | Probabilità | Impatto | Mitigazione |
-|---|---|---|---|
-| Errore di configurazione che rompe il lint per tutti i file | Bassa | Alto | Testare su worker.js in isolation prima del merge |
-| Falsi positivi su `env` (non è un global standard) | Media | Basso | Definire `env` come commento `/* global env */` o nel globals config |
-
----
-
-## 7. Approvazione
-
-- [ ] Piano rivisto e approvato
-- [ ] File Impact List validato
+- [x] `npm run lint` → exit 0
+- [x] `worker.js` incluso nel lint output (non ignorato)

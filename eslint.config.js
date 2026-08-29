@@ -49,10 +49,20 @@ export default [
     rules: sharedRules,
   },
   {
-    ignores: ["dist/**", "node_modules/**", "src/assets/js/worker.js"],
-    // worker.js escluso dal linting generico: e' un file critico (sezione 6
-    // della costituzione, ambiente Cloudflare Worker) — se serve linting va
-    // aggiunto un blocco dedicato con globals.serviceworker + globals delle
-    // API Cloudflare (env, ctx, ecc.).
+    // Cloudflare Worker — worker.js
+    files: ["src/assets/js/worker.js"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: {
+        ...globals.serviceworker,
+        env: "readonly",     // Cloudflare Workers env parameter
+        waitUntil: "readonly", // Cloudflare Workers ctx.waitUntil
+      },
+    },
+    rules: sharedRules,
+  },
+  {
+    ignores: ["dist/**", "node_modules/**"],
   },
 ];
