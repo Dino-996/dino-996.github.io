@@ -115,9 +115,3 @@ coverage/
 *.bak
 *.backup
 .sass-cache/
-
-# ===================================
-# = LLM
-# ===================================
-DEEPSEEK.md
-create_post.js

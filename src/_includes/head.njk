@@ -67,8 +67,5 @@
 
 {% if analyticsWebsiteId %}
 {# Umami Cloud — analytics privacy-first, no cookie, rispetta DNT #}
-<script async defer
-  src="{{ analyticsScriptUrl }}"
-  data-website-id="{{ analyticsWebsiteId }}"
-  data-do-not-track="true"></script>
+  <script defer src="{{ analyticsScriptUrl }}" data-website-id="{{ analyticsWebsiteId }}"></script>
 {% endif %}
