@@ -1,72 +1,96 @@
-# Piano Tecnico — Related Posts
+# Plan — Related Posts
 
 ---
 
-## 1. Componenti e Modelli
+## 1. Approccio Architetturale
 
-Nessuna nuova struttura dati. L'algoritmo di correlazione opera su array di post già disponibili in Eleventy.
-
-### Algoritmo di scoring
-
-Per ogni post `P` nel blog:
-1. `score = count(tags_in_common(P, current_post))`
-2. `score += 1` se il post è pubblicato entro 6 mesi dal post corrente
-3. Ordinare per score decrescente, poi per data decrescente
-
-### Output
-
-Array di massimo 3 post correlati, già preparato nel frontmatter o come global data.
+**Dove:** `src/_layouts/post.njk` — dopo la sezione Prev/Next, prima dei Commenti.
+**Come:** Filtro `relatedPosts` in `eleventy.config.js` che prende i post attuali, gli ID dei tag, e restituisce i 2-3 post più correlati.
+**Fallback:** Se non ci sono post correlati per tag, mostra i post più recenti (max 3).
 
 ---
 
-## 2. Contratti API / Interfacce
+## 2. File da Modificare
 
-Nessun contratto API. Filtaggio in fase di build Eleventy.
+| File | Modifica |
+|------|----------|
+| `eleventy.config.js` | Aggiungere filter `relatedPosts(posts, currentUrl, tags, limit)` |
+| `features/related-posts/tasks.md` | Aggiornare task come completati |
 
 ---
 
-## 3. Flusso dei Dati
+## 3. Logica del Filter
 
 ```
-Build Eleventy
-    ↓
-posts.js espone tutti i post con tags e date
-    ↓
-Per ogni post, calcola i 3 correlati ( algoritmo di scoring )
-    ↓
-Il risultato è disponibile come proprietà del post nel template
-    ↓
-post.njk → sezione "Potrebbe interessarti" → partial article-card.njk
+relatedPosts(posts, currentUrl, tags, limit=3):
+  1. Filtra via i post con lo stesso URL del post corrente
+  2. Per ogni post rimanente, conta quanti tag ha in comune con tags[]
+  3. Ordina per: (a) tag in comune (desc), (b) data (desc)
+  4. Restituisce i primi `limit` post
+  5. Se < limit trovati, riempi con i post più recenti (escludendo già aggiunti)
 ```
 
 ---
 
-## 4. File Impact List
+## 4. Output del Filter
 
-| File | Azione | Descrizione |
-|---|---|---|
-| `src/_data/posts.js` | MODIFY | Aggiungere funzione `getRelatedPosts(post, limit)` e popolare `related` nel frontmatter |
-| `src/_layouts/post.njk` | MODIFY | Aggiungere sezione相关性 in fondo al post |
-| `src/_includes/article-card.njk` | CREATE | Partial card per un singolo post correlato |
-
----
-
-## 5. Dipendenze Esterne
-
-Nessuna. Solo Eleventy e Nunjucks.
+Array di oggetti con:
+```js
+{ url, title, date, strapiTags (primo tag), image, imageAlt }
+```
 
 ---
 
-## 6. Risk Analysis
+## 5. Template Injection Point
 
-| Rischio | Probabilità | Impatto | Mitigazione |
-|---|---|---|---|
-| Build-time lento con molti post | Bassa | Medio | Caching dei post correlati; calcolo on-demand nel loop |
-| Ciclo di dipendenze (post A ← post B ← post A) | Impossibile | — | L'algoritmo è unidirezionale |
+In `post.njk`, dopo la sezione Prev/Next (linea 162 `{% endif %}`) e prima della sezione Commenti (linea 164):
+
+```njk
+{% set related = posts | relatedPosts(page.url, tags) %}
+{% if related | length > 0 %}
+<section class="related-posts">
+  <h2>Potrebbe interessarti</h2>
+  <div class="related-posts-grid">
+    {% for rp in related %}
+    <a href="{{ rp.url }}" class="related-post-card">
+      {% if rp.image %}
+      <img src="{{ rp.image }}" alt="{{ rp.imageAlt | default(rp.title) }}" loading="lazy">
+      {% endif %}
+      <div class="related-post-content">
+        <span class="badge badge-category">{{ rp.strapiTags }}</span>
+        <h3>{{ rp.title }}</h3>
+        <time>{{ rp.date | dateHuman }}</time>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+```
 
 ---
 
-## 7. Approvazione
+## 6. Stile CSS
 
-- [ ] Piano rivisto e approvato
-- [ ] File Impact List validato
+Usare classi CSS esistenti (`.badge-category`, `.article-item-meta`) per coerenza.
+Se servono stili aggiuntivi, aggiungerli in `custom.css` con prefisso `.related-posts`.
+
+---
+
+## 7. Casi Limite
+
+| Caso | Comportamento |
+|------|---------------|
+| Post senza tag | Filter restituisce array vuoto → sezione non mostrata |
+| Solo 1 post correlato | Mostra solo quello |
+| Nessun post correlato E nessun altro post | Sezione non mostrata |
+| URL post non trovato nei posts | Filter restituisce [] |
+
+---
+
+## 8. Verifica
+
+- [ ] `npm run build` → exit 0
+- [ ] Post con tag mostrano sezione "Potrebbe interessarti" con 2-3 card
+- [ ] Post senza tag NON mostrano la sezione
+- [ ] Click sulle card porta al post correlato

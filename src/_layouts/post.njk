@@ -161,6 +161,37 @@ layout: base.njk
     </div>
     {% endif %}
 
+    <!-- Potrebbe interessarti -->
+    {% set related = posts | relatedPosts(page.url, tags) %}
+    {% if related | length > 0 %}
+    <section class="related-posts" aria-labelledby="related-posts-heading">
+      <h2 id="related-posts-heading" class="post-layout">Potrebbe interessarti</h2>
+      <div class="related-posts-grid post-layout">
+        {% for rp in related %}
+        <a href="{{ rp.url }}" class="related-post-card">
+          {% if rp.image %}
+          <div class="related-post-image">
+            <img src="{{ rp.image }}" alt="{{ rp.imageAlt | default(rp.title) }}" loading="lazy">
+          </div>
+          {% endif %}
+          <div class="related-post-content">
+            {% if rp.strapiTags %}
+              {% set firstTag = rp.strapiTags.split(",")[0] | trim %}
+              {% if firstTag and firstTag != "post" and firstTag != "posts" %}
+              <span class="badge badge-outline">{{ firstTag }}</span>
+              {% endif %}
+            {% endif %}
+            <h3 class="related-post-title">{{ rp.title }}</h3>
+            {% if rp.date %}
+            <time class="related-post-date">{{ rp.date | dateHuman }}</time>
+            {% endif %}
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
     <!-- Commenti -->
     <h2 class="post-layout comment-heading">Commenti</h2>
     <div class="post-layout giscus-wrapper">

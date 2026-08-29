@@ -175,6 +175,12 @@ export default function (eleventyConfig) {
         return null;
     });
 
+    // Filter: restituisce il primo elemento di un array
+    eleventyConfig.addFilter("first", (arr) => {
+        if (!Array.isArray(arr) || arr.length === 0) return null;
+        return arr[0];
+    });
+
     eleventyConfig.addFilter("breadcrumbs", (url) => {
         if (!url) return [{ label: "Home", url: "/" }];
         const crumbs = [{ label: "Home", url: "/" }];
@@ -206,6 +212,68 @@ export default function (eleventyConfig) {
             else if (url === "/tags/") crumbs.push({ label: "Tag" });
         }
         return crumbs;
+    });
+
+    // Filter: post correlati basati su tag in comune e data decrescente
+    eleventyConfig.addFilter("relatedPosts", (allPosts, currentUrl, currentTags, limit = 3) => {
+        if (!Array.isArray(allPosts)) return [];
+
+        // Normalizza i tag correnti
+        let tagsToMatch = [];
+        if (Array.isArray(currentTags)) {
+            tagsToMatch = currentTags;
+        } else if (typeof currentTags === "string") {
+            tagsToMatch = currentTags.split(",").map(t => t.trim());
+        }
+        tagsToMatch = tagsToMatch.filter(t => t && t !== "post" && t !== "posts");
+
+        // 1. Filtra via il post corrente
+        const otherPosts = allPosts.filter(p => p.url !== currentUrl);
+
+        // 2. Calcola i punteggi di correlazione
+        const scoredPosts = otherPosts.map(p => {
+            let pTags = [];
+            if (Array.isArray(p.tags)) {
+                pTags = p.tags;
+            } else if (p.strapiTags) {
+                pTags = p.strapiTags.split(",").map(t => t.trim());
+            }
+            pTags = pTags.filter(t => t && t !== "post" && t !== "posts");
+
+            const commonTags = pTags.filter(t => tagsToMatch.includes(t));
+            return {
+                post: p,
+                score: commonTags.length,
+                date: p.date ? new Date(p.date) : new Date(0)
+            };
+        });
+
+        // 3. Ordina per tag in comune (desc) e data (desc)
+        scoredPosts.sort((a, b) => {
+            if (b.score !== a.score) return b.score - a.score;
+            return b.date - a.date;
+        });
+
+        // 4. Prendi i primi `limit`
+        const related = scoredPosts.slice(0, limit).map(sp => sp.post);
+
+        // 5. Se non abbastanza, riempi con i più recenti
+        if (related.length < limit) {
+            const currentIds = new Set(related.map(p => p.url));
+            const remaining = otherPosts
+                .filter(p => !currentIds.has(p.url))
+                .sort((a, b) => {
+                    const da = a.date ? new Date(a.date) : new Date(0);
+                    const db = b.date ? new Date(b.date) : new Date(0);
+                    return db - da;
+                });
+            for (const p of remaining) {
+                if (related.length >= limit) break;
+                related.push(p);
+            }
+        }
+
+        return related;
     });
 
     eleventyConfig.addFilter("absoluteImageUrl", (url, baseUrl) => {

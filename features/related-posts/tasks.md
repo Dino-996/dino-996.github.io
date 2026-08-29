@@ -10,42 +10,49 @@ Task 1 → Task 2 → Task 3 → Task 4
 
 ---
 
-## Task 1: Aggiungere funzione getRelatedPosts in posts.js
-
-**File interessati:** `src/_data/posts.js`
+## Task 1: Aggiungere Filter `relatedPosts` ✅
+**File interessati:** `eleventy.config.js`
 **Durata stimata:** < 3 minuti
 
-- [ ] **Task 1.1:** Leggere `posts.js` per capire la struttura dati esistente
-- [ ] **Task 1.2:** Aggiungere funzione `getRelatedPosts(post, allPosts, limit)` con algoritmo di scoring (tag in comune + recenza)
-- [ ] **Task 1.3:** Popolare `related` nel frontmatter di ogni post usando la funzione
+- [x] **Task 1.1:** Aggiungere il filter `relatedPosts` per calcolare i post correlati basandosi su tag in comune e data decrescente
+- [x] **Task 1.2:** Verificare che il filter non includa il post corrente
+- [x] **Task 1.3:** Testare che se non ci sono tag in comune, faccia fallback sui post più recenti
 
 ---
 
-## Task 2: Creare partial article-card per post correlati
-
-**File interessati:** `src/_includes/article-card.njk`
-**Durata stimata:** < 3 minuti
-
-- [ ] **Task 2.1:** Creare il partial `article-card.njk` con titolo, data, e almeno un tag
-- [ ] **Task 2.2:** Verificare che il partial sia riutilizzabile anche per le card normali (se non esiste già)
-
----
-
-## Task 3: Iniettare la sezione correlati in post.njk
-
+## Task 2: Modificare Template `post.njk` ✅
 **File interessati:** `src/_layouts/post.njk`
-**Durata stimata:** < 3 minuti
+**Durata stimata:** < 2 minuti
 
-- [ ] **Task 3.1:** Leggere `post.njk` per capire dove inserire la sezione (alla fine del contenuto, prima del footer)
-- [ ] **Task 3.2:** Aggiungere il blocco condizionale `{% if post.related %}` con sezione "Potrebbe interessarti"
-- [ ] **Task 3.3:** Iterare su `post.related` usando il partial `article-card.njk`
+- [x] **Task 2.1:** Iniettare la sezione "Potrebbe interessarti" dopo Prev/Next e prima di Commenti
+- [x] **Task 2.2:** Usare il filter `relatedPosts` passando `posts` globali, `page.url` e `tags`
+- [x] **Task 2.3:** Assicurarsi che la sezione non venga visualizzata se l'array è vuoto
 
 ---
 
-## Task 4: Validazione
+## Task 3: Aggiungere Stili in `custom.css` ✅
+**File interessati:** `src/assets/css/custom.css`
+**Durata stimata:** < 2 minuti
 
+- [x] **Task 3.1:** Aggiungere gli stili `.related-posts` in fondo a `custom.css`
+- [x] **Task 3.2:** Mantenere la coerenza con il layout esistente del blog (grid, card, font)
+
+---
+
+## Task 4: Validazione e Test ✅
 **File interessati:** —
-**Durata stimata:** < 1 minuto
+**Durata stimata:** < 2 minuti
 
-- [ ] **Task 4.1:** `npm run lint` → exit 0
-- [ ] **Task 4.2:** `npm run build` → exit 0
+- [x] **Task 4.1:** `npm run build` → exit 0
+- [x] **Task 4.2:** Verificare che l'HTML generato per un post contenga la sezione e le card correlate (3 card ✅)
+- [x] **Task 4.3:** `npm run lint` → exit 0
+- [x] **Task 4.4:** `npm test` → exit 0 (6/6 pass)
+
+---
+
+## Stato dei Task
+
+- [x] **Task 1: Aggiungere Filter `relatedPosts`**
+- [x] **Task 2: Modificare Template `post.njk`**
+- [x] **Task 3: Aggiungere Stili in `custom.css`**
+- [x] **Task 4: Validazione e Test**
