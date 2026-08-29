@@ -2157,6 +2157,7 @@ code {
    ======================================== */
 .related-posts {
   margin-top: var(--space-4, 2rem);
+  margin-bottom: var(--space-4, 2rem);
   padding: var(--space-3, 1.5rem);
   border: 1px solid var(--border, #e5e7eb);
   border-radius: 0;
