@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Introduzione ad Assembly · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Un&#39;introduzione pratica all&#39;Assembly x86-64 su Linux: dall&#39;ISA e dai registri della CPU alle system call, fino alla creazione e all&#39;esecuzione di un programma ELF. Un percorso pensato per comprendere cosa succede realmente dietro le quinte di un semplice programma." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/introduzione-a-assembly/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/introduzione-a-assembly/" />
+
+<meta property="og:title" content="Introduzione ad Assembly" />
+<meta property="og:description" content="Un&#39;introduzione pratica all&#39;Assembly x86-64 su Linux: dall&#39;ISA e dai registri della CPU alle system call, fino alla creazione e all&#39;esecuzione di un programma ELF. Un percorso pensato per comprendere cosa succede realmente dietro le quinte di un semplice programma." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/introduzione-a-assembly/" />
+
+<meta name="twitter:title" content="Introduzione ad Assembly" />
+<meta name="twitter:description" content="Un&#39;introduzione pratica all&#39;Assembly x86-64 su Linux: dall&#39;ISA e dai registri della CPU alle system call, fino alla creazione e all&#39;esecuzione di un programma ELF. Un percorso pensato per comprendere cosa succede realmente dietro le quinte di un semplice programma." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism + KaTeX caricati solo sui post: vedere head_extra e scripts in _layouts/post.njk -->
+
+
+
+    
+
+    <!-- SEO: JSON-LD WebSite schema (homepage only) -->
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn nav-btn" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn nav-btn nav-btn-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Cambia tema" title="Cambia tema">
+        <svg id="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="/courses/" class="btn nav-btn nav-btn-nav">Percorsi</a>
+      <a href="/about/" class="btn nav-btn">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" as="image" fetchpriority="high">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+  <!-- SEO: JSON-LD Article schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": &quot;Introduzione ad Assembly&quot;,
+    "url": "https://dino-996.github.io/blog/introduzione-a-assembly/",
+    
+    "dateModified": "2026-08-31T10:48:16.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    },
+    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg",
+    "publisher": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    }
+  }
+  </script>
+
+  <!-- SEO: JSON-LD BreadcrumbList schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      
+      
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": &quot;Home&quot;,
+        "item": "https://dino-996.github.io/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": &quot;Blog&quot;,
+        "item": "https://dino-996.github.io/blog/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": &quot;Introduzione a assembly&quot;
+      }
+      
+    ]
+  }
+  </script>
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      
+      
+      
+      
+        
+        
+      
+      
+      
+
+
+<nav aria-label="Breadcrumb" class="breadcrumb">
+  <ol>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/courses/">Percorsi</a></li>
+      
+    
+      
+        <li><a href="/courses/assembly/">Assembly</a></li>
+      
+    
+      
+        <li aria-current="page">Introduzione ad Assembly</li>
+      
+    
+  </ol>
+</nav>
+
+
+
+      <h1>Introduzione ad Assembly</h1>
+
+      
+      <p class="post-description">Un&#39;introduzione pratica all&#39;Assembly x86-64 su Linux: dall&#39;ISA e dai registri della CPU alle system call, fino alla creazione e all&#39;esecuzione di un programma ELF. Un percorso pensato per comprendere cosa succede realmente dietro le quinte di un semplice programma.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 31 agosto 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+      </div>
+    </header>
+
+    
+    <figure class="post-hero">
+      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg"
+           alt="Immagine generata con AI"
+           class="post-hero-image"
+           fetchpriority="high">
+      
+      <figcaption class="post-hero-caption">Immagine generata con AI</figcaption>
+      
+    </figure>
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">L&#39;ISA definisce il set di istruzioni di un microprocessore, con la famiglia x86, evolutasi da 16 a 64 bit, che rappresenta l&#39;architettura dominante in PC e server. La transizione da x86 (32-bit) a x64 (64-bit) aumenta significativamente la memoria indirizzabile e abilita funzionalità di sicurezza e prestazioni avanzate.</p>
+      </div>
+      
+
+      <section class="content">
+          <h3 id="cose-lisa">Cos'è l'ISA</h3>
+<p>L'<strong>ISA (Instruction Set Architecture)</strong> è l'insieme di istruzioni che un microprocessore è in grado di capire ed eseguire. Le operazioni matematiche, i confronti logici nonché la lettura e la scrittura di dati. Possiamo immaginarla come una specie di <strong>lingua comune</strong> tra hardware e software. E' grazie all'ISA che un programma sa come interagire con la CPU e con la memoria del computer.</p>
+<h3 id="la-famiglia-x86">La famiglia x86</h3>
+<p>Un esempio famosissimo di ISA è la <strong>famiglia x86</strong>, usata ancora oggi nella stragrande maggioranza di PC e server. Tutto nasce nel <strong>1978</strong>, con l'uscita del microprocessore <strong>Intel 8086</strong>, un chip a <strong>16 bit</strong>, che per l'epoca rappresentava un salto in avanti notevole rispetto ai processori precedenti.</p>
+<p>Da lì in poi Intel ha continuato a evolvere questa architettura, passando per modelli come l'<strong>80286</strong>, l'<strong>80386</strong>, l'<strong>80486</strong>, fino ad arrivare ai <strong>Pentium</strong> e, più recentemente, ai processori <strong>Intel Core</strong>. Anche altri produttori, come <strong>AMD</strong>, realizzano oggi chip basati sulla stessa architettura x86.</p>
+<h3 id="x86-vs-x64-qual-e-la-differenza">x86 vs x64: qual è la differenza</h3>
+<p>La differenza principale riguarda <strong>quanti bit</strong> la CPU riesce a gestire in una volta sola:</p>
+<ul>
+<li><strong>x86</strong> (spesso chiamata anche <em>x86-32</em>) indica l'architettura a <strong>32 bit</strong></li>
+<li><strong>x64</strong> (o <em>x86-64</em>, o <em>AMD64</em>) indica l'architettura a <strong>64 bit</strong></li>
+</ul>
+<p>Va detto che, storicamente, x86 indicava <strong>tutta la famiglia di processori derivati dall'8086</strong> (compresi quindi anche i modelli a 16 e a 32 bit), non solo la versione a 32 bit. Nel linguaggio comune, però, x86 viene usato quasi sempre come sinonimo di 32 bit, proprio per contrapporlo a x64.</p>
+<h3 id="perche-conta-il-numero-di-bit">Perché conta il numero di bit</h3>
+<p>Il numero di bit determina anche <strong>quanta memoria RAM la CPU riesce a indirizzare</strong> (cioè ad usare):</p>
+<ul>
+<li>Con <strong>32 bit</strong> lo spazio di indirizzamento teorico è di <strong>4 GiB</strong></li>
+<li>Con <strong>64 bit</strong> lo spazio di indirizzamento teorico arriva teoricamente a <strong>16 EiB</strong></li>
+</ul>
+<p>Questi 16 exabyte, però, sono un limite puramente <em>teorico</em>, che deriva dal calcolo matematico 2⁶⁴. Nella pratica, i processori e i sistemi operativi attuali supportano molta meno memoria (di solito qualche centinaio di terabyte), per via di limiti fisici e progettuali reali. Resta comunque un numero enorme rispetto ai sistemi a 32 bit.</p>
+<p>Questo salto di capacità permette ai sistemi a 64 bit di lavorare con dataset più grandi ed eseguire calcoli più complessi, rendendoli più adatti a compiti impegnativi. In più, l'architettura a 64 bit introduce funzionalità di <strong>sicurezza</strong> più avanzate (come la protezione contro l'esecuzione di codice malevolo in memoria) e prestazioni migliori, grazie anche a un numero maggiore di <strong>registri general-purpose</strong> e a set di istruzioni più moderni.</p>
+<h3 id="come-funziona-una-cpu-in-breve">Come funziona una CPU, in breve</h3>
+<p>Una CPU x86_64 esegue in fondo un numero limitato di operazioni elementari, tutte combinabili tra loro per costruire programmi complessi. A livello concettuale, possiamo ricondurre molte operazioni a tre categorie: <strong>sposta</strong> dati, <strong>modifica</strong> dati e <strong>prende decisioni</strong> in base ai dati.</p>
+<p>I dati su cui la CPU lavora vengono conservati principalmente nei registri, piccole memorie interne alla CPU, estremamente veloci ma anche costose e limitate. L'ISA x86-64 mette a disposizione <strong>16 registri general-purpose a 64 bit</strong>, ciascuno pensato per contenere valori numerici che il processore può leggere e scrivere in tempi minimi.</p>
+<h4 id="panoramica-dei-registri">Panoramica dei registri</h4>
+<p>I primi otto sono le <strong>estensioni</strong> a 64 bit dei classici registri x86 a 32 bit, mentre gli ultimi otto sono stati aggiunti specificamente per la modalità a 64 bit.</p>
+<ol>
+<li><strong>RAX</strong> (Accumulatore)</li>
+<li><strong>RBX</strong> (Registro base)</li>
+<li><strong>RCX</strong> (Contatore)</li>
+<li><strong>RDX</strong> (Registro dati)</li>
+<li><strong>RSI</strong> (Source Index)</li>
+<li><strong>RDI</strong> (Destination Index)</li>
+<li><strong>RBP</strong> (Base Pointer dello stack)</li>
+<li><strong>RSP</strong> (Stack Pointer)</li>
+<li><strong>R8</strong></li>
+<li><strong>R9</strong></li>
+<li><strong>R10</strong></li>
+<li><strong>R11</strong></li>
+<li><strong>R12</strong></li>
+<li><strong>R13</strong></li>
+<li><strong>R14</strong></li>
+<li><strong>R15</strong></li>
+</ol>
+<h3 id="il-registro-rax-e-listruzione-mov">Il registro rax e l'istruzione mov</h3>
+<p>Tra i registri di uso generale, <code>rax</code> è uno dei più usati. Può contenere un valore numerico, e i dati vengono inseriti nei registri tramite l’istruzione <strong>mov</strong>.</p>
+<p>La sintassi di mov è semplice, il primo operando è la destinazione, il sevondo è la sorgente e i due sono sempre separati da una virgola.</p>
+<pre><code class="language-asm">mov rax, 1337
+</code></pre>
+<p>In questo esempio il valore 1337 viene copiato dentro il registro rax.</p>
+<blockquote>
+<p>Precisiamo che gli articoli su Assembly faranno riferimento alla sintassi Intel, originale di x86, e non la sintassi AT&amp;T, un dettagio da tenere presente perché l'ordine degli operandi cambia se si sceglie una sintassi diversa.</p>
+</blockquote>
+<h3 id="le-system-call-chiamate-di-sistema">Le System Call (chiamate di sistema)</h3>
+<p>Una <strong>System Call</strong> è il meccanismo con cui un programma comunica con il sistema operativo. È il sistema operativo, infatti, a gestire l’avvio e la terminazione dei programmi, l’accesso all’hardware, la rete e le altre risorse di sistema.</p>
+<p>Come abbiamo detto, le istruzioni Assembly interagiscono direttamente con la CPU, ma per richiedere determinati servizi al kernel, il programma utilizza il meccanismo delle system call. Su Linux x86-64, l'istruzione <code>syscall</code> è il meccanismo utilizzato per effettuare una system call.</p>
+<h4 id="la-syscall-exit">La syscall exit</h4>
+<p>La prima chiamata di sistema che vale la pena imparare è <code>exit</code>, che serve a terminare esplicitamente il processo e a restituire al sistema operativo un codice di uscita. Il numero associato a <code>exit</code> è 60.</p>
+<pre><code class="language-asm">mov rax, 60
+syscall
+</code></pre>
+<p>Ogni <code>syscall</code> è identificata da un numero, il valore viene caricato in <code>rax</code>, l'istruzione <code>syscall</code> esegue la richiesta, e <code>exit</code> (60) termina correttamente il programma.</p>
+<p>Quando un programma termina restituisce un <strong>codice di uscita</strong> attraverso la <code>syscall exit</code>, la domanda è: come si comunica questo codice di uscita?</p>
+<p>Banalmente, la risposta è tramite i registri. Il primo parametro di una <code>syscall</code> viene inserito nel registro <code>rdi</code>. Nel caso di <code>exit</code> questo parametro è esattamente il codice di uscita.</p>
+<blockquote>
+<p>Per fare un'analogia con Python, la syscall <code>exit</code> è simile alla chiamata a una funzione <code>exit()</code> a cui passiamo un parametro, ad esempio <code>exit(42)</code>. Il valore <code>42</code> rappresenta il codice di uscita con cui il programma termina.</p>
+</blockquote>
+<pre><code class="language-asm">mov rdi, 42
+mov rax, 60
+syscall
+</code></pre>
+<blockquote>
+<p>A differenza di altri linguaggi di programmazione, in Assembly si lavora direttamente con i registri della CPU. Alla CPU non interessa quindi se impostiamo prima il codice di uscita o il numero della syscall <code>exit</code>: ciò che conta è che, al momento dell'esecuzione di <code>syscall</code>, i valori siano nei registri corretti. I valori, invece, non vanno assegnati ai registri sbagliati: <code>RAX</code> deve contenere il numero della syscall e <code>RDI</code> il codice di uscita. Inoltre Con <strong>GNU assembler</strong>, le istruzioni e i nomi dei registri x86 non sono case sensitive.</p>
+</blockquote>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Registro</th> <th>Scopo</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">rax</td> <td>Numero della chiamata di sistema</td> </tr> <tr> <td class="fw-semibold">rdi</td> <td>Primo parametro della chiamata (codice di uscita per exit)</td> </tr> <tr> <td class="fw-semibold">rsi</td> <td>Registro di uso generale, utile per memorizzare valori intermedi o copiarli in altri registri</td> </tr> </tbody> </table> </div>
+<h3 id="dal-codice-sorgente-alleseguibile">Dal codice sorgente all'eseguibile</h3>
+<p>Scrivere codice Assembly non basta per eseguirlo, serve trasformarlo in un file eseguibile<br>
+attraverso tre passaggi principali:</p>
+<ol>
+<li>Scrivere il codice in un file .s.</li>
+<li><strong>Assemblarlo</strong> in un file oggetto .o con as.</li>
+<li>Collegarlo (linkarlo) in un <strong>eseguibile</strong> con ld.</li>
+</ol>
+<h4 id="1-scivere-il-file-assembly">1. Scivere il file Assembly</h4>
+<p>Sentiti libero di usare qualsiasi editor di testo per salvare il codice in un file, ad esempio creiamo un file nominato <code>program.s</code>. All'inizio del file è molto importante aggiungere la direttiva <code>.intel_syntax noprefix</code>, che indica all'assembler di utilizzare la sintassi Intel senza prefissi.</p>
+<pre><code class="language-asm">.intel_syntax noprefix
+mov rdi, 42
+mov rax, 60
+syscall
+</code></pre>
+<p>Questa direttiva riguarda esclusivamente l'assembler e non riguarda in nessun modo la CPU.</p>
+<h3 id="assemblare-il-codice">Assemblare il codice</h3>
+<p>Il file Assembly (<strong>codice sorgente</strong>) viene convertito in un file oggetto (<strong>codice macchina e informazioni necessarie al linking</strong>) con il comando seguente:</p>
+<pre><code>as -o program.o program.s
+</code></pre>
+<h3 id="collegare-il-file-oggetto">Collegare il file oggetto</h3>
+<p>L'eseguibile si crea con il comando:</p>
+<pre><code>ld -o program.elf program.o
+</code></pre>
+<p>Il programma può essere eseguito con <code>./program.elf</code>, e il codice di uscita si controlla con <code>echo $?</code> (<code>$?</code> è una variabile speciale della shell che contiene lo status di uscita dell'ultimo comando eseguito), che nel nostro esempio restituisce 42.</p>
+<h4 id="il-formato-elf">Il formato ELF</h4>
+<p>Su Linux, un programma eseguibile è generalmente un file in formato <strong>ELF</strong> (<em>Executable and Linkable Format</em>). Possiamo quindi trovare un eseguibile chiamato <code>program.elf</code>, ma <strong><code>.elf</code> è solo un'estensione convenzionale</strong>: potremmo chiamarlo semplicemente <code>program</code> e funzionerebbe comunque.</p>
+<p>Questo perché, a differenza di Windows, <strong>Linux non usa l'estensione del file per determinarne il tipo o la sua eseguibilità</strong>. Ciò che conta è il <strong>contenuto del file</strong> e, per l'esecuzione, anche la presenza dei <strong>permessi di esecuzione</strong>.</p>
+<blockquote>
+<p>In Linux l'<strong>estensione</strong> è principalmente una convenzione per l'utente; il formato ELF è determinato dal contenuto del file, non dal suo nome.</p>
+</blockquote>
+<h4 id="compilato-vs-assemblato">Compilato vs Assemblato</h4>
+<p><strong>Assembly è un linguaggio di programmazione a basso livello, assemblato,</strong> attenzione per chi viene da linguaggi come Java, C#, C o C++, è comune associare il termine <em>compilato</em> al processo di traduzione del codice sorgente. In senso generale, anche l'Assembly viene tradotto prima dell'esecuzione; tuttavia, tecnicamente è più corretto parlare di <strong>assemblaggio</strong>, perché il programma che effettua la traduzione è un <strong>assembler</strong>, non un compiler (<em>compilato</em> e <em>assemblato</em> non sono necessariamente categorie opposte).</p>
+<p>La differenza fondamentale è che il <strong>compiler</strong> traduce un linguaggio di programmazione in un'altra rappresentazione, effettuando anche analisi e trasformazioni del programma, mentre l'<strong>assembler</strong> traduce le istruzioni Assembly nella corrispondente rappresentazione in <strong>linguaggio macchina dell'architettura target</strong>, in questo caso <strong>x86-64</strong>.</p>
+<p>Durante il collegamento può comparire l’avviso <code>cannot find entry symbol _start</code>. Significa che il linker non trova il simbolo <code>_start</code> indicato come <strong>punto di ingresso</strong>.</p>
+<h3 id="il-simbolo-start">Il simbolo _start</h3>
+<p>Per eliminare l'avviso si può definire esplicitamente un punto di ingresso (<code>_start</code>) in questo modo:</p>
+<pre><code class="language-asm">.intel_syntax noprefix
+.global _start
+_start:
+mov rdi, 42
+mov rax, 60
+syscall
+</code></pre>
+<p>Ricapitolando, <code>.global _start</code> rende il simbolo <code>_start</code> visibile al <strong>linker</strong>, mentre <code>_start:</code> definisce l'etichetta utilizzata come punto di ingresso del programma.</p>
+<p>È importante ricordare che <code>_start</code>  <strong>NON è una parola riservata dell'Assembly</strong>: è semplicemente il nome di un'etichetta, scelto per convenzione. Potremmo quindi chiamarla, ad esempio, <code>inizio</code>:</p>
+<pre><code class="language-asm">.intel_syntax noprefix
+.global inizio
+inizio:
+    mov rdi, 42
+    mov rax, 60
+    syscall
+</code></pre>
+<p>In questo caso, però, dovremmo indicare <code>inizio</code> come punto di ingresso al linker, ad esempio con <code>ld -e inizio -o program program.o</code>.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Comando</th> <th>Funzione</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">as -o program.o program.s</td> <td>Assembla il codice Assembly in un file oggetto</td> </tr> <tr> <td class="fw-semibold">ld -o program.elf program.o</td> <td>Crea l'eseguibile</td> </tr> <tr> <td class="fw-semibold">./program.elf</td> <td>Esegue il programma</td> </tr> <tr> <td class="fw-semibold">echo $?</td> <td>Mostra il codice di uscita del programma</td> </tr> </tbody> </table> </div>
+<h3 id="il-registro-rsi-e-la-copia-tra-registri">Il registro RSI e la copia tra registri</h3>
+<p>Un altro registro di uso generale è <code>rsi</code>, che come gli alti, può essere usato per memorizzare dati, per esempio:</p>
+<pre><code>mov rsi, 42
+</code></pre>
+<p>Abbiamo registrato il valore 42 nel registro <code>rsi</code>, ma possiamo fare di più, per esempio copiare il contenuto di un registro in un altro registro:</p>
+<pre><code>mov rsi, 42
+mov rdi, rsi
+</code></pre>
+<p>La seconda istruzione non fa altro che <strong>copiare</strong> il valore del registro <code>rsi</code> in <code>rdi</code>, dopo l'esecuzione del codice ambo i registri conterranno il valore 42. Un dettaglio da tenere presente è che, nonostante il nome dell’istruzione sia <strong>mov</strong> (abbreviazione di <em>move</em>), essa non sposta realmente il valore da un registro all’altro, ma lo <strong>copia</strong>. Il motivo storico per cui l’istruzione si chiami mov invece di qualcosa come set o copy non è del tutto chiaro, si tratta semplicemente di una convenzione consolidata dell’assembly.</p>
+<h3 id="buone-pratiche-che-avrei-voluto-conosce-prima-per-chi-cominca-con-assembly">Buone pratiche (che avrei voluto conosce prima) per chi cominca con Assembly</h3>
+<ol>
+<li>Non dare <strong>mai per scontato</strong> un valore di registro nel non specificatamente inizializzato proprio codice, anche se in un ambiente controllato di apprendimento un registro può sembrare <em>vuoto</em> o a zero.</li>
+<li>Tenere presente che secondo la convenzione di chiamata System V AMD64 ABI comunemente usata su Linux, alcuni registri devono essere preservati dalla funzione chiamata (i cosiddetti registri callee-saved), un aspetto rilevante non appena si inizia a scrivere funzioni piu complesse delle semplici sequenze lineari viste fin ora.</li>
+<li>Verificare sempre il codice di uscita del proprio programma con echo $? subito dopo l’esecuzione, è il modo più rapido per capire se la logica implementata è corretta.</li>
+<li>Per ispezionare il contenuto di un file oggetto o di un eseguibile durante il debug, strumenti come <strong>objdump</strong> o <strong>gdb</strong> (presente nei prossimi articoli) permettono di vedere le istruzioni effettivamente generate, un passaggio utile quando il comportamento del programma non corrisponde alle aspettative.</li>
+</ol>
+
+      </section>
+
+      <!-- Disclaimer AI -->
+      <footer class="mt-4 pt-3 border-top">
+        <p class="text-muted small mb-0">
+          <em>Articolo scritto con il supporto di LLM per la formattazione e la struttura del codice.</em>
+        </p>
+      </footer>
+
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout post-section">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/assembly/" class="badge badge-outline">assembly</a>
+              
+            
+              
+              
+              <a href="/tags/isa/" class="badge badge-outline">ISA</a>
+              
+            
+              
+              
+              <a href="/tags/x86-64/" class="badge badge-outline">x86_64</a>
+              
+            
+              
+              
+              <a href="/tags/system-call/" class="badge badge-outline">system call</a>
+              
+            
+              
+              
+              <a href="/tags/registri/" class="badge badge-outline">registri</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center share-block">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fintroduzione-a-assembly%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+            Condividi su LinkedIn
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Introduzione%20ad%20Assembly&url=https://dino-996.github.io%2Fblog%2Fintroduzione-a-assembly%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su X">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+            Condividi su X
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout post-section post-section-sm">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div class="article-nav-half">
+          
+          <a href="/blog/valori-indirizzi-e-deferenziamento/" class="btn btn-outline btn-sm article-nav-btn">
+            <span class="d-block small article-nav-label">← Precedente</span>
+            <span class="d-block article-nav-title">Accesso alla memoria in Assembly x86_64</span>
+          </a>
+          
+        </div>
+        <div class="article-nav-half article-nav-right">
+          
+          <a href="/blog/post/" class="btn btn-outline btn-sm article-nav-btn article-nav-btn-right">
+            <span class="d-block small article-nav-label">Successivo →</span>
+            <span class="d-block article-nav-title">Guida completa a Docker</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Potrebbe interessarti -->
+    
+    
+    <section class="related-posts" aria-labelledby="related-posts-heading">
+      <h2 id="related-posts-heading" class="post-layout">Potrebbe interessarti</h2>
+      <div class="related-posts-grid post-layout">
+        
+        <a href="/blog/lo-stack-in-assembly/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Lo stack in Assembly x86_64</h3>
+            
+            <time class="related-post-date">02 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/valori-indirizzi-e-deferenziamento/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Accesso alla memoria in Assembly x86_64</h3>
+            
+            <time class="related-post-date">01 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/post/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1786799376/docker_d65228857a.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">docker</span>
+              
+            
+            <h3 class="related-post-title">Guida completa a Docker</h3>
+            
+            <time class="related-post-date">10 agosto 2026</time>
+            
+          </div>
+        </a>
+        
+      </div>
+    </section>
+    
+
+    <!-- Commenti -->
+    <h2 class="post-layout comment-heading">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+    data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      });
+    });
+  </script>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> DinoSec. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+    <!-- Trasparenza AI -->
+    <p class="small text-muted">
+      Scopri di più sulla <a href="/about#trasparenza">politica sull'uso dell'IA</a>.
+    </p>
+  </div>
+</footer>
+
+
+
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente virtuale basato su intelligenza artificiale">
+        <span aria-hidden="true">🦖</span>
+        <span class="ai-toggle-badge" aria-hidden="true">IA</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span aria-hidden="true">🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+            <span class="ai-badge" aria-label="Assistente basato su intelligenza artificiale">IA</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI assistant widget -->
+    <script src="/assets/js/ai-widget.js" defer></script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

@@ -1,5 +1,23 @@
 [
   {
+    "title": "Lo stack in Assembly x86_64",
+    "url": "/blog/lo-stack-in-assembly/",
+    "description": "Lo stack è una delle strutture fondamentali della memoria di un processo. In questa parte vedremo come funziona, come viene organizzato all'avvio del programma e come utilizzare rsp, push, pop e gli offset per accedere ai dati, compresi gli argomenti passati da riga di comando.",
+    "date": "2026-09-02T00:00:00.000Z"
+  },
+  {
+    "title": "Accesso alla memoria in Assembly x86_64",
+    "url": "/blog/valori-indirizzi-e-deferenziamento/",
+    "description": "Capire la differenza tra un valore e un indirizzo di memoria è uno dei passaggi fondamentali per iniziare a comprendere davvero l'Assembly. In questa seconda parte vedremo come funzionano la dereferenziazione, i puntatori, gli offset e l'ordine dei byte in memoria, con esempi pratici in Assembly x86-64.",
+    "date": "2026-09-01T00:00:00.000Z"
+  },
+  {
+    "title": "Introduzione ad Assembly",
+    "url": "/blog/introduzione-a-assembly/",
+    "description": "Un'introduzione pratica all'Assembly x86-64 su Linux: dall'ISA e dai registri della CPU alle system call, fino alla creazione e all'esecuzione di un programma ELF. Un percorso pensato per comprendere cosa succede realmente dietro le quinte di un semplice programma.",
+    "date": "2026-08-31T00:00:00.000Z"
+  },
+  {
     "title": "Guida completa a Docker",
     "url": "/blog/post/",
     "description": "Panoramica completa sull'architettura e sul funzionamento dei container Docker. La guida copre i comandi essenziali per la gestione di immagini e volumi, la scrittura di Dockerfile multi-stage, l'uso di Docker Compose e la configurazione dell'ambiente su Windows tramite WSL2.",

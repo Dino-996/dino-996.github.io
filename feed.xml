@@ -6,13 +6,490 @@
   <link href="https://dino-996.github.io/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://dino-996.github.io" rel="alternate" type="text/html"/>
   <id>https://dino-996.github.io/</id>
-  <updated>2026-08-10T00:00:00.000Z</updated>
+  <updated>2026-09-02T00:00:00.000Z</updated>
   <author>
     <name>Davide Sabia</name>
     <email>davidesabia22@gmail.com</email>
     <uri>https://dino-996.github.io</uri>
   </author>
 
+  
+  <entry>
+    <title>Lo stack in Assembly x86_64</title>
+    <link href="https://dino-996.github.io/blog/lo-stack-in-assembly/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/lo-stack-in-assembly/</id>
+    <published>2026-09-02T00:00:00.000Z</published>
+    <updated>2026-09-02T00:00:00.000Z</updated>
+    
+    <summary>Lo stack è una delle strutture fondamentali della memoria di un processo. In questa parte vedremo come funziona, come viene organizzato all&#39;avvio del programma e come utilizzare rsp, push, pop e gli offset per accedere ai dati, compresi gli argomenti passati da riga di comando.</summary>
+    
+    
+    <content type="html"><![CDATA[
+
+  &lt;p&gt;A differenza degli indirizzi caricati manualmente o passati in altri registri, ogni processo possiede già una &lt;strong&gt;regione di memoria&lt;/strong&gt; pronta all’uso, lo &lt;strong&gt;stack&lt;/strong&gt; (&lt;strong&gt;pila&lt;/strong&gt;).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Area temporanea&lt;/strong&gt;: lo stack è una regione di memoria utilizzata per memorizzare temporaneamente dati, variabili e informazioni sull’esecuzione del programma.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;rsp&lt;/strong&gt; (&lt;strong&gt;stack pointer&lt;/strong&gt;): è il registro della CPU che indica la posizione della cima (top) dello stack.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;lo-stato-dello-stack-allavvio-del-programma&quot;&gt;Lo stato dello stack all’avvio del programma&lt;/h3&gt;
+&lt;p&gt;All’avvio di un programma in ambiente Linux, la &lt;strong&gt;cima dello stack&lt;/strong&gt; (&lt;code&gt;[rsp]&lt;/code&gt;) viene inizializzata dal sistema operativo con il conteggio degli argomenti da riga di comando (&lt;strong&gt;argc&lt;/strong&gt;).&lt;/p&gt;
+&lt;p&gt;Il conteggio degli argomenti include anche il nome o il percorso del programma stesso, che viene considerato il &lt;strong&gt;primo elemento&lt;/strong&gt; del vettore &lt;code&gt;argv&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;accesso-agli-argomenti-da-riga-di-comando&quot;&gt;Accesso agli argomenti da riga di comando&lt;/h3&gt;
+&lt;p&gt;Oltre al conteggio degli argomenti (&lt;code&gt;argc&lt;/code&gt;) in cima allo stack (&lt;code&gt;[rsp]&lt;/code&gt;), lo stack contiene un vettore di puntatori a stringhe, il classico &lt;code&gt;argv[]&lt;/code&gt; del linguaggio C, che indicano dove si trovano in memoria i testi degli argomenti.&lt;/p&gt;
+&lt;p&gt;Ad esempio, eseguendo:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;./programma hello world
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;avremo:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;[rsp]&lt;/code&gt; → &lt;strong&gt;argc&lt;/strong&gt;, cioè &lt;code&gt;3&lt;/code&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;[rsp + 8]&lt;/code&gt; → &lt;strong&gt;argv[0]&lt;/strong&gt;, il puntatore al nome del programma&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;[rsp + 16]&lt;/code&gt; → &lt;strong&gt;argv[1]&lt;/strong&gt;, il puntatore al primo argomento effettivo&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;[rsp + 24]&lt;/code&gt; → &lt;strong&gt;argv[2]&lt;/strong&gt;, il puntatore al secondo argomento effettivo&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;[rsp + 32]&lt;/code&gt; → &lt;strong&gt;NULL (0)&lt;/strong&gt;, che identifica la fine del vettore degli argomenti&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In generale, quindi:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;[rsp]                  → argc
+[rsp + 8]              → argv[0]
+[rsp + 16]             → argv[1]
+...
+[rsp + 8 × argc]       → argv[argc-1]
+[rsp + 8 × (argc+1)]   → NULL
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;navigare-lo-stack-tramite-offset&quot;&gt;Navigare lo stack tramite offset&lt;/h3&gt;
+&lt;p&gt;Lo stack contiene molteplici informazioni disposte in sequenza. Per accedere a valori posizionati più in profondità rispetto alla cima (&lt;code&gt;[rsp]&lt;/code&gt;), si utilizza un &lt;strong&gt;offset&lt;/strong&gt;, cioè una distanza espressa in byte.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;[rsp]&lt;/code&gt; legge il valore a &lt;strong&gt;offset 0&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;[rsp + 8]&lt;/code&gt; legge il valore posizionato &lt;strong&gt;8 byte dopo la cima&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;[rsp + N]&lt;/code&gt; legge il valore posizionato &lt;strong&gt;N byte dopo la cima&lt;/strong&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In molti casi, lavorando con valori a 64 bit, gli offset che incontreremo nello stack saranno multipli di 8 (&lt;code&gt;+8&lt;/code&gt;, &lt;code&gt;+16&lt;/code&gt;, &lt;code&gt;+24&lt;/code&gt; e così via).&lt;/p&gt;
+&lt;p&gt;Questo non significa che la memoria sia organizzata in blocchi di 8 byte: la memoria è sempre indirizzata &lt;strong&gt;byte per byte&lt;/strong&gt;. Il motivo per cui negli esempi vediamo incrementi di 8 byte è che indirizzi e altri valori a 64 bit occupano normalmente &lt;strong&gt;8 byte&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;allineamento-dello-stack-e-abi&quot;&gt;Allineamento dello stack e ABI&lt;/h3&gt;
+&lt;p&gt;Quando si passa dalla semplice lettura dello stack alla scrittura di funzioni che effettuano chiamate con &lt;code&gt;call&lt;/code&gt;, la &lt;strong&gt;System V AMD64 ABI&lt;/strong&gt; richiede che &lt;code&gt;rsp&lt;/code&gt; sia allineato a &lt;strong&gt;16 byte immediatamente prima dell&#39;istruzione ****&lt;code&gt;call&lt;/code&gt;&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;È una delle cause più frequenti di comportamenti anomali per chi inizia a scrivere Assembly x86-64, quindi vale la pena tenerlo a mente fin da questi primi esercizi.&lt;/p&gt;
+&lt;h3 id=&quot;rappresentazione-visiva-dello-stack&quot;&gt;Rappresentazione visiva dello stack&lt;/h3&gt;
+&lt;h3 id=&quot;listruzione-pop-e-la-gestione-dinamica-dello-stack&quot;&gt;L’istruzione &lt;code&gt;pop&lt;/code&gt; e la gestione dinamica dello stack&lt;/h3&gt;
+&lt;p&gt;Lo stack è strutturato per consentire l’inserimento e l’estrazione dinamica dei dati dalla cima. L’istruzione &lt;code&gt;pop &amp;lt;registro&amp;gt;&lt;/code&gt; combina in una singola istruzione due operazioni:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Lettura del dato&lt;/strong&gt;: copia nel registro specificato il valore situato in cima allo stack, equivalente a un&#39;istruzione &lt;code&gt;mov &amp;lt;registro&amp;gt;, [rsp]&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Avanzamento del puntatore&lt;/strong&gt;: incrementa lo stack pointer &lt;code&gt;rsp&lt;/code&gt; di 8 byte, equivalente a &lt;code&gt;add rsp, 8&lt;/code&gt;, spostando la cima dello stack all&#39;elemento successivo.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Il dato estratto rimane fisicamente presente all&#39;indirizzo di memoria precedente, ma per la logica dello stack viene considerato rimosso, in quanto &lt;code&gt;rsp&lt;/code&gt; si è spostato oltre.&lt;/p&gt;
+&lt;p&gt;L&#39;&lt;strong&gt;operazione complementare&lt;/strong&gt; a &lt;code&gt;pop&lt;/code&gt; è &lt;strong&gt;push&lt;/strong&gt;, che inserisce un nuovo valore in cima allo stack decrementando &lt;code&gt;rsp&lt;/code&gt; di 8 byte e scrivendo il valore nella nuova cima.&lt;/p&gt;
+&lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;  
+&lt;thead class=&quot;table-dark&quot;&gt;  
+&lt;tr&gt;  
+&lt;th&gt;Istruzione&lt;/th&gt;  
+&lt;th&gt;Effetto su rdi&lt;/th&gt;  
+&lt;th&gt;Effetto su rsp&lt;/th&gt;  
+&lt;/tr&gt;  
+&lt;/thead&gt;  
+&lt;tbody&gt;  
+&lt;tr&gt;  
+&lt;td class=&quot;fw-semibold&quot;&gt;  
+&lt;code&gt;mov rdi, [rsp]&lt;/code&gt;  
+&lt;/td&gt;  
+&lt;td&gt;Legge il valore in cima allo stack&lt;/td&gt;  
+&lt;td&gt;Nessuna modifica&lt;/td&gt;  
+&lt;/tr&gt;  
+&lt;tr&gt;  
+&lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;pop rdi&lt;/code&gt;&lt;/td&gt;  
+&lt;td&gt;Legge il valore in cima allo stack&lt;/td&gt;  
+&lt;td&gt;Avanza di 8 byte&lt;/td&gt;  
+&lt;/tr&gt;  
+&lt;tr&gt;  
+&lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;push rdi&lt;/code&gt;&lt;/td&gt;  
+&lt;td&gt;Inserisce il valore in cima allo stack&lt;/td&gt;  
+&lt;td&gt;Indietreggia di 8 byte&lt;/td&gt;  
+&lt;/tr&gt;  
+&lt;/tbody&gt;  
+&lt;/table&gt;
+&lt;h3 id=&quot;ispezionare-lo-stack-con-gdb-gnu-debugger&quot;&gt;Ispezionare lo stack con GDB (GNU Debugger)&lt;/h3&gt;
+&lt;p&gt;Per un lettore junior che si avvicina a questi concetti, verificarli empiricamente con un debugger è spesso più efficace della sola lettura teorica. GDB permette di osservare in tempo reale il contenuto dello stack e il valore di &lt;code&gt;rsp&lt;/code&gt; subito dopo l’avvio del programma.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;gdb -q ./nome_programma
+break _start
+run hello world
+info registers rsp
+x/5gx $rsp
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il comando &lt;code&gt;x/5gx $rsp&lt;/code&gt; mostra cinque valori a 64 bit (&lt;code&gt;g&lt;/code&gt;) in formato esadecimale (&lt;code&gt;x&lt;/code&gt;) a partire dall&#39;indirizzo puntato da &lt;code&gt;rsp&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Eseguendo il programma con &lt;code&gt;hello world&lt;/code&gt;, sarà quindi possibile osservare &lt;code&gt;argc&lt;/code&gt;, i tre puntatori di &lt;code&gt;argv&lt;/code&gt; e il &lt;code&gt;NULL&lt;/code&gt; che ne indica la fine.&lt;/p&gt;
+
+
+]]></content>
+    
+    
+    
+      
+      
+    <category term="assembly"/>
+      
+    
+      
+      
+    <category term="stack"/>
+      
+    
+      
+      
+    <category term="push"/>
+      
+    
+      
+      
+    <category term="pop"/>
+      
+    
+      
+      
+    <category term="offset"/>
+      
+    
+  </entry>
+  
+  <entry>
+    <title>Accesso alla memoria in Assembly x86_64</title>
+    <link href="https://dino-996.github.io/blog/valori-indirizzi-e-deferenziamento/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/valori-indirizzi-e-deferenziamento/</id>
+    <published>2026-09-01T00:00:00.000Z</published>
+    <updated>2026-09-01T00:00:00.000Z</updated>
+    
+    <summary>Capire la differenza tra un valore e un indirizzo di memoria è uno dei passaggi fondamentali per iniziare a comprendere davvero l&#39;Assembly. In questa seconda parte vedremo come funzionano la dereferenziazione, i puntatori, gli offset e l&#39;ordine dei byte in memoria, con esempi pratici in Assembly x86-64.</summary>
+    
+    
+    <content type="html"><![CDATA[
+
+  &lt;h2 id=&quot;valori-indirizzi-e-dereferenziamento-in-assembly-x86-64&quot;&gt;Valori, indirizzi e dereferenziamento in assembly x86-64&lt;/h2&gt;
+&lt;p&gt;Uno degli scogli concettuali più importanti per chi si avvicina alla programmazione a basso livello è capire la differenza tra un valore e un indirizzo di memoria. Nella sostanza sono la stessa cosa, un numero, ma il modo in cui l&#39;assembly le tratta cambia completamente il comportamento di un programma.&lt;/p&gt;
+&lt;h3 id=&quot;la-memoria-come-indirizzario&quot;&gt;La memoria come indirizzario&lt;/h3&gt;
+&lt;p&gt;La memoria di un computer può essere immaginata come una lunga via di case numerate in sequenza. Ogni casa corrisponde a un byte (8 bit) di memoria e possiede un indirizzo numerico univoco. Nei sistemi moderni, come discusso nel primo articolo della serie, lo spazio di indirizzamento è enorme e presenta ampie zone non mappate, esattamente come una via con numeri civici che saltano da un blocco all&#39;altro.&lt;/p&gt;
+&lt;p&gt;Questa analogia torna utile per distinguere due concetti che in assembly si scrivono in modo molto simile ma significano cose opposte: conoscere il numero civico di una casa non equivale a sapere cosa contiene quella casa.&lt;/p&gt;
+&lt;h3 id=&quot;valore-diretto-e-lettura-di-un-indirizzo&quot;&gt;Valore diretto e lettura di un indirizzo&lt;/h3&gt;
+&lt;p&gt;Chiarito il concetto, possiamo usare &lt;code&gt;mov&lt;/code&gt; sia per assegnare un valore a un registro, sia per leggere il contenuto di un indirizzo di memoria.&lt;/p&gt;
+&lt;p&gt;Per assegnare un valore a un registro, la sintassi corretta è la seguente:&lt;/p&gt;
+&lt;p&gt;assembly&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;mov rdi, 13317
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;La lettura, invece, avviene usando la sintassi &lt;code&gt;[valore]&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;assembly&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;mov rdi, [13317]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le parentesi quadre indicano alla CPU che &lt;code&gt;13317&lt;/code&gt; va interpretato come un indirizzo di memoria. La CPU si reca a quell&#39;indirizzo, preleva il byte (o i byte) memorizzati e li copia nel registro &lt;code&gt;rdi&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;A questo punto qualcuno potrebbe provare ad assegnare a un registro generico un valore, per poi dereferenziare quel valore in &lt;code&gt;rdi&lt;/code&gt; e chiamare la syscall &lt;code&gt;exit&lt;/code&gt; restituendo il contenuto del registro generico. Ed è qui che si sbaglia più spesso.&lt;/p&gt;
+&lt;p&gt;assembly&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;mov rbx, 10
+mov rdi, [rbx]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Questo &lt;strong&gt;non&lt;/strong&gt; assegna il valore &lt;code&gt;10&lt;/code&gt; a &lt;code&gt;rdi&lt;/code&gt;. Se vogliamo semplicemente copiare lo stesso valore, basta fare:&lt;/p&gt;
+&lt;p&gt;assembly&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;mov rdi, rbx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Letteralmente, stiamo dicendo alla CPU: prendi il valore contenuto in &lt;code&gt;rbx&lt;/code&gt; e copialo in &lt;code&gt;rdi&lt;/code&gt;. In questo caso:&lt;/p&gt;
+&lt;p&gt;text&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;rdi = rbx = 10
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Con &lt;code&gt;mov rdi, [rbx]&lt;/code&gt;, invece, stiamo dicendo alla CPU: prendi il valore contenuto in &lt;code&gt;rbx&lt;/code&gt;, usalo come indirizzo di memoria, vai a quell&#39;indirizzo e copia in &lt;code&gt;rdi&lt;/code&gt; ciò che trovi lì. In altre parole:&lt;/p&gt;
+&lt;p&gt;text&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;rbx      → valore contenuto nel registro
+[rbx]    → valore contenuto nella memoria all&#39;indirizzo indicato da rbx
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;i-registri-come-puntatori&quot;&gt;I registri come puntatori&lt;/h3&gt;
+&lt;p&gt;Nella programmazione reale è raro lavorare con indirizzi fissi scritti a mano nel codice. Più spesso un indirizzo viene calcolato o ricevuto a runtime e salvato in un registro, che a quel punto assume il ruolo di puntatore.&lt;/p&gt;
+&lt;p&gt;assembly&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;mov rax, 133700
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Dopo questa istruzione, &lt;code&gt;rax&lt;/code&gt; contiene l&#39;indirizzo &lt;code&gt;133700&lt;/code&gt;. Per leggere il dato a cui punta, si applica la dereferenziazione tramite parentesi quadre:&lt;/p&gt;
+&lt;p&gt;assembly&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;mov rdi, [rax]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;alert alert-info&quot; role=&quot;alert&quot;&gt; Dereferenziare significa dire alla CPU: non prendere il numero scritto nel registro così com&#39;è, ma vai all&#39;indirizzo di memoria che quel numero rappresenta e leggi (o scrivi) il contenuto presente lì, come già visto nella sezione precedente. &lt;/div&gt;
+&lt;p&gt;I registri della CPU, come &lt;code&gt;rax&lt;/code&gt; o &lt;code&gt;rdi&lt;/code&gt;, non hanno un ruolo semantico fisso. Lo stesso registro può contenere in momenti diversi l&#39;identificativo di una syscall, un puntatore a un&#39;area di memoria, o un semplice valore numerico. Per la CPU un registro è solo un contenitore di bit: il significato dipende esclusivamente dall&#39;istruzione che lo utilizza.&lt;/p&gt;
+&lt;p&gt;La scelta del registro da usare come puntatore è arbitraria: qualsiasi registro general purpose (&lt;code&gt;rax&lt;/code&gt;, &lt;code&gt;rdi&lt;/code&gt;, &lt;code&gt;rbx&lt;/code&gt;, &lt;code&gt;rcx&lt;/code&gt; e così via) può contenere un indirizzo. Una conseguenza interessante è che un registro può dereferenziare se stesso, sovrascrivendo il proprio contenuto (l&#39;indirizzo) con il valore letto dalla memoria a quell&#39;indirizzo. Nel flusso di esecuzione lo stesso registro cambia quindi ruolo: da indirizzo diventa contenitore del dato finale.&lt;/p&gt;
+&lt;h4 id=&quot;specificare-la-dimensione-delloperando&quot;&gt;Specificare la dimensione dell&#39;operando&lt;/h4&gt;
+&lt;p&gt;Quando si scrive un valore immediato direttamente in un indirizzo di memoria, l&#39;assemblatore non può dedurre da solo quanti byte occupare, perché né la sorgente (un numero puro) né la destinazione (un indirizzo, non un registro) portano un&#39;informazione di dimensione. È necessario specificarla esplicitamente con un modificatore.&lt;/p&gt;
+&lt;div class=&quot;alert alert-info&quot; role=&quot;alert&quot;&gt; Quando la destinazione di una &lt;code&gt;mov&lt;/code&gt; è un indirizzo di memoria e la sorgente è un valore immediato, va sempre indicata la dimensione dell&#39;operando, altrimenti l&#39;assemblatore restituisce un errore di ambiguità. È possibile farlo attraverso quattro modificatori. &lt;/div&gt; &lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Modificatore&lt;/th&gt; &lt;th&gt;Dimensione&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;byte ptr&lt;/code&gt;&lt;/td&gt; &lt;td&gt;1 byte, 8 bit&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;word ptr&lt;/code&gt;&lt;/td&gt; &lt;td&gt;2 byte, 16 bit&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;dword ptr&lt;/code&gt;&lt;/td&gt; &lt;td&gt;4 byte, 32 bit&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;&lt;code&gt;qword ptr&lt;/code&gt;&lt;/td&gt; &lt;td&gt;8 byte, 64 bit&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
+&lt;p&gt;Applicando il modificatore corretto per lavorare con registri a 64 bit come &lt;code&gt;rax&lt;/code&gt;, la sequenza completa di scrittura e autodereferenziamento diventa:&lt;/p&gt;
+&lt;p&gt;assembly&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;mov qword ptr [133700], 42
+mov rax, 133700
+mov rax, [rax]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;La prima riga scrive il valore &lt;code&gt;42&lt;/code&gt; all&#39;indirizzo di memoria &lt;code&gt;133700&lt;/code&gt;, specificando esplicitamente che si tratta di un blocco a 8 byte attraverso il modificatore &lt;code&gt;qword&lt;/code&gt;. La seconda riga carica in &lt;code&gt;rax&lt;/code&gt; l&#39;indirizzo &lt;code&gt;133700&lt;/code&gt;. La terza riga fa leggere a &lt;code&gt;rax&lt;/code&gt; il contenuto presente a quell&#39;indirizzo, sovrascrivendo se stesso: da indirizzo, &lt;code&gt;rax&lt;/code&gt; diventa il valore &lt;code&gt;42&lt;/code&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;offset-di-memoria-e-indirizzamento-relativo&quot;&gt;Offset di memoria e indirizzamento relativo&lt;/h3&gt;
+&lt;p&gt;Un puntatore non sempre indica esattamente il dato di interesse: spesso punta all&#39;inizio di una struttura più ampia, come una stringa, un array o un record. Poiché ogni indirizzo identifica un singolo byte, per raggiungere un dato specifico all&#39;interno della struttura si somma un offset, cioè una distanza in byte, all&#39;indirizzo base.&lt;/p&gt;
+&lt;p&gt;assembly&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-assembly&quot;&gt;.intel_syntax noprefix
+.global _start
+_start:
+    mov rax, [rdi + 1]
+    mov rax, 60
+    syscall
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In questo esempio, &lt;code&gt;rdi&lt;/code&gt; contiene l&#39;indirizzo base, mentre &lt;code&gt;[rdi + 1]&lt;/code&gt; accede al byte immediatamente successivo, saltando il primo byte della struttura. La sintassi con l&#39;offset all&#39;interno delle parentesi quadre è lo stesso pattern che si userà per scorrere array o stringhe carattere per carattere.&lt;/p&gt;
+&lt;h4 id=&quot;un-cenno-allordine-dei-byte-little-endian&quot;&gt;Un cenno all&#39;ordine dei byte (little-endian)&lt;/h4&gt;
+&lt;p&gt;Quando un valore occupa più di un byte, la CPU deve stabilire in quale ordine salvare i singoli byte in memoria. L&#39;architettura x86-64 usa l&#39;ordine little-endian: il byte meno significativo viene memorizzato per primo, cioè all&#39;indirizzo di memoria più basso.&lt;/p&gt;
+&lt;p&gt;Per esempio, il valore:&lt;/p&gt;
+&lt;p&gt;text&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;0x12345678
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;viene memorizzato in memoria come:&lt;/p&gt;
+&lt;p&gt;text&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;78 56 34 12
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Quindi, il valore che leggiamo normalmente da sinistra a destra non corrisponde all&#39;ordine con cui i singoli byte sono disposti in memoria. È un dettaglio che diventa importante soprattutto quando si analizza la memoria con strumenti come GDB.&lt;/p&gt;
+&lt;h3 id=&quot;puntatori-a-puntatori&quot;&gt;Puntatori a puntatori&lt;/h3&gt;
+&lt;p&gt;Gli indirizzi di memoria sono a tutti gli effetti valori numerici, quindi la memoria stessa può contenere un indirizzo che punta a un altro indirizzo.&lt;/p&gt;
+&lt;div class=&quot;alert alert-info&quot; role=&quot;alert&quot;&gt; È l&#39;equivalente di conservare in casa propria un foglietto con scritto l&#39;indirizzo di un amico: per raggiungerlo bisogna prima leggere il foglietto (primo accesso alla memoria) e poi usare l&#39;indirizzo letto per arrivare a destinazione (secondo accesso alla memoria). &lt;/div&gt; &lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Passaggio&lt;/th&gt; &lt;th&gt;Istruzione assembly&lt;/th&gt; &lt;th&gt;Valore nel registro&lt;/th&gt; &lt;th&gt;Spiegazione&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;1. Caricamento indirizzo base&lt;/td&gt; &lt;td&gt;&lt;code&gt;mov rdi, 123400&lt;/code&gt;&lt;/td&gt; &lt;td&gt;rdi = 123400&lt;/td&gt; &lt;td&gt;Inserisce l&#39;indirizzo iniziale nel registro&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;2. Prima dereferenziazione&lt;/td&gt; &lt;td&gt;&lt;code&gt;mov rdi, [rdi]&lt;/code&gt;&lt;/td&gt; &lt;td&gt;rdi = 133700&lt;/td&gt; &lt;td&gt;Legge il valore contenuto in 123400&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;3. Seconda dereferenziazione&lt;/td&gt; &lt;td&gt;&lt;code&gt;mov rax, [rdi]&lt;/code&gt;&lt;/td&gt; &lt;td&gt;rax = 42&lt;/td&gt; &lt;td&gt;Legge il dato finale all&#39;indirizzo 133700&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
+&lt;h3 id=&quot;catena-di-puntatori-a-partire-da-un-registro&quot;&gt;Catena di puntatori a partire da un registro&lt;/h3&gt;
+&lt;p&gt;L&#39;ultimo scenario combina i due concetti visti finora: l&#39;uso di un &lt;strong&gt;registro come puntatore&lt;/strong&gt; e il &lt;strong&gt;doppio dereferenziamento&lt;/strong&gt;, in un caso in cui non si conosce a priori alcun indirizzo numerico fisso, ma tutto parte dal contenuto di un registro fornito in ingresso.&lt;/p&gt;
+&lt;h3 id=&quot;tabella-riepilogativa-delle-modalita-di-indirizzamento&quot;&gt;Tabella riepilogativa delle modalità di indirizzamento&lt;/h3&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Pattern&lt;/th&gt; &lt;th&gt;Sintassi tipo&lt;/th&gt; &lt;th&gt;Cosa restituisce&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Valore diretto&lt;/td&gt; &lt;td&gt;&lt;code&gt;mov rdi, 133700&lt;/code&gt;&lt;/td&gt; &lt;td&gt;Il numero grezzo, nessun accesso alla memoria&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Dereferenziamento singolo&lt;/td&gt; &lt;td&gt;&lt;code&gt;mov rdi, [rax]&lt;/code&gt;&lt;/td&gt; &lt;td&gt;Il contenuto memorizzato all&#39;indirizzo in rax&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Autodereferenziamento&lt;/td&gt; &lt;td&gt;&lt;code&gt;mov rax, [rax]&lt;/code&gt;&lt;/td&gt; &lt;td&gt;Il registro sovrascrive se stesso col dato letto&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Offset&lt;/td&gt; &lt;td&gt;&lt;code&gt;mov al, [rdi + 1]&lt;/code&gt;&lt;/td&gt; &lt;td&gt;Il byte a un byte di distanza dall&#39;indirizzo base&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Doppia dereferenziazione&lt;/td&gt; &lt;td&gt;&lt;code&gt;mov rdi, [rdi]&lt;/code&gt; seguito da &lt;code&gt;mov rax, [rdi]&lt;/code&gt;&lt;/td&gt; &lt;td&gt;Il dato finale, raggiunto attraverso due accessi consecutivi alla memoria&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Catena da registro&lt;/td&gt; &lt;td&gt;&lt;code&gt;mov rdi, [rdi]&lt;/code&gt; ripetuto&lt;/td&gt; &lt;td&gt;Il valore in fondo a una catena di puntatori partita da un registro&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
+
+
+]]></content>
+    
+    
+    
+      
+      
+    <category term="assembly"/>
+      
+    
+      
+      
+    <category term="deferenziamento"/>
+      
+    
+      
+      
+    <category term="puntatori"/>
+      
+    
+      
+      
+    <category term="indirizzi"/>
+      
+    
+      
+      
+    <category term="offset"/>
+      
+    
+  </entry>
+  
+  <entry>
+    <title>Introduzione ad Assembly</title>
+    <link href="https://dino-996.github.io/blog/introduzione-a-assembly/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/introduzione-a-assembly/</id>
+    <published>2026-08-31T00:00:00.000Z</published>
+    <updated>2026-08-31T00:00:00.000Z</updated>
+    
+    <summary>Un&#39;introduzione pratica all&#39;Assembly x86-64 su Linux: dall&#39;ISA e dai registri della CPU alle system call, fino alla creazione e all&#39;esecuzione di un programma ELF. Un percorso pensato per comprendere cosa succede realmente dietro le quinte di un semplice programma.</summary>
+    
+    
+    <content type="html"><![CDATA[
+
+  &lt;h3 id=&quot;cose-lisa&quot;&gt;Cos&#39;è l&#39;ISA&lt;/h3&gt;
+&lt;p&gt;L&#39;&lt;strong&gt;ISA (Instruction Set Architecture)&lt;/strong&gt; è l&#39;insieme di istruzioni che un microprocessore è in grado di capire ed eseguire. Le operazioni matematiche, i confronti logici nonché la lettura e la scrittura di dati. Possiamo immaginarla come una specie di &lt;strong&gt;lingua comune&lt;/strong&gt; tra hardware e software. E&#39; grazie all&#39;ISA che un programma sa come interagire con la CPU e con la memoria del computer.&lt;/p&gt;
+&lt;h3 id=&quot;la-famiglia-x86&quot;&gt;La famiglia x86&lt;/h3&gt;
+&lt;p&gt;Un esempio famosissimo di ISA è la &lt;strong&gt;famiglia x86&lt;/strong&gt;, usata ancora oggi nella stragrande maggioranza di PC e server. Tutto nasce nel &lt;strong&gt;1978&lt;/strong&gt;, con l&#39;uscita del microprocessore &lt;strong&gt;Intel 8086&lt;/strong&gt;, un chip a &lt;strong&gt;16 bit&lt;/strong&gt;, che per l&#39;epoca rappresentava un salto in avanti notevole rispetto ai processori precedenti.&lt;/p&gt;
+&lt;p&gt;Da lì in poi Intel ha continuato a evolvere questa architettura, passando per modelli come l&#39;&lt;strong&gt;80286&lt;/strong&gt;, l&#39;&lt;strong&gt;80386&lt;/strong&gt;, l&#39;&lt;strong&gt;80486&lt;/strong&gt;, fino ad arrivare ai &lt;strong&gt;Pentium&lt;/strong&gt; e, più recentemente, ai processori &lt;strong&gt;Intel Core&lt;/strong&gt;. Anche altri produttori, come &lt;strong&gt;AMD&lt;/strong&gt;, realizzano oggi chip basati sulla stessa architettura x86.&lt;/p&gt;
+&lt;h3 id=&quot;x86-vs-x64-qual-e-la-differenza&quot;&gt;x86 vs x64: qual è la differenza&lt;/h3&gt;
+&lt;p&gt;La differenza principale riguarda &lt;strong&gt;quanti bit&lt;/strong&gt; la CPU riesce a gestire in una volta sola:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;x86&lt;/strong&gt; (spesso chiamata anche &lt;em&gt;x86-32&lt;/em&gt;) indica l&#39;architettura a &lt;strong&gt;32 bit&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;x64&lt;/strong&gt; (o &lt;em&gt;x86-64&lt;/em&gt;, o &lt;em&gt;AMD64&lt;/em&gt;) indica l&#39;architettura a &lt;strong&gt;64 bit&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Va detto che, storicamente, x86 indicava &lt;strong&gt;tutta la famiglia di processori derivati dall&#39;8086&lt;/strong&gt; (compresi quindi anche i modelli a 16 e a 32 bit), non solo la versione a 32 bit. Nel linguaggio comune, però, x86 viene usato quasi sempre come sinonimo di 32 bit, proprio per contrapporlo a x64.&lt;/p&gt;
+&lt;h3 id=&quot;perche-conta-il-numero-di-bit&quot;&gt;Perché conta il numero di bit&lt;/h3&gt;
+&lt;p&gt;Il numero di bit determina anche &lt;strong&gt;quanta memoria RAM la CPU riesce a indirizzare&lt;/strong&gt; (cioè ad usare):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Con &lt;strong&gt;32 bit&lt;/strong&gt; lo spazio di indirizzamento teorico è di &lt;strong&gt;4 GiB&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;Con &lt;strong&gt;64 bit&lt;/strong&gt; lo spazio di indirizzamento teorico arriva teoricamente a &lt;strong&gt;16 EiB&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Questi 16 exabyte, però, sono un limite puramente &lt;em&gt;teorico&lt;/em&gt;, che deriva dal calcolo matematico 2⁶⁴. Nella pratica, i processori e i sistemi operativi attuali supportano molta meno memoria (di solito qualche centinaio di terabyte), per via di limiti fisici e progettuali reali. Resta comunque un numero enorme rispetto ai sistemi a 32 bit.&lt;/p&gt;
+&lt;p&gt;Questo salto di capacità permette ai sistemi a 64 bit di lavorare con dataset più grandi ed eseguire calcoli più complessi, rendendoli più adatti a compiti impegnativi. In più, l&#39;architettura a 64 bit introduce funzionalità di &lt;strong&gt;sicurezza&lt;/strong&gt; più avanzate (come la protezione contro l&#39;esecuzione di codice malevolo in memoria) e prestazioni migliori, grazie anche a un numero maggiore di &lt;strong&gt;registri general-purpose&lt;/strong&gt; e a set di istruzioni più moderni.&lt;/p&gt;
+&lt;h3 id=&quot;come-funziona-una-cpu-in-breve&quot;&gt;Come funziona una CPU, in breve&lt;/h3&gt;
+&lt;p&gt;Una CPU x86_64 esegue in fondo un numero limitato di operazioni elementari, tutte combinabili tra loro per costruire programmi complessi. A livello concettuale, possiamo ricondurre molte operazioni a tre categorie: &lt;strong&gt;sposta&lt;/strong&gt; dati, &lt;strong&gt;modifica&lt;/strong&gt; dati e &lt;strong&gt;prende decisioni&lt;/strong&gt; in base ai dati.&lt;/p&gt;
+&lt;p&gt;I dati su cui la CPU lavora vengono conservati principalmente nei registri, piccole memorie interne alla CPU, estremamente veloci ma anche costose e limitate. L&#39;ISA x86-64 mette a disposizione &lt;strong&gt;16 registri general-purpose a 64 bit&lt;/strong&gt;, ciascuno pensato per contenere valori numerici che il processore può leggere e scrivere in tempi minimi.&lt;/p&gt;
+&lt;h4 id=&quot;panoramica-dei-registri&quot;&gt;Panoramica dei registri&lt;/h4&gt;
+&lt;p&gt;I primi otto sono le &lt;strong&gt;estensioni&lt;/strong&gt; a 64 bit dei classici registri x86 a 32 bit, mentre gli ultimi otto sono stati aggiunti specificamente per la modalità a 64 bit.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;RAX&lt;/strong&gt; (Accumulatore)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RBX&lt;/strong&gt; (Registro base)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RCX&lt;/strong&gt; (Contatore)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RDX&lt;/strong&gt; (Registro dati)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RSI&lt;/strong&gt; (Source Index)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RDI&lt;/strong&gt; (Destination Index)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RBP&lt;/strong&gt; (Base Pointer dello stack)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RSP&lt;/strong&gt; (Stack Pointer)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;R8&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;R9&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;R10&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;R11&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;R12&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;R13&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;R14&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;R15&lt;/strong&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&quot;il-registro-rax-e-listruzione-mov&quot;&gt;Il registro rax e l&#39;istruzione mov&lt;/h3&gt;
+&lt;p&gt;Tra i registri di uso generale, &lt;code&gt;rax&lt;/code&gt; è uno dei più usati. Può contenere un valore numerico, e i dati vengono inseriti nei registri tramite l’istruzione &lt;strong&gt;mov&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;La sintassi di mov è semplice, il primo operando è la destinazione, il sevondo è la sorgente e i due sono sempre separati da una virgola.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;mov rax, 1337
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In questo esempio il valore 1337 viene copiato dentro il registro rax.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Precisiamo che gli articoli su Assembly faranno riferimento alla sintassi Intel, originale di x86, e non la sintassi AT&amp;amp;T, un dettagio da tenere presente perché l&#39;ordine degli operandi cambia se si sceglie una sintassi diversa.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;le-system-call-chiamate-di-sistema&quot;&gt;Le System Call (chiamate di sistema)&lt;/h3&gt;
+&lt;p&gt;Una &lt;strong&gt;System Call&lt;/strong&gt; è il meccanismo con cui un programma comunica con il sistema operativo. È il sistema operativo, infatti, a gestire l’avvio e la terminazione dei programmi, l’accesso all’hardware, la rete e le altre risorse di sistema.&lt;/p&gt;
+&lt;p&gt;Come abbiamo detto, le istruzioni Assembly interagiscono direttamente con la CPU, ma per richiedere determinati servizi al kernel, il programma utilizza il meccanismo delle system call. Su Linux x86-64, l&#39;istruzione &lt;code&gt;syscall&lt;/code&gt; è il meccanismo utilizzato per effettuare una system call.&lt;/p&gt;
+&lt;h4 id=&quot;la-syscall-exit&quot;&gt;La syscall exit&lt;/h4&gt;
+&lt;p&gt;La prima chiamata di sistema che vale la pena imparare è &lt;code&gt;exit&lt;/code&gt;, che serve a terminare esplicitamente il processo e a restituire al sistema operativo un codice di uscita. Il numero associato a &lt;code&gt;exit&lt;/code&gt; è 60.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;mov rax, 60
+syscall
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ogni &lt;code&gt;syscall&lt;/code&gt; è identificata da un numero, il valore viene caricato in &lt;code&gt;rax&lt;/code&gt;, l&#39;istruzione &lt;code&gt;syscall&lt;/code&gt; esegue la richiesta, e &lt;code&gt;exit&lt;/code&gt; (60) termina correttamente il programma.&lt;/p&gt;
+&lt;p&gt;Quando un programma termina restituisce un &lt;strong&gt;codice di uscita&lt;/strong&gt; attraverso la &lt;code&gt;syscall exit&lt;/code&gt;, la domanda è: come si comunica questo codice di uscita?&lt;/p&gt;
+&lt;p&gt;Banalmente, la risposta è tramite i registri. Il primo parametro di una &lt;code&gt;syscall&lt;/code&gt; viene inserito nel registro &lt;code&gt;rdi&lt;/code&gt;. Nel caso di &lt;code&gt;exit&lt;/code&gt; questo parametro è esattamente il codice di uscita.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Per fare un&#39;analogia con Python, la syscall &lt;code&gt;exit&lt;/code&gt; è simile alla chiamata a una funzione &lt;code&gt;exit()&lt;/code&gt; a cui passiamo un parametro, ad esempio &lt;code&gt;exit(42)&lt;/code&gt;. Il valore &lt;code&gt;42&lt;/code&gt; rappresenta il codice di uscita con cui il programma termina.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;mov rdi, 42
+mov rax, 60
+syscall
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;A differenza di altri linguaggi di programmazione, in Assembly si lavora direttamente con i registri della CPU. Alla CPU non interessa quindi se impostiamo prima il codice di uscita o il numero della syscall &lt;code&gt;exit&lt;/code&gt;: ciò che conta è che, al momento dell&#39;esecuzione di &lt;code&gt;syscall&lt;/code&gt;, i valori siano nei registri corretti. I valori, invece, non vanno assegnati ai registri sbagliati: &lt;code&gt;RAX&lt;/code&gt; deve contenere il numero della syscall e &lt;code&gt;RDI&lt;/code&gt; il codice di uscita. Inoltre Con &lt;strong&gt;GNU assembler&lt;/strong&gt;, le istruzioni e i nomi dei registri x86 non sono case sensitive.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Registro&lt;/th&gt; &lt;th&gt;Scopo&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;rax&lt;/td&gt; &lt;td&gt;Numero della chiamata di sistema&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;rdi&lt;/td&gt; &lt;td&gt;Primo parametro della chiamata (codice di uscita per exit)&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;rsi&lt;/td&gt; &lt;td&gt;Registro di uso generale, utile per memorizzare valori intermedi o copiarli in altri registri&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
+&lt;h3 id=&quot;dal-codice-sorgente-alleseguibile&quot;&gt;Dal codice sorgente all&#39;eseguibile&lt;/h3&gt;
+&lt;p&gt;Scrivere codice Assembly non basta per eseguirlo, serve trasformarlo in un file eseguibile&lt;br&gt;
+attraverso tre passaggi principali:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Scrivere il codice in un file .s.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Assemblarlo&lt;/strong&gt; in un file oggetto .o con as.&lt;/li&gt;
+&lt;li&gt;Collegarlo (linkarlo) in un &lt;strong&gt;eseguibile&lt;/strong&gt; con ld.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h4 id=&quot;1-scivere-il-file-assembly&quot;&gt;1. Scivere il file Assembly&lt;/h4&gt;
+&lt;p&gt;Sentiti libero di usare qualsiasi editor di testo per salvare il codice in un file, ad esempio creiamo un file nominato &lt;code&gt;program.s&lt;/code&gt;. All&#39;inizio del file è molto importante aggiungere la direttiva &lt;code&gt;.intel_syntax noprefix&lt;/code&gt;, che indica all&#39;assembler di utilizzare la sintassi Intel senza prefissi.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;.intel_syntax noprefix
+mov rdi, 42
+mov rax, 60
+syscall
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Questa direttiva riguarda esclusivamente l&#39;assembler e non riguarda in nessun modo la CPU.&lt;/p&gt;
+&lt;h3 id=&quot;assemblare-il-codice&quot;&gt;Assemblare il codice&lt;/h3&gt;
+&lt;p&gt;Il file Assembly (&lt;strong&gt;codice sorgente&lt;/strong&gt;) viene convertito in un file oggetto (&lt;strong&gt;codice macchina e informazioni necessarie al linking&lt;/strong&gt;) con il comando seguente:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;as -o program.o program.s
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h3 id=&quot;collegare-il-file-oggetto&quot;&gt;Collegare il file oggetto&lt;/h3&gt;
+&lt;p&gt;L&#39;eseguibile si crea con il comando:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;ld -o program.elf program.o
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Il programma può essere eseguito con &lt;code&gt;./program.elf&lt;/code&gt;, e il codice di uscita si controlla con &lt;code&gt;echo $?&lt;/code&gt; (&lt;code&gt;$?&lt;/code&gt; è una variabile speciale della shell che contiene lo status di uscita dell&#39;ultimo comando eseguito), che nel nostro esempio restituisce 42.&lt;/p&gt;
+&lt;h4 id=&quot;il-formato-elf&quot;&gt;Il formato ELF&lt;/h4&gt;
+&lt;p&gt;Su Linux, un programma eseguibile è generalmente un file in formato &lt;strong&gt;ELF&lt;/strong&gt; (&lt;em&gt;Executable and Linkable Format&lt;/em&gt;). Possiamo quindi trovare un eseguibile chiamato &lt;code&gt;program.elf&lt;/code&gt;, ma &lt;strong&gt;&lt;code&gt;.elf&lt;/code&gt; è solo un&#39;estensione convenzionale&lt;/strong&gt;: potremmo chiamarlo semplicemente &lt;code&gt;program&lt;/code&gt; e funzionerebbe comunque.&lt;/p&gt;
+&lt;p&gt;Questo perché, a differenza di Windows, &lt;strong&gt;Linux non usa l&#39;estensione del file per determinarne il tipo o la sua eseguibilità&lt;/strong&gt;. Ciò che conta è il &lt;strong&gt;contenuto del file&lt;/strong&gt; e, per l&#39;esecuzione, anche la presenza dei &lt;strong&gt;permessi di esecuzione&lt;/strong&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;In Linux l&#39;&lt;strong&gt;estensione&lt;/strong&gt; è principalmente una convenzione per l&#39;utente; il formato ELF è determinato dal contenuto del file, non dal suo nome.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h4 id=&quot;compilato-vs-assemblato&quot;&gt;Compilato vs Assemblato&lt;/h4&gt;
+&lt;p&gt;&lt;strong&gt;Assembly è un linguaggio di programmazione a basso livello, assemblato,&lt;/strong&gt; attenzione per chi viene da linguaggi come Java, C#, C o C++, è comune associare il termine &lt;em&gt;compilato&lt;/em&gt; al processo di traduzione del codice sorgente. In senso generale, anche l&#39;Assembly viene tradotto prima dell&#39;esecuzione; tuttavia, tecnicamente è più corretto parlare di &lt;strong&gt;assemblaggio&lt;/strong&gt;, perché il programma che effettua la traduzione è un &lt;strong&gt;assembler&lt;/strong&gt;, non un compiler (&lt;em&gt;compilato&lt;/em&gt; e &lt;em&gt;assemblato&lt;/em&gt; non sono necessariamente categorie opposte).&lt;/p&gt;
+&lt;p&gt;La differenza fondamentale è che il &lt;strong&gt;compiler&lt;/strong&gt; traduce un linguaggio di programmazione in un&#39;altra rappresentazione, effettuando anche analisi e trasformazioni del programma, mentre l&#39;&lt;strong&gt;assembler&lt;/strong&gt; traduce le istruzioni Assembly nella corrispondente rappresentazione in &lt;strong&gt;linguaggio macchina dell&#39;architettura target&lt;/strong&gt;, in questo caso &lt;strong&gt;x86-64&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Durante il collegamento può comparire l’avviso &lt;code&gt;cannot find entry symbol _start&lt;/code&gt;. Significa che il linker non trova il simbolo &lt;code&gt;_start&lt;/code&gt; indicato come &lt;strong&gt;punto di ingresso&lt;/strong&gt;.&lt;/p&gt;
+&lt;h3 id=&quot;il-simbolo-start&quot;&gt;Il simbolo _start&lt;/h3&gt;
+&lt;p&gt;Per eliminare l&#39;avviso si può definire esplicitamente un punto di ingresso (&lt;code&gt;_start&lt;/code&gt;) in questo modo:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;.intel_syntax noprefix
+.global _start
+_start:
+mov rdi, 42
+mov rax, 60
+syscall
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Ricapitolando, &lt;code&gt;.global _start&lt;/code&gt; rende il simbolo &lt;code&gt;_start&lt;/code&gt; visibile al &lt;strong&gt;linker&lt;/strong&gt;, mentre &lt;code&gt;_start:&lt;/code&gt; definisce l&#39;etichetta utilizzata come punto di ingresso del programma.&lt;/p&gt;
+&lt;p&gt;È importante ricordare che &lt;code&gt;_start&lt;/code&gt;  &lt;strong&gt;NON è una parola riservata dell&#39;Assembly&lt;/strong&gt;: è semplicemente il nome di un&#39;etichetta, scelto per convenzione. Potremmo quindi chiamarla, ad esempio, &lt;code&gt;inizio&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;.intel_syntax noprefix
+.global inizio
+inizio:
+    mov rdi, 42
+    mov rax, 60
+    syscall
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In questo caso, però, dovremmo indicare &lt;code&gt;inizio&lt;/code&gt; come punto di ingresso al linker, ad esempio con &lt;code&gt;ld -e inizio -o program program.o&lt;/code&gt;.&lt;/p&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Comando&lt;/th&gt; &lt;th&gt;Funzione&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;as -o program.o program.s&lt;/td&gt; &lt;td&gt;Assembla il codice Assembly in un file oggetto&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;ld -o program.elf program.o&lt;/td&gt; &lt;td&gt;Crea l&#39;eseguibile&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;./program.elf&lt;/td&gt; &lt;td&gt;Esegue il programma&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;echo $?&lt;/td&gt; &lt;td&gt;Mostra il codice di uscita del programma&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
+&lt;h3 id=&quot;il-registro-rsi-e-la-copia-tra-registri&quot;&gt;Il registro RSI e la copia tra registri&lt;/h3&gt;
+&lt;p&gt;Un altro registro di uso generale è &lt;code&gt;rsi&lt;/code&gt;, che come gli alti, può essere usato per memorizzare dati, per esempio:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mov rsi, 42
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Abbiamo registrato il valore 42 nel registro &lt;code&gt;rsi&lt;/code&gt;, ma possiamo fare di più, per esempio copiare il contenuto di un registro in un altro registro:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mov rsi, 42
+mov rdi, rsi
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;La seconda istruzione non fa altro che &lt;strong&gt;copiare&lt;/strong&gt; il valore del registro &lt;code&gt;rsi&lt;/code&gt; in &lt;code&gt;rdi&lt;/code&gt;, dopo l&#39;esecuzione del codice ambo i registri conterranno il valore 42. Un dettaglio da tenere presente è che, nonostante il nome dell’istruzione sia &lt;strong&gt;mov&lt;/strong&gt; (abbreviazione di &lt;em&gt;move&lt;/em&gt;), essa non sposta realmente il valore da un registro all’altro, ma lo &lt;strong&gt;copia&lt;/strong&gt;. Il motivo storico per cui l’istruzione si chiami mov invece di qualcosa come set o copy non è del tutto chiaro, si tratta semplicemente di una convenzione consolidata dell’assembly.&lt;/p&gt;
+&lt;h3 id=&quot;buone-pratiche-che-avrei-voluto-conosce-prima-per-chi-cominca-con-assembly&quot;&gt;Buone pratiche (che avrei voluto conosce prima) per chi cominca con Assembly&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;Non dare &lt;strong&gt;mai per scontato&lt;/strong&gt; un valore di registro nel non specificatamente inizializzato proprio codice, anche se in un ambiente controllato di apprendimento un registro può sembrare &lt;em&gt;vuoto&lt;/em&gt; o a zero.&lt;/li&gt;
+&lt;li&gt;Tenere presente che secondo la convenzione di chiamata System V AMD64 ABI comunemente usata su Linux, alcuni registri devono essere preservati dalla funzione chiamata (i cosiddetti registri callee-saved), un aspetto rilevante non appena si inizia a scrivere funzioni piu complesse delle semplici sequenze lineari viste fin ora.&lt;/li&gt;
+&lt;li&gt;Verificare sempre il codice di uscita del proprio programma con echo $? subito dopo l’esecuzione, è il modo più rapido per capire se la logica implementata è corretta.&lt;/li&gt;
+&lt;li&gt;Per ispezionare il contenuto di un file oggetto o di un eseguibile durante il debug, strumenti come &lt;strong&gt;objdump&lt;/strong&gt; o &lt;strong&gt;gdb&lt;/strong&gt; (presente nei prossimi articoli) permettono di vedere le istruzioni effettivamente generate, un passaggio utile quando il comportamento del programma non corrisponde alle aspettative.&lt;/li&gt;
+&lt;/ol&gt;
+
+
+]]></content>
+    
+    
+    
+      
+      
+    <category term="assembly"/>
+      
+    
+      
+      
+    <category term="ISA"/>
+      
+    
+      
+      
+    <category term="x86_64"/>
+      
+    
+      
+      
+    <category term="system call"/>
+      
+    
+      
+      
+    <category term="registri"/>
+      
+    
+  </entry>
   
   <entry>
     <title>Guida completa a Docker</title>
@@ -2852,818 +3329,6 @@ calc = Calcolatrice()
       
       
     <category term="data protection officer"/>
-      
-    
-  </entry>
-  
-  <entry>
-    <title>Attacchi alla Rete</title>
-    <link href="https://dino-996.github.io/blog/attacchi-alla-rete/" rel="alternate" type="text/html"/>
-    <id>https://dino-996.github.io/blog/attacchi-alla-rete/</id>
-    <published>2026-07-25T00:00:00.000Z</published>
-    <updated>2026-07-25T00:00:00.000Z</updated>
-    
-    <summary>Dalle campagne di phishing agli attacchi alla supply chain e ai ransomware, la cybersecurity è ormai un requisito irrinunciabile. Scopri come funzionano le principali minacce informatiche, l&#39;analisi dei casi storici WannaCry e SolarWinds e l&#39;uso di framework professionali come MITRE ATT&amp;CK per rilevare e contrastare i cyberattacchi.</summary>
-    
-    
-    <content type="html"><![CDATA[
-
-  &lt;h2 id=&quot;dalla-teoria-allanalisi-delle-minacce-reali&quot;&gt;Dalla teoria all&#39;analisi delle minacce reali&lt;/h2&gt;
-&lt;p&gt;In un ecosistema digitale sempre più interconnesso, comprendere la natura e il funzionamento degli attacchi informatici non è un optional riservato agli specialisti della sicurezza: è una competenza fondamentale per qualsiasi professionista IT. Sviluppatori che scrivono codice, IT manager che progettano infrastrutture e appassionati di tecnologia si trovano quotidianamente esposti a minacce che spaziano da semplici campagne di phishing ad attacchi sofisticati orchestrati da attori statali.&lt;/p&gt;
-&lt;p&gt;Questo articolo offre una panoramica strutturata delle principali categorie di attacco, analizza casi reali come WannaCry e SolarWinds, e introduce i framework professionali utilizzati per riconoscere, analizzare e contrastare le minacce.&lt;/p&gt;
-&lt;h2 id=&quot;il-panorama-del-malware&quot;&gt;Il panorama del malware&lt;/h2&gt;
-&lt;p&gt;Il termine &lt;strong&gt;malware&lt;/strong&gt; (contrazione di &lt;em&gt;malicious software&lt;/em&gt;) identifica qualsiasi software progettato per danneggiare, infiltrare o compromettere un sistema informatico senza il consenso dell&#39;utente. Le famiglie di malware si differenziano per modalità di propagazione, meccanismo di attivazione e obiettivo finale.&lt;/p&gt;
-&lt;h3 id=&quot;virus&quot;&gt;Virus&lt;/h3&gt;
-&lt;p&gt;Un virus informatico è un frammento di codice che si &lt;strong&gt;aggancia a file eseguibili esistenti&lt;/strong&gt; e si propaga quando l&#39;utente esegue il file infetto. A differenza di altri malware, il virus richiede un&#39;azione umana per attivarsi: l&#39;apertura di un allegato, l&#39;esecuzione di un programma o lo scambio di file su supporti rimovibili.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;File legittimo → Infezione → Esecuzione da parte dell&#39;utente → Replica su altri file → Payload
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;La contromisura principale è un antivirus aggiornato combinato con politiche di controllo degli eseguibili (application whitelisting).&lt;/p&gt;
-&lt;h3 id=&quot;worm&quot;&gt;Worm&lt;/h3&gt;
-&lt;p&gt;Il worm si distingue dal virus per la sua capacità di &lt;strong&gt;propagarsi autonomamente&lt;/strong&gt;, senza necessità di alcuna interazione umana. Sfrutta vulnerabilità nei servizi di rete, protocolli di comunicazione o configurazioni errate per replicarsi da sistema a sistema, causando congestione della rete e danni ai sistemi collegati.&lt;/p&gt;
-&lt;p&gt;Questa autonomia lo rende particolarmente pericoloso in ambienti aziendali non segmentati: un singolo sistema vulnerabile può diventare il punto di partenza di un&#39;infezione che si estende all&#39;intera infrastruttura in pochi minuti.&lt;/p&gt;
-&lt;h3 id=&quot;trojan&quot;&gt;Trojan&lt;/h3&gt;
-&lt;p&gt;Il trojan (o &lt;em&gt;trojan horse&lt;/em&gt;) si maschera da &lt;strong&gt;software legittimo e utile&lt;/strong&gt; per indurre l&#39;utente a installarlo volontariamente. Una volta eseguito, installa payload malevoli in background: backdoor, keylogger, spyware o ransomware.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;Software apparentemente legittimo
-          ↓
-Installazione da parte dell&#39;utente
-          ↓
-Esecuzione del payload nascosto
-          ↓
-Backdoor / Esfiltrazione dati / Ransomware
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;La difesa più efficace combina la verifica dell&#39;integrità dei file tramite checksum SHA-256, il download esclusivo da fonti ufficiali e l&#39;adozione di soluzioni EDR (Endpoint Detection and Response).&lt;/p&gt;
-&lt;h3 id=&quot;ransomware-e-ransomware-as-a-service&quot;&gt;Ransomware e Ransomware-as-a-Service&lt;/h3&gt;
-&lt;p&gt;Il &lt;strong&gt;ransomware&lt;/strong&gt; è una categoria di malware che cifra i file della vittima e richiede il pagamento di un riscatto — tipicamente in criptovaluta — in cambio della chiave di decifratura. Negli ultimi anni il modello di business criminale si è ulteriormente evoluto con la comparsa del &lt;strong&gt;Ransomware-as-a-Service (RaaS)&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Il RaaS funziona come una piattaforma criminale in abbonamento: un gruppo sviluppa e mantiene l&#39;infrastruttura ransomware (il malware, i server C2, il portale di pagamento per le vittime) e la &lt;strong&gt;affitta ad affiliati&lt;/strong&gt; che si occupano della distribuzione. In cambio, gli affiliati cedono al gruppo una percentuale del riscatto incassato — tipicamente tra il 20% e il 30%.&lt;/p&gt;
-&lt;p&gt;Questo modello ha abbassato drasticamente la barriera tecnica di ingresso per i criminali informatici: non è più necessario saper sviluppare malware per condurre attacchi ransomware. Gruppi come &lt;strong&gt;LockBit&lt;/strong&gt;, &lt;strong&gt;BlackCat/ALPHV&lt;/strong&gt; e &lt;strong&gt;REvil&lt;/strong&gt; hanno operato o operano con questo schema, colpendo ospedali, infrastrutture critiche e aziende di ogni dimensione.&lt;/p&gt;
-&lt;h3 id=&quot;fileless-malware&quot;&gt;Fileless malware&lt;/h3&gt;
-&lt;p&gt;Il &lt;strong&gt;fileless malware&lt;/strong&gt; rappresenta una delle categorie più insidiose e difficili da rilevare. A differenza del malware tradizionale, non scrive alcun file eseguibile su disco: &lt;strong&gt;opera interamente in memoria RAM&lt;/strong&gt;, sfruttando strumenti e processi legittimi già presenti nel sistema operativo (PowerShell, WMI, &lt;code&gt;mshta.exe&lt;/code&gt;, macro di Office) per eseguire le proprie operazioni malevole.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;Vettore iniziale (email, browser exploit)
-          ↓
-Esecuzione di uno strumento di sistema legittimo
-          ↓
-Payload caricato direttamente in memoria RAM
-          ↓
-Nessun file scritto su disco → antivirus tradizionale cieco
-          ↓
-Persistenza tramite chiavi di registro o task schedulati
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;L&#39;assenza di artefatti su disco rende inefficaci gli antivirus basati su firma (signature-based). La contromisura richiede soluzioni EDR con rilevamento comportamentale, monitoraggio delle chiamate di sistema e policy di restrizione degli script (es. PowerShell Constrained Language Mode).&lt;/p&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
-  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-    &lt;thead class=&quot;table-dark&quot;&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Tipo&lt;/th&gt;
-        &lt;th&gt;Propagazione&lt;/th&gt;
-        &lt;th&gt;Interazione umana&lt;/th&gt;
-        &lt;th&gt;Obiettivo tipico&lt;/th&gt;
-      &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Virus&lt;/td&gt;
-        &lt;td&gt;Si aggancia a file esistenti&lt;/td&gt;
-        &lt;td&gt;Sì (esecuzione del file)&lt;/td&gt;
-        &lt;td&gt;Danneggiare file, rubare dati&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Worm&lt;/td&gt;
-        &lt;td&gt;Autonoma via rete&lt;/td&gt;
-        &lt;td&gt;No&lt;/td&gt;
-        &lt;td&gt;Propagazione massiva, congestione&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Trojan&lt;/td&gt;
-        &lt;td&gt;Ingegneria sociale&lt;/td&gt;
-        &lt;td&gt;Sì (installazione volontaria)&lt;/td&gt;
-        &lt;td&gt;Backdoor, furto credenziali&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Ransomware&lt;/td&gt;
-        &lt;td&gt;Phishing, exploit, RaaS&lt;/td&gt;
-        &lt;td&gt;Spesso sì (apertura allegato)&lt;/td&gt;
-        &lt;td&gt;Estorsione tramite cifratura file&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Fileless malware&lt;/td&gt;
-        &lt;td&gt;Browser exploit, macro&lt;/td&gt;
-        &lt;td&gt;Talvolta&lt;/td&gt;
-        &lt;td&gt;Esfiltrazione silenziosa, persistenza&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-&lt;h2 id=&quot;phishing-e-social-engineering&quot;&gt;Phishing e social engineering&lt;/h2&gt;
-&lt;p&gt;Il &lt;strong&gt;social engineering&lt;/strong&gt; è l&#39;arte di manipolare le persone per ottenere informazioni riservate o indurle a compiere azioni contrarie alla sicurezza. Non sfrutta vulnerabilità tecniche, ma debolezze cognitive: fiducia, urgenza, autorità, paura. Il phishing ne è la forma più diffusa e pericolosa.&lt;/p&gt;
-&lt;h3 id=&quot;phishing-classico&quot;&gt;Phishing classico&lt;/h3&gt;
-&lt;p&gt;Il phishing classico si basa sull&#39;invio massivo di &lt;strong&gt;email che imitano comunicazioni legittime&lt;/strong&gt; — banche, provider email, servizi governativi — per indurre le vittime a rivelare credenziali o dati bancari. È un attacco indifferenziato: viene inviato a milioni di destinatari senza profilazione, contando sulla percentuale statistica di utenti che abboccheranno.&lt;/p&gt;
-&lt;p&gt;Indicatori tipici di un&#39;email di phishing:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Mittente con dominio leggermente alterato (es. &lt;code&gt;paypa1.com&lt;/code&gt; invece di &lt;code&gt;paypal.com&lt;/code&gt;)&lt;/li&gt;
-&lt;li&gt;Tono di urgenza o minaccia (&amp;quot;Il tuo account verrà sospeso entro 24 ore&amp;quot;)&lt;/li&gt;
-&lt;li&gt;Link che al mouseover mostrano URL diversi dal testo visualizzato&lt;/li&gt;
-&lt;li&gt;Richiesta di credenziali tramite modulo web non su dominio ufficiale&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;spear-phishing&quot;&gt;Spear phishing&lt;/h3&gt;
-&lt;p&gt;Lo spear phishing è una variante &lt;strong&gt;altamente personalizzata&lt;/strong&gt; del phishing classico. L&#39;attaccante raccoglie preventivamente informazioni sulla vittima — nome, ruolo aziendale, colleghi, progetti recenti — per costruire messaggi credibili e mirati su un bersaglio specifico. Il tasso di successo è significativamente superiore rispetto al phishing di massa proprio perché il messaggio supera il filtro critico della vittima, che non riconosce l&#39;anomalia.&lt;/p&gt;
-&lt;p&gt;Le fonti di intelligence più sfruttate includono LinkedIn, GitHub, siti aziendali e post sui social media. La tattica è frequentemente adottata nelle fasi iniziali di attacchi APT.&lt;/p&gt;
-&lt;h3 id=&quot;business-email-compromise-bec&quot;&gt;Business Email Compromise (BEC)&lt;/h3&gt;
-&lt;p&gt;Il &lt;strong&gt;Business Email Compromise&lt;/strong&gt; è una delle frodi informatiche più costose al mondo: secondo l&#39;FBI, ha generato perdite superiori a &lt;strong&gt;50 miliardi di dollari&lt;/strong&gt; a livello globale. L&#39;attaccante compromette o impersona account email aziendali — tipicamente di dirigenti o responsabili finanziari — per indurre trasferimenti di denaro fraudolenti o ottenere accesso a dati sensibili.&lt;/p&gt;
-&lt;p&gt;Lo schema più comune prevede: spoofing o compromissione dell&#39;account di un dirigente (CEO, CFO), invio di istruzioni urgenti e riservate al reparto amministrativo, utilizzo di conti intermediari difficili da tracciare. La contromisura più efficace è la verifica out-of-band (telefonata diretta) per qualsiasi operazione finanziaria fuori dall&#39;ordinario, combinata con MFA su tutti gli account email aziendali.&lt;/p&gt;
-&lt;h2 id=&quot;attacchi-alla-rete&quot;&gt;Attacchi alla rete&lt;/h2&gt;
-&lt;h3 id=&quot;ddos-distributed-denial-of-service&quot;&gt;DDoS (Distributed Denial of Service)&lt;/h3&gt;
-&lt;p&gt;Un attacco &lt;strong&gt;DDoS&lt;/strong&gt; mira a rendere un servizio inaccessibile saturando le risorse del server target con un volume di traffico abnorme. A differenza di un semplice DoS generato da una singola sorgente, il DDoS sfrutta una &lt;strong&gt;botnet&lt;/strong&gt; — una rete di dispositivi compromessi distribuiti globalmente — per amplificare enormemente l&#39;impatto.&lt;/p&gt;
-&lt;p&gt;Le tipologie principali sono:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Volumetric attacks&lt;/strong&gt;: saturano la banda di rete (UDP flood, ICMP flood)&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Protocol attacks&lt;/strong&gt;: esauriscono risorse di stato nei firewall e nei load balancer (SYN flood)&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Application layer attacks&lt;/strong&gt;: mirano a esaurire le risorse applicative (HTTP flood, Slowloris)&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Tra gli attacchi volumetrici, particolarmente devastanti sono i cosiddetti &lt;strong&gt;attacchi di amplificazione&lt;/strong&gt;: l&#39;attaccante non genera direttamente tutto il traffico, ma sfrutta &lt;strong&gt;server DNS o NTP pubblici&lt;/strong&gt; come amplificatori. Inviando piccole richieste con indirizzo sorgente falsificato (spoofato) verso questi server, ottiene risposte molto più grandi dirette verso la vittima. Il fattore di amplificazione può raggiungere 50x con DNS e oltre 500x con NTP.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;Attaccante (IP falsificato = IP vittima)
-    │
-    ▼
-Migliaia di server DNS/NTP pubblici
-    │  risposta 100x più grande della richiesta
-    ▼
-Target (sommerso da traffico amplificato)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Le contromisure includono servizi di scrubbing del traffico, CDN con protezione DDoS integrata (Cloudflare, AWS Shield), rate limiting e anycast routing.&lt;/p&gt;
-&lt;h3 id=&quot;mitm-man-in-the-middle&quot;&gt;MitM (Man-in-the-Middle)&lt;/h3&gt;
-&lt;p&gt;Negli attacchi &lt;strong&gt;Man-in-the-Middle&lt;/strong&gt;, l&#39;attaccante si inserisce silenziosamente nella comunicazione tra due parti, intercettando, leggendo e potenzialmente modificando i dati in transito senza che le vittime ne siano consapevoli.&lt;/p&gt;
-&lt;p&gt;Una delle tecniche più comuni in reti locali è l&#39;&lt;strong&gt;ARP spoofing&lt;/strong&gt;: il protocollo ARP non prevede autenticazione, quindi l&#39;attaccante può inviare risposte ARP false per avvelenare la cache ARP dei dispositivi in rete, associando il proprio indirizzo MAC all&#39;indirizzo IP del gateway. Da quel momento tutto il traffico della vittima transita attraverso il sistema dell&#39;attaccante prima di raggiungere la destinazione reale.&lt;/p&gt;
-&lt;p&gt;Altre tecniche diffuse includono:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;SSL stripping&lt;/strong&gt;: degrada connessioni HTTPS a HTTP eliminando la cifratura&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Rogue access point&lt;/strong&gt;: crea un hotspot Wi-Fi malevolo che emula reti legittime&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;La contromisura fondamentale è l&#39;uso di &lt;strong&gt;TLS 1.3&lt;/strong&gt; per tutte le comunicazioni, l&#39;implementazione di &lt;strong&gt;HSTS&lt;/strong&gt; (HTTP Strict Transport Security) e il &lt;strong&gt;DAI&lt;/strong&gt; (Dynamic ARP Inspection) a livello di switch per contrastare l&#39;ARP spoofing nelle reti locali.&lt;/p&gt;
-&lt;h3 id=&quot;dns-poisoning&quot;&gt;DNS poisoning&lt;/h3&gt;
-&lt;p&gt;Il &lt;strong&gt;DNS Poisoning&lt;/strong&gt; (o &lt;em&gt;DNS Cache Poisoning&lt;/em&gt;) altera le risposte dei server DNS per reindirizzare le vittime verso siti malevoli. L&#39;attaccante inserisce record DNS fasulli nella cache di un resolver, associando nomi di dominio legittimi a indirizzi IP controllati dall&#39;attaccante.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;Richiesta DNS: www.mybanca.it → ?
-[Resolver DNS avvelenato]
-       │
-       ▼
-Risponde: www.mybanca.it → 185.x.x.x (server dell&#39;attaccante)
-       │
-       ▼
-Vittima → Sito clone → Furto credenziali
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;La contromisura principale è &lt;strong&gt;DNSSEC&lt;/strong&gt; (DNS Security Extensions), che aggiunge firme crittografiche alle risposte DNS per garantirne l&#39;autenticità e impedire la manipolazione della cache. Notare che DNSSEC protegge dall&#39;avvelenamento della cache DNS, ma non cifra il contenuto delle query: per questo esiste &lt;strong&gt;DNS over HTTPS (DoH)&lt;/strong&gt; o &lt;strong&gt;DNS over TLS (DoT)&lt;/strong&gt;.&lt;/p&gt;
-&lt;h2 id=&quot;attacchi-alle-applicazioni-web&quot;&gt;Attacchi alle applicazioni web&lt;/h2&gt;
-&lt;p&gt;Le applicazioni web rappresentano una superficie di attacco privilegiata. OWASP (Open Web Application Security Project) pubblica periodicamente la lista delle vulnerabilità più critiche; tre di esse — SQL Injection, XSS e CSRF — ricorrono costantemente tra le prime posizioni della OWASP Top 10.&lt;/p&gt;
-&lt;h3 id=&quot;sql-injection&quot;&gt;SQL injection&lt;/h3&gt;
-&lt;p&gt;La &lt;strong&gt;SQL Injection&lt;/strong&gt; consente a un attaccante di manipolare le query inviate al database inserendo codice SQL malevolo all&#39;interno di campi di input non correttamente sanificati. L&#39;impatto può variare dall&#39;esfiltrazione di dati alla cancellazione completa del database.&lt;/p&gt;
-&lt;p&gt;Esempio di codice vulnerabile:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;$query = &amp;quot;SELECT * FROM users WHERE username=&#39;&amp;quot; . $_POST[&#39;username&#39;] . &amp;quot;&#39; AND password=&#39;&amp;quot; . $_POST[&#39;password&#39;] . &amp;quot;&#39;&amp;quot;;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Con il payload &lt;code&gt;&#39;admin&#39; --&lt;/code&gt; nel campo username, la query diventa:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-sql&quot;&gt;SELECT * FROM users WHERE username=&#39;admin&#39; --&#39; AND password=&#39;...&#39;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Il doppio trattino &lt;code&gt;--&lt;/code&gt; è il simbolo di commento in SQL: tutto ciò che segue viene ignorato dal database, incluso il controllo sulla password. L&#39;attaccante ottiene accesso all&#39;account &lt;code&gt;admin&lt;/code&gt; senza conoscerne la password. La contromisura è l&#39;uso esclusivo di &lt;strong&gt;prepared statements&lt;/strong&gt; con parametri bind:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;$stmt = $pdo-&amp;gt;prepare(&amp;quot;SELECT * FROM users WHERE username = ? AND password = ?&amp;quot;);
-$stmt-&amp;gt;execute([$_POST[&#39;username&#39;], $_POST[&#39;password&#39;]]);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;A livello architetturale, il principio del &lt;strong&gt;minimo privilegio&lt;/strong&gt; applicato agli account database — un utente applicativo che può solo fare &lt;code&gt;SELECT&lt;/code&gt; non può eseguire &lt;code&gt;DROP TABLE&lt;/code&gt; — limita drasticamente il raggio d&#39;azione di un&#39;iniezione riuscita.&lt;/p&gt;
-&lt;h3 id=&quot;xss-cross-site-scripting&quot;&gt;XSS (Cross-Site Scripting)&lt;/h3&gt;
-&lt;p&gt;L&#39;&lt;strong&gt;XSS&lt;/strong&gt; consente a un attaccante di iniettare script JavaScript malevoli nelle pagine web visualizzate da altri utenti. La variante più pericolosa è lo &lt;strong&gt;XSS stored&lt;/strong&gt;: il payload viene persistito nel database (es. all&#39;interno di un commento o di un profilo utente) e servito a tutti gli utenti che visitano la pagina infetta. Un singolo payload può quindi &lt;strong&gt;rubare i cookie di sessione di tutti gli utenti&lt;/strong&gt; che visualizzano la risorsa compromessa, senza che questi compiano alcuna azione particolare.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-php&quot;&gt;// VULNERABILE — esegue script arbitrari nel browser di ogni visitatore
-echo &amp;quot;Commento: &amp;quot; . $row[&#39;contenuto&#39;];
-// SICURO — neutralizza i caratteri speciali HTML
-echo &amp;quot;Commento: &amp;quot; . htmlspecialchars($row[&#39;contenuto&#39;], ENT_QUOTES, &#39;UTF-8&#39;);
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;A livello architetturale, implementare un &lt;strong&gt;Content Security Policy (CSP)&lt;/strong&gt; rigoroso è la difesa più efficace: impedisce al browser di eseguire script non provenienti da origini esplicitamente autorizzate.&lt;/p&gt;
-&lt;h3 id=&quot;csrf-cross-site-request-forgery&quot;&gt;CSRF (Cross-Site Request Forgery)&lt;/h3&gt;
-&lt;p&gt;Il &lt;strong&gt;CSRF&lt;/strong&gt; sfrutta la fiducia che un sito ripone nel browser dell&#39;utente autenticato, e più precisamente un meccanismo del tutto legittimo: il browser invia &lt;strong&gt;automaticamente i cookie di sessione a ogni richiesta verso il dominio&lt;/strong&gt; di destinazione, indipendentemente da quale pagina origina la richiesta. L&#39;attaccante sfrutta questo comportamento per far eseguire alla vittima azioni non volute.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;1. Vittima autenticata su mybanca.it → ha un cookie di sessione valido
-2. Vittima visita un sito malevolo
-3. Il sito esegue: &amp;lt;img src=&amp;quot;https://mybanca.it/transfer?to=attacker&amp;amp;amount=5000&amp;quot;&amp;gt;
-4. Il browser allega automaticamente il cookie → la transazione viene eseguita
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;La contromisura standard è l&#39;implementazione di &lt;strong&gt;CSRF token&lt;/strong&gt; sincroni: ogni form include un token casuale e unico per sessione, verificato lato server prima di elaborare la richiesta:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;form method=&amp;quot;POST&amp;quot; action=&amp;quot;/transfer&amp;quot;&amp;gt;
-  &amp;lt;input type=&amp;quot;hidden&amp;quot; name=&amp;quot;csrf_token&amp;quot; value=&amp;quot;a3f9b2c1d4e5f6a7b8c9d0e1&amp;quot;&amp;gt;
-&amp;lt;/form&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
-  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-    &lt;thead class=&quot;table-dark&quot;&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Vulnerabilità&lt;/th&gt;
-        &lt;th&gt;Meccanismo sfruttato&lt;/th&gt;
-        &lt;th&gt;Impatto tipico&lt;/th&gt;
-        &lt;th&gt;Contromisura principale&lt;/th&gt;
-      &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;SQL Injection&lt;/td&gt;
-        &lt;td&gt;Input utente non sanificato nelle query&lt;/td&gt;
-        &lt;td&gt;Esfiltrazione o distruzione dati, bypass autenticazione&lt;/td&gt;
-        &lt;td&gt;Prepared statements&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;XSS stored&lt;/td&gt;
-        &lt;td&gt;Output non codificato servito a tutti gli utenti&lt;/td&gt;
-        &lt;td&gt;Furto sessione di massa, defacement&lt;/td&gt;
-        &lt;td&gt;Output encoding + CSP&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;CSRF&lt;/td&gt;
-        &lt;td&gt;Invio automatico cookie di sessione dal browser&lt;/td&gt;
-        &lt;td&gt;Azioni non autorizzate a nome dell&#39;utente&lt;/td&gt;
-        &lt;td&gt;CSRF token sincroni&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-&lt;h2 id=&quot;attacchi-avanzati&quot;&gt;Attacchi avanzati&lt;/h2&gt;
-&lt;h3 id=&quot;apt-advanced-persistent-threat&quot;&gt;APT (Advanced Persistent Threat)&lt;/h3&gt;
-&lt;p&gt;Le &lt;strong&gt;Advanced Persistent Threats&lt;/strong&gt; rappresentano la categoria più sofisticata di attacchi informatici. Sono campagne orchestrate tipicamente da attori statali o gruppi sponsorizzati da governi, caratterizzate da tre proprietà fondamentali che le distinguono dal cybercrime ordinario:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Advanced&lt;/strong&gt;: utilizzano tecniche sofisticate, exploit zero-day e strumenti personalizzati sviluppati appositamente per l&#39;obiettivo&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Persistent&lt;/strong&gt;: l&#39;attaccante rimane nella rete della vittima per lungo tempo — mesi o anni — esfiltrano dati in modo silenzioso senza rivelare la propria presenza&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Threat&lt;/strong&gt;: rappresentano una minaccia concreta e mirata, non opportunistica&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;La &lt;strong&gt;persistenza&lt;/strong&gt; è l&#39;elemento più critico: l&#39;obiettivo non è colpire e fuggire, ma mantenere accesso continuativo e non rilevato per raccogliere intelligence o prepararsi a un&#39;azione più distruttiva. Esempi storici includono &lt;strong&gt;Stuxnet&lt;/strong&gt; (USA/Israele, contro le centrifughe nucleari iraniane), &lt;strong&gt;APT28/Fancy Bear&lt;/strong&gt; (Russia) e &lt;strong&gt;APT41&lt;/strong&gt; (Cina).&lt;/p&gt;
-&lt;h3 id=&quot;vulnerabilita-zero-day&quot;&gt;Vulnerabilità zero day&lt;/h3&gt;
-&lt;p&gt;Una &lt;strong&gt;vulnerabilità zero day&lt;/strong&gt; è una falla di sicurezza sconosciuta al produttore del software al momento del suo sfruttamento. Il termine &amp;quot;zero&amp;quot; indica che &lt;strong&gt;il vendor ha avuto zero giorni per prepararsi&lt;/strong&gt; prima che la vulnerabilità venisse attivamente sfruttata: non esiste ancora una patch e i sistemi sono esposti senza possibilità di difesa basata sugli aggiornamenti.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;Scoperta della vulnerabilità (solo l&#39;attaccante ne è a conoscenza)
-        ↓
-Sviluppo dell&#39;exploit
-        ↓
-Sfruttamento attivo — vittima completamente ignara e indifesa
-        ↓
-Scoperta da parte del vendor o di ricercatori di sicurezza
-        ↓
-Rilascio della patch (il &amp;quot;conto zero day&amp;quot; termina)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Gli exploit zero-day sono estremamente preziosi e vengono spesso impiegati nelle fasi iniziali di attacchi APT, dove il rilevamento immediato comprometterebbe l&#39;intera operazione.&lt;/p&gt;
-&lt;h3 id=&quot;attacchi-alla-supply-chain&quot;&gt;Attacchi alla supply chain&lt;/h3&gt;
-&lt;p&gt;Gli &lt;strong&gt;attacchi alla supply chain&lt;/strong&gt; colpiscono i fornitori di software o servizi per infiltrarsi nelle organizzazioni target attraverso canali considerati affidabili. L&#39;impatto è amplificato perché un singolo fornitore compromesso diventa vettore di infezione per migliaia di clienti contemporaneamente. Il caso più emblematico — analizzato nel prossimo case study — è l&#39;attacco &lt;strong&gt;SolarWinds&lt;/strong&gt; del 2020.&lt;/p&gt;
-&lt;h2 id=&quot;case-study-wannacry&quot;&gt;Case study: WannaCry&lt;/h2&gt;
-&lt;h3 id=&quot;panoramica-dellattacco&quot;&gt;Panoramica dell&#39;attacco&lt;/h3&gt;
-&lt;p&gt;Il &lt;strong&gt;12 maggio 2017&lt;/strong&gt;, WannaCry si diffuse in oltre &lt;strong&gt;150 paesi&lt;/strong&gt; nel giro di 24 ore, colpendo centinaia di migliaia di sistemi Windows. Era un &lt;strong&gt;ransomware worm&lt;/strong&gt;: cifrava i file delle vittime richiedendo un riscatto in Bitcoin, propagandosi al contempo autonomamente attraverso la rete senza alcuna interazione umana.&lt;/p&gt;
-&lt;p&gt;Il vettore di infezione era &lt;strong&gt;EternalBlue&lt;/strong&gt;, un exploit sviluppato dalla NSA americana per la vulnerabilità &lt;strong&gt;CVE-2017-0144&lt;/strong&gt; (MS17-010) nel protocollo SMBv1 di Windows. Microsoft aveva rilasciato la patch correttiva &lt;strong&gt;59 giorni prima&lt;/strong&gt; dell&#39;attacco, ma milioni di sistemi non erano stati aggiornati. L&#39;exploit era stato reso pubblico dal gruppo Shadow Brokers settimane prima dell&#39;attacco.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;SMBv1 esposto su porta 445
-           ↓
-Exploit EternalBlue (CVE-2017-0144)
-           ↓
-Esecuzione di codice arbitrario
-           ↓
-Installazione backdoor DoublePulsar
-           ↓
-Download e avvio del payload ransomware
-           ↓
-Cifratura file + propagazione laterale sulla rete
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3 id=&quot;impatto&quot;&gt;Impatto&lt;/h3&gt;
-&lt;p&gt;La vittima più nota è il &lt;strong&gt;National Health Service (NHS) britannico&lt;/strong&gt;, che subì danni stimati in circa &lt;strong&gt;92 milioni di sterline&lt;/strong&gt;: decine di ospedali furono paralizzati, migliaia di appuntamenti medici cancellati e ambulanze dirottate. Tra le altre vittime figurano &lt;strong&gt;Telefónica&lt;/strong&gt;, &lt;strong&gt;FedEx&lt;/strong&gt; e numerose organizzazioni governative. Il danno economico globale complessivo supera i &lt;strong&gt;4 miliardi di dollari&lt;/strong&gt;.&lt;/p&gt;
-&lt;h3 id=&quot;kill-switch-e-contenimento&quot;&gt;Kill switch e contenimento&lt;/h3&gt;
-&lt;p&gt;Il ricercatore di sicurezza &lt;strong&gt;Marcus Hutchins&lt;/strong&gt; scoprì accidentalmente un kill switch: WannaCry tentava di contattare un dominio non registrato prima di attivarsi, probabilmente come meccanismo anti-sandbox. Hutchins registrò quel dominio per circa 10 dollari, interrompendo la propagazione del ransomware a livello globale nel giro di ore.&lt;/p&gt;
-&lt;h3 id=&quot;lezioni-apprese&quot;&gt;Lezioni apprese&lt;/h3&gt;
-&lt;p&gt;WannaCry ha evidenziato con brutale chiarezza tre priorità operative irrinunciabili:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Patch management tempestivo&lt;/strong&gt;: la patch era disponibile da 59 giorni. Applicare tempestivamente gli aggiornamenti di sicurezza è la difesa più efficace contro la maggior parte degli attacchi che sfruttano vulnerabilità note&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Backup regolari e testati&lt;/strong&gt;: una strategia di backup 3-2-1 (tre copie, due supporti diversi, una copia off-site) è l&#39;unica garanzia reale contro il ransomware&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Disabilitazione di protocolli obsoleti&lt;/strong&gt;: SMBv1 era già deprecato da Microsoft. La sua presenza in produzione è stata la causa primaria della diffusione massiva&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Rimando all&#39;articolo scientifico &lt;a href=&quot;https://boa.unimib.it/retrieve/e39773b6-ad69-35a3-e053-3a05fe0aac26/IL_CASO_WANNACRY_IL_FENOMENO_DEI_CYBER_A.pdf&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;&lt;em&gt;IL CASO WANNACRY: IL FENOMENO DEI CYBER ATTACKS NEL CONTESTO DELLA RESPONSABILITÀ INTERNAZIONALE DEGLI STATI&lt;/em&gt;&lt;/a&gt;, un approfondimento accademico a cura del giurista Daniele Mandrioli.&lt;/p&gt;
-&lt;h2 id=&quot;case-study-solarwinds&quot;&gt;Case study: SolarWinds&lt;/h2&gt;
-&lt;h3 id=&quot;lattacco-alla-supply-chain-del-2020&quot;&gt;L&#39;attacco alla supply chain del 2020&lt;/h3&gt;
-&lt;p&gt;Nel dicembre 2020, la società di sicurezza &lt;strong&gt;FireEye&lt;/strong&gt; scoprì che la piattaforma di monitoraggio IT &lt;strong&gt;SolarWinds Orion&lt;/strong&gt; era stata compromessa. La backdoor, denominata &lt;strong&gt;SUNBURST&lt;/strong&gt;, fu inserita direttamente nel &lt;strong&gt;codice sorgente durante il processo di build&lt;/strong&gt; del software, ben prima della firma digitale e della distribuzione agli utenti finali. Circa &lt;strong&gt;18.000 organizzazioni&lt;/strong&gt; ricevettero l&#39;aggiornamento infetto, tra cui agenzie governative americane di primo livello (Dipartimento del Tesoro, Dipartimento della Sicurezza Interna) e aziende Fortune 500.&lt;/p&gt;
-&lt;h3 id=&quot;caratteristiche-tecniche-di-sunburst&quot;&gt;Caratteristiche tecniche di SUNBURST&lt;/h3&gt;
-&lt;p&gt;La backdoor era progettata per eludere qualsiasi sistema di rilevamento convenzionale:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Rimaneva &lt;strong&gt;dormiente per 14 giorni&lt;/strong&gt; dopo l&#39;installazione prima di attivarsi&lt;/li&gt;
-&lt;li&gt;Mascherava le comunicazioni C2 come traffico legittimo verso domini &lt;code&gt;*.avsvmcloud.com&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;Utilizzava algoritmi DGA (Domain Generation Algorithm) per rendere difficile il blocco dei server di comando&lt;/li&gt;
-&lt;li&gt;Eseguiva ricognizione silenziosa dell&#39;ambiente prima di procedere con qualsiasi esfiltrazione&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;lezioni-apprese-1&quot;&gt;Lezioni apprese&lt;/h3&gt;
-&lt;p&gt;Il caso SolarWinds ha ridefinito il concetto di fiducia nella supply chain software:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;La firma digitale non è garanzia sufficiente di integrità&lt;/strong&gt; se il processo di build stesso è stato compromesso&lt;/li&gt;
-&lt;li&gt;I principi di &lt;strong&gt;Zero Trust&lt;/strong&gt; devono essere applicati anche ai software di gestione considerati &amp;quot;affidabili&amp;quot;&lt;/li&gt;
-&lt;li&gt;Il controllo dell&#39;integrità del processo di build (&lt;strong&gt;build integrity&lt;/strong&gt; e &lt;em&gt;reproducible builds&lt;/em&gt;) è diventato un requisito di sicurezza prioritario nelle organizzazioni mature&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Per approfondire vi consiglio di dare uno sguardo all&#39;articolo &lt;a href=&quot;https://www.itstime.it/w/attacco-a-solarwinds-la-sequenza-temporale-by-f-borgonovo-l-cinciripini-m-zaliani&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://www.itstime.it/w/attacco-a-solarwinds-la-sequenza-temporale-by-f-borgonovo-l-cinciripini-m-zaliani&lt;/a&gt;&lt;/p&gt;
-&lt;h2 id=&quot;riconoscere-un-attacco-framework-e-strumenti&quot;&gt;Riconoscere un attacco: framework e strumenti&lt;/h2&gt;
-&lt;h3 id=&quot;mitre-attandck&quot;&gt;MITRE ATT&amp;amp;CK&lt;/h3&gt;
-&lt;p&gt;Il framework &lt;strong&gt;MITRE ATT&amp;amp;CK&lt;/strong&gt; (&lt;em&gt;Adversarial Tactics, Techniques, and Common Knowledge&lt;/em&gt;) è una knowledge base globale delle tattiche, tecniche e procedure (TTP) osservate nelle campagne di attacco reali. È fondamentale comprendere la distinzione tra i suoi due livelli principali:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Tattiche&lt;/strong&gt;: rappresentano il &lt;strong&gt;perché&lt;/strong&gt; dell&#39;attaccante, ovvero l&#39;obiettivo che vuole raggiungere in quella specifica fase (es. &lt;em&gt;Initial Access&lt;/em&gt;, &lt;em&gt;Persistence&lt;/em&gt;, &lt;em&gt;Privilege Escalation&lt;/em&gt;, &lt;em&gt;Lateral Movement&lt;/em&gt;, &lt;em&gt;Exfiltration&lt;/em&gt;). Le tattiche descrivono l&#39;intenzione, non il metodo.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Tecniche&lt;/strong&gt;: rappresentano il &lt;strong&gt;come&lt;/strong&gt;, ovvero il metodo specifico usato per raggiungere quell&#39;obiettivo (es. &lt;em&gt;Spear Phishing Attachment&lt;/em&gt; come tecnica per la tattica &lt;em&gt;Initial Access&lt;/em&gt;).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Questa struttura gerarchica permette ai team di sicurezza di mappare un attacco osservato contro il framework, identificare le lacune difensive e simulare scenari di attacco realistici. Il framework è disponibile gratuitamente su &lt;a href=&quot;https://attack.mitre.org&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;attack.mitre.org&lt;/a&gt; e viene continuamente aggiornato.&lt;/p&gt;
-&lt;h3 id=&quot;kill-chain-di-lockheed-martin&quot;&gt;Kill Chain di Lockheed Martin&lt;/h3&gt;
-&lt;p&gt;Il modello &lt;strong&gt;Cyber Kill Chain&lt;/strong&gt; descrive le &lt;strong&gt;sette fasi sequenziali&lt;/strong&gt; di un attacco informatico strutturato:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-text&quot;&gt;1. Reconnaissance         → Raccolta di informazioni sull&#39;obiettivo
-2. Weaponization          → Creazione del payload malevolo
-3. Delivery               → Consegna del payload (email, USB, web)
-4. Exploitation           → Sfruttamento della vulnerabilità
-5. Installation           → Installazione del malware o backdoor
-6. Command &amp;amp; Control (C2) → Stabilire comunicazione con l&#39;attaccante
-7. Actions on Objectives  → Raggiungimento dell&#39;obiettivo finale
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Il valore operativo del modello risiede nel fatto che &lt;strong&gt;interrompere la catena in qualsiasi fase&lt;/strong&gt; previene il raggiungimento dell&#39;obiettivo finale. Identificare e bloccare un attacco nelle fasi iniziali (Reconnaissance, Delivery) è sempre preferibile all&#39;intervento nelle fasi avanzate, quando i danni sono già in corso.&lt;/p&gt;
-&lt;h3 id=&quot;indicatori-di-compromissione-ioc&quot;&gt;Indicatori di compromissione (IoC)&lt;/h3&gt;
-&lt;p&gt;Gli &lt;strong&gt;Indicatori di Compromissione&lt;/strong&gt; (IoC, &lt;em&gt;Indicators of Compromise&lt;/em&gt;) sono evidenze forensi osservabili — come hash di file, indirizzi IP o domini — che indicano con alta probabilità una possibile compromissione del sistema. Includono:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Hash crittografici&lt;/strong&gt; (MD5, SHA-256) di file malevoli noti&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Indirizzi IP&lt;/strong&gt; di server Command &amp;amp; Control&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Domini&lt;/strong&gt; utilizzati per C2 o distribuzione di malware&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;URL&lt;/strong&gt; specifici associati a campagne di attacco documentate&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Pattern nel traffico di rete&lt;/strong&gt; (beacon periodici, comunicazioni cifrate verso IP anomali)&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Chiavi di registro o percorsi di file&lt;/strong&gt; tipici di specifiche famiglie di malware&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Gli IoC vengono condivisi attraverso piattaforme di threat intelligence come &lt;strong&gt;MISP&lt;/strong&gt; (&lt;em&gt;Malware Information Sharing Platform&lt;/em&gt;) e feed commerciali (CrowdStrike, Recorded Future, VirusTotal). Il concetto si è evoluto verso gli &lt;strong&gt;IoA&lt;/strong&gt; (&lt;em&gt;Indicators of Attack&lt;/em&gt;), che si concentrano sui comportamenti degli attaccanti piuttosto che sugli artefatti statici, risultando più efficaci contro minacce nuove e zero-day.&lt;/p&gt;
-
-
-]]></content>
-    
-    
-    
-      
-      
-    <category term="cybersecurity"/>
-      
-    
-      
-      
-    <category term="malware"/>
-      
-    
-      
-      
-    <category term="ransomware"/>
-      
-    
-      
-      
-    <category term="MITRE"/>
-      
-    
-      
-      
-    <category term="sicurezza web"/>
-      
-    
-  </entry>
-  
-  <entry>
-    <title>Il GDPR</title>
-    <link href="https://dino-996.github.io/blog/guida-gdpr/" rel="alternate" type="text/html"/>
-    <id>https://dino-996.github.io/blog/guida-gdpr/</id>
-    <published>2026-07-25T00:00:00.000Z</published>
-    <updated>2026-07-25T00:00:00.000Z</updated>
-    
-    <summary>Scopri la guida definitiva al GDPR (UE 2016/679): storia della privacy, principi chiave, basi giuridiche, diritti degli interessati e le implicazioni pratiche per sviluppatori e IT manager.</summary>
-    
-    
-    <content type="html"><![CDATA[
-
-  &lt;h2 id=&quot;guida-completa-al-regolamento-ue-2016679&quot;&gt;Guida completa al Regolamento (UE) 2016/679&lt;/h2&gt;
-&lt;p&gt;Il Regolamento Generale sulla Protezione dei Dati — noto universalmente con l&#39;acronimo inglese &lt;strong&gt;GDPR&lt;/strong&gt; (&lt;em&gt;General Data Protection Regulation&lt;/em&gt;) — è uno dei testi normativi più impattanti mai prodotti dall&#39;Unione Europea in ambito digitale. Entrato in applicazione il 25 maggio 2018, ha ridisegnato in modo radicale il modo in cui organizzazioni pubbliche e private raccolgono, conservano e trattano i dati personali di cittadini europei. Per chi lavora nello sviluppo software o nella gestione IT, conoscere il GDPR non è una questione di buona educazione normativa: è un prerequisito tecnico.&lt;/p&gt;
-&lt;h2 id=&quot;cosa-intendiamo-con-privacy&quot;&gt;Cosa intendiamo con &amp;quot;privacy&amp;quot;&lt;/h2&gt;
-&lt;p&gt;Prima di entrare nel merito del regolamento, è utile chiarire il concetto stesso di privacy, spesso usato in modo impreciso. Con il termine &lt;strong&gt;privacy&lt;/strong&gt; intendiamo comunemente il diritto di ogni individuo alla riservatezza, ma la definizione è più ampia: si tratta del &lt;strong&gt;diritto dell&#39;individuo a controllare la diffusione delle informazioni che lo riguardano&lt;/strong&gt;, esercitando una sorta di proprietà sui propri dati personali.&lt;/p&gt;
-&lt;p&gt;La gestione di questi dati, a seguito del cambiamento costante della società e del progresso tecnologico, è diventata negli anni un business di enormi proporzioni. Questo è esattamente il contesto che ha reso necessaria una normativa uniforme e vincolante a livello europeo.&lt;/p&gt;
-&lt;h2 id=&quot;un-po-di-storia&quot;&gt;Un po&#39; di storia&lt;/h2&gt;
-&lt;p&gt;Le radici del diritto alla privacy affondano negli Stati Uniti. Già nel dicembre del 1890, sulla&lt;a href=&quot;https://harvardlawreview.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt; &lt;em&gt;Harvard Law Review&lt;/em&gt;&lt;/a&gt;,  gli avvocati di Boston Samuel D. Warren e Louis D. Brandeis — ispirati dalla filosofia di Ralph Waldo Emerson, che proponeva la solitudine come criterio e fonte di libertà — definirono il diritto alla riservatezza come &lt;em&gt;&amp;quot;the right to be alone&amp;quot;&lt;/em&gt;: il diritto ad essere lasciati in pace e a proteggere la propria sfera più intima.&lt;/p&gt;
-&lt;p&gt;Da questa premessa, negli Stati Uniti si consolidò l&#39;idea della &lt;strong&gt;riservatezza come diritto individuale fondamentale&lt;/strong&gt;, da bilanciare con le altre esigenze di tutela proprie di una società sempre più evoluta. La privacy fu progressivamente equiparata ad altri diritti fondamentali, come quello alla salute, alla sicurezza, al lavoro e all&#39;informazione.&lt;/p&gt;
-&lt;p&gt;Da un punto di vista giurisprudenziale, il concetto nasce in modo più formale solo con le pronunce della Corte Suprema degli Stati Uniti. La &lt;strong&gt;prima pronuncia rilevante risale al 1956&lt;/strong&gt; (Communist Party vs. USA), nella quale si affermò che la privacy, intesa come riservatezza, non può tutelare i sovversivi. Questa decisione segnò il primo riconoscimento giurisprudenziale della privacy come diritto all&#39;essere lasciati soli, senza ingerenze esterne nella propria vita privata.&lt;/p&gt;
-&lt;p&gt;A partire dagli anni Ottanta, il concetto di &lt;em&gt;right to privacy&lt;/em&gt; si consolidò ulteriormente e varcò l&#39;Atlantico, approdando in Europa dove — applicato a contesti profondamente diversi e a seguito dello sviluppo tecnologico — ha disciplinato esigenze nuove, tra cui, in primo luogo, il diritto alla tutela dei dati personali.&lt;/p&gt;
-&lt;h2 id=&quot;levoluzione-normativa-europea&quot;&gt;L&#39;evoluzione normativa europea&lt;/h2&gt;
-&lt;p&gt;Il percorso che ha portato al GDPR è lungo e articolato. La tabella seguente riassume le tappe fondamentali dell&#39;iter approvativo:&lt;/p&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Data&lt;/th&gt; &lt;th&gt;Evento&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;16 dicembre 2015&lt;/td&gt; &lt;td&gt;Approvazione finale da parte del LIBE (Commissione per le libertà civili del Parlamento Europeo) e del Coreper (Comitato dei rappresentanti permanenti dei governi degli Stati membri dell&#39;UE)&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Gennaio 2016&lt;/td&gt; &lt;td&gt;Approvazione definitiva da parte del Parlamento Europeo e del Consiglio dell&#39;Unione Europea&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;4 maggio 2016&lt;/td&gt; &lt;td&gt;Pubblicazione nella Gazzetta Ufficiale dell&#39;Unione Europea&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;25 maggio 2016&lt;/td&gt; &lt;td&gt;Entrata in vigore nei 28 Stati membri dell&#39;UE&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;25 maggio 2018&lt;/td&gt; &lt;td&gt;Applicazione effettiva del GDPR in tutti gli Stati membri (fine del periodo di transizione biennale)&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
-&lt;p&gt;È importante distinguere tra &lt;em&gt;entrata in vigore&lt;/em&gt; (2016) e &lt;em&gt;applicazione&lt;/em&gt; (2018): i due anni di transizione sono stati concessi a organizzazioni e Stati membri per adeguare i propri sistemi e processi ai nuovi requisiti.&lt;/p&gt;
-&lt;h2 id=&quot;cose-il-gdpr&quot;&gt;Cos&#39;è il GDPR&lt;/h2&gt;
-&lt;p&gt;Il GDPR è il &lt;strong&gt;Regolamento (UE) 2016/679&lt;/strong&gt; del Parlamento Europeo e del Consiglio, relativo alla protezione delle persone fisiche con riguardo al trattamento dei dati personali e alla loro libera circolazione. È stato approvato dal Parlamento europeo il 14 aprile 2016 ed è diventato definitivamente applicabile in tutti gli Stati membri il 25 maggio 2018.&lt;/p&gt;
-&lt;p&gt;Il regolamento ha due obiettivi fondamentali, strettamente interconnessi:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Rafforzare i diritti delle persone fisiche&lt;/strong&gt; in merito al controllo sui propri dati personali, aggiornando e ampliando le tutele previste dalla precedente Direttiva 95/46/CE.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Unificare il quadro normativo&lt;/strong&gt; sulla protezione dei dati personali all&#39;interno di tutta l&#39;Unione Europea, sostituendo le diverse e spesso disomogenee leggi nazionali presenti nei Paesi membri.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;A differenza della direttiva che lo ha preceduto, il GDPR è un &lt;strong&gt;regolamento&lt;/strong&gt; e, in quanto tale, è &lt;strong&gt;direttamente applicabile&lt;/strong&gt; in tutti gli Stati membri senza necessità di recepimento nazionale, garantendo uniformità giuridica in tutto il territorio dell&#39;UE.&lt;/p&gt;
-&lt;h2 id=&quot;oggetto-e-finalita-articolo-1&quot;&gt;Oggetto e finalità: articolo 1&lt;/h2&gt;
-&lt;p&gt;L&#39;articolo 1 del GDPR definisce con precisione l&#39;oggetto del regolamento. Il testo stabilisce norme relative a tre ambiti distinti ma complementari:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;La &lt;strong&gt;protezione dei diritti e delle libertà fondamentali&lt;/strong&gt; delle persone fisiche, con particolare riguardo al diritto alla protezione dei dati personali.&lt;/li&gt;
-&lt;li&gt;Il &lt;strong&gt;trattamento dei dati personali&lt;/strong&gt;, ovvero qualsiasi operazione compiuta su dati che si riferiscono a una persona fisica identificata o identificabile.&lt;/li&gt;
-&lt;li&gt;La &lt;strong&gt;libera circolazione dei dati&lt;/strong&gt; all&#39;interno dell&#39;Unione Europea, evitando che le normative nazionali possano costituire ostacoli ingiustificati allo scambio di informazioni nel mercato interno.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;ambito-di-applicazione-articolo-2&quot;&gt;Ambito di applicazione: articolo 2&lt;/h2&gt;
-&lt;h3 id=&quot;a-chi-si-applica-il-regolamento&quot;&gt;A chi si applica il regolamento&lt;/h3&gt;
-&lt;p&gt;Secondo l&#39;articolo 2, il GDPR si applica al &lt;strong&gt;trattamento automatizzato di dati personali&lt;/strong&gt; — ad esempio, qualsiasi operazione eseguita da un software su un database di utenti — e al &lt;strong&gt;trattamento non automatizzato di dati personali contenuti in un archivio strutturato&lt;/strong&gt; — come un registro cartaceo di clienti organizzato per nome o numero di contratto.&lt;/p&gt;
-&lt;h3 id=&quot;quando-non-si-applica&quot;&gt;Quando non si applica&lt;/h3&gt;
-&lt;p&gt;Il regolamento, per espressa disposizione dell&#39;articolo 2, &lt;strong&gt;non si applica&lt;/strong&gt; nei seguenti casi:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Trattamenti relativi ad &lt;strong&gt;attività che esulano dall&#39;ambito del diritto dell&#39;Unione Europea&lt;/strong&gt;, come le questioni di sicurezza nazionale, che rimangono di competenza esclusiva degli Stati membri.&lt;/li&gt;
-&lt;li&gt;Trattamenti effettuati da una &lt;strong&gt;persona fisica per attività a carattere esclusivamente personale o domestico&lt;/strong&gt;, come una rubrica telefonica privata o un diario personale digitale.&lt;/li&gt;
-&lt;li&gt;Trattamenti effettuati da &lt;strong&gt;autorità competenti&lt;/strong&gt; a fini di prevenzione, indagine, accertamento e perseguimento di reati o esecuzione di sanzioni penali, disciplinati dalla separata Direttiva (UE) 2016/680.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;i-principi-fondamentali-del-trattamento-articolo-5&quot;&gt;I principi fondamentali del trattamento: articolo 5&lt;/h2&gt;
-&lt;p&gt;L&#39;articolo 5 è il cuore operativo del GDPR. Esso stabilisce i &lt;strong&gt;sei principi&lt;/strong&gt; ai quali deve conformarsi qualsiasi trattamento di dati personali. Per un team di sviluppo o un reparto IT, questi principi non sono astrazioni giuridiche: sono vincoli architetturali da incorporare nei sistemi fin dalla fase di progettazione.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Liceità, correttezza e trasparenza.&lt;/strong&gt; I dati devono essere trattati in modo lecito (cioè su una delle sei basi giuridiche previste dall&#39;Art. 6), corretto nei confronti dell&#39;interessato e trasparente nella comunicazione delle finalità.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Limitazione della finalità.&lt;/strong&gt; I dati raccolti per uno scopo determinato non possono essere riutilizzati per finalità incompatibili con quelle originali. Un sistema CRM non può alimentare un sistema di profilazione pubblicitaria senza una base giuridica autonoma.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Minimizzazione dei dati.&lt;/strong&gt; È lecito raccogliere solo i dati &lt;strong&gt;adeguati, pertinenti e limitati&lt;/strong&gt; a quanto necessario rispetto alle finalità del trattamento. Raccogliere la data di nascita quando basta sapere se l&#39;utente è maggiorenne viola questo principio.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Esattezza.&lt;/strong&gt; I dati devono essere accurati e, se necessario, aggiornati. Occorre predisporre procedure per la rettifica o la cancellazione dei dati inesatti.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Limitazione della conservazione.&lt;/strong&gt; I dati non devono essere conservati in una forma che consenta l&#39;identificazione dell&#39;interessato per un arco di tempo superiore a quello necessario alle finalità per cui sono trattati. Questo si traduce in &lt;strong&gt;politiche di retention&lt;/strong&gt; e in processi automatizzati di anonimizzazione o cancellazione.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Integrità e riservatezza.&lt;/strong&gt; I dati devono essere trattati in modo da garantirne la sicurezza, compresa la protezione da trattamenti non autorizzati o illeciti e dalla perdita, distruzione o danno accidentale, adottando misure tecniche e organizzative adeguate.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;A questi sei principi se ne aggiunge uno trasversale: il principio di &lt;strong&gt;responsabilizzazione&lt;/strong&gt; (&lt;em&gt;accountability&lt;/em&gt;), anch&#39;esso sancito dall&#39;articolo 5, secondo cui il titolare del trattamento è responsabile del rispetto di tutti i principi elencati ed è in grado di &lt;strong&gt;comprovarlo&lt;/strong&gt;.&lt;/p&gt;
-&lt;h2 id=&quot;le-basi-giuridiche-del-trattamento-articolo-6&quot;&gt;Le basi giuridiche del trattamento: articolo 6&lt;/h2&gt;
-&lt;p&gt;Nessun trattamento di dati personali è lecito se non poggia su almeno una delle sei basi giuridiche elencate all&#39;articolo 6. La scelta della base giuridica corretta è una delle prime decisioni da prendere in fase di progettazione di un sistema che gestisce dati personali.&lt;/p&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Base giuridica&lt;/th&gt; &lt;th&gt;Quando si usa&lt;/th&gt; &lt;th&gt;Esempio pratico&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Consenso (Art. 6.1.a)&lt;/td&gt; &lt;td&gt;L&#39;interessato ha prestato il proprio consenso per una o più finalità specifiche&lt;/td&gt; &lt;td&gt;Newsletter marketing, cookie di profilazione&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Contratto (Art. 6.1.b)&lt;/td&gt; &lt;td&gt;Il trattamento è necessario all&#39;esecuzione di un contratto di cui l&#39;interessato è parte&lt;/td&gt; &lt;td&gt;Spedizione di un ordine e-commerce, fatturazione&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Obbligo legale (Art. 6.1.c)&lt;/td&gt; &lt;td&gt;Il trattamento è necessario per adempiere a un obbligo di legge del titolare&lt;/td&gt; &lt;td&gt;Conservazione delle fatture per 10 anni (normativa fiscale)&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Interesse vitale (Art. 6.1.d)&lt;/td&gt; &lt;td&gt;Il trattamento è necessario per tutelare un interesse vitale dell&#39;interessato o di terzi&lt;/td&gt; &lt;td&gt;Divulgazione di dati sanitari in caso di emergenza medica&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Interesse pubblico (Art. 6.1.e)&lt;/td&gt; &lt;td&gt;Il trattamento è necessario per l&#39;esecuzione di un compito di interesse pubblico&lt;/td&gt; &lt;td&gt;Gestione di dati da parte di enti pubblici&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Legittimo interesse (Art. 6.1.f)&lt;/td&gt; &lt;td&gt;Il trattamento è necessario per il perseguimento del legittimo interesse del titolare o di terzi, a meno che non prevalgano gli interessi dell&#39;interessato&lt;/td&gt; &lt;td&gt;Sistemi antifrode, log di sicurezza, direct marketing B2B&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
-&lt;p&gt;È fondamentale ricordare che la base giuridica deve essere determinata &lt;strong&gt;prima&lt;/strong&gt; dell&#39;inizio del trattamento, documentata nel Registro delle attività di trattamento e comunicata all&#39;interessato nell&#39;informativa sulla privacy.&lt;/p&gt;
-&lt;h2 id=&quot;i-soggetti-del-trattamento&quot;&gt;I soggetti del trattamento&lt;/h2&gt;
-&lt;p&gt;Il GDPR definisce con precisione i ruoli e le responsabilità di chi partecipa a un trattamento di dati personali. Conoscere queste figure è indispensabile per strutturare correttamente i rapporti contrattuali e le responsabilità interne a un&#39;organizzazione.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Titolare del trattamento (&lt;em&gt;Data Controller&lt;/em&gt;).&lt;/strong&gt; È la persona fisica o giuridica, l&#39;autorità pubblica, il servizio o altro organismo che, singolarmente o insieme ad altri, determina le &lt;strong&gt;finalità e i mezzi&lt;/strong&gt; del trattamento di dati personali. In un&#39;azienda che gestisce un&#39;applicazione SaaS, il titolare è tipicamente l&#39;azienda stessa.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Responsabile del trattamento (&lt;em&gt;Data Processor&lt;/em&gt;).&lt;/strong&gt; È la persona fisica o giuridica che tratta dati personali &lt;strong&gt;per conto del titolare&lt;/strong&gt;. Il cloud provider che ospita i dati di un&#39;applicazione, il fornitore del sistema di email marketing, il provider del servizio di analisi web: tutti questi soggetti sono responsabili del trattamento e il rapporto con ciascuno di essi deve essere formalizzato in un &lt;strong&gt;Data Processing Agreement (DPA)&lt;/strong&gt;, un accordo contrattuale obbligatorio che definisce obblighi e garanzie di sicurezza.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Responsabile della protezione dei dati (&lt;em&gt;Data Protection Officer&lt;/em&gt; – DPO).&lt;/strong&gt; È una figura professionale, interna o esterna all&#39;organizzazione, con compiti di consulenza, sorveglianza e punto di contatto con l&#39;autorità di controllo. La nomina del DPO è &lt;strong&gt;obbligatoria&lt;/strong&gt; per: autorità ed enti pubblici, organizzazioni che effettuano trattamenti su larga scala di categorie particolari di dati (dati sanitari, biometrici, ecc.) e organizzazioni che effettuano monitoraggio sistematico su larga scala degli interessati.&lt;/p&gt;
-&lt;h2 id=&quot;i-diritti-degli-interessati&quot;&gt;I diritti degli interessati&lt;/h2&gt;
-&lt;p&gt;Il GDPR riconosce agli interessati un corpus di diritti che ogni sistema informatico deve essere in grado di soddisfare in modo automatizzato e documentabile. Ignorarli in fase di progettazione significa accumulate debito tecnico normativo che si tradurrà in costi di adeguamento futuri.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Diritto di accesso (Art. 15):&lt;/strong&gt; L&#39;interessato ha il diritto di ottenere la conferma che sia in corso un trattamento di dati che lo riguardano e, in caso affermativo, di accedere a una copia di questi dati.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Diritto di rettifica (Art. 16):&lt;/strong&gt; L&#39;interessato può richiedere la correzione di dati personali inesatti o incompleti.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Diritto alla cancellazione — &amp;quot;diritto all&#39;oblio&amp;quot; (Art. 17):&lt;/strong&gt; In determinate condizioni (dati non più necessari, revoca del consenso, trattamento illecito), l&#39;interessato può richiedere la cancellazione dei propri dati.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Diritto alla limitazione del trattamento (Art. 18):&lt;/strong&gt; In specifiche circostanze, l&#39;interessato può chiedere che il trattamento venga limitato, ad esempio durante una contestazione sull&#39;esattezza dei dati.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Diritto alla portabilità dei dati (Art. 20):&lt;/strong&gt; L&#39;interessato ha il diritto di ricevere i propri dati in un &lt;strong&gt;formato strutturato, di uso comune e leggibile da dispositivo automatico&lt;/strong&gt;, e di trasmetterli a un altro titolare del trattamento. Questo diritto si applica ai dati trattati con mezzi automatizzati sulla base di un contratto o di un consenso.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Diritto di opposizione (Art. 21):&lt;/strong&gt; L&#39;interessato può opporsi in qualsiasi momento al trattamento dei propri dati, in particolare quando il trattamento è basato sul legittimo interesse o è finalizzato al marketing diretto.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;gli-istituti-della-privacy&quot;&gt;Gli istituti della privacy&lt;/h2&gt;
-&lt;h3 id=&quot;il-comitato-europeo-per-la-protezione-dei-dati-edpb&quot;&gt;Il Comitato europeo per la protezione dei dati (EDPB)&lt;/h3&gt;
-&lt;p&gt;Il &lt;strong&gt;Comitato europeo per la protezione dei dati&lt;/strong&gt; (&lt;em&gt;European Data Protection Board&lt;/em&gt; – EDPB) è l&#39;organismo europeo istituito dall&#39;articolo 68 del GDPR in sostituzione del precedente Gruppo di lavoro ex articolo 29. È composto dal &lt;strong&gt;garante europeo della protezione dei dati&lt;/strong&gt; (in veste di osservatore), da &lt;strong&gt;un rappresentante di ogni Autorità di controllo nazionale&lt;/strong&gt; degli Stati membri e da &lt;strong&gt;un rappresentante della Commissione europea&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Tra i compiti principali dell&#39;EDPB rientrano: assicurare l&#39;applicazione coerente del regolamento in tutti gli Stati, fornire linee guida e raccomandazioni alla Commissione, rilasciare pareri su questioni relative alla protezione dei dati personali nell&#39;Unione, accreditare organismi di certificazione, emettere pareri sui codici di condotta e garantire la cooperazione tra le autorità di controllo nazionali.&lt;/p&gt;
-&lt;h3 id=&quot;il-garante-europeo-della-protezione-dei-dati-gepd&quot;&gt;Il Garante europeo della protezione dei dati (GEPD)&lt;/h3&gt;
-&lt;p&gt;Il &lt;strong&gt;Garante europeo della protezione dei dati&lt;/strong&gt; (&lt;em&gt;European Data Protection Supervisor&lt;/em&gt; – EDPS) è un&#39;autorità di sorveglianza indipendente il cui obiettivo primario è garantire che le &lt;strong&gt;istituzioni e gli organi dell&#39;UE&lt;/strong&gt; rispettino il diritto alla vita privata e alla protezione dei dati nel trattamento dei dati personali e nell&#39;elaborazione di nuove politiche. È composto da 1 Garante e 1 Garante aggiunto.&lt;/p&gt;
-&lt;p&gt;Il GEPD svolge funzioni di controllo sul trattamento dei dati effettuato dall&#39;amministrazione dell&#39;UE, presta consulenza alle istituzioni europee su tutti gli aspetti della protezione dei dati, gestisce denunce e conduce indagini, collabora con le autorità nazionali per assicurare coerenza nell&#39;applicazione della normativa e monitora l&#39;evoluzione delle nuove tecnologie che possono influire sulla protezione dei dati.&lt;/p&gt;
-&lt;h3 id=&quot;le-autorita-di-controllo-nazionali&quot;&gt;Le autorità di controllo nazionali&lt;/h3&gt;
-&lt;p&gt;Ogni Stato membro dell&#39;Unione europea dispone di una propria &lt;strong&gt;Autorità di controllo&lt;/strong&gt; nazionale, indipendente, competente a gestire i reclami presentati dagli interessati e a vigilare sul rispetto del regolamento e delle norme nazionali di protezione dei dati. L&#39;autorità è competente a intervenire quando il trattamento riguarda uno stabilimento nel territorio dello Stato membro o incide in modo sostanziale sugli interessati unicamente nel suo Stato membro.&lt;/p&gt;
-&lt;p&gt;In Italia, questa funzione è svolta dal &lt;strong&gt;Garante per la protezione dei dati personali&lt;/strong&gt;, un&#39;autorità amministrativa indipendente composta da 4 membri eletti dal Parlamento. Il Garante italiano si occupa di: verificare la conformità dei trattamenti alla legge e prescrivere le misure correttive; esaminare reclami e ricorsi; limitare, sospendere o vietare trattamenti in violazione delle norme; adottare autorizzazioni generali; promuovere codici di deontologia e buona condotta; partecipare alle attività dell&#39;EDPB a livello comunitario; irrogare sanzioni amministrative.&lt;/p&gt;
-&lt;h2 id=&quot;il-recepimento-italiano-dlgs-1012018&quot;&gt;Il recepimento italiano: D.Lgs. 101/2018&lt;/h2&gt;
-&lt;p&gt;In Italia, il GDPR è stato recepito attraverso il &lt;strong&gt;Decreto Legislativo 10 agosto 2018, n. 101&lt;/strong&gt;, che ha adeguato il preesistente Codice della privacy (D.Lgs. 196/2003) alle disposizioni del regolamento europeo. È tuttavia importante comprendere i &lt;strong&gt;limiti di questo decreto&lt;/strong&gt; per non incorrere in interpretazioni errate della normativa vigente.&lt;/p&gt;
-&lt;p&gt;Il D.Lgs. 101/2018 &lt;strong&gt;non contiene&lt;/strong&gt; disposizioni autonome su:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Soggetti del trattamento:&lt;/strong&gt; la normativa nazionale non ridefinisce le figure di titolare, contitolare, responsabile o DPO, demandando interamente al testo del GDPR la relativa disciplina, con la sola aggiunta della figura dei &amp;quot;designati&amp;quot;.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Adempimenti:&lt;/strong&gt; non sono presenti norme sui Registri delle attività di trattamento, sulla Valutazione d&#39;impatto sulla protezione dei dati (DPIA) o sugli altri obblighi documentali, per i quali il rinvio al GDPR è completo (con l&#39;eccezione di alcune disposizioni sui reclami).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Sanzioni specifiche:&lt;/strong&gt; il decreto non introduce una disciplina autonoma sulle soglie sanzionatorie minime e massime, rinviando direttamente al sistema del GDPR, pur prevedendo alcune disposizioni sulle procedure di applicazione delle sanzioni stesse.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;le-sanzioni&quot;&gt;Le sanzioni&lt;/h2&gt;
-&lt;p&gt;Il regime sanzionatorio del GDPR è articolato in due fasce, graduate in funzione della gravità della violazione:&lt;/p&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Fascia&lt;/th&gt; &lt;th&gt;Violazioni tipiche&lt;/th&gt; &lt;th&gt;Sanzione massima&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Fascia inferiore&lt;/td&gt; &lt;td&gt;Mancato rispetto dei principi del DPO, mancata notifica di un data breach, assenza del registro delle attività di trattamento, violazione delle condizioni per il consenso dei minori&lt;/td&gt; &lt;td&gt;€10.000.000 oppure 2% del fatturato mondiale annuo, se superiore&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Fascia superiore&lt;/td&gt; &lt;td&gt;Violazione dei principi fondamentali del trattamento (Art. 5), trattamento privo di base giuridica (Art. 6), violazione dei diritti degli interessati, trasferimento illecito di dati a paesi terzi&lt;/td&gt; &lt;td&gt;€20.000.000 oppure 4% del fatturato mondiale annuo, se superiore&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
-&lt;p&gt;Le sanzioni sono calcolate tenendo conto di una serie di criteri, tra cui la natura, la gravità e la durata della violazione, il carattere doloso o colposo, le misure adottate per attenuare il danno, il grado di cooperazione con l&#39;autorità di controllo e i precedenti del titolare.&lt;/p&gt;
-&lt;h2 id=&quot;implicazioni-pratiche-per-sviluppatori-e-it-manager&quot;&gt;Implicazioni pratiche per sviluppatori e IT manager&lt;/h2&gt;
-&lt;p&gt;La conformità al GDPR non è un progetto una-tantum da consegnare all&#39;ufficio legale: è una &lt;strong&gt;disciplina tecnica continua&lt;/strong&gt; che richiede scelte architetturali precise.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Privacy by design e privacy by default (Art. 25).&lt;/strong&gt; Ogni nuovo sistema o applicazione deve incorporare le misure di protezione dei dati sin dalla fase di progettazione (&lt;em&gt;by design&lt;/em&gt;) e deve, per impostazione predefinita, trattare solo i dati strettamente necessari (&lt;em&gt;by default&lt;/em&gt;). Questo significa, in pratica, disabilitare per default tutte le funzionalità non essenziali, limitare i permessi di accesso al minimo necessario e progettare gli schemi del database evitando la raccolta di attributi superflui.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Gestione dei Data Processing Agreement.&lt;/strong&gt; Ogni provider di servizi cloud, ogni SDK di terze parti, ogni sistema di analytics integrato nell&#39;applicazione è un potenziale responsabile del trattamento. Occorre verificare l&#39;esistenza di un DPA con ciascuno di essi e assicurarsi che rispettino gli standard del GDPR, specialmente se il trasferimento di dati avviene verso paesi extra-UE.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Pseudonimizzazione e cifratura.&lt;/strong&gt; Il GDPR non impone tecnologie specifiche, ma cita esplicitamente la pseudonimizzazione e la cifratura come misure tecniche adeguate. Cifrare i dati a riposo e in transito, separare i dati identificativi dai dati transazionali e usare identificatori interni al posto di dati anagrafici diretti sono pratiche che, oltre a ridurre il rischio, attenuano le conseguenze sanzionatorie in caso di data breach.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Gestione dei log e dei tempi di conservazione.&lt;/strong&gt; I log applicativi e di sistema spesso contengono indirizzi IP, identificatori utente e altre informazioni personali. È necessario definire politiche di retention con scadenze precise e implementare processi automatizzati di cancellazione o anonimizzazione alla scadenza del periodo consentito.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;Notifica dei data breach (Art. 33-34).&lt;/strong&gt; In caso di violazione della sicurezza che comporti la distruzione, la perdita, la modifica, la divulgazione non autorizzata o l&#39;accesso non autorizzato a dati personali, il titolare del trattamento ha l&#39;obbligo di notificare l&#39;incidente all&#39;Autorità di controllo competente &lt;strong&gt;entro 72 ore&lt;/strong&gt; dalla scoperta, salvo che sia improbabile che la violazione presenti un rischio per i diritti e le libertà delle persone fisiche. Un sistema di incident response ben strutturato, con procedure chiare e responsabilità assegnate, non è un&#39;opzione: è un obbligo normativo.&lt;/p&gt;
-
-
-]]></content>
-    
-    
-    
-      
-      
-    <category term="GDPR"/>
-      
-    
-      
-      
-    <category term="privacy"/>
-      
-    
-      
-      
-    <category term="protezione dati"/>
-      
-    
-      
-      
-    <category term="sicurezza IT"/>
-      
-    
-      
-      
-    <category term="normativa europea"/>
-      
-    
-  </entry>
-  
-  <entry>
-    <title>Guida alla sicurezza del NAS</title>
-    <link href="https://dino-996.github.io/blog/sicurezza-del-nas/" rel="alternate" type="text/html"/>
-    <id>https://dino-996.github.io/blog/sicurezza-del-nas/</id>
-    <published>2026-07-25T00:00:00.000Z</published>
-    <updated>2026-07-25T00:00:00.000Z</updated>
-    
-    <summary>Guida completa alla sicurezza del NAS: scopri come proteggere i tuoi dati con segmentazione VLAN, snapshot immutabili, livelli RAID e la regola di backup 3-2-1 per difenderti da ransomware e guasti hardware.</summary>
-    
-    
-    <content type="html"><![CDATA[
-
-  &lt;h2 id=&quot;cose-un-nas-e-perche-dovresti-averne-uno&quot;&gt;Cos&#39;è un NAS e perché dovresti averne uno&lt;/h2&gt;
-&lt;p&gt;Nell&#39;era in cui la quantità di dati che produciamo cresce ogni anno in modo esponenziale, la domanda di storage affidabile, accessibile e sicuro è diventata una priorità non solo per le aziende, ma anche per i professionisti e gli appassionati di tecnologia. In questo contesto nasce il &lt;strong&gt;NAS&lt;/strong&gt; (Network Attached Storage): un dispositivo di archiviazione collegato direttamente alla rete locale, accessibile da tutti i dispositivi della stessa rete come se fosse un disco condiviso.&lt;/p&gt;
- &lt;figure style=&quot;border: 1px solid #ddd; border-radius: 5px; padding: 10px; display: inline-block; max-width: 620px; margin-top: 15px; margin-bottom: 15px;&quot;&gt;
-  &lt;img src=&quot;https://res.cloudinary.com/dcro2pbqr/image/upload/v1784927880/NAS_19f423f1d8.png&quot; alt=&quot;Un NAS appena configurato su una scrivania&quot; width=&quot;600&quot; height=&quot;338&quot; loading=&quot;lazy&quot; style=&quot;max-width: 100%; border-radius: 5px&quot;&gt;
-&lt;/figure&gt;
-&lt;p&gt;A differenza di un disco esterno USB, il NAS è sempre acceso, sempre connesso e gestibile tramite un&#39;interfaccia web. Al suo interno girano un sistema operativo dedicato (come &lt;strong&gt;DSM&lt;/strong&gt; di Synology o &lt;strong&gt;QTS&lt;/strong&gt; di QNAP) e una serie di applicazioni che lo trasformano in un vero e proprio server privato: file server, media server, sistema di backup automatico, piattaforma di sorveglianza e persino host per container Docker.&lt;/p&gt;
-&lt;p&gt;Dal punto di vista hardware, un NAS è composto da:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Uno o più &lt;strong&gt;bay&lt;/strong&gt; per dischi rigidi (HDD o SSD), da 2 a decine di slot a seconda del modello.&lt;/li&gt;
-&lt;li&gt;Un processore dedicato (spesso ARM o Intel Celeron nei modelli consumer).&lt;/li&gt;
-&lt;li&gt;Memoria RAM per gestire i servizi in esecuzione.&lt;/li&gt;
-&lt;li&gt;Interfacce di rete da 1 GbE a 10 GbE per i modelli professionali.&lt;br&gt;
-Il cuore della sua utilità sta nel fatto che i dati rimangono &lt;strong&gt;fisicamente a casa tua o nel tuo ufficio&lt;/strong&gt;, su hardware che controlli tu. Questo lo distingue radicalmente dai servizi cloud come Google Drive o Dropbox, e lo rende la scelta preferita da chi vuole esercitare la piena sovranità digitale sui propri dati.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;nas-vs-cloud-il-dilemma-della-sovranita-digitale&quot;&gt;NAS vs Cloud: il dilemma della sovranità digitale&lt;/h2&gt;
-&lt;p&gt;Quando si parla di archiviazione, la domanda ricorrente è: perché usare un NAS invece di un servizio cloud che è già pronto, sincronizzato e non richiede manutenzione? La risposta non è banale e dipende dalle priorità di ciascun utente.&lt;/p&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
-  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-    &lt;thead class=&quot;table-dark&quot;&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Criterio&lt;/th&gt;
-        &lt;th&gt;Cloud (Google Drive / Dropbox)&lt;/th&gt;
-        &lt;th&gt;NAS locale&lt;/th&gt;
-      &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Semplicità d&#39;uso&lt;/td&gt;
-        &lt;td&gt;Ottima — zero configurazione&lt;/td&gt;
-        &lt;td&gt;Richiede setup iniziale e manutenzione&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Privacy dei dati&lt;/td&gt;
-        &lt;td&gt;Dipende dai termini di servizio del fornitore&lt;/td&gt;
-        &lt;td&gt;Totale — i dati non lasciano mai la tua rete&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Velocità in LAN&lt;/td&gt;
-        &lt;td&gt;Limitata alla banda internet&lt;/td&gt;
-        &lt;td&gt;1–10 Gbps sulla rete locale&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Costo nel tempo&lt;/td&gt;
-        &lt;td&gt;Abbonamento mensile continuo&lt;/td&gt;
-        &lt;td&gt;Investimento una tantum in hardware&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Responsabilità sicurezza&lt;/td&gt;
-        &lt;td&gt;Delegata al fornitore&lt;/td&gt;
-        &lt;td&gt;100% a carico del proprietario&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;Disponibilità offline&lt;/td&gt;
-        &lt;td&gt;Limitata (solo file sincronizzati)&lt;/td&gt;
-        &lt;td&gt;Completa — funziona senza internet&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-Per un percorso di apprendimento tecnico, il NAS è la scelta ideale perché obbliga a confrontarsi con concetti reali di networking, sicurezza e amministrazione di sistema. È, in parole povere, il massimo livello di sovranità digitale che un utente non enterprise possa raggiungere.
-&lt;h2 id=&quot;la-rete-come-prima-linea-di-difesa&quot;&gt;La rete come prima linea di difesa&lt;/h2&gt;
-&lt;p&gt;Prima di configurare qualsiasi aspetto del NAS stesso, è fondamentale comprendere l&#39;infrastruttura di rete in cui opera. Il NAS non è un&#39;isola: è un nodo della rete locale, e la sicurezza di quella rete è il presupposto di tutto il resto.&lt;/p&gt;
-&lt;h3 id=&quot;come-il-nas-ottiene-il-suo-indirizzo-ip-il-protocollo-dhcp&quot;&gt;Come il NAS ottiene il suo indirizzo IP: il protocollo DHCP&lt;/h3&gt;
-&lt;p&gt;Quando colleghi il NAS al router tramite cavo Ethernet, il dispositivo non conosce ancora quale indirizzo IP usare. Entra in gioco il &lt;strong&gt;protocollo DHCP (Dynamic Host Configuration Protocol)&lt;/strong&gt;, che automatizza l&#39;assegnazione degli indirizzi IP attraverso un processo in quattro fasi chiamato &lt;strong&gt;DORA&lt;/strong&gt;:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Discover:&lt;/strong&gt; Il NAS invia un messaggio broadcast sulla rete chiedendo: &lt;em&gt;&amp;quot;C&#39;è un server DHCP disponibile?&amp;quot;&lt;/em&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Offer:&lt;/strong&gt; Il router (che fa anche da server DHCP) risponde offrendo un indirizzo IP disponibile insieme a subnet mask, gateway e DNS.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Request:&lt;/strong&gt; Il NAS accetta formalmente l&#39;offerta inviando una richiesta di conferma.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Acknowledge:&lt;/strong&gt; Il router conferma l&#39;assegnazione e il NAS è ora raggiungibile sulla rete con quell&#39;indirizzo.&lt;br&gt;
-Per un NAS è buona pratica configurare una &lt;strong&gt;prenotazione DHCP&lt;/strong&gt; (o IP statico) sul router, in modo che riceva sempre lo stesso indirizzo IP. Questo è essenziale per configurare correttamente le regole del firewall e i percorsi di backup automatico, che dipendono da un indirizzo di destinazione stabile.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;segmentazione-della-rete-isola-il-nas-con-le-vlan&quot;&gt;Segmentazione della rete: isola il NAS con le VLAN&lt;/h3&gt;
-&lt;p&gt;La segmentazione della rete è la misura di sicurezza più efficace per proteggere il NAS da minacce interne, ovvero da dispositivi già presenti nella rete locale che potrebbero essere compromessi. L&#39;idea è semplice: invece di avere una rete piatta in cui tutti i dispositivi parlano liberamente tra loro, si divide la rete in &lt;strong&gt;segmenti logici separati&lt;/strong&gt; chiamati &lt;strong&gt;VLAN (Virtual LAN)&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Un esempio pratico di architettura segmentata per una rete domestica o di piccola impresa:&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;192.168.1.x /24  →  VLAN &amp;quot;Client&amp;quot; (PC, smartphone, tablet)
-192.168.2.x /24  →  VLAN &amp;quot;NAS e Storage&amp;quot; (NAS, dischi di rete)
-192.168.3.x /24  →  VLAN &amp;quot;IoT&amp;quot; (telecamere, smart TV, dispositivi smart home)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Con questa architettura, anche se un PC nella VLAN Client viene infettato da ransomware, il malware non può raggiungere direttamente il NAS perché si trova in un segmento di rete separato. Il traffico tra VLAN deve passare obbligatoriamente attraverso il firewall del router, che può applicare regole granulari su quale comunicazione è permessa e quale no.&lt;/p&gt;
-&lt;h3 id=&quot;il-firewall-come-controllore-del-traffico&quot;&gt;Il firewall come controllore del traffico&lt;/h3&gt;
-&lt;p&gt;Un &lt;strong&gt;firewall&lt;/strong&gt; è il sistema che decide quale traffico di rete può passare e quale deve essere bloccato, basandosi su un insieme di regole definite dall&#39;amministratore. Ogni pacchetto che attraversa il confine tra due segmenti di rete viene ispezionato secondo questi criteri:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Monitoraggio del traffico:&lt;/strong&gt; Il firewall esamina tutti i pacchetti in transito tra le VLAN e verso internet.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Ispezione dei pacchetti:&lt;/strong&gt; Analizza header e contenuto per determinare se il traffico corrisponde a pattern legittimi o sospetti.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Regolazione del traffico:&lt;/strong&gt; Applica le policy definite (es. &lt;em&gt;&amp;quot;i PC della VLAN Client possono accedere al NAS solo sulla porta SMB 445, nient&#39;altro&amp;quot;&lt;/em&gt;).&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Protezione da minacce esterne:&lt;/strong&gt; Blocca connessioni in entrata non autorizzate da internet verso i dispositivi interni.&lt;br&gt;
-Router moderni come quelli basati su &lt;strong&gt;pfSense&lt;/strong&gt;, &lt;strong&gt;OPNsense&lt;/strong&gt; o i prodotti &lt;strong&gt;Ubiquiti UniFi&lt;/strong&gt; offrono funzionalità complete di VLAN e firewall granulare, rendendoli la scelta preferita per chi vuole costruire un&#39;infrastruttura di rete seria a costi contenuti.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;raid-ridondanza-non-e-backup&quot;&gt;RAID: ridondanza non è backup&lt;/h2&gt;
-&lt;p&gt;Uno degli errori più comuni tra chi si avvicina per la prima volta al NAS è pensare che il RAID sia un sistema di backup. Non lo è. Il RAID (Redundant Array of Independent Disks) garantisce che il sistema continui a funzionare in caso di &lt;strong&gt;guasto fisico di un disco&lt;/strong&gt;, ma non protegge dalla cancellazione accidentale di file, da un attacco ransomware o da un errore umano: se cancelli un file, il RAID lo cancella su tutti i dischi istantaneamente.&lt;/p&gt;
-&lt;h3 id=&quot;i-livelli-raid-piu-comuni&quot;&gt;I livelli RAID più comuni&lt;/h3&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
-  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
-    &lt;thead class=&quot;table-dark&quot;&gt;
-      &lt;tr&gt;
-        &lt;th&gt;Livello RAID&lt;/th&gt;
-        &lt;th&gt;Dischi minimi&lt;/th&gt;
-        &lt;th&gt;Tolleranza guasti&lt;/th&gt;
-        &lt;th&gt;Spazio utile&lt;/th&gt;
-        &lt;th&gt;Caso d&#39;uso consigliato&lt;/th&gt;
-      &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 0 (Striping)&lt;/td&gt;
-        &lt;td&gt;2&lt;/td&gt;
-        &lt;td&gt;Nessuna&lt;/td&gt;
-        &lt;td&gt;100%&lt;/td&gt;
-        &lt;td&gt;Massime prestazioni, nessuna sicurezza&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 1 (Mirror)&lt;/td&gt;
-        &lt;td&gt;2&lt;/td&gt;
-        &lt;td&gt;1 disco&lt;/td&gt;
-        &lt;td&gt;50%&lt;/td&gt;
-        &lt;td&gt;NAS domestico, semplicità massima&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 5 (Parità distribuita)&lt;/td&gt;
-        &lt;td&gt;3&lt;/td&gt;
-        &lt;td&gt;1 disco&lt;/td&gt;
-        &lt;td&gt;(N-1)/N&lt;/td&gt;
-        &lt;td&gt;Compromesso spazio/sicurezza per PMI&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 6 (Doppia parità)&lt;/td&gt;
-        &lt;td&gt;4&lt;/td&gt;
-        &lt;td&gt;2 dischi&lt;/td&gt;
-        &lt;td&gt;(N-2)/N&lt;/td&gt;
-        &lt;td&gt;Dischi &gt; 4 TB, ambienti critici&lt;/td&gt;
-      &lt;/tr&gt;
-      &lt;tr&gt;
-        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 10 (Mirror + Stripe)&lt;/td&gt;
-        &lt;td&gt;4&lt;/td&gt;
-        &lt;td&gt;1 disco per coppia&lt;/td&gt;
-        &lt;td&gt;50%&lt;/td&gt;
-        &lt;td&gt;Database, massima velocità + sicurezza&lt;/td&gt;
-      &lt;/tr&gt;
-    &lt;/tbody&gt;
-  &lt;/table&gt;
-&lt;/div&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Attenzione — RAID 5 e il rischio URE:&lt;/strong&gt; Durante la ricostruzione del RAID dopo la sostituzione di un disco guasto, il controller legge l&#39;intero contenuto degli altri dischi. Su dischi di capacità superiore a 4 TB, la probabilità di incontrare un &lt;strong&gt;Unrecoverable Read Error (URE)&lt;/strong&gt; è statisticamente significativa e può rendere la ricostruzione impossibile, causando la perdita totale dei dati. Per array con dischi da 4 TB o superiori, valuta seriamente RAID 6 o soluzioni come il RAID-Z2 di ZFS.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;hardening-iniziale-addio-allaccount-admin&quot;&gt;Hardening iniziale: addio all&#39;account &amp;quot;admin&amp;quot;&lt;/h2&gt;
-&lt;p&gt;Ogni NAS esce di fabbrica con un account amministratore denominato &amp;quot;admin&amp;quot;. Questo nome è il primo che qualsiasi bot o attaccante proverà in una scansione automatica. La prima operazione da eseguire, prima ancora di connettere il NAS a internet, è eliminare questo vettore di attacco ovvio seguendo tre passi:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Crea un nuovo account con un nome utente non prevedibile.&lt;/li&gt;
-&lt;li&gt;Assegnagli i privilegi di amministratore completi.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Disabilita&lt;/strong&gt; (non solo rinomina) l&#39;account &amp;quot;admin&amp;quot; originale.&lt;br&gt;
-Questo semplice intervento riduce drasticamente l&#39;efficacia degli attacchi a dizionario e brute-force automatizzati, che tipicamente non conoscono il nome utente e devono indovinare entrambe le credenziali.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;password-robuste-e-autenticazione-a-due-fattori&quot;&gt;Password robuste e autenticazione a due fattori&lt;/h2&gt;
-&lt;p&gt;I NAS esposti in rete sono bersaglio di attacchi brute-force continui. Una password di 8 caratteri alfanumerici può essere violata in pochi minuti con strumenti moderni. La combinazione di una &lt;strong&gt;passphrase lunga&lt;/strong&gt; (almeno 16 caratteri) e dell&#39;&lt;strong&gt;autenticazione a due fattori (2FA)&lt;/strong&gt; via app TOTP (come Google Authenticator o Aegis) rende questo tipo di attacco praticamente inefficace: anche se l&#39;attaccante scopre la password, non può accedere senza il codice temporaneo generato sul tuo dispositivo fisico.&lt;/p&gt;
-&lt;p&gt;Una misura complementare e altrettanto efficace è il &lt;strong&gt;blocco automatico dell&#39;IP&lt;/strong&gt; dopo 3–5 tentativi di login falliti. Questa funzionalità è disponibile nelle impostazioni di sicurezza di tutti i principali sistemi operativi NAS e rappresenta la difesa più semplice da configurare con il massimo ritorno in termini di protezione.&lt;/p&gt;
-&lt;h2 id=&quot;ridurre-la-superficie-di-attacco-chiudi-i-servizi-inutili&quot;&gt;Ridurre la superficie di attacco: chiudi i servizi inutili&lt;/h2&gt;
-&lt;p&gt;Un NAS moderno è una piattaforma versatile: può fare da server web, mail, multimedia e sistema di sorveglianza contemporaneamente. Il problema è che ogni servizio attivo corrisponde a una porta aperta sulla rete, ovvero una potenziale &lt;strong&gt;superficie di attacco&lt;/strong&gt;. Il principio guida è semplice: se non usi un servizio, disabilitalo.&lt;/p&gt;
-&lt;p&gt;Checklist dei servizi da disabilitare se non strettamente necessari:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Telnet&lt;/strong&gt; — protocollo non cifrato, obsoleto e intrinsecamente insicuro. Non esiste motivo valido per tenerlo attivo nel 2025.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;SSH&lt;/strong&gt; — potente ma pericoloso se esposto senza policy restrittive. Disabilitarlo se non si è esperti di amministrazione Linux; se necessario, limitarne l&#39;accesso a specifici indirizzi IP.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;FTP&lt;/strong&gt; — trasmette credenziali in chiaro. Utilizzare sempre &lt;strong&gt;SFTP&lt;/strong&gt; o &lt;strong&gt;FTPS&lt;/strong&gt; in alternativa.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;UPnP&lt;/strong&gt; — il peggiore di tutti: apre porte sul router in modo automatico e silenzioso, senza che tu ne sia consapevole. Va disabilitato sia sul NAS che sul router.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;smb-il-protocollo-dei-file-e-i-suoi-pericoli&quot;&gt;SMB: il protocollo dei file e i suoi pericoli&lt;/h2&gt;
-&lt;p&gt;Il protocollo &lt;strong&gt;SMB (Server Message Block)&lt;/strong&gt; è il linguaggio che Windows e i sistemi operativi moderni utilizzano per accedere alle cartelle condivise del NAS sulla rete locale. È comodo, integrato nativamente e non richiede configurazioni aggiuntive sul client. Tuttavia, nasconde un&#39;insidia storica molto seria.&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;SMB v1 è vulnerabile&lt;/strong&gt; a exploit devastanti come &lt;strong&gt;EternalBlue&lt;/strong&gt;, il vettore che ha reso possibile l&#39;attacco globale WannaCry nel 2017, con danni stimati in miliardi di dollari. Nonostante questa vulnerabilità sia nota da anni, SMB v1 è ancora abilitato per default su alcuni NAS e versioni di Windows.&lt;/p&gt;
-&lt;p&gt;Per verificare quale versione SMB è attiva sul tuo sistema Linux o NAS con accesso shell:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;smbstatus --version
-testparm -s | grep -i &amp;quot;server min protocol&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Per forzare SMB v2 come minimo nel file di configurazione di Samba (&lt;code&gt;/etc/samba/smb.conf&lt;/code&gt;):&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-ini&quot;&gt;[global]
-  server min protocol = SMB2
-  server max protocol = SMB3
-  smb encrypt = required
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Dopo la modifica, riavvia il servizio con &lt;code&gt;systemctl restart smbd&lt;/code&gt;. Assicurati che tutti i client della rete supportino SMB v2 (Windows 7 e superiori lo supportano nativamente).&lt;/p&gt;
-&lt;h2 id=&quot;il-principio-del-minimo-privilegio-polp&quot;&gt;Il principio del minimo privilegio (PoLP)&lt;/h2&gt;
-&lt;p&gt;Il &lt;strong&gt;Principio del Minimo Privilegio&lt;/strong&gt; (Principle of Least Privilege, PoLP) stabilisce che ogni utente e processo deve avere accesso esclusivamente alle risorse strettamente necessarie per svolgere il proprio compito, e niente di più.&lt;/p&gt;
-&lt;p&gt;Applicato al NAS, questo significa:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Niente &amp;quot;Everyone&amp;quot;:&lt;/strong&gt; Non assegnare mai permessi di lettura o scrittura al gruppo &amp;quot;Tutti&amp;quot;. Ogni utente deve avere la propria cartella con permessi nominali. Condividere una cartella con accesso universale equivale a lasciare la porta di casa aperta.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Sola lettura dove possibile:&lt;/strong&gt; Se un utente deve solo fruire di contenuti multimediali, non dargli il permesso di scrittura. In caso di infezione del suo PC da parte di un virus o ransomware, il malware non potrà modificare o cancellare i file sul NAS perché la connessione SMB è in sola lettura.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;ACL granulari:&lt;/strong&gt; Usa le &lt;strong&gt;Access Control Lists (ACL)&lt;/strong&gt; per definire permessi a livello di singola cartella, singolo file o gruppo di utenti. I sistemi operativi NAS moderni (DSM, QTS) offrono interfacce grafiche complete per la gestione delle ACL compatibili con lo standard Windows NTFS.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;file-system-moderni-btrfs-e-zfs&quot;&gt;File system moderni: Btrfs e ZFS&lt;/h2&gt;
-&lt;p&gt;La scelta del file system su cui formattare i volumi del NAS ha implicazioni dirette sulla &lt;strong&gt;sicurezza e integrità dei dati nel lungo periodo&lt;/strong&gt;. Il tradizionale EXT4 è affidabile ma privo di meccanismi di rilevamento proattivo della corruzione dei dati.&lt;/p&gt;
-&lt;p&gt;I file system moderni come &lt;strong&gt;Btrfs&lt;/strong&gt; (usato da Synology) e &lt;strong&gt;ZFS&lt;/strong&gt; (usato da TrueNAS e altri) offrono funzionalità di sicurezza integrate che EXT4 non possiede:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Self-healing (auto-riparazione):&lt;/strong&gt; Entrambi implementano il checksumming di ogni blocco dati. Se un blocco viene corrotto silenziosamente da un difetto hardware (fenomeno noto come &lt;strong&gt;Bit Rot&lt;/strong&gt;), il file system lo rileva al momento della lettura e, se esiste una copia ridondante (come in RAID), lo ripara automaticamente senza intervento dell&#39;utente.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Snapshot atomici:&lt;/strong&gt; Permettono di registrare lo stato del file system in un dato istante in modo quasi istantaneo e con un consumo minimo di spazio (grazie alla tecnica &lt;strong&gt;copy-on-write&lt;/strong&gt;). Gli snapshot non sono copie complete dei dati, ma registrazioni delle differenze rispetto allo stato precedente.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;snapshot-la-macchina-del-tempo-contro-il-ransomware&quot;&gt;Snapshot: la macchina del tempo contro il ransomware&lt;/h2&gt;
-&lt;p&gt;Gli snapshot sono la &lt;strong&gt;difesa numero uno contro gli attacchi ransomware&lt;/strong&gt;. Ecco perché: se un virus cifra tutti i tuoi file alle 10:00, puoi ripristinare lo snapshot delle 09:55 in pochi secondi, annullando completamente l&#39;attacco come se non fosse mai avvenuto.&lt;/p&gt;
-&lt;p&gt;Per massimizzare l&#39;efficacia degli snapshot come strumento difensivo, configura quelli destinati al backup come &lt;strong&gt;immutabili (Read-Only)&lt;/strong&gt;. Questo impedisce al ransomware — anche se ha già ottenuto il controllo del sistema — di cancellare o modificare gli snapshot stessi. Uno snapshot in sola lettura è, per definizione, immune alla cifratura da parte di malware che agisce tramite permessi utente standard.&lt;/p&gt;
-&lt;p&gt;Una policy di snapshot ragionevole per un NAS domestico o di piccola impresa prevede:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Snapshot orari, conservati per 24 ore.&lt;/li&gt;
-&lt;li&gt;Snapshot giornalieri, conservati per 30 giorni.&lt;/li&gt;
-&lt;li&gt;Snapshot settimanali, conservati per 3 mesi.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;anatomia-di-un-attacco-ransomware-al-nas&quot;&gt;Anatomia di un attacco ransomware al NAS&lt;/h3&gt;
-&lt;p&gt;Comprendere il meccanismo con cui il ransomware colpisce un NAS è essenziale per costruire le difese corrette. Il processo si articola tipicamente in quattro fasi:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;Infiltrazione:&lt;/strong&gt; Un PC della rete locale viene infettato tramite una mail di phishing o un sito web compromesso.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Scansione:&lt;/strong&gt; Il malware in esecuzione sul PC infetto esegue una scansione della rete locale alla ricerca di risorse condivise (il tuo NAS) raggiungibili tramite SMB.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Cifratura:&lt;/strong&gt; Il malware utilizza la connessione SMB già autenticata del PC della vittima per sovrascrivere tutti i file sul NAS con versioni cifrate, senza mai dover violare direttamente il NAS.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Riscatto:&lt;/strong&gt; I file originali sono irrecuperabili e rimangono solo le richieste di pagamento.&lt;br&gt;
-La conclusione operativa è diretta: la &lt;strong&gt;segmentazione della rete&lt;/strong&gt; (per isolare il NAS dai PC potenzialmente infetti) e gli &lt;strong&gt;snapshot immutabili&lt;/strong&gt; sono le due contromisure che, combinate, rendono questo scenario non catastrofico. Se la VLAN del NAS è separata dalla VLAN dei client e il firewall blocca le connessioni SMB non autorizzate, il malware sul PC non riesce nemmeno a raggiungere il NAS per iniziare la cifratura.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;accesso-remoto-sicuro-mai-il-port-forwarding&quot;&gt;Accesso remoto sicuro: mai il port forwarding&lt;/h2&gt;
-&lt;p&gt;Aprire le porte del NAS direttamente su internet tramite port forwarding sul router (ad esempio le porte 5000 o 8000 di DSM) equivale a incollare la chiave di casa sulla porta d&#39;ingresso. Il NAS diventa immediatamente visibile a scanner globali come Shodan e diventa bersaglio di attacchi automatizzati.&lt;/p&gt;
-&lt;p&gt;Le alternative sicure sono due:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;VPN:&lt;/strong&gt; È la soluzione raccomandata. Ti connetti prima alla VPN della tua rete domestica o aziendale e poi accedi al NAS come se fossi fisicamente in loco, senza esporre nulla su internet. Tra le opzioni disponibili, &lt;strong&gt;WireGuard&lt;/strong&gt; è il protocollo moderno preferito per la sua semplicità e le sue prestazioni superiori rispetto a OpenVPN. Per chi non vuole gestire un server VPN proprio, &lt;strong&gt;Tailscale&lt;/strong&gt; (basato su WireGuard) offre una soluzione zero-config che non richiede IP fisso né apertura di porte sul router: i due dispositivi si trovano automaticamente tramite una rete mesh cifrata.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Reverse proxy con HTTPS:&lt;/strong&gt; Se è assolutamente necessario esporre un servizio specifico (ad esempio una web app o un&#39;interfaccia Nextcloud), usa un reverse proxy (come &lt;strong&gt;Nginx Proxy Manager&lt;/strong&gt; o &lt;strong&gt;Traefik&lt;/strong&gt;) con certificati TLS validi emessi da Let&#39;s Encrypt. Il reverse proxy gestisce la terminazione TLS e smista il traffico verso i servizi interni. In questo scenario, l&#39;unica porta aperta su internet è la 443 (HTTPS).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;crittografia-a-riposo-encryption&quot;&gt;Crittografia a riposo (Encryption)&lt;/h2&gt;
-&lt;p&gt;La crittografia a riposo risponde a uno scenario di minaccia spesso sottovalutato: il furto fisico del dispositivo. Se un malintenzionato accede fisicamente al NAS, può smontare i dischi e montarli su un altro computer per leggerne il contenuto senza alcuna credenziale.&lt;/p&gt;
-&lt;p&gt;La &lt;strong&gt;crittografia del volume (AES-256)&lt;/strong&gt;, disponibile su tutti i principali NAS consumer, rende i dischi inutilizzabili senza la chiave di sblocco. Il cifrario AES-256 opera in modalità &lt;strong&gt;simmetrica&lt;/strong&gt;: la stessa chiave viene usata per cifrare e decifrare i dati. Questa chiave è protetta da una passphrase scelta dall&#39;utente e non è mai memorizzata in chiaro sul dispositivo.&lt;/p&gt;
-&lt;p&gt;Da un punto di vista pratico, la crittografia del volume introduce un leggero overhead sulle prestazioni I/O (tipicamente tra il 5% e il 15% a seconda dell&#39;hardware), ma rappresenta un requisito non negoziabile per qualsiasi NAS che contenga dati sensibili o sia soggetto a normative come il GDPR. Molti NAS moderni integrano accelerazione hardware AES (istruzioni AES-NI) che riduce questo impatto al minimo.&lt;/p&gt;
-&lt;h2 id=&quot;la-regola-del-3-2-1&quot;&gt;La regola del 3-2-1&lt;/h2&gt;
-&lt;p&gt;Il backup è la rete di sicurezza finale contro qualsiasi scenario di perdita dei dati. La regola del &lt;strong&gt;3-2-1&lt;/strong&gt; è lo standard dell&#39;industria per una strategia di backup resiliente:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;3 copie dei dati:&lt;/strong&gt; L&#39;originale più due backup distinti. La ridondanza multipla protegge da guasti simultanei e da errori umani.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;2 supporti diversi:&lt;/strong&gt; Ad esempio il NAS stesso e un hard disk esterno. Non conservare tutti i backup sullo stesso tipo di supporto o sullo stesso sistema.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;1 copia off-site:&lt;/strong&gt; Una copia deve trovarsi fisicamente in un luogo diverso dall&#39;originale: casa di un familiare, ufficio, o un servizio cloud cifrato. Questo protegge da eventi catastrofici locali come incendi, allagamenti o furti.&lt;br&gt;
-Per automatizzare la copia verso un disco esterno USB collegato al NAS, uno script rsync su Linux è la soluzione più semplice ed efficace:&lt;/li&gt;
-&lt;/ul&gt;
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;#!/bin/bash
-SORGENTE=&amp;quot;/volume1/dati&amp;quot;
-DESTINAZIONE=&amp;quot;/volumeUSB1/backup&amp;quot;
-LOG=&amp;quot;/var/log/backup_3-2-1.log&amp;quot;
-rsync -avz --delete --checksum &amp;quot;$SORGENTE&amp;quot; &amp;quot;$DESTINAZIONE&amp;quot; &amp;gt;&amp;gt; &amp;quot;$LOG&amp;quot; 2&amp;gt;&amp;amp;1
-echo &amp;quot;Backup completato il $(date)&amp;quot; &amp;gt;&amp;gt; &amp;quot;$LOG&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;L&#39;opzione &lt;code&gt;--checksum&lt;/code&gt; garantisce l&#39;integrità dei file confrontando il checksum e non solo la data di modifica, mentre &lt;code&gt;--delete&lt;/code&gt; sincronizza le cancellazioni mantenendo la destinazione allineata alla sorgente.&lt;/p&gt;
-&lt;h2 id=&quot;backup-immutabili-la-tecnologia-worm&quot;&gt;Backup immutabili: la tecnologia WORM&lt;/h2&gt;
-&lt;p&gt;I backup standard possono essere cancellati o cifrati da un ransomware con privilegi sufficienti. I &lt;strong&gt;backup immutabili&lt;/strong&gt; risolvono questo problema alla radice attraverso la tecnologia &lt;strong&gt;WORM (Write Once, Read Many)&lt;/strong&gt;, che impedisce la modifica o la cancellazione di un file per un periodo prestabilito (ad esempio 30 giorni), indipendentemente dai permessi dell&#39;utente.&lt;/p&gt;
-&lt;p&gt;Una volta scritto in modalità WORM, un file non può essere cancellato nemmeno dall&#39;amministratore del sistema prima della scadenza del periodo di retention. Questo rende i backup immutabili l&#39;ultima linea di difesa assoluta: anche in caso di compromissione totale del sistema, i dati di backup rimangono intatti e recuperabili.&lt;/p&gt;
-&lt;p&gt;Soluzioni come &lt;strong&gt;Synology Hyper Backup&lt;/strong&gt; e &lt;strong&gt;QNAP Hybrid Backup Sync&lt;/strong&gt; supportano nativamente la retention immutabile. Per chi adotta soluzioni cloud come destinazione off-site, provider come &lt;strong&gt;Backblaze B2&lt;/strong&gt; e &lt;strong&gt;AWS S3 Object Lock&lt;/strong&gt; offrono WORM nativamente.&lt;/p&gt;
-&lt;h2 id=&quot;aggiornamenti-del-firmware&quot;&gt;Aggiornamenti del firmware&lt;/h2&gt;
-&lt;p&gt;I NAS sono dispositivi critici esposti a minacce reali. Nel corso degli anni, sia QNAP che Synology hanno subito vulnerabilità gravi sfruttate attivamente in attacchi di massa (come DeadBolt nel 2022, che ha colpito decine di migliaia di NAS QNAP esposti in rete). In tutti questi casi, le patch correttive erano disponibili settimane o mesi prima che gli attacchi si diffondessero su larga scala.&lt;/p&gt;
-&lt;p&gt;La lezione è semplice: &lt;strong&gt;la maggior parte degli attacchi colpisce sistemi non aggiornati.&lt;/strong&gt; La configurazione raccomandata è:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Abilitare gli &lt;strong&gt;aggiornamenti di sicurezza automatici&lt;/strong&gt; nella dashboard del NAS.&lt;/li&gt;
-&lt;li&gt;Iscriversi ai bollettini di sicurezza del produttore (Synology Security Advisories, QNAP Security Advisory).&lt;/li&gt;
-&lt;li&gt;Pianificare un controllo manuale mensile per gli aggiornamenti delle applicazioni installate tramite il package manager del NAS.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;antivirus-sul-nas-serve-davvero&quot;&gt;Antivirus sul NAS: serve davvero?&lt;/h2&gt;
-&lt;p&gt;La risposta è sì, ma con una precisazione importante sull&#39;obiettivo. Un antivirus installato sul NAS non serve principalmente a proteggere il NAS stesso (che gira su Linux e non è il target diretto della maggior parte dei malware per Windows), ma a &lt;strong&gt;prevenire che il NAS diventi un distributore involontario di virus&lt;/strong&gt; per tutti i PC della rete che leggono i file su di esso.&lt;/p&gt;
-&lt;p&gt;I principali sistemi operativi NAS offrono pacchetti antivirus integrati come &lt;strong&gt;ClamAV&lt;/strong&gt; (open source, gratuito) o suite commerciali come McAfee (oggi &lt;strong&gt;Trellix&lt;/strong&gt; dopo il rebranding del 2022). Questi engine scansionano i file al momento dell&#39;upload e su base programmata, rilevando e mettendo in quarantena i file infetti prima che vengano distribuiti ai client della rete.&lt;/p&gt;
-&lt;p&gt;Per chi gestisce un NAS in contesto aziendale, è consigliabile integrare i &lt;strong&gt;log di accesso del NAS&lt;/strong&gt; con una soluzione SIEM (Security Information and Event Management) per rilevare pattern anomali come accessi a orari inusuali, upload massivi di file cifrati o tentativi di login ripetuti.&lt;/p&gt;
-&lt;h2 id=&quot;ups-la-sicurezza-elettrica&quot;&gt;UPS: la sicurezza elettrica&lt;/h2&gt;
-&lt;p&gt;Un aspetto della protezione dei dati spesso ignorato è la sicurezza elettrica. Un&#39;interruzione improvvisa di corrente mentre il NAS sta scrivendo dati su disco può corrompere il file system e, in scenari estremi, distruggere l&#39;intero volume RAID, rendendo irrecuperabili anche i dati ridondati.&lt;/p&gt;
-&lt;p&gt;Un &lt;strong&gt;UPS (Uninterruptible Power Supply)&lt;/strong&gt;, colloquialmente chiamato &amp;quot;gruppo di continuità&amp;quot;, elimina questo rischio. Collegato via USB al NAS, permette al sistema operativo di rilevare il blackout in tempo reale e di eseguire uno &lt;strong&gt;shutdown controllato&lt;/strong&gt; prima che la batteria si esaurisca, salvaguardando l&#39;integrità di tutti i dati in scrittura.&lt;/p&gt;
-&lt;p&gt;La maggior parte dei principali sistemi operativi NAS (DSM, QTS) include il supporto nativo per UPS via USB e permette di configurare la soglia di carica batteria sotto la quale attivare lo shutdown automatico. Per ambienti con più NAS o server, il protocollo &lt;strong&gt;NUT (Network UPS Tools)&lt;/strong&gt; permette a un singolo UPS di gestire lo shutdown coordinato di più macchine sulla stessa rete.&lt;/p&gt;
-&lt;h2 id=&quot;test-di-ripristino-la-prova-del-nove&quot;&gt;Test di ripristino: la prova del nove&lt;/h2&gt;
-&lt;p&gt;Qualsiasi strategia di backup, per quanto sofisticata, è priva di valore se non è mai stata testata. Un backup di cui non è stato verificato il ripristino è, operativamente, come se non esistesse.&lt;/p&gt;
-&lt;p&gt;La regola pratica è la seguente: &lt;strong&gt;almeno una volta ogni sei mesi&lt;/strong&gt;, simula un ripristino reale recuperando un file a caso dal tuo backup più vecchio. Se la procedura fallisce in un contesto controllato, non funzionerà durante un&#39;emergenza reale — quando il tempo è critico e la pressione è massima.&lt;/p&gt;
-&lt;p&gt;Il test di ripristino dovrebbe coprire:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Recupero di un singolo file da uno snapshot.&lt;/li&gt;
-&lt;li&gt;Recupero di una cartella completa dal backup off-site.&lt;/li&gt;
-&lt;li&gt;Verifica della leggibilità dei file recuperati (non basta che i file esistano, devono poter essere aperti correttamente).&lt;/li&gt;
-&lt;li&gt;Documentazione del tempo di ripristino (RTO — Recovery Time Objective), essenziale per valutare se il sistema di backup soddisfa i requisiti di continuità operativa.&lt;br&gt;
-Un NAS sicuro non è il risultato di un&#39;unica configurazione iniziale, ma di un processo continuo di aggiornamento, monitoraggio e verifica. Le misure descritte in questa guida, applicate in modo sistematico e integrate in una rete correttamente segmentata e protetta da firewall, trasformano il tuo NAS da un potenziale vettore di rischio a una fortezza digitale affidabile e sotto il tuo pieno controllo.&lt;/li&gt;
-&lt;/ul&gt;
-
-
-]]></content>
-    
-    
-    
-      
-      
-    <category term="cybersecurity"/>
-      
-    
-      
-      
-    <category term="NAS"/>
-      
-    
-      
-      
-    <category term="backup"/>
-      
-    
-      
-      
-    <category term="ransomware"/>
-      
-    
-      
-      
-    <category term="storage"/>
       
     
   </entry>

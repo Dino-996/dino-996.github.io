@@ -25,6 +25,9 @@
     <loc>https://dino-996.github.io/tags/ips/</loc>
   </url>
   <url>
+    <loc>https://dino-996.github.io/tags/isa/</loc>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/tags/iso-27001/</loc>
   </url>
   <url>
@@ -74,6 +77,9 @@
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/assegnazione/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/assembly/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/backup/</loc>
@@ -130,6 +136,9 @@
     <loc>https://dino-996.github.io/tags/data-science/</loc>
   </url>
   <url>
+    <loc>https://dino-996.github.io/tags/deferenziamento/</loc>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/tags/devops/</loc>
   </url>
   <url>
@@ -152,6 +161,9 @@
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/hardware/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/indirizzi/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/informatica-di-base/</loc>
@@ -217,6 +229,9 @@
     <loc>https://dino-996.github.io/tags/numpy/</loc>
   </url>
   <url>
+    <loc>https://dino-996.github.io/tags/offset/</loc>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/tags/open-source/</loc>
   </url>
   <url>
@@ -230,6 +245,9 @@
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/pandas/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/pop/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/powershell/</loc>
@@ -256,10 +274,19 @@
     <loc>https://dino-996.github.io/tags/proxy/</loc>
   </url>
   <url>
+    <loc>https://dino-996.github.io/tags/puntatori/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/push/</loc>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/tags/python/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/ransomware/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/registri/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/reti/</loc>
@@ -295,10 +322,16 @@
     <loc>https://dino-996.github.io/tags/sottoprogrammi/</loc>
   </url>
   <url>
+    <loc>https://dino-996.github.io/tags/stack/</loc>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/tags/storage/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/struttura/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/system-call/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/systemd/</loc>
@@ -332,6 +365,9 @@
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/wireless/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/x86-64/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/yieldpython/</loc>

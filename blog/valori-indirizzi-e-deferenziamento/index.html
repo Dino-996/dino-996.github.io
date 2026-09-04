@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Accesso alla memoria in Assembly x86_64 · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Capire la differenza tra un valore e un indirizzo di memoria è uno dei passaggi fondamentali per iniziare a comprendere davvero l&#39;Assembly. In questa seconda parte vedremo come funzionano la dereferenziazione, i puntatori, gli offset e l&#39;ordine dei byte in memoria, con esempi pratici in Assembly x86-64." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/valori-indirizzi-e-deferenziamento/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/valori-indirizzi-e-deferenziamento/" />
+
+<meta property="og:title" content="Accesso alla memoria in Assembly x86_64" />
+<meta property="og:description" content="Capire la differenza tra un valore e un indirizzo di memoria è uno dei passaggi fondamentali per iniziare a comprendere davvero l&#39;Assembly. In questa seconda parte vedremo come funzionano la dereferenziazione, i puntatori, gli offset e l&#39;ordine dei byte in memoria, con esempi pratici in Assembly x86-64." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/valori-indirizzi-e-deferenziamento/" />
+
+<meta name="twitter:title" content="Accesso alla memoria in Assembly x86_64" />
+<meta name="twitter:description" content="Capire la differenza tra un valore e un indirizzo di memoria è uno dei passaggi fondamentali per iniziare a comprendere davvero l&#39;Assembly. In questa seconda parte vedremo come funzionano la dereferenziazione, i puntatori, gli offset e l&#39;ordine dei byte in memoria, con esempi pratici in Assembly x86-64." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism + KaTeX caricati solo sui post: vedere head_extra e scripts in _layouts/post.njk -->
+
+
+
+    
+
+    <!-- SEO: JSON-LD WebSite schema (homepage only) -->
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn nav-btn" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn nav-btn nav-btn-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Cambia tema" title="Cambia tema">
+        <svg id="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="/courses/" class="btn nav-btn nav-btn-nav">Percorsi</a>
+      <a href="/about/" class="btn nav-btn">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" as="image" fetchpriority="high">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+  <!-- SEO: JSON-LD Article schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": &quot;Accesso alla memoria in Assembly x86_64&quot;,
+    "url": "https://dino-996.github.io/blog/valori-indirizzi-e-deferenziamento/",
+    
+    "dateModified": "2026-08-31T15:18:48.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    },
+    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg",
+    "publisher": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    }
+  }
+  </script>
+
+  <!-- SEO: JSON-LD BreadcrumbList schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      
+      
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": &quot;Home&quot;,
+        "item": "https://dino-996.github.io/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": &quot;Blog&quot;,
+        "item": "https://dino-996.github.io/blog/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": &quot;Valori indirizzi e deferenziamento&quot;
+      }
+      
+    ]
+  }
+  </script>
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      
+      
+      
+      
+        
+        
+      
+      
+      
+
+
+<nav aria-label="Breadcrumb" class="breadcrumb">
+  <ol>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/courses/">Percorsi</a></li>
+      
+    
+      
+        <li><a href="/courses/assembly/">Assembly</a></li>
+      
+    
+      
+        <li aria-current="page">Accesso alla memoria in Assembly x86_64</li>
+      
+    
+  </ol>
+</nav>
+
+
+
+      <h1>Accesso alla memoria in Assembly x86_64</h1>
+
+      
+      <p class="post-description">Capire la differenza tra un valore e un indirizzo di memoria è uno dei passaggi fondamentali per iniziare a comprendere davvero l&#39;Assembly. In questa seconda parte vedremo come funzionano la dereferenziazione, i puntatori, gli offset e l&#39;ordine dei byte in memoria, con esempi pratici in Assembly x86-64.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 01 settembre 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+      </div>
+    </header>
+
+    
+    <figure class="post-hero">
+      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg"
+           alt="Immagine generata con AI"
+           class="post-hero-image"
+           fetchpriority="high">
+      
+      <figcaption class="post-hero-caption">Immagine generata con AI</figcaption>
+      
+    </figure>
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">In assembly x86-64, la notazione `mov reg, value` copia un valore letterale, mentre `mov reg, [value]` dereferenzia `value` interpretandolo come un indirizzo di memoria. I registri fungono da puntatori quando contengono un indirizzo che viene poi utilizzato per leggere o scrivere nella memoria tramite la sintassi delle parentesi quadre.</p>
+      </div>
+      
+
+      <section class="content">
+          <h2 id="valori-indirizzi-e-dereferenziamento-in-assembly-x86-64">Valori, indirizzi e dereferenziamento in assembly x86-64</h2>
+<p>Uno degli scogli concettuali più importanti per chi si avvicina alla programmazione a basso livello è capire la differenza tra un valore e un indirizzo di memoria. Nella sostanza sono la stessa cosa, un numero, ma il modo in cui l'assembly le tratta cambia completamente il comportamento di un programma.</p>
+<h3 id="la-memoria-come-indirizzario">La memoria come indirizzario</h3>
+<p>La memoria di un computer può essere immaginata come una lunga via di case numerate in sequenza. Ogni casa corrisponde a un byte (8 bit) di memoria e possiede un indirizzo numerico univoco. Nei sistemi moderni, come discusso nel primo articolo della serie, lo spazio di indirizzamento è enorme e presenta ampie zone non mappate, esattamente come una via con numeri civici che saltano da un blocco all'altro.</p>
+<p>Questa analogia torna utile per distinguere due concetti che in assembly si scrivono in modo molto simile ma significano cose opposte: conoscere il numero civico di una casa non equivale a sapere cosa contiene quella casa.</p>
+<h3 id="valore-diretto-e-lettura-di-un-indirizzo">Valore diretto e lettura di un indirizzo</h3>
+<p>Chiarito il concetto, possiamo usare <code>mov</code> sia per assegnare un valore a un registro, sia per leggere il contenuto di un indirizzo di memoria.</p>
+<p>Per assegnare un valore a un registro, la sintassi corretta è la seguente:</p>
+<p>assembly</p>
+<pre><code class="language-assembly">mov rdi, 13317
+</code></pre>
+<p>La lettura, invece, avviene usando la sintassi <code>[valore]</code>:</p>
+<p>assembly</p>
+<pre><code class="language-assembly">mov rdi, [13317]
+</code></pre>
+<p>Le parentesi quadre indicano alla CPU che <code>13317</code> va interpretato come un indirizzo di memoria. La CPU si reca a quell'indirizzo, preleva il byte (o i byte) memorizzati e li copia nel registro <code>rdi</code>.</p>
+<p>A questo punto qualcuno potrebbe provare ad assegnare a un registro generico un valore, per poi dereferenziare quel valore in <code>rdi</code> e chiamare la syscall <code>exit</code> restituendo il contenuto del registro generico. Ed è qui che si sbaglia più spesso.</p>
+<p>assembly</p>
+<pre><code class="language-assembly">mov rbx, 10
+mov rdi, [rbx]
+</code></pre>
+<p>Questo <strong>non</strong> assegna il valore <code>10</code> a <code>rdi</code>. Se vogliamo semplicemente copiare lo stesso valore, basta fare:</p>
+<p>assembly</p>
+<pre><code class="language-assembly">mov rdi, rbx
+</code></pre>
+<p>Letteralmente, stiamo dicendo alla CPU: prendi il valore contenuto in <code>rbx</code> e copialo in <code>rdi</code>. In questo caso:</p>
+<p>text</p>
+<pre><code class="language-text">rdi = rbx = 10
+</code></pre>
+<p>Con <code>mov rdi, [rbx]</code>, invece, stiamo dicendo alla CPU: prendi il valore contenuto in <code>rbx</code>, usalo come indirizzo di memoria, vai a quell'indirizzo e copia in <code>rdi</code> ciò che trovi lì. In altre parole:</p>
+<p>text</p>
+<pre><code class="language-text">rbx      → valore contenuto nel registro
+[rbx]    → valore contenuto nella memoria all'indirizzo indicato da rbx
+</code></pre>
+<h3 id="i-registri-come-puntatori">I registri come puntatori</h3>
+<p>Nella programmazione reale è raro lavorare con indirizzi fissi scritti a mano nel codice. Più spesso un indirizzo viene calcolato o ricevuto a runtime e salvato in un registro, che a quel punto assume il ruolo di puntatore.</p>
+<p>assembly</p>
+<pre><code class="language-assembly">mov rax, 133700
+</code></pre>
+<p>Dopo questa istruzione, <code>rax</code> contiene l'indirizzo <code>133700</code>. Per leggere il dato a cui punta, si applica la dereferenziazione tramite parentesi quadre:</p>
+<p>assembly</p>
+<pre><code class="language-assembly">mov rdi, [rax]
+</code></pre>
+<div class="alert alert-info" role="alert"> Dereferenziare significa dire alla CPU: non prendere il numero scritto nel registro così com'è, ma vai all'indirizzo di memoria che quel numero rappresenta e leggi (o scrivi) il contenuto presente lì, come già visto nella sezione precedente. </div>
+<p>I registri della CPU, come <code>rax</code> o <code>rdi</code>, non hanno un ruolo semantico fisso. Lo stesso registro può contenere in momenti diversi l'identificativo di una syscall, un puntatore a un'area di memoria, o un semplice valore numerico. Per la CPU un registro è solo un contenitore di bit: il significato dipende esclusivamente dall'istruzione che lo utilizza.</p>
+<p>La scelta del registro da usare come puntatore è arbitraria: qualsiasi registro general purpose (<code>rax</code>, <code>rdi</code>, <code>rbx</code>, <code>rcx</code> e così via) può contenere un indirizzo. Una conseguenza interessante è che un registro può dereferenziare se stesso, sovrascrivendo il proprio contenuto (l'indirizzo) con il valore letto dalla memoria a quell'indirizzo. Nel flusso di esecuzione lo stesso registro cambia quindi ruolo: da indirizzo diventa contenitore del dato finale.</p>
+<h4 id="specificare-la-dimensione-delloperando">Specificare la dimensione dell'operando</h4>
+<p>Quando si scrive un valore immediato direttamente in un indirizzo di memoria, l'assemblatore non può dedurre da solo quanti byte occupare, perché né la sorgente (un numero puro) né la destinazione (un indirizzo, non un registro) portano un'informazione di dimensione. È necessario specificarla esplicitamente con un modificatore.</p>
+<div class="alert alert-info" role="alert"> Quando la destinazione di una <code>mov</code> è un indirizzo di memoria e la sorgente è un valore immediato, va sempre indicata la dimensione dell'operando, altrimenti l'assemblatore restituisce un errore di ambiguità. È possibile farlo attraverso quattro modificatori. </div> <div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Modificatore</th> <th>Dimensione</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold"><code>byte ptr</code></td> <td>1 byte, 8 bit</td> </tr> <tr> <td class="fw-semibold"><code>word ptr</code></td> <td>2 byte, 16 bit</td> </tr> <tr> <td class="fw-semibold"><code>dword ptr</code></td> <td>4 byte, 32 bit</td> </tr> <tr> <td class="fw-semibold"><code>qword ptr</code></td> <td>8 byte, 64 bit</td> </tr> </tbody> </table> </div>
+<p>Applicando il modificatore corretto per lavorare con registri a 64 bit come <code>rax</code>, la sequenza completa di scrittura e autodereferenziamento diventa:</p>
+<p>assembly</p>
+<pre><code class="language-assembly">mov qword ptr [133700], 42
+mov rax, 133700
+mov rax, [rax]
+</code></pre>
+<p>La prima riga scrive il valore <code>42</code> all'indirizzo di memoria <code>133700</code>, specificando esplicitamente che si tratta di un blocco a 8 byte attraverso il modificatore <code>qword</code>. La seconda riga carica in <code>rax</code> l'indirizzo <code>133700</code>. La terza riga fa leggere a <code>rax</code> il contenuto presente a quell'indirizzo, sovrascrivendo se stesso: da indirizzo, <code>rax</code> diventa il valore <code>42</code>.</p>
+<h3 id="offset-di-memoria-e-indirizzamento-relativo">Offset di memoria e indirizzamento relativo</h3>
+<p>Un puntatore non sempre indica esattamente il dato di interesse: spesso punta all'inizio di una struttura più ampia, come una stringa, un array o un record. Poiché ogni indirizzo identifica un singolo byte, per raggiungere un dato specifico all'interno della struttura si somma un offset, cioè una distanza in byte, all'indirizzo base.</p>
+<p>assembly</p>
+<pre><code class="language-assembly">.intel_syntax noprefix
+.global _start
+_start:
+    mov rax, [rdi + 1]
+    mov rax, 60
+    syscall
+</code></pre>
+<p>In questo esempio, <code>rdi</code> contiene l'indirizzo base, mentre <code>[rdi + 1]</code> accede al byte immediatamente successivo, saltando il primo byte della struttura. La sintassi con l'offset all'interno delle parentesi quadre è lo stesso pattern che si userà per scorrere array o stringhe carattere per carattere.</p>
+<h4 id="un-cenno-allordine-dei-byte-little-endian">Un cenno all'ordine dei byte (little-endian)</h4>
+<p>Quando un valore occupa più di un byte, la CPU deve stabilire in quale ordine salvare i singoli byte in memoria. L'architettura x86-64 usa l'ordine little-endian: il byte meno significativo viene memorizzato per primo, cioè all'indirizzo di memoria più basso.</p>
+<p>Per esempio, il valore:</p>
+<p>text</p>
+<pre><code class="language-text">0x12345678
+</code></pre>
+<p>viene memorizzato in memoria come:</p>
+<p>text</p>
+<pre><code class="language-text">78 56 34 12
+</code></pre>
+<p>Quindi, il valore che leggiamo normalmente da sinistra a destra non corrisponde all'ordine con cui i singoli byte sono disposti in memoria. È un dettaglio che diventa importante soprattutto quando si analizza la memoria con strumenti come GDB.</p>
+<h3 id="puntatori-a-puntatori">Puntatori a puntatori</h3>
+<p>Gli indirizzi di memoria sono a tutti gli effetti valori numerici, quindi la memoria stessa può contenere un indirizzo che punta a un altro indirizzo.</p>
+<div class="alert alert-info" role="alert"> È l'equivalente di conservare in casa propria un foglietto con scritto l'indirizzo di un amico: per raggiungerlo bisogna prima leggere il foglietto (primo accesso alla memoria) e poi usare l'indirizzo letto per arrivare a destinazione (secondo accesso alla memoria). </div> <div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Passaggio</th> <th>Istruzione assembly</th> <th>Valore nel registro</th> <th>Spiegazione</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">1. Caricamento indirizzo base</td> <td><code>mov rdi, 123400</code></td> <td>rdi = 123400</td> <td>Inserisce l'indirizzo iniziale nel registro</td> </tr> <tr> <td class="fw-semibold">2. Prima dereferenziazione</td> <td><code>mov rdi, [rdi]</code></td> <td>rdi = 133700</td> <td>Legge il valore contenuto in 123400</td> </tr> <tr> <td class="fw-semibold">3. Seconda dereferenziazione</td> <td><code>mov rax, [rdi]</code></td> <td>rax = 42</td> <td>Legge il dato finale all'indirizzo 133700</td> </tr> </tbody> </table> </div>
+<h3 id="catena-di-puntatori-a-partire-da-un-registro">Catena di puntatori a partire da un registro</h3>
+<p>L'ultimo scenario combina i due concetti visti finora: l'uso di un <strong>registro come puntatore</strong> e il <strong>doppio dereferenziamento</strong>, in un caso in cui non si conosce a priori alcun indirizzo numerico fisso, ma tutto parte dal contenuto di un registro fornito in ingresso.</p>
+<h3 id="tabella-riepilogativa-delle-modalita-di-indirizzamento">Tabella riepilogativa delle modalità di indirizzamento</h3>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Pattern</th> <th>Sintassi tipo</th> <th>Cosa restituisce</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Valore diretto</td> <td><code>mov rdi, 133700</code></td> <td>Il numero grezzo, nessun accesso alla memoria</td> </tr> <tr> <td class="fw-semibold">Dereferenziamento singolo</td> <td><code>mov rdi, [rax]</code></td> <td>Il contenuto memorizzato all'indirizzo in rax</td> </tr> <tr> <td class="fw-semibold">Autodereferenziamento</td> <td><code>mov rax, [rax]</code></td> <td>Il registro sovrascrive se stesso col dato letto</td> </tr> <tr> <td class="fw-semibold">Offset</td> <td><code>mov al, [rdi + 1]</code></td> <td>Il byte a un byte di distanza dall'indirizzo base</td> </tr> <tr> <td class="fw-semibold">Doppia dereferenziazione</td> <td><code>mov rdi, [rdi]</code> seguito da <code>mov rax, [rdi]</code></td> <td>Il dato finale, raggiunto attraverso due accessi consecutivi alla memoria</td> </tr> <tr> <td class="fw-semibold">Catena da registro</td> <td><code>mov rdi, [rdi]</code> ripetuto</td> <td>Il valore in fondo a una catena di puntatori partita da un registro</td> </tr> </tbody> </table> </div>
+
+      </section>
+
+      <!-- Disclaimer AI -->
+      <footer class="mt-4 pt-3 border-top">
+        <p class="text-muted small mb-0">
+          <em>Articolo scritto con il supporto di LLM per la formattazione e la struttura del codice.</em>
+        </p>
+      </footer>
+
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout post-section">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/assembly/" class="badge badge-outline">assembly</a>
+              
+            
+              
+              
+              <a href="/tags/deferenziamento/" class="badge badge-outline">deferenziamento</a>
+              
+            
+              
+              
+              <a href="/tags/puntatori/" class="badge badge-outline">puntatori</a>
+              
+            
+              
+              
+              <a href="/tags/indirizzi/" class="badge badge-outline">indirizzi</a>
+              
+            
+              
+              
+              <a href="/tags/offset/" class="badge badge-outline">offset</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center share-block">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fvalori-indirizzi-e-deferenziamento%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+            Condividi su LinkedIn
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Accesso%20alla%20memoria%20in%20Assembly%20x86_64&url=https://dino-996.github.io%2Fblog%2Fvalori-indirizzi-e-deferenziamento%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su X">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+            Condividi su X
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout post-section post-section-sm">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div class="article-nav-half">
+          
+          <a href="/blog/lo-stack-in-assembly/" class="btn btn-outline btn-sm article-nav-btn">
+            <span class="d-block small article-nav-label">← Precedente</span>
+            <span class="d-block article-nav-title">Lo stack in Assembly x86_64</span>
+          </a>
+          
+        </div>
+        <div class="article-nav-half article-nav-right">
+          
+          <a href="/blog/introduzione-a-assembly/" class="btn btn-outline btn-sm article-nav-btn article-nav-btn-right">
+            <span class="d-block small article-nav-label">Successivo →</span>
+            <span class="d-block article-nav-title">Introduzione ad Assembly</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Potrebbe interessarti -->
+    
+    
+    <section class="related-posts" aria-labelledby="related-posts-heading">
+      <h2 id="related-posts-heading" class="post-layout">Potrebbe interessarti</h2>
+      <div class="related-posts-grid post-layout">
+        
+        <a href="/blog/lo-stack-in-assembly/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Lo stack in Assembly x86_64</h3>
+            
+            <time class="related-post-date">02 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/introduzione-a-assembly/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Introduzione ad Assembly</h3>
+            
+            <time class="related-post-date">31 agosto 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/post/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1786799376/docker_d65228857a.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">docker</span>
+              
+            
+            <h3 class="related-post-title">Guida completa a Docker</h3>
+            
+            <time class="related-post-date">10 agosto 2026</time>
+            
+          </div>
+        </a>
+        
+      </div>
+    </section>
+    
+
+    <!-- Commenti -->
+    <h2 class="post-layout comment-heading">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+    data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      });
+    });
+  </script>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> DinoSec. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+    <!-- Trasparenza AI -->
+    <p class="small text-muted">
+      Scopri di più sulla <a href="/about#trasparenza">politica sull'uso dell'IA</a>.
+    </p>
+  </div>
+</footer>
+
+
+
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente virtuale basato su intelligenza artificiale">
+        <span aria-hidden="true">🦖</span>
+        <span class="ai-toggle-badge" aria-hidden="true">IA</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span aria-hidden="true">🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+            <span class="ai-badge" aria-label="Assistente basato su intelligenza artificiale">IA</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI assistant widget -->
+    <script src="/assets/js/ai-widget.js" defer></script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>
