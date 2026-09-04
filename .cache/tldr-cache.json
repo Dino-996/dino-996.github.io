@@ -110,5 +110,77 @@
   "Fondamenti di Sicurezza Informatica": {
     "tldr": "La cybersecurity protegge sistemi e dati da minacce digitali attraverso un approccio olistico che va oltre il perimetro tradizionale, adottando modelli come la Zero Trust Architecture. Il settore offre ruoli specialistici come analisti, penetration tester e incident responder, operanti in contesti come SOC e CERT, conformemente a normative quali NIS2 e ISO 27001.",
     "hash": "a4e6f8ab27db"
+  },
+  "GNU/Linux": {
+    "tldr": "Linux, originato nel 1991 come progetto personale di Linus Torvalds, è un kernel nato dalla curiosità e diventato una forza dominante grazie a sviluppo collaborativo globale e una filosofia open source. La sua evoluzione è stata plasmata da innovazioni come Git e da un impegno crescente verso una community più inclusiva, supportata da migliaia di sviluppatori e grandi aziende.",
+    "hash": "0fb3d0f3927d"
+  },
+  "Proxy Client con Tinyproxy": {
+    "tldr": "Questa guida descrive la configurazione di un proxy client locale su Ubuntu 24.04 utilizzando `tinyproxy`, `redsocks` e `iptables` per reindirizzare centralmente tutto il traffico TCP verso un proxy HTTP trasparente. L'architettura prevede `iptables` per il redirect, `redsocks` come ponte trasparente verso `tinyproxy` (porta 3128) che infine gestisce la connessione a Internet.",
+    "hash": "c20f65373d9c"
+  },
+  "Fondamenti di Compliance, Privacy e GDPR": {
+    "tldr": "La compliance si articola in obblighi normativi cogenti (es. GDPR), standard internazionali di best practice (es. ISO 27001) e framework operativi per l'implementazione di controlli di sicurezza (es. NIST CSF). Il GDPR, un regolamento UE direttamente applicabile, disciplina il trattamento dei dati personali delle persone fisiche, definendo ruoli chiave come il titolare del trattamento che ne determina finalità e mezzi.",
+    "hash": "bf5cb1b55832"
+  },
+  "Algoritmo di Luhn": {
+    "tldr": "L'algoritmo di Luhn è un semplice checksum matematico utilizzato per validare identificatori numerici, rilevando errori di battitura comuni come cifre errate o scambiate. Non offre protezione contro frodi, ma garantisce l'integrità dei dati contro imprecisioni umane.",
+    "hash": "4bc0dc61c06e"
+  },
+  "Memoria centrale": {
+    "tldr": "La memoria centrale (ROM, RAM, Cache) è essenziale per l'esecuzione dei programmi, con RAM volatile che richiede ottimizzazioni attraverso gestione della memoria e cache veloce. La protezione della memoria, gestita dall'hardware tramite registri base/limite e trap, isola i processi, mentre la MMU traduce dinamicamente indirizzi virtuali in fisici per la gestione degli spazi di indirizzamento.",
+    "hash": "015b3bff2545"
+  },
+  "La memoria virtuale": {
+    "tldr": "La memoria virtuale estende la RAM mediante paginazione su richiesta, consentendo l'esecuzione di processi più grandi e la condivisione di risorse, ma introduce un overhead gestito tramite algoritmi di sostituzione per ottimizzare l'accesso effettivo alla memoria. Tecniche come Copy-on-Write riducono ulteriormente l'impatto prestazionale e l'utilizzo della memoria durante la creazione di processi.",
+    "hash": "304eab2cf481"
+  },
+  "Allocazione della memoria": {
+    "tldr": "La gestione dei frame allocation è cruciale per l'efficienza della memoria, bilanciando equità e throughput tramite allocazione uniforme o proporzionale, e politiche di sostituzione globale o locale. Il thrashing, causato da un eccessivo grado di multiprogrammazione, può essere prevenuto con il modello del Working Set o la politica di Frequenza dei Page Fault, mentre il kernel utilizza tecniche specifiche per allocazioni contigue.",
+    "hash": "482dc1e38169"
+  },
+  "Scheduling della CPU": {
+    "tldr": "Lo scheduling della CPU è il meccanismo del sistema operativo che gestisce l'allocazione dei core a processi concorrenti, alternando burst di CPU e I/O e potendo intervenire tramite prelazione. I criteri di valutazione degli algoritmi di scheduling includono l'utilizzo della CPU, il throughput, il tempo di turnaround, il tempo di attesa e il tempo di risposta.",
+    "hash": "5dda63454113"
+  },
+  "Thread": {
+    "tldr": "I thread, unità di esecuzione minima all'interno di un processo, condividono memoria e risorse, distinguendosi dai processi tradizionali per efficienza, modularità e scalabilità in ambienti multicore. La concorrenza gestisce la progressione di task anche non simultanea, mentre il parallelismo implica l'esecuzione fisica simultanea su più core, estendendosi alle architetture eterogenee CPU-GPU per carichi di lavoro massivamente paralleli.",
+    "hash": "55d3aec53f05"
+  },
+  "Fondamenti di Networking": {
+    "tldr": "Internet è una \"rete di reti\" autonoma e globale, resa possibile da standard comuni e infrastrutture fisiche eterogenee, che supporta una vasta gamma di dispositivi, dai computer ai sensori IoT. La comprensione dei principi di networking è ora una competenza essenziale in ambito professionale, data la pervasività della connettività digitale.",
+    "hash": "3916049ad497"
+  },
+  "Accesso alla memoria in Assembly x86_64": {
+    "tldr": "L'assembly x86-64 distingue tra valori numerici diretti e indirizzi di memoria, dove le parentesi quadre `[]` denotano il dereferenziamento di un indirizzo memorizzato in un registro. Un registro può contenere sia un valore immediato che un indirizzo di memoria, influenzando il comportamento dell'istruzione `mov` a seconda che sia presente o meno la dereferenziazione.",
+    "hash": "be5620b9a7ff"
+  },
+  "Lo stack in Assembly x86_64": {
+    "tldr": "Lo stack, gestito dal registro `rsp`, è una regione di memoria predisposta per ogni processo che memorizza temporaneamente dati ed esecuzioni, inizializzato dal sistema operativo con il conteggio degli argomenti da riga di comando (`argc`) seguito dal vettore `argv`. L'accesso agli elementi successivi all'`argc` sul stack avviene tramite offset in byte, tipicamente multipli di 8 per valori a 64 bit, con l'ABI AMD64 che richiede un allineamento a 16 byte di `rsp` prima delle chiamate di funzione.",
+    "hash": "86b46076a7f1"
+  },
+  "Struttura dei sistemi operativi": {
+    "tldr": "Il sistema operativo espone servizi essenziali tramite chiamate di sistema, che i programmatori accedono comunemente tramite API per garantire portabilità, e il kernel gestisce le risorse hardware e le funzioni di base. Le interfacce utente spaziano da CLI e GUI a touch screen, mentre il processo di esecuzione delle applicazioni coinvolge linker e loader.",
+    "hash": "9d1c0e6efb31"
+  },
+  "Processi": {
+    "tldr": "Un processo è un programma in esecuzione attivo, distinto dal suo codice statico, e occupa sezioni di memoria come testo, dati, heap e stack. I sistemi multicore consentono il parallelismo reale assegnando thread multipli a core fisici indipendenti, differenziandosi dal parallelismo simulato tramite time-slicing dei sistemi single-core.",
+    "hash": "c0b3dfea3538"
+  },
+  "Paginazione": {
+    "tldr": "La MMU con la paginazione mappa indirizzi logici in fisici usando pagine e frame, con il TLB per accelerare le traduzioni e varie configurazioni di tabelle delle pagine e meccanismi di protezione/condivisione. L'articolo esamina anche lo swapping, differenziando gli approcci standard e mobili e citando esempi su IA-32, x86-64 e ARMv8.",
+    "hash": "67dff68968bd"
+  },
+  "Sincronizzazione dei processi": {
+    "tldr": "La sincronizzazione dei processi è cruciale in sistemi multi-core e preemptive per gestire l'accesso concorrente a risorse condivise, evitando race condition e garantendo mutua esclusione, progresso e attesa limitata. Le moderne architetture con modelli di memoria debolmente ordinati richiedono memory barrier e primitive hardware come Compare-and-Swap (CAS) per garantire la correttezza degli algoritmi, superando i limiti di soluzioni puramente software come l'algoritmo di Peterson.",
+    "hash": "3a3877f649da"
+  },
+  "Stallo dei processi": {
+    "tldr": "L'articolo esamina le quattro condizioni necessarie per il deadlock, distinguendolo dal livelock e dalla starvation, e illustra il grafo di assegnazione delle risorse per l'analisi dei cicli. Vengono inoltre presentati algoritmi come quello del banchiere e tecniche di ripristino, incluse terminazione forzata e prelazione delle risorse, per gestire gli stalli.",
+    "hash": "265015cb2a16"
+  },
+  "Introduzione ad Assembly": {
+    "tldr": "L'ISA definisce il set di istruzioni per l'interazione hardware-software, con la famiglia x86, nata dall'8086, che si è evoluta in x86-32 e x86-64. La transizione a x64 (64-bit) aumenta significativamente la RAM indirizzabile e abilita funzionalità avanzate di sicurezza e prestazioni rispetto a x86-32 (32-bit).",
+    "hash": "6d30d753166a"
   }
 }

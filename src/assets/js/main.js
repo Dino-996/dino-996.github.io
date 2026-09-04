@@ -18,6 +18,7 @@
 
         function applyTheme(theme) {
             document.documentElement.setAttribute('data-bs-theme', theme);
+            window.__bsTheme = theme; // <-- FIX: expose to Giscus and comments
             localStorage.setItem('theme', theme);
             if (sunIcon && moonIcon) {
                 sunIcon.style.display = theme === 'dark' ? 'block' : 'none';
