@@ -26,7 +26,8 @@
     
     <content type="html"><![CDATA[
 
-  &lt;p&gt;A differenza degli indirizzi caricati manualmente o passati in altri registri, ogni processo possiede già una &lt;strong&gt;regione di memoria&lt;/strong&gt; pronta all’uso, lo &lt;strong&gt;stack&lt;/strong&gt; (&lt;strong&gt;pila&lt;/strong&gt;).&lt;/p&gt;
+  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+&lt;p&gt;A differenza degli indirizzi caricati manualmente o passati in altri registri, ogni processo possiede già una &lt;strong&gt;regione di memoria&lt;/strong&gt; pronta all’uso, lo &lt;strong&gt;stack&lt;/strong&gt; (&lt;strong&gt;pila&lt;/strong&gt;).&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;strong&gt;Area temporanea&lt;/strong&gt;: lo stack è una regione di memoria utilizzata per memorizzare temporaneamente dati, variabili e informazioni sull’esecuzione del programma.&lt;/p&gt;
@@ -35,10 +36,10 @@
 &lt;p&gt;&lt;strong&gt;rsp&lt;/strong&gt; (&lt;strong&gt;stack pointer&lt;/strong&gt;): è il registro della CPU che indica la posizione della cima (top) dello stack.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h3 id=&quot;lo-stato-dello-stack-allavvio-del-programma&quot;&gt;Lo stato dello stack all’avvio del programma&lt;/h3&gt;
+&lt;h2 id=&quot;lo-stato-dello-stack-allavvio-del-programma&quot;&gt;Lo stato dello stack all’avvio del programma&lt;/h2&gt;
 &lt;p&gt;All’avvio di un programma in ambiente Linux, la &lt;strong&gt;cima dello stack&lt;/strong&gt; (&lt;code&gt;[rsp]&lt;/code&gt;) viene inizializzata dal sistema operativo con il conteggio degli argomenti da riga di comando (&lt;strong&gt;argc&lt;/strong&gt;).&lt;/p&gt;
 &lt;p&gt;Il conteggio degli argomenti include anche il nome o il percorso del programma stesso, che viene considerato il &lt;strong&gt;primo elemento&lt;/strong&gt; del vettore &lt;code&gt;argv&lt;/code&gt;.&lt;/p&gt;
-&lt;h3 id=&quot;accesso-agli-argomenti-da-riga-di-comando&quot;&gt;Accesso agli argomenti da riga di comando&lt;/h3&gt;
+&lt;h2 id=&quot;accesso-agli-argomenti-da-riga-di-comando&quot;&gt;Accesso agli argomenti da riga di comando&lt;/h2&gt;
 &lt;p&gt;Oltre al conteggio degli argomenti (&lt;code&gt;argc&lt;/code&gt;) in cima allo stack (&lt;code&gt;[rsp]&lt;/code&gt;), lo stack contiene un vettore di puntatori a stringhe, il classico &lt;code&gt;argv[]&lt;/code&gt; del linguaggio C, che indicano dove si trovano in memoria i testi degli argomenti.&lt;/p&gt;
 &lt;p&gt;Ad esempio, eseguendo:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;./programma hello world
@@ -128,7 +129,7 @@
 &lt;/tr&gt;  
 &lt;/tbody&gt;  
 &lt;/table&gt;
-&lt;h3 id=&quot;ispezionare-lo-stack-con-gdb-gnu-debugger&quot;&gt;Ispezionare lo stack con GDB (GNU Debugger)&lt;/h3&gt;
+&lt;h2 id=&quot;ispezionare-lo-stack-con-gdb-gnu-debugger&quot;&gt;Ispezionare lo stack con GDB (GNU Debugger)&lt;/h2&gt;
 &lt;p&gt;Per un lettore junior che si avvicina a questi concetti, verificarli empiricamente con un debugger è spesso più efficace della sola lettura teorica. GDB permette di osservare in tempo reale il contenuto dello stack e il valore di &lt;code&gt;rsp&lt;/code&gt; subito dopo l’avvio del programma.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;gdb -q ./nome_programma
 break _start
@@ -313,9 +314,9 @@ _start:
     
     <content type="html"><![CDATA[
 
-  &lt;h3 id=&quot;cose-lisa&quot;&gt;Cos&#39;è l&#39;ISA&lt;/h3&gt;
+  &lt;h2 id=&quot;cose-lisa&quot;&gt;Cos&#39;è l&#39;ISA&lt;/h2&gt;
 &lt;p&gt;L&#39;&lt;strong&gt;ISA (Instruction Set Architecture)&lt;/strong&gt; è l&#39;insieme di istruzioni che un microprocessore è in grado di capire ed eseguire. Le operazioni matematiche, i confronti logici nonché la lettura e la scrittura di dati. Possiamo immaginarla come una specie di &lt;strong&gt;lingua comune&lt;/strong&gt; tra hardware e software. E&#39; grazie all&#39;ISA che un programma sa come interagire con la CPU e con la memoria del computer.&lt;/p&gt;
-&lt;h3 id=&quot;la-famiglia-x86&quot;&gt;La famiglia x86&lt;/h3&gt;
+&lt;h2 id=&quot;la-famiglia-x86&quot;&gt;La famiglia x86&lt;/h2&gt;
 &lt;p&gt;Un esempio famosissimo di ISA è la &lt;strong&gt;famiglia x86&lt;/strong&gt;, usata ancora oggi nella stragrande maggioranza di PC e server. Tutto nasce nel &lt;strong&gt;1978&lt;/strong&gt;, con l&#39;uscita del microprocessore &lt;strong&gt;Intel 8086&lt;/strong&gt;, un chip a &lt;strong&gt;16 bit&lt;/strong&gt;, che per l&#39;epoca rappresentava un salto in avanti notevole rispetto ai processori precedenti.&lt;/p&gt;
 &lt;p&gt;Da lì in poi Intel ha continuato a evolvere questa architettura, passando per modelli come l&#39;&lt;strong&gt;80286&lt;/strong&gt;, l&#39;&lt;strong&gt;80386&lt;/strong&gt;, l&#39;&lt;strong&gt;80486&lt;/strong&gt;, fino ad arrivare ai &lt;strong&gt;Pentium&lt;/strong&gt; e, più recentemente, ai processori &lt;strong&gt;Intel Core&lt;/strong&gt;. Anche altri produttori, come &lt;strong&gt;AMD&lt;/strong&gt;, realizzano oggi chip basati sulla stessa architettura x86.&lt;/p&gt;
 &lt;h3 id=&quot;x86-vs-x64-qual-e-la-differenza&quot;&gt;x86 vs x64: qual è la differenza&lt;/h3&gt;
@@ -336,7 +337,7 @@ _start:
 &lt;h3 id=&quot;come-funziona-una-cpu-in-breve&quot;&gt;Come funziona una CPU, in breve&lt;/h3&gt;
 &lt;p&gt;Una CPU x86_64 esegue in fondo un numero limitato di operazioni elementari, tutte combinabili tra loro per costruire programmi complessi. A livello concettuale, possiamo ricondurre molte operazioni a tre categorie: &lt;strong&gt;sposta&lt;/strong&gt; dati, &lt;strong&gt;modifica&lt;/strong&gt; dati e &lt;strong&gt;prende decisioni&lt;/strong&gt; in base ai dati.&lt;/p&gt;
 &lt;p&gt;I dati su cui la CPU lavora vengono conservati principalmente nei registri, piccole memorie interne alla CPU, estremamente veloci ma anche costose e limitate. L&#39;ISA x86-64 mette a disposizione &lt;strong&gt;16 registri general-purpose a 64 bit&lt;/strong&gt;, ciascuno pensato per contenere valori numerici che il processore può leggere e scrivere in tempi minimi.&lt;/p&gt;
-&lt;h4 id=&quot;panoramica-dei-registri&quot;&gt;Panoramica dei registri&lt;/h4&gt;
+&lt;h2 id=&quot;panoramica-dei-registri&quot;&gt;Panoramica dei registri&lt;/h2&gt;
 &lt;p&gt;I primi otto sono le &lt;strong&gt;estensioni&lt;/strong&gt; a 64 bit dei classici registri x86 a 32 bit, mentre gli ultimi otto sono stati aggiunti specificamente per la modalità a 64 bit.&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;&lt;strong&gt;RAX&lt;/strong&gt; (Accumulatore)&lt;/li&gt;
@@ -387,7 +388,7 @@ syscall
 &lt;p&gt;A differenza di altri linguaggi di programmazione, in Assembly si lavora direttamente con i registri della CPU. Alla CPU non interessa quindi se impostiamo prima il codice di uscita o il numero della syscall &lt;code&gt;exit&lt;/code&gt;: ciò che conta è che, al momento dell&#39;esecuzione di &lt;code&gt;syscall&lt;/code&gt;, i valori siano nei registri corretti. I valori, invece, non vanno assegnati ai registri sbagliati: &lt;code&gt;RAX&lt;/code&gt; deve contenere il numero della syscall e &lt;code&gt;RDI&lt;/code&gt; il codice di uscita. Inoltre Con &lt;strong&gt;GNU assembler&lt;/strong&gt;, le istruzioni e i nomi dei registri x86 non sono case sensitive.&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Registro&lt;/th&gt; &lt;th&gt;Scopo&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;rax&lt;/td&gt; &lt;td&gt;Numero della chiamata di sistema&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;rdi&lt;/td&gt; &lt;td&gt;Primo parametro della chiamata (codice di uscita per exit)&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;rsi&lt;/td&gt; &lt;td&gt;Registro di uso generale, utile per memorizzare valori intermedi o copiarli in altri registri&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
-&lt;h3 id=&quot;dal-codice-sorgente-alleseguibile&quot;&gt;Dal codice sorgente all&#39;eseguibile&lt;/h3&gt;
+&lt;h2 id=&quot;dal-codice-sorgente-alleseguibile&quot;&gt;Dal codice sorgente all&#39;eseguibile&lt;/h2&gt;
 &lt;p&gt;Scrivere codice Assembly non basta per eseguirlo, serve trasformarlo in un file eseguibile&lt;br&gt;
 attraverso tre passaggi principali:&lt;/p&gt;
 &lt;ol&gt;
@@ -412,17 +413,17 @@ syscall
 &lt;pre&gt;&lt;code&gt;ld -o program.elf program.o
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Il programma può essere eseguito con &lt;code&gt;./program.elf&lt;/code&gt;, e il codice di uscita si controlla con &lt;code&gt;echo $?&lt;/code&gt; (&lt;code&gt;$?&lt;/code&gt; è una variabile speciale della shell che contiene lo status di uscita dell&#39;ultimo comando eseguito), che nel nostro esempio restituisce 42.&lt;/p&gt;
-&lt;h4 id=&quot;il-formato-elf&quot;&gt;Il formato ELF&lt;/h4&gt;
+&lt;h3 id=&quot;il-formato-elf&quot;&gt;Il formato ELF&lt;/h3&gt;
 &lt;p&gt;Su Linux, un programma eseguibile è generalmente un file in formato &lt;strong&gt;ELF&lt;/strong&gt; (&lt;em&gt;Executable and Linkable Format&lt;/em&gt;). Possiamo quindi trovare un eseguibile chiamato &lt;code&gt;program.elf&lt;/code&gt;, ma &lt;strong&gt;&lt;code&gt;.elf&lt;/code&gt; è solo un&#39;estensione convenzionale&lt;/strong&gt;: potremmo chiamarlo semplicemente &lt;code&gt;program&lt;/code&gt; e funzionerebbe comunque.&lt;/p&gt;
 &lt;p&gt;Questo perché, a differenza di Windows, &lt;strong&gt;Linux non usa l&#39;estensione del file per determinarne il tipo o la sua eseguibilità&lt;/strong&gt;. Ciò che conta è il &lt;strong&gt;contenuto del file&lt;/strong&gt; e, per l&#39;esecuzione, anche la presenza dei &lt;strong&gt;permessi di esecuzione&lt;/strong&gt;.&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;In Linux l&#39;&lt;strong&gt;estensione&lt;/strong&gt; è principalmente una convenzione per l&#39;utente; il formato ELF è determinato dal contenuto del file, non dal suo nome.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;h4 id=&quot;compilato-vs-assemblato&quot;&gt;Compilato vs Assemblato&lt;/h4&gt;
+&lt;h3 id=&quot;compilato-vs-assemblato&quot;&gt;Compilato vs Assemblato&lt;/h3&gt;
 &lt;p&gt;&lt;strong&gt;Assembly è un linguaggio di programmazione a basso livello, assemblato,&lt;/strong&gt; attenzione per chi viene da linguaggi come Java, C#, C o C++, è comune associare il termine &lt;em&gt;compilato&lt;/em&gt; al processo di traduzione del codice sorgente. In senso generale, anche l&#39;Assembly viene tradotto prima dell&#39;esecuzione; tuttavia, tecnicamente è più corretto parlare di &lt;strong&gt;assemblaggio&lt;/strong&gt;, perché il programma che effettua la traduzione è un &lt;strong&gt;assembler&lt;/strong&gt;, non un compiler (&lt;em&gt;compilato&lt;/em&gt; e &lt;em&gt;assemblato&lt;/em&gt; non sono necessariamente categorie opposte).&lt;/p&gt;
 &lt;p&gt;La differenza fondamentale è che il &lt;strong&gt;compiler&lt;/strong&gt; traduce un linguaggio di programmazione in un&#39;altra rappresentazione, effettuando anche analisi e trasformazioni del programma, mentre l&#39;&lt;strong&gt;assembler&lt;/strong&gt; traduce le istruzioni Assembly nella corrispondente rappresentazione in &lt;strong&gt;linguaggio macchina dell&#39;architettura target&lt;/strong&gt;, in questo caso &lt;strong&gt;x86-64&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Durante il collegamento può comparire l’avviso &lt;code&gt;cannot find entry symbol _start&lt;/code&gt;. Significa che il linker non trova il simbolo &lt;code&gt;_start&lt;/code&gt; indicato come &lt;strong&gt;punto di ingresso&lt;/strong&gt;.&lt;/p&gt;
-&lt;h3 id=&quot;il-simbolo-start&quot;&gt;Il simbolo _start&lt;/h3&gt;
+&lt;h2 id=&quot;il-simbolo-start&quot;&gt;Il simbolo _start&lt;/h2&gt;
 &lt;p&gt;Per eliminare l&#39;avviso si può definire esplicitamente un punto di ingresso (&lt;code&gt;_start&lt;/code&gt;) in questo modo:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-asm&quot;&gt;.intel_syntax noprefix
 .global _start
@@ -451,7 +452,7 @@ inizio:
 mov rdi, rsi
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;La seconda istruzione non fa altro che &lt;strong&gt;copiare&lt;/strong&gt; il valore del registro &lt;code&gt;rsi&lt;/code&gt; in &lt;code&gt;rdi&lt;/code&gt;, dopo l&#39;esecuzione del codice ambo i registri conterranno il valore 42. Un dettaglio da tenere presente è che, nonostante il nome dell’istruzione sia &lt;strong&gt;mov&lt;/strong&gt; (abbreviazione di &lt;em&gt;move&lt;/em&gt;), essa non sposta realmente il valore da un registro all’altro, ma lo &lt;strong&gt;copia&lt;/strong&gt;. Il motivo storico per cui l’istruzione si chiami mov invece di qualcosa come set o copy non è del tutto chiaro, si tratta semplicemente di una convenzione consolidata dell’assembly.&lt;/p&gt;
-&lt;h3 id=&quot;buone-pratiche-che-avrei-voluto-conosce-prima-per-chi-cominca-con-assembly&quot;&gt;Buone pratiche (che avrei voluto conosce prima) per chi cominca con Assembly&lt;/h3&gt;
+&lt;h2 id=&quot;buone-pratiche-che-avrei-voluto-conosce-prima-per-chi-cominca-con-assembly&quot;&gt;Buone pratiche (che avrei voluto conosce prima) per chi cominca con Assembly&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;Non dare &lt;strong&gt;mai per scontato&lt;/strong&gt; un valore di registro nel non specificatamente inizializzato proprio codice, anche se in un ambiente controllato di apprendimento un registro può sembrare &lt;em&gt;vuoto&lt;/em&gt; o a zero.&lt;/li&gt;
 &lt;li&gt;Tenere presente che secondo la convenzione di chiamata System V AMD64 ABI comunemente usata su Linux, alcuni registri devono essere preservati dalla funzione chiamata (i cosiddetti registri callee-saved), un aspetto rilevante non appena si inizia a scrivere funzioni piu complesse delle semplici sequenze lineari viste fin ora.&lt;/li&gt;

@@ -193,7 +193,7 @@
     "headline": &quot;Lo stack in Assembly x86_64&quot;,
     "url": "https://dino-996.github.io/blog/lo-stack-in-assembly/",
     
-    "dateModified": "2026-08-31T17:21:01.000Z",
+    "dateModified": "2026-09-05T07:58:49.000Z",
     "author": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -314,6 +314,9 @@
         <span class="post-meta-dot">·</span>
         <span class="reading-time"></span>
         
+          <span class="post-meta-dot">·</span>
+          <span>Aggiornato il 05 settembre 2026</span>
+        
       </div>
     </header>
 
@@ -333,12 +336,13 @@
       
       <div class="tldr-box">
         <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
-        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Lo stack (`rsp`) memorizza inizialmente il conteggio degli argomenti da riga di comando (`argc`) e un vettore di puntatori (`argv`) puntati da `rsp`. L&#39;accesso a elementi successivi richiede l&#39;uso di offset, solitamente multipli di 8 byte per valori a 64 bit.</p>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">All&#39;avvio, lo stack di un processo contiene `argc` a `[rsp]` seguito dai puntatori a `argv[]` e terminato da NULL; questi elementi, disposti sequenzialmente e con offset multipli di 8 byte per valori a 64-bit, permettono l&#39;accesso agli argomenti della riga di comando. L&#39;allineamento dello stack a 16 byte prima di un&#39;istruzione `call` è un requisito cruciale della System V AMD64 ABI per garantire il corretto funzionamento delle chiamate a funzione.</p>
       </div>
       
 
       <section class="content">
-          <p>A differenza degli indirizzi caricati manualmente o passati in altri registri, ogni processo possiede già una <strong>regione di memoria</strong> pronta all’uso, lo <strong>stack</strong> (<strong>pila</strong>).</p>
+          <h2 id="introduzione">Introduzione</h2>
+<p>A differenza degli indirizzi caricati manualmente o passati in altri registri, ogni processo possiede già una <strong>regione di memoria</strong> pronta all’uso, lo <strong>stack</strong> (<strong>pila</strong>).</p>
 <ul>
 <li>
 <p><strong>Area temporanea</strong>: lo stack è una regione di memoria utilizzata per memorizzare temporaneamente dati, variabili e informazioni sull’esecuzione del programma.</p>
@@ -347,10 +351,10 @@
 <p><strong>rsp</strong> (<strong>stack pointer</strong>): è il registro della CPU che indica la posizione della cima (top) dello stack.</p>
 </li>
 </ul>
-<h3 id="lo-stato-dello-stack-allavvio-del-programma">Lo stato dello stack all’avvio del programma</h3>
+<h2 id="lo-stato-dello-stack-allavvio-del-programma">Lo stato dello stack all’avvio del programma</h2>
 <p>All’avvio di un programma in ambiente Linux, la <strong>cima dello stack</strong> (<code>[rsp]</code>) viene inizializzata dal sistema operativo con il conteggio degli argomenti da riga di comando (<strong>argc</strong>).</p>
 <p>Il conteggio degli argomenti include anche il nome o il percorso del programma stesso, che viene considerato il <strong>primo elemento</strong> del vettore <code>argv</code>.</p>
-<h3 id="accesso-agli-argomenti-da-riga-di-comando">Accesso agli argomenti da riga di comando</h3>
+<h2 id="accesso-agli-argomenti-da-riga-di-comando">Accesso agli argomenti da riga di comando</h2>
 <p>Oltre al conteggio degli argomenti (<code>argc</code>) in cima allo stack (<code>[rsp]</code>), lo stack contiene un vettore di puntatori a stringhe, il classico <code>argv[]</code> del linguaggio C, che indicano dove si trovano in memoria i testi degli argomenti.</p>
 <p>Ad esempio, eseguendo:</p>
 <pre><code class="language-bash">./programma hello world
@@ -440,7 +444,7 @@
 </tr>  
 </tbody>  
 </table>
-<h3 id="ispezionare-lo-stack-con-gdb-gnu-debugger">Ispezionare lo stack con GDB (GNU Debugger)</h3>
+<h2 id="ispezionare-lo-stack-con-gdb-gnu-debugger">Ispezionare lo stack con GDB (GNU Debugger)</h2>
 <p>Per un lettore junior che si avvicina a questi concetti, verificarli empiricamente con un debugger è spesso più efficace della sola lettura teorica. GDB permette di osservare in tempo reale il contenuto dello stack e il valore di <code>rsp</code> subito dopo l’avvio del programma.</p>
 <pre><code class="language-bash">gdb -q ./nome_programma
 break _start

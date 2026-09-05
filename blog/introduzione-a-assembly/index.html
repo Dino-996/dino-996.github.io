@@ -193,7 +193,7 @@
     "headline": &quot;Introduzione ad Assembly&quot;,
     "url": "https://dino-996.github.io/blog/introduzione-a-assembly/",
     
-    "dateModified": "2026-08-31T10:48:16.000Z",
+    "dateModified": "2026-09-05T07:57:14.000Z",
     "author": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -314,6 +314,9 @@
         <span class="post-meta-dot">·</span>
         <span class="reading-time"></span>
         
+          <span class="post-meta-dot">·</span>
+          <span>Aggiornato il 05 settembre 2026</span>
+        
       </div>
     </header>
 
@@ -333,14 +336,14 @@
       
       <div class="tldr-box">
         <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
-        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">L&#39;ISA definisce il set di istruzioni di un microprocessore, con la famiglia x86, evolutasi da 16 a 64 bit, che rappresenta l&#39;architettura dominante in PC e server. La transizione da x86 (32-bit) a x64 (64-bit) aumenta significativamente la memoria indirizzabile e abilita funzionalità di sicurezza e prestazioni avanzate.</p>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">L&#39;ISA definisce il set di istruzioni di un microprocessore, fungendo da interfaccia fondamentale tra hardware e software. L&#39;architettura x86, evolutasi dall&#39;8086, si distingue nelle varianti x86 (32-bit) e x64 (64-bit), quest&#39;ultima capace di indirizzare molta più RAM e dotata di funzionalità di sicurezza e prestazioni avanzate.</p>
       </div>
       
 
       <section class="content">
-          <h3 id="cose-lisa">Cos'è l'ISA</h3>
+          <h2 id="cose-lisa">Cos'è l'ISA</h2>
 <p>L'<strong>ISA (Instruction Set Architecture)</strong> è l'insieme di istruzioni che un microprocessore è in grado di capire ed eseguire. Le operazioni matematiche, i confronti logici nonché la lettura e la scrittura di dati. Possiamo immaginarla come una specie di <strong>lingua comune</strong> tra hardware e software. E' grazie all'ISA che un programma sa come interagire con la CPU e con la memoria del computer.</p>
-<h3 id="la-famiglia-x86">La famiglia x86</h3>
+<h2 id="la-famiglia-x86">La famiglia x86</h2>
 <p>Un esempio famosissimo di ISA è la <strong>famiglia x86</strong>, usata ancora oggi nella stragrande maggioranza di PC e server. Tutto nasce nel <strong>1978</strong>, con l'uscita del microprocessore <strong>Intel 8086</strong>, un chip a <strong>16 bit</strong>, che per l'epoca rappresentava un salto in avanti notevole rispetto ai processori precedenti.</p>
 <p>Da lì in poi Intel ha continuato a evolvere questa architettura, passando per modelli come l'<strong>80286</strong>, l'<strong>80386</strong>, l'<strong>80486</strong>, fino ad arrivare ai <strong>Pentium</strong> e, più recentemente, ai processori <strong>Intel Core</strong>. Anche altri produttori, come <strong>AMD</strong>, realizzano oggi chip basati sulla stessa architettura x86.</p>
 <h3 id="x86-vs-x64-qual-e-la-differenza">x86 vs x64: qual è la differenza</h3>
@@ -361,7 +364,7 @@
 <h3 id="come-funziona-una-cpu-in-breve">Come funziona una CPU, in breve</h3>
 <p>Una CPU x86_64 esegue in fondo un numero limitato di operazioni elementari, tutte combinabili tra loro per costruire programmi complessi. A livello concettuale, possiamo ricondurre molte operazioni a tre categorie: <strong>sposta</strong> dati, <strong>modifica</strong> dati e <strong>prende decisioni</strong> in base ai dati.</p>
 <p>I dati su cui la CPU lavora vengono conservati principalmente nei registri, piccole memorie interne alla CPU, estremamente veloci ma anche costose e limitate. L'ISA x86-64 mette a disposizione <strong>16 registri general-purpose a 64 bit</strong>, ciascuno pensato per contenere valori numerici che il processore può leggere e scrivere in tempi minimi.</p>
-<h4 id="panoramica-dei-registri">Panoramica dei registri</h4>
+<h2 id="panoramica-dei-registri">Panoramica dei registri</h2>
 <p>I primi otto sono le <strong>estensioni</strong> a 64 bit dei classici registri x86 a 32 bit, mentre gli ultimi otto sono stati aggiunti specificamente per la modalità a 64 bit.</p>
 <ol>
 <li><strong>RAX</strong> (Accumulatore)</li>
@@ -412,7 +415,7 @@ syscall
 <p>A differenza di altri linguaggi di programmazione, in Assembly si lavora direttamente con i registri della CPU. Alla CPU non interessa quindi se impostiamo prima il codice di uscita o il numero della syscall <code>exit</code>: ciò che conta è che, al momento dell'esecuzione di <code>syscall</code>, i valori siano nei registri corretti. I valori, invece, non vanno assegnati ai registri sbagliati: <code>RAX</code> deve contenere il numero della syscall e <code>RDI</code> il codice di uscita. Inoltre Con <strong>GNU assembler</strong>, le istruzioni e i nomi dei registri x86 non sono case sensitive.</p>
 </blockquote>
 <div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Registro</th> <th>Scopo</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">rax</td> <td>Numero della chiamata di sistema</td> </tr> <tr> <td class="fw-semibold">rdi</td> <td>Primo parametro della chiamata (codice di uscita per exit)</td> </tr> <tr> <td class="fw-semibold">rsi</td> <td>Registro di uso generale, utile per memorizzare valori intermedi o copiarli in altri registri</td> </tr> </tbody> </table> </div>
-<h3 id="dal-codice-sorgente-alleseguibile">Dal codice sorgente all'eseguibile</h3>
+<h2 id="dal-codice-sorgente-alleseguibile">Dal codice sorgente all'eseguibile</h2>
 <p>Scrivere codice Assembly non basta per eseguirlo, serve trasformarlo in un file eseguibile<br>
 attraverso tre passaggi principali:</p>
 <ol>
@@ -437,17 +440,17 @@ syscall
 <pre><code>ld -o program.elf program.o
 </code></pre>
 <p>Il programma può essere eseguito con <code>./program.elf</code>, e il codice di uscita si controlla con <code>echo $?</code> (<code>$?</code> è una variabile speciale della shell che contiene lo status di uscita dell'ultimo comando eseguito), che nel nostro esempio restituisce 42.</p>
-<h4 id="il-formato-elf">Il formato ELF</h4>
+<h3 id="il-formato-elf">Il formato ELF</h3>
 <p>Su Linux, un programma eseguibile è generalmente un file in formato <strong>ELF</strong> (<em>Executable and Linkable Format</em>). Possiamo quindi trovare un eseguibile chiamato <code>program.elf</code>, ma <strong><code>.elf</code> è solo un'estensione convenzionale</strong>: potremmo chiamarlo semplicemente <code>program</code> e funzionerebbe comunque.</p>
 <p>Questo perché, a differenza di Windows, <strong>Linux non usa l'estensione del file per determinarne il tipo o la sua eseguibilità</strong>. Ciò che conta è il <strong>contenuto del file</strong> e, per l'esecuzione, anche la presenza dei <strong>permessi di esecuzione</strong>.</p>
 <blockquote>
 <p>In Linux l'<strong>estensione</strong> è principalmente una convenzione per l'utente; il formato ELF è determinato dal contenuto del file, non dal suo nome.</p>
 </blockquote>
-<h4 id="compilato-vs-assemblato">Compilato vs Assemblato</h4>
+<h3 id="compilato-vs-assemblato">Compilato vs Assemblato</h3>
 <p><strong>Assembly è un linguaggio di programmazione a basso livello, assemblato,</strong> attenzione per chi viene da linguaggi come Java, C#, C o C++, è comune associare il termine <em>compilato</em> al processo di traduzione del codice sorgente. In senso generale, anche l'Assembly viene tradotto prima dell'esecuzione; tuttavia, tecnicamente è più corretto parlare di <strong>assemblaggio</strong>, perché il programma che effettua la traduzione è un <strong>assembler</strong>, non un compiler (<em>compilato</em> e <em>assemblato</em> non sono necessariamente categorie opposte).</p>
 <p>La differenza fondamentale è che il <strong>compiler</strong> traduce un linguaggio di programmazione in un'altra rappresentazione, effettuando anche analisi e trasformazioni del programma, mentre l'<strong>assembler</strong> traduce le istruzioni Assembly nella corrispondente rappresentazione in <strong>linguaggio macchina dell'architettura target</strong>, in questo caso <strong>x86-64</strong>.</p>
 <p>Durante il collegamento può comparire l’avviso <code>cannot find entry symbol _start</code>. Significa che il linker non trova il simbolo <code>_start</code> indicato come <strong>punto di ingresso</strong>.</p>
-<h3 id="il-simbolo-start">Il simbolo _start</h3>
+<h2 id="il-simbolo-start">Il simbolo _start</h2>
 <p>Per eliminare l'avviso si può definire esplicitamente un punto di ingresso (<code>_start</code>) in questo modo:</p>
 <pre><code class="language-asm">.intel_syntax noprefix
 .global _start
@@ -476,7 +479,7 @@ inizio:
 mov rdi, rsi
 </code></pre>
 <p>La seconda istruzione non fa altro che <strong>copiare</strong> il valore del registro <code>rsi</code> in <code>rdi</code>, dopo l'esecuzione del codice ambo i registri conterranno il valore 42. Un dettaglio da tenere presente è che, nonostante il nome dell’istruzione sia <strong>mov</strong> (abbreviazione di <em>move</em>), essa non sposta realmente il valore da un registro all’altro, ma lo <strong>copia</strong>. Il motivo storico per cui l’istruzione si chiami mov invece di qualcosa come set o copy non è del tutto chiaro, si tratta semplicemente di una convenzione consolidata dell’assembly.</p>
-<h3 id="buone-pratiche-che-avrei-voluto-conosce-prima-per-chi-cominca-con-assembly">Buone pratiche (che avrei voluto conosce prima) per chi cominca con Assembly</h3>
+<h2 id="buone-pratiche-che-avrei-voluto-conosce-prima-per-chi-cominca-con-assembly">Buone pratiche (che avrei voluto conosce prima) per chi cominca con Assembly</h2>
 <ol>
 <li>Non dare <strong>mai per scontato</strong> un valore di registro nel non specificatamente inizializzato proprio codice, anche se in un ambiente controllato di apprendimento un registro può sembrare <em>vuoto</em> o a zero.</li>
 <li>Tenere presente che secondo la convenzione di chiamata System V AMD64 ABI comunemente usata su Linux, alcuni registri devono essere preservati dalla funzione chiamata (i cosiddetti registri callee-saved), un aspetto rilevante non appena si inizia a scrivere funzioni piu complesse delle semplici sequenze lineari viste fin ora.</li>
