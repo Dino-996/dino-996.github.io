@@ -43,7 +43,6 @@ export default function (eleventyConfig) {
     eleventyConfig.addGlobalData('emailjsServiceId', () => process.env.EMAILJS_SERVICE_ID || '');
     eleventyConfig.addGlobalData('emailjsTemplateId', () => process.env.EMAILJS_TEMPLATE_ID || '');
     eleventyConfig.addGlobalData('analyticsWebsiteId', () => process.env.ANALYTICS_WEBSITE_ID || '');
-    eleventyConfig.addGlobalData('analyticsScriptUrl', () => process.env.ANALYTICS_SCRIPT_URL || 'https://cloud.umami.is/script.js');
 
     const repositoryName = "dino-996.github.io";
 

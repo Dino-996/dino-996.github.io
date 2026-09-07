@@ -156,8 +156,8 @@
     "hash": "be5620b9a7ff"
   },
   "Lo stack in Assembly x86_64": {
-    "tldr": "Lo stack, gestito dal registro `rsp`, è una regione di memoria predisposta per ogni processo che memorizza temporaneamente dati ed esecuzioni, inizializzato dal sistema operativo con il conteggio degli argomenti da riga di comando (`argc`) seguito dal vettore `argv`. L'accesso agli elementi successivi all'`argc` sul stack avviene tramite offset in byte, tipicamente multipli di 8 per valori a 64 bit, con l'ABI AMD64 che richiede un allineamento a 16 byte di `rsp` prima delle chiamate di funzione.",
-    "hash": "86b46076a7f1"
+    "tldr": "All'avvio di un programma Linux, il registro RSP punta alla cima dello stack, contenente il conteggio degli argomenti da riga di comando seguito dal vettore argv, accessibile tramite offset byte. La System V AMD64 ABI impone l'allineamento dello stack a 16 byte prima delle chiamate di funzione, fattore cruciale per la corretta esecuzione.",
+    "hash": "1d4ddf373578"
   },
   "Struttura dei sistemi operativi": {
     "tldr": "Il sistema operativo espone servizi essenziali tramite chiamate di sistema, che i programmatori accedono comunemente tramite API per garantire portabilità, e il kernel gestisce le risorse hardware e le funzioni di base. Le interfacce utente spaziano da CLI e GUI a touch screen, mentre il processo di esecuzione delle applicazioni coinvolge linker e loader.",
@@ -180,7 +180,15 @@
     "hash": "265015cb2a16"
   },
   "Introduzione ad Assembly": {
-    "tldr": "L'ISA definisce il set di istruzioni per l'interazione hardware-software, con la famiglia x86, nata dall'8086, che si è evoluta in x86-32 e x86-64. La transizione a x64 (64-bit) aumenta significativamente la RAM indirizzabile e abilita funzionalità avanzate di sicurezza e prestazioni rispetto a x86-32 (32-bit).",
-    "hash": "6d30d753166a"
+    "tldr": "L'ISA definisce il linguaggio macchina di una CPU, con x86 che rappresenta una famiglia storica dominante, evolutasi in x64 per gestire quantità di RAM significativamente maggiori e offrire vantaggi in termini di prestazioni e sicurezza. La differenza chiave tra x86 (32-bit) e x64 (64-bit) risiede nella capacità di indirizzamento della memoria, che impatta direttamente sulla complessità dei dataset e delle elaborazioni gestibili.",
+    "hash": "9ce133df65e4"
+  },
+  "Guida ai comandi Linux per la diagnostica di sistema, rete e hardware": {
+    "tldr": "Questa guida raccoglie comandi Linux essenziali per la diagnostica di sistema, organizzati per area, evidenziando le differenze e gli equivalenti su macOS. Molti comandi da riga di comando standard sono compatibili tra Linux e macOS, mentre altri sono specifici di Linux e richiedono approcci alternativi su macOS.",
+    "hash": "26740440fc70"
+  },
+  "Guida ai livelli RAID": {
+    "tldr": "Il RAID combina più dischi in unità logiche per migliorare la tolleranza ai guasti e/o le prestazioni, ma la scelta del livello appropriato richiede una comprensione approfondita delle cause di guasto, che vanno oltre la semplice ridondanza. La progettazione efficace dello storage implica anche il monitoraggio, la qualità dell'alimentazione e procedure di gestione dei guasti.",
+    "hash": "a0ab9b2af53f"
   }
 }
