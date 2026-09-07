@@ -22,6 +22,9 @@
     <loc>https://dino-996.github.io/tags/ids/</loc>
   </url>
   <url>
+    <loc>https://dino-996.github.io/tags/ip/</loc>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/tags/ips/</loc>
   </url>
   <url>
@@ -43,6 +46,9 @@
     <loc>https://dino-996.github.io/tags/oop/</loc>
   </url>
   <url>
+    <loc>https://dino-996.github.io/tags/raid/</loc>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/tags/rpo/</loc>
   </url>
   <url>
@@ -50,6 +56,9 @@
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/siem/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/tcp/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/vpn/</loc>
@@ -104,6 +113,12 @@
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/classi-e-oggetti/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/cli/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/client/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/compliance/</loc>
@@ -214,6 +229,9 @@
     <loc>https://dino-996.github.io/tags/moduli/</loc>
   </url>
   <url>
+    <loc>https://dino-996.github.io/tags/multithreading/</loc>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/tags/networking/</loc>
   </url>
   <url>
@@ -295,6 +313,9 @@
     <loc>https://dino-996.github.io/tags/scheduling/</loc>
   </url>
   <url>
+    <loc>https://dino-996.github.io/tags/server/</loc>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/tags/shell/</loc>
   </url>
   <url>
@@ -331,10 +352,16 @@
     <loc>https://dino-996.github.io/tags/struttura/</loc>
   </url>
   <url>
+    <loc>https://dino-996.github.io/tags/sysadmin/</loc>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/tags/system-call/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/systemd/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/terminale/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/thread/</loc>

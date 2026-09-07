@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Implementazione di un server e un client TCP in Java · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Guida al funzionamento del protocollo TCP e all&#39;uso dei socket in Java. Analizza il ciclo di vita delle connessioni e confronta le architetture client/server single-thread e multithread con esempi di codice pronti all&#39;uso." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/implementazione-di-un-server-e-un-client-tcp-in-java/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/implementazione-di-un-server-e-un-client-tcp-in-java/" />
+
+<meta property="og:title" content="Implementazione di un server e un client TCP in Java" />
+<meta property="og:description" content="Guida al funzionamento del protocollo TCP e all&#39;uso dei socket in Java. Analizza il ciclo di vita delle connessioni e confronta le architetture client/server single-thread e multithread con esempi di codice pronti all&#39;uso." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788796679/server_client_TCP_8f36a58415.jpg" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/implementazione-di-un-server-e-un-client-tcp-in-java/" />
+
+<meta name="twitter:title" content="Implementazione di un server e un client TCP in Java" />
+<meta name="twitter:description" content="Guida al funzionamento del protocollo TCP e all&#39;uso dei socket in Java. Analizza il ciclo di vita delle connessioni e confronta le architetture client/server single-thread e multithread con esempi di codice pronti all&#39;uso." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788796679/server_client_TCP_8f36a58415.jpg" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism + KaTeX caricati solo sui post: vedere head_extra e scripts in _layouts/post.njk -->
+
+
+
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="78601d64-b9ba-4c5a-8382-187c35206036"></script>
+
+
+    
+
+    <!-- SEO: JSON-LD WebSite schema (homepage only) -->
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn nav-btn" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn nav-btn nav-btn-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Cambia tema" title="Cambia tema">
+        <svg id="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="/courses/" class="btn nav-btn nav-btn-nav">Percorsi</a>
+      <a href="/about/" class="btn nav-btn">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788796679/server_client_TCP_8f36a58415.jpg" as="image" fetchpriority="high">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+  <!-- SEO: JSON-LD Article schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": &quot;Implementazione di un server e un client TCP in Java&quot;,
+    "url": "https://dino-996.github.io/blog/implementazione-di-un-server-e-un-client-tcp-in-java/",
+    
+    "dateModified": "2026-09-07T15:58:52.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    },
+    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1788796679/server_client_TCP_8f36a58415.jpg",
+    "publisher": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    }
+  }
+  </script>
+
+  <!-- SEO: JSON-LD BreadcrumbList schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      
+      
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": &quot;Home&quot;,
+        "item": "https://dino-996.github.io/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": &quot;Blog&quot;,
+        "item": "https://dino-996.github.io/blog/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": &quot;Implementazione di un server e un client tcp in java&quot;
+      }
+      
+    ]
+  }
+  </script>
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      
+      
+      
+      
+        
+        
+          
+          
+            
+          
+        
+      
+      
+      
+
+
+<nav aria-label="Breadcrumb" class="breadcrumb">
+  <ol>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/blog/">Blog</a></li>
+      
+    
+      
+        <li><a href="/tags/posts/">posts</a></li>
+      
+    
+      
+        <li aria-current="page">Implementazione di un server e un client TCP in Java</li>
+      
+    
+  </ol>
+</nav>
+
+
+
+      <h1>Implementazione di un server e un client TCP in Java</h1>
+
+      
+      <p class="post-description">Guida al funzionamento del protocollo TCP e all&#39;uso dei socket in Java. Analizza il ciclo di vita delle connessioni e confronta le architetture client/server single-thread e multithread con esempi di codice pronti all&#39;uso.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 07 settembre 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+      </div>
+    </header>
+
+    
+    <figure class="post-hero">
+      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788796679/server_client_TCP_8f36a58415.jpg"
+           alt="Immagine generata con AI"
+           class="post-hero-image"
+           fetchpriority="high">
+      
+      <figcaption class="post-hero-caption">Immagine generata con AI</figcaption>
+      
+    </figure>
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">TCP è il protocollo di rete fondamentale che abilita la maggior parte delle comunicazioni affidabili su Internet, fungendo da base per framework di alto livello come HTTP, WebSocket e gRPC. Il ciclo di vita di una richiesta HTTP, che include la risoluzione DNS, l&#39;handshake TCP, la trasmissione della richiesta, l&#39;elaborazione e la risposta del server, e infine il teardown TCP, evidenzia il ruolo critico di questo protocollo nella moderna architettura client-server del Web.</p>
+      </div>
+      
+
+      <section class="content">
+          <h2 id="introduzione">Introduzione</h2>
+<p>Oggi vediamo le fondamenta su cui si basa l'Internet moderna. TCP è la base di quasi tutte le comunicazioni di rete affidabili: anche quando si lavora con framework ad alto livello come HTTP, WebSocket o gRPC, dietro le quinte c'è sempre un socket TCP che gestisce la connessione. Capire come funziona dà un vantaggio enorme in termini di comprensione dei sistemi che usiamo ogni giorno.</p>
+<p>Per capire quanto sia fondamentale la comprensione del protocollo TCP e della sua implementazione, ecco qualche esempio di uso comune.</p>
+<ul>
+<li><strong>Web server e API REST</strong>: HTTP è un protocollo costruito sopra TCP. Quando scrivi un server web, sotto il cofano c'è un <code>ServerSocket</code> che accetta connessioni e parla TCP. Capire come funziona può aiutarti nel debugging dei problemi di rete, dei timeout, del keep-alive e così via.</li>
+<li><strong>Database</strong>: qualsiasi database comunica con i client tramite protocolli basati su TCP.</li>
+<li><strong>Applicazioni di messaggistica e chat</strong>: WhatsApp, Slack e Telegram utilizzano connessioni TCP persistenti per inviare e ricevere messaggi in tempo reale.</li>
+<li><strong>Email</strong>: SMTP, IMAP e POP3 sono protocolli TCP. I server di posta sono server TCP specializzati.</li>
+</ul>
+<p>Ce ne sarebbero molti altri, ma ci fermiamo qui: nelle aziende, la conoscenza dei fondamenti è molto apprezzata anche nei colloqui tecnici.</p>
+<h2 id="il-ciclo-di-vita-di-una-richiesta-http-su-tcp">Il ciclo di vita di una richiesta HTTP su TCP</h2>
+<p>L'architettura client-server del Web si basa su un modello asimmetrico richiesta-risposta governato dal protocollo HTTP. Il client avvia attivamente la comunicazione per ottenere una risorsa, mentre il server ascolta passivamente, elabora la richiesta, invia la risorsa e chiude la connessione TCP.</p>
+<ul>
+<li><strong>Client</strong>: è il processo (browser, script cURL, applicazione mobile) che conosce l'indirizzo della controparte. Apre un socket TCP verso l'IP di destinazione e invia un messaggio di testo formattato (richiesta HTTP) indicando un metodo, ad esempio <code>GET /index.html</code>.</li>
+<li><strong>Server</strong>: è un processo in esecuzione su una macchina con un IP raggiungibile, di solito statico. Resta in stato di ascolto su una porta specifica (80 per HTTP, 443 per HTTPS) e non avvia mai la comunicazione verso il client.</li>
+</ul>
+<p>Il ciclo di vita si compone essenzialmente di cinque fasi.</p>
+<ol>
+<li><strong>Risoluzione DNS</strong>: il client converte il nome di dominio nell'indirizzo IP del server.</li>
+<li><strong>Handshake TCP</strong>: il client instaura una connessione a livello di trasporto (layer 4) tramite il meccanismo del three-way handshake TCP (SYN, SYN-ACK, ACK).</li>
+<li><strong>Richiesta</strong>: il client trasmette l'header HTTP, specificando la risorsa voluta e i parametri accessori.</li>
+<li><strong>Elaborazione e risposta</strong>: il server processa la richiesta, recupera il file dal disco o lo genera dinamicamente tramite un backend, e risponde con un codice di stato seguito dal payload.</li>
+<li><strong>Teardown TCP</strong>: terminata la trasmissione, il server avvia la chiusura formale della connessione inviando un pacchetto FIN.</li>
+</ol>
+<div class="alert alert-info" role="alert">
+  <strong>Three-way handshake.</strong> Serve a stabilire una connessione affidabile e sincronizzata tra client e server prima dell'inizio dello scambio dati, in tre fasi distinte: il client invia un pacchetto SYN includendo il proprio numero di sequenza iniziale, il server risponde con SYN-ACK riconoscendo la richiesta e inviando il proprio numero di sequenza, infine il client invia un pacchetto ACK per confermare la ricezione, dopodiché la connessione è stabilita.
+</div>
+<div class="alert alert-secondary" role="alert">
+  <strong>Payload.</strong> È il contenuto effettivo della richiesta, cioè i dati scambiati tra client e server, distinti dai metadati contenuti solo nell'intestazione (header).
+</div>
+<p>Per approfondire il meccanismo del protocollo TCP, il <a href="https://www.cloudflare.com/learning/" target="_blank" rel="noopener noreferer">Cloudflare Learning Center</a> offre una spiegazione tecnica accurata e aggiornata.</p>
+<h2 id="cose-una-socket">Cos'è una socket</h2>
+<p>Prima di passare al codice, vale la pena spendere due parole sul concetto di socket: per molti può sembrare una banalità, ma è doveroso vista la centralità che ha nell'implementazione che vedremo.</p>
+<p>Una socket non è altro che un'interfaccia per un processo. Un processo classico vive sulla tua macchina, ma quando ha bisogno di comunicare con altre macchine in rete ha bisogno di un meccanismo, appunto le socket, che gli permetta di scambiare messaggi e dati.</p>
+<p>Per dirla in modo più preciso, una socket è il punto di accesso al canale di comunicazione tra processi in rete, e si identifica attraverso la combinazione di indirizzo IP e numero di porta.</p>
+<h2 id="client-e-server-tcp-single-thread">Client e server TCP single-thread</h2>
+<p>Iniziamo dalla versione più semplice: un server che accetta una sola connessione alla volta e un client che dialoga con lui riga per riga, implementando un classico servizio di echo (il server rispedisce al client lo stesso messaggio ricevuto, preceduto da &quot;Echo:&quot;).</p>
+<h3 id="il-client-tcp-single-thread">Il client TCP single-thread</h3>
+<pre><code class="language-java">package it.dev.tcp.v1.client;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+public class ClientSinglethreadTCP {
+    private static final int PORTA = 50000;
+    private static final String INDIRIZZO_SERVER = &quot;127.0.0.1&quot;;
+    public static void main(String[] args) {
+        try {
+            Socket connessione = new Socket(INDIRIZZO_SERVER, PORTA);
+            BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print(&quot;Connesso al server. Scrivi un messaggio ('exit' per uscire): &quot;);
+            String messaggioDigitato = console.readLine();
+            BufferedReader ingressoServer = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
+            PrintWriter uscitaServer = new PrintWriter(connessione.getOutputStream(), true);
+            while (messaggioDigitato != null) {
+                if (&quot;exit&quot;.equalsIgnoreCase(messaggioDigitato)) {
+                    break;
+                }
+                uscitaServer.println(messaggioDigitato);
+                String risposta = ingressoServer.readLine();
+                if (risposta == null) {
+                    System.out.println(&quot;Il server ha chiuso la connessione&quot;);
+                    break;
+                }
+                System.out.println(&quot;Risposta dal server: &quot; + risposta);
+                System.out.print(&quot;\nNuovo messaggio: &quot;);
+                messaggioDigitato = console.readLine();
+            }
+            console.close();
+            uscitaServer.close();
+            ingressoServer.close();
+            connessione.close();
+        } catch (IOException e) {
+            System.out.println(&quot;Errore: &quot; + e.getMessage());
+        }
+    }
+}
+</code></pre>
+<p>Vediamo cosa succede riga per riga, perché ogni scelta ha un motivo preciso.</p>
+<ul>
+<li><strong><code>new Socket(INDIRIZZO_SERVER, PORTA)</code></strong>: è il punto di partenza di tutto. Creare un oggetto <code>Socket</code> con indirizzo e porta esegue implicitamente il three-way handshake visto sopra: se il server non è in ascolto su quella porta, questa riga lancia un'eccezione (catturata più sotto dal blocco <code>catch</code>).</li>
+<li><strong><code>BufferedReader console</code></strong>: legge l'input digitato dall'utente da tastiera. <code>System.in</code> è lo stream grezzo, <code>InputStreamReader</code> lo converte in caratteri leggibili, <code>BufferedReader</code> aggiunge un buffer che permette di leggere comodamente riga per riga con <code>readLine()</code>. Il risultato di ogni lettura viene salvato in <code>messaggioDigitato</code>.</li>
+<li><strong><code>ingressoServer</code> e <code>uscitaServer</code></strong>: sono gli stream associati alla socket <code>connessione</code>, non alla console. <code>ingressoServer</code> legge ciò che arriva dal server, <code>uscitaServer</code> scrive ciò che va inviato al server. Nota il secondo parametro <code>true</code> passato a <code>PrintWriter</code>: attiva l'auto-flush, cioè ogni <code>println()</code> viene inviato immediatamente sulla rete invece di restare bloccato in un buffer interno in attesa di essere svuotato. Senza questo parametro il messaggio potrebbe non arrivare mai al server finché il buffer non si riempie.</li>
+<li><strong>Il ciclo <code>while (messaggioDigitato != null)</code></strong>: è il cuore della logica. Finché l'utente non digita <code>exit</code> (controllato con <code>equalsIgnoreCase</code> per non essere sensibili a maiuscole/minuscole) e finché il flusso di input non termina, il client invia <code>messaggioDigitato</code> tramite <code>uscitaServer</code>, attende la risposta con <code>ingressoServer.readLine()</code> e la stampa a video.</li>
+<li><strong><code>if (risposta == null)</code></strong>: <code>readLine()</code> restituisce <code>null</code> quando il flusso in lettura è terminato, cioè quando la controparte ha chiuso la connessione. È il modo standard in Java per rilevare la disconnessione senza bisogno di eccezioni.</li>
+<li><strong>I quattro <code>close()</code> finali</strong>: chiudono ordinatamente <code>console</code>, <code>uscitaServer</code>, <code>ingressoServer</code> e <code>connessione</code>. È buona pratica farlo sempre, anche se il programma sta per terminare, per evitare di lasciare file descriptor o socket aperti a livello di sistema operativo.</li>
+</ul>
+<h3 id="il-server-tcp-single-thread">Il server TCP single-thread</h3>
+<pre><code class="language-java">package it.dev.tcp.v1.server;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+public class ServerSingleThreadTCP {
+    private static final int PORTA = 50000;
+    public static void main(String[] args) {
+        try {
+            ServerSocket socketAscolto = new ServerSocket(PORTA);
+            System.out.println(&quot;Server in ascolto sulla porta &quot; + PORTA);
+            Socket connessioneClient = socketAscolto.accept();
+            BufferedReader ingressoClient = new BufferedReader(new InputStreamReader(connessioneClient.getInputStream()));
+            PrintWriter uscitaClient = new PrintWriter(connessioneClient.getOutputStream(), true);
+            String messaggio = ingressoClient.readLine();
+            while (messaggio != null) {
+                System.out.println(&quot;Messaggio ricevuto: &quot; + messaggio);
+                uscitaClient.println(&quot;Echo: &quot; + messaggio);
+                messaggio = ingressoClient.readLine();
+            }
+            ingressoClient.close();
+            uscitaClient.close();
+            connessioneClient.close();
+        } catch (IOException e) {
+            System.out.println(&quot;500 - Internal Server Error&quot;);
+        }
+    }
+}
+</code></pre>
+<div class="alert alert-warning" role="alert">
+  <strong>Nota tecnica sul metodo <code>main</code>.</strong> Perché la JVM riconosca ed esegua automaticamente il metodo come punto di ingresso dell'applicazione tramite il comando <code>java</code>, deve essere dichiarato <code>public static void main(String[] args)</code>. Se manca il modificatore <code>public</code>, il metodo non è visibile all'esterno del package e l'esecuzione della classe come programma standalone fallisce.
+</div>
+<p>Analizziamo la logica specifica del server, che differisce da quella del client in punti chiave.</p>
+<ul>
+<li><strong><code>new ServerSocket(PORTA)</code></strong>: a differenza del <code>Socket</code> del client, un <code>ServerSocket</code> non si connette a nessuno: apre semplicemente <code>socketAscolto</code>, una porta in ascolto sulla macchina locale, pronta ad accettare richieste in entrata.</li>
+<li><strong><code>socketAscolto.accept()</code></strong>: questa è la riga più importante da capire. È una chiamata <strong>bloccante</strong>: il thread principale del programma si ferma qui e non prosegue finché un client non si connette. Quando arriva una connessione, <code>accept()</code> restituisce un nuovo oggetto <code>Socket</code>, salvato in <code>connessioneClient</code>, distinto da <code>socketAscolto</code>, che rappresenta il canale di comunicazione dedicato a quel singolo client.</li>
+<li><strong>Perché questo server è &quot;single-thread&quot; nel senso limitativo del termine</strong>: <code>accept()</code> viene chiamato una sola volta, fuori da qualsiasi ciclo. Questo significa che il server gestisce un solo client per tutta la durata dell'esecuzione: se un secondo client prova a connettersi mentre il primo è ancora attivo, la sua richiesta di connessione resta in coda a livello di sistema operativo (nel cosiddetto backlog) finché la connessione corrente non viene chiusa, dopodiché il programma termina comunque, perché il flusso di esecuzione esce dal blocco <code>try</code> senza richiamare di nuovo <code>accept()</code>.</li>
+<li><strong>Il ciclo <code>while (messaggio != null)</code></strong>: è speculare a quello visto nel client. Ogni riga ricevuta tramite <code>ingressoClient</code> viene stampata in console e rispedita al client tramite <code>uscitaClient</code>, con il prefisso <code>&quot;Echo: &quot;</code>.</li>
+</ul>
+<p>Le due porzioni di codice viste finora illustrano l'implementazione client/server TCP a singolo thread: il server non accetta connessioni multiple, e se proviamo a connetterci con un secondo client la connessione resta bloccata in coda finché il primo client non si disconnette.</p>
+<h2 id="client-e-server-tcp-multithread">Client e server TCP multithread</h2>
+<p>Passiamo ora all'implementazione multithread, che risolve il limite principale della versione precedente.</p>
+<h3 id="il-client-tcp-multithread">Il client TCP multithread</h3>
+<p>Il client multithread è utile, ad esempio, nelle applicazioni di messaggistica, per inviare e ricevere messaggi con un thread di ricezione separato, in modo asincrono: l'utente può scrivere un nuovo messaggio anche mentre è in attesa di una risposta dal server, senza che l'interfaccia (in questo caso la console) resti bloccata.</p>
+<pre><code class="language-java">package it.dev.tcp.v1.client;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+public class ClientMultithreadTCP {
+    private final static Logger logger = LoggerFactory.getLogger(ClientMultithreadTCP.class);
+    private final static String INDIRIZZO_SERVER = &quot;127.0.0.1&quot;;
+    private final static int PORTA = 50000;
+    public static void main(String[] args) {
+        try {
+            Socket connessione = new Socket(INDIRIZZO_SERVER, PORTA);
+            PrintWriter uscitaServer = new PrintWriter(connessione.getOutputStream(), true);
+            BufferedReader ingressoServer = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
+            BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+            avviaThread(ingressoServer);
+            System.out.println(&quot;Connesso al server ('exit' per uscire)&quot;);
+            System.out.print(&quot;Nuovo messaggio: &quot;);
+            String messaggioDigitato = console.readLine();
+            while (messaggioDigitato != null) {
+                if (&quot;exit&quot;.equalsIgnoreCase(messaggioDigitato)) {
+                    break;
+                }
+                uscitaServer.println(messaggioDigitato);
+                messaggioDigitato = console.readLine();
+            }
+            console.close();
+            uscitaServer.close();
+            ingressoServer.close();
+            connessione.close();
+        } catch (IOException e) {
+            logger.error(&quot;400 - Bad Request: {}&quot;, e.getMessage());
+        }
+    }
+    private static void avviaThread(BufferedReader ingressoServer) {
+        Runnable compito = () -&gt; gestisciServer(ingressoServer);
+        Thread threadRicezione = new Thread(compito);
+        threadRicezione.start();
+    }
+    private static void gestisciServer(BufferedReader ingressoServer) {
+        try {
+            String risposta = ingressoServer.readLine();
+            while (risposta != null) {
+                System.out.println(&quot;\nRisposta dal server: &quot; + risposta);
+                System.out.print(&quot;Nuovo messaggio: &quot;);
+                risposta = ingressoServer.readLine();
+            }
+            System.out.println(&quot;\nIl server ha chiuso la connessione&quot;);
+        } catch (IOException e) {
+            logger.error(&quot;400 - Bad Request: {}&quot;, e.getMessage());
+        }
+    }
+}
+</code></pre>
+<p>Le differenze chiave rispetto al client single-thread sono concentrate in due punti.</p>
+<ul>
+<li><strong><code>avviaThread(ingressoServer)</code></strong>: viene chiamato subito dopo l'apertura della socket, prima ancora che l'utente digiti qualcosa. Crea un <code>Runnable</code> chiamato <code>compito</code> che punta al metodo <code>gestisciServer</code> e lo esegue su un <code>Thread</code> dedicato (<code>threadRicezione</code>), distinto dal thread principale (<code>main</code>). Da questo momento in poi, il thread principale gestisce solo l'input da console tramite <code>messaggioDigitato</code>, mentre <code>threadRicezione</code> gestisce solo la ricezione dal server: i due flussi lavorano in parallelo e in modo indipendente.</li>
+<li><strong><code>gestisciServer(BufferedReader ingressoServer)</code></strong>: è il metodo eseguito dal thread secondario. Contiene un ciclo che legge continuamente dal server con <code>ingressoServer.readLine()</code> e stampa a schermo ogni risposta, finché la connessione non viene chiusa (<code>readLine()</code> restituisce <code>null</code>). Il vantaggio pratico è che, se il server impiega tempo a rispondere, il thread principale non resta bloccato in attesa: l'utente può continuare a scrivere.</li>
+<li><strong><code>logger</code> al posto di <code>System.out</code></strong>: qui viene introdotta la libreria SLF4J per il logging. A differenza di <code>System.out.println</code>, un logger strutturato permette di distinguere il livello di gravità del messaggio (<code>info</code>, <code>error</code> e così via) e di configurare in modo centralizzato dove e come questi messaggi vengono scritti, un aspetto importante quando l'applicazione cresce oltre il semplice esempio didattico.</li>
+</ul>
+<h3 id="il-server-tcp-multithread">Il server TCP multithread</h3>
+<pre><code class="language-java">package it.dev.tcp.v1.server;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+public class ServerMultithreadTCP {
+    private static final Logger logger = LoggerFactory.getLogger(ServerMultithreadTCP.class);
+    private final static int PORTA = 50000;
+    public static void main(String[] args) {
+        try {
+            ServerSocket socketAscolto = new ServerSocket(PORTA);
+            logger.info(&quot;Server in ascolto sulla porta {}&quot;, PORTA);
+            while (true) {
+                Socket connessioneClient = socketAscolto.accept();
+                logger.info(&quot;Nuovo client connesso: {}&quot;, connessioneClient.getRemoteSocketAddress());
+                avviaThread(connessioneClient);
+            }
+        } catch (IOException e) {
+            logger.error(&quot;500 - Internal Server Error: {}&quot;, e.getMessage());
+        }
+    }
+    private static void avviaThread(Socket connessioneClient) {
+        Runnable compito = () -&gt; gestisciClient(connessioneClient);
+        Thread thread = new Thread(compito);
+        thread.start();
+    }
+    private static void gestisciClient(Socket connessioneClient) {
+        String infoClient = connessioneClient.getRemoteSocketAddress().toString();
+        try {
+            BufferedReader ingressoClient = new BufferedReader(new InputStreamReader(connessioneClient.getInputStream()));
+            String messaggio = ingressoClient.readLine();
+            PrintWriter uscitaClient = new PrintWriter(connessioneClient.getOutputStream(), true);
+            while (messaggio != null) {
+                logger.info(&quot;[{}] Messaggio ricevuto: {}&quot;, infoClient, messaggio);
+                uscitaClient.println(&quot;Echo: &quot; + messaggio);
+                messaggio = ingressoClient.readLine();
+            }
+            ingressoClient.close();
+            uscitaClient.close();
+        } catch (IOException e) {
+            logger.info(&quot;Errore nella comunicazione con {}: {}&quot;, infoClient, e.getMessage());
+        } finally {
+            logger.error(&quot;Connessione terminata: {}&quot;, infoClient);
+        }
+    }
+}
+</code></pre>
+<p>Questa è la classe più importante dell'intero articolo, perché è quella che risolve concretamente il limite del server single-thread.</p>
+<ul>
+<li><strong><code>while (true) { ... socketAscolto.accept(); ... }</code></strong>: la differenza fondamentale rispetto alla versione precedente sta tutta qui. <code>accept()</code> non viene più chiamato una sola volta, ma dentro un ciclo infinito: appena una connessione viene accettata e salvata in <code>connessioneClient</code>, delegata a un thread separato, il ciclo torna immediatamente a chiamare <code>accept()</code> e resta pronto ad accogliere il client successivo, senza dover aspettare che il precedente si disconnetta.</li>
+<li><strong><code>avviaThread(connessioneClient)</code></strong>: per ogni client accettato viene creato un nuovo <code>Thread</code> dedicato che esegue <code>gestisciClient</code>. Questo pattern si chiama comunemente &quot;thread-per-connessione&quot;: ogni connessione vive la sua vita indipendentemente dalle altre, su un thread proprio, permettendo al server di conversare in parallelo con più client contemporaneamente.</li>
+<li><strong><code>gestisciClient(Socket connessioneClient)</code></strong>: contiene la stessa logica di echo vista nel server single-thread (leggi riga tramite <code>ingressoClient</code>, rispondi con &quot;Echo:&quot; tramite <code>uscitaClient</code>, ripeti), ma ora questa logica viene eseguita in isolamento su ogni thread, uno per client. <code>connessioneClient.getRemoteSocketAddress()</code> viene salvato in <code>infoClient</code> e usato nei log per identificare quale client ha inviato o ricevuto cosa, un dettaglio utile quando più client sono connessi simultaneamente.</li>
+<li><strong>Il blocco <code>finally</code></strong>: garantisce che il messaggio di terminazione connessione venga loggato indipendentemente dal fatto che il ciclo sia terminato normalmente (client disconnesso senza errori) o a causa di un'eccezione catturata nel <code>catch</code>.</li>
+</ul>
+<div class="alert alert-secondary" role="alert">
+  <strong>Suggerimento di buona pratica.</strong> Nel blocco <code>catch</code> di <code>gestisciClient</code>, l'errore di comunicazione viene registrato con <code>logger.info</code>, mentre la normale terminazione della connessione nel blocco <code>finally</code> usa <code>logger.error</code>. I livelli sono invertiti rispetto alla convenzione: un errore dovrebbe essere loggato come <code>error</code>, e una chiusura regolare della connessione come <code>info</code>. Vale la pena rivedere questi due livelli prima di considerare il codice pronto per un ambiente diverso da quello didattico.
+</div>
+<h2 id="confronto-tra-le-due-architetture">Confronto tra le due architetture</h2>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Aspetto</th>
+        <th>Server single-thread</th>
+        <th>Server multithread</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Client gestiti in parallelo</td>
+        <td>Uno solo alla volta</td>
+        <td>Più client contemporaneamente</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Complessità del codice</td>
+        <td>Minima, adatta a scopi didattici</td>
+        <td>Maggiore, richiede gestione della concorrenza</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Scalabilità</td>
+        <td>Nulla oltre il singolo client</td>
+        <td>Buona, limitata dal numero di thread creabili dal sistema</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Caso d'uso tipico</td>
+        <td>Test locali, apprendimento dei socket</td>
+        <td>Servizi reali con più utenti connessi (chat, giochi multiplayer, protocolli custom)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h2 id="come-tcp-distingue-le-connessioni-sulla-stessa-porta">Come TCP distingue le connessioni sulla stessa porta</h2>
+<p>Un dubbio comune, soprattutto per chi si avvicina per la prima volta a questi concetti, è capire come un server multithread possa ricevere più connessioni sulla stessa porta (<code>50000</code> in questo esempio) senza che i messaggi dei diversi client si mescolino tra loro.</p>
+<p>La risposta sta nel modo in cui TCP identifica una connessione: non basta la sola porta di destinazione, ma serve una combinazione di quattro valori, spesso chiamata tupla a quattro elementi (4-tuple).</p>
+<ul>
+<li>IP sorgente (il client)</li>
+<li>Porta sorgente (assegnata dinamicamente dal sistema operativo del client)</li>
+<li>IP destinazione (il server)</li>
+<li>Porta destinazione (<code>50000</code>, la porta su cui <code>socketAscolto</code> è in ascolto)</li>
+</ul>
+<p>Ogni volta che un nuovo client si connette, il suo sistema operativo gli assegna automaticamente una porta sorgente diversa e temporanea. Il risultato è che, anche se tutti i client si collegano allo stesso IP e alla stessa porta del server, la combinazione dei quattro valori resta unica per ciascuna connessione. È proprio questa unicità che permette a <code>socketAscolto</code> di restituire, ad ogni chiamata di <code>accept()</code>, un <code>Socket</code> distinto e indipendente per ciascun client, ognuno instradato correttamente dal sistema operativo verso il thread che lo sta gestendo.</p>
+<h2 id="oltre-il-thread-per-connessione">Oltre il thread-per-connessione</h2>
+<p>Il modello &quot;un thread per client&quot; utilizzato nel server multithread è un ottimo punto di partenza didattico, ma ha un limite pratico: ogni thread tradizionale in Java consuma memoria e risorse del sistema operativo, quindi con un numero molto alto di client connessi contemporaneamente le prestazioni possono degradare. Due direzioni comuni per evolvere questo modello in un contesto più vicino alla produzione sono:</p>
+<ul>
+<li>l'uso di un pool di thread predefinito tramite <code>ExecutorService</code>, che riutilizza un numero limitato di thread invece di crearne uno nuovo per ogni connessione;</li>
+<li>l'adozione dei thread virtuali introdotti in Java (Da verificare: numero di versione preciso), pensati proprio per rendere sostenibile il modello thread-per-connessione anche con un numero molto elevato di connessioni simultanee, senza dover riscrivere la logica in stile asincrono/reattivo.</li>
+</ul>
+<p>Un esempio illustrativo (non presente nella bozza originale, valore della dimensione del pool puramente esemplificativo) potrebbe essere:</p>
+<pre><code class="language-java">ExecutorService pool = Executors.newFixedThreadPool(10);
+pool.submit(() -&gt; gestisciClient(connessioneClient));
+</code></pre>
+<h2 id="come-testare-i-server">Come testare i server</h2>
+<p>Prima di scrivere un client Java completo, è possibile verificare rapidamente il comportamento di entrambi i server usando uno strumento a riga di comando presente sulla maggior parte dei sistemi operativi (Da verificare: comando introdotto ex novo, non presente nella bozza originale).</p>
+<pre><code class="language-bash">telnet 127.0.0.1 50000
+</code></pre>
+<p>In alternativa, dove <code>telnet</code> non è disponibile, si può usare <code>nc</code> (netcat) con la stessa sintassi di base (Da verificare: comando introdotto ex novo, non presente nella bozza originale).</p>
+<pre><code class="language-bash">nc 127.0.0.1 50000
+</code></pre>
+<p>Con il server single-thread avviato, la prima connessione funzionerà normalmente; una seconda connessione aperta in un'altra finestra di terminale resterà invece in attesa. Ripetendo lo stesso test con il server multithread avviato, entrambe le connessioni riceveranno risposta in modo indipendente: è il modo più immediato per toccare con mano la differenza tra le due implementazioni viste in questo articolo.</p>
+
+      </section>
+
+      <!-- Disclaimer AI -->
+      <footer class="mt-4 pt-3 border-top">
+        <p class="text-muted small mb-0">
+          <em>Articolo scritto con il supporto di LLM per la formattazione e la struttura del codice.</em>
+        </p>
+      </footer>
+
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout post-section">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/java/" class="badge badge-outline">java</a>
+              
+            
+              
+              
+              <a href="/tags/server/" class="badge badge-outline">server</a>
+              
+            
+              
+              
+              <a href="/tags/client/" class="badge badge-outline">client</a>
+              
+            
+              
+              
+              <a href="/tags/tcp/" class="badge badge-outline">TCP</a>
+              
+            
+              
+              
+              <a href="/tags/ip/" class="badge badge-outline">IP</a>
+              
+            
+              
+              
+              <a href="/tags/multithreading/" class="badge badge-outline">multithreading</a>
+              
+            
+              
+              
+              <a href="/tags/reti/" class="badge badge-outline">reti</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center share-block">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fimplementazione-di-un-server-e-un-client-tcp-in-java%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+            Condividi su LinkedIn
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Implementazione%20di%20un%20server%20e%20un%20client%20TCP%20in%20Java&url=https://dino-996.github.io%2Fblog%2Fimplementazione-di-un-server-e-un-client-tcp-in-java%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su X">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+            Condividi su X
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout post-section post-section-sm">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div class="article-nav-half">
+          
+        </div>
+        <div class="article-nav-half article-nav-right">
+          
+          <a href="/blog/redundant-array-of-independent-disks/" class="btn btn-outline btn-sm article-nav-btn article-nav-btn-right">
+            <span class="d-block small article-nav-label">Successivo →</span>
+            <span class="d-block article-nav-title">Guida ai livelli RAID</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Potrebbe interessarti -->
+    
+    
+    <section class="related-posts" aria-labelledby="related-posts-heading">
+      <h2 id="related-posts-heading" class="post-layout">Potrebbe interessarti</h2>
+      <div class="related-posts-grid post-layout">
+        
+        <a href="/blog/redundant-array-of-independent-disks/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788705712/RAID_348215836b.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">RAID</span>
+              
+            
+            <h3 class="related-post-title">Guida ai livelli RAID</h3>
+            
+            <time class="related-post-date">06 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/guida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788707033/linux_command_db68af54fe.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">linux</span>
+              
+            
+            <h3 class="related-post-title">Guida ai comandi Linux per la diagnostica di sistema, rete e hardware</h3>
+            
+            <time class="related-post-date">05 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/lo-stack-in-assembly/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Lo stack in Assembly x86_64</h3>
+            
+            <time class="related-post-date">02 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+      </div>
+    </section>
+    
+
+    <!-- Commenti -->
+    <h2 class="post-layout comment-heading">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+    data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      });
+    });
+  </script>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> DinoSec. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+    <!-- Trasparenza AI -->
+    <p class="small text-muted">
+      Scopri di più sulla <a href="/about#trasparenza">politica sull'uso dell'IA</a>.
+    </p>
+  </div>
+</footer>
+
+
+
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente virtuale basato su intelligenza artificiale">
+        <span aria-hidden="true">🦖</span>
+        <span class="ai-toggle-badge" aria-hidden="true">IA</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span aria-hidden="true">🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+            <span class="ai-badge" aria-label="Assistente basato su intelligenza artificiale">IA</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI assistant widget -->
+    <script src="/assets/js/ai-widget.js" defer></script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

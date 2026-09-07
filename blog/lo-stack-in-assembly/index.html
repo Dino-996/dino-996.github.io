@@ -63,6 +63,9 @@
 
 
 
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="78601d64-b9ba-4c5a-8382-187c35206036"></script>
+
+
     
 
     <!-- SEO: JSON-LD WebSite schema (homepage only) -->
@@ -336,7 +339,7 @@
       
       <div class="tldr-box">
         <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
-        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">All&#39;avvio, lo stack di un processo contiene `argc` a `[rsp]` seguito dai puntatori a `argv[]` e terminato da NULL; questi elementi, disposti sequenzialmente e con offset multipli di 8 byte per valori a 64-bit, permettono l&#39;accesso agli argomenti della riga di comando. L&#39;allineamento dello stack a 16 byte prima di un&#39;istruzione `call` è un requisito cruciale della System V AMD64 ABI per garantire il corretto funzionamento delle chiamate a funzione.</p>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">All&#39;avvio, `rsp` punta ad `argc`, seguito da `argv` e un terminatore `NULL`, tutti accessibili tramite offset di 8 byte. La System V AMD64 ABI impone che `rsp` sia allineato a 16 byte prima di un&#39;istruzione `call`.</p>
       </div>
       
 
@@ -522,6 +525,11 @@ x/5gx $rsp
       <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
         <div class="article-nav-half">
           
+          <a href="/blog/guida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware/" class="btn btn-outline btn-sm article-nav-btn">
+            <span class="d-block small article-nav-label">← Precedente</span>
+            <span class="d-block article-nav-title">Guida ai comandi Linux per la diagnostica di sistema, rete e hardware</span>
+          </a>
+          
         </div>
         <div class="article-nav-half article-nav-right">
           
@@ -542,62 +550,62 @@ x/5gx $rsp
       <h2 id="related-posts-heading" class="post-layout">Potrebbe interessarti</h2>
       <div class="related-posts-grid post-layout">
         
-        <a href="/blog/valori-indirizzi-e-deferenziamento/" class="related-post-card">
+        <a href="/blog/implementazione-di-un-server-e-un-client-tcp-in-java/" class="related-post-card">
           
           <div class="related-post-image">
-            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788796679/server_client_TCP_8f36a58415.jpg" alt="Immagine generata con AI" loading="lazy">
           </div>
           
           <div class="related-post-content">
             
               
               
-              <span class="badge">assembly</span>
+              <span class="badge">java</span>
               
             
-            <h3 class="related-post-title">Accesso alla memoria in Assembly x86_64</h3>
+            <h3 class="related-post-title">Implementazione di un server e un client TCP in Java</h3>
             
-            <time class="related-post-date">01 settembre 2026</time>
+            <time class="related-post-date">07 settembre 2026</time>
             
           </div>
         </a>
         
-        <a href="/blog/introduzione-a-assembly/" class="related-post-card">
+        <a href="/blog/redundant-array-of-independent-disks/" class="related-post-card">
           
           <div class="related-post-image">
-            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788705712/RAID_348215836b.jpg" alt="Immagine generata con AI" loading="lazy">
           </div>
           
           <div class="related-post-content">
             
               
               
-              <span class="badge">assembly</span>
+              <span class="badge">RAID</span>
               
             
-            <h3 class="related-post-title">Introduzione ad Assembly</h3>
+            <h3 class="related-post-title">Guida ai livelli RAID</h3>
             
-            <time class="related-post-date">31 agosto 2026</time>
+            <time class="related-post-date">06 settembre 2026</time>
             
           </div>
         </a>
         
-        <a href="/blog/post/" class="related-post-card">
+        <a href="/blog/guida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware/" class="related-post-card">
           
           <div class="related-post-image">
-            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1786799376/docker_d65228857a.jpg" alt="Immagine generata con AI" loading="lazy">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788707033/linux_command_db68af54fe.jpg" alt="Immagine generata con AI" loading="lazy">
           </div>
           
           <div class="related-post-content">
             
               
               
-              <span class="badge">docker</span>
+              <span class="badge">linux</span>
               
             
-            <h3 class="related-post-title">Guida completa a Docker</h3>
+            <h3 class="related-post-title">Guida ai comandi Linux per la diagnostica di sistema, rete e hardware</h3>
             
-            <time class="related-post-date">10 agosto 2026</time>
+            <time class="related-post-date">05 settembre 2026</time>
             
           </div>
         </a>

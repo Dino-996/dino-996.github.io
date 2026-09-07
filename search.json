@@ -1,5 +1,23 @@
 [
   {
+    "title": "Implementazione di un server e un client TCP in Java",
+    "url": "/blog/implementazione-di-un-server-e-un-client-tcp-in-java/",
+    "description": "Guida al funzionamento del protocollo TCP e all'uso dei socket in Java. Analizza il ciclo di vita delle connessioni e confronta le architetture client/server single-thread e multithread con esempi di codice pronti all'uso.",
+    "date": "2026-09-07T00:00:00.000Z"
+  },
+  {
+    "title": "Guida ai livelli RAID",
+    "url": "/blog/redundant-array-of-independent-disks/",
+    "description": "Il RAID combina più unità di archiviazione per garantire ridondanza e migliorare le prestazioni. Questa guida analizza il funzionamento dei livelli principali, i rischi durante la fase di rebuild, la distinzione tra RAID hardware e software e le pratiche di monitoraggio indispensabili in ambiente di produzione.",
+    "date": "2026-09-06T00:00:00.000Z"
+  },
+  {
+    "title": "Guida ai comandi Linux per la diagnostica di sistema, rete e hardware",
+    "url": "/blog/guida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware/",
+    "description": "Una panoramica pratica dei principali comandi da terminale per il debug e il monitoraggio dei sistemi Linux e macOS: dall'analisi dello spazio su disco al controllo di memoria, risorse e traffico di rete.",
+    "date": "2026-09-05T00:00:00.000Z"
+  },
+  {
     "title": "Lo stack in Assembly x86_64",
     "url": "/blog/lo-stack-in-assembly/",
     "description": "Lo stack è una delle strutture fondamentali della memoria di un processo. In questa parte vedremo come funziona, come viene organizzato all'avvio del programma e come utilizzare rsp, push, pop e gli offset per accedere ai dati, compresi gli argomenti passati da riga di comando.",

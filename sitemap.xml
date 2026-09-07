@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://dino-996.github.io/blog/implementazione-di-un-server-e-un-client-tcp-in-java/</loc>
+    <lastmod>2026-09-07T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/blog/redundant-array-of-independent-disks/</loc>
+    <lastmod>2026-09-06T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/blog/guida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware/</loc>
+    <lastmod>2026-09-05T00:00:00.000Z</lastmod>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/blog/lo-stack-in-assembly/</loc>
     <lastmod>2026-09-02T00:00:00.000Z</lastmod>
   </url>

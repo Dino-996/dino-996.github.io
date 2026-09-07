@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Guida ai comandi Linux per la diagnostica di sistema, rete e hardware · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Una panoramica pratica dei principali comandi da terminale per il debug e il monitoraggio dei sistemi Linux e macOS: dall&#39;analisi dello spazio su disco al controllo di memoria, risorse e traffico di rete." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/guida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/guida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware/" />
+
+<meta property="og:title" content="Guida ai comandi Linux per la diagnostica di sistema, rete e hardware" />
+<meta property="og:description" content="Una panoramica pratica dei principali comandi da terminale per il debug e il monitoraggio dei sistemi Linux e macOS: dall&#39;analisi dello spazio su disco al controllo di memoria, risorse e traffico di rete." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788707033/linux_command_db68af54fe.jpg" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/guida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware/" />
+
+<meta name="twitter:title" content="Guida ai comandi Linux per la diagnostica di sistema, rete e hardware" />
+<meta name="twitter:description" content="Una panoramica pratica dei principali comandi da terminale per il debug e il monitoraggio dei sistemi Linux e macOS: dall&#39;analisi dello spazio su disco al controllo di memoria, risorse e traffico di rete." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788707033/linux_command_db68af54fe.jpg" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism + KaTeX caricati solo sui post: vedere head_extra e scripts in _layouts/post.njk -->
+
+
+
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="78601d64-b9ba-4c5a-8382-187c35206036"></script>
+
+
+    
+
+    <!-- SEO: JSON-LD WebSite schema (homepage only) -->
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn nav-btn" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn nav-btn nav-btn-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Cambia tema" title="Cambia tema">
+        <svg id="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="/courses/" class="btn nav-btn nav-btn-nav">Percorsi</a>
+      <a href="/about/" class="btn nav-btn">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788707033/linux_command_db68af54fe.jpg" as="image" fetchpriority="high">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+  <!-- SEO: JSON-LD Article schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": &quot;Guida ai comandi Linux per la diagnostica di sistema, rete e hardware&quot;,
+    "url": "https://dino-996.github.io/blog/guida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware/",
+    
+    "dateModified": "2026-09-06T15:05:20.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    },
+    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1788707033/linux_command_db68af54fe.jpg",
+    "publisher": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    }
+  }
+  </script>
+
+  <!-- SEO: JSON-LD BreadcrumbList schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      
+      
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": &quot;Home&quot;,
+        "item": "https://dino-996.github.io/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": &quot;Blog&quot;,
+        "item": "https://dino-996.github.io/blog/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": &quot;Guida ai comandi linux per la diagnostica di sistema rete e hardware&quot;
+      }
+      
+    ]
+  }
+  </script>
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      
+      
+      
+      
+        
+        
+          
+          
+            
+          
+        
+      
+      
+      
+
+
+<nav aria-label="Breadcrumb" class="breadcrumb">
+  <ol>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/blog/">Blog</a></li>
+      
+    
+      
+        <li><a href="/tags/posts/">posts</a></li>
+      
+    
+      
+        <li aria-current="page">Guida ai comandi Linux per la diagnostica di sistema, rete e hardware</li>
+      
+    
+  </ol>
+</nav>
+
+
+
+      <h1>Guida ai comandi Linux per la diagnostica di sistema, rete e hardware</h1>
+
+      
+      <p class="post-description">Una panoramica pratica dei principali comandi da terminale per il debug e il monitoraggio dei sistemi Linux e macOS: dall&#39;analisi dello spazio su disco al controllo di memoria, risorse e traffico di rete.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 05 settembre 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+          <span class="post-meta-dot">·</span>
+          <span>Aggiornato il 06 settembre 2026</span>
+        
+      </div>
+    </header>
+
+    
+    <figure class="post-hero">
+      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788707033/linux_command_db68af54fe.jpg"
+           alt="Immagine generata con AI"
+           class="post-hero-image"
+           fetchpriority="high">
+      
+      <figcaption class="post-hero-caption">Immagine generata con AI</figcaption>
+      
+    </figure>
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Questa guida presenta comandi Linux essenziali per la diagnostica, organizzati per area tematica, con enfasi su strumenti che hanno o non hanno equivalenti su macOS. Si sottolinea la compatibilità di alcuni comandi BSD/UNIX su macOS, mentre altri richiedono l&#39;uso di utility specifiche per Linux o alternative da verificare su macOS.</p>
+      </div>
+      
+
+      <section class="content">
+          <h2 id="introduzione">Introduzione</h2>
+<p>Questa guida raccoglie i comandi da riga di comando più utili per la quasi totalità delle esigenze diagnostiche quotidiane su un sistema Linux, dal debug di un server in produzione alla semplice curiosità sulla propria macchina di sviluppo, organizzati per area tematica, con una breve spiegazione del funzionamento di ciascuno e, dove utile, dell'alternativa moderna a strumenti ormai superati.</p>
+<h3 id="compatibilita-con-macos">Compatibilità con macOS</h3>
+<p>Buona parte di questa guida è pensata per Linux, ma vale la pena ricordare che macOS è a sua volta un sistema basato su UNIX (nello specifico deriva da BSD), per cui diversi comandi elencati funzionano invariati anche su un Mac aperto dal Terminale. Rientrano in questo gruppo <code>df -h</code>, <code>du -sh</code>, <code>uname -a</code>, <code>uptime</code>, <code>ping -c 4</code>, <code>traceroute</code>, <code>dig</code> e <code>curl</code>, oltre a strumenti installabili via Homebrew come <code>ncdu</code>, <code>htop</code>, <code>btop</code> e <code>fastfetch</code>.</p>
+<p>Altri comandi della guida sono invece specifici del mondo Linux e non hanno un corrispettivo diretto su macOS, perché si appoggiano a sottosistemi che semplicemente non esistono fuori dal kernel Linux, come il filesystem virtuale <code>/proc</code> (da cui dipendono <code>/proc/meminfo</code>, <code>/proc/cpuinfo</code>), lo stack <code>iproute2</code> (<code>ip a</code>, <code>ip r</code>, <code>ss</code>), systemd (<code>hostnamectl</code>) o il pacchetto <code>lm-sensors</code> (<code>sensors</code>). Anche <code>lsblk</code>, <code>lscpu</code> e <code>lshw</code> sono strumenti legati al mondo Linux, così come <code>lspci</code>, non presente nativamente su macOS.</p>
+<div class="alert alert-warning" role="alert">
+<strong>Da verificare:</strong> per chi lavora su macOS, gli equivalenti approssimativi di alcuni dei comandi Linux-only citati sopra sono <code>diskutil list</code> al posto di <code>lsblk</code>, <code>vm_stat</code> al posto di <code>free -h</code>, <code>system_profiler SPHardwareDataType</code> al posto di <code>lscpu</code>/<code>lshw</code>, <code>system_profiler SPDisplaysDataType</code> al posto di <code>lspci | grep -i vga</code>, e <code>ifconfig</code> / <code>netstat -rn</code> al posto di <code>ip a</code> / <code>ip r</code>. Questi comandi sono stati introdotti in questa revisione e non erano presenti nella bozza originale: sintassi e output vanno verificati sulla versione di macOS effettivamente in uso prima di pubblicarli come riferimento.
+</div>
+<h2 id="disco-e-filesystem-spazio-e-partizioni">Disco e filesystem, spazio e partizioni</h2>
+<p>Per avere una panoramica immediata dello spazio libero e occupato su tutti i filesystem montati si usa il comando seguente, dove il flag <code>-h</code> (human-readable) converte i valori grezzi in blocchi in un formato leggibile espresso in GB o MB.</p>
+<pre><code class="language-bash">df -h
+</code></pre>
+<p>Quando invece serve capire quanto spazio occupa nello specifico una cartella e le sue sottocartelle, il comando di riferimento è <code>du</code>, dove <code>-s</code> produce un riassunto totale invece del dettaglio ricorsivo file per file e <code>-h</code> rende l'output leggibile.</p>
+<pre><code class="language-bash">du -sh /percorso/della/cartella
+</code></pre>
+<p>Per elencare tutti i dispositivi di archiviazione collegati (dischi, partizioni, chiavette USB) e i rispettivi punti di montaggio si utilizza <code>lsblk</code>, che con il flag <code>-f</code> mostra anche il tipo di filesystem e l'UUID di ciascuna partizione.</p>
+<pre><code class="language-bash">lsblk -f
+</code></pre>
+<p>Per la tabella delle partizioni completa di tutti i dischi, comprensiva di schema (MBR o GPT) e dimensioni esatte dei settori, serve invece <code>fdisk</code> in modalità di sola lettura elenco, che richiede i privilegi di amministratore.</p>
+<pre><code class="language-bash">sudo fdisk -l
+</code></pre>
+<p>Infine, per chi deve esplorare interattivamente cosa occupa spazio su disco senza scorrere output statici, <code>ncdu</code> è uno strumento a interfaccia testuale molto pratico: se non è già presente si installa con il gestore pacchetti della distribuzione.</p>
+<pre><code class="language-bash">sudo apt install ncdu
+</code></pre>
+<div class="alert alert-warning" role="alert">
+<strong>Da verificare:</strong> per una diagnosi ancora più approfondita sulla salute fisica di un disco (non solo sullo spazio occupato), può essere utile <code>smartctl -a /dev/sda</code> dal pacchetto <code>smartmontools</code>, comando introdotto in questa revisione e non presente nella bozza originale: va verificato il nome esatto del dispositivo sulla macchina target prima dell'uso.
+</div>
+<h2 id="memoria-ram-e-swap">Memoria RAM e swap</h2>
+<p>Lo strumento più immediato per controllare memoria RAM e swap libere, utilizzate e totali è <code>free</code>, dove <code>-h</code> formatta automaticamente i valori in KB, MB o GB a seconda della loro grandezza.</p>
+<pre><code class="language-bash">free -h
+</code></pre>
+<p>Se serve un monitoraggio continuo, <code>watch</code> permette di rieseguire un comando a intervalli regolari, in questo caso ogni secondo, così da osservare in tempo reale l'andamento della memoria.</p>
+<pre><code class="language-bash">watch -n 1 free -h
+</code></pre>
+<p>Per chi ha bisogno del dettaglio più granulare possibile, direttamente dai contatori del kernel, la fonte primaria è il file virtuale seguente.</p>
+<pre><code class="language-bash">cat /proc/meminfo
+</code></pre>
+<div class="alert alert-warning" role="alert">
+<strong>Da verificare:</strong> per correlare l'uso di memoria con CPU e attività di I/O in un'unica vista temporale, uno strumento complementare utile è <code>vmstat 1</code> (dal pacchetto <code>procps</code>, generalmente già preinstallato): comando introdotto in questa revisione, da testare sull'ambiente specifico.
+</div>
+<h2 id="cpu-e-processore">CPU e processore</h2>
+<p>Per visualizzare architettura della CPU, modello, numero di core fisici, thread logici e livelli di cache, il comando più sintetico è <code>lscpu</code>.</p>
+<pre><code class="language-bash">lscpu
+</code></pre>
+<p>Chi ha bisogno delle informazioni dettagliate per ogni singolo core, comprese le frequenze correnti, può leggerle direttamente dal kernel.</p>
+<pre><code class="language-bash">cat /proc/cpuinfo
+</code></pre>
+<p>Per il monitoraggio in tempo reale di processi e utilizzo di CPU e RAM, il comando storico è <code>top</code>; sui sistemi moderni conviene però preferire alternative più leggibili e interattive come <code>htop</code> o <code>btop</code>, se disponibili.</p>
+<pre><code class="language-bash">top
+</code></pre>
+<div class="alert alert-info" role="alert">
+Nota editoriale: <code>htop</code> e <code>btop</code>, già citati nella bozza originale come alternative moderne a <code>top</code>, restano scelte solide per chi lavora quotidianamente da terminale, grazie a interfaccia a colori, ordinamento interattivo dei processi e gestione diretta dei segnali (kill, nice) senza uscire dal programma.
+</div>
+<h2 id="scheda-video-gpu-e-hardware-generale">Scheda video (GPU) e hardware generale</h2>
+<p>Per identificare il modello esatto della scheda video installata (NVIDIA, AMD o Intel) si interroga il bus PCI filtrando per la classe video.</p>
+<pre><code class="language-bash">lspci | grep -i vga
+</code></pre>
+<p>Su sistemi con GPU dedicata secondaria, in configurazioni ibride o server con acceleratori grafici, la classe da cercare può invece essere quella 3D.</p>
+<pre><code class="language-bash">lspci | grep -i 3d
+</code></pre>
+<p>Per informazioni più dettagliate sul controller grafico e sul driver effettivamente in uso, <code>lshw</code> filtrato sulla classe display offre un output più ricco, sempre con privilegi elevati.</p>
+<pre><code class="language-bash">sudo lshw -C display
+</code></pre>
+<p>Chi lavora con schede NVIDIA dispone di uno strumento dedicato che mostra temperatura, memoria video occupata e processi attivi sulla GPU in tempo reale.</p>
+<pre><code class="language-bash">nvidia-smi
+</code></pre>
+<p>Per un inventario hardware completo dell'intera macchina, in forma sintetica, si usa <code>lshw</code> con il flag di riassunto.</p>
+<pre><code class="language-bash">sudo lshw -short
+</code></pre>
+<h2 id="informazioni-di-sistema-kernel-e-dispositivo">Informazioni di sistema, kernel e dispositivo</h2>
+<p>Per un quadro d'insieme che comprende nome host, versione del kernel, distribuzione e architettura, <code>hostnamectl</code> è oggi lo strumento di riferimento sulle distribuzioni basate su systemd.</p>
+<pre><code class="language-bash">hostnamectl
+</code></pre>
+<p>Se serve solo la versione esatta del kernel Linux in esecuzione, il comando dedicato è più mirato.</p>
+<pre><code class="language-bash">uname -r
+</code></pre>
+<p>Per tutte le informazioni di sistema di base condensate in un'unica riga, si aggiunge il flag <code>-a</code>.</p>
+<pre><code class="language-bash">uname -a
+</code></pre>
+<p>I dettagli sulla distribuzione, nome, versione e identificativo, si leggono da un file standard presente su praticamente tutte le distribuzioni moderne.</p>
+<pre><code class="language-bash">cat /etc/os-release
+</code></pre>
+<p>Per sapere da quanto tempo il sistema è acceso, quanti utenti sono collegati e qual è il carico medio (load average) su 1, 5 e 15 minuti, si usa <code>uptime</code>.</p>
+<pre><code class="language-bash">uptime
+</code></pre>
+<p>Per chi desidera anche un colpo d'occhio estetico, con il logo della distribuzione in ASCII art accanto ai dati hardware, <code>neofetch</code> è stato per anni lo strumento più diffuso. Il progetto originale non riceve più sviluppo attivo, per cui oggi conviene orientarsi su <code>fastfetch</code>, il fork mantenuto attivamente e generalmente più veloce, già indicato come alternativa nella bozza originale.</p>
+<pre><code class="language-bash">fastfetch
+</code></pre>
+<h2 id="rete-interfacce-e-connessioni">Rete, interfacce e connessioni</h2>
+<p>Per elencare tutte le interfacce di rete, fisiche e virtuali, con i relativi indirizzi MAC e IP, lo strumento moderno è <code>ip</code>, che ha sostituito il deprecato <code>ifconfig</code>.</p>
+<pre><code class="language-bash">ip a
+</code></pre>
+<p>Per la tabella di routing, utile a capire quale sia il gateway predefinito della macchina, si usa il sottocomando dedicato.</p>
+<pre><code class="language-bash">ip r
+</code></pre>
+<p>Per verificare quali porte sono in ascolto e a quale processo appartengono, <code>ss</code> ha sostituito il vecchio <code>netstat</code>; i flag <code>-tulpn</code> combinano socket TCP e UDP, mostrano solo quelli in ascolto (listening) e includono il nome del processo.</p>
+<pre><code class="language-bash">ss -tulpn
+</code></pre>
+<p>Per scoprire il proprio indirizzo IP pubblico interrogando un servizio esterno, <code>curl</code> verso un endpoint dedicato restituisce direttamente il valore.</p>
+<pre><code class="language-bash">curl ifconfig.me
+</code></pre>
+<p>Per informazioni geografiche e di provider più complete sullo stesso indirizzo pubblico, esiste un servizio equivalente più ricco.</p>
+<pre><code class="language-bash">curl ipinfo.io
+</code></pre>
+<p>Per verificare la raggiungibilità di un host e misurarne la latenza, limitando l'invio a un numero contenuto di pacchetti per non generare traffico inutile, si usa <code>ping</code> con il flag <code>-c</code>.</p>
+<pre><code class="language-bash">ping -c 4 1.1.1.1
+</code></pre>
+<p>Per visualizzare il percorso seguito dai pacchetti verso un server, utile in fase di diagnosi di problemi di instradamento, il comando classico è <code>traceroute</code>; l'alternativa interattiva <code>mtr</code> combina traceroute e ping in un'unica vista aggiornata in tempo reale.</p>
+<pre><code class="language-bash">traceroute google.com
+</code></pre>
+<p>Per interrogare direttamente i server DNS e risolvere un dominio nel relativo indirizzo IP, gli strumenti di riferimento sono <code>dig</code>, più verboso e dettagliato, e <code>nslookup</code>, più sintetico.</p>
+<pre><code class="language-bash">dig google.com
+</code></pre>
+<div class="alert alert-warning" role="alert">
+<strong>Da verificare:</strong> per monitorare il traffico di rete in tempo reale per processo o interfaccia, strumenti come <code>iftop</code> o <code>nload</code> (da installare separatamente) sono un'aggiunta pratica rispetto ai soli comandi di configurazione: introdotti in questa revisione, non presenti nella bozza originale.
+</div>
+<h2 id="temperature-e-sensori">Temperature e sensori</h2>
+<p>Per leggere le temperature della CPU e degli altri componenti hardware supportati, il comando <code>sensors</code> è lo standard de facto sulle distribuzioni Linux, e richiede il pacchetto <code>lm-sensors</code> installato e configurato tramite <code>sensors-detect</code> al primo utilizzo.</p>
+<pre><code class="language-bash">sensors
+</code></pre>
+<h2 id="tabella-riassuntiva-dei-comandi">Tabella riassuntiva dei comandi</h2>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr>
+        <th>Area</th>
+        <th>Comando principale</th>
+        <th>Scopo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="fw-semibold">Disco</td>
+        <td><code>df -h</code></td>
+        <td>Spazio libero e occupato sui filesystem montati</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Disco</td>
+        <td><code>du -sh</code></td>
+        <td>Spazio occupato da una cartella specifica</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Memoria</td>
+        <td><code>free -h</code></td>
+        <td>RAM e swap libere, usate e totali</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">CPU</td>
+        <td><code>lscpu</code></td>
+        <td>Architettura, core, thread e cache</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">GPU</td>
+        <td><code>lspci | grep -i vga</code></td>
+        <td>Identificazione della scheda video</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Sistema</td>
+        <td><code>hostnamectl</code></td>
+        <td>Hostname, kernel, distribuzione, architettura</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Rete</td>
+        <td><code>ip a</code></td>
+        <td>Interfacce di rete e indirizzi IP/MAC</td>
+      </tr>
+      <tr>
+        <td class="fw-semibold">Temperature</td>
+        <td><code>sensors</code></td>
+        <td>Temperature CPU e componenti hardware</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+      </section>
+
+      <!-- Disclaimer AI -->
+      <footer class="mt-4 pt-3 border-top">
+        <p class="text-muted small mb-0">
+          <em>Articolo scritto con il supporto di LLM per la formattazione e la struttura del codice.</em>
+        </p>
+      </footer>
+
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout post-section">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/linux/" class="badge badge-outline">linux</a>
+              
+            
+              
+              
+              <a href="/tags/sysadmin/" class="badge badge-outline">sysadmin</a>
+              
+            
+              
+              
+              <a href="/tags/terminale/" class="badge badge-outline">terminale</a>
+              
+            
+              
+              
+              <a href="/tags/networking/" class="badge badge-outline">networking</a>
+              
+            
+              
+              
+              <a href="/tags/cli/" class="badge badge-outline">cli</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center share-block">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Fguida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+            Condividi su LinkedIn
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Guida%20ai%20comandi%20Linux%20per%20la%20diagnostica%20di%20sistema%2C%20rete%20e%20hardware&url=https://dino-996.github.io%2Fblog%2Fguida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su X">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+            Condividi su X
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout post-section post-section-sm">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div class="article-nav-half">
+          
+          <a href="/blog/redundant-array-of-independent-disks/" class="btn btn-outline btn-sm article-nav-btn">
+            <span class="d-block small article-nav-label">← Precedente</span>
+            <span class="d-block article-nav-title">Guida ai livelli RAID</span>
+          </a>
+          
+        </div>
+        <div class="article-nav-half article-nav-right">
+          
+          <a href="/blog/lo-stack-in-assembly/" class="btn btn-outline btn-sm article-nav-btn article-nav-btn-right">
+            <span class="d-block small article-nav-label">Successivo →</span>
+            <span class="d-block article-nav-title">Lo stack in Assembly x86_64</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Potrebbe interessarti -->
+    
+    
+    <section class="related-posts" aria-labelledby="related-posts-heading">
+      <h2 id="related-posts-heading" class="post-layout">Potrebbe interessarti</h2>
+      <div class="related-posts-grid post-layout">
+        
+        <a href="/blog/implementazione-di-un-server-e-un-client-tcp-in-java/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788796679/server_client_TCP_8f36a58415.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">java</span>
+              
+            
+            <h3 class="related-post-title">Implementazione di un server e un client TCP in Java</h3>
+            
+            <time class="related-post-date">07 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/redundant-array-of-independent-disks/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788705712/RAID_348215836b.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">RAID</span>
+              
+            
+            <h3 class="related-post-title">Guida ai livelli RAID</h3>
+            
+            <time class="related-post-date">06 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/lo-stack-in-assembly/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Lo stack in Assembly x86_64</h3>
+            
+            <time class="related-post-date">02 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+      </div>
+    </section>
+    
+
+    <!-- Commenti -->
+    <h2 class="post-layout comment-heading">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+    data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      });
+    });
+  </script>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> DinoSec. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+    <!-- Trasparenza AI -->
+    <p class="small text-muted">
+      Scopri di più sulla <a href="/about#trasparenza">politica sull'uso dell'IA</a>.
+    </p>
+  </div>
+</footer>
+
+
+
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente virtuale basato su intelligenza artificiale">
+        <span aria-hidden="true">🦖</span>
+        <span class="ai-toggle-badge" aria-hidden="true">IA</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span aria-hidden="true">🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+            <span class="ai-badge" aria-label="Assistente basato su intelligenza artificiale">IA</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI assistant widget -->
+    <script src="/assets/js/ai-widget.js" defer></script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

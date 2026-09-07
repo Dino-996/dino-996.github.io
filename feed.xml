@@ -6,13 +6,831 @@
   <link href="https://dino-996.github.io/feed.xml" rel="self" type="application/atom+xml"/>
   <link href="https://dino-996.github.io" rel="alternate" type="text/html"/>
   <id>https://dino-996.github.io/</id>
-  <updated>2026-09-02T00:00:00.000Z</updated>
+  <updated>2026-09-07T00:00:00.000Z</updated>
   <author>
     <name>Davide Sabia</name>
     <email>davidesabia22@gmail.com</email>
     <uri>https://dino-996.github.io</uri>
   </author>
 
+  
+  <entry>
+    <title>Implementazione di un server e un client TCP in Java</title>
+    <link href="https://dino-996.github.io/blog/implementazione-di-un-server-e-un-client-tcp-in-java/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/implementazione-di-un-server-e-un-client-tcp-in-java/</id>
+    <published>2026-09-07T00:00:00.000Z</published>
+    <updated>2026-09-07T00:00:00.000Z</updated>
+    
+    <summary>Guida al funzionamento del protocollo TCP e all&#39;uso dei socket in Java. Analizza il ciclo di vita delle connessioni e confronta le architetture client/server single-thread e multithread con esempi di codice pronti all&#39;uso.</summary>
+    
+    
+    <content type="html"><![CDATA[
+
+  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+&lt;p&gt;Oggi vediamo le fondamenta su cui si basa l&#39;Internet moderna. TCP è la base di quasi tutte le comunicazioni di rete affidabili: anche quando si lavora con framework ad alto livello come HTTP, WebSocket o gRPC, dietro le quinte c&#39;è sempre un socket TCP che gestisce la connessione. Capire come funziona dà un vantaggio enorme in termini di comprensione dei sistemi che usiamo ogni giorno.&lt;/p&gt;
+&lt;p&gt;Per capire quanto sia fondamentale la comprensione del protocollo TCP e della sua implementazione, ecco qualche esempio di uso comune.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Web server e API REST&lt;/strong&gt;: HTTP è un protocollo costruito sopra TCP. Quando scrivi un server web, sotto il cofano c&#39;è un &lt;code&gt;ServerSocket&lt;/code&gt; che accetta connessioni e parla TCP. Capire come funziona può aiutarti nel debugging dei problemi di rete, dei timeout, del keep-alive e così via.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Database&lt;/strong&gt;: qualsiasi database comunica con i client tramite protocolli basati su TCP.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Applicazioni di messaggistica e chat&lt;/strong&gt;: WhatsApp, Slack e Telegram utilizzano connessioni TCP persistenti per inviare e ricevere messaggi in tempo reale.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Email&lt;/strong&gt;: SMTP, IMAP e POP3 sono protocolli TCP. I server di posta sono server TCP specializzati.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ce ne sarebbero molti altri, ma ci fermiamo qui: nelle aziende, la conoscenza dei fondamenti è molto apprezzata anche nei colloqui tecnici.&lt;/p&gt;
+&lt;h2 id=&quot;il-ciclo-di-vita-di-una-richiesta-http-su-tcp&quot;&gt;Il ciclo di vita di una richiesta HTTP su TCP&lt;/h2&gt;
+&lt;p&gt;L&#39;architettura client-server del Web si basa su un modello asimmetrico richiesta-risposta governato dal protocollo HTTP. Il client avvia attivamente la comunicazione per ottenere una risorsa, mentre il server ascolta passivamente, elabora la richiesta, invia la risorsa e chiude la connessione TCP.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Client&lt;/strong&gt;: è il processo (browser, script cURL, applicazione mobile) che conosce l&#39;indirizzo della controparte. Apre un socket TCP verso l&#39;IP di destinazione e invia un messaggio di testo formattato (richiesta HTTP) indicando un metodo, ad esempio &lt;code&gt;GET /index.html&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Server&lt;/strong&gt;: è un processo in esecuzione su una macchina con un IP raggiungibile, di solito statico. Resta in stato di ascolto su una porta specifica (80 per HTTP, 443 per HTTPS) e non avvia mai la comunicazione verso il client.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Il ciclo di vita si compone essenzialmente di cinque fasi.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Risoluzione DNS&lt;/strong&gt;: il client converte il nome di dominio nell&#39;indirizzo IP del server.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Handshake TCP&lt;/strong&gt;: il client instaura una connessione a livello di trasporto (layer 4) tramite il meccanismo del three-way handshake TCP (SYN, SYN-ACK, ACK).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Richiesta&lt;/strong&gt;: il client trasmette l&#39;header HTTP, specificando la risorsa voluta e i parametri accessori.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Elaborazione e risposta&lt;/strong&gt;: il server processa la richiesta, recupera il file dal disco o lo genera dinamicamente tramite un backend, e risponde con un codice di stato seguito dal payload.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Teardown TCP&lt;/strong&gt;: terminata la trasmissione, il server avvia la chiusura formale della connessione inviando un pacchetto FIN.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&quot;alert alert-info&quot; role=&quot;alert&quot;&gt;
+  &lt;strong&gt;Three-way handshake.&lt;/strong&gt; Serve a stabilire una connessione affidabile e sincronizzata tra client e server prima dell&#39;inizio dello scambio dati, in tre fasi distinte: il client invia un pacchetto SYN includendo il proprio numero di sequenza iniziale, il server risponde con SYN-ACK riconoscendo la richiesta e inviando il proprio numero di sequenza, infine il client invia un pacchetto ACK per confermare la ricezione, dopodiché la connessione è stabilita.
+&lt;/div&gt;
+&lt;div class=&quot;alert alert-secondary&quot; role=&quot;alert&quot;&gt;
+  &lt;strong&gt;Payload.&lt;/strong&gt; È il contenuto effettivo della richiesta, cioè i dati scambiati tra client e server, distinti dai metadati contenuti solo nell&#39;intestazione (header).
+&lt;/div&gt;
+&lt;p&gt;Per approfondire il meccanismo del protocollo TCP, il &lt;a href=&quot;https://www.cloudflare.com/learning/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;Cloudflare Learning Center&lt;/a&gt; offre una spiegazione tecnica accurata e aggiornata.&lt;/p&gt;
+&lt;h2 id=&quot;cose-una-socket&quot;&gt;Cos&#39;è una socket&lt;/h2&gt;
+&lt;p&gt;Prima di passare al codice, vale la pena spendere due parole sul concetto di socket: per molti può sembrare una banalità, ma è doveroso vista la centralità che ha nell&#39;implementazione che vedremo.&lt;/p&gt;
+&lt;p&gt;Una socket non è altro che un&#39;interfaccia per un processo. Un processo classico vive sulla tua macchina, ma quando ha bisogno di comunicare con altre macchine in rete ha bisogno di un meccanismo, appunto le socket, che gli permetta di scambiare messaggi e dati.&lt;/p&gt;
+&lt;p&gt;Per dirla in modo più preciso, una socket è il punto di accesso al canale di comunicazione tra processi in rete, e si identifica attraverso la combinazione di indirizzo IP e numero di porta.&lt;/p&gt;
+&lt;h2 id=&quot;client-e-server-tcp-single-thread&quot;&gt;Client e server TCP single-thread&lt;/h2&gt;
+&lt;p&gt;Iniziamo dalla versione più semplice: un server che accetta una sola connessione alla volta e un client che dialoga con lui riga per riga, implementando un classico servizio di echo (il server rispedisce al client lo stesso messaggio ricevuto, preceduto da &amp;quot;Echo:&amp;quot;).&lt;/p&gt;
+&lt;h3 id=&quot;il-client-tcp-single-thread&quot;&gt;Il client TCP single-thread&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package it.dev.tcp.v1.client;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+public class ClientSinglethreadTCP {
+    private static final int PORTA = 50000;
+    private static final String INDIRIZZO_SERVER = &amp;quot;127.0.0.1&amp;quot;;
+    public static void main(String[] args) {
+        try {
+            Socket connessione = new Socket(INDIRIZZO_SERVER, PORTA);
+            BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print(&amp;quot;Connesso al server. Scrivi un messaggio (&#39;exit&#39; per uscire): &amp;quot;);
+            String messaggioDigitato = console.readLine();
+            BufferedReader ingressoServer = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
+            PrintWriter uscitaServer = new PrintWriter(connessione.getOutputStream(), true);
+            while (messaggioDigitato != null) {
+                if (&amp;quot;exit&amp;quot;.equalsIgnoreCase(messaggioDigitato)) {
+                    break;
+                }
+                uscitaServer.println(messaggioDigitato);
+                String risposta = ingressoServer.readLine();
+                if (risposta == null) {
+                    System.out.println(&amp;quot;Il server ha chiuso la connessione&amp;quot;);
+                    break;
+                }
+                System.out.println(&amp;quot;Risposta dal server: &amp;quot; + risposta);
+                System.out.print(&amp;quot;&#92;nNuovo messaggio: &amp;quot;);
+                messaggioDigitato = console.readLine();
+            }
+            console.close();
+            uscitaServer.close();
+            ingressoServer.close();
+            connessione.close();
+        } catch (IOException e) {
+            System.out.println(&amp;quot;Errore: &amp;quot; + e.getMessage());
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Vediamo cosa succede riga per riga, perché ogni scelta ha un motivo preciso.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;new Socket(INDIRIZZO_SERVER, PORTA)&lt;/code&gt;&lt;/strong&gt;: è il punto di partenza di tutto. Creare un oggetto &lt;code&gt;Socket&lt;/code&gt; con indirizzo e porta esegue implicitamente il three-way handshake visto sopra: se il server non è in ascolto su quella porta, questa riga lancia un&#39;eccezione (catturata più sotto dal blocco &lt;code&gt;catch&lt;/code&gt;).&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;BufferedReader console&lt;/code&gt;&lt;/strong&gt;: legge l&#39;input digitato dall&#39;utente da tastiera. &lt;code&gt;System.in&lt;/code&gt; è lo stream grezzo, &lt;code&gt;InputStreamReader&lt;/code&gt; lo converte in caratteri leggibili, &lt;code&gt;BufferedReader&lt;/code&gt; aggiunge un buffer che permette di leggere comodamente riga per riga con &lt;code&gt;readLine()&lt;/code&gt;. Il risultato di ogni lettura viene salvato in &lt;code&gt;messaggioDigitato&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;ingressoServer&lt;/code&gt; e &lt;code&gt;uscitaServer&lt;/code&gt;&lt;/strong&gt;: sono gli stream associati alla socket &lt;code&gt;connessione&lt;/code&gt;, non alla console. &lt;code&gt;ingressoServer&lt;/code&gt; legge ciò che arriva dal server, &lt;code&gt;uscitaServer&lt;/code&gt; scrive ciò che va inviato al server. Nota il secondo parametro &lt;code&gt;true&lt;/code&gt; passato a &lt;code&gt;PrintWriter&lt;/code&gt;: attiva l&#39;auto-flush, cioè ogni &lt;code&gt;println()&lt;/code&gt; viene inviato immediatamente sulla rete invece di restare bloccato in un buffer interno in attesa di essere svuotato. Senza questo parametro il messaggio potrebbe non arrivare mai al server finché il buffer non si riempie.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Il ciclo &lt;code&gt;while (messaggioDigitato != null)&lt;/code&gt;&lt;/strong&gt;: è il cuore della logica. Finché l&#39;utente non digita &lt;code&gt;exit&lt;/code&gt; (controllato con &lt;code&gt;equalsIgnoreCase&lt;/code&gt; per non essere sensibili a maiuscole/minuscole) e finché il flusso di input non termina, il client invia &lt;code&gt;messaggioDigitato&lt;/code&gt; tramite &lt;code&gt;uscitaServer&lt;/code&gt;, attende la risposta con &lt;code&gt;ingressoServer.readLine()&lt;/code&gt; e la stampa a video.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;if (risposta == null)&lt;/code&gt;&lt;/strong&gt;: &lt;code&gt;readLine()&lt;/code&gt; restituisce &lt;code&gt;null&lt;/code&gt; quando il flusso in lettura è terminato, cioè quando la controparte ha chiuso la connessione. È il modo standard in Java per rilevare la disconnessione senza bisogno di eccezioni.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;I quattro &lt;code&gt;close()&lt;/code&gt; finali&lt;/strong&gt;: chiudono ordinatamente &lt;code&gt;console&lt;/code&gt;, &lt;code&gt;uscitaServer&lt;/code&gt;, &lt;code&gt;ingressoServer&lt;/code&gt; e &lt;code&gt;connessione&lt;/code&gt;. È buona pratica farlo sempre, anche se il programma sta per terminare, per evitare di lasciare file descriptor o socket aperti a livello di sistema operativo.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;il-server-tcp-single-thread&quot;&gt;Il server TCP single-thread&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package it.dev.tcp.v1.server;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+public class ServerSingleThreadTCP {
+    private static final int PORTA = 50000;
+    public static void main(String[] args) {
+        try {
+            ServerSocket socketAscolto = new ServerSocket(PORTA);
+            System.out.println(&amp;quot;Server in ascolto sulla porta &amp;quot; + PORTA);
+            Socket connessioneClient = socketAscolto.accept();
+            BufferedReader ingressoClient = new BufferedReader(new InputStreamReader(connessioneClient.getInputStream()));
+            PrintWriter uscitaClient = new PrintWriter(connessioneClient.getOutputStream(), true);
+            String messaggio = ingressoClient.readLine();
+            while (messaggio != null) {
+                System.out.println(&amp;quot;Messaggio ricevuto: &amp;quot; + messaggio);
+                uscitaClient.println(&amp;quot;Echo: &amp;quot; + messaggio);
+                messaggio = ingressoClient.readLine();
+            }
+            ingressoClient.close();
+            uscitaClient.close();
+            connessioneClient.close();
+        } catch (IOException e) {
+            System.out.println(&amp;quot;500 - Internal Server Error&amp;quot;);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;alert alert-warning&quot; role=&quot;alert&quot;&gt;
+  &lt;strong&gt;Nota tecnica sul metodo &lt;code&gt;main&lt;/code&gt;.&lt;/strong&gt; Perché la JVM riconosca ed esegua automaticamente il metodo come punto di ingresso dell&#39;applicazione tramite il comando &lt;code&gt;java&lt;/code&gt;, deve essere dichiarato &lt;code&gt;public static void main(String[] args)&lt;/code&gt;. Se manca il modificatore &lt;code&gt;public&lt;/code&gt;, il metodo non è visibile all&#39;esterno del package e l&#39;esecuzione della classe come programma standalone fallisce.
+&lt;/div&gt;
+&lt;p&gt;Analizziamo la logica specifica del server, che differisce da quella del client in punti chiave.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;new ServerSocket(PORTA)&lt;/code&gt;&lt;/strong&gt;: a differenza del &lt;code&gt;Socket&lt;/code&gt; del client, un &lt;code&gt;ServerSocket&lt;/code&gt; non si connette a nessuno: apre semplicemente &lt;code&gt;socketAscolto&lt;/code&gt;, una porta in ascolto sulla macchina locale, pronta ad accettare richieste in entrata.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;socketAscolto.accept()&lt;/code&gt;&lt;/strong&gt;: questa è la riga più importante da capire. È una chiamata &lt;strong&gt;bloccante&lt;/strong&gt;: il thread principale del programma si ferma qui e non prosegue finché un client non si connette. Quando arriva una connessione, &lt;code&gt;accept()&lt;/code&gt; restituisce un nuovo oggetto &lt;code&gt;Socket&lt;/code&gt;, salvato in &lt;code&gt;connessioneClient&lt;/code&gt;, distinto da &lt;code&gt;socketAscolto&lt;/code&gt;, che rappresenta il canale di comunicazione dedicato a quel singolo client.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Perché questo server è &amp;quot;single-thread&amp;quot; nel senso limitativo del termine&lt;/strong&gt;: &lt;code&gt;accept()&lt;/code&gt; viene chiamato una sola volta, fuori da qualsiasi ciclo. Questo significa che il server gestisce un solo client per tutta la durata dell&#39;esecuzione: se un secondo client prova a connettersi mentre il primo è ancora attivo, la sua richiesta di connessione resta in coda a livello di sistema operativo (nel cosiddetto backlog) finché la connessione corrente non viene chiusa, dopodiché il programma termina comunque, perché il flusso di esecuzione esce dal blocco &lt;code&gt;try&lt;/code&gt; senza richiamare di nuovo &lt;code&gt;accept()&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Il ciclo &lt;code&gt;while (messaggio != null)&lt;/code&gt;&lt;/strong&gt;: è speculare a quello visto nel client. Ogni riga ricevuta tramite &lt;code&gt;ingressoClient&lt;/code&gt; viene stampata in console e rispedita al client tramite &lt;code&gt;uscitaClient&lt;/code&gt;, con il prefisso &lt;code&gt;&amp;quot;Echo: &amp;quot;&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Le due porzioni di codice viste finora illustrano l&#39;implementazione client/server TCP a singolo thread: il server non accetta connessioni multiple, e se proviamo a connetterci con un secondo client la connessione resta bloccata in coda finché il primo client non si disconnette.&lt;/p&gt;
+&lt;h2 id=&quot;client-e-server-tcp-multithread&quot;&gt;Client e server TCP multithread&lt;/h2&gt;
+&lt;p&gt;Passiamo ora all&#39;implementazione multithread, che risolve il limite principale della versione precedente.&lt;/p&gt;
+&lt;h3 id=&quot;il-client-tcp-multithread&quot;&gt;Il client TCP multithread&lt;/h3&gt;
+&lt;p&gt;Il client multithread è utile, ad esempio, nelle applicazioni di messaggistica, per inviare e ricevere messaggi con un thread di ricezione separato, in modo asincrono: l&#39;utente può scrivere un nuovo messaggio anche mentre è in attesa di una risposta dal server, senza che l&#39;interfaccia (in questo caso la console) resti bloccata.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package it.dev.tcp.v1.client;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+public class ClientMultithreadTCP {
+    private final static Logger logger = LoggerFactory.getLogger(ClientMultithreadTCP.class);
+    private final static String INDIRIZZO_SERVER = &amp;quot;127.0.0.1&amp;quot;;
+    private final static int PORTA = 50000;
+    public static void main(String[] args) {
+        try {
+            Socket connessione = new Socket(INDIRIZZO_SERVER, PORTA);
+            PrintWriter uscitaServer = new PrintWriter(connessione.getOutputStream(), true);
+            BufferedReader ingressoServer = new BufferedReader(new InputStreamReader(connessione.getInputStream()));
+            BufferedReader console = new BufferedReader(new InputStreamReader(System.in));
+            avviaThread(ingressoServer);
+            System.out.println(&amp;quot;Connesso al server (&#39;exit&#39; per uscire)&amp;quot;);
+            System.out.print(&amp;quot;Nuovo messaggio: &amp;quot;);
+            String messaggioDigitato = console.readLine();
+            while (messaggioDigitato != null) {
+                if (&amp;quot;exit&amp;quot;.equalsIgnoreCase(messaggioDigitato)) {
+                    break;
+                }
+                uscitaServer.println(messaggioDigitato);
+                messaggioDigitato = console.readLine();
+            }
+            console.close();
+            uscitaServer.close();
+            ingressoServer.close();
+            connessione.close();
+        } catch (IOException e) {
+            logger.error(&amp;quot;400 - Bad Request: {}&amp;quot;, e.getMessage());
+        }
+    }
+    private static void avviaThread(BufferedReader ingressoServer) {
+        Runnable compito = () -&amp;gt; gestisciServer(ingressoServer);
+        Thread threadRicezione = new Thread(compito);
+        threadRicezione.start();
+    }
+    private static void gestisciServer(BufferedReader ingressoServer) {
+        try {
+            String risposta = ingressoServer.readLine();
+            while (risposta != null) {
+                System.out.println(&amp;quot;&#92;nRisposta dal server: &amp;quot; + risposta);
+                System.out.print(&amp;quot;Nuovo messaggio: &amp;quot;);
+                risposta = ingressoServer.readLine();
+            }
+            System.out.println(&amp;quot;&#92;nIl server ha chiuso la connessione&amp;quot;);
+        } catch (IOException e) {
+            logger.error(&amp;quot;400 - Bad Request: {}&amp;quot;, e.getMessage());
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Le differenze chiave rispetto al client single-thread sono concentrate in due punti.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;avviaThread(ingressoServer)&lt;/code&gt;&lt;/strong&gt;: viene chiamato subito dopo l&#39;apertura della socket, prima ancora che l&#39;utente digiti qualcosa. Crea un &lt;code&gt;Runnable&lt;/code&gt; chiamato &lt;code&gt;compito&lt;/code&gt; che punta al metodo &lt;code&gt;gestisciServer&lt;/code&gt; e lo esegue su un &lt;code&gt;Thread&lt;/code&gt; dedicato (&lt;code&gt;threadRicezione&lt;/code&gt;), distinto dal thread principale (&lt;code&gt;main&lt;/code&gt;). Da questo momento in poi, il thread principale gestisce solo l&#39;input da console tramite &lt;code&gt;messaggioDigitato&lt;/code&gt;, mentre &lt;code&gt;threadRicezione&lt;/code&gt; gestisce solo la ricezione dal server: i due flussi lavorano in parallelo e in modo indipendente.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;gestisciServer(BufferedReader ingressoServer)&lt;/code&gt;&lt;/strong&gt;: è il metodo eseguito dal thread secondario. Contiene un ciclo che legge continuamente dal server con &lt;code&gt;ingressoServer.readLine()&lt;/code&gt; e stampa a schermo ogni risposta, finché la connessione non viene chiusa (&lt;code&gt;readLine()&lt;/code&gt; restituisce &lt;code&gt;null&lt;/code&gt;). Il vantaggio pratico è che, se il server impiega tempo a rispondere, il thread principale non resta bloccato in attesa: l&#39;utente può continuare a scrivere.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;logger&lt;/code&gt; al posto di &lt;code&gt;System.out&lt;/code&gt;&lt;/strong&gt;: qui viene introdotta la libreria SLF4J per il logging. A differenza di &lt;code&gt;System.out.println&lt;/code&gt;, un logger strutturato permette di distinguere il livello di gravità del messaggio (&lt;code&gt;info&lt;/code&gt;, &lt;code&gt;error&lt;/code&gt; e così via) e di configurare in modo centralizzato dove e come questi messaggi vengono scritti, un aspetto importante quando l&#39;applicazione cresce oltre il semplice esempio didattico.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;il-server-tcp-multithread&quot;&gt;Il server TCP multithread&lt;/h3&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;package it.dev.tcp.v1.server;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+public class ServerMultithreadTCP {
+    private static final Logger logger = LoggerFactory.getLogger(ServerMultithreadTCP.class);
+    private final static int PORTA = 50000;
+    public static void main(String[] args) {
+        try {
+            ServerSocket socketAscolto = new ServerSocket(PORTA);
+            logger.info(&amp;quot;Server in ascolto sulla porta {}&amp;quot;, PORTA);
+            while (true) {
+                Socket connessioneClient = socketAscolto.accept();
+                logger.info(&amp;quot;Nuovo client connesso: {}&amp;quot;, connessioneClient.getRemoteSocketAddress());
+                avviaThread(connessioneClient);
+            }
+        } catch (IOException e) {
+            logger.error(&amp;quot;500 - Internal Server Error: {}&amp;quot;, e.getMessage());
+        }
+    }
+    private static void avviaThread(Socket connessioneClient) {
+        Runnable compito = () -&amp;gt; gestisciClient(connessioneClient);
+        Thread thread = new Thread(compito);
+        thread.start();
+    }
+    private static void gestisciClient(Socket connessioneClient) {
+        String infoClient = connessioneClient.getRemoteSocketAddress().toString();
+        try {
+            BufferedReader ingressoClient = new BufferedReader(new InputStreamReader(connessioneClient.getInputStream()));
+            String messaggio = ingressoClient.readLine();
+            PrintWriter uscitaClient = new PrintWriter(connessioneClient.getOutputStream(), true);
+            while (messaggio != null) {
+                logger.info(&amp;quot;[{}] Messaggio ricevuto: {}&amp;quot;, infoClient, messaggio);
+                uscitaClient.println(&amp;quot;Echo: &amp;quot; + messaggio);
+                messaggio = ingressoClient.readLine();
+            }
+            ingressoClient.close();
+            uscitaClient.close();
+        } catch (IOException e) {
+            logger.info(&amp;quot;Errore nella comunicazione con {}: {}&amp;quot;, infoClient, e.getMessage());
+        } finally {
+            logger.error(&amp;quot;Connessione terminata: {}&amp;quot;, infoClient);
+        }
+    }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Questa è la classe più importante dell&#39;intero articolo, perché è quella che risolve concretamente il limite del server single-thread.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;while (true) { ... socketAscolto.accept(); ... }&lt;/code&gt;&lt;/strong&gt;: la differenza fondamentale rispetto alla versione precedente sta tutta qui. &lt;code&gt;accept()&lt;/code&gt; non viene più chiamato una sola volta, ma dentro un ciclo infinito: appena una connessione viene accettata e salvata in &lt;code&gt;connessioneClient&lt;/code&gt;, delegata a un thread separato, il ciclo torna immediatamente a chiamare &lt;code&gt;accept()&lt;/code&gt; e resta pronto ad accogliere il client successivo, senza dover aspettare che il precedente si disconnetta.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;avviaThread(connessioneClient)&lt;/code&gt;&lt;/strong&gt;: per ogni client accettato viene creato un nuovo &lt;code&gt;Thread&lt;/code&gt; dedicato che esegue &lt;code&gt;gestisciClient&lt;/code&gt;. Questo pattern si chiama comunemente &amp;quot;thread-per-connessione&amp;quot;: ogni connessione vive la sua vita indipendentemente dalle altre, su un thread proprio, permettendo al server di conversare in parallelo con più client contemporaneamente.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;code&gt;gestisciClient(Socket connessioneClient)&lt;/code&gt;&lt;/strong&gt;: contiene la stessa logica di echo vista nel server single-thread (leggi riga tramite &lt;code&gt;ingressoClient&lt;/code&gt;, rispondi con &amp;quot;Echo:&amp;quot; tramite &lt;code&gt;uscitaClient&lt;/code&gt;, ripeti), ma ora questa logica viene eseguita in isolamento su ogni thread, uno per client. &lt;code&gt;connessioneClient.getRemoteSocketAddress()&lt;/code&gt; viene salvato in &lt;code&gt;infoClient&lt;/code&gt; e usato nei log per identificare quale client ha inviato o ricevuto cosa, un dettaglio utile quando più client sono connessi simultaneamente.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Il blocco &lt;code&gt;finally&lt;/code&gt;&lt;/strong&gt;: garantisce che il messaggio di terminazione connessione venga loggato indipendentemente dal fatto che il ciclo sia terminato normalmente (client disconnesso senza errori) o a causa di un&#39;eccezione catturata nel &lt;code&gt;catch&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;alert alert-secondary&quot; role=&quot;alert&quot;&gt;
+  &lt;strong&gt;Suggerimento di buona pratica.&lt;/strong&gt; Nel blocco &lt;code&gt;catch&lt;/code&gt; di &lt;code&gt;gestisciClient&lt;/code&gt;, l&#39;errore di comunicazione viene registrato con &lt;code&gt;logger.info&lt;/code&gt;, mentre la normale terminazione della connessione nel blocco &lt;code&gt;finally&lt;/code&gt; usa &lt;code&gt;logger.error&lt;/code&gt;. I livelli sono invertiti rispetto alla convenzione: un errore dovrebbe essere loggato come &lt;code&gt;error&lt;/code&gt;, e una chiusura regolare della connessione come &lt;code&gt;info&lt;/code&gt;. Vale la pena rivedere questi due livelli prima di considerare il codice pronto per un ambiente diverso da quello didattico.
+&lt;/div&gt;
+&lt;h2 id=&quot;confronto-tra-le-due-architetture&quot;&gt;Confronto tra le due architetture&lt;/h2&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Aspetto&lt;/th&gt;
+        &lt;th&gt;Server single-thread&lt;/th&gt;
+        &lt;th&gt;Server multithread&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Client gestiti in parallelo&lt;/td&gt;
+        &lt;td&gt;Uno solo alla volta&lt;/td&gt;
+        &lt;td&gt;Più client contemporaneamente&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Complessità del codice&lt;/td&gt;
+        &lt;td&gt;Minima, adatta a scopi didattici&lt;/td&gt;
+        &lt;td&gt;Maggiore, richiede gestione della concorrenza&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Scalabilità&lt;/td&gt;
+        &lt;td&gt;Nulla oltre il singolo client&lt;/td&gt;
+        &lt;td&gt;Buona, limitata dal numero di thread creabili dal sistema&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Caso d&#39;uso tipico&lt;/td&gt;
+        &lt;td&gt;Test locali, apprendimento dei socket&lt;/td&gt;
+        &lt;td&gt;Servizi reali con più utenti connessi (chat, giochi multiplayer, protocolli custom)&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;come-tcp-distingue-le-connessioni-sulla-stessa-porta&quot;&gt;Come TCP distingue le connessioni sulla stessa porta&lt;/h2&gt;
+&lt;p&gt;Un dubbio comune, soprattutto per chi si avvicina per la prima volta a questi concetti, è capire come un server multithread possa ricevere più connessioni sulla stessa porta (&lt;code&gt;50000&lt;/code&gt; in questo esempio) senza che i messaggi dei diversi client si mescolino tra loro.&lt;/p&gt;
+&lt;p&gt;La risposta sta nel modo in cui TCP identifica una connessione: non basta la sola porta di destinazione, ma serve una combinazione di quattro valori, spesso chiamata tupla a quattro elementi (4-tuple).&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;IP sorgente (il client)&lt;/li&gt;
+&lt;li&gt;Porta sorgente (assegnata dinamicamente dal sistema operativo del client)&lt;/li&gt;
+&lt;li&gt;IP destinazione (il server)&lt;/li&gt;
+&lt;li&gt;Porta destinazione (&lt;code&gt;50000&lt;/code&gt;, la porta su cui &lt;code&gt;socketAscolto&lt;/code&gt; è in ascolto)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Ogni volta che un nuovo client si connette, il suo sistema operativo gli assegna automaticamente una porta sorgente diversa e temporanea. Il risultato è che, anche se tutti i client si collegano allo stesso IP e alla stessa porta del server, la combinazione dei quattro valori resta unica per ciascuna connessione. È proprio questa unicità che permette a &lt;code&gt;socketAscolto&lt;/code&gt; di restituire, ad ogni chiamata di &lt;code&gt;accept()&lt;/code&gt;, un &lt;code&gt;Socket&lt;/code&gt; distinto e indipendente per ciascun client, ognuno instradato correttamente dal sistema operativo verso il thread che lo sta gestendo.&lt;/p&gt;
+&lt;h2 id=&quot;oltre-il-thread-per-connessione&quot;&gt;Oltre il thread-per-connessione&lt;/h2&gt;
+&lt;p&gt;Il modello &amp;quot;un thread per client&amp;quot; utilizzato nel server multithread è un ottimo punto di partenza didattico, ma ha un limite pratico: ogni thread tradizionale in Java consuma memoria e risorse del sistema operativo, quindi con un numero molto alto di client connessi contemporaneamente le prestazioni possono degradare. Due direzioni comuni per evolvere questo modello in un contesto più vicino alla produzione sono:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;l&#39;uso di un pool di thread predefinito tramite &lt;code&gt;ExecutorService&lt;/code&gt;, che riutilizza un numero limitato di thread invece di crearne uno nuovo per ogni connessione;&lt;/li&gt;
+&lt;li&gt;l&#39;adozione dei thread virtuali introdotti in Java (Da verificare: numero di versione preciso), pensati proprio per rendere sostenibile il modello thread-per-connessione anche con un numero molto elevato di connessioni simultanee, senza dover riscrivere la logica in stile asincrono/reattivo.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Un esempio illustrativo (non presente nella bozza originale, valore della dimensione del pool puramente esemplificativo) potrebbe essere:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-java&quot;&gt;ExecutorService pool = Executors.newFixedThreadPool(10);
+pool.submit(() -&amp;gt; gestisciClient(connessioneClient));
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;come-testare-i-server&quot;&gt;Come testare i server&lt;/h2&gt;
+&lt;p&gt;Prima di scrivere un client Java completo, è possibile verificare rapidamente il comportamento di entrambi i server usando uno strumento a riga di comando presente sulla maggior parte dei sistemi operativi (Da verificare: comando introdotto ex novo, non presente nella bozza originale).&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;telnet 127.0.0.1 50000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In alternativa, dove &lt;code&gt;telnet&lt;/code&gt; non è disponibile, si può usare &lt;code&gt;nc&lt;/code&gt; (netcat) con la stessa sintassi di base (Da verificare: comando introdotto ex novo, non presente nella bozza originale).&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;nc 127.0.0.1 50000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Con il server single-thread avviato, la prima connessione funzionerà normalmente; una seconda connessione aperta in un&#39;altra finestra di terminale resterà invece in attesa. Ripetendo lo stesso test con il server multithread avviato, entrambe le connessioni riceveranno risposta in modo indipendente: è il modo più immediato per toccare con mano la differenza tra le due implementazioni viste in questo articolo.&lt;/p&gt;
+
+
+]]></content>
+    
+    
+    
+      
+      
+    <category term="java"/>
+      
+    
+      
+      
+    <category term="server"/>
+      
+    
+      
+      
+    <category term="client"/>
+      
+    
+      
+      
+    <category term="TCP"/>
+      
+    
+      
+      
+    <category term="IP"/>
+      
+    
+      
+      
+    <category term="multithreading"/>
+      
+    
+      
+      
+    <category term="reti"/>
+      
+    
+  </entry>
+  
+  <entry>
+    <title>Guida ai livelli RAID</title>
+    <link href="https://dino-996.github.io/blog/redundant-array-of-independent-disks/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/redundant-array-of-independent-disks/</id>
+    <published>2026-09-06T00:00:00.000Z</published>
+    <updated>2026-09-06T00:00:00.000Z</updated>
+    
+    <summary>Il RAID combina più unità di archiviazione per garantire ridondanza e migliorare le prestazioni. Questa guida analizza il funzionamento dei livelli principali, i rischi durante la fase di rebuild, la distinzione tra RAID hardware e software e le pratiche di monitoraggio indispensabili in ambiente di produzione.</summary>
+    
+    
+    <content type="html"><![CDATA[
+
+  &lt;h2 id=&quot;raid-redundant-array-of-independent-disks&quot;&gt;RAID: Redundant Array of Independent Disks&lt;/h2&gt;
+&lt;p&gt;Il RAID è una tecnologia che combina più unità di archiviazione fisiche, hard disk o SSD, in una o più unità logiche. È un concetto fondamentale per chiunque si occupi di infrastrutture, dai sistemisti Linux ai DevOps che gestiscono storage per database e macchine virtuali.&lt;/p&gt;
+&lt;p&gt;I due obiettivi principali di un array RAID sono:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Tolleranza ai guasti (ridondanza)&lt;/strong&gt;: mantenere disponibili i dati quando si guasta uno o più dischi, a seconda del livello RAID scelto.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Prestazioni&lt;/strong&gt;: in alcune configurazioni, aumentare la velocità di lettura e scrittura distribuendo il carico su più dischi.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Di seguito una panoramica completa delle configurazioni principali, dei relativi pro e contro e delle differenze architetturali, con alcuni approfondimenti pratici pensati per chi deve scegliere o gestire un array in produzione.&lt;/p&gt;
+&lt;h2 id=&quot;i-livelli-raid-principali&quot;&gt;I livelli RAID principali&lt;/h2&gt;
+&lt;h3 id=&quot;prima-di-scegliere-un-raid&quot;&gt;Prima di scegliere un RAID&lt;/h3&gt;
+&lt;p&gt;Quando si parla di RAID, è facile concentrarsi subito sul numero di dischi che possono rompersi prima di perdere i dati. Ed è comprensibile: leggere che un RAID 5 può perdere l&#39;intero array se si guasta un secondo disco può far sembrare questa configurazione una sorta di bomba a orologeria, soprattutto a chi si avvicina per la prima volta all&#39;argomento.&lt;/p&gt;
+&lt;p&gt;Ma c&#39;è un errore di fondo in questo ragionamento: &lt;strong&gt;rompere un disco non è come tagliare un foglio di carta a metà&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Un&#39;unità di archiviazione può presentare malfunzionamenti per molte ragioni, e non tutti i problemi si manifestano come una morte improvvisa e definitiva. Nel caso di un hard disk meccanico possono verificarsi guasti al motore, ai cuscinetti o al gruppo testine, danni alla superficie magnetica dei piatti, settori illeggibili, errori della scheda elettronica, oppure un degrado progressivo del supporto.&lt;/p&gt;
+&lt;p&gt;Anche le condizioni esterne possono contribuire a un guasto: &lt;strong&gt;temperature elevate, alimentazione instabile, sbalzi o interruzioni di corrente, vibrazioni, urti e sollecitazioni meccaniche&lt;/strong&gt; riducono l&#39;affidabilità dell&#39;unità e dell&#39;intero sistema.&lt;/p&gt;
+&lt;p&gt;Gli SSD non hanno parti meccaniche, ma non sono immuni dai guasti. Le celle di memoria flash hanno una resistenza limitata alle scritture, e controller, firmware, memoria NAND e componenti elettronici possono presentare difetti o malfunzionamenti. Anche in questo caso, un dispositivo può mostrare segnali di degrado, errori di lettura o scrittura, timeout, blocchi improvvisi, dati SMART anomali, prima di diventare completamente inutilizzabile.&lt;/p&gt;
+&lt;p&gt;È importante anche ricordare che i guasti non sono sempre indipendenti. Dischi acquistati insieme, installati nello stesso chassis ed esposti alle stesse temperature, vibrazioni o problemi di alimentazione possono condividere gli stessi fattori di rischio. Per questo la progettazione dello storage non si riduce al solo livello RAID: contano anche monitoraggio, qualità dell&#39;alimentazione, raffreddamento, dischi di ricambio, procedure di sostituzione e backup.&lt;/p&gt;
+&lt;p&gt;E qui arriviamo a un punto fondamentale: &lt;strong&gt;un disco guasto non fa necessariamente sparire istantaneamente l&#39;array&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;In un RAID 5, per esempio, la perdita del primo disco viene gestita proprio dalla ridondanza dell&#39;array. I dati continuano a essere accessibili, anche se l&#39;array opera in modalità degradata e può essere più lento; le informazioni mancanti vengono ricostruite dai dati presenti sugli altri dischi e dalle informazioni di parità.&lt;/p&gt;
+&lt;p&gt;Il vero problema nasce durante il &lt;em&gt;rebuild&lt;/em&gt;, cioè nella fase in cui l&#39;array ricostruisce sul disco sostitutivo i dati che erano contenuti nell&#39;unità guasta. È questa la finestra di vulnerabilità che rende importante valutare RAID 6, soprattutto con dischi molto capienti, array numerosi o carichi di lavoro che non possono essere sospesi.&lt;/p&gt;
+&lt;p&gt;Dire che durante questa fase esiste il rischio di un secondo guasto, però, &lt;strong&gt;non significa che un secondo disco sia destinato a rompersi&lt;/strong&gt;. Significa che, dopo il primo guasto, l&#39;array ha esaurito la propria ridondanza residua: un ulteriore guasto o un errore di lettura non recuperabile può avere conseguenze molto più gravi.&lt;/p&gt;
+&lt;p&gt;Per questo non ha senso stabilire a priori che &lt;strong&gt;RAID 6 sia sempre migliore di RAID 5&lt;/strong&gt;. RAID 6 offre maggiore tolleranza ai guasti, ma richiede l&#39;equivalente della capacità di due dischi per la parità e comporta un costo maggiore nelle scritture. La scelta dipende dal contesto: numero e capacità dei dischi, tipo di carico, prestazioni richieste, valore dei dati, tempi di ripristino accettabili e livello di rischio che si è disposti ad accettare.&lt;/p&gt;
+&lt;p&gt;C&#39;è infine una distinzione da tenere sempre presente: &lt;strong&gt;RAID non significa backup&lt;/strong&gt;. La ridondanza protegge principalmente dal guasto fisico di una o più unità, ma non protegge da cancellazioni accidentali, corruzione dei dati, ransomware, errori amministrativi o altri eventi che possono propagarsi all&#39;intero array.&lt;/p&gt;
+&lt;p&gt;Con queste premesse, vediamo come i diversi livelli RAID distribuiscono e proteggono i dati.&lt;/p&gt;
+&lt;h3 id=&quot;raid-0-striping&quot;&gt;Raid 0 (striping)&lt;/h3&gt;
+&lt;p&gt;Nel RAID 0 i dati vengono spezzati in blocchi e scritti in parallelo su tutti i dischi dell&#39;array, con un minimo di 2 dischi richiesti.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Efficienza spazio&lt;/strong&gt;: 100% della capacità complessiva dei dischi.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tolleranza ai guasti&lt;/strong&gt;: nulla. Se anche un solo disco si guasta, l&#39;intero volume diventa inutilizzabile e si perdono tutti i dati non disponibili altrove.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pro&lt;/strong&gt;: prestazioni di lettura e scrittura molto elevate, in particolare nei carichi sequenziali.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Contro&lt;/strong&gt;: rischio altissimo di perdita dati, perché ogni disco aggiunto aumenta il numero di possibili punti di guasto.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Uso tipico&lt;/strong&gt;: file temporanei, cache, dati rigenerabili, elaborazioni non critiche ed editing video con materiale già protetto da backup.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;raid-1-mirroring&quot;&gt;Raid 1 (mirroring)&lt;/h3&gt;
+&lt;p&gt;Nel RAID 1 i dati vengono duplicati identicamente su due o più dischi, con un minimo di 2 dischi richiesti.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Efficienza spazio&lt;/strong&gt;: con due dischi è del 50%; in generale, se tutte le copie fanno parte dello stesso mirror, lo spazio utile corrisponde alla capacità di un solo disco.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tolleranza ai guasti&lt;/strong&gt;: in un mirror composto da N dischi può resistere alla rottura di N-1 dischi, purché rimanga almeno una copia integra.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pro&lt;/strong&gt;: ottima protezione dal guasto di un disco e buone prestazioni in lettura, perché il sistema può leggere da più copie.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Contro&lt;/strong&gt;: costoso in termini di spazio utile; ogni scrittura deve essere completata su tutte le copie del mirror.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Uso tipico&lt;/strong&gt;: sistemi operativi, piccoli server critici, volumi applicativi e carichi in cui semplicità e tempi di rebuild rapidi sono prioritari.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;raid-5-striping-con-parita-distribuita&quot;&gt;Raid 5 (striping con parità distribuita)&lt;/h3&gt;
+&lt;p&gt;Nel RAID 5 i dati e le informazioni di parità, calcolate tramite l&#39;operazione logica XOR, vengono distribuiti su tutti i dischi dell&#39;array, con un minimo di 3 dischi richiesti.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Efficienza spazio&lt;/strong&gt;: &lt;code&gt;(N - 1) × capacità del disco più piccolo&lt;/code&gt;. Con 4 dischi da 1 TB, lo spazio utile è 3 TB, mentre l&#39;equivalente di 1 TB è destinato alla parità.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tolleranza ai guasti&lt;/strong&gt;: resiste al guasto di un solo disco. Dopo il guasto, i dati restano accessibili in modalità degradata e possono essere ricostruiti utilizzando parità e dischi superstiti.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pro&lt;/strong&gt;: buon compromesso tra costo, spazio disponibile e prestazioni di lettura.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Contro&lt;/strong&gt;: le scritture, soprattutto quelle piccole e casuali, risentono del calcolo e dell&#39;aggiornamento della parità, fenomeno noto come &lt;strong&gt;write penalty&lt;/strong&gt;. Durante il rebuild le prestazioni possono peggiorare sensibilmente e l&#39;array non dispone più di ridondanza: se si guasta un secondo disco prima del completamento della ricostruzione, l&#39;array non è recuperabile con le sole informazioni RAID.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Uso tipico&lt;/strong&gt;: file server, NAS aziendali, archivi con prevalenza di letture e carichi di lavoro che accettano il compromesso fra capacità, costo e ridondanza.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;alert alert-warning&quot; role=&quot;alert&quot;&gt;
+  &lt;strong&gt;Attenzione al rebuild su dischi di grande capacità.&lt;/strong&gt; Con dischi meccanici di taglia molto elevata, il tempo necessario al rebuild di un RAID 5 può estendersi per molte ore, o anche più a lungo in presenza di carico. Durante questa fase l&#39;array non ha alcuna ridondanza residua. Per questo motivo, su array con dischi di grandi dimensioni si preferisce spesso il RAID 6.
+&lt;/div&gt;
+&lt;h3 id=&quot;raid-6-striping-con-doppia-parita-distribuita&quot;&gt;Raid 6 (striping con doppia parità distribuita)&lt;/h3&gt;
+&lt;p&gt;Il RAID 6 funziona in modo simile al RAID 5, ma utilizza due informazioni di parità indipendenti, distribuite sui dischi dell&#39;array. Richiede un minimo di 4 dischi.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Efficienza spazio&lt;/strong&gt;: &lt;code&gt;(N - 2) × capacità del disco più piccolo&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tolleranza ai guasti&lt;/strong&gt;: resiste al guasto di due dischi, anche se avvengono in momenti diversi prima che il primo rebuild sia completato.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pro&lt;/strong&gt;: offre maggiore protezione negli array con molti dischi o unità di grande capacità, dove i tempi di rebuild sono più lunghi e la finestra di vulnerabilità di RAID 5 può essere rilevante.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Contro&lt;/strong&gt;: le scritture sono generalmente più onerose rispetto al RAID 5, perché devono essere gestite due informazioni di parità.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Uso tipico&lt;/strong&gt;: storage ad alta capacità, NAS e file server con dischi SATA o SAS molto capienti, soprattutto quando la disponibilità dei dati è più importante delle prestazioni di scrittura assolute.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;raid-10-o-raid-10-stripe-di-mirror&quot;&gt;Raid 10 (o raid 1+0, stripe di mirror)&lt;/h3&gt;
+&lt;p&gt;Il RAID 10 è una configurazione nidificata: crea più coppie in RAID 1, cioè mirror, e le unisce successivamente in RAID 0, cioè in striping. Richiede un minimo di 4 dischi e un numero pari di unità.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Efficienza spazio&lt;/strong&gt;: 50%.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Tolleranza ai guasti&lt;/strong&gt;: può resistere alla rottura di più dischi, purché non si guastino entrambi i dischi della stessa coppia mirror.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Pro&lt;/strong&gt;: prestazioni molto elevate sia in lettura sia in scrittura e rebuild spesso più rapido, perché la ricostruzione consiste principalmente nel copiare i dati dalla copia mirror integra, senza ricalcolare la parità.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Contro&lt;/strong&gt;: è costoso in termini di spazio disponibile, poiché metà della capacità totale è destinata alla replica.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Uso tipico&lt;/strong&gt;: database transazionali, macchine virtuali ad alte prestazioni, sistemi soggetti a molte operazioni di scrittura casuale.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;confronto-rapido-tra-i-livelli&quot;&gt;Confronto rapido tra i livelli&lt;/h3&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Livello&lt;/th&gt;
+        &lt;th&gt;Dischi minimi&lt;/th&gt;
+        &lt;th&gt;Spazio utile&lt;/th&gt;
+        &lt;th&gt;Tolleranza guasti&lt;/th&gt;
+        &lt;th&gt;Caso d&#39;uso tipico&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 0&lt;/td&gt;
+        &lt;td&gt;2&lt;/td&gt;
+        &lt;td&gt;100%&lt;/td&gt;
+        &lt;td&gt;Nessuna&lt;/td&gt;
+        &lt;td&gt;Cache, dati non critici&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 1&lt;/td&gt;
+        &lt;td&gt;2&lt;/td&gt;
+        &lt;td&gt;50% con due dischi&lt;/td&gt;
+        &lt;td&gt;N-1 dischi&lt;/td&gt;
+        &lt;td&gt;Sistemi operativi, piccoli server critici&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 5&lt;/td&gt;
+        &lt;td&gt;3&lt;/td&gt;
+        &lt;td&gt;(N-1)/N&lt;/td&gt;
+        &lt;td&gt;1 disco&lt;/td&gt;
+        &lt;td&gt;File server, NAS&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 6&lt;/td&gt;
+        &lt;td&gt;4&lt;/td&gt;
+        &lt;td&gt;(N-2)/N&lt;/td&gt;
+        &lt;td&gt;2 dischi&lt;/td&gt;
+        &lt;td&gt;Storage ad alta capacità&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;RAID 10&lt;/td&gt;
+        &lt;td&gt;4 (pari)&lt;/td&gt;
+        &lt;td&gt;50%&lt;/td&gt;
+        &lt;td&gt;Più dischi, se non nella stessa coppia mirror&lt;/td&gt;
+        &lt;td&gt;Database, VM ad alte prestazioni&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;livelli-nested-e-legacy&quot;&gt;Livelli nested e legacy&lt;/h2&gt;
+&lt;p&gt;Oltre ai livelli principali esistono configurazioni combinate o storiche, meno comuni ma ancora rilevanti in alcuni contesti enterprise.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;RAID 50 e RAID 60&lt;/strong&gt;: combinano uno stripe RAID 0 con più gruppi rispettivamente RAID 5 o RAID 6. RAID 50 richiede normalmente almeno due gruppi RAID 5, quindi almeno 6 dischi; RAID 60 richiede almeno due gruppi RAID 6, quindi almeno 8 dischi. Sono usati in grandi sistemi di storage per ottenere prestazioni, capacità e tolleranza ai guasti superiori a quelle di un singolo gruppo RAID 5 o RAID 6.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;JBOD (Just a Bunch Of Disks)&lt;/strong&gt;: non è un vero livello RAID. Il termine può indicare semplicemente dischi esposti singolarmente al sistema operativo oppure un volume lineare che concatena più dischi. Non offre ridondanza né un vantaggio prestazionale intrinseco. In un volume concatenato, il guasto di un disco può rendere inaccessibile una parte dei dati o compromettere l&#39;intero volume, a seconda dell&#39;implementazione e del filesystem.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;RAID 2, 3 e 4&lt;/strong&gt;: livelli storici ormai rari. RAID 3 e RAID 4 usavano dischi dedicati alla parità, creando potenziali colli di bottiglia; RAID 2 utilizzava codici di correzione degli errori e richiedeva una configurazione complessa, oggi superata dalle capacità di correzione degli errori integrate nelle unità moderne.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;hardware-software-e-fake-raid&quot;&gt;Hardware, software e fake RAID&lt;/h2&gt;
+&lt;h3 id=&quot;raid-hardware-dedicato&quot;&gt;Raid hardware dedicato&lt;/h3&gt;
+&lt;p&gt;Il RAID hardware utilizza un controller fisico, spesso installato su PCIe, dotato di processore, firmware e memoria cache propri. Nei modelli professionali, la cache può essere protetta da batteria, supercondensatore o memoria flash per ridurre il rischio di perdita dei dati in caso di blackout. Il sistema operativo vede normalmente uno o più volumi logici anziché i singoli dischi dell&#39;array.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Pro&lt;/strong&gt;: gestione centralizzata dell&#39;array, cache dedicata, funzioni avanzate di monitoraggio e recovery; il controller può gestire in proprio alcune operazioni di parità e scrittura.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Contro&lt;/strong&gt;: costo più elevato e possibile dipendenza dal controller. In caso di guasto, il recupero è generalmente più semplice con un modello compatibile, soprattutto della stessa famiglia; compatibilità e metadati devono essere verificati prima di qualsiasi sostituzione.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;raid-software&quot;&gt;Raid software&lt;/h3&gt;
+&lt;p&gt;Il RAID software è gestito dal sistema operativo, ad esempio tramite &lt;code&gt;mdadm&lt;/code&gt; su Linux o Storage Spaces su Windows.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Pro&lt;/strong&gt;: flessibile, spesso gratuito e meno vincolato a uno specifico controller. In molti casi i dischi possono essere spostati su un altro sistema compatibile e l&#39;array può essere riassemblato.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Contro&lt;/strong&gt;: utilizza risorse del sistema host e richiede una corretta progettazione di alimentazione, cache e protezione dalle interruzioni di corrente. Nei RAID con parità, una perdita di alimentazione durante una scrittura può causare incoerenze note come &lt;em&gt;write hole&lt;/em&gt;, se la soluzione adottata non dispone di adeguati meccanismi di protezione o journaling.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;alert alert-info&quot; role=&quot;alert&quot;&gt;
+  Su Linux, la creazione di un array software si effettua tipicamente tramite lo strumento &lt;code&gt;mdadm&lt;/code&gt;. La sintassi esatta del comando, i parametri e le opzioni dipendono dalla distribuzione e dalla versione dello strumento installata: verificane i dettagli nella documentazione ufficiale prima di applicarla in produzione.
+&lt;/div&gt;
+&lt;h3 id=&quot;fake-raid-hostraid&quot;&gt;Fake raid (hostraid)&lt;/h3&gt;
+&lt;p&gt;Il cosiddetto &lt;em&gt;fake RAID&lt;/em&gt;, spesso chiamato anche firmware RAID o HostRAID, è una funzionalità integrata in molte schede madri consumer. Può apparire come una soluzione hardware, ma gran parte del lavoro viene eseguito dal driver e dalla CPU del sistema operativo.&lt;/p&gt;
+&lt;p&gt;È spesso sconsigliato in ambito professionale perché combina alcuni limiti del RAID software, come la dipendenza dalle risorse dell&#39;host, con una maggiore dipendenza da firmware, driver e compatibilità della scheda madre. Prima di affidargli dati importanti è opportuno verificare attentamente procedure di recupero, documentazione e compatibilità con il sistema operativo utilizzato.&lt;/p&gt;
+&lt;h2 id=&quot;monitoraggio-e-manutenzione-dellarray&quot;&gt;Monitoraggio e manutenzione dell&#39;array&lt;/h2&gt;
+&lt;p&gt;Scegliere il livello RAID giusto è solo metà del lavoro: senza monitoraggio, un array può restare silenziosamente degradato per settimane prima che qualcuno se ne accorga, azzerando di fatto il margine di sicurezza che il RAID dovrebbe garantire.&lt;/p&gt;
+&lt;p&gt;Alcune pratiche operative di base, indipendenti dal livello scelto, aiutano a ridurre questo rischio:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Monitoraggio S.M.A.R.T.&lt;/strong&gt;: quasi tutti i dischi meccanici e gli SSD moderni espongono attributi S.M.A.R.T. che segnalano un degrado progressivo, come settori riallocati o errori di lettura, ben prima di un guasto completo. Integrare un controllo periodico di questi attributi permette di sostituire un disco prima che diventi un problema per l&#39;intero array.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Scrub periodico&lt;/strong&gt;: molte implementazioni RAID software e i controller hardware più recenti supportano una verifica periodica della coerenza dei dati e della parità, spesso chiamata &lt;em&gt;scrub&lt;/em&gt; o &lt;em&gt;patrol read&lt;/em&gt;. Eseguirla con regolarità aiuta a individuare errori latenti su blocchi raramente letti, prima che si sommino a un guasto reale durante un rebuild.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Dischi di scorta (hot spare)&lt;/strong&gt;: avere uno o più dischi di ricambio già inseriti nel sistema e pronti a entrare automaticamente in servizio riduce drasticamente il tempo tra il guasto e l&#39;inizio del rebuild, restringendo la finestra di vulnerabilità descritta in precedenza.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Notifiche automatiche&lt;/strong&gt;: un array degradato che nessuno nota non offre alcuna protezione pratica. Configurare l&#39;invio di notifiche, via email o verso un sistema di monitoraggio centralizzato, è essenziale per intervenire tempestivamente.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&quot;alert alert-info&quot; role=&quot;alert&quot;&gt;
+  &lt;strong&gt;Esempio indicativo (da verificare).&lt;/strong&gt; Su un sistema Linux con RAID software, lo stato di un array può essere controllato con un comando del tipo riportato di seguito. Sintassi, output e nome del demone di notifica variano a seconda della distribuzione e della versione di &lt;code&gt;mdadm&lt;/code&gt; installata: verificane i dettagli nella documentazione ufficiale prima di utilizzarlo in produzione.
+&lt;/div&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;mdadm --detail /dev/md0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;unalternativa-moderna&quot;&gt;Un&#39;alternativa moderna&lt;/h2&gt;
+&lt;p&gt;Accanto al RAID tradizionale si sono diffusi filesystem che integrano ridondanza e controllo dell&#39;integrità dei dati a un livello più profondo, come ZFS con i profili RAID-Z e Btrfs con i suoi profili RAID nativi.&lt;/p&gt;
+&lt;p&gt;Questi filesystem calcolano checksum sui dati e, quando è presente una copia ridondante valida, possono rilevare e talvolta correggere la corruzione silenziosa, il cosiddetto &lt;em&gt;bit rot&lt;/em&gt;. Il RAID tradizionale, da solo, non dispone normalmente di informazioni sufficienti per stabilire quale copia di un blocco silenziosamente corrotto sia quella corretta.&lt;/p&gt;
+&lt;p&gt;Questa caratteristica è particolarmente utile nei NAS e negli archivi a lungo termine. Anche qui, però, valgono le regole fondamentali: la ridondanza deve essere configurata correttamente, lo stato dei dischi va monitorato e i backup restano indispensabili.&lt;/p&gt;
+&lt;h2 id=&quot;la-regola-doro-della-sicurezza-informatica&quot;&gt;La regola d&#39;oro della sicurezza informatica&lt;/h2&gt;
+&lt;div class=&quot;alert alert-danger&quot; role=&quot;alert&quot;&gt;
+  &lt;strong&gt;Il RAID non è un backup.&lt;/strong&gt; Protegge dalla perdita di disponibilità causata dal guasto di uno o più dischi, secondo il livello RAID scelto; non protegge dalla perdita logica dei dati.
+&lt;/div&gt;
+&lt;p&gt;Se un file viene cancellato accidentalmente, se un malware cripta i dati tramite un attacco ransomware, se un bug corrompe il filesystem oppure se un amministratore esegue un&#39;operazione errata, il RAID può replicare o distribuire quell&#39;operazione su tutto l&#39;array. Il RAID opera infatti a livello di blocchi e non comprende il significato logico dei dati che sta scrivendo.&lt;/p&gt;
+&lt;p&gt;Il backup, al contrario, protegge dalla perdita logica dei dati perché conserva copie separate dal sistema primario, idealmente con versioning, controllo periodico del ripristino e almeno una copia isolata o fuori sede.&lt;/p&gt;
+&lt;p&gt;Una buona strategia segue il principio del &lt;strong&gt;backup 3-2-1&lt;/strong&gt;:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;almeno tre copie dei dati;&lt;/li&gt;
+&lt;li&gt;su almeno due supporti differenti;&lt;/li&gt;
+&lt;li&gt;con almeno una copia conservata fuori sede o comunque isolata dal sistema principale.&lt;/li&gt;
+&lt;/ul&gt;
+
+
+]]></content>
+    
+    
+    
+      
+      
+    <category term="RAID"/>
+      
+    
+      
+      
+    <category term="sysadmin"/>
+      
+    
+      
+      
+    <category term="storage"/>
+      
+    
+      
+      
+    <category term="linux"/>
+      
+    
+      
+      
+    <category term="hardware"/>
+      
+    
+  </entry>
+  
+  <entry>
+    <title>Guida ai comandi Linux per la diagnostica di sistema, rete e hardware</title>
+    <link href="https://dino-996.github.io/blog/guida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware/" rel="alternate" type="text/html"/>
+    <id>https://dino-996.github.io/blog/guida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware/</id>
+    <published>2026-09-05T00:00:00.000Z</published>
+    <updated>2026-09-05T00:00:00.000Z</updated>
+    
+    <summary>Una panoramica pratica dei principali comandi da terminale per il debug e il monitoraggio dei sistemi Linux e macOS: dall&#39;analisi dello spazio su disco al controllo di memoria, risorse e traffico di rete.</summary>
+    
+    
+    <content type="html"><![CDATA[
+
+  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
+&lt;p&gt;Questa guida raccoglie i comandi da riga di comando più utili per la quasi totalità delle esigenze diagnostiche quotidiane su un sistema Linux, dal debug di un server in produzione alla semplice curiosità sulla propria macchina di sviluppo, organizzati per area tematica, con una breve spiegazione del funzionamento di ciascuno e, dove utile, dell&#39;alternativa moderna a strumenti ormai superati.&lt;/p&gt;
+&lt;h3 id=&quot;compatibilita-con-macos&quot;&gt;Compatibilità con macOS&lt;/h3&gt;
+&lt;p&gt;Buona parte di questa guida è pensata per Linux, ma vale la pena ricordare che macOS è a sua volta un sistema basato su UNIX (nello specifico deriva da BSD), per cui diversi comandi elencati funzionano invariati anche su un Mac aperto dal Terminale. Rientrano in questo gruppo &lt;code&gt;df -h&lt;/code&gt;, &lt;code&gt;du -sh&lt;/code&gt;, &lt;code&gt;uname -a&lt;/code&gt;, &lt;code&gt;uptime&lt;/code&gt;, &lt;code&gt;ping -c 4&lt;/code&gt;, &lt;code&gt;traceroute&lt;/code&gt;, &lt;code&gt;dig&lt;/code&gt; e &lt;code&gt;curl&lt;/code&gt;, oltre a strumenti installabili via Homebrew come &lt;code&gt;ncdu&lt;/code&gt;, &lt;code&gt;htop&lt;/code&gt;, &lt;code&gt;btop&lt;/code&gt; e &lt;code&gt;fastfetch&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Altri comandi della guida sono invece specifici del mondo Linux e non hanno un corrispettivo diretto su macOS, perché si appoggiano a sottosistemi che semplicemente non esistono fuori dal kernel Linux, come il filesystem virtuale &lt;code&gt;/proc&lt;/code&gt; (da cui dipendono &lt;code&gt;/proc/meminfo&lt;/code&gt;, &lt;code&gt;/proc/cpuinfo&lt;/code&gt;), lo stack &lt;code&gt;iproute2&lt;/code&gt; (&lt;code&gt;ip a&lt;/code&gt;, &lt;code&gt;ip r&lt;/code&gt;, &lt;code&gt;ss&lt;/code&gt;), systemd (&lt;code&gt;hostnamectl&lt;/code&gt;) o il pacchetto &lt;code&gt;lm-sensors&lt;/code&gt; (&lt;code&gt;sensors&lt;/code&gt;). Anche &lt;code&gt;lsblk&lt;/code&gt;, &lt;code&gt;lscpu&lt;/code&gt; e &lt;code&gt;lshw&lt;/code&gt; sono strumenti legati al mondo Linux, così come &lt;code&gt;lspci&lt;/code&gt;, non presente nativamente su macOS.&lt;/p&gt;
+&lt;div class=&quot;alert alert-warning&quot; role=&quot;alert&quot;&gt;
+&lt;strong&gt;Da verificare:&lt;/strong&gt; per chi lavora su macOS, gli equivalenti approssimativi di alcuni dei comandi Linux-only citati sopra sono &lt;code&gt;diskutil list&lt;/code&gt; al posto di &lt;code&gt;lsblk&lt;/code&gt;, &lt;code&gt;vm_stat&lt;/code&gt; al posto di &lt;code&gt;free -h&lt;/code&gt;, &lt;code&gt;system_profiler SPHardwareDataType&lt;/code&gt; al posto di &lt;code&gt;lscpu&lt;/code&gt;/&lt;code&gt;lshw&lt;/code&gt;, &lt;code&gt;system_profiler SPDisplaysDataType&lt;/code&gt; al posto di &lt;code&gt;lspci | grep -i vga&lt;/code&gt;, e &lt;code&gt;ifconfig&lt;/code&gt; / &lt;code&gt;netstat -rn&lt;/code&gt; al posto di &lt;code&gt;ip a&lt;/code&gt; / &lt;code&gt;ip r&lt;/code&gt;. Questi comandi sono stati introdotti in questa revisione e non erano presenti nella bozza originale: sintassi e output vanno verificati sulla versione di macOS effettivamente in uso prima di pubblicarli come riferimento.
+&lt;/div&gt;
+&lt;h2 id=&quot;disco-e-filesystem-spazio-e-partizioni&quot;&gt;Disco e filesystem, spazio e partizioni&lt;/h2&gt;
+&lt;p&gt;Per avere una panoramica immediata dello spazio libero e occupato su tutti i filesystem montati si usa il comando seguente, dove il flag &lt;code&gt;-h&lt;/code&gt; (human-readable) converte i valori grezzi in blocchi in un formato leggibile espresso in GB o MB.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;df -h
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Quando invece serve capire quanto spazio occupa nello specifico una cartella e le sue sottocartelle, il comando di riferimento è &lt;code&gt;du&lt;/code&gt;, dove &lt;code&gt;-s&lt;/code&gt; produce un riassunto totale invece del dettaglio ricorsivo file per file e &lt;code&gt;-h&lt;/code&gt; rende l&#39;output leggibile.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;du -sh /percorso/della/cartella
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per elencare tutti i dispositivi di archiviazione collegati (dischi, partizioni, chiavette USB) e i rispettivi punti di montaggio si utilizza &lt;code&gt;lsblk&lt;/code&gt;, che con il flag &lt;code&gt;-f&lt;/code&gt; mostra anche il tipo di filesystem e l&#39;UUID di ciascuna partizione.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;lsblk -f
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per la tabella delle partizioni completa di tutti i dischi, comprensiva di schema (MBR o GPT) e dimensioni esatte dei settori, serve invece &lt;code&gt;fdisk&lt;/code&gt; in modalità di sola lettura elenco, che richiede i privilegi di amministratore.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo fdisk -l
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Infine, per chi deve esplorare interattivamente cosa occupa spazio su disco senza scorrere output statici, &lt;code&gt;ncdu&lt;/code&gt; è uno strumento a interfaccia testuale molto pratico: se non è già presente si installa con il gestore pacchetti della distribuzione.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo apt install ncdu
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;alert alert-warning&quot; role=&quot;alert&quot;&gt;
+&lt;strong&gt;Da verificare:&lt;/strong&gt; per una diagnosi ancora più approfondita sulla salute fisica di un disco (non solo sullo spazio occupato), può essere utile &lt;code&gt;smartctl -a /dev/sda&lt;/code&gt; dal pacchetto &lt;code&gt;smartmontools&lt;/code&gt;, comando introdotto in questa revisione e non presente nella bozza originale: va verificato il nome esatto del dispositivo sulla macchina target prima dell&#39;uso.
+&lt;/div&gt;
+&lt;h2 id=&quot;memoria-ram-e-swap&quot;&gt;Memoria RAM e swap&lt;/h2&gt;
+&lt;p&gt;Lo strumento più immediato per controllare memoria RAM e swap libere, utilizzate e totali è &lt;code&gt;free&lt;/code&gt;, dove &lt;code&gt;-h&lt;/code&gt; formatta automaticamente i valori in KB, MB o GB a seconda della loro grandezza.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;free -h
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Se serve un monitoraggio continuo, &lt;code&gt;watch&lt;/code&gt; permette di rieseguire un comando a intervalli regolari, in questo caso ogni secondo, così da osservare in tempo reale l&#39;andamento della memoria.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;watch -n 1 free -h
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per chi ha bisogno del dettaglio più granulare possibile, direttamente dai contatori del kernel, la fonte primaria è il file virtuale seguente.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;cat /proc/meminfo
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;alert alert-warning&quot; role=&quot;alert&quot;&gt;
+&lt;strong&gt;Da verificare:&lt;/strong&gt; per correlare l&#39;uso di memoria con CPU e attività di I/O in un&#39;unica vista temporale, uno strumento complementare utile è &lt;code&gt;vmstat 1&lt;/code&gt; (dal pacchetto &lt;code&gt;procps&lt;/code&gt;, generalmente già preinstallato): comando introdotto in questa revisione, da testare sull&#39;ambiente specifico.
+&lt;/div&gt;
+&lt;h2 id=&quot;cpu-e-processore&quot;&gt;CPU e processore&lt;/h2&gt;
+&lt;p&gt;Per visualizzare architettura della CPU, modello, numero di core fisici, thread logici e livelli di cache, il comando più sintetico è &lt;code&gt;lscpu&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;lscpu
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Chi ha bisogno delle informazioni dettagliate per ogni singolo core, comprese le frequenze correnti, può leggerle direttamente dal kernel.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;cat /proc/cpuinfo
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per il monitoraggio in tempo reale di processi e utilizzo di CPU e RAM, il comando storico è &lt;code&gt;top&lt;/code&gt;; sui sistemi moderni conviene però preferire alternative più leggibili e interattive come &lt;code&gt;htop&lt;/code&gt; o &lt;code&gt;btop&lt;/code&gt;, se disponibili.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;top
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;alert alert-info&quot; role=&quot;alert&quot;&gt;
+Nota editoriale: &lt;code&gt;htop&lt;/code&gt; e &lt;code&gt;btop&lt;/code&gt;, già citati nella bozza originale come alternative moderne a &lt;code&gt;top&lt;/code&gt;, restano scelte solide per chi lavora quotidianamente da terminale, grazie a interfaccia a colori, ordinamento interattivo dei processi e gestione diretta dei segnali (kill, nice) senza uscire dal programma.
+&lt;/div&gt;
+&lt;h2 id=&quot;scheda-video-gpu-e-hardware-generale&quot;&gt;Scheda video (GPU) e hardware generale&lt;/h2&gt;
+&lt;p&gt;Per identificare il modello esatto della scheda video installata (NVIDIA, AMD o Intel) si interroga il bus PCI filtrando per la classe video.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;lspci | grep -i vga
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Su sistemi con GPU dedicata secondaria, in configurazioni ibride o server con acceleratori grafici, la classe da cercare può invece essere quella 3D.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;lspci | grep -i 3d
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per informazioni più dettagliate sul controller grafico e sul driver effettivamente in uso, &lt;code&gt;lshw&lt;/code&gt; filtrato sulla classe display offre un output più ricco, sempre con privilegi elevati.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo lshw -C display
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Chi lavora con schede NVIDIA dispone di uno strumento dedicato che mostra temperatura, memoria video occupata e processi attivi sulla GPU in tempo reale.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;nvidia-smi
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per un inventario hardware completo dell&#39;intera macchina, in forma sintetica, si usa &lt;code&gt;lshw&lt;/code&gt; con il flag di riassunto.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sudo lshw -short
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;informazioni-di-sistema-kernel-e-dispositivo&quot;&gt;Informazioni di sistema, kernel e dispositivo&lt;/h2&gt;
+&lt;p&gt;Per un quadro d&#39;insieme che comprende nome host, versione del kernel, distribuzione e architettura, &lt;code&gt;hostnamectl&lt;/code&gt; è oggi lo strumento di riferimento sulle distribuzioni basate su systemd.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;hostnamectl
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Se serve solo la versione esatta del kernel Linux in esecuzione, il comando dedicato è più mirato.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;uname -r
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per tutte le informazioni di sistema di base condensate in un&#39;unica riga, si aggiunge il flag &lt;code&gt;-a&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;uname -a
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I dettagli sulla distribuzione, nome, versione e identificativo, si leggono da un file standard presente su praticamente tutte le distribuzioni moderne.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;cat /etc/os-release
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per sapere da quanto tempo il sistema è acceso, quanti utenti sono collegati e qual è il carico medio (load average) su 1, 5 e 15 minuti, si usa &lt;code&gt;uptime&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;uptime
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per chi desidera anche un colpo d&#39;occhio estetico, con il logo della distribuzione in ASCII art accanto ai dati hardware, &lt;code&gt;neofetch&lt;/code&gt; è stato per anni lo strumento più diffuso. Il progetto originale non riceve più sviluppo attivo, per cui oggi conviene orientarsi su &lt;code&gt;fastfetch&lt;/code&gt;, il fork mantenuto attivamente e generalmente più veloce, già indicato come alternativa nella bozza originale.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;fastfetch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;rete-interfacce-e-connessioni&quot;&gt;Rete, interfacce e connessioni&lt;/h2&gt;
+&lt;p&gt;Per elencare tutte le interfacce di rete, fisiche e virtuali, con i relativi indirizzi MAC e IP, lo strumento moderno è &lt;code&gt;ip&lt;/code&gt;, che ha sostituito il deprecato &lt;code&gt;ifconfig&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;ip a
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per la tabella di routing, utile a capire quale sia il gateway predefinito della macchina, si usa il sottocomando dedicato.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;ip r
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per verificare quali porte sono in ascolto e a quale processo appartengono, &lt;code&gt;ss&lt;/code&gt; ha sostituito il vecchio &lt;code&gt;netstat&lt;/code&gt;; i flag &lt;code&gt;-tulpn&lt;/code&gt; combinano socket TCP e UDP, mostrano solo quelli in ascolto (listening) e includono il nome del processo.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;ss -tulpn
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per scoprire il proprio indirizzo IP pubblico interrogando un servizio esterno, &lt;code&gt;curl&lt;/code&gt; verso un endpoint dedicato restituisce direttamente il valore.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;curl ifconfig.me
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per informazioni geografiche e di provider più complete sullo stesso indirizzo pubblico, esiste un servizio equivalente più ricco.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;curl ipinfo.io
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per verificare la raggiungibilità di un host e misurarne la latenza, limitando l&#39;invio a un numero contenuto di pacchetti per non generare traffico inutile, si usa &lt;code&gt;ping&lt;/code&gt; con il flag &lt;code&gt;-c&lt;/code&gt;.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;ping -c 4 1.1.1.1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per visualizzare il percorso seguito dai pacchetti verso un server, utile in fase di diagnosi di problemi di instradamento, il comando classico è &lt;code&gt;traceroute&lt;/code&gt;; l&#39;alternativa interattiva &lt;code&gt;mtr&lt;/code&gt; combina traceroute e ping in un&#39;unica vista aggiornata in tempo reale.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;traceroute google.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Per interrogare direttamente i server DNS e risolvere un dominio nel relativo indirizzo IP, gli strumenti di riferimento sono &lt;code&gt;dig&lt;/code&gt;, più verboso e dettagliato, e &lt;code&gt;nslookup&lt;/code&gt;, più sintetico.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;dig google.com
+&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;alert alert-warning&quot; role=&quot;alert&quot;&gt;
+&lt;strong&gt;Da verificare:&lt;/strong&gt; per monitorare il traffico di rete in tempo reale per processo o interfaccia, strumenti come &lt;code&gt;iftop&lt;/code&gt; o &lt;code&gt;nload&lt;/code&gt; (da installare separatamente) sono un&#39;aggiunta pratica rispetto ai soli comandi di configurazione: introdotti in questa revisione, non presenti nella bozza originale.
+&lt;/div&gt;
+&lt;h2 id=&quot;temperature-e-sensori&quot;&gt;Temperature e sensori&lt;/h2&gt;
+&lt;p&gt;Per leggere le temperature della CPU e degli altri componenti hardware supportati, il comando &lt;code&gt;sensors&lt;/code&gt; è lo standard de facto sulle distribuzioni Linux, e richiede il pacchetto &lt;code&gt;lm-sensors&lt;/code&gt; installato e configurato tramite &lt;code&gt;sensors-detect&lt;/code&gt; al primo utilizzo.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;sensors
+&lt;/code&gt;&lt;/pre&gt;
+&lt;h2 id=&quot;tabella-riassuntiva-dei-comandi&quot;&gt;Tabella riassuntiva dei comandi&lt;/h2&gt;
+&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt;
+  &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt;
+    &lt;thead class=&quot;table-dark&quot;&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Area&lt;/th&gt;
+        &lt;th&gt;Comando principale&lt;/th&gt;
+        &lt;th&gt;Scopo&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Disco&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;df -h&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Spazio libero e occupato sui filesystem montati&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Disco&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;du -sh&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Spazio occupato da una cartella specifica&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Memoria&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;free -h&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;RAM e swap libere, usate e totali&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;CPU&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;lscpu&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Architettura, core, thread e cache&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;GPU&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;lspci | grep -i vga&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Identificazione della scheda video&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Sistema&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;hostnamectl&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Hostname, kernel, distribuzione, architettura&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Rete&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;ip a&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Interfacce di rete e indirizzi IP/MAC&lt;/td&gt;
+      &lt;/tr&gt;
+      &lt;tr&gt;
+        &lt;td class=&quot;fw-semibold&quot;&gt;Temperature&lt;/td&gt;
+        &lt;td&gt;&lt;code&gt;sensors&lt;/code&gt;&lt;/td&gt;
+        &lt;td&gt;Temperature CPU e componenti hardware&lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+
+]]></content>
+    
+    
+    
+      
+      
+    <category term="linux"/>
+      
+    
+      
+      
+    <category term="sysadmin"/>
+      
+    
+      
+      
+    <category term="terminale"/>
+      
+    
+      
+      
+    <category term="networking"/>
+      
+    
+      
+      
+    <category term="cli"/>
+      
+    
+  </entry>
   
   <entry>
     <title>Lo stack in Assembly x86_64</title>
@@ -2753,583 +3571,6 @@ df1.update(df2)
       
       
     <category term="analisi dei dati"/>
-      
-    
-  </entry>
-  
-  <entry>
-    <title>AI ACT: Novità e Scadenze</title>
-    <link href="https://dino-996.github.io/blog/ai-act-cosa-cambia-il-due-agosto/" rel="alternate" type="text/html"/>
-    <id>https://dino-996.github.io/blog/ai-act-cosa-cambia-il-due-agosto/</id>
-    <published>2026-07-30T00:00:00.000Z</published>
-    <updated>2026-07-30T00:00:00.000Z</updated>
-    
-    <summary>Scopri come il Digital Omnibus ha ridefinito le scadenze dell&#39;EU AI Act. Cosa cambia davvero entro il 2 agosto 2026 tra obblighi di trasparenza e rinvii per l&#39;alto rischio.</summary>
-    
-    
-    <content type="html"><![CDATA[
-
-  &lt;h2 id=&quot;ai-act-e-la-scadenza-del-2-agosto-2026-cosa-cambia-davvero-per-le-aziende&quot;&gt;Ai act e la scadenza del 2 agosto 2026: cosa cambia davvero per le aziende&lt;/h2&gt;
-&lt;p&gt;Il 2 agosto 2026 resta una data cerchiata in rosso nei piani di compliance di molte aziende europee. Ma rispetto a quanto pianificato fino a poche settimane fa, il quadro normativo è cambiato in modo sostanziale: un pacchetto di modifiche noto come Digital Omnibus sull&#39;IA ha ridisegnato il calendario degli obblighi più gravosi del Regolamento (UE) 2024/1689, l&#39;EU AI Act. Chi ha impostato la propria roadmap sulla vecchia scadenza rischia ora di lavorare sulle priorità sbagliate.&lt;/p&gt;
-&lt;p&gt;Questo articolo aggiorna la guida operativa alla luce dell&#39;esito definitivo del processo legislativo: cosa è realmente dovuto il 2 agosto 2026, cosa è stato rinviato, e quali azioni concrete un&#39;azienda deve completare nelle prossime settimane.&lt;/p&gt;
-&lt;h3 id=&quot;il-percorso-normativo-fino-ad-oggi&quot;&gt;Il percorso normativo fino ad oggi&lt;/h3&gt;
-&lt;p&gt;L&#39;AI Act adotta un approccio basato sul rischio, con obblighi che si attivano a scaglioni. Il regolamento è entrato in vigore nell&#39;agosto 2024. Da allora si sono susseguite tre tappe: il divieto delle pratiche a rischio inaccettabile e l&#39;obbligo di alfabetizzazione all&#39;IA (AI Literacy) dal 2 febbraio 2025; gli obblighi per i fornitori di modelli di IA per scopi generali (GPAI) e l&#39;avvio della vigilanza da parte delle autorità nazionali ed europee dal 2 agosto 2025; e ora, dal 2 agosto 2026, un pacchetto misto che riguarda solo in parte i sistemi ad alto rischio.&lt;/p&gt;
-&lt;h3 id=&quot;la-svolta-del-digital-omnibus-sullia&quot;&gt;La svolta del Digital Omnibus sull&#39;IA&lt;/h3&gt;
-&lt;p&gt;Nel novembre 2025 la Commissione europea ha proposto un pacchetto di semplificazione, motivato dal ritardo nella pubblicazione degli standard tecnici armonizzati necessari per le valutazioni di conformità dei sistemi ad alto rischio. Dopo mesi di negoziato tra Parlamento e Consiglio, l&#39;accordo politico raggiunto il 7 maggio 2026 è stato formalmente approvato: il Parlamento europeo lo ha votato il 16 giugno 2026 e il Consiglio ha dato il via libera definitivo il 29 giugno 2026. Il testo, pubblicato in Gazzetta Ufficiale dell&#39;Unione Europea come Regolamento (UE) 2026/1744, è entrato in vigore il 27 luglio 2026: non è più una proposta, ma diritto vigente.&lt;/p&gt;
-&lt;p&gt;Il risultato pratico è il seguente:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Gli obblighi per i sistemi ad alto rischio standalone dell&#39;Allegato III (screening dei CV, credit scoring, valutazione assicurativa, biometria) sono rinviati dal 2 agosto 2026 al &lt;strong&gt;2 dicembre 2027&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Gli obblighi per l&#39;IA integrata come componente di sicurezza in prodotti regolamentati dall&#39;Allegato I (dispositivi medici, macchinari, giocattoli) slittano dal 2 agosto 2027 al &lt;strong&gt;2 agosto 2028&lt;/strong&gt;.&lt;/li&gt;
-&lt;li&gt;Viene introdotta una nuova categoria di impresa, la &amp;quot;small mid-cap&amp;quot; (fino a 750 dipendenti e 150 milioni di euro di fatturato, o 129 milioni di bilancio), che beneficia di documentazione tecnica semplificata, requisiti di gestione della qualità più proporzionati e criteri di calcolo delle sanzioni adattati alla dimensione aziendale.&lt;/li&gt;
-&lt;li&gt;Viene aggiunto un nuovo divieto assoluto all&#39;Articolo 5, applicabile dal &lt;strong&gt;2 dicembre 2026&lt;/strong&gt;: la generazione tramite IA di immagini intime non consensuali (&amp;quot;nudifier&amp;quot;) e di materiale di abuso sessuale su minori, sanzionabile fino a 35 milioni di euro o il 7% del fatturato globale.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Questo rinvio riguarda esclusivamente il perimetro dell&#39;alto rischio. Non tocca né i divieti già in vigore dal febbraio 2025, né gli obblighi sui modelli GPAI in vigore dal 2025, né,  punto spesso frainteso, gli obblighi di trasparenza dell&#39;Articolo 50.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Cosa NON è cambiato con il Digital Omnibus&lt;/strong&gt;&lt;br&gt;
-Gli obblighi di trasparenza dell&#39;Articolo 50 restano fermi al 2 agosto 2026: disclosure dell&#39;interazione con un chatbot, etichettatura dei deepfake, segnalazione dei testi generati su temi di interesse pubblico. Il rinvio riguarda solo il regime dell&#39;alto rischio (Allegato III e I) e, in misura limitata, la sola marcatura tecnica dei contenuti generativi (Articolo 50(2)).Gli obblighi di trasparenza dell&#39;Articolo 50 restano fermi al 2 agosto 2026: disclosure dell&#39;interazione con un chatbot, etichettatura dei deepfake, segnalazione dei testi generati su temi di interesse pubblico. Il rinvio riguarda solo il regime dell&#39;alto rischio (Allegato III e I) e, in misura limitata, la sola marcatura tecnica dei contenuti generativi (Articolo 50(2)).&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;cosa-scatta-comunque-il-2-agosto-2026&quot;&gt;Cosa scatta comunque il 2 agosto 2026&lt;/h3&gt;
-&lt;p&gt;Per la maggior parte delle aziende, il vero adempimento imminente non è più l&#39;alto rischio, ma la trasparenza prevista dall&#39;Articolo 50, che si applica indipendentemente dalla classificazione di rischio del sistema:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Disclosure dell&#39;interazione con l&#39;IA (Articolo 50, paragrafo 1):&lt;/strong&gt; chi fornisce chatbot, assistenti vocali o agenti conversazionali deve informare l&#39;utente, entro la prima interazione, che sta comunicando con un sistema di IA, salvo il caso in cui ciò sia già ovvio per una persona ragionevolmente informata.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Etichettatura dei contenuti sintetici e dei deepfake:&lt;/strong&gt; i contenuti che simulano persone o eventi reali devono riportare un chiaro avviso di alterazione artificiale.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Segnalazione dei testi di interesse pubblico generati dall&#39;IA&lt;/strong&gt;, con l&#39;eccezione dei testi rivisti editorialmente da una persona che se ne assume la responsabilità.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Marcatura leggibile dalla macchina dei contenuti generativi (Articolo 50, paragrafo 2):&lt;/strong&gt; per i sistemi già sul mercato prima del 2 agosto 2026 è concesso un periodo transitorio fino al 2 dicembre 2026 per implementare le soluzioni tecniche di marcatura; i sistemi immessi sul mercato successivamente devono essere conformi da subito.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;la-distinzione-tra-provider-e-deployer-resta-centrale&quot;&gt;La distinzione tra Provider e Deployer resta centrale&lt;/h3&gt;
-&lt;p&gt;Anche nel nuovo scenario, la legge distingue nettamente due ruoli:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Provider (fornitore):&lt;/strong&gt; chi sviluppa o modifica sostanzialmente un sistema di IA. Deve implementare un sistema di gestione dei rischi e della qualità, redigere la documentazione tecnica, effettuare la valutazione di conformità e registrare il sistema nel database ufficiale dell&#39;UE.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Deployer (utilizzatore):&lt;/strong&gt; l&#39;azienda cliente che impiega il sistema nei propri processi. Deve garantire un&#39;adeguata sorveglianza umana, monitorare il funzionamento del sistema, conservare i log generati automaticamente e, ove applicabile, condurre una valutazione d&#39;impatto sui diritti fondamentali (FRIA).&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Per i sistemi ad alto rischio questi obblighi restano validi nella sostanza, ma la scadenza operativa slitta al 2 dicembre 2027 (Allegato III) o al 2 agosto 2028 (Allegato I).&lt;/p&gt;
-&lt;h3 id=&quot;il-quadro-sanzionatorio-articolo-99&quot;&gt;Il quadro sanzionatorio (Articolo 99)&lt;/h3&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Tipo di violazione&lt;/th&gt; &lt;th&gt;Sanzione massima&lt;/th&gt; &lt;th&gt;Esempi&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Pratiche vietate (Art. 5)&lt;/td&gt; &lt;td&gt;35 milioni di euro o 7% del fatturato globale&lt;/td&gt; &lt;td&gt;Social scoring, manipolazione subliminale, riconoscimento emotivo sul lavoro, nudifier e CSAM generati da IA&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Violazione obblighi alto rischio o trasparenza (Art. 50)&lt;/td&gt; &lt;td&gt;15 milioni di euro o 3% del fatturato globale&lt;/td&gt; &lt;td&gt;Mancata sorveglianza umana, mancata disclosure del chatbot, assenza di etichettatura dei deepfake&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Informazioni scorrette alle autorità&lt;/td&gt; &lt;td&gt;7,5 milioni di euro o 1% del fatturato globale&lt;/td&gt; &lt;td&gt;Documentazione incompleta o fuorviante fornita agli organismi di vigilanza&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
-&lt;h3 id=&quot;un-esempio-implementativo-la-disclosure-di-un-chatbot&quot;&gt;Un esempio implementativo: la disclosure di un chatbot&lt;/h3&gt;
-&lt;p&gt;Per gli sviluppatori chiamati a implementare concretamente l&#39;obbligo dell&#39;Articolo 50(1), il punto critico non è solo mostrare l&#39;avviso, ma mostrarlo nell&#39;interfaccia stessa, all&#39;inizio dell&#39;interazione, una nota in fondo alla privacy policy non è sufficiente. Un esempio minimale:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-html&quot;&gt;&amp;lt;div id=&amp;quot;ai-disclosure-banner&amp;quot; role=&amp;quot;status&amp;quot; aria-live=&amp;quot;polite&amp;quot;&amp;gt;
-  &amp;lt;p&amp;gt;Stai conversando con un assistente basato su intelligenza artificiale, 
-       non con un operatore umano.&amp;lt;/p&amp;gt;
-&amp;lt;/div&amp;gt;
-&amp;lt;script&amp;gt;
-  function showAiDisclosure() {
-    const banner = document.getElementById(&#39;ai-disclosure-banner&#39;);
-    banner.classList.add(&#39;visible&#39;);
-    sessionStorage.setItem(&#39;aiDisclosureShown&#39;, &#39;true&#39;);
-  }
-  document.addEventListener(&#39;DOMContentLoaded&#39;, () =&amp;gt; {
-    if (!sessionStorage.getItem(&#39;aiDisclosureShown&#39;)) {
-      showAiDisclosure();
-    }
-  });
-&amp;lt;/script&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Il banner va mostrato prima del primo messaggio scambiato con l&#39;utente, non dopo, e non deve essere rimovibile senza che l&#39;utente ne prenda visione.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;roadmap-di-compliance-aggiornata-in-6-passaggi&quot;&gt;Roadmap di compliance aggiornata in 6 passaggi&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;strong&gt;AI inventory e mappatura del rischio:&lt;/strong&gt; censire tutti gli strumenti di IA in uso, inclusi plugin SaaS, e classificarli secondo le quattro categorie di rischio, ricalibrando la mappatura sulle nuove scadenze.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Priorità immediata sulla trasparenza:&lt;/strong&gt; verificare entro il 2 agosto 2026 che chatbot, assistenti vocali e strumenti di generazione contenuti rispettino gli obblighi dell&#39;Articolo 50, indipendentemente dalla classificazione di rischio.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Ricalibrazione del programma alto rischio:&lt;/strong&gt; non sospendere il lavoro sui sistemi dell&#39;Allegato III, ma ripianificarlo sulla nuova scadenza del 2 dicembre 2027, usando il tempo recuperato per una valutazione di conformità più solida.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Verifica della categoria small mid-cap:&lt;/strong&gt; le aziende tra 250 e 750 dipendenti devono verificare se rientrano nella nuova categoria agevolata, per beneficiare di documentazione tecnica semplificata.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Vendor governance:&lt;/strong&gt; richiedere ai fornitori di software garanzie scritte sulla conformità aggiornata alle nuove scadenze, sia per l&#39;alto rischio sia per la marcatura dei contenuti generativi.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Formazione continua (AI Literacy):&lt;/strong&gt; mantenere aggiornati i piani di formazione dei dipendenti, includendo la distinzione tra obblighi già vigenti, obblighi imminenti e obblighi rinviati.&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h3 id=&quot;conclusione&quot;&gt;Conclusione&lt;/h3&gt;
-&lt;p&gt;Il rinvio degli obblighi sull&#39;alto rischio non è un segnale che l&#39;AI Act stia perdendo forza, ma il riconoscimento che l&#39;ecosistema, inclusi gli organismi di standardizzazione, non era pronto per la scadenza originaria. Per le aziende, la lezione operativa è duplice: il 2 agosto 2026 resta una data reale per la trasparenza, e il tempo aggiuntivo sull&#39;alto rischio va investito, non archiviato. Chi tratta la governance dell&#39;IA come una leva di fiducia verso clienti e partner, anziché come un adempimento da rimandare, sarà meglio posizionato quando la scadenza del 2 dicembre 2027 arriverà davvero.&lt;/p&gt;
-
-
-]]></content>
-    
-    
-    
-      
-      
-    <category term="AI act"/>
-      
-    
-      
-      
-    <category term="digital omnibus"/>
-      
-    
-      
-      
-    <category term="trasparenza AI"/>
-      
-    
-      
-      
-    <category term="compliance"/>
-      
-    
-  </entry>
-  
-  <entry>
-    <title>Introduzione a Python</title>
-    <link href="https://dino-996.github.io/blog/introduzione-a-python/" rel="alternate" type="text/html"/>
-    <id>https://dino-996.github.io/blog/introduzione-a-python/</id>
-    <published>2026-07-29T00:00:00.000Z</published>
-    <updated>2026-07-29T00:00:00.000Z</updated>
-    
-    <summary>Guida introduttiva a Python: scopri la differenza tra compilazione e interpretazione, come usare pip e venv, i tipi di dato fondamentali e la sintassi delle funzioni.</summary>
-    
-    
-    <content type="html"><![CDATA[
-
-  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
-&lt;p&gt;Prima di addentrarci nella sintassi di Python è utile chiarire come un linguaggio di programmazione trasforma il codice sorgente (il codice così come lo scrive lo sviluppatore, prima di qualsiasi traduzione) in qualcosa che una macchina può eseguire. Esistono principalmente due strategie.&lt;/p&gt;
-&lt;p&gt;La prima è la &lt;strong&gt;compilazione&lt;/strong&gt;: un compilatore trasforma l&#39;intero codice sorgente in linguaggio macchina (codice oggetto o assembly) prima dell&#39;esecuzione, producendo un eseguibile. I vantaggi principali sono le elevate prestazioni a runtime e la possibilità di individuare molti errori già in fase di compilazione, prima ancora di eseguire il programma.&lt;/p&gt;
-&lt;p&gt;La seconda è l&#39;&lt;strong&gt;interpretazione&lt;/strong&gt;: un interprete esegue direttamente il codice sorgente a runtime, istruzione per istruzione. I vantaggi risiedono nella portabilità, nel debugging interattivo e nella flessibilità dinamica; lo svantaggio principale è un overhead di esecuzione più elevato rispetto al codice compilato.&lt;/p&gt;
-&lt;p&gt;Esistono anche forme ibride, come la compilazione &lt;strong&gt;JIT (Just-In-Time)&lt;/strong&gt;: il codice sorgente viene prima tradotto in bytecode, un formato intermedio che non è eseguibile direttamente dalla CPU (a differenza del codice prodotto da una compilazione classica). Una macchina virtuale carica questo bytecode e lo esegue: inizialmente lo interpreta, per garantire un avvio rapido, salvo poi compilare a runtime, in codice macchina nativo, le porzioni di codice identificate come più critiche per le prestazioni durante l&#39;esecuzione stessa.&lt;/p&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Approccio&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Quando avviene la traduzione&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Punto di forza principale&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Limite principale&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Compilazione&lt;/td&gt; &lt;td&gt;Prima dell&#39;esecuzione, una tantum&lt;/td&gt; &lt;td&gt;Prestazioni elevate, errori rilevati in anticipo&lt;/td&gt; &lt;td&gt;Meno portabilità, ciclo di build più lento&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Interpretazione&lt;/td&gt; &lt;td&gt;A runtime, istruzione per istruzione&lt;/td&gt; &lt;td&gt;Portabilità, debugging interattivo&lt;/td&gt; &lt;td&gt;Overhead di esecuzione&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;JIT&lt;/td&gt; &lt;td&gt;A runtime, su bytecode intermedio&lt;/td&gt; &lt;td&gt;Avvio rapido con prestazioni che migliorano nel tempo&lt;/td&gt; &lt;td&gt;Complessità implementativa della VM&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
-&lt;h2 id=&quot;dove-si-colloca-python&quot;&gt;Dove si colloca Python&lt;/h2&gt;
-&lt;p&gt;Python è un linguaggio di programmazione &lt;strong&gt;interpretato&lt;/strong&gt;, &lt;strong&gt;dinamico&lt;/strong&gt; e &lt;strong&gt;fortemente tipizzato&lt;/strong&gt;, che adotta sia il &lt;em&gt;duck typing&lt;/em&gt; sia il &lt;em&gt;gradual typing&lt;/em&gt;.&lt;/p&gt;
-&lt;p&gt;Il &lt;strong&gt;duck typing&lt;/strong&gt; è uno stile di tipizzazione dinamica in cui la validità di un oggetto è determinata dai metodi e dagli attributi che espone a runtime, piuttosto che dalla sua classe o dal tipo dichiarato. Il nome deriva dal detto &amp;quot;se cammina come un&#39;anatra e starnazza come un&#39;anatra, allora è un&#39;anatra&amp;quot;: non conta cosa un oggetto dichiara di essere, ma cosa è in grado di fare. Python e JavaScript adottano questo approccio: se un oggetto espone un metodo &lt;code&gt;.quack()&lt;/code&gt;, può essere usato ovunque sia richiesta un&#39;anatra, indipendentemente dalla gerarchia di classi a cui appartiene.&lt;/p&gt;
-&lt;p&gt;Il &lt;strong&gt;gradual typing&lt;/strong&gt; è invece un sistema di tipi che permette di mescolare codice tipizzato staticamente e codice tipizzato dinamicamente all&#39;interno dello stesso programma, introducendo un tipo speciale (spesso chiamato &lt;code&gt;Any&lt;/code&gt; o &lt;code&gt;dynamic&lt;/code&gt;, come &lt;code&gt;any&lt;/code&gt; in TypeScript) che funge da &amp;quot;ponte&amp;quot; tra le due modalità: il type checker tratta questo tipo come compatibile con qualunque altro, sospendendo il controllo statico in quel punto specifico del codice. Questo approccio è particolarmente utile per l&#39;adozione incrementale della tipizzazione statica in progetti nati come dinamici: è, ad esempio, il principio alla base della migrazione di codebase JavaScript verso TypeScript, dove è possibile tipizzare i moduli gradualmente senza dover riscrivere tutto in un&#39;unica soluzione. In Python lo stesso principio si applica tramite le annotazioni di tipo (introdotte con le &lt;em&gt;type hint&lt;/em&gt;), verificabili staticamente con strumenti come mypy pur restando facoltative a runtime.&lt;/p&gt;
-&lt;div class=&quot;alert alert-info d-flex&quot; role=&quot;alert&quot;&gt; &lt;div class=&quot;me-3&quot;&gt; &lt;svg class=&quot;bi flex-shrink-0&quot; width=&quot;24&quot; height=&quot;24&quot; role=&quot;img&quot; aria-label=&quot;Nota:&quot;&gt; &lt;use xlink:href=&quot;#info-fill&quot;/&gt; &lt;/svg&gt; &lt;/div&gt; &lt;div&gt; &lt;strong&gt;Nota:&lt;/strong&gt; le annotazioni di tipo in Python non vengono verificate dall&#39;interprete a runtime: servono a strumenti esterni (type checker, IDE) e alla documentazione del codice. È un dettaglio da tenere presente arrivando da linguaggi a tipizzazione statica come TypeScript. &lt;/div&gt; &lt;/div&gt;
-&lt;p&gt;Python supporta tutti gli stili di programmazione: imperativo, dichiarativo (ad esempio funzionale) e orientato agli oggetti, ma internamente tutto in Python è un oggetto. Il linguaggio pone una forte enfasi sulla leggibilità del codice, utilizzando un&#39;indentazione significativa per delimitare le definizioni di funzioni, metodi e classi al posto delle parentesi graffe.&lt;/p&gt;
-&lt;h2 id=&quot;breve-storia-e-versioni&quot;&gt;Breve storia e versioni&lt;/h2&gt;
-&lt;p&gt;Python è stato ideato alla fine degli anni &#39;80 da Guido van Rossum, che ne ha supervisionato personalmente lo sviluppo per molti anni, e rilasciato pubblicamente per la prima volta nel 1991. Il nome non ha nulla a che vedere con il rettile: deriva dal gruppo comico britannico Monty Python, di cui van Rossum era appassionato. Il linguaggio è oggi gestito, come progetto open source, dalla Python Software Foundation, che riceve proposte di modifica dalla comunità attraverso le &lt;strong&gt;Python Enhancement Proposal (PEP)&lt;/strong&gt;.&lt;/p&gt;
-&lt;p&gt;Le tappe principali della sua evoluzione sono:&lt;/p&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Versione&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Anno&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Nota&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Python 1.x&lt;/td&gt; &lt;td&gt;1991&lt;/td&gt; &lt;td&gt;Prima versione pubblica&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Python 2&lt;/td&gt; &lt;td&gt;2000&lt;/td&gt; &lt;td&gt;Ampiamente diffuso, oggi a fine vita&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Python 3&lt;/td&gt; &lt;td&gt;2008&lt;/td&gt; &lt;td&gt;Versione di riferimento attuale, non retrocompatibile con Python 2&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt; &lt;div class=&quot;alert alert-warning d-flex&quot; role=&quot;alert&quot;&gt; &lt;div class=&quot;me-3&quot;&gt; &lt;svg class=&quot;bi flex-shrink-0&quot; width=&quot;24&quot; height=&quot;24&quot; role=&quot;img&quot; aria-label=&quot;Attenzione:&quot;&gt; &lt;use xlink:href=&quot;#exclamation-triangle-fill&quot;/&gt; &lt;/svg&gt; &lt;/div&gt; &lt;div&gt; &lt;strong&gt;Attenzione:&lt;/strong&gt; Python 3 non è retrocompatibile con Python 2. Codice scritto per una versione non è garantito funzionare sull&#39;altra senza modifiche. Nella serie 3.x lo sviluppo prosegue con rilasci regolari; al momento in cui scriviamo, la linea più recente è la 3.14, mentre la 3.13 resta comunque in manutenzione attiva fino alla fine del 2029. &lt;/div&gt; &lt;/div&gt;
-&lt;p&gt;Per quanto riguarda le implementazioni, &lt;strong&gt;CPython&lt;/strong&gt; è quella di riferimento: scritta in C, è l&#39;implementazione ufficiale adottata dalla maggior parte degli ambienti di sviluppo. Il codice Python viene interpretato sotto forma di bytecode per una macchina virtuale interna. Esistono però implementazioni alternative, come &lt;strong&gt;Jython&lt;/strong&gt;, che genera bytecode eseguibile sulla JVM, permettendo l&#39;interoperabilità con l&#39;ecosistema Java.&lt;/p&gt;
-&lt;h2 id=&quot;caratteristiche-del-linguaggio&quot;&gt;Caratteristiche del linguaggio&lt;/h2&gt;
-&lt;p&gt;Python si definisce spesso &amp;quot;multi-paradigma&amp;quot;: consente di scrivere codice procedurale/di scripting così come codice orientato agli oggetti, spesso combinando i due stili nello stesso progetto.&lt;/p&gt;
-&lt;p&gt;È un linguaggio &lt;strong&gt;interpretato&lt;/strong&gt;: il codice non viene compilato in un eseguibile separato ed esiste un ambiente interattivo (la REPL) in cui è possibile eseguire istruzioni una per una e osservarne subito il risultato.&lt;/p&gt;
-&lt;p&gt;È inoltre un linguaggio &lt;strong&gt;&amp;quot;batteries-included&amp;quot;&lt;/strong&gt;: la libreria standard è estremamente ampia e copre la maggior parte delle esigenze comuni (gestione di file, rete, strutture dati, ecc.), risultando comunque facilmente estensibile tramite pacchetti di terze parti.&lt;/p&gt;
-&lt;p&gt;Sul fronte della tipizzazione, le variabili si usano senza dichiararle esplicitamente e possono cambiare il tipo di oggetto a cui fanno riferimento nel corso dell&#39;esecuzione, è questo il significato di &amp;quot;dinamicamente tipizzato&amp;quot;. La sintassi, infine, è volutamente compatta e non appartiene alla famiglia sintattica del C: l&#39;indentazione stessa indica la nidificazione dei blocchi di codice, al posto delle parentesi graffe.&lt;/p&gt;
-&lt;p&gt;Queste caratteristiche hanno reso Python particolarmente popolare per la prototipazione rapida, e in particolare per applicazioni di &lt;em&gt;data analytics&lt;/em&gt;, che richiedono l&#39;esplorazione, la trasformazione e l&#39;integrazione di dati provenienti da sorgenti diverse, oltre allo sviluppo di modelli di analisi.&lt;/p&gt;
-&lt;h2 id=&quot;installazione-e-gestione-dellambiente&quot;&gt;Installazione e gestione dell&#39;ambiente&lt;/h2&gt;
-&lt;p&gt;Python è preinstallato nella maggior parte degli ambienti operativi moderni; il comando tipico per invocarlo è &lt;code&gt;python3&lt;/code&gt; (su Windows spesso &lt;code&gt;python3.exe&lt;/code&gt;). Dove non fosse già presente, l&#39;installazione può avvenire tramite i package manager di sistema (ad esempio Homebrew su macOS o Chocolatey su Windows).&lt;/p&gt;
-&lt;p&gt;Uno script Python è tipicamente contenuto in un file con estensione &lt;code&gt;.py&lt;/code&gt; (ad esempio &lt;code&gt;primo.py&lt;/code&gt;) ed eseguito con &lt;code&gt;python3 primo.py&lt;/code&gt;. In alternativa, lanciando &lt;code&gt;python&lt;/code&gt; senza argomenti si accede alla modalità interattiva: un prompt di comandi in cui è possibile eseguire le istruzioni una per una. In questa modalità esiste una variabile implicita, denominata &lt;code&gt;_&lt;/code&gt;, che mantiene automaticamente il risultato dell&#39;ultima operazione eseguita; per uscire si utilizza &lt;code&gt;quit()&lt;/code&gt; oppure la combinazione &lt;code&gt;ctrl-d&lt;/code&gt;.&lt;/p&gt;
-&lt;h3 id=&quot;il-package-manager-pip&quot;&gt;Il package manager pip&lt;/h3&gt;
-&lt;p&gt;&lt;strong&gt;pip&lt;/strong&gt; è il package manager ufficiale di Python: gestisce l&#39;installazione di pacchetti prelevandoli dal Python Package Index, disponibile all&#39;indirizzo &lt;a href=&quot;https://pypi.org/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://pypi.org/&lt;/a&gt;. Il comando tipico è &lt;code&gt;pip&lt;/code&gt; o &lt;code&gt;pip3&lt;/code&gt;. Per lo sviluppo di base pip è raramente indispensabile, perché la libreria standard di Python è già molto ampia (in questo Python è simile a Java).&lt;/p&gt;
-&lt;p&gt;Concretamente, pip cerca il pacchetto richiesto sul Python Package Index, ne scarica l&#39;archivio (tipicamente in formato &lt;code&gt;.tar.gz&lt;/code&gt; o &lt;code&gt;.whl&lt;/code&gt;), ne risolve le dipendenze dichiarate e infine lo installa nella directory dei pacchetti dell&#39;ambiente Python attivo. Per ispezionare dove un pacchetto è stato installato si può usare &lt;code&gt;pip show &amp;lt;nome_pacchetto&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-&lt;div class=&quot;alert alert-danger d-flex&quot; role=&quot;alert&quot;&gt; &lt;div class=&quot;me-3&quot;&gt; &lt;svg class=&quot;bi flex-shrink-0&quot; width=&quot;24&quot; height=&quot;24&quot; role=&quot;img&quot; aria-label=&quot;Rischio:&quot;&gt; &lt;use xlink:href=&quot;#exclamation-triangle-fill&quot;/&gt; &lt;/svg&gt; &lt;/div&gt; &lt;div&gt; &lt;strong&gt;Rischio:&lt;/strong&gt; senza un ambiente dedicato, i pacchetti installati con pip finiscono a livello globale: tutte le esecuzioni di Python sulla macchina condivideranno le stesse dipendenze, con il rischio concreto di conflitti di versione tra progetti diversi. &lt;/div&gt; &lt;/div&gt;
-&lt;h3 id=&quot;ambienti-virtuali-con-venv&quot;&gt;Ambienti virtuali con venv&lt;/h3&gt;
-&lt;p&gt;La buona prassi è dare a ogni progetto le proprie dipendenze isolate e, idealmente, anche la propria versione di Python. Lo strumento standard per farlo è &lt;strong&gt;venv&lt;/strong&gt;, incluso nella libreria standard a partire da Python 3.3 e che non richiede alcuna installazione aggiuntiva. Per esigenze più avanzate, o per progetti ancora su Python 2, restano disponibili alternative come virtualenv o Anaconda.&lt;/p&gt;
-&lt;p&gt;L&#39;uso tipico prevede due passaggi: la creazione dell&#39;ambiente e la sua attivazione, che varia in base al sistema operativo.&lt;/p&gt;
-&lt;h4 id=&quot;windows&quot;&gt;Windows&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;python3 -m venv nome_ambiente nome_ambiente&#92;Scripts&#92;activate.bat
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h4 id=&quot;macos-linux&quot;&gt;macOS / Linux&lt;/h4&gt;
-&lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;python3 -m venv nome_ambiente source nome_ambiente/bin/activate
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Una volta attivato l&#39;ambiente, tutti i pacchetti installati con pip vengono collocati nella cartella locale nome_ambiente, senza toccare l&#39;installazione globale di Python. Per uscire dall&#39;ambiente virtuale è sufficiente il comando deactivate.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;h3 id=&quot;errori-comuni&quot;&gt;Errori comuni&lt;/h3&gt;
-&lt;h4 id=&quot;pip-install-sembra-funzionare-ma-limport-del-modulo-fallisce&quot;&gt;pip install sembra funzionare ma l&#39;import del modulo fallisce&lt;/h4&gt;
-&lt;p&gt;Nella maggior parte dei casi l&#39;ambiente virtuale non è attivo: il pacchetto è stato installato a livello globale (o in un altro ambiente), mentre lo script viene eseguito con l&#39;interprete di un ambiente diverso. Verificare che l&#39;ambiente corretto sia attivo prima di lanciare lo script.&lt;/p&gt;
-&lt;h4 id=&quot;chiamare-un-metodo-restituisce-un-typeerror-sul-numero-di-argomenti&quot;&gt;Chiamare un metodo restituisce un TypeError sul numero di argomenti&lt;/h4&gt;
-&lt;p&gt;È l&#39;errore più comune per chi arriva da altri linguaggi: un metodo di istanza deve sempre avere &lt;code&gt;self&lt;/code&gt; come primo parametro nella sua firma, perché Python lo passa automaticamente ogni volta che il metodo viene invocato tramite un&#39;istanza. Dimenticarlo genera un errore sul numero di argomenti attesi.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;panoramica-dei-tipi-di-dato&quot;&gt;Panoramica dei tipi di dato&lt;/h2&gt;
-&lt;p&gt;Python è un linguaggio fortemente tipizzato: ogni valore ha un tipo ben definito, anche se la variabile che lo referenzia non viene mai dichiarata esplicitamente. Ecco una panoramica sintetica dei tipi fondamentali.&lt;/p&gt;
-&lt;div class=&quot;table-responsive shadow-sm rounded mb-3&quot;&gt; &lt;table class=&quot;table table-bordered table-striped table-hover align-middle mb-0&quot;&gt; &lt;thead class=&quot;table-dark&quot;&gt; &lt;tr&gt; &lt;th&gt;Categoria&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Tipo&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Mutabilità&lt;/th&gt; &lt;th class=&quot;fw-semibold&quot;&gt;Descrizione&lt;/th&gt; &lt;/tr&gt; &lt;/thead&gt; &lt;tbody&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Numerico&lt;/td&gt; &lt;td&gt;int, float, complex&lt;/td&gt; &lt;td&gt;Immutabile&lt;/td&gt; &lt;td&gt;Interi a precisione arbitraria, numeri in virgola mobile, numeri complessi&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Booleano&lt;/td&gt; &lt;td&gt;bool&lt;/td&gt; &lt;td&gt;Immutabile&lt;/td&gt; &lt;td&gt;True o False; tecnicamente una sottoclasse di int (True == 1, False == 0)&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Testuale&lt;/td&gt; &lt;td&gt;str&lt;/td&gt; &lt;td&gt;Immutabile&lt;/td&gt; &lt;td&gt;Sequenze di caratteri Unicode&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Sequenza&lt;/td&gt; &lt;td&gt;list, tuple, range&lt;/td&gt; &lt;td&gt;list mutabile; tuple e range immutabili&lt;/td&gt; &lt;td&gt;Collezioni ordinate di elementi&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Insieme&lt;/td&gt; &lt;td&gt;set, frozenset&lt;/td&gt; &lt;td&gt;set mutabile; frozenset immutabile&lt;/td&gt; &lt;td&gt;Collezioni non ordinate, senza duplicati&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Mappa&lt;/td&gt; &lt;td&gt;dict&lt;/td&gt; &lt;td&gt;Mutabile&lt;/td&gt; &lt;td&gt;Coppie chiave-valore&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Speciale&lt;/td&gt; &lt;td&gt;NoneType&lt;/td&gt; &lt;td&gt;—&lt;/td&gt; &lt;td&gt;Rappresenta l&#39;assenza di un valore (None)&lt;/td&gt; &lt;/tr&gt; &lt;tr&gt; &lt;td class=&quot;fw-semibold&quot;&gt;Chiamabile&lt;/td&gt; &lt;td&gt;function, class&lt;/td&gt; &lt;td&gt;—&lt;/td&gt; &lt;td&gt;Funzioni, lambda e classi sono oggetti di prim&#39;ordine, chiamabili con ()&lt;/td&gt; &lt;/tr&gt; &lt;/tbody&gt; &lt;/table&gt; &lt;/div&gt;
-&lt;h2 id=&quot;variabili-e-costanti&quot;&gt;Variabili e costanti&lt;/h2&gt;
-&lt;p&gt;In Python non si usano parole chiave per creare variabili o costanti (a differenza, ad esempio, di Java, dove si scriverebbe &lt;code&gt;String variabile = &amp;quot;variabile&amp;quot;;&lt;/code&gt;). È possibile associare un nome a qualsiasi oggetto tramite l&#39;operatore di assegnazione &lt;code&gt;=&lt;/code&gt;, con la sintassi &lt;code&gt;&amp;lt;nome&amp;gt; = &amp;lt;valore&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;Una variabile può essere riassegnata più volte nel corso del programma, anche a oggetti di tipo diverso a ogni riassegnazione:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;mia_variabile = 1
-mia_variabile = 2
-print(mia_variabile)
-print(type(mia_variabile))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Le costanti sono invece nomi pensati per essere assegnati una sola volta. Per convenzione si dichiarano a livello di modulo, così da risultare visibili a tutte le funzioni e classi del programma, e si scrivono in SCREAMING_SNAKE_CASE:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;MIA_COSTANTE = &amp;quot;Stringa immutabile&amp;quot;
-print(MIA_COSTANTE)
-print(type(MIA_COSTANTE))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Va precisato che si tratta di una convenzione, non di un vincolo imposto dal linguaggio: Python non offre un meccanismo nativo per impedire la riassegnazione di un nome scritto in maiuscolo. È qui utile richiamare il concetto di &lt;strong&gt;scope&lt;/strong&gt; (ambito di visibilità): la regione di codice in cui una variabile, funzione o identificatore è accessibile e utilizzabile, ovvero &amp;quot;dove&amp;quot; quel nome ha significato all&#39;interno del programma.&lt;/p&gt;
-&lt;p&gt;Come da convenzione PEP 8, le variabili si scrivono sempre in snake_case e le costanti in SCREAMING_SNAKE_CASE.&lt;/p&gt;
-&lt;h2 id=&quot;funzioni-procedure-e-metodi&quot;&gt;Funzioni, procedure e metodi&lt;/h2&gt;
-&lt;p&gt;Una funzione è un blocco di codice riutilizzabile che compie un compito specifico, evitando di ripetere lo stesso codice più volte in modo lineare. Anche le funzioni, in Python, sono oggetti: possono essere assegnate a una variabile, passate come argomento ad altre funzioni, restituite come valore di ritorno (callback) o memorizzate in strutture dati come liste o dizionari. È il concetto di &lt;strong&gt;funzioni di primo ordine (first-class citizen)&lt;/strong&gt;: le funzioni godono dello stesso status di qualsiasi altro valore del linguaggio, un requisito fondamentale per abilitare paradigmi come la programmazione funzionale, che fa uso massiccio di funzioni come &lt;code&gt;map&lt;/code&gt; o &lt;code&gt;filter&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;In gergo, le funzioni che restituiscono un valore vengono chiamate semplicemente funzioni, mentre quelle che non restituiscono nulla sono dette procedure. Le funzioni legate a una classe si chiamano invece metodi. Funzioni e metodi possono essere raggruppati in file o moduli e importati, integralmente o in parte, in altri programmi.&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;In Python, anche le procedure restituiscono implicitamente l&#39;oggetto &lt;code&gt;None&lt;/code&gt; quando l&#39;esecuzione giunge alla fine della funzione o incontra un &lt;code&gt;return&lt;/code&gt; senza argomenti.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;La parola chiave &lt;code&gt;def&lt;/code&gt; introduce la definizione, seguita dal nome della funzione, dai due punti e dall&#39;eventuale elenco di parametri e corpo della funzione: &lt;code&gt;def &amp;lt;nome_funzione&amp;gt;(...):&lt;/code&gt;.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def somma(a, b):
-    totale = a + b
-    print(totale)
-    return
-somma(1, 1)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Questo è un esempio di &lt;strong&gt;procedura&lt;/strong&gt;: non restituisce alcun valore esplicito. La versione seguente, invece, è una vera &lt;strong&gt;funzione&lt;/strong&gt;, perché restituisce esplicitamente il risultato tramite la parola chiave &lt;code&gt;return&lt;/code&gt;:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def somma(a, b):
-    totale = a + b
-    return totale
-print(somma(1, 1))
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Quando la stessa logica è legata a una classe, si parla di &lt;strong&gt;metodo&lt;/strong&gt;. È importante ricordare che un metodo di istanza deve sempre includere &lt;code&gt;self&lt;/code&gt; come primo parametro: Python lo passa automaticamente ogni volta che il metodo è invocato tramite un&#39;istanza.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;class Calcolatrice:
-    def somma(self, a, b):
-        return a + b
-calcolatrice = Calcolatrice()
-totale = calcolatrice.somma(1, 1)
-print(totale)
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Il significato pieno di questo esempio richiede i concetti di programmazione a oggetti, che verranno approfonditi in un articolo successivo del corso; per ora basta osservare come si definisca e si invochi il metodo &lt;code&gt;somma&lt;/code&gt;. Le funzioni si invocano tramite il proprio nome seguito da &lt;code&gt;()&lt;/code&gt;; la notazione a punto (&lt;code&gt;.&lt;/code&gt;) si usa invece per chiamare funzioni definite all&#39;interno di una classe o di un modulo, anche non definiti da noi:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;testo = &amp;quot;Questa è una stringa di prova.&amp;quot;
-testo.upper() # Risultato: QUESTA È UNA STRINGA DI PROVA.
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h3 id=&quot;un-accenno-alle-classi-come-placeholder&quot;&gt;Un accenno alle classi come placeholder&lt;/h3&gt;
-&lt;p&gt;In Python il corpo di un blocco indentato (funzione, classe, ciclo) non può mai essere vuoto: se non c&#39;è ancora logica da inserire, si usa la parola chiave &lt;code&gt;pass&lt;/code&gt; come segnaposto sintattico:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;class Calcolatrice:
-    pass
-calc = Calcolatrice()
-&lt;/code&gt;&lt;/pre&gt;
-&lt;h2 id=&quot;commenti-e-docstring&quot;&gt;Commenti e docstring&lt;/h2&gt;
-&lt;p&gt;I commenti in Python iniziano sempre con &lt;code&gt;#&lt;/code&gt;. A differenza di molti altri linguaggi, Python non prevede una sintassi dedicata ai commenti multi-riga: ogni riga di un blocco di commento deve iniziare con &lt;code&gt;#&lt;/code&gt;. I commenti vengono completamente ignorati dall&#39;interprete.&lt;/p&gt;
-&lt;p&gt;La prima istruzione del corpo di una funzione, di un metodo o di una classe può facoltativamente essere una &lt;strong&gt;docstring&lt;/strong&gt;, dichiarata con tre apici doppi (&lt;code&gt;&amp;quot;&amp;quot;&amp;quot;&lt;/code&gt;) allineati allo stesso livello di indentazione del blocco:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def somma(a, b):
-    &amp;quot;&amp;quot;&amp;quot;Calcola la somma di due numeri.
-    Args:
-        a (int | float): Il primo addendo.
-        b (int | float): Il secondo addendo.
-    Returns:
-        int | float: La somma di a e b.
-    &amp;quot;&amp;quot;&amp;quot;
-    return a + b
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Essendo Python un linguaggio fortemente tipizzato, è preferibile evitare di ripetere il tipo nella docstring: conviene dichiararlo nella &lt;strong&gt;firma&lt;/strong&gt; della funzione, ovvero nell&#39;insieme di informazioni che ne descrivono nome e utilizzo senza dover leggere il corpo o l&#39;implementazione. Per molti sviluppatori è l&#39;approccio più pulito, perché evita duplicazione tra annotazioni di tipo e documentazione.&lt;/p&gt;
-&lt;p&gt;La firma diventa quindi:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def somma(a: int | float, b: int | float) -&amp;gt; int | float:
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Il simbolo &lt;code&gt;-&amp;gt;&lt;/code&gt; prima dei due punti indica all&#39;interprete (e agli strumenti di analisi statica) che la funzione restituisce un intero o un numero in virgola mobile; entrambi i parametri accettano indifferentemente uno dei due tipi. La funzione completa, con docstring semplificata, diventa:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-python&quot;&gt;def somma(a: int | float, b: int | float) -&amp;gt; int | float:
-    &amp;quot;&amp;quot;&amp;quot;Calcola la somma di due numeri.&amp;quot;&amp;quot;&amp;quot;
-    return a + b
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Le docstring vengono lette da strumenti di documentazione automatizzati e possono essere recuperate a runtime tramite l&#39;attributo speciale &lt;code&gt;.__doc__&lt;/code&gt;, richiamabile sul nome della funzione, del metodo o della classe. Il loro utilizzo è consigliato per programmi di qualsiasi dimensione in cui sia necessaria documentazione; le relative convenzioni di stile sono definite nella PEP 257, così come le convenzioni generali di stile del codice sono definite nella PEP 8.&lt;/p&gt;
-&lt;p&gt;Le docstring possono anche fungere da test unitari leggeri (&lt;strong&gt;doctest&lt;/strong&gt;), eseguibili sia tramite PyTest sia importando il modulo &lt;code&gt;doctest&lt;/code&gt; della libreria standard, un argomento che verrà approfondito in un articolo dedicato al testing.&lt;/p&gt;
-&lt;h2 id=&quot;come-proseguira-il-modulo&quot;&gt;Come proseguirà il modulo&lt;/h2&gt;
-&lt;p&gt;Questo primo articolo introduce Python seguendo una visione volutamente parziale e procedurale del linguaggio, utile per fissare i concetti di base (variabili, funzioni, commenti, docstring) senza richiedere ancora nozioni di programmazione a oggetti. I prossimi passi del percorso saranno:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;la &lt;strong&gt;programmazione a oggetti in Python&lt;/strong&gt;, che richiede la conoscenza dei concetti fondamentali della POO;&lt;/li&gt;
-&lt;li&gt;le &lt;strong&gt;tecniche avanzate di programmazione&lt;/strong&gt; in Python, una volta consolidate le basi procedurali e a oggetti.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;Per chi desidera approfondire da subito, restano utili riferimenti come il tutorial ufficiale su &lt;a href=&quot;https://docs.python.org/3/tutorial/index.html&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://docs.python.org/3/tutorial/index.html&lt;/a&gt; e la guida introduttiva su &lt;a href=&quot;https://www.python.org/about/gettingstarted/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://www.python.org/about/gettingstarted/&lt;/a&gt;, oltre alle convenzioni di stile definite in PEP 8 (&lt;a href=&quot;https://peps.python.org/pep-0008/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://peps.python.org/pep-0008/&lt;/a&gt;) e PEP 257 (&lt;a href=&quot;https://peps.python.org/pep-0257/&quot; target=&quot;_blank&quot; rel=&quot;noopener noreferer&quot;&gt;https://peps.python.org/pep-0257/&lt;/a&gt;).&lt;/p&gt;
-
-
-]]></content>
-    
-    
-    
-      
-      
-    <category term="python"/>
-      
-    
-      
-      
-    <category term="programmazione"/>
-      
-    
-      
-      
-    <category term="type hinting"/>
-      
-    
-      
-      
-    <category term="ambienti virtuali"/>
-      
-    
-      
-      
-    <category term="architettura software"/>
-      
-    
-  </entry>
-  
-  <entry>
-    <title> Regolamento UE 2016/679 (GDPR)</title>
-    <link href="https://dino-996.github.io/blog/guida-gdpr-regolamento/" rel="alternate" type="text/html"/>
-    <id>https://dino-996.github.io/blog/guida-gdpr-regolamento/</id>
-    <published>2026-07-27T00:00:00.000Z</published>
-    <updated>2026-07-27T00:00:00.000Z</updated>
-    
-    <summary>Guida completa al Regolamento UE 2016/679 (GDPR): ambito applicativo, definizioni, ruoli aziendali (Titolare, DPO, Responsabile), principi cardine e misure tecniche.</summary>
-    
-    
-    <content type="html"><![CDATA[
-
-  &lt;h2 id=&quot;introduzione&quot;&gt;Introduzione&lt;/h2&gt;
-&lt;p&gt;Il &lt;strong&gt;Regolamento Generale sulla Protezione dei Dati&lt;/strong&gt; — noto con l&#39;acronimo &lt;strong&gt;GDPR&lt;/strong&gt; (&lt;em&gt;General Data Protection Regulation&lt;/em&gt;) e identificato formalmente come &lt;strong&gt;Regolamento UE 2016/679&lt;/strong&gt; — costituisce il quadro normativo di riferimento per la protezione dei dati personali nell&#39;Unione Europea. Entrato in vigore il &lt;strong&gt;25 maggio 2018&lt;/strong&gt;, ha abrogato la Direttiva 95/46/CE e, in Italia, ha adeguato il D.Lgs. 196/2003 (Codice Privacy) tramite il D.Lgs. 101/2018.&lt;/p&gt;
-&lt;p&gt;Il Regolamento non si limita a definire regole e obblighi formali: istituisce un vero e proprio &lt;strong&gt;organigramma di responsabilità&lt;/strong&gt;, assegnando a ciascun soggetto coinvolto un ruolo preciso con relativi diritti e doveri. Al contempo, introduce un approccio basato sulla responsabilizzazione proattiva (&lt;strong&gt;accountability&lt;/strong&gt;), imponendo misure tecniche e organizzative adeguate al rischio e richiedendo che la protezione dei dati sia integrata fin dalla progettazione dei sistemi (&lt;strong&gt;privacy by design&lt;/strong&gt; e &lt;strong&gt;privacy by default&lt;/strong&gt;). Comprendere questa struttura è fondamentale per chiunque operi in ambito IT, sviluppo software o gestione aziendale, poiché ogni decisione tecnica si riflette direttamente sulle figure giuridiche in gioco.&lt;/p&gt;
-&lt;h2 id=&quot;ambito-di-applicazione&quot;&gt;Ambito di Applicazione&lt;/h2&gt;
-&lt;h3 id=&quot;ambito-materiale-art-2-gdpr&quot;&gt;Ambito materiale (Art. 2 GDPR)&lt;/h3&gt;
-&lt;p&gt;Il Regolamento disciplina il trattamento di dati personali interamente o parzialmente automatizzato, nonché il trattamento non automatizzato di dati personali contenuti in un archivio o destinati a figurarvi (inclusa la gestione di archivi cartacei).&lt;/p&gt;
-&lt;p&gt;Ai sensi dell&#39;art. 2, commi 14-21, &lt;strong&gt;il Regolamento non si applica&lt;/strong&gt;:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;ai trattamenti per attività che non rientrano nel diritto dell&#39;Unione (es. sicurezza nazionale);&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;ai trattamenti di dati effettuati da una persona fisica per l&#39;esercizio di attività a carattere esclusivamente personale o domestico;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;ai trattamenti effettuati per prevenzione, indagine, accertamento di reati o esecuzione di sanzioni penali (materia regolata dalla Direttiva UE 2016/680).&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;ambito-territoriale-art-3-gdpr&quot;&gt;Ambito territoriale (Art. 3 GDPR)&lt;/h3&gt;
-&lt;p&gt;L&#39;ambito applicativo territoriale del GDPR è particolarmente esteso e prevede un rilevante &lt;strong&gt;effetto extraterritoriale&lt;/strong&gt;. Il Regolamento si applica:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;ai trattamenti effettuati da un Titolare o Responsabile &lt;strong&gt;stabilito nell&#39;UE&lt;/strong&gt;, anche se il trattamento ha luogo al di fuori dell&#39;Unione;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;ai trattamenti effettuati da un Titolare o Responsabile &lt;strong&gt;non stabilito nell&#39;UE&lt;/strong&gt;, qualora il trattamento riguardi dati personali di interessati che si trovano nell&#39;UE (es. offrendo loro beni/servizi o monitorandone il comportamento);&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;ai trattamenti effettuati da un Titolare stabilito in uno Stato extra-UE soggetto al diritto di uno Stato membro in virtù del diritto internazionale pubblico.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;definizioni-chiave-e-tipologie-di-dati&quot;&gt;Definizioni Chiave e Tipologie di Dati&lt;/h2&gt;
-&lt;h3 id=&quot;dato-personale-art-4-gdpr&quot;&gt;Dato personale (Art. 4 GDPR)&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Dato personale:&lt;/strong&gt; qualsiasi informazione riguardante una persona fisica identificata o identificabile (&lt;em&gt;«interessato»&lt;/em&gt;), direttamente o indirettamente, mediante riferimento a qualsiasi altra informazione, ivi compreso un numero di identificazione personale.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;La definizione è volutamente ampia. Tra gli identificativi di rilievo tecnico espressamente citati rientrano:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Indirizzo IP:&lt;/strong&gt; identificativo univoco di un dispositivo in rete;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Identificativi cookie con profilazione:&lt;/strong&gt; tracciamento del comportamento online;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;GPS:&lt;/strong&gt; coordinate di geolocalizzazione;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Elementi dell&#39;identità genetica:&lt;/strong&gt; informazioni estratte da analisi del DNA.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;trattamento-dei-dati-art-4-gdpr&quot;&gt;Trattamento dei dati (Art. 4 GDPR)&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Trattamento:&lt;/strong&gt; qualunque operazione o complesso di operazioni, effettuate anche senza l&#39;ausilio di strumenti elettronici, concernenti dati personali — anche se non registrati in una banca dati.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;Costituisce trattamento qualsiasi operazione tra cui: raccolta, registrazione, organizzazione, conservazione, consultazione, elaborazione, modificazione, selezione, estrazione, raffronto, utilizzo, interconnessione, blocco, comunicazione, diffusione, cancellazione e distruzione.&lt;/p&gt;
-&lt;h3 id=&quot;le-tre-macro-categorie-di-dati&quot;&gt;Le Tre Macro-Categorie di Dati&lt;/h3&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Dati identificativi:&lt;/strong&gt; informazioni che consentono l&#39;identificazione diretta (nome, cognome, codice fiscale, immagine, dati biometrici base).&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Categorie particolari di dati (Art. 9 GDPR):&lt;/strong&gt; dati che rivelano l&#39;origine etnica o razziale, le opinioni politiche, le convinzioni religiose o filosofiche, l&#39;appartenenza sindacale, lo stato di salute, la vita o l&#39;orientamento sessuale, nonché i dati genetici e biometrici intesi a identificare in modo univoco una persona. Il loro trattamento è &lt;strong&gt;vietato in via generale&lt;/strong&gt;, salvo le eccezioni tassative di cui all&#39;art. 9, par. 2.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Dati giudiziari (Art. 10 GDPR):&lt;/strong&gt; dati relativi a condanne penali e reati (qualità di imputato/indagato, casellario giudiziale, misure alternative). Il trattamento è consentito solo sotto il controllo dell&#39;autorità pubblica o se autorizzato dal diritto dell&#39;UE o degli Stati membri.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;lorganigramma-della-privacy-ruoli-e-responsabilita&quot;&gt;L&#39;Organigramma della Privacy: Ruoli e Responsabilità&lt;/h2&gt;
-&lt;h3 id=&quot;evoluzione-delle-figure-dlgs-1962003-vs-gdpr&quot;&gt;Evoluzione delle Figure (D.Lgs. 196/2003 vs GDPR)&lt;/h3&gt;
-&lt;p&gt;Il GDPR ha riorganizzato e ampliato le figure del trattamento rispetto al passato:&lt;/p&gt;
-&lt;h3 id=&quot;sintesi-delle-figure-fondamentali-del-gdpr&quot;&gt;Sintesi delle Figure Fondamentali del GDPR&lt;/h3&gt;
-&lt;h3 id=&quot;analisi-dettagliata-dei-ruoli&quot;&gt;Analisi Dettagliata dei Ruoli&lt;/h3&gt;
-&lt;h4 id=&quot;il-titolare-del-trattamento-artt-47-e-24-gdpr&quot;&gt;Il Titolare del Trattamento (Artt. 4.7 e 24 GDPR)&lt;/h4&gt;
-&lt;p&gt;È la persona fisica o giuridica, l&#39;autorità pubblica o l&#39;organismo che &lt;strong&gt;determina le finalità e i mezzi del trattamento&lt;/strong&gt;. È la figura centrale che risponde in prima persona e direttamente nei confronti dell&#39;interessato per i danni derivanti da un trattamento illecito.&lt;/p&gt;
-&lt;p&gt;Il Titolare deve garantire e dimostrare la conformità attraverso:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;la tenuta dei &lt;strong&gt;Registri delle attività di trattamento&lt;/strong&gt; (art. 30 GDPR);&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;l&#39;adesione a &lt;strong&gt;codici di condotta&lt;/strong&gt; (art. 40 GDPR) o &lt;strong&gt;meccanismi di certificazione&lt;/strong&gt; (art. 42 GDPR);&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;la predisposizione di adeguate misure di sicurezza tecniche e organizzative.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h4 id=&quot;il-responsabile-esterno-del-trattamento-art-28-gdpr&quot;&gt;Il Responsabile Esterno del Trattamento (Art. 28 GDPR)&lt;/h4&gt;
-&lt;p&gt;È il soggetto esterno che tratta dati &lt;strong&gt;per conto del Titolare&lt;/strong&gt; (es. provider cloud, software house in outsourcing, consulenti del lavoro).&lt;/p&gt;
-&lt;p&gt;L&#39;affidamento ad un Responsabile deve avvenire mediante un atto giuridico vincolante (&lt;strong&gt;Data Processing Agreement - DPA&lt;/strong&gt;), il quale deve imporre al Responsabile di:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;trattare i dati solo su istruzione documentata del Titolare;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;garantire la riservatezza e far rispettare gli obblighi ai propri incaricati;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;adottare le misure di sicurezza di cui all&#39;art. 32 GDPR;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;assistere il Titolare nell&#39;evasione dei diritti e nella gestione dei Data Breach;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;cancellare o restituire tutti i dati al termine del contratto;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;consentire verifiche e audit.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h4 id=&quot;il-sub-responsabile-art-28-gdpr&quot;&gt;Il Sub-Responsabile (Art. 28 GDPR)&lt;/h4&gt;
-&lt;p&gt;Se il Responsabile intende ricorrere a un subappaltatore (Sub-responsabile), deve ottenere una &lt;strong&gt;previa autorizzazione scritta&lt;/strong&gt; (specifica o generale) dal Titolare. Si applica il principio della &lt;em&gt;&amp;quot;discesa degli obblighi lungo la catena&amp;quot;&lt;/em&gt;: il primo Responsabile conserva l&#39;intera responsabilità nei confronti del Titolare per l&#39;inadempimento del Sub-responsabile.&lt;/p&gt;
-&lt;h4 id=&quot;il-contitolare-del-trattamento-art-26-gdpr&quot;&gt;Il Contitolare del Trattamento (Art. 26 GDPR)&lt;/h4&gt;
-&lt;p&gt;Ricorre quando due o più soggetti &lt;strong&gt;determinano congiuntamente le finalità e i mezzi&lt;/strong&gt; del trattamento (es. piattaforme CRM condivise in un gruppo aziendale o co-marketing). I contitolari devono stipulare un &lt;strong&gt;accordo interno&lt;/strong&gt; che definisca ruoli e responsabilità, indicando un punto di contatto unico per gli interessati.&lt;/p&gt;
-&lt;h4 id=&quot;lautorizzato-al-trattamento-art-29-gdpr&quot;&gt;L&#39;Autorizzato al Trattamento (Art. 29 GDPR)&lt;/h4&gt;
-&lt;p&gt;Sono le persone fisiche (dipendenti, collaboratori) che operano sotto l&#39;autorità diretta del Titolare o del Responsabile. Trattano i dati solo su &lt;strong&gt;istruzioni documentate&lt;/strong&gt;. In ambito IT, questo comporta l&#39;adozione del principio del minimo privilegio (&lt;em&gt;least privilege&lt;/em&gt;), la profilazione degli accessi applicativi e il tracciamento delle operazioni.&lt;/p&gt;
-&lt;h4 id=&quot;linteressato-art-41-gdpr&quot;&gt;L&#39;Interessato (Art. 4.1 GDPR)&lt;/h4&gt;
-&lt;p&gt;È &lt;strong&gt;esclusivamente la persona fisica&lt;/strong&gt; a cui si riferiscono i dati personali (clienti, dipendenti, utenti web). Le persone giuridiche, gli enti e le associazioni non sono qualificabili come &amp;quot;interessati&amp;quot; ai sensi del GDPR.&lt;/p&gt;
-&lt;h2 id=&quot;il-data-protection-officer-dpo-e-la-governance&quot;&gt;Il Data Protection Officer (DPO) e la Governance&lt;/h2&gt;
-&lt;p&gt;Il &lt;strong&gt;Data Protection Officer&lt;/strong&gt; (DPO / Responsabile della Protezione dei Dati) è la figura di garanzia che esercita funzioni di informazione, consulenza e controllo interno.&lt;/p&gt;
-&lt;h3 id=&quot;nomina-obbligatoria-vs-volontaria-art-37-gdpr&quot;&gt;Nomina Obbligatoria vs Volontaria (Art. 37 GDPR)&lt;/h3&gt;
-&lt;p&gt;La nomina del DPO è &lt;strong&gt;obbligatoria&lt;/strong&gt; nei seguenti casi:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;trattamenti effettuati da un&#39;&lt;strong&gt;autorità pubblica&lt;/strong&gt; o da un organismo pubblico;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;attività principali che richiedono il &lt;strong&gt;monitoraggio regolare e sistematico&lt;/strong&gt; degli interessati su larga scala;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;attività principali che consistono nel trattamento su &lt;strong&gt;larga scala&lt;/strong&gt; di categorie particolari di dati (art. 9) o dati relativi a condanne penali (art. 10).&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;In assenza di un obbligo formale, la &lt;strong&gt;nomina volontaria&lt;/strong&gt; è fortemente consigliata per strutturare in modo solido la governance della privacy.&lt;/p&gt;
-&lt;h3 id=&quot;caratteristiche-e-compiti-del-dpo-artt-38-39-gdpr&quot;&gt;Caratteristiche e Compiti del DPO (Artt. 38–39 GDPR)&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Indipendenza:&lt;/strong&gt; il DPO riferisce direttamente ai vertici aziendali, non riceve istruzioni sull&#39;esecuzione dei suoi compiti e non deve versare in situazioni di conflitto di interesse.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Tipologia di incarico:&lt;/strong&gt; può essere un dipendente interno o un professionista/società esterna. Un gruppo aziendale può nominare un unico DPO purché facilmente raggiungibile da ogni stabilimento.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Compiti principali:&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;informare e fornire consulenza al Titolare/Responsabile e ai dipendenti;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;sorvegliare l&#39;osservanza del Regolamento e delle policy interne (compresi audit e formazione);&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;fornire pareri sulla Valutazione di Impatto sulla Protezione dei Dati (&lt;strong&gt;DPIA&lt;/strong&gt;, art. 35 GDPR);&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;fungere da punto di contatto per il Garante Privacy e per gli interessati.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;i-principi-fondamentali-del-trattamento&quot;&gt;I Principi Fondamentali del Trattamento&lt;/h2&gt;
-&lt;h3 id=&quot;liceita-del-trattamento-e-basi-giuridiche-art-6-gdpr&quot;&gt;Liceità del Trattamento e Basi Giuridiche (Art. 6 GDPR)&lt;/h3&gt;
-&lt;p&gt;Un trattamento è lecito solo se sussiste &lt;strong&gt;almeno una&lt;/strong&gt; delle sei basi giuridiche:&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Nota per i soggetti pubblici italiani:&lt;/strong&gt; Ai sensi dell&#39;art. 2-ter del Codice Privacy (D.Lgs. 196/2003 modificato dal D.Lgs. 101/2018), le PA e gli enti pubblici possono trattare i dati per compiti di interesse pubblico unicamente in forza di una norma di legge o di regolamento. Per gli enti pubblici, il consenso non costituisce mai una base giuridica idonea.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h3 id=&quot;privacy-by-design-e-privacy-by-default-art-25-gdpr&quot;&gt;Privacy by Design e Privacy by Default (Art. 25 GDPR)&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Privacy by Design (fin dalla progettazione):&lt;/strong&gt; impone di integrare le garanzie di tutela dati fin dalla fase di ideazione di software, prodotti e processi aziendali (es. cifratura, pseudonimizzazione, minimizzazione dei dati raccolti).&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Privacy by Default (per impostazione predefinita):&lt;/strong&gt; richiede che, senza interventi dell&#39;utente, siano trattati solo i dati strettamente necessari per ogni specifica finalità, limitandone volume, periodo di conservazione e accessibilità.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;principio-di-accountability-art-5-par-2-gdpr&quot;&gt;Principio di Accountability (Art. 5, par. 2 GDPR)&lt;/h3&gt;
-&lt;p&gt;Il Titolare non deve solo rispettare i principi della privacy, ma deve &lt;strong&gt;essere in grado di dimostrarlo&lt;/strong&gt; (&lt;em&gt;responsabilizzazione proattiva&lt;/em&gt;). Ciò richiede un modello organizzativo basato sul rischio, incentrato su documentazione, analisi preventive, policy scritte e continuo riesame dei processi.&lt;/p&gt;
-&lt;h3 id=&quot;informativa-agli-interessati-artt-13-14-gdpr&quot;&gt;Informativa agli Interessati (Artt. 13–14 GDPR)&lt;/h3&gt;
-&lt;p&gt;Trasparenza significa fornire agli interessati un&#39;informativa concisa, trasparente, intelligibile e con linguaggio semplice, contenente:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;identificativi del Titolare e del DPO;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;finalità, basi giuridiche e tempi di conservazione (&lt;em&gt;retention&lt;/em&gt;);&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;destinatari o categorie di destinatari;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;indicazione dei diritti dell&#39;interessato (accesso, rettifica, cancellazione, portabilità, opposizione) e modalità per esercitarli.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&quot;aspetti-operativi-tecnici-ed-esempi-applicativi&quot;&gt;Aspetti Operativi, Tecnici ed Esempi Applicativi&lt;/h2&gt;
-&lt;h3 id=&quot;stabilimento-principale-e-meccanismo-di-one-stop-shop-art-4-par-16&quot;&gt;Stabilimento Principale e Meccanismo di One-Stop-Shop (Art. 4, par. 16)&lt;/h3&gt;
-&lt;p&gt;Per le organizzazioni transfrontaliere, lo &lt;strong&gt;stabilimento principale&lt;/strong&gt; individua l&#39;Autorità di controllo capofila (&lt;em&gt;sportello unico&lt;/em&gt; / &lt;em&gt;one-stop-shop&lt;/em&gt;). Per il Titolare coincide con la sede dell&#39;amministrazione centrale nell&#39;UE, ovvero dove vengono assunte le decisioni effettive sulle finalità e sui mezzi del trattamento.&lt;/p&gt;
-&lt;h4 id=&quot;esempio-1-grande-distribuzione-organizzata-gdo&quot;&gt;Esempio 1 — Grande Distribuzione Organizzata (GDO)&lt;/h4&gt;
-&lt;p&gt;Un retailer della GDO ha la sede centrale a Rotterdam (Paesi Bassi) e punti vendita in vari Stati membri. Se le decisioni sulle strategie CRM e di marketing vengono adottate a Rotterdam, l&#39;&lt;strong&gt;Autorità Garante olandese&lt;/strong&gt; sarà l&#39;Autorità capofila per tutti i trattamenti correlati nell&#39;UE.&lt;/p&gt;
-&lt;h4 id=&quot;esempio-2-istituto-bancario-con-operativita-transfrontaliera&quot;&gt;Esempio 2 — Istituto bancario con operatività transfrontaliera&lt;/h4&gt;
-&lt;p&gt;Una banca ha sede centrale a Francoforte (Germania) per i servizi bancari, ma ha trasferito il potere decisionale per la divisione assicurativa europea a Vienna (Austria). In questo caso, l&#39;&lt;strong&gt;Autorità austriaca&lt;/strong&gt; sarà capofila per i dati della divisione assicurativa, mentre l&#39;&lt;strong&gt;Autorità tedesca&lt;/strong&gt; rimarrà capofila per i trattamenti di natura bancaria.&lt;/p&gt;
-&lt;h3 id=&quot;pseudonimizzazione-e-tecniche-di-sicurezza-art-4&quot;&gt;Pseudonimizzazione e Tecniche di Sicurezza (Art. 4)&lt;/h3&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;Pseudonimizzazione:&lt;/strong&gt; trattamento dei dati in modo che non possano più essere attribuiti a un interessato specifico senza l&#39;utilizzo di informazioni aggiuntive, a condizione che tali informazioni siano conservate separatamente e protette da adeguate misure tecniche.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Differenza con l&#39;Anonimizzazione:&lt;/strong&gt; i dati pseudonimizzati &lt;strong&gt;sono ancora dati personali&lt;/strong&gt; (la ri-identificazione è possibile con la chiave/archivio separato). I dati anonimizzati sono invece irreversibilmente de-identificati e fuoriescono dal campo di applicazione del GDPR.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Tecniche IT comuni:&lt;/strong&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;Tokenizzazione:&lt;/em&gt; sostituzione dell&#39;identificativo diretto con un token casuale;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;Hashing con Salt:&lt;/em&gt; algoritmo di trasformazione crittografica irripetibile senza il valore casuale (&lt;em&gt;salt&lt;/em&gt;);&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;em&gt;Cifratura deterministica:&lt;/em&gt; permette confronti tra database mantenendo riservato il dato originario.&lt;/p&gt;
-&lt;p&gt;L&#39;uso della pseudonimizzazione riduce significativamente il rischio residuo ed è valutato favorevolmente nelle Valutazioni di Impatto (DPIA).&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;profilazione-art-4-e-decisioni-automatizzate-art-22&quot;&gt;Profilazione (Art. 4) e Decisioni Automatizzate (Art. 22)&lt;/h3&gt;
-&lt;ul&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Profilazione:&lt;/strong&gt; qualsiasi forma di trattamento automatizzato volte a valutare, analizzare o prevedere aspetti personali dell&#39;individuo (rendimento lavorativo, situazione economica, salute, preferenze, ubicazione).&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Decisione automatizzata (Art. 22 GDPR):&lt;/strong&gt; l&#39;interessato ha il diritto di &lt;strong&gt;non essere sottoposto&lt;/strong&gt; a decisioni basate &lt;em&gt;unicamente&lt;/em&gt; su trattamenti automatizzati (compresa la profilazione) che producano effetti giuridici o incidano in modo analogo significativamente sulla sua persona (es. rifiuto automatico di un finanziamento online o screening dei CV senza filtro umano).&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;&lt;strong&gt;Eccezioni ammesse:&lt;/strong&gt; la decisione automatizzata è lecita solo se:&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;
-&lt;p&gt;è necessaria per la conclusione o l&#39;esecuzione di un contratto;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;è autorizzata dal diritto dell&#39;Unione o dello Stato membro;&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;si basa sul &lt;strong&gt;consenso esplicito&lt;/strong&gt; dell&#39;interessato.&lt;/p&gt;
-&lt;p&gt;In questi casi, il Titolare deve comunque garantire il &lt;strong&gt;diritto all&#39;intervento umano&lt;/strong&gt;, il diritto di esprimere la propria opinione e di contestare la decisione.&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;impresa-e-gruppo-imprenditoriale-artt-418-419&quot;&gt;Impresa e Gruppo Imprenditoriale (Artt. 4.18–4.19)&lt;/h3&gt;
-&lt;p&gt;Il GDPR definisce l&#39;&lt;strong&gt;impresa&lt;/strong&gt; come la persona fisica o giuridica che esercita un&#39;attività economica (indipendentemente dalla forma giuridica). Il &lt;strong&gt;gruppo imprenditoriale&lt;/strong&gt; è costituito dall&#39;impresa controllante e dalle controllate. Tale concetto assume rilievo strategico sia per la nomina di un DPO unico di gruppo, sia per il trasferimento intra-gruppo di dati verso Paesi terzi tramite le clausole contrattuali vincolanti d&#39;impresa (&lt;em&gt;Binding Corporate Rules - BCR&lt;/em&gt;).&lt;/p&gt;
-
-
-]]></content>
-    
-    
-    
-      
-      
-    <category term="GDPR"/>
-      
-    
-      
-      
-    <category term="protezione dati"/>
-      
-    
-      
-      
-    <category term="privacy"/>
-      
-    
-      
-      
-    <category term="data protection officer"/>
       
     
   </entry>
