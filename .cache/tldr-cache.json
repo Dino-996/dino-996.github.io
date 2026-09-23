@@ -180,8 +180,8 @@
     "hash": "265015cb2a16"
   },
   "Introduzione ad Assembly": {
-    "tldr": "L'ISA definisce il linguaggio macchina di una CPU, con x86 che rappresenta una famiglia storica dominante, evolutasi in x64 per gestire quantità di RAM significativamente maggiori e offrire vantaggi in termini di prestazioni e sicurezza. La differenza chiave tra x86 (32-bit) e x64 (64-bit) risiede nella capacità di indirizzamento della memoria, che impatta direttamente sulla complessità dei dataset e delle elaborazioni gestibili.",
-    "hash": "9ce133df65e4"
+    "tldr": "L'ISA definisce il linguaggio macchina di un processore, con la famiglia x86 (storicamente 16/32 bit, ma comunemente indicata come 32 bit in contrasto con x64) come esempio dominante che interagisce con la memoria in modo limitato rispetto all'architettura x64 a 64 bit. L'architettura x64 offre un indirizzamento di memoria significativamente maggiore (fino a 16 EiB teorici) e funzionalità avanzate di sicurezza e prestazioni rispetto ai suoi predecessori a 32 bit.",
+    "hash": "c5cfb46909d3"
   },
   "Guida ai comandi Linux per la diagnostica di sistema, rete e hardware": {
     "tldr": "Questa guida raccoglie comandi Linux essenziali per la diagnostica di sistema, organizzati per area, evidenziando le differenze e gli equivalenti su macOS. Molti comandi da riga di comando standard sono compatibili tra Linux e macOS, mentre altri sono specifici di Linux e richiedono approcci alternativi su macOS.",
@@ -190,5 +190,25 @@
   "Guida ai livelli RAID": {
     "tldr": "Il RAID combina più dischi in unità logiche per migliorare la tolleranza ai guasti e/o le prestazioni, ma la scelta del livello appropriato richiede una comprensione approfondita delle cause di guasto, che vanno oltre la semplice ridondanza. La progettazione efficace dello storage implica anche il monitoraggio, la qualità dell'alimentazione e procedure di gestione dei guasti.",
     "hash": "a0ab9b2af53f"
+  },
+  "Implementazione di un server e un client TCP in Java": {
+    "tldr": "TCP è la base delle comunicazioni di rete affidabili, fondamentale per protocolli di alto livello come HTTP, WebSocket e gRPC, e la sua comprensione è essenziale per il debugging di sistemi complessi. Il ciclo di vita di una richiesta HTTP su TCP coinvolge la risoluzione DNS, l'handshake TCP a tre vie, la trasmissione della richiesta client, l'elaborazione e la risposta del server, e infine il teardown TCP.",
+    "hash": "d671ec395622"
+  },
+  "Address Resolution Protocol": {
+    "tldr": "ARP mappa gli indirizzi IP agli indirizzi MAC a livello di collegamento, essenziale per l'incapsulamento dei frame Ethernet nelle comunicazioni all'interno di una subnet. Il suo pacchetto è composto da campi che specificano i tipi di hardware e protocollo, le lunghezze degli indirizzi e le informazioni di invio e destinazione per la risoluzione.",
+    "hash": "4cfda94a8f23"
+  },
+  "Reverse engineering e debug binario in Linux": {
+    "tldr": "`objdump -d -M intel` è uno strumento Linux per il disassemblaggio di file eseguibili ELF in istruzioni Assembly leggibili, mostrando indirizzo di memoria, opcode grezzi e istruzioni in sintassi Intel. L'analisi statica di questo output permette di identificare valori immediati esadecimali e segreti temporaneamente caricati nei registri, invisibili durante l'esecuzione dinamica.",
+    "hash": "df5e293f38ea"
+  },
+  "Rappresentazione dei dati e aritmetica binaria": {
+    "tldr": "La rappresentazione lineare dello stack con `rsp` come punto centrale e offset positivi/negativi che puntano a destra/sinistra semplifica l'analisi degli indirizzi di memoria. I dati di bootstrap del kernel, inclusi `argc` e i puntatori `argv`, sono disposti a partire da `rsp` verso indirizzi crescenti, rendendo `[rsp]` tipicamente `argc`.",
+    "hash": "cee631c7a10b"
+  },
+  "Input e Output in assembly x86_64": {
+    "tldr": "La syscall `write` inoltra al kernel l'indirizzo e la lunghezza di un blocco di memoria da stampare, utilizzando i registri `rax`, `rdi`, `rsi` e `rdx` per specificare l'ID della syscall, il file descriptor, l'indirizzo dei dati e il numero di byte. Per terminare correttamente un programma, è necessario invocare in sequenza la syscall `write` per l'output e `exit` per la chiusura, passando gli opportuni argomenti ai registri appropriati.",
+    "hash": "426d22bf50d7"
   }
 }
