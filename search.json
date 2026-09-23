@@ -1,5 +1,29 @@
 [
   {
+    "title": "Input e Output in assembly x86_64",
+    "url": "/blog/input-e-output-in-assembly-x86-64/",
+    "description": "Guida pratica all'uso delle principali syscall Linux (write, read, open, exit) in Assembly x86_64. L'articolo illustra le convenzioni di chiamata nei registri, l'allocazione dinamica di buffer sullo stack e le tecniche di indirizzamento RIP-relative con .asciz e lea.",
+    "date": "2026-09-21T00:00:00.000Z"
+  },
+  {
+    "title": "Reverse engineering e debug binario in Linux",
+    "url": "/blog/reverse-engineering-e-debug-binario-in-linux/",
+    "description": "Tutorial operativo per il reverse engineering e il debugging binario su Linux. Il testo analizza il disassemblaggio con objdump, il tracciamento delle system call con strace e l'ispezione della memoria, dei registri e dello stack mediante GDB.",
+    "date": "2026-09-18T00:00:00.000Z"
+  },
+  {
+    "title": "Rappresentazione dei dati e aritmetica binaria",
+    "url": "/blog/rappresentazione-dei-dati-e-aritmetica-binaria/",
+    "description": "Un'analisi approfondita della rappresentazione dello stack e della gestione dei dati in memoria. L'articolo esplora la linearizzazione degli offset tramite il registro rsp, il funzionamento dei sistemi binario ed esadecimale e la logica del complemento a due per i numeri con segno a 8, 16 e 32 bit.",
+    "date": "2026-09-16T00:00:00.000Z"
+  },
+  {
+    "title": "Address Resolution Protocol",
+    "url": "/blog/address-resolution-protocol/",
+    "description": "Guida tecnica al protocollo ARP (Address Resolution Protocol): scopri come traduce gli indirizzi IP in indirizzi MAC all'interno della rete locale, come interagiscono le tabelle NAT e ARP nei router e quali sono i rischi di sicurezza legati agli attacchi ARP Spoofing.",
+    "date": "2026-09-11T00:00:00.000Z"
+  },
+  {
     "title": "Implementazione di un server e un client TCP in Java",
     "url": "/blog/implementazione-di-un-server-e-un-client-tcp-in-java/",
     "description": "Guida al funzionamento del protocollo TCP e all'uso dei socket in Java. Analizza il ciclo di vita delle connessioni e confronta le architetture client/server single-thread e multithread con esempi di codice pronti all'uso.",

@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Address Resolution Protocol · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Guida tecnica al protocollo ARP (Address Resolution Protocol): scopri come traduce gli indirizzi IP in indirizzi MAC all&#39;interno della rete locale, come interagiscono le tabelle NAT e ARP nei router e quali sono i rischi di sicurezza legati agli attacchi ARP Spoofing." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/address-resolution-protocol/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/address-resolution-protocol/" />
+
+<meta property="og:title" content="Address Resolution Protocol" />
+<meta property="og:description" content="Guida tecnica al protocollo ARP (Address Resolution Protocol): scopri come traduce gli indirizzi IP in indirizzi MAC all&#39;interno della rete locale, come interagiscono le tabelle NAT e ARP nei router e quali sono i rischi di sicurezza legati agli attacchi ARP Spoofing." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1789151796/ARP_24214d9665.jpg" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/address-resolution-protocol/" />
+
+<meta name="twitter:title" content="Address Resolution Protocol" />
+<meta name="twitter:description" content="Guida tecnica al protocollo ARP (Address Resolution Protocol): scopri come traduce gli indirizzi IP in indirizzi MAC all&#39;interno della rete locale, come interagiscono le tabelle NAT e ARP nei router e quali sono i rischi di sicurezza legati agli attacchi ARP Spoofing." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1789151796/ARP_24214d9665.jpg" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism + KaTeX caricati solo sui post: vedere head_extra e scripts in _layouts/post.njk -->
+
+
+
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="78601d64-b9ba-4c5a-8382-187c35206036"></script>
+
+
+    
+
+    <!-- SEO: JSON-LD WebSite schema (homepage only) -->
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn nav-btn" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn nav-btn nav-btn-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Cambia tema" title="Cambia tema">
+        <svg id="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="/courses/" class="btn nav-btn nav-btn-nav">Percorsi</a>
+      <a href="/about/" class="btn nav-btn">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1789151796/ARP_24214d9665.jpg" as="image" fetchpriority="high">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+  <!-- SEO: JSON-LD Article schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": &quot;Address Resolution Protocol&quot;,
+    "url": "https://dino-996.github.io/blog/address-resolution-protocol/",
+    
+    "dateModified": "2026-09-11T18:37:31.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    },
+    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1789151796/ARP_24214d9665.jpg",
+    "publisher": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    }
+  }
+  </script>
+
+  <!-- SEO: JSON-LD BreadcrumbList schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      
+      
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": &quot;Home&quot;,
+        "item": "https://dino-996.github.io/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": &quot;Blog&quot;,
+        "item": "https://dino-996.github.io/blog/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": &quot;Address resolution protocol&quot;
+      }
+      
+    ]
+  }
+  </script>
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      
+      
+      
+      
+        
+        
+          
+          
+            
+          
+        
+      
+      
+      
+
+
+<nav aria-label="Breadcrumb" class="breadcrumb">
+  <ol>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/blog/">Blog</a></li>
+      
+    
+      
+        <li><a href="/tags/posts/">posts</a></li>
+      
+    
+      
+        <li aria-current="page">Address Resolution Protocol</li>
+      
+    
+  </ol>
+</nav>
+
+
+
+      <h1>Address Resolution Protocol</h1>
+
+      
+      <p class="post-description">Guida tecnica al protocollo ARP (Address Resolution Protocol): scopri come traduce gli indirizzi IP in indirizzi MAC all&#39;interno della rete locale, come interagiscono le tabelle NAT e ARP nei router e quali sono i rischi di sicurezza legati agli attacchi ARP Spoofing.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 11 settembre 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+      </div>
+    </header>
+
+    
+    <figure class="post-hero">
+      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1789151796/ARP_24214d9665.jpg"
+           alt="Immagine generata con AI"
+           class="post-hero-image"
+           fetchpriority="high">
+      
+      <figcaption class="post-hero-caption">Immagine generata con AI</figcaption>
+      
+    </figure>
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">ARP mappa gli indirizzi IP agli indirizzi MAC a livello di collegamento, essenziale per l&#39;incapsulamento dei frame Ethernet nelle comunicazioni all&#39;interno di una subnet. Il suo pacchetto è composto da campi che specificano i tipi di hardware e protocollo, le lunghezze degli indirizzi e le informazioni di invio e destinazione per la risoluzione.</p>
+      </div>
+      
+
+      <section class="content">
+          <p>Arp (Address Resolution Protocol) è un protocollo che opera a cavallo tra il livello 2 (collegamento) e il livello 3 (rete) del modello OSI. Il suo compito è tradurre un indirizzo IP nel corrispondente indirizzo fisico (MAC), passaggio necessario per incapsulare i dati in un frame Ethernet.</p>
+<div class="alert alert-info" role="alert"> Nota editoriale: i frame ARP non vengono incapsulati in un pacchetto IP, ma trasmessi direttamente come frame Ethernet con un proprio EtherType dedicato. Questo dettaglio, non presente nella bozza originale, è segnalato come "Da verificare" nel report di revisione. </div>
+<p>Quando un host deve inviare dati al router, deve conoscere il MAC della scheda di rete del router. Viceversa, quando il router deve consegnare dati a un host, deve conoscerne il MAC. All'interno della stessa subnet, dal punto di vista della risoluzione degli indirizzi, il router si comporta esattamente come un host qualsiasi verso gli altri dispositivi della LAN.</p>
+<h2 id="il-formato-del-pacchetto-arp">Il formato del pacchetto ARP</h2>
+<p>Un pacchetto ARP è strutturato in campi ben definiti. Conoscerli aiuta a interpretare correttamente una cattura di rete, ad esempio con Wireshark, durante il debug.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Campo</th> <th>Descrizione</th> <th>Dimensione tipica</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Hardware type</td> <td>Tipo di rete fisica utilizzata, es. Ethernet</td> <td>2 byte</td> </tr> <tr> <td class="fw-semibold">Protocol type</td> <td>Protocollo di livello 3 da risolvere, es. IPv4</td> <td>2 byte</td> </tr> <tr> <td class="fw-semibold">Hardware address length</td> <td>Lunghezza dell'indirizzo MAC</td> <td>1 byte</td> </tr> <tr> <td class="fw-semibold">Protocol address length</td> <td>Lunghezza dell'indirizzo IP</td> <td>1 byte</td> </tr> <tr> <td class="fw-semibold">Operation (opcode)</td> <td>1 per Request, 2 per Reply</td> <td>2 byte</td> </tr> <tr> <td class="fw-semibold">Sender MAC address</td> <td>MAC del mittente</td> <td>6 byte</td> </tr> <tr> <td class="fw-semibold">Sender IP address</td> <td>IP del mittente</td> <td>4 byte</td> </tr> <tr> <td class="fw-semibold">Target MAC address</td> <td>MAC del destinatario, vuoto in una request</td> <td>6 byte</td> </tr> <tr> <td class="fw-semibold">Target IP address</td> <td>IP del destinatario</td> <td>4 byte</td> </tr> </tbody> </table> </div> <div class="alert alert-warning" role="alert"> Da verificare prima della pubblicazione: dimensioni esatte dei campi (in byte) e valori numerici degli opcode indicati in tabella. </div>
+<h2 id="le-due-tabelle-del-router-la-tabella-nat-e-arp">Le due tabelle del router, la tabella NAT e ARP</h2>
+<p>Il router mantiene due tabelle distinte, con scopi diversi.</p>
+<h3 id="tabella-nat-network-address-translation">Tabella NAT (Network Address Translation)</h3>
+<p>Tutti i dispositivi di una subnet condividono lo stesso IP pubblico. Il router usa quindi le porte TCP/UDP per distinguere le connessioni dei singoli host e sapere a chi inoltrare le risposte in arrivo da Internet.</p>
+<p>Esempio pratico:</p>
+<ol>
+<li>L'host A (<code>192.168.1.50</code>) apre una pagina su un server esterno (<code>93.184.216.34</code>). Il pacchetto in uscita ha intestazione <code>192.168.1.50:51234 → 93.184.216.34:443</code>.</li>
+<li>Prima di inviarlo su Internet, il router sostituisce l'IP privato con il proprio IP pubblico, es. <code>2.3.4.5</code>, e assegna una porta pubblica univoca, es. <code>10500</code>. Salva quindi in tabella l'associazione: <code>2.3.4.5:10500 ↔ 192.168.1.50:51234 ↔ 93.184.216.34:443</code>.</li>
+<li>Il server web risponde a <code>2.3.4.5:10500</code>. Il router riceve il pacchetto, legge la porta di destinazione, consulta la tabella NAT, riscrive l'IP con quello privato dell'host A e lo inoltra sulla rete interna.</li>
+</ol>
+<div class="table-responsive shadow-sm rounded mb-3">
+  <table class="table table-bordered table-striped table-hover align-middle mb-0">
+    <thead class="table-dark">
+      <tr><th>IP/Porta dell'indirizzo privato</th>
+        <th>IP/Porta dell'indirizzo pubblico</th>
+        <th>IP/Porta di destinazione</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td >192.168.50:51234</td>
+        <td>2.3.4.5:10500</td>
+        <td>93.184.216.34:443</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<h3 id="tabella-arp">Tabella ARP</h3>
+<p>Serve a mappare gli IP della rete locale ai relativi MAC address. Gli host la usano per comunicare tra loro sulla stessa subnet; il router la usa quando deve recapitare a un host locale un pacchetto arrivato da Internet, dopo averne trovato la destinazione nella tabella NAT.</p>
+<h2 id="chi-possiede-una-tabella-arp">Chi possiede una tabella arp</h2>
+<p>Non tutti i dispositivi di rete la gestiscono, perché dipende dal livello OSI a cui operano.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Dispositivo</th> <th>Tabella arp</th> <th>Note</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Host (pc, smartphone, server)</td> <td>Sì</td> <td>Serve per costruire il frame Ethernet verso IP locali</td> </tr> <tr> <td class="fw-semibold">Router</td> <td>Sì</td> <td>Una tabella per ogni interfaccia collegata a una subnet</td> </tr> <tr> <td class="fw-semibold">Switch di livello 2 (standard)</td> <td>No</td> <td>Usa una tabella MAC (CAM): MAC, porta fisica</td> </tr> <tr> <td class="fw-semibold">Switch gestibili / livello 3</td> <td>Solo se fa routing o per l'interfaccia di management</td> <td>Es. SSH, Web UI</td> </tr> </tbody> </table> </div>
+<h2 id="meccanismo-di-risoluzione-arp">Meccanismo di risoluzione ARP</h2>
+<p>Scenario: l'host A (<code>192.168.1.10</code>, MAC <code>AA:AA</code>) deve comunicare con l'host B (<code>192.168.1.20</code>, MAC <code>BB:BB</code>), sulla stessa rete locale.</p>
+<ol>
+<li><strong>Controllo cache locale.</strong> A verifica se <code>192.168.1.20 → BB:BB</code> è già nella propria tabella ARP. Se sì, incapsula subito i dati nel frame Ethernet.</li>
+<li><strong>ARP Request.</strong> Se l'associazione manca, A mette in pausa l'invio e genera una richiesta: &quot;Chi ha l'IP 192.168.1.20? Dillo a 192.168.1.10, MAC AA:AA&quot;.</li>
+<li><strong>Invio in broadcast.</strong> Il frame ha destinazione <code>FF:FF:FF:FF:FF:FF</code>. Lo switch lo inoltra su tutte le porte attive della LAN.</li>
+<li><strong>Filtro sugli host.</strong> Tutti ricevono la richiesta; chi non ha l'IP <code>192.168.1.20</code> la scarta. Solo B la riconosce come propria.</li>
+<li><strong>ARP Reply.</strong> B salva preventivamente i dati di A nella propria tabella, poi risponde in unicast al MAC <code>AA:AA</code>: &quot;L'IP 192.168.1.20 è associato al MAC BB:BB&quot;.</li>
+<li><strong>Aggiornamento e invio.</strong> A riceve la risposta, salva <code>192.168.1.20 → BB:BB</code>, con un TTL di scadenza, e trasmette finalmente il pacchetto dati originale.</li>
+</ol>
+<h2 id="comunicazione-locale-vs-verso-internet">Comunicazione locale vs verso Internet</h2>
+<p>ARP funziona solo all'interno dello <strong>stesso dominio di broadcast</strong>, cioè della stessa <strong>subnet</strong>.</p>
+<ul>
+<li><strong>Destinazione locale</strong> (<code>192.168.1.X</code>): la richiesta ARP cerca direttamente il MAC dell'host di destinazione.</li>
+<li><strong>Destinazione esterna</strong> (es. <code>8.8.8.8</code>): l'host riconosce che l'IP non appartiene alla rete locale. Non fa una ARP Request per <code>8.8.8.8</code>, ma per l'IP del default gateway, es. <code>192.168.1.1</code>. Il frame va al MAC del router, che si occupa di instradare il pacchetto verso l'esterno.</li>
+</ul>
+<h2 id="consultare-e-gestire-la-tabella-arp-da-riga-di-comando">Consultare e gestire la tabella ARP da riga di comando</h2>
+<p>Per uno sviluppatore junior o un IT manager, è utile sapere come ispezionare la propria tabella ARP direttamente da terminale.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Sistema operativo</th> <th>Comando</th> <th>Descrizione</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Windows</td> <td><code>arp -a</code></td> <td>Mostra la tabella ARP corrente</td> </tr> <tr> <td class="fw-semibold">Linux (legacy)</td> <td><code>arp -a</code></td> <td>Richiede il pacchetto net-tools</td> </tr> <tr> <td class="fw-semibold">Linux (moderno)</td> <td><code>ip neigh show</code></td> <td>Equivalente attuale tramite iproute2</td> </tr> <tr> <td class="fw-semibold">macOS</td> <td><code>arp -a</code></td> <td>Mostra la tabella ARP corrente</td> </tr> </tbody> </table> </div>
+<p>Un esempio di output su Linux con lo strumento moderno:</p>
+<pre><code class="language-bash">$ ip neigh show
+192.168.1.1 dev eth0 lladdr aa:bb:cc:dd:ee:ff REACHABLE
+192.168.1.20 dev eth0 lladdr 11:22:33:44:55:66 STALE
+</code></pre>
+<h2 id="arp-e-ipv6">ARP e IPv6</h2>
+<p>In IPv6, ARP non viene utilizzato. La risoluzione degli indirizzi è affidata a NDP (Neighbor Discovery Protocol), che si appoggia su ICMPv6 invece che su un protocollo di livello 2 a sé stante. Il principio di fondo, cioè associare un indirizzo di rete a un indirizzo fisico, resta lo stesso: cambia il meccanismo sottostante.</p>
+<h2 id="la-vulnerabilita-alla-base">La vulnerabilità alla base</h2>
+<p>Il protocollo ARP soffre di due limiti strutturali:</p>
+<ul>
+<li><strong>Assenza di autenticazione.</strong> Non verifica se l'emittente del pacchetto è il reale proprietario dell'indirizzo IP dichiarato.</li>
+<li><strong>Natura stateless.</strong> I dispositivi accettano e memorizzano pacchetti di risposta ARP Reply anche se non hanno mai inviato alcuna richiesta (il cosiddetto <strong>Gratuitous ARP</strong>) sovrascrivendo la propria tabella senza alcun controllo.</li>
+</ul>
+<p>Questi due limiti sono la base tecnica su cui si fonda l'ARP Spoofing, una tecnica di attacco <strong>man-in-the-middle</strong> a livello locale.</p>
+<h2 id="le-fasi-dellattacco">Le fasi dell'attacco</h2>
+<p>Immaginiamo una rete locale con questi attori:</p>
+<ul>
+<li><strong>Vittima:</strong> IP <code>192.168.1.50</code>, MAC <code>AA:AA</code></li>
+<li><strong>Router:</strong> IP <code>192.168.1.1</code>, MAC <code>RR:RR</code></li>
+<li><strong>Attaccante:</strong> IP <code>192.168.1.99</code>, MAC <code>XX:XX</code></li>
+</ul>
+<p>Lo schema seguente riassume il risultato dell'attacco, con entrambe le vittime convinte di parlare direttamente tra loro mentre in realtà passano per l'attaccante:</p>
+<figure style="border: 1px solid #ddd; border-radius: 5px; padding: 10px; display: inline-block; max-width: 620px; margin-top: 15px; margin-bottom: 15px;">
+  <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1789150406/ARP_poisoning_drawio_0608cf6493.png" alt="Anatomia di un attacco ARP Spoofing" width="1920" height="150" loading="lazy" style="max-width: 100%; border-radius: 5px">
+</figure>
+<h3 id="fase-1-invio-dei-pacchetti-falsificati-avvelenamento">Fase 1: invio dei pacchetti falsificati (avvelenamento)</h3>
+<p>L'attaccante invia in continuazione <strong>pacchetti ARP malevoli</strong> a entrambi gli estremi della comunicazione:</p>
+<ul>
+<li>Alla vittima invia una risposta ARP dicendo: &quot;L'IP 192.168.1.1, il router, ha MAC XX:XX&quot;, cioè il MAC dell'attaccante.</li>
+<li>Al router invia una risposta ARP dicendo: &quot;L'IP 192.168.1.50, la vittima, ha MAC XX:XX&quot;, cioè ancora il MAC dell'attaccante.</li>
+</ul>
+<h3 id="fase-2-aggiornamento-delle-tabelle-arp-e-reindirizzamento">Fase 2: aggiornamento delle tabelle arp e reindirizzamento</h3>
+<p>I due dispositivi aggiornano le rispettive tabelle ARP locali memorizzando le informazioni false. Da questo momento, quando lo switch di rete deve smistare il traffico di livello 2:</p>
+<ul>
+<li>Quando la vittima invia un frame indirizzato all'IP del router, lo invia al MAC <code>XX:XX</code>. Lo switch inoltra il frame direttamente alla porta dell'attaccante.</li>
+<li>Quando il router risponde alla vittima, invia il frame al MAC <code>XX:XX</code>. Lo switch lo consegna di nuovo all'attaccante.</li>
+</ul>
+<h3 id="fase-3-ip-forwarding-inoltro-del-traffico">Fase 3: ip forwarding (inoltro del traffico)</h3>
+<p>Per non far cadere la connessione e non insospettire la vittima, l'attaccante attiva l'IP forwarding sul proprio sistema operativo. Quando la sua scheda di rete riceve i pacchetti intercettati, li legge e li rinvia al destinatario reale, router o vittima, mantenendo la comunicazione apparentemente intatta.</p>
+<h2 id="conseguenze-dellattacco">Conseguenze dell'attacco</h2>
+<p>Collocandosi al centro del flusso dati, l'attaccante può:</p>
+<ul>
+<li><strong>Eseguire sniffing.</strong> Leggere in chiaro il traffico non crittografato, come HTTP, FTP, Telnet, credenziali e cookie di sessione.</li>
+<li><strong>Manipolare i dati.</strong> Alterare i contenuti dei pacchetti prima di inoltrarli, ad esempio con iniezione di codice malevolo o reindirizzamento DNS.</li>
+<li><strong>Eseguire denial of service (DoS).</strong> Scartare i pacchetti ricevuti anziché inoltrarli, interrompendo la connessione della vittima a Internet.</li>
+</ul>
+<p>Queste tre conseguenze spiegano perché l'ARP Spoofing sia considerato uno degli attacchi più insidiosi nelle reti locali. Non richiede accesso privilegiato, solo la possibilità di inviare pacchetti sulla stessa LAN della vittima.</p>
+<h2 id="difese-contro-larp-spoofing">Difese contro l'arp spoofing</h2>
+<p>Conoscere il meccanismo dell'attacco è utile solo se accompagnato dalle contromisure che un amministratore di rete può adottare:</p>
+<ul>
+<li><strong>Dynamic ARP Inspection (DAI).</strong> Funzionalità disponibile su molti switch gestibili che valida le risposte ARP confrontandole con un database di associazioni IP-MAC affidabili, scartando quelle sospette.</li>
+<li><strong>Voci ARP statiche.</strong> Su segmenti di rete critici, come server e gateway, è possibile fissare manualmente le associazioni IP-MAC per impedirne la sovrascrittura automatica.</li>
+<li><strong>Port security sugli switch.</strong> Limita il numero di indirizzi MAC ammessi su ciascuna porta, rendendo più difficile per un dispositivo non autorizzato inserirsi nella LAN.</li>
+<li><strong>Segmentazione tramite VLAN.</strong> Riduce l'ampiezza del dominio di broadcast e, di conseguenza, la superficie di attacco raggiungibile con tecniche di ARP spoofing.</li>
+<li><strong>Strumenti di monitoraggio.</strong> Software come <a href="https://www.kali.org/tools/arpwatch/" target="_blank" rel="noopener noreferer">arpwatch</a> osservano le variazioni nelle associazioni IP-MAC della rete e segnalano anomalie sospette agli amministratori.</li>
+</ul>
+
+      </section>
+
+      <!-- Disclaimer AI -->
+      <footer class="mt-4 pt-3 border-top">
+        <p class="text-muted small mb-0">
+          <em>Articolo scritto con il supporto di LLM per la formattazione e la struttura del codice.</em>
+        </p>
+      </footer>
+
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout post-section">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/arp/" class="badge badge-outline">ARP</a>
+              
+            
+              
+              
+              <a href="/tags/networking/" class="badge badge-outline">networking</a>
+              
+            
+              
+              
+              <a href="/tags/cybersecurity/" class="badge badge-outline">cybersecurity</a>
+              
+            
+              
+              
+              <a href="/tags/lan/" class="badge badge-outline">LAN</a>
+              
+            
+              
+              
+              <a href="/tags/arp-spoofing/" class="badge badge-outline">ARP spoofing</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center share-block">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Faddress-resolution-protocol%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+            Condividi su LinkedIn
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Address%20Resolution%20Protocol&url=https://dino-996.github.io%2Fblog%2Faddress-resolution-protocol%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su X">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+            Condividi su X
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout post-section post-section-sm">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div class="article-nav-half">
+          
+          <a href="/blog/rappresentazione-dei-dati-e-aritmetica-binaria/" class="btn btn-outline btn-sm article-nav-btn">
+            <span class="d-block small article-nav-label">← Precedente</span>
+            <span class="d-block article-nav-title">Rappresentazione dei dati e aritmetica binaria</span>
+          </a>
+          
+        </div>
+        <div class="article-nav-half article-nav-right">
+          
+          <a href="/blog/implementazione-di-un-server-e-un-client-tcp-in-java/" class="btn btn-outline btn-sm article-nav-btn article-nav-btn-right">
+            <span class="d-block small article-nav-label">Successivo →</span>
+            <span class="d-block article-nav-title">Implementazione di un server e un client TCP in Java</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Potrebbe interessarti -->
+    
+    
+    <section class="related-posts" aria-labelledby="related-posts-heading">
+      <h2 id="related-posts-heading" class="post-layout">Potrebbe interessarti</h2>
+      <div class="related-posts-grid post-layout">
+        
+        <a href="/blog/input-e-output-in-assembly-x86-64/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Input e Output in assembly x86_64</h3>
+            
+            <time class="related-post-date">21 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/reverse-engineering-e-debug-binario-in-linux/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Reverse engineering e debug binario in Linux</h3>
+            
+            <time class="related-post-date">18 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/rappresentazione-dei-dati-e-aritmetica-binaria/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Rappresentazione dei dati e aritmetica binaria</h3>
+            
+            <time class="related-post-date">16 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+      </div>
+    </section>
+    
+
+    <!-- Commenti -->
+    <h2 class="post-layout comment-heading">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+    data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      });
+    });
+  </script>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> DinoSec. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+    <!-- Trasparenza AI -->
+    <p class="small text-muted">
+      Scopri di più sulla <a href="/about#trasparenza">politica sull'uso dell'IA</a>.
+    </p>
+  </div>
+</footer>
+
+
+
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente virtuale basato su intelligenza artificiale">
+        <span aria-hidden="true">🦖</span>
+        <span class="ai-toggle-badge" aria-hidden="true">IA</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span aria-hidden="true">🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+            <span class="ai-badge" aria-label="Assistente basato su intelligenza artificiale">IA</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI assistant widget -->
+    <script src="/assets/js/ai-widget.js" defer></script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

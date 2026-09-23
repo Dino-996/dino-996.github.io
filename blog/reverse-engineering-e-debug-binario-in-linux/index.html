@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Reverse engineering e debug binario in Linux · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Tutorial operativo per il reverse engineering e il debugging binario su Linux. Il testo analizza il disassemblaggio con objdump, il tracciamento delle system call con strace e l&#39;ispezione della memoria, dei registri e dello stack mediante GDB." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/reverse-engineering-e-debug-binario-in-linux/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/reverse-engineering-e-debug-binario-in-linux/" />
+
+<meta property="og:title" content="Reverse engineering e debug binario in Linux" />
+<meta property="og:description" content="Tutorial operativo per il reverse engineering e il debugging binario su Linux. Il testo analizza il disassemblaggio con objdump, il tracciamento delle system call con strace e l&#39;ispezione della memoria, dei registri e dello stack mediante GDB." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/reverse-engineering-e-debug-binario-in-linux/" />
+
+<meta name="twitter:title" content="Reverse engineering e debug binario in Linux" />
+<meta name="twitter:description" content="Tutorial operativo per il reverse engineering e il debugging binario su Linux. Il testo analizza il disassemblaggio con objdump, il tracciamento delle system call con strace e l&#39;ispezione della memoria, dei registri e dello stack mediante GDB." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism + KaTeX caricati solo sui post: vedere head_extra e scripts in _layouts/post.njk -->
+
+
+
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="78601d64-b9ba-4c5a-8382-187c35206036"></script>
+
+
+    
+
+    <!-- SEO: JSON-LD WebSite schema (homepage only) -->
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn nav-btn" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn nav-btn nav-btn-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Cambia tema" title="Cambia tema">
+        <svg id="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="/courses/" class="btn nav-btn nav-btn-nav">Percorsi</a>
+      <a href="/about/" class="btn nav-btn">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" as="image" fetchpriority="high">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+  <!-- SEO: JSON-LD Article schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": &quot;Reverse engineering e debug binario in Linux&quot;,
+    "url": "https://dino-996.github.io/blog/reverse-engineering-e-debug-binario-in-linux/",
+    
+    "dateModified": "2026-09-16T12:46:48.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    },
+    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg",
+    "publisher": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    }
+  }
+  </script>
+
+  <!-- SEO: JSON-LD BreadcrumbList schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      
+      
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": &quot;Home&quot;,
+        "item": "https://dino-996.github.io/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": &quot;Blog&quot;,
+        "item": "https://dino-996.github.io/blog/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": &quot;Reverse engineering e debug binario in linux&quot;
+      }
+      
+    ]
+  }
+  </script>
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      
+      
+      
+      
+        
+        
+      
+      
+      
+
+
+<nav aria-label="Breadcrumb" class="breadcrumb">
+  <ol>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/courses/">Percorsi</a></li>
+      
+    
+      
+        <li><a href="/courses/assembly/">Assembly</a></li>
+      
+    
+      
+        <li aria-current="page">Reverse engineering e debug binario in Linux</li>
+      
+    
+  </ol>
+</nav>
+
+
+
+      <h1>Reverse engineering e debug binario in Linux</h1>
+
+      
+      <p class="post-description">Tutorial operativo per il reverse engineering e il debugging binario su Linux. Il testo analizza il disassemblaggio con objdump, il tracciamento delle system call con strace e l&#39;ispezione della memoria, dei registri e dello stack mediante GDB.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 18 settembre 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+      </div>
+    </header>
+
+    
+    <figure class="post-hero">
+      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg"
+           alt="Immagine generata con AI"
+           class="post-hero-image"
+           fetchpriority="high">
+      
+      <figcaption class="post-hero-caption">Immagine generata con AI</figcaption>
+      
+    </figure>
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">`objdump -d -M intel` è uno strumento Linux per il disassemblaggio di file eseguibili ELF in istruzioni Assembly leggibili, mostrando indirizzo di memoria, opcode grezzi e istruzioni in sintassi Intel. L&#39;analisi statica di questo output permette di identificare valori immediati esadecimali e segreti temporaneamente caricati nei registri, invisibili durante l&#39;esecuzione dinamica.</p>
+      </div>
+      
+
+      <section class="content">
+          <h2 id="analisi-statica-con-objdump">Analisi statica con objdump</h2>
+<h3 id="cose-il-disassemblaggio">Cos'è il disassemblaggio</h3>
+<p>Quando un software scritto in Assembly o C viene compilato, viene convertito in codice macchina, cioè sequenze di byte (opcode) interpretabili direttamente dalla CPU. Il disassemblaggio è il processo inverso, prende un file eseguibile binario e lo riconverte in istruzioni Assembly leggibili dall'essere umano. È la tecnica fondamentale del reverse engineering e del debugging per analizzare programmi di cui non si possiede il codice sorgente.</p>
+<h3 id="lo-strumento-objdump">Lo strumento objdump</h3>
+<p><code>objdump</code> è una delle utility a riga di comando più comuni in ambiente Linux per ispezionare i file ELF (eseguibili).</p>
+<p>Comando standard per disassemblare un binario in sintassi Intel.</p>
+<pre><code class="language-bash">objdump -d -M intel /percorso/del/file
+</code></pre>
+<p>Le due flag fondamentali sono:</p>
+<ul>
+<li><strong><code>-d</code></strong>: esegue il disassemblaggio delle sezioni contenenti codice eseguibile, come la sezione <code>.text</code>.</li>
+<li><strong><code>-M intel</code></strong>: forza l'output a usare la sintassi Intel (istruzione, destinazione, sorgente). Senza questa flag, <code>objdump</code> usa la sintassi predefinita AT&amp;T, che inverte l'ordine degli operandi e aggiunge prefissi come <code>%</code> e <code>$</code>, rendendo la lettura più complessa per chi è abituato alla notazione Intel.</li>
+</ul>
+<h3 id="anatomia-di-un-output-di-disassemblaggio">Anatomia di un output di disassemblaggio</h3>
+<p>Analizzando un esempio di output.</p>
+<pre><code class="language-text">401000: 48 c7 c7 39 05 00 00 mov rdi,0x539
+401007: 48 c7 c7 00 00 00 00 mov rdi,0
+40100e: 48 c7 c0 3c 00 00 00 mov rax,0x3c
+401015: 0f 05 syscall
+</code></pre>
+<p>Un rigo di disassemblaggio si divide in tre componenti principali.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Indirizzo di memoria</th> <th>Opcode (byte grezzi in hex)</th> <th>Istruzione Assembly (Intel)</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">401000:</td> <td>48 c7 c7 39 05 00 00</td> <td>mov rdi, 0x539</td> </tr> <tr> <td class="fw-semibold">401007:</td> <td>48 c7 c7 00 00 00 00</td> <td>mov rdi, 0</td> </tr> <tr> <td class="fw-semibold">40100e:</td> <td>48 c7 c0 3c 00 00 00</td> <td>mov rax, 0x3c (syscall 60, sys_exit)</td> </tr> <tr> <td class="fw-semibold">401015:</td> <td>0f 05</td> <td>syscall</td> </tr> </tbody> </table> </div>
+<p>Due osservazioni sono importanti in fase di analisi statica:</p>
+<ul>
+<li><strong>Tutti i valori immediati sono in esadecimale</strong>. Ad esempio, <code>0x3c</code> corrisponde a <code>60</code> in decimale, cioè l'ID della syscall <code>sys_exit</code>, mentre <code>0x539</code> corrisponde a <code>1337</code>.</li>
+<li><strong>Analisi statica e segreti nascosti</strong>. Leggendo il disassemblaggio è possibile notare valori caricati temporaneamente nei registri, come <code>0x539</code> in <code>rdi</code>, anche se vengono sovrascritti subito dopo con <code>mov rdi, 0</code> e quindi risulterebbero invisibili osservando solo l'esecuzione standard del programma.</li>
+</ul>
+<h3 id="procedura-pratica">Procedura pratica</h3>
+<p>Un caso tipico di esercizio guidato consiste nel disassemblare un binario, individuare il valore esadecimale caricato in un registro prima che venga sovrascritto, e usarlo come risposta.</p>
+<p>Disassembla il binario con sintassi Intel.</p>
+<pre><code class="language-bash">objdump -d -M intel /assembly/disassemble
+</code></pre>
+<p>Cerca poi la funzione <code>_start</code> e individua la riga in cui viene eseguito il primo <code>mov rdi, &lt;valore_hex&gt;</code> immediatamente prima dell'istruzione <code>mov rdi, 0</code>. Il valore trovato può essere inviato sia in formato esadecimale sia convertito in decimale.</p>
+<pre><code class="language-bash">/assembly/submit
+</code></pre>
+<h2 id="analisi-dinamica-con-strace">Analisi dinamica con strace</h2>
+<h3 id="cose-e-come-funziona">Cos'è e come funziona</h3>
+<p>Mentre <code>objdump</code> effettua un'analisi statica, <code>strace</code> effettua un'analisi dinamica: esegue il programma e intercetta in tempo reale tutte le chiamate di sistema (syscall) effettuate dal binario verso il kernel Linux, mostrando i parametri forniti e i valori restituiti.</p>
+<p>L'output di <code>strace</code> utilizza una sintassi in stile linguaggio C.</p>
+<pre><code class="language-text">nome_syscall(parametro_1, parametro_2, ...) = valore_ritorno
+</code></pre>
+<p>Un esempio concreto.</p>
+<pre><code class="language-text">execve(&quot;/tmp/program&quot;, [&quot;/tmp/program&quot;], 0x7ffd48ae28b0 ...) = 0
+exit(42) = ?
++++ exited with 42 +++
+</code></pre>
+<ul>
+<li><strong><code>execve(...)</code></strong>: è la syscall usata dal sistema operativo per lanciare ed eseguire un nuovo programma, e appare all'inizio perché <code>strace</code> la rileva durante la fase di avvio del processo.</li>
+<li><strong><code>exit(42)</code></strong>: il programma invoca la syscall di terminazione fornendo <code>42</code> come argomento.</li>
+<li><strong><code>+++ exited with 42 +++</code></strong>: è una notifica di <code>strace</code>, non parte dell'output del programma, che indica il codice di uscita finale restituito alla shell.</li>
+</ul>
+<h3 id="la-syscall-alarm">La syscall alarm</h3>
+<p>La chiamata di sistema <code>alarm(seconds)</code>, syscall numero 37 su architettura x86_64, viene utilizzata nei sistemi Linux per impostare un timer. Trascorso il numero di secondi specificato come argomento, il kernel invia al processo un segnale di terminazione <code>SIGALRM</code>.</p>
+<p>Nelle sfide di reverse engineering, <code>strace</code> è indispensabile per leggere i parametri di syscall altrimenti &quot;invisibili&quot; come <code>alarm</code> o <code>read</code>/<code>write</code>, senza dover analizzare l'intero disassembly.</p>
+<h2 id="gdb-gnu-debugger">GDB (GNU Debugger)</h2>
+<h3 id="analisi-statica-dinamica-e-controllo-completo">Analisi statica, dinamica e controllo completo</h3>
+<p>Dopo l'analisi statica con <code>objdump</code> e il tracciamento delle syscall con <code>strace</code>, GDB (GNU Debugger) rappresenta lo strumento di analisi dinamica e controllo completo del processo. Mentre <code>strace</code> rileva solo i punti di contatto tra il programma e il kernel, cioè le syscall, GDB permette di entrare all'interno dello spazio di indirizzamento del processo per fermare l'esecuzione, ispezionare i registri della CPU, modificare la memoria e analizzare ogni singola istruzione Assembly in tempo reale.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Strumento</th> <th>Tipo di analisi</th> <th>Livello di visibilità</th> <th>Uso principale</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">objdump</td> <td>Statica (file su disco)</td> <td>Codice macchina disassemblato</td> <td>Analizzare il codice senza eseguirlo</td> </tr> <tr> <td class="fw-semibold">strace</td> <td>Dinamica (interfaccia kernel)</td> <td>Chiamate di sistema e argomenti</td> <td>Capire cosa chiede il processo al sistema operativo</td> </tr> <tr> <td class="fw-semibold">gdb</td> <td>Dinamica (spazio di memoria)</td> <td>Registri, stack, RAM, flusso di esecuzione</td> <td>Ispezionare e manipolare lo stato interno del processo tramite la syscall ptrace</td> </tr> </tbody> </table> </div>
+<h3 id="avvio-e-sintassi-di-base">Avvio e sintassi di base</h3>
+<p>L'avvio di GDB si effettua passando il percorso del file eseguibile come argomento.</p>
+<pre><code class="language-bash">gdb /percorso/del/binario
+</code></pre>
+<p>Una volta avviato, GDB apre la propria shell interattiva, riconoscibile dal prompt.</p>
+<pre><code class="language-text">(gdb)
+</code></pre>
+<p>I due comandi fondamentali per la navigazione di base sono:</p>
+<ul>
+<li><strong><code>quit</code></strong> (o <code>q</code>): esce da GDB e torna alla shell del sistema operativo.</li>
+<li><strong><code>run</code></strong> (o <code>r</code>): avvia l'esecuzione del programma caricato all'interno del debugger.</li>
+</ul>
+<h3 id="rilevamento-del-debugger-tramite-ptrace">Rilevamento del debugger tramite ptrace</h3>
+<p>Quando si lancia <code>gdb</code> su un eseguibile, il sistema operativo abilita il tracciamento tramite la syscall <code>ptrace</code>. Il programma può quindi verificare se è controllato da un debugger e, in alcuni casi, stampare a schermo un valore proprio in reazione a quella condizione, prima di arrestarsi o terminare.</p>
+<h2 id="controllo-del-processo">Controllo del processo</h2>
+<h3 id="avvio-personalizzato-con-starti">Avvio personalizzato con starti</h3>
+<p>Diversamente dal comando <code>run</code>, che esegue il programma fino alla fine o al primo breakpoint, <code>starti</code> inserisce un punto di arresto temporaneo sull'istruzione iniziale assoluta del binario e ne interrompe immediatamente l'esecuzione. Questo permette di analizzare lo stato del programma prima di qualsiasi modifica al contesto.</p>
+<h3 id="ispezionare-il-codice-in-esecuzione-con-disassemble">Ispezionare il codice in esecuzione con disassemble</h3>
+<p>Digitando <code>disassemble</code> all'interno della shell di GDB, viene mostrato il codice Assembly della funzione corrente.</p>
+<pre><code class="language-text">(gdb) disassemble
+Dump of assembler code for function _start:
+=&gt; 0x0000000000401000 &lt;+0&gt;: mov rdi,0x539
+0x0000000000401007 &lt;+7&gt;: mov rdi,0x0
+0x000000000040100e &lt;+14&gt;: mov rax,0x3c
+0x0000000000401015 &lt;+21&gt;: syscall
+End of assembler dump.
+<p></code></pre></p>
+<p>Alcuni elementi chiave dell'output:</p>
+<ul>
+<li><strong>Il simbolo <code>=&gt;</code> (instruction pointer)</strong>: indica l'esatta istruzione che la CPU sta per eseguire in quel momento, puntata dal registro <code>RIP</code> su architettura x86_64.</li>
+<li><strong>Indirizzi e offset</strong>: a sinistra è presente l'indirizzo di memoria virtuale, ad esempio <code>0x0000000000401000</code>, seguito dall'offset relativo all'inizio della funzione, ad esempio <code>&lt;+0&gt;</code> o <code>&lt;+7&gt;</code>.</li>
+<li><strong>Valori immediati esadecimali</strong>: i valori caricati nei registri o passati alle istruzioni appaiono in notazione esadecimale, ad esempio <code>0x539</code> corrisponde al valore decimale <code>1337</code>.</li>
+</ul>
+<h2 id="codice-censurato">Codice censurato</h2>
+<h3 id="il-limite-dellanalisi-statica">Il limite dell'analisi statica</h3>
+<p>Nella sezione precedente bastava disassemblare il codice per leggere visivamente il valore caricato in un registro. L'analisi statica ha però dei limiti evidenti in presenza di codice offuscato o censurato: se l'output del disassemblatore mostra un valore nascosto, ad esempio <code>mov rdi, CENSORED</code>, non è più possibile scoprire il segreto semplicemente leggendo il testo disassemblato.</p>
+<p>La CPU, tuttavia, deve per forza ricevere ed eseguire i byte binari reali. Anche se la stringa viene censurata a schermo nel disassemblatore, quando la CPU esegue l'istruzione <code>mov rdi, &lt;segreto&gt;</code> il registro <code>rdi</code> viene effettivamente popolato con il valore reale, osservabile a runtime.</p>
+<h3 id="il-comando-stepi">Il comando stepi</h3>
+<p>Per avanzare l'esecuzione di una singola istruzione Assembly alla volta si utilizza il comando <code>stepi</code>, abbreviabile in <code>si</code>.</p>
+<pre><code class="language-text">(gdb) stepi
+</code></pre>
+<p>È utile distinguere due comandi di avanzamento simili:</p>
+<ul>
+<li><strong><code>stepi</code> / <code>si</code></strong>: avanza di una singola istruzione macchina (Assembly).</li>
+<li><strong><code>step</code> / <code>s</code></strong>: avanza di una riga di codice sorgente ad alto livello, ad esempio C o C++, che potrebbe corrispondere a decine di istruzioni assembly. In assenza di sorgenti disponibili, si comporta come <code>stepi</code>.</li>
+</ul>
+<h3 id="flusso-operativo">Flusso operativo</h3>
+<pre><code class="language-bash">gdb /assembly/program
+</code></pre>
+<pre><code class="language-text">(gdb) starti
+(gdb) stepi
+</code></pre>
+<p>Eseguendo <code>stepi</code>, l'istruzione <code>mov rdi, CENSORED</code> viene processata dalla CPU e il valore reale entra nel registro <code>rdi</code>.</p>
+<h2 id="ispezione-manuale-dei-registri">Ispezione manuale dei registri</h2>
+<h3 id="dalla-lettura-assistita-alla-lettura-autonoma">Dalla lettura assistita alla lettura autonoma</h3>
+<p>Fino a questo punto è stato sufficiente osservare il valore mostrato automaticamente da GDB dopo uno <code>stepi</code>. Il passo successivo è interrogare direttamente i registri della CPU tramite la shell del debugger, una volta che il valore reale è entrato nell'architettura hardware.</p>
+<h3 id="il-comando-print-e-il-prefisso-dollar">Il comando print e il prefisso $</h3>
+<p>Per stampare a schermo il contenuto di un registro, o il valore di un'espressione, si utilizza il comando <code>print</code>, abbreviabile con <code>p</code>. I nomi dei registri CPU all'interno di GDB devono sempre essere preceduti dal simbolo <code>$</code>.</p>
+<pre><code class="language-text">(gdb) print $rdi
+$1 = 1337
+</code></pre>
+<p>La struttura dell'output è la seguente:</p>
+<ul>
+<li><strong><code>$1</code></strong>: rappresenta una variabile temporanea creata da GDB per memorizzare la cronologia dei valori stampati, riutilizzabile nei comandi successivi.</li>
+<li><strong><code>1337</code></strong>: è il valore effettivo memorizzato nel registro <code>rdi</code>, mostrato di default in notazione decimale.</li>
+</ul>
+<p>Flusso operativo tipico.</p>
+<pre><code class="language-bash">gdb /assembly/program
+</code></pre>
+<pre><code class="language-text">(gdb) starti
+(gdb) stepi
+(gdb) print $rdi
+(gdb) quit
+</code></pre>
+<h2 id="modifica-dei-registri">Modifica dei registri</h2>
+<h3 id="manipolazione-dinamica-dello-stato-della-cpu">Manipolazione dinamica dello stato della CPU</h3>
+<p>Osservare lo stato del processo con <code>disassemble</code> e <code>print</code> è un uso passivo di GDB. La vera potenza di un debugger risiede nella capacità di intervenire e modificare l'esecuzione al volo, alterando direttamente i dati contenuti nei registri della CPU prima che le istruzioni successive li utilizzino. Questo permette, ad esempio, di bypassare controlli, forzare un determinato ramo di esecuzione o iniettare valori arbitrari per testare il comportamento del software.</p>
+<h3 id="il-comando-set">Il comando set</h3>
+<p>Per assegnare un nuovo valore a un registro durante una pausa dell'esecuzione si utilizza il comando <code>set</code>.</p>
+<pre><code class="language-text">(gdb) set $nome_registro = valore
+</code></pre>
+<p>Alcuni esempi di utilizzo:</p>
+<ul>
+<li><strong><code>set $rdi = 1337</code></strong>: sovrascrive il registro <code>rdi</code> con il valore decimale <code>1337</code>.</li>
+<li><strong><code>set $rax = 0x3c</code></strong>: imposta il registro <code>rax</code> al valore esadecimale <code>0x3c</code>, cioè <code>60</code> in decimale.</li>
+</ul>
+<p>Come per <code>print</code>, anche con <code>set</code> il nome del registro deve sempre essere preceduto dal prefisso <code>$</code>.</p>
+<p>Flusso operativo tipico.</p>
+<pre><code class="language-bash">gdb /assembly/program
+</code></pre>
+<pre><code class="language-text">(gdb) starti
+(gdb) stepi
+(gdb) set $rdi = 1337
+(gdb) stepi
+(gdb) quit
+</code></pre>
+<h2 id="debug-cooperativo">Debug cooperativo</h2>
+<h3 id="debugging-preventivo-contro-debugging-cooperativo">Debugging preventivo contro debugging cooperativo</h3>
+<p>Nelle sezioni precedenti è stato utilizzato il debugging preventivo: GDB prende il controllo del programma all'avvio, tramite <code>starti</code> o breakpoint esterni, e ne arresta l'esecuzione senza che il codice ne sia consapevole.</p>
+<p>Con il debugging cooperativo, è il programma stesso a decidere dove e quando cedere il controllo al debugger, attraverso un'istruzione Assembly dedicata.</p>
+<p>Il flusso logico è il seguente: durante l'esecuzione standard, quando viene raggiunta l'istruzione <code>int3</code>, viene generato un trap con segnale <code>SIGTRAP</code>. Se il processo gira sotto GDB tramite <code>run</code>, l'esecuzione si interrompe e il controllo torna al prompt <code>(gdb)</code>. Se invece il processo gira fuori da GDB, direttamente in shell, il sistema operativo lo termina restituendo un errore di tipo &quot;Trace/breakpoint trap&quot;.</p>
+<h3 id="listruzione-int3">L'istruzione int3</h3>
+<p>Sull'architettura x86_64, l'istruzione <code>int3</code>, il cui opcode esadecimale è <code>0xCC</code>, genera un'interruzione di tipo breakpoint trap, cioè un segnale <code>SIGTRAP</code> inviato al kernel.</p>
+<p>Le differenze principali nell'uso di GDB sono:</p>
+<ul>
+<li><strong><code>starti</code></strong>: blocca l'esecuzione prima ancora di eseguire la prima istruzione.</li>
+<li><strong><code>run</code> (<code>r</code>)</strong>: lascia girare il programma a piena velocità finché non incontra un'istruzione <code>int3</code>, un breakpoint impostato manualmente dall'utente, oppure finché il processo non termina.</li>
+</ul>
+<h3 id="esempio-di-codice-con-int3">Esempio di codice con int3</h3>
+<p>Un piccolo programma in sintassi Intel che imposta un valore in un registro e invochi immediatamente <code>int3</code>, cedendo il controllo al debugger.</p>
+<pre><code class="language-asm">.intel_syntax noprefix
+.global _start
+_start:
+	mov rdi, 1337
+	int3
+</code></pre>
+<h2 id="passare-argomenti-da-riga-di-comando-in-gdb">Passare argomenti da riga di comando in GDB</h2>
+<h3 id="il-concetto-gli-argomenti-dellinferiore">Il concetto: gli argomenti dell'inferiore</h3>
+<p>Un programma legge gli argomenti della riga di comando tramite l'array <code>argv</code> (<code>argv[1]</code>, <code>argv[2]</code>, e così via). Quando si esegue un programma fuori da GDB, gli argomenti vengono specificati direttamente dopo il nome dell'eseguibile nella shell.</p>
+<pre><code class="language-bash">dino@localhost:~$ /assembly/program hello
+</code></pre>
+<p>All'interno dell'ambiente interattivo di GDB, per passare argomenti al programma in esecuzione, detto anche &quot;inferiore&quot;, è sufficiente scriverli direttamente dopo il comando <code>run</code> (o l'abbreviazione <code>r</code>). Qualsiasi stringa o valore digitato dopo <code>run</code> viene inoltrato al programma esattamente come se fosse stato lanciato da riga di comando bash.</p>
+<pre><code class="language-text">(gdb) run hello
+</code></pre>
+<h3 id="due-modalita-di-configurazione">Due modalità di configurazione</h3>
+<p><strong>Passaggio diretto con run</strong>, per passare gli argomenti al momento dell'avvio.</p>
+<pre><code class="language-text">(gdb) run hello
+</code></pre>
+<p><strong>Impostazione preventiva con set args</strong>, utile quando serve usare <code>starti</code> o si preferisce impostare gli argomenti prima di lanciare il programma.</p>
+<pre><code class="language-text">(gdb) set args hello
+(gdb) starti
+</code></pre>
+<h2 id="leggere-lo-stato-di-runtime-dallo-stack">Leggere lo stato di runtime dallo stack</h2>
+<h3 id="dati-dinamici-nello-stack">Dati dinamici nello stack</h3>
+<p>Abbiamo visto finora che il valore era cablato direttamente nell'istruzione, ad esempio <code>mov rdi, 0x1337</code>. In uno scenario diverso, il valore non si trova nel codice binario su disco, ma deriva dallo stato di runtime:</p>
+<ul>
+<li><strong><code>argc</code> (argument count)</strong>: rappresenta il numero di argomenti passati al programma quando viene avviato dalla shell.</li>
+<li><strong>Inizializzazione dello stack</strong>: all'avvio di un eseguibile Linux x86_64, il sistema operativo deposita in cima allo stack il valore di <code>argc</code>, seguito dagli argomenti <code>argv</code>.</li>
+<li><strong>Istruzione <code>pop rdi</code></strong>: preleva il valore in cima allo stack, cioè <code>argc</code>, e lo carica nel registro <code>rdi</code>.</li>
+</ul>
+<p>Poiché il valore di <code>argc</code> dipende da come il programma viene lanciato, nessun disassemblatore statico può rivelare il segreto, è indispensabile eseguirlo sotto debugger.</p>
+<p>Il programma tipico di questo scenario è progettato per distruggere il segreto un istante dopo averlo letto.</p>
+<pre><code class="language-asm">pop rdi
+mov rdi, 0x0
+mov rax, 0x3c
+syscall
+</code></pre>
+<p>La finestra temporale utile per catturare il valore è quella tra la prima e la seconda istruzione: prima di <code>pop rdi</code> il valore si trova ancora nello stack, subito dopo <code>pop rdi</code> si trova temporaneamente nel registro <code>rdi</code>, mentre dopo <code>mov rdi, 0x0</code> è perso per sempre.</p>
+<p>Flusso operativo tipico.</p>
+<pre><code class="language-bash">gdb /assembly/program
+</code></pre>
+<pre><code class="language-text">(gdb) starti
+(gdb) stepi
+(gdb) print $rdi
+(gdb) quit
+</code></pre>
+<h2 id="esaminare-la-memoria-con-il-comando-x">Esaminare la memoria con il comando x</h2>
+<h3 id="leggere-la-ram-senza-passare-dai-registri">Leggere la RAM senza passare dai registri</h3>
+<p>In alcuni scenari il programma non legge mai il dato in un registro.</p>
+<pre><code class="language-asm">mov rdi, 0x0
+mov rax, 0x3c
+syscall
+</code></pre>
+<p>Tuttavia, all'avvio del programma il kernel Linux deposita comunque <code>argc</code> in cima allo stack. Poiché il registro <code>$rsp</code> (stack pointer) punta esattamente a quell'indirizzo di memoria, è possibile usare GDB per esaminare la RAM direttamente, ignorando il fatto che il programma non usi quel dato.</p>
+<h3 id="il-comando-x-examine">Il comando x (examine)</h3>
+<p>Il comando <code>x</code> di GDB permette di leggere il contenuto di una determinata area di memoria a partire da un indirizzo o da un registro puntatore.</p>
+<pre><code class="language-text">(gdb) x &lt;indirizzo_o_registro&gt;
+</code></pre>
+<p>Per impostazione predefinita <code>x</code> mostra i dati in esadecimale. È possibile aggiungere una lettera di formato subito dopo la barra.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Comando</th> <th>Formato di visualizzazione</th> <th>Esempio output</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">x/d $rsp</td> <td>Decimale (d = decimal)</td> <td>0x7fffffffd540: 1</td> </tr> <tr> <td class="fw-semibold">x/x $rsp</td> <td>Esadecimale (x = hex)</td> <td>0x7fffffffd540: 0x00000001</td> </tr> </tbody> </table> </div>
+<p>L'indirizzo a sinistra, ad esempio <code>0x7fffffffd540:</code>, indica dove si trova il dato nella RAM, mentre il valore a destra è il dato contenuto in quel punto, in questo caso <code>argc</code>.</p>
+<p>Flusso operativo tipico.</p>
+<pre><code class="language-bash">gdb /assembly/program
+</code></pre>
+<pre><code class="language-text">(gdb) starti
+(gdb) x/d $rsp
+(gdb) quit
+</code></pre>
+<h2 id="estrarre-puntatori-e-stringhe-dallo-stack">Estrarre puntatori e stringhe dallo stack</h2>
+<h3 id="anatomia-dello-stack-allavvio-del-processo">Anatomia dello stack all'avvio del processo</h3>
+<p>Quando un programma viene lanciato su Linux x86_64, il sistema operativo organizza la parte superiore dello stack, a partire da <code>$rsp</code>, secondo uno schema preciso che contiene le informazioni di avvio.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Posizione</th> <th>Contenuto</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">$rsp + 0</td> <td>argc, il numero di argomenti</td> </tr> <tr> <td class="fw-semibold">$rsp + 8</td> <td>argv[0], puntatore al nome del programma</td> </tr> <tr> <td class="fw-semibold">$rsp + 16</td> <td>argv[1], puntatore al primo argomento</td> </tr> </tbody> </table> </div>
+<p>Lo stack a <code>$rsp + 16</code> non contiene direttamente il testo cercato, ma un indirizzo di memoria, cioè un <strong>puntatore</strong>, che indica il punto preciso della RAM in cui si trova memorizzata la stringa corrispondente.</p>
+<h3 id="nuovi-modificatori-del-comando-x">Nuovi modificatori del comando x</h3>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Comando</th> <th>Modificatore</th> <th>Descrizione operativa</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">x/a $rsp+16</td> <td>/a (address)</td> <td>Legge il valore memorizzato a $rsp + 16 e lo mostra come indirizzo di memoria, cioè come puntatore</td> </tr> <tr> <td class="fw-semibold">x/s 0x...</td> <td>/s (string)</td> <td>Va all'indirizzo ottenuto e legge i byte come una stringa di testo terminata da null</td> </tr> </tbody> </table> </div>
+<p>Leggere il contenuto puntato da <code>argv[1]</code> richiede quindi due passaggi: prima si ottiene l'indirizzo con <code>x/a</code>, poi si legge la stringa a quell'indirizzo con <code>x/s</code>.</p>
+<pre><code class="language-text">(gdb) x/a $rsp+16
+</code></pre>
+<p>Il valore restituito è l'indirizzo del puntatore, ad esempio <code>0x7ffc001c4750</code>, da usare come argomento del passo successivo.</p>
+<pre><code class="language-text">(gdb) x/s 0x7ffc001c4750
+</code></pre>
+<h2 id="reindirizzare-lo-standard-input-in-gdb">Reindirizzare lo standard input in GDB</h2>
+<h3 id="input-da-file-e-redirezione-stdin">Input da file e redirezione stdin</h3>
+<p>I programmi in ambiente Linux possono ricevere dati in due modi principali: come argomenti da riga di comando (<code>argv</code>), oppure come standard input, il flusso letto dal programma durante l'esecuzione tramite il file descriptor <code>0</code>, di default dalla tastiera ma reindirizzabile da file o pipeline.</p>
+<p>All'interno di GDB, l'eseguibile sottoposto a tracciamento viene chiamato &quot;inferior&quot;. GDB permette di reindirizzare lo stdin dell'inferiore applicando l'operatore di redirezione <code>&lt;</code> direttamente al comando <code>run</code>.</p>
+<pre><code class="language-text">(gdb) run &lt; /percorso/del/file
+</code></pre>
+<p>Quando si esegue questo comando, GDB avvia il programma dal suo punto di inizio, e tutto ciò che il programma tenta di leggere da stdin, ad esempio tramite funzioni come <code>read</code>, <code>scanf</code> o <code>fgets</code>, viene letto automaticamente dal file indicato anziché attendere un input manuale da tastiera.</p>
+<p>Flusso operativo tipico.</p>
+<pre><code class="language-bash">gdb /assembly/program
+</code></pre>
+<pre><code class="language-text">(gdb) run &lt; /challenge/secret
+(gdb) quit
+</code></pre>
+<h2 id="tabella-riassuntiva-di-tutti-i-comandi-gdb">Tabella riassuntiva di tutti i comandi GDB</h2>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Comando</th> <th>Abbreviazione</th> <th>Descrizione operativa</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">gdb <file></td> <td>nessuna</td> <td>Avvia GDB caricando il file eseguibile specificato</td> </tr> <tr> <td class="fw-semibold">starti</td> <td>nessuna</td> <td>Avvia il processo e lo blocca alla primissima istruzione in memoria (entry point)</td> </tr> <tr> <td class="fw-semibold">run <arg1> <arg2></td> <td>r <arg1> <arg2></td> <td>Avvia l'esecuzione passando eventuali argomenti, e lascia girare il programma fino al termine o al primo breakpoint</td> </tr> <tr> <td class="fw-semibold">set args <arg1></td> <td>nessuna</td> <td>Imposta gli argomenti predefiniti per tutte le esecuzioni successive di run o starti</td> </tr> <tr> <td class="fw-semibold">show args</td> <td>nessuna</td> <td>Mostra gli argomenti attualmente configurati in GDB</td> </tr> <tr> <td class="fw-semibold">run < file</td> <td>r < file</td> <td>Avvia il programma reindirizzando il contenuto del file nello stdin</td> </tr> <tr> <td class="fw-semibold">disassemble</td> <td>disas</td> <td>Disassembla il blocco di codice o funzione attualmente in esecuzione</td> </tr> <tr> <td class="fw-semibold">stepi</td> <td>si</td> <td>Esegue esattamente l'istruzione corrente e si ferma subito a quella successiva</td> </tr> <tr> <td class="fw-semibold">print $reg</td> <td>p $reg</td> <td>Stampa il valore contenuto nel registro specificato</td> </tr> <tr> <td class="fw-semibold">set $reg = val</td> <td>nessuna</td> <td>Modifica il valore del registro specificato con il nuovo valore assegnato</td> </tr> <tr> <td class="fw-semibold">x/d <addr></td> <td>nessuna</td> <td>Esamina la memoria all'indirizzo indicato mostrando il valore in formato decimale</td> </tr> <tr> <td class="fw-semibold">x/x <addr></td> <td>nessuna</td> <td>Esamina la memoria all'indirizzo indicato mostrando il valore in formato esadecimale</td> </tr> <tr> <td class="fw-semibold">x/a <addr></td> <td>nessuna</td> <td>Esamina la memoria interpretando il valore letto come un indirizzo o puntatore</td> </tr> <tr> <td class="fw-semibold">x/s <addr></td> <td>nessuna</td> <td>Esamina la memoria all'indirizzo indicato interpretandola come stringa C terminata da null</td> </tr> <tr> <td class="fw-semibold">quit</td> <td>q</td> <td>Termina la sessione del debugger e ritorna alla shell</td> </tr> </tbody> </table> </div>
+<h2 id="buone-pratiche-e-strumenti-complementari">Buone pratiche e strumenti complementari</h2>
+<p>Oltre ai comandi illustrati finora, chi lavora regolarmente con reverse engineering e debug binario su Linux trova utili alcuni strumenti e comandi aggiuntivi.</p>
+<ul>
+<li><strong>Estensioni GDB per il reverse engineering</strong>: framework come <code>pwndbg</code> e <code>GEF</code> arricchiscono l'interfaccia standard di GDB con visualizzazioni avanzate di memoria, stack e registri, pensate specificamente per attività di exploit development e CTF. Sono un naturale passo successivo una volta acquisita familiarità con i comandi base illustrati in questo articolo, incluso l'uso combinato di <code>print</code>, <code>set</code> e <code>x</code>.</li>
+<li><strong>Ispezionare lo stato completo dei registri</strong>: quando il valore cercato non è nella posizione attesa, può essere utile visualizzare l'intero set di registri della CPU in un colpo solo, invece di interrogarli uno alla volta con <code>print</code>.</li>
+</ul>
+<pre><code class="language-text">(gdb) info registers
+</code></pre>
+<ul>
+<li><strong>Disassemblare solo la sezione di interesse</strong>: quando un binario è grande, può essere utile limitare l'output di <code>objdump</code> a una singola sezione ELF invece di stampare l'intero file.</li>
+</ul>
+<pre><code class="language-bash">objdump -d -M intel -j .text /percorso/del/file
+</code></pre>
+<ul>
+<li><strong>Breakpoint manuali come alternativa a int3</strong>: oltre a modificare il codice sorgente per inserire <code>int3</code>, GDB permette di impostare un breakpoint direttamente su un indirizzo di memoria, senza dover ricompilare nulla.</li>
+</ul>
+<pre><code class="language-text">(gdb) break *0x401000
+</code></pre>
+
+      </section>
+
+      <!-- Disclaimer AI -->
+      <footer class="mt-4 pt-3 border-top">
+        <p class="text-muted small mb-0">
+          <em>Articolo scritto con il supporto di LLM per la formattazione e la struttura del codice.</em>
+        </p>
+      </footer>
+
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout post-section">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/assembly/" class="badge badge-outline">assembly</a>
+              
+            
+              
+              
+              <a href="/tags/debugging/" class="badge badge-outline">debugging</a>
+              
+            
+              
+              
+              <a href="/tags/reverse-engineering/" class="badge badge-outline">reverse engineering</a>
+              
+            
+              
+              
+              <a href="/tags/gdb/" class="badge badge-outline">GDB</a>
+              
+            
+              
+              
+              <a href="/tags/linux/" class="badge badge-outline">linux</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center share-block">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Freverse-engineering-e-debug-binario-in-linux%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+            Condividi su LinkedIn
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Reverse%20engineering%20e%20debug%20binario%20in%20Linux&url=https://dino-996.github.io%2Fblog%2Freverse-engineering-e-debug-binario-in-linux%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su X">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+            Condividi su X
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout post-section post-section-sm">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div class="article-nav-half">
+          
+          <a href="/blog/input-e-output-in-assembly-x86-64/" class="btn btn-outline btn-sm article-nav-btn">
+            <span class="d-block small article-nav-label">← Precedente</span>
+            <span class="d-block article-nav-title">Input e Output in assembly x86_64</span>
+          </a>
+          
+        </div>
+        <div class="article-nav-half article-nav-right">
+          
+          <a href="/blog/rappresentazione-dei-dati-e-aritmetica-binaria/" class="btn btn-outline btn-sm article-nav-btn article-nav-btn-right">
+            <span class="d-block small article-nav-label">Successivo →</span>
+            <span class="d-block article-nav-title">Rappresentazione dei dati e aritmetica binaria</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Potrebbe interessarti -->
+    
+    
+    <section class="related-posts" aria-labelledby="related-posts-heading">
+      <h2 id="related-posts-heading" class="post-layout">Potrebbe interessarti</h2>
+      <div class="related-posts-grid post-layout">
+        
+        <a href="/blog/input-e-output-in-assembly-x86-64/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Input e Output in assembly x86_64</h3>
+            
+            <time class="related-post-date">21 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/rappresentazione-dei-dati-e-aritmetica-binaria/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Rappresentazione dei dati e aritmetica binaria</h3>
+            
+            <time class="related-post-date">16 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/address-resolution-protocol/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1789151796/ARP_24214d9665.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">ARP</span>
+              
+            
+            <h3 class="related-post-title">Address Resolution Protocol</h3>
+            
+            <time class="related-post-date">11 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+      </div>
+    </section>
+    
+
+    <!-- Commenti -->
+    <h2 class="post-layout comment-heading">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+    data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      });
+    });
+  </script>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> DinoSec. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+    <!-- Trasparenza AI -->
+    <p class="small text-muted">
+      Scopri di più sulla <a href="/about#trasparenza">politica sull'uso dell'IA</a>.
+    </p>
+  </div>
+</footer>
+
+
+
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente virtuale basato su intelligenza artificiale">
+        <span aria-hidden="true">🦖</span>
+        <span class="ai-toggle-badge" aria-hidden="true">IA</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span aria-hidden="true">🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+            <span class="ai-badge" aria-label="Assistente basato su intelligenza artificiale">IA</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI assistant widget -->
+    <script src="/assets/js/ai-widget.js" defer></script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

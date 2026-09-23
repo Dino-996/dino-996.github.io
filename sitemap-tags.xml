@@ -4,10 +4,19 @@
     <loc>https://dino-996.github.io/tags/ai-act/</loc>
   </url>
   <url>
+    <loc>https://dino-996.github.io/tags/arp/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/arp-spoofing/</loc>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/tags/dmz/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/e2ee/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/gdb/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/gdpr/</loc>
@@ -32,6 +41,9 @@
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/iso-27001/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/lan/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/mitre/</loc>
@@ -94,6 +106,12 @@
     <loc>https://dino-996.github.io/tags/backup/</loc>
   </url>
   <url>
+    <loc>https://dino-996.github.io/tags/binary-representation/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/buffer-managment/</loc>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/tags/business-continuity/</loc>
   </url>
   <url>
@@ -149,6 +167,9 @@
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/data-science/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/debugging/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/deferenziamento/</loc>
@@ -211,6 +232,9 @@
     <loc>https://dino-996.github.io/tags/livello-fisico/</loc>
   </url>
   <url>
+    <loc>https://dino-996.github.io/tags/low-level-programming/</loc>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/tags/malware/</loc>
   </url>
   <url>
@@ -218,6 +242,9 @@
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/memoria-virtuale/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/memory-management/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/mezzi-trasmissivi/</loc>
@@ -308,6 +335,9 @@
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/reti/</loc>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/tags/reverse-engineering/</loc>
   </url>
   <url>
     <loc>https://dino-996.github.io/tags/scheduling/</loc>

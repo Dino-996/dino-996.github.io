@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="it">
+
+  <head>
+    <meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>
+  Input e Output in assembly x86_64 · DinoSec
+</title>
+
+<!-- SEO meta tags -->
+<meta name="description" content="Guida pratica all&#39;uso delle principali syscall Linux (write, read, open, exit) in Assembly x86_64. L&#39;articolo illustra le convenzioni di chiamata nei registri, l&#39;allocazione dinamica di buffer sullo stack e le tecniche di indirizzamento RIP-relative con .asciz e lea." />
+<meta name="author" content="Davide Sabia" />
+<meta name="robots" content="index, follow" />
+
+<!-- Canonical URL -->
+
+<link rel="canonical" href="https://dino-996.github.io/blog/input-e-output-in-assembly-x86-64/" />
+
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="article" />
+
+<meta property="og:url" content="https://dino-996.github.io/blog/input-e-output-in-assembly-x86-64/" />
+
+<meta property="og:title" content="Input e Output in assembly x86_64" />
+<meta property="og:description" content="Guida pratica all&#39;uso delle principali syscall Linux (write, read, open, exit) in Assembly x86_64. L&#39;articolo illustra le convenzioni di chiamata nei registri, l&#39;allocazione dinamica di buffer sullo stack e le tecniche di indirizzamento RIP-relative con .asciz e lea." />
+<meta property="og:site_name" content="DinoSec" />
+
+<meta property="og:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" />
+
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+
+<meta name="twitter:url" content="https://dino-996.github.io/blog/input-e-output-in-assembly-x86-64/" />
+
+<meta name="twitter:title" content="Input e Output in assembly x86_64" />
+<meta name="twitter:description" content="Guida pratica all&#39;uso delle principali syscall Linux (write, read, open, exit) in Assembly x86_64. L&#39;articolo illustra le convenzioni di chiamata nei registri, l&#39;allocazione dinamica di buffer sullo stack e le tecniche di indirizzamento RIP-relative con .asciz e lea." />
+
+<meta name="twitter:image" content="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" />
+
+
+<!-- Favicon -->
+<link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title="DinoSec RSS Feed" href="/feed.xml" />
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,300..700&display=swap" rel="stylesheet">
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/assets/css/custom.css" />
+
+<!-- Preconnect for performance -->
+<link rel="preconnect" href="https://cdn.jsdelivr.net" />
+
+<!-- Prism + KaTeX caricati solo sui post: vedere head_extra e scripts in _layouts/post.njk -->
+
+
+
+  <script defer src="https://cloud.umami.is/script.js" data-website-id="78601d64-b9ba-4c5a-8382-187c35206036"></script>
+
+
+    
+
+    <!-- SEO: JSON-LD WebSite schema (homepage only) -->
+    
+
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- Supabase JS client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+    <script>
+      window.SUPABASE_URL = "https://quegjaklokgyrftvbhha.supabase.co";
+      window.SUPABASE_ANON_KEY = "sb_publishable_-9urKbq0VRTHBzXCjwwLHA__oPSZdxI";
+      window.EMAILJS_PUBLIC_KEY = "T8aoe94KVZrV9xr-4";
+      window.EMAILJS_SERVICE_ID = "newsletter";
+      window.EMAILJS_TEMPLATE_ID = "template_contatti";
+    </script>
+
+    <!-- OS theme detection — runs before body render to prevent flash -->
+    <script>
+      (function() {
+        var theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.setAttribute('data-bs-theme', theme);
+        window.__bsTheme = theme;
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+          var t = e.matches ? 'dark' : 'light';
+          document.documentElement.setAttribute('data-bs-theme', t);
+          window.__bsTheme = t;
+        });
+      })();
+    </script>
+  </head>
+
+  <body>
+    <a href="#main-content" class="skip-link">Vai al contenuto principale</a>
+
+    <header class="site-header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="hamburger-btn hide-desktop" id="menu-toggle" aria-label="Menu" aria-controls="mobile-nav" aria-expanded="false">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 6h18M3 12h18M3 18h18"/>
+        </svg>
+      </button>
+      <nav class="navbar-desktop hide-mobile" id="desktop-nav" aria-label="Navigazione principale">
+        <a class="btn nav-btn" href="/">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Home
+        </a>
+        <a class="btn nav-btn nav-btn-nav btn-primary" href="/blog/" aria-current="page">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:6px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Blog
+        </a>
+      </nav>
+    </div>
+
+    <a href="/" class="header-logo">DinoSec</a>
+
+    <div class="header-right gap-2 hide-mobile">
+      <button id="theme-toggle" class="theme-toggle-btn" aria-label="Cambia tema" title="Cambia tema">
+        <svg id="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg id="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+      <a href="/courses/" class="btn nav-btn nav-btn-nav">Percorsi</a>
+      <a href="/about/" class="btn nav-btn">Chi sono</a>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav drawer -->
+<nav class="navbar-desktop hide-desktop" id="mobile-nav" style="display: none;" aria-label="Navigazione mobile">
+  <div class="container">
+    <a class="nav-link" href="/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
+    </a>
+    <a class="nav-link active" href="/blog/" aria-current="page">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+      Blog
+    </a>
+    <a class="nav-link" href="/courses/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="10"/></svg>
+      Percorsi
+    </a>
+    <a class="nav-link" href="/about/">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align:middle;margin-right:10px;"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      Chi sono
+    </a>
+  </div>
+</nav>
+
+<script>
+(function() {
+  var toggle = document.getElementById('menu-toggle');
+  var nav = document.getElementById('mobile-nav');
+  if (toggle && nav) {
+    toggle.addEventListener('click', function() {
+      var isOpen = nav.style.display === 'block';
+      nav.style.display = isOpen ? 'none' : 'block';
+      toggle.setAttribute('aria-expanded', String(!isOpen));
+      if (!isOpen) {
+        var firstLink = nav.querySelector('a');
+        if (firstLink) firstLink.focus();
+      }
+    });
+  }
+})();
+</script>
+
+
+    <div class="header-spacer"></div>
+
+    <main id="main-content" class="container" style="flex: 1;">
+      
+
+  
+    <link rel="preload" href="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" as="image" fetchpriority="high">
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.css" integrity="sha384-Wsr4Nh3yrvMf2KCebJchRJoVo1gTU6kcP05uRSh5NV3sj9+a8IomuJoQzf3sMq4T" crossorigin="anonymous">
+
+  <!-- SEO: JSON-LD Article schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": &quot;Input e Output in assembly x86_64&quot;,
+    "url": "https://dino-996.github.io/blog/input-e-output-in-assembly-x86-64/",
+    
+    "dateModified": "2026-09-16T14:34:42.000Z",
+    "author": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    },
+    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg",
+    "publisher": {
+      "@type": "Person",
+      "name": "Davide Sabia"
+    }
+  }
+  </script>
+
+  <!-- SEO: JSON-LD BreadcrumbList schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      
+      
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": &quot;Home&quot;,
+        "item": "https://dino-996.github.io/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": &quot;Blog&quot;,
+        "item": "https://dino-996.github.io/blog/"
+      },
+      
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": &quot;Input e output in assembly x86 64&quot;
+      }
+      
+    ]
+  }
+  </script>
+
+
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<div class="post-article-layout">
+  <aside class="toc-sidebar" id="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-title">
+        <span>Indice</span>
+        <button id="toc-collapse-btn" class="toc-collapse-btn hide-desktop" aria-label="Collassa indice">▾</button>
+      </div>
+      <ul class="toc-list" id="toc-list"></ul>
+    </div>
+  </aside>
+
+  <div class="post-article-content">
+    <!-- Mobile TOC toggle -->
+    <div class="toc-mobile-wrapper" id="toc-mobile-toggle-wrapper">
+      <button id="toc-toggle" class="toc-mobile-btn" aria-expanded="false" aria-controls="toc-mobile">
+        <span>Indice</span>
+        <span id="toc-chevron" class="toc-chevron">▾</span>
+      </button>
+      <nav id="toc-mobile" class="toc-mobile-nav" style="display: none;" aria-label="Indice articolo">
+        <ul id="toc-list-mobile" class="toc-list"></ul>
+      </nav>
+    </div>
+
+    <header class="post-header">
+      
+      
+      
+      
+        
+        
+      
+      
+      
+
+
+<nav aria-label="Breadcrumb" class="breadcrumb">
+  <ol>
+    
+      
+        <li><a href="/">Home</a></li>
+      
+    
+      
+        <li><a href="/courses/">Percorsi</a></li>
+      
+    
+      
+        <li><a href="/courses/assembly/">Assembly</a></li>
+      
+    
+      
+        <li aria-current="page">Input e Output in assembly x86_64</li>
+      
+    
+  </ol>
+</nav>
+
+
+
+      <h1>Input e Output in assembly x86_64</h1>
+
+      
+      <p class="post-description">Guida pratica all&#39;uso delle principali syscall Linux (write, read, open, exit) in Assembly x86_64. L&#39;articolo illustra le convenzioni di chiamata nei registri, l&#39;allocazione dinamica di buffer sullo stack e le tecniche di indirizzamento RIP-relative con .asciz e lea.</p>
+      
+
+      <div class="post-meta">
+        <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1785000039/dino_avatar_977642c3b8.png" alt="Davide Sabia" class="avatar" width="24" height="24">
+        <span>Davide Sabia</span>
+        <span class="post-meta-dot">·</span>
+        <span>Pubblicato il 21 settembre 2026</span>
+        <span class="post-meta-dot">·</span>
+        <span class="reading-time"></span>
+        
+      </div>
+    </header>
+
+    
+    <figure class="post-hero">
+      <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg"
+           alt="Immagine generata con AI"
+           class="post-hero-image"
+           fetchpriority="high">
+      
+      <figcaption class="post-hero-caption">Immagine generata con AI</figcaption>
+      
+    </figure>
+    
+
+    <article class="post-layout">
+      
+      <div class="tldr-box">
+        <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">La syscall `write` inoltra al kernel l&#39;indirizzo e la lunghezza di un blocco di memoria da stampare, utilizzando i registri `rax`, `rdi`, `rsi` e `rdx` per specificare l&#39;ID della syscall, il file descriptor, l&#39;indirizzo dei dati e il numero di byte. Per terminare correttamente un programma, è necessario invocare in sequenza la syscall `write` per l&#39;output e `exit` per la chiusura, passando gli opportuni argomenti ai registri appropriati.</p>
+      </div>
+      
+
+      <section class="content">
+          <h2 id="la-chiamata-write-stampare-a-schermo">La chiamata write, stampare a schermo</h2>
+<p>Quando un programma deve mostrare del testo, non invia i caratteri uno alla volta: passa al kernel l'indirizzo di memoria del blocco da stampare, la sua lunghezza e il canale di output, in un'unica invocazione della syscall <code>write</code>.</p>
+<p>L'equivalente concettuale in linguaggio C è <code>write(file_descriptor, indirizzo_memoria, lunghezza)</code>. In assembly x86_64 su Linux, i parametri vanno caricati nei registri prima di eseguire l'istruzione <code>syscall</code>.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Registro</th> <th>Ruolo nella write</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">rax</td> <td>ID della syscall, deve valere 1</td> </tr> <tr> <td class="fw-semibold">rdi</td> <td>File descriptor di destinazione: 0 stdin, 1 stdout, 2 stderr</td> </tr> <tr> <td class="fw-semibold">rsi</td> <td>Indirizzo di memoria da cui iniziare a leggere i caratteri</td> </tr> <tr> <td class="fw-semibold">rdx</td> <td>Numero esatto di byte da stampare</td> </tr> </tbody> </table> </div>
+<h3 id="leggere-gli-argomenti-da-riga-di-comando">Leggere gli argomenti da riga di comando</h3>
+<p>Quando si avvia un programma passando un parametro, ad esempio <code>./programma H</code>, Linux carica queste informazioni sullo stack. Lo stack non contiene direttamente il carattere <code>'H'</code>, ma un puntatore che indica dove si trova quel testo in memoria. Nel contesto di questa serie di esercizi, il puntatore al primo argomento si trova alla posizione relativa <code>[rsp+16]</code>.</p>
+<p>Per preparare l'output basta copiare quel puntatore nel registro dedicato ai dati e impostare gli altri parametri per stampare un solo carattere su stdout.</p>
+<pre><code class="language-asm">.intel_syntax noprefix
+.global _start
+_start:
+mov rax,1
+mov rdi,1
+mov rsi,[rsp+16]
+mov rdx,1
+syscall
+</code></pre>
+<p>Con <code>rdi</code> a 1, <code>rdx</code> a 1 e <code>rax</code> a 1, la syscall stampa a terminale esattamente il carattere passato da riga di comando.</p>
+<h3 id="concatenare-write-ed-exit-chiudere-il-programma-correttamente">Concatenare write ed exit, chiudere il programma correttamente</h3>
+<p>Un programma che esegue solo la <code>write</code> e non termina esplicitamente continua a far leggere alla CPU le locazioni di memoria successive, eseguendo istruzioni non valide e andando in crash. Per gestire correttamente il ciclo di vita del processo occorre invocare due syscall in sequenza nello stesso flusso: prima <code>write</code> per l'output, poi <code>exit</code> per la chiusura.</p>
+<p>La seconda fase riutilizza i registri con valori diversi:</p>
+<ul>
+<li><code>rdi</code> = il codice di uscita da restituire al sistema operativo (da 0 a 255)</li>
+<li><code>rax</code> = 60, l'ID numerico della syscall <code>sys_exit</code></li>
+</ul>
+<pre><code class="language-asm">.intel_syntax noprefix
+.global _start
+_start:
+mov rax,1
+mov rdi,1
+mov rsi,[rsp+16]
+mov rdx,1
+syscall
+mov rdi,42
+mov rax,60
+syscall
+</code></pre>
+<p>La struttura completa richiede in totale otto istruzioni, cinque per la fase di scrittura e tre per la terminazione, e garantisce che l'output venga mostrato prima che il processo si chiuda con stato 42.</p>
+<h3 id="scrivere-stringhe-piu-lunghe-di-un-singolo-byte">Scrivere stringhe più lunghe di un singolo byte</h3>
+<p>Per scrivere un testo più lungo, ad esempio una stringa di 64 caratteri già presente in memoria, non serve cambiare la logica del programma: basta estendere il valore caricato in <code>rdx</code>, il registro che dice al kernel quanti byte consecutivi leggere a partire dall'indirizzo puntato da <code>rsi</code>.</p>
+<pre><code class="language-asm">.intel_syntax noprefix
+.global _start
+_start:
+mov rax,1
+mov rdi,1
+mov rsi,[rsp+16]
+mov rdx,64
+syscall
+mov rdi,42
+mov rax,60
+syscall
+</code></pre>
+<p>L'unica variazione rispetto al blocco precedente è il valore di <code>rdx</code>, che passa da 1 a 64: tutto il resto del flusso, incluse la chiusura con <code>exit</code> e i valori di <code>rdi</code> e <code>rax</code> per la write, resta identico.</p>
+<h2 id="la-chiamata-read-leggere-input-da-stdin">La chiamata read, leggere input da stdin</h2>
+<p>La syscall <code>read</code> compie il percorso opposto rispetto a <code>write</code>: quando il programma la invoca, è il kernel a trasferire i byte ricevuti dallo standard input all'interno di un'area di memoria del programma. La sintassi concettuale è <code>read(file_descriptor, indirizzo_memoria, lunghezza)</code></p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Registro</th> <th>Ruolo nella read</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">rax</td> <td>ID della syscall, deve valere 0</td> </tr> <tr> <td class="fw-semibold">rdi</td> <td>File descriptor sorgente, 0 per stdin</td> </tr> <tr> <td class="fw-semibold">rsi</td> <td>Indirizzo del buffer in cui salvare i caratteri ricevuti</td> </tr> <tr> <td class="fw-semibold">rdx</td> <td>Numero massimo di byte da raccogliere dall'input</td> </tr> </tbody> </table> </div>
+<h3 id="lo-stack-come-buffer-temporaneo">Lo stack come buffer temporaneo</h3>
+<p>I dati letti devono finire in un'area di RAM valida e scrivibile. Il registro <code>rsp</code> punta alla sommità dello stack, una zona di memoria già allocata per il programma e liberamente utilizzabile come buffer. A differenza degli esempi precedenti, in cui si caricava il valore contenuto nell'indirizzo dello stack con <code>mov rsi, [rsp+16]</code>, qui serve l'indirizzo stesso:</p>
+<pre><code class="language-asm">mov rsi,rsp
+</code></pre>
+<blockquote>
+<p><code>mov rsi, rsp</code> copia nel registro <code>rsi</code> il valore che <code>rsp</code> contiene in quel momento, cioè l'indirizzo della sommità dello stack: <code>rsi</code> diventa un puntatore a quella zona di memoria, pronta per essere riempita dalla <code>read</code>.<br>
+<code>mov rsi, [rsp+16]</code>, invece, non copia un indirizzo ma il <strong>contenuto</strong> presente nella memoria a quella posizione: negli articoli precedenti, in quella locazione lo stack conteneva già un puntatore (all'argomento da riga di comando), quindi l'istruzione dereferenziava quella cella per recuperarlo. Con <code>read</code> non esiste ancora nessun dato scritto in memoria da recuperare, quindi serve l'indirizzo dello stack stesso come destinazione, non il contenuto di una sua cella.</p>
+</blockquote>
+<h3 id="il-flusso-completo-a-tre-fasi">Il flusso completo a tre fasi</h3>
+<p>Concatenando lettura, scrittura e uscita si ottiene un programma che legge fino a 255 byte da stdin, li ristampa a schermo e chiude il processo con stato 42.</p>
+<pre><code class="language-asm">.intel_syntax noprefix
+.global _start
+_start:
+scrittura (write)
+mov rax,0
+mov rdi,0
+mov rsi,rsp
+mov rdx,255
+syscall
+# lettura (read)
+mov rax,1
+mov rdi,1
+mov rsi,rsp
+mov rdx,255
+# uscita (exit)
+syscall
+mov rdi,42
+mov rax,60
+syscall
+</code></pre>
+<h2 id="lettura-a-lunghezza-variabile">Lettura a lunghezza variabile</h2>
+<p>Nei programmi reali la quantità di dati in arrivo da stdin non è quasi mai nota a priori. Specificare un numero rigido di byte nella <code>write</code> porta a due problemi: stampare meno dati del dovuto se l'input è lungo, oppure stampare byte residui presenti sullo stack se l'input è più corto del previsto.</p>
+<p>La soluzione sfrutta il valore che il kernel scrive in <code>rax</code> al termine di ogni syscall. Per <code>read</code>, quel valore corrisponde al numero effettivo di byte letti: se si chiedono 128 byte ma l'input ne contiene solo 50, <code>rax</code> conterrà 50 al termine dell'operazione.</p>
+<p>Trasferendo quel valore in <code>rdx</code> prima della <code>write</code>, si stampa esattamente la quantità di dati ricevuta.</p>
+<pre><code class="language-asm">.intel_syntax noprefix
+.global _start
+_start:
+mov rax,0
+mov rdi,0
+mov rsi,rsp
+mov rdx,128
+syscall
+mov rdx,rax
+mov rax,1
+mov rdi,1
+mov rsi,rsp
+syscall
+mov rdi,42
+mov rax,60
+syscall
+</code></pre>
+<p>L'ordine delle istruzioni è critico: <code>mov rdx, rax</code> deve avvenire prima di <code>mov rax, 1</code>, altrimenti il conteggio dei byte letti verrebbe sovrascritto dall'ID della syscall <code>write</code> prima di poter essere copiato.</p>
+<h2 id="aprire-file-su-disco-con-open">Aprire file su disco con open</h2>
+<p>Fino a questo punto il programma ha lavorato solo con i tre canali standard già aperti all'avvio: stdin (0), stdout (1) e stderr (2). Per leggere un file memorizzato su disco occorre prima chiedere a Linux di aprirlo tramite la syscall <code>open</code>, la cui struttura concettuale è <code>open(percorso_file, modalita)</code>.</p>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Registro</th> <th>Ruolo nella open</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">rax</td> <td>ID della syscall, deve valere 2</td> </tr> <tr> <td class="fw-semibold">rdi</td> <td>Puntatore al percorso del file in RAM</td> </tr> <tr> <td class="fw-semibold">rsi</td> <td>Modalità di accesso, 0 indica la sola lettura</td> </tr> </tbody> </table> </div>
+<p>Eseguita la syscall, Linux restituisce in <code>rax</code> un nuovo file descriptor, un intero a partire da 3, collegato al file appena aperto.</p>
+<h3 id="il-flusso-completo-a-quattro-fasi">Il flusso completo a quattro fasi</h3>
+<p>Il file descriptor restituito da <code>open</code> va spostato subito nel primo argomento della <code>read</code> con <code>mov rdi, rax</code>, altrimenti la lettura successiva continuerebbe a puntare a stdin.</p>
+<pre><code class="language-asm">.intel_syntax noprefix
+.global _start
+_start:
+# apertura file (open)
+mov rax,2
+mov rdi,[rsp+16]
+mov rsi,0
+syscall
+mov rdi,rax
+mov rax,0
+mov rsi,rsp
+mov rdx,256
+syscall
+mov rdx,rax
+mov rax,1
+mov rdi,1
+mov rsi,rsp
+syscall
+mov rdi,42
+mov rax,60
+syscall
+<p></code></pre></p>
+<h2 id="costruire-un-percorso-file-manualmente-nello-stack">Costruire un percorso file manualmente nello stack</h2>
+<p>Quando l'indirizzo del file non arriva dagli argomenti da riga di comando, occorre posizionare manualmente i byte del percorso in un'area scrivibile come lo stack. Per la stringa <code>/flag</code> si applicano tre regole fondamentali.</p>
+<ul>
+<li><strong>Direttiva <code>BYTE PTR</code></strong>: quando si sposta un valore immediato, un carattere tra apici come <code>'f'</code> o un numero, in una locazione di memoria come <code>[rsp+N]</code>, l'assembler non conosce da solo la dimensione della destinazione. <code>BYTE PTR</code> specifica che l'operazione deve occupare esattamente un byte.</li>
+<li><strong>Codifica ASCII</strong>: i singoli apici permettono di scrivere caratteri leggibili, come <code>'f'</code>, che la CPU interpreta direttamente come valori ASCII esadecimali, ad esempio <code>0x66</code>.</li>
+<li><strong>Terminatore nullo</strong>: l'ultimo byte della stringa deve essere impostato a 0. Linux legge il percorso a partire dall'indirizzo fornito e si arresta solo quando incontra un byte nullo; in sua assenza la <code>open</code> proseguirebbe leggendo la memoria sovrastante, tentando di aprire un file con un nome invalido.</li>
+</ul>
+<pre><code class="language-asm">.intel_syntax noprefix
+.global _start
+_start:
+mov BYTE PTR [rsp],'/'
+mov BYTE PTR [rsp+1],'f'
+mov BYTE PTR [rsp+2],'l'
+mov BYTE PTR [rsp+3],'a'
+mov BYTE PTR [rsp+4],'g'
+mov BYTE PTR [rsp+5],0
+mov rax,2
+mov rdi,rsp
+mov rsi,0
+syscall
+mov rdi,rax
+mov rax,0
+mov rsi,rsp
+mov rdx,256
+syscall
+mov rdx,rax
+mov rax,1
+mov rdi,1
+mov rsi,rsp
+syscall
+mov rdi,42
+mov rax,60
+syscall
+<p></code></pre></p>
+<h2 id="stringhe-rip-relative-con-asciz-e-lea">Stringhe RIP-relative con asciz e lea</h2>
+<p>Scrivere stringhe byte per byte nello stack funziona, ma è lungo e aumenta il rischio di errori. L'assembler permette di posizionare dati statici direttamente nel binario, usando la direttiva <code>.asciz &quot;/flag&quot;</code>, che inserisce la sequenza di caratteri ASCII aggiungendo automaticamente il byte nullo finale. Per sicurezza, la stringa va posizionata dopo la syscall di <code>exit</code>, così il processo termina prima di raggiungere quei byte, evitando che la CPU tenti di eseguirli come istruzioni.</p>
+<h3 id="indirizzamento-rip-relative">Indirizzamento RIP-relative</h3>
+<p>Nei sistemi moderni la posizione del programma in memoria RAM varia a ogni esecuzione, quindi l'assembler non conosce l'indirizzo assoluto della stringa, ma conosce la distanza tra l'istruzione corrente e la stringa stessa, calcolata rispetto al registro <code>rip</code>, l'Instruction Pointer.</p>
+<p>Per caricare l'indirizzo corretto si usa l'istruzione <code>lea</code>, Load Effective Address, e non <code>mov</code>:</p>
+<ul>
+<li><code>mov rdi, [rip + path]</code> è errato: legge il contenuto della memoria a quell'indirizzo, quindi <code>rdi</code> riceverebbe i primi otto byte della stringa ASCII anziché il suo puntatore.</li>
+<li><code>lea rdi, [rip + path]</code> è corretto: calcola l'indirizzo di memoria in cui risiede la stringa e lo salva in <code>rdi</code>, fornendo al kernel il puntatore necessario per la <code>open</code>.</li>
+</ul>
+<pre><code class="language-asm">.intel_syntax noprefix
+.global _start
+_start:
+lea rdi,[rip+path]
+mov rax,2
+mov rsi,0
+syscall
+mov rdi,rax
+mov rax,0
+mov rsi,rsp
+mov rdx,256
+syscall
+mov rdx,rax
+mov rax,1
+mov rdi,1
+mov rsi,rsp
+syscall
+mov rdi,42
+mov rax,60
+syscall
+path:
+.asciz &quot;/flag&quot;
+<p></code></pre></p>
+<h2 id="riepilogo-delle-syscall-trattate">Riepilogo delle syscall trattate</h2>
+<div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Syscall</th> <th>Valore rax</th> <th>Funzione</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">read</td> <td>0</td> <td>Legge byte da un file descriptor in un buffer di memoria</td> </tr> <tr> <td class="fw-semibold">write</td> <td>1</td> <td>Scrive byte da un buffer di memoria verso un file descriptor</td> </tr> <tr> <td class="fw-semibold">open</td> <td>2</td> <td>Apre un file su disco e restituisce un nuovo file descriptor</td> </tr> <tr> <td class="fw-semibold">exit</td> <td>60</td> <td>Termina il processo restituendo un codice di stato</td> </tr> </tbody> </table> </div>
+<h2 id="errori-comuni-da-evitare">Errori comuni da evitare</h2>
+<ul>
+<li><strong>Dimenticare la exit finale</strong>: senza la syscall <code>sys_exit</code>, la CPU continua a eseguire le locazioni di memoria successive alla <code>write</code> come se fossero istruzioni valide, causando un crash del programma.</li>
+<li><strong>Invertire l'ordine tra <code>mov rdx, rax</code> e <code>mov rax, 1</code></strong>: il valore restituito da <code>read</code> in <code>rax</code> va copiato in <code>rdx</code> prima di sovrascrivere <code>rax</code> con l'ID della syscall <code>write</code>, altrimenti il conteggio dei byte letti va perso.</li>
+<li><strong>Dimenticare il byte nullo di terminazione</strong>: quando un percorso file viene costruito manualmente nello stack, l'assenza del terminatore a 0 fa sì che <code>open</code> continui a leggere memoria oltre la stringa prevista, tentando di aprire un percorso corrotto o inesistente.</li>
+</ul>
+
+      </section>
+
+      <!-- Disclaimer AI -->
+      <footer class="mt-4 pt-3 border-top">
+        <p class="text-muted small mb-0">
+          <em>Articolo scritto con il supporto di LLM per la formattazione e la struttura del codice.</em>
+        </p>
+      </footer>
+
+    </article>
+
+    <!-- Share & Tags -->
+    <div class="post-layout post-section">
+      <div class="d-flex flex-wrap gap-2 align-items-center justify-content-between">
+        <div class="d-flex flex-wrap gap-2">
+          
+            
+              
+              
+              <a href="/tags/assembly/" class="badge badge-outline">assembly</a>
+              
+            
+              
+              
+              <a href="/tags/linux/" class="badge badge-outline">linux</a>
+              
+            
+              
+              
+              <a href="/tags/low-level-programming/" class="badge badge-outline">low level programming</a>
+              
+            
+              
+              
+              <a href="/tags/buffer-managment/" class="badge badge-outline">buffer managment</a>
+              
+            
+          
+        </div>
+        <div class="d-flex gap-2 align-items-center share-block">
+          <a href="https://www.linkedin.com/sharing/share-offsite/?url=https://dino-996.github.io%2Fblog%2Finput-e-output-in-assembly-x86-64%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su LinkedIn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg>
+            Condividi su LinkedIn
+          </a>
+          <a href="https://twitter.com/intent/tweet?text=Input%20e%20Output%20in%20assembly%20x86_64&url=https://dino-996.github.io%2Fblog%2Finput-e-output-in-assembly-x86-64%2F" target="_blank" rel="noopener" class="btn btn-outline btn-sm share-btn" aria-label="Condividi su X">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+            Condividi su X
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prev / Next -->
+    
+    
+    
+    
+    
+    <div class="post-layout post-section post-section-sm">
+      <nav class="d-flex justify-content-between gap-2" aria-label="Navigazione articoli">
+        <div class="article-nav-half">
+          
+        </div>
+        <div class="article-nav-half article-nav-right">
+          
+          <a href="/blog/reverse-engineering-e-debug-binario-in-linux/" class="btn btn-outline btn-sm article-nav-btn article-nav-btn-right">
+            <span class="d-block small article-nav-label">Successivo →</span>
+            <span class="d-block article-nav-title">Reverse engineering e debug binario in Linux</span>
+          </a>
+          
+        </div>
+      </nav>
+    </div>
+    
+
+    <!-- Potrebbe interessarti -->
+    
+    
+    <section class="related-posts" aria-labelledby="related-posts-heading">
+      <h2 id="related-posts-heading" class="post-layout">Potrebbe interessarti</h2>
+      <div class="related-posts-grid post-layout">
+        
+        <a href="/blog/reverse-engineering-e-debug-binario-in-linux/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Reverse engineering e debug binario in Linux</h3>
+            
+            <time class="related-post-date">18 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/rappresentazione-dei-dati-e-aritmetica-binaria/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Rappresentazione dei dati e aritmetica binaria</h3>
+            
+            <time class="related-post-date">16 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/address-resolution-protocol/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1789151796/ARP_24214d9665.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">ARP</span>
+              
+            
+            <h3 class="related-post-title">Address Resolution Protocol</h3>
+            
+            <time class="related-post-date">11 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+      </div>
+    </section>
+    
+
+    <!-- Commenti -->
+    <h2 class="post-layout comment-heading">Commenti</h2>
+    <div class="post-layout giscus-wrapper">
+      <script>
+        (function () {
+          var theme = window.__bsTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+          var script = document.createElement('script');
+          script.src = 'https://giscus.app/client.js';
+          script.setAttribute('data-repo', 'Dino-996/dino-996.github.io');
+          script.setAttribute('data-repo-id', 'R_kgDORNULOw');
+          script.setAttribute('data-category', 'Announcements');
+          script.setAttribute('data-category-id', 'DIC_kwDORNULO84C24dr');
+          script.setAttribute('data-mapping', 'pathname');
+          script.setAttribute('data-strict', '0');
+          script.setAttribute('data-reactions-enabled', '1');
+          script.setAttribute('data-emit-metadata', '0');
+          script.setAttribute('data-input-position', 'top');
+          script.setAttribute('data-theme', theme);
+          script.setAttribute('data-lang', 'it');
+          script.setAttribute('data-loading', 'lazy');
+          script.setAttribute('crossorigin', 'anonymous');
+          script.async = true;
+          document.currentScript.replaceWith(script);
+        })();
+      </script>
+      <noscript>
+        <div style="text-align: center; padding: 24px; color: var(--secondary); font-size: 0.875rem;">
+          Per visualizzare i commenti è necessario abilitare JavaScript.
+          <br>
+          <a href="https://github.com/Dino-996/dino-996.github.io/discussions" target="_blank" rel="noopener">Discuti su GitHub Discussions →</a>
+        </div>
+      </noscript>
+    </div>
+  </div>
+</div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js" defer
+    data-autoloader-path="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/katex.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.28/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      renderMathInElement(document.body, {
+        delimiters: [
+          {left: '$$', right: '$$', display: true},
+          {left: '$', right: '$', display: false},
+          {left: '\\(', right: '\\)', display: false},
+          {left: '\\[', right: '\\]', display: true}
+        ]
+      });
+    });
+  </script>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <div class="footer-logo"><a href="/">DinoSec</a></div>
+  <nav class="footer-nav">
+    <div style="display: flex; flex-direction: column">
+      <a href="/about/">Chi sono</a>
+      <a href="/courses/">Percorsi</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <div style="display: flex; flex-direction: column">
+      <a href="https://github.com/Dino-996" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://linkedin.com/in/davidesabia" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </nav>
+  <div class="footer-copy">
+    &copy; <span class="current-year">2026</span> DinoSec. Developer portfolio e blog tecnico. Realizzato con <a href="https://www.11ty.dev/" target="_blank" rel="noopener">Eleventy</a>.
+    <!-- Trasparenza AI -->
+    <p class="small text-muted">
+      Scopri di più sulla <a href="/about#trasparenza">politica sull'uso dell'IA</a>.
+    </p>
+  </div>
+</footer>
+
+
+
+
+    <!-- Scroll to top -->
+    <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Torna su">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+
+    <!-- AI assistant widget -->
+    <div id="ai-assistant" class="ai-assistant-wrapper">
+      <button id="ai-toggle" class="ai-btn-pulse" aria-label="Apri assistente virtuale basato su intelligenza artificiale">
+        <span aria-hidden="true">🦖</span>
+        <span class="ai-toggle-badge" aria-hidden="true">IA</span>
+      </button>
+
+      <div id="ai-chat-window" class="ai-card" hidden>
+        <div class="ai-card-header">
+          <div class="d-flex align-items-center gap-2">
+            <div class="ai-avatar-mini"><span aria-hidden="true">🦖</span></div>
+            <span id="ai-title" class="fw-bold">dino</span>
+            <span class="ai-badge" aria-label="Assistente basato su intelligenza artificiale">IA</span>
+          </div>
+          <button type="button" id="ai-close" class="ai-close-btn" aria-label="Chiudi">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <div id="ai-messages" class="ai-chat-body" aria-live="polite">
+          <div class="ai-welcome-msg">
+            Ciao! Sono dino, l'assistente IA di questo blog. Posso aiutarti a trovare informazioni tra i post?
+          </div>
+        </div>
+
+        <div class="ai-card-footer">
+          <label for="ai-input" class="visually-hidden">Chiedimi qualcosa</label>
+          <input id="ai-input" type="text" placeholder="Chiedimi qualcosa..." autocomplete="off">
+          <button id="ai-send">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI assistant widget -->
+    <script src="/assets/js/ai-widget.js" defer></script>
+
+    <!-- Scroll to top logic -->
+    <script>
+      (function() {
+        var btn = document.getElementById('scroll-top-btn');
+        if (!btn) return;
+        var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        var toggleVisibility = function() {
+          var visible = window.scrollY > 400;
+          btn.classList.toggle('visible', visible);
+          btn.setAttribute('tabindex', visible ? '0' : '-1');
+        };
+        window.addEventListener('scroll', toggleVisibility, { passive: true });
+        toggleVisibility();
+        btn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+        });
+      })();
+    </script>
+
+    <!-- main.js -->
+    <script src="/assets/js/main.js" defer></script>
+  </body>
+
+</html>

@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://dino-996.github.io/blog/input-e-output-in-assembly-x86-64/</loc>
+    <lastmod>2026-09-21T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/blog/reverse-engineering-e-debug-binario-in-linux/</loc>
+    <lastmod>2026-09-18T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/blog/rappresentazione-dei-dati-e-aritmetica-binaria/</loc>
+    <lastmod>2026-09-16T00:00:00.000Z</lastmod>
+  </url>
+  <url>
+    <loc>https://dino-996.github.io/blog/address-resolution-protocol/</loc>
+    <lastmod>2026-09-11T00:00:00.000Z</lastmod>
+  </url>
+  <url>
     <loc>https://dino-996.github.io/blog/implementazione-di-un-server-e-un-client-tcp-in-java/</loc>
     <lastmod>2026-09-07T00:00:00.000Z</lastmod>
   </url>

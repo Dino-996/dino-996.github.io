@@ -196,7 +196,7 @@
     "headline": &quot;Guida ai comandi Linux per la diagnostica di sistema, rete e hardware&quot;,
     "url": "https://dino-996.github.io/blog/guida-ai-comandi-linux-per-la-diagnostica-di-sistema-rete-e-hardware/",
     
-    "dateModified": "2026-09-06T15:05:20.000Z",
+    "dateModified": "2026-09-23T06:59:42.000Z",
     "author": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -323,7 +323,7 @@
         <span class="reading-time"></span>
         
           <span class="post-meta-dot">·</span>
-          <span>Aggiornato il 06 settembre 2026</span>
+          <span>Aggiornato il 23 settembre 2026</span>
         
       </div>
     </header>
@@ -344,7 +344,7 @@
       
       <div class="tldr-box">
         <div class="tldr-label">Riassunto generato automaticamente tramite intelligenza artificiale:</div>
-        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Questa guida presenta comandi Linux essenziali per la diagnostica, organizzati per area tematica, con enfasi su strumenti che hanno o non hanno equivalenti su macOS. Si sottolinea la compatibilità di alcuni comandi BSD/UNIX su macOS, mentre altri richiedono l&#39;uso di utility specifiche per Linux o alternative da verificare su macOS.</p>
+        <p class="mb-0" style="font-size: 0.9375rem; line-height: 1.6;">Questa guida offre una raccolta di comandi Linux essenziali per la diagnostica di sistema, organizzati per funzionalità e con dettagli sulla compatibilità con macOS. Vengono presentati strumenti per l&#39;analisi dello spazio su disco come `df`, `du`, `lsblk` e `fdisk`, oltre a quelli per la memoria come `free`.</p>
       </div>
       
 
@@ -354,9 +354,6 @@
 <h3 id="compatibilita-con-macos">Compatibilità con macOS</h3>
 <p>Buona parte di questa guida è pensata per Linux, ma vale la pena ricordare che macOS è a sua volta un sistema basato su UNIX (nello specifico deriva da BSD), per cui diversi comandi elencati funzionano invariati anche su un Mac aperto dal Terminale. Rientrano in questo gruppo <code>df -h</code>, <code>du -sh</code>, <code>uname -a</code>, <code>uptime</code>, <code>ping -c 4</code>, <code>traceroute</code>, <code>dig</code> e <code>curl</code>, oltre a strumenti installabili via Homebrew come <code>ncdu</code>, <code>htop</code>, <code>btop</code> e <code>fastfetch</code>.</p>
 <p>Altri comandi della guida sono invece specifici del mondo Linux e non hanno un corrispettivo diretto su macOS, perché si appoggiano a sottosistemi che semplicemente non esistono fuori dal kernel Linux, come il filesystem virtuale <code>/proc</code> (da cui dipendono <code>/proc/meminfo</code>, <code>/proc/cpuinfo</code>), lo stack <code>iproute2</code> (<code>ip a</code>, <code>ip r</code>, <code>ss</code>), systemd (<code>hostnamectl</code>) o il pacchetto <code>lm-sensors</code> (<code>sensors</code>). Anche <code>lsblk</code>, <code>lscpu</code> e <code>lshw</code> sono strumenti legati al mondo Linux, così come <code>lspci</code>, non presente nativamente su macOS.</p>
-<div class="alert alert-warning" role="alert">
-<strong>Da verificare:</strong> per chi lavora su macOS, gli equivalenti approssimativi di alcuni dei comandi Linux-only citati sopra sono <code>diskutil list</code> al posto di <code>lsblk</code>, <code>vm_stat</code> al posto di <code>free -h</code>, <code>system_profiler SPHardwareDataType</code> al posto di <code>lscpu</code>/<code>lshw</code>, <code>system_profiler SPDisplaysDataType</code> al posto di <code>lspci | grep -i vga</code>, e <code>ifconfig</code> / <code>netstat -rn</code> al posto di <code>ip a</code> / <code>ip r</code>. Questi comandi sono stati introdotti in questa revisione e non erano presenti nella bozza originale: sintassi e output vanno verificati sulla versione di macOS effettivamente in uso prima di pubblicarli come riferimento.
-</div>
 <h2 id="disco-e-filesystem-spazio-e-partizioni">Disco e filesystem, spazio e partizioni</h2>
 <p>Per avere una panoramica immediata dello spazio libero e occupato su tutti i filesystem montati si usa il comando seguente, dove il flag <code>-h</code> (human-readable) converte i valori grezzi in blocchi in un formato leggibile espresso in GB o MB.</p>
 <pre><code class="language-bash">df -h
@@ -373,9 +370,6 @@
 <p>Infine, per chi deve esplorare interattivamente cosa occupa spazio su disco senza scorrere output statici, <code>ncdu</code> è uno strumento a interfaccia testuale molto pratico: se non è già presente si installa con il gestore pacchetti della distribuzione.</p>
 <pre><code class="language-bash">sudo apt install ncdu
 </code></pre>
-<div class="alert alert-warning" role="alert">
-<strong>Da verificare:</strong> per una diagnosi ancora più approfondita sulla salute fisica di un disco (non solo sullo spazio occupato), può essere utile <code>smartctl -a /dev/sda</code> dal pacchetto <code>smartmontools</code>, comando introdotto in questa revisione e non presente nella bozza originale: va verificato il nome esatto del dispositivo sulla macchina target prima dell'uso.
-</div>
 <h2 id="memoria-ram-e-swap">Memoria RAM e swap</h2>
 <p>Lo strumento più immediato per controllare memoria RAM e swap libere, utilizzate e totali è <code>free</code>, dove <code>-h</code> formatta automaticamente i valori in KB, MB o GB a seconda della loro grandezza.</p>
 <pre><code class="language-bash">free -h
@@ -386,9 +380,6 @@
 <p>Per chi ha bisogno del dettaglio più granulare possibile, direttamente dai contatori del kernel, la fonte primaria è il file virtuale seguente.</p>
 <pre><code class="language-bash">cat /proc/meminfo
 </code></pre>
-<div class="alert alert-warning" role="alert">
-<strong>Da verificare:</strong> per correlare l'uso di memoria con CPU e attività di I/O in un'unica vista temporale, uno strumento complementare utile è <code>vmstat 1</code> (dal pacchetto <code>procps</code>, generalmente già preinstallato): comando introdotto in questa revisione, da testare sull'ambiente specifico.
-</div>
 <h2 id="cpu-e-processore">CPU e processore</h2>
 <p>Per visualizzare architettura della CPU, modello, numero di core fisici, thread logici e livelli di cache, il comando più sintetico è <code>lscpu</code>.</p>
 <pre><code class="language-bash">lscpu
@@ -399,9 +390,6 @@
 <p>Per il monitoraggio in tempo reale di processi e utilizzo di CPU e RAM, il comando storico è <code>top</code>; sui sistemi moderni conviene però preferire alternative più leggibili e interattive come <code>htop</code> o <code>btop</code>, se disponibili.</p>
 <pre><code class="language-bash">top
 </code></pre>
-<div class="alert alert-info" role="alert">
-Nota editoriale: <code>htop</code> e <code>btop</code>, già citati nella bozza originale come alternative moderne a <code>top</code>, restano scelte solide per chi lavora quotidianamente da terminale, grazie a interfaccia a colori, ordinamento interattivo dei processi e gestione diretta dei segnali (kill, nice) senza uscire dal programma.
-</div>
 <h2 id="scheda-video-gpu-e-hardware-generale">Scheda video (GPU) e hardware generale</h2>
 <p>Per identificare il modello esatto della scheda video installata (NVIDIA, AMD o Intel) si interroga il bus PCI filtrando per la classe video.</p>
 <pre><code class="language-bash">lspci | grep -i vga
@@ -434,7 +422,7 @@ Nota editoriale: <code>htop</code> e <code>btop</code>, già citati nella bozza 
 <p>Per sapere da quanto tempo il sistema è acceso, quanti utenti sono collegati e qual è il carico medio (load average) su 1, 5 e 15 minuti, si usa <code>uptime</code>.</p>
 <pre><code class="language-bash">uptime
 </code></pre>
-<p>Per chi desidera anche un colpo d'occhio estetico, con il logo della distribuzione in ASCII art accanto ai dati hardware, <code>neofetch</code> è stato per anni lo strumento più diffuso. Il progetto originale non riceve più sviluppo attivo, per cui oggi conviene orientarsi su <code>fastfetch</code>, il fork mantenuto attivamente e generalmente più veloce, già indicato come alternativa nella bozza originale.</p>
+<p>Per chi desidera anche un colpo d'occhio estetico, con il logo della distribuzione in ASCII art accanto ai dati hardware, <code>neofetch</code> è stato per anni lo strumento più diffuso. Il progetto originale non riceve più sviluppo attivo, per cui oggi conviene orientarsi su <code>fastfetch</code>, il fork mantenuto attivamente e generalmente più veloce.</p>
 <pre><code class="language-bash">fastfetch
 </code></pre>
 <h2 id="rete-interfacce-e-connessioni">Rete, interfacce e connessioni</h2>
@@ -462,9 +450,6 @@ Nota editoriale: <code>htop</code> e <code>btop</code>, già citati nella bozza 
 <p>Per interrogare direttamente i server DNS e risolvere un dominio nel relativo indirizzo IP, gli strumenti di riferimento sono <code>dig</code>, più verboso e dettagliato, e <code>nslookup</code>, più sintetico.</p>
 <pre><code class="language-bash">dig google.com
 </code></pre>
-<div class="alert alert-warning" role="alert">
-<strong>Da verificare:</strong> per monitorare il traffico di rete in tempo reale per processo o interfaccia, strumenti come <code>iftop</code> o <code>nload</code> (da installare separatamente) sono un'aggiunta pratica rispetto ai soli comandi di configurazione: introdotti in questa revisione, non presenti nella bozza originale.
-</div>
 <h2 id="temperature-e-sensori">Temperature e sensori</h2>
 <p>Per leggere le temperature della CPU e degli altri componenti hardware supportati, il comando <code>sensors</code> è lo standard de facto sulle distribuzioni Linux, e richiede il pacchetto <code>lm-sensors</code> installato e configurato tramite <code>sensors-detect</code> al primo utilizzo.</p>
 <pre><code class="language-bash">sensors
@@ -616,47 +601,7 @@ Nota editoriale: <code>htop</code> e <code>btop</code>, già citati nella bozza 
       <h2 id="related-posts-heading" class="post-layout">Potrebbe interessarti</h2>
       <div class="related-posts-grid post-layout">
         
-        <a href="/blog/implementazione-di-un-server-e-un-client-tcp-in-java/" class="related-post-card">
-          
-          <div class="related-post-image">
-            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788796679/server_client_TCP_8f36a58415.jpg" alt="Immagine generata con AI" loading="lazy">
-          </div>
-          
-          <div class="related-post-content">
-            
-              
-              
-              <span class="badge">java</span>
-              
-            
-            <h3 class="related-post-title">Implementazione di un server e un client TCP in Java</h3>
-            
-            <time class="related-post-date">07 settembre 2026</time>
-            
-          </div>
-        </a>
-        
-        <a href="/blog/redundant-array-of-independent-disks/" class="related-post-card">
-          
-          <div class="related-post-image">
-            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788705712/RAID_348215836b.jpg" alt="Immagine generata con AI" loading="lazy">
-          </div>
-          
-          <div class="related-post-content">
-            
-              
-              
-              <span class="badge">RAID</span>
-              
-            
-            <h3 class="related-post-title">Guida ai livelli RAID</h3>
-            
-            <time class="related-post-date">06 settembre 2026</time>
-            
-          </div>
-        </a>
-        
-        <a href="/blog/lo-stack-in-assembly/" class="related-post-card">
+        <a href="/blog/input-e-output-in-assembly-x86-64/" class="related-post-card">
           
           <div class="related-post-image">
             <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
@@ -669,9 +614,49 @@ Nota editoriale: <code>htop</code> e <code>btop</code>, già citati nella bozza 
               <span class="badge">assembly</span>
               
             
-            <h3 class="related-post-title">Lo stack in Assembly x86_64</h3>
+            <h3 class="related-post-title">Input e Output in assembly x86_64</h3>
             
-            <time class="related-post-date">02 settembre 2026</time>
+            <time class="related-post-date">21 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/reverse-engineering-e-debug-binario-in-linux/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Reverse engineering e debug binario in Linux</h3>
+            
+            <time class="related-post-date">18 settembre 2026</time>
+            
+          </div>
+        </a>
+        
+        <a href="/blog/rappresentazione-dei-dati-e-aritmetica-binaria/" class="related-post-card">
+          
+          <div class="related-post-image">
+            <img src="https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg" alt="Immagine generata con AI" loading="lazy">
+          </div>
+          
+          <div class="related-post-content">
+            
+              
+              
+              <span class="badge">assembly</span>
+              
+            
+            <h3 class="related-post-title">Rappresentazione dei dati e aritmetica binaria</h3>
+            
+            <time class="related-post-date">16 settembre 2026</time>
             
           </div>
         </a>
