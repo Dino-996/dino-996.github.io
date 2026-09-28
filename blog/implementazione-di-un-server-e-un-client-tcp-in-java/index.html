@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;Implementazione di un server e un client TCP in Java&quot;,
+    "headline": "Implementazione di un server e un client TCP in Java",
     "url": "https://dino-996.github.io/blog/implementazione-di-un-server-e-un-client-tcp-in-java/",
     
     "dateModified": "2026-09-07T15:58:52.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1788796679/server_client_TCP_8f36a58415.jpg",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1788796679/server_client_TCP_8f36a58415.jpg",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Implementazione di un server e un client tcp in java&quot;
+        "name": "Implementazione di un server e un client tcp in java"
       }
       
     ]
@@ -346,7 +346,10 @@
       
 
       <section class="content">
-          <h2 id="introduzione">Introduzione</h2>
+        
+        
+
+  <h2 id="introduzione">Introduzione</h2>
 <p>Oggi vediamo le fondamenta su cui si basa l'Internet moderna. TCP è la base di quasi tutte le comunicazioni di rete affidabili: anche quando si lavora con framework ad alto livello come HTTP, WebSocket o gRPC, dietro le quinte c'è sempre un socket TCP che gestisce la connessione. Capire come funziona dà un vantaggio enorme in termini di comprensione dei sistemi che usiamo ogni giorno.</p>
 <p>Per capire quanto sia fondamentale la comprensione del protocollo TCP e della sua implementazione, ecco qualche esempio di uso comune.</p>
 <ul>
@@ -668,6 +671,8 @@ pool.submit(() -&gt; gestisciClient(connessioneClient));
 <pre><code class="language-bash">nc 127.0.0.1 50000
 </code></pre>
 <p>Con il server single-thread avviato, la prima connessione funzionerà normalmente; una seconda connessione aperta in un'altra finestra di terminale resterà invece in attesa. Ripetendo lo stesso test con il server multithread avviato, entrambe le connessioni riceveranno risposta in modo indipendente: è il modo più immediato per toccare con mano la differenza tra le due implementazioni viste in questo articolo.</p>
+
+
 
       </section>
 

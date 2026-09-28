@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;Accesso alla memoria in Assembly x86_64&quot;,
+    "headline": "Accesso alla memoria in Assembly x86_64",
     "url": "https://dino-996.github.io/blog/valori-indirizzi-e-deferenziamento/",
     
     "dateModified": "2026-08-31T15:18:48.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Valori indirizzi e deferenziamento&quot;
+        "name": "Valori indirizzi e deferenziamento"
       }
       
     ]
@@ -341,7 +341,10 @@
       
 
       <section class="content">
-          <h2 id="valori-indirizzi-e-dereferenziamento-in-assembly-x86-64">Valori, indirizzi e dereferenziamento in assembly x86-64</h2>
+        
+        
+
+  <h2 id="valori-indirizzi-e-dereferenziamento-in-assembly-x86-64">Valori, indirizzi e dereferenziamento in assembly x86-64</h2>
 <p>Uno degli scogli concettuali più importanti per chi si avvicina alla programmazione a basso livello è capire la differenza tra un valore e un indirizzo di memoria. Nella sostanza sono la stessa cosa, un numero, ma il modo in cui l'assembly le tratta cambia completamente il comportamento di un programma.</p>
 <h3 id="la-memoria-come-indirizzario">La memoria come indirizzario</h3>
 <p>La memoria di un computer può essere immaginata come una lunga via di case numerate in sequenza. Ogni casa corrisponde a un byte (8 bit) di memoria e possiede un indirizzo numerico univoco. Nei sistemi moderni, come discusso nel primo articolo della serie, lo spazio di indirizzamento è enorme e presenta ampie zone non mappate, esattamente come una via con numeri civici che saltano da un blocco all'altro.</p>
@@ -426,6 +429,8 @@ _start:
 <p>L'ultimo scenario combina i due concetti visti finora: l'uso di un <strong>registro come puntatore</strong> e il <strong>doppio dereferenziamento</strong>, in un caso in cui non si conosce a priori alcun indirizzo numerico fisso, ma tutto parte dal contenuto di un registro fornito in ingresso.</p>
 <h3 id="tabella-riepilogativa-delle-modalita-di-indirizzamento">Tabella riepilogativa delle modalità di indirizzamento</h3>
 <div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Pattern</th> <th>Sintassi tipo</th> <th>Cosa restituisce</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Valore diretto</td> <td><code>mov rdi, 133700</code></td> <td>Il numero grezzo, nessun accesso alla memoria</td> </tr> <tr> <td class="fw-semibold">Dereferenziamento singolo</td> <td><code>mov rdi, [rax]</code></td> <td>Il contenuto memorizzato all'indirizzo in rax</td> </tr> <tr> <td class="fw-semibold">Autodereferenziamento</td> <td><code>mov rax, [rax]</code></td> <td>Il registro sovrascrive se stesso col dato letto</td> </tr> <tr> <td class="fw-semibold">Offset</td> <td><code>mov al, [rdi + 1]</code></td> <td>Il byte a un byte di distanza dall'indirizzo base</td> </tr> <tr> <td class="fw-semibold">Doppia dereferenziazione</td> <td><code>mov rdi, [rdi]</code> seguito da <code>mov rax, [rdi]</code></td> <td>Il dato finale, raggiunto attraverso due accessi consecutivi alla memoria</td> </tr> <tr> <td class="fw-semibold">Catena da registro</td> <td><code>mov rdi, [rdi]</code> ripetuto</td> <td>Il valore in fondo a una catena di puntatori partita da un registro</td> </tr> </tbody> </table> </div>
+
+
 
       </section>
 

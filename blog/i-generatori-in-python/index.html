@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;Generatori&quot;,
+    "headline": "Generatori",
     "url": "https://dino-996.github.io/blog/i-generatori-in-python/",
     
     "dateModified": "2026-07-31T14:00:25.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;I generatori in python&quot;
+        "name": "I generatori in python"
       }
       
     ]
@@ -341,18 +341,23 @@
       
 
       <section class="content">
-          <h2 id="introduzione">Introduzione</h2>
+        
+        
+
+  <h2 id="introduzione">Introduzione</h2>
 <p>Un <strong>generatore</strong> (generator) in Python è una funzione o un'espressione che restituisce uno speciale tipo di iteratore chiamato <em>generator iterator</em>. A differenza delle normali strutture dati, un generatore non calcola e non conserva tutti i suoi valori in memoria in anticipo: genera ogni valore solo quando viene richiesto. Questo comportamento viene definito <strong>lazy evaluation</strong> (valutazione pigra).</p>
 <h2 id="generatori-e-iteratori">Generatori e iteratori</h2>
 <p>Un generatore è un particolare tipo di iteratore, cioè un oggetto che permette di attraversare una sequenza di valori uno alla volta mediante il protocollo di iterazione (i metodi <code>__iter__()</code> e <code>__next__()</code>). La differenza sostanziale è che un iteratore standard, come una lista, contiene già tutti i suoi elementi in memoria:</p>
 <pre><code class="language-python">numeri = [1, 2, 3, 4, 5]
-<p></code></pre></p>
+
+</code></pre>
 <p>Un generatore, invece, produce gli elementi solo quando servono:</p>
 <pre><code class="language-python">def numeri():
     yield 1
     yield 2
     yield 3
-<p></code></pre></p>
+
+</code></pre>
 <p>In questo caso i valori non vengono creati tutti contemporaneamente, ma vengono prodotti progressivamente durante l'iterazione. Il generatore mantiene il proprio stato interno, rendendo possibile la ripresa dell'esecuzione dopo ogni valore prodotto.</p>
 <h2 id="la-parola-chiave-yield">La parola chiave yield</h2>
 <p>Una funzione generatrice si comporta come una normale funzione, ma contiene una o più espressioni <code>yield</code>. La parola chiave <code>yield</code>:</p>
@@ -367,15 +372,18 @@
     yield 1
     yield 2
     yield 3
-<p></code></pre></p>
+
+</code></pre>
 <p>Creiamo il generatore:</p>
 <pre><code class="language-python">generatore = conta()
-<p></code></pre></p>
+
+</code></pre>
 <p>A questo punto la funzione non è ancora stata eseguita: è stato creato un oggetto generatore. Possiamo ottenere i valori uno alla volta con la funzione <code>next()</code>:</p>
 <pre><code class="language-python">print(next(generatore))
 print(next(generatore))
 print(next(generatore))
-<p></code></pre></p>
+
+</code></pre>
 <p>Quando non ci sono più valori disponibili, Python solleva l'eccezione <code>StopIteration</code>. Per questo motivo, è quasi sempre preferibile iterare con un ciclo <code>for</code>, che gestisce automaticamente l'eccezione.</p>
 <h2 id="sospensione-e-ripresa-dello-stato">Sospensione e ripresa dello stato</h2>
 <p>La caratteristica più importante dei generatori è che mantengono il proprio stato interno tra una chiamata e l'altra. Quando Python incontra uno <code>yield</code>:</p>
@@ -391,16 +399,19 @@ print(next(generatore))
     while numero &lt; 3:
         yield numero
         numero += 1
-<p></code></pre></p>
+
+</code></pre>
 <p>Utilizzo:</p>
 <pre><code class="language-python">for valore in contatore():
     print(valore)
-<p></code></pre></p>
+
+</code></pre>
 <p>Output:</p>
 <pre><code>0
 1
 2
-<p></code></pre></p>
+
+</code></pre>
 <p>La variabile <code>numero</code> mantiene il proprio valore tra un <code>yield</code> e il successivo, dimostrando come lo stato venga preservato.</p>
 <h2 id="metodi-avanzati-dei-generatori">Metodi avanzati dei generatori</h2>
 <p>Oltre a <code>next()</code>, l'oggetto generatore espone un piccolo insieme di metodi che permettono una comunicazione bidirezionale con il chiamante, non solo la produzione passiva di valori.</p>
@@ -412,13 +423,15 @@ print(next(generatore))
         incremento = yield totale
         if incremento is not None:
             totale += incremento
-<p></code></pre></p>
+
+</code></pre>
 <p>Utilizzo:</p>
 <pre><code class="language-python">gen = contatore_incrementale()
 print(next(gen))
 print(gen.send(5))
 print(gen.send(10))
-<p></code></pre></p>
+
+</code></pre>
 <p>Il primo <code>next()</code> è sempre necessario per portare il generatore al primo punto di sospensione, prima di poter usare <code>send()</code>.</p>
 <h3 id="throw-sollevare-uneccezione-allinterno-del-generatore">Throw: sollevare un'eccezione all'interno del generatore</h3>
 <p>Il metodo <code>throw(eccezione)</code> permette di sollevare un'eccezione esattamente nel punto in cui il generatore è sospeso, così che possa gestirla con un blocco <code>try</code>/<code>except</code> interno.</p>
@@ -428,17 +441,20 @@ print(gen.send(10))
             yield &quot;valore normale&quot;
     except ValueError:
         yield &quot;eccezione gestita&quot;
-<p></code></pre></p>
+
+</code></pre>
 <h3 id="close-terminare-un-generatore">Close: terminare un generatore</h3>
 <p>Il metodo <code>close()</code> interrompe definitivamente il generatore sollevando internamente <code>GeneratorExit</code>. È utile per liberare risorse quando un generatore non deve più essere consumato, e viene spesso invocato automaticamente dal garbage collector o dai blocchi <code>finally</code>.</p>
 <div class="alert alert-info" role="alert"> La combinazione di <code>yield</code>, <code>send()</code>, <code>throw()</code> e <code>close()</code> costituisce il protocollo completo su cui, storicamente, sono state costruite le prime forme di coroutine in Python, prima dell'introduzione della sintassi <code>async</code>/<code>await</code>. </div>
 <h2 id="generatori-e-memoria">Generatori e memoria</h2>
 <p>Il vantaggio principale dei generatori è il basso utilizzo di memoria. Una lista crea e conserva tutti gli elementi contemporaneamente:</p>
 <pre><code class="language-python">numeri = [x for x in range(1000000)]
-<p></code></pre></p>
+
+</code></pre>
 <p>Tutti i valori vengono memorizzati in un'unica struttura. Un generatore, invece, produce gli elementi solo quando richiesti:</p>
 <pre><code class="language-python">numeri = (x for x in range(1000000))
-<p></code></pre></p>
+
+</code></pre>
 <p>In questo secondo caso Python mantiene solo le informazioni necessarie per generare il valore successivo. Questo rende i generatori particolarmente utili per:</p>
 <ul>
 <li>grandi quantità di dati;</li>
@@ -453,17 +469,20 @@ lista = [x for x in range(10000)]
 generatore = (x for x in range(10000))
 print(sys.getsizeof(lista))
 print(sys.getsizeof(generatore))
-<p></code></pre></p>
+
+</code></pre>
 <p>L'oggetto generatore occupa uno spazio costante e trascurabile, indipendentemente dal numero di elementi che potenzialmente può produrre, mentre la lista cresce proporzionalmente al numero di elementi contenuti.</p>
 <div class="alert alert-warning" role="alert"> I valori esatti restituiti da <code>sys.getsizeof()</code> dipendono dalla versione di Python e dall'architettura della macchina: eseguire il codice localmente per ottenere i numeri reali prima di citarli in un contesto pubblicato. </div>
 <h2 id="generator-expression">Generator expression</h2>
 <p>Oltre alle funzioni con <code>yield</code>, Python permette di creare generatori tramite una sintassi simile alle list comprehension.</p>
 <p><strong>Lista (valutazione immediata):</strong></p>
 <pre><code class="language-python">quadrati = [x * x for x in range(5)]
-<p></code></pre></p>
+
+</code></pre>
 <p><strong>Generatore (valutazione pigra):</strong></p>
 <pre><code class="language-python">quadrati = (x * x for x in range(5))
-<p></code></pre></p>
+
+</code></pre>
 <p>La differenza principale è che <code>[]</code> crea immediatamente una lista, mentre <code>()</code> crea un generatore che calcola i valori quando servono.</p>
 <h2 id="generatori-infiniti">Generatori infiniti</h2>
 <p>Poiché i generatori producono valori su richiesta, possono rappresentare anche sequenze senza una fine definita.</p>
@@ -473,7 +492,8 @@ print(sys.getsizeof(generatore))
     while True:
         yield numero
         numero += 1
-<p></code></pre></p>
+
+</code></pre>
 <p>Questo generatore può continuare indefinitamente senza occupare memoria proporzionale al numero di valori prodotti. Per interrompere l'iterazione, si può utilizzare un <code>break</code> o un'istruzione condizionale all'esterno.</p>
 <h2 id="costruire-pipeline-di-elaborazione">Costruire pipeline di elaborazione</h2>
 <p>I generatori si prestano naturalmente alla creazione di pipeline di elaborazione dati, dove ogni stadio trasforma o filtra il flusso in arrivo. Ad esempio:</p>
@@ -481,21 +501,25 @@ print(sys.getsizeof(generatore))
     with open(file_path) as f:
         for riga in f:
             yield riga.strip()
-<p>def filtra_righe(iterable, parola_chiave):<br>
-for riga in iterable:<br>
-if parola_chiave in riga:<br>
-yield riga</p>
-<p>def trasforma_maiuscolo(iterable):<br>
-for riga in iterable:<br>
-yield riga.upper()</p>
-<p></code></pre></p>
+
+def filtra_righe(iterable, parola_chiave):
+    for riga in iterable:
+        if parola_chiave in riga:
+            yield riga
+
+def trasforma_maiuscolo(iterable):
+    for riga in iterable:
+        yield riga.upper()
+
+</code></pre>
 <p>Utilizzo:</p>
 <pre><code class="language-python">flusso = lettore(&quot;dati.txt&quot;)
 filtrato = filtra_righe(flusso, &quot;errore&quot;)
 maiuscolo = trasforma_maiuscolo(filtrato)
 for riga in maiuscolo:
     print(riga)
-<p></code></pre></p>
+
+</code></pre>
 <p>Ogni passaggio produce un generatore, e i dati fluiscono senza mai caricare l'intero file in memoria.</p>
 <h2 id="yield-from-per-la-composizione">Yield from per la composizione</h2>
 <p>Python permette di delegare la generazione di valori a un sub-generatore o a qualsiasi iterabile tramite l'istruzione <code>yield from</code>. Questo semplifica la composizione di generatori più complessi.</p>
@@ -503,57 +527,70 @@ for riga in maiuscolo:
 <pre><code class="language-python">def sottogeneratore():
     yield 10
     yield 20
-<p>def generatore_principale():<br>
-yield 1<br>
-yield from sottogeneratore()<br>
-yield 30</p>
-<p></code></pre></p>
+
+def generatore_principale():
+    yield 1
+    yield from sottogeneratore()
+    yield 30
+
+</code></pre>
 <p>Utilizzo:</p>
 <pre><code class="language-python">for v in generatore_principale():
     print(v)
-<p></code></pre></p>
+
+</code></pre>
 <p><code>yield from</code> si occupa automaticamente di iterare il sub-generatore e di propagare eventuali eccezioni, rendendo il codice più pulito e manutenibile.</p>
 <div class="alert alert-warning" role="alert"> L'istruzione <code>yield from</code> è disponibile a partire da Python 3.3 (introdotta dalla PEP 380). Riferimento di versione da confermare prima della pubblicazione. </div>
 <h2 id="generatori-come-context-manager">Generatori come context manager</h2>
 <p>Uno degli usi più professionali dei generatori sfrutta esattamente la loro capacità di sospendersi e riprendersi: il decoratore <code>@contextmanager</code> del modulo <code>contextlib</code> permette di trasformare un generatore in un context manager utilizzabile con l'istruzione <code>with</code>.</p>
 <pre><code class="language-python">from contextlib import contextmanager
-<p>@contextmanager<br>
-def apri_risorsa(nome):<br>
-print(&quot;apertura di&quot;, nome)<br>
-try:<br>
-yield nome<br>
-finally:<br>
-print(&quot;chiusura di&quot;, nome)</p>
-<p></code></pre></p>
+
+@contextmanager
+def apri_risorsa(nome):
+    print(&quot;apertura di&quot;, nome)
+    try:
+        yield nome
+    finally:
+        print(&quot;chiusura di&quot;, nome)
+
+</code></pre>
 <p>Utilizzo:</p>
 <pre><code class="language-python">with apri_risorsa(&quot;connessione_db&quot;) as risorsa:
     print(&quot;uso di&quot;, risorsa)
-<p></code></pre></p>
+
+</code></pre>
 <p>Il codice prima dello <code>yield</code> viene eseguito all'ingresso del blocco <code>with</code>, mentre il codice nel blocco <code>finally</code> viene eseguito automaticamente all'uscita, anche in presenza di eccezioni. Questo pattern è largamente usato per gestire in modo sicuro file, connessioni di rete, lock e transazioni.</p>
 <h2 id="integrazione-con-itertools">Integrazione con itertools</h2>
 <p>Il modulo <code>itertools</code> fornisce una serie di strumenti progettati per lavorare con iteratori e generatori, permettendo di costruire cicli di elaborazione efficienti.</p>
 <h3 id="islice-prelevare-una-porzione-di-un-generatore">Islice: prelevare una porzione di un generatore</h3>
 <pre><code class="language-python">from itertools import islice
-<p>def numeri_infiniti():<br>
-numero = 0<br>
-while True:<br>
-yield numero<br>
-numero += 1</p>
-<p>primi_cinque = islice(numeri_infiniti(), 5)<br>
-print(list(primi_cinque))</p>
-<p></code></pre></p>
+
+def numeri_infiniti():
+    numero = 0
+    while True:
+        yield numero
+        numero += 1
+
+primi_cinque = islice(numeri_infiniti(), 5)
+print(list(primi_cinque))
+
+</code></pre>
 <h3 id="cycle-ripetere-una-sequenza-allinfinito">Cycle: ripetere una sequenza all'infinito</h3>
 <pre><code class="language-python">from itertools import cycle, islice
-<p>colori = cycle([&quot;rosso&quot;, &quot;verde&quot;, &quot;blu&quot;])<br>
-print(list(islice(colori, 7)))</p>
-<p></code></pre></p>
+
+colori = cycle([&quot;rosso&quot;, &quot;verde&quot;, &quot;blu&quot;])
+print(list(islice(colori, 7)))
+
+</code></pre>
 <h3 id="tee-duplicare-un-iteratore-in-piu-flussi-indipendenti">Tee: duplicare un iteratore in più flussi indipendenti</h3>
 <pre><code class="language-python">from itertools import tee
-<p>originale = (x for x in range(5))<br>
-copia_a, copia_b = tee(originale, 2)<br>
-print(list(copia_a))<br>
-print(list(copia_b))</p>
-<p></code></pre></p>
+
+originale = (x for x in range(5))
+copia_a, copia_b = tee(originale, 2)
+print(list(copia_a))
+print(list(copia_b))
+
+</code></pre>
 <p>Queste funzioni si combinano perfettamente con i generatori per creare trasformazioni dati complesse con un impatto minimo sulla memoria.</p>
 <h2 id="generatori-e-programmazione-asincrona">Generatori e programmazione asincrona</h2>
 <p>Sebbene non siano direttamente utilizzati per la concorrenza, i generatori hanno ispirato il modello delle coroutine in Python, evolutosi poi nelle parole chiave <code>async</code>/<code>await</code>. La capacità di sospendere e riprendere l'esecuzione è alla base sia dei generatori che delle funzioni asincrone.</p>
@@ -561,12 +598,14 @@ print(list(copia_b))</p>
 <pre><code class="language-python">async def genera_dati_asincroni():
     for i in range(3):
         yield i
-<p></code></pre></p>
+
+</code></pre>
 <p>Utilizzo tipico all'interno di codice asincrono:</p>
 <pre><code class="language-python">async def consuma():
     async for valore in genera_dati_asincroni():
         print(valore)
-<p></code></pre></p>
+
+</code></pre>
 <div class="alert alert-warning" role="alert"> Gli async generator sono disponibili a partire da Python 3.6 (PEP 525). Riferimento di versione da confermare prima della pubblicazione. </div>
 <p>Comprendere i generatori aiuta quindi ad affrontare con maggiore consapevolezza anche temi più avanzati come la programmazione asincrona e il coordinamento di flussi di dati in tempo reale.</p>
 <h2 id="uninsidia-comune-lesaurimento-del-generatore">Un'insidia comune, l'esaurimento del generatore</h2>
@@ -574,7 +613,8 @@ print(list(copia_b))</p>
 <pre><code class="language-python">quadrati = (x * x for x in range(5))
 print(list(quadrati))
 print(list(quadrati))
-<p></code></pre></p>
+
+</code></pre>
 <p>Il secondo <code>list(quadrati)</code> restituisce una sequenza vuota, perché il generatore ha già prodotto tutti i suoi valori. Per iterare più volte sugli stessi dati è necessario ricreare il generatore da capo, oppure, se serve conservare i valori per riutilizzarli, valutare l'uso di una struttura dati tradizionale come una lista.</p>
 <h2 id="confronto-tra-funzioni-normali-e-generatori">Confronto tra funzioni normali e generatori</h2>
 <div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Funzione normale</th> <th>Generatore</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Restituisce un valore con <code>return</code></td> <td>Produce valori con <code>yield</code></td> </tr> <tr> <td class="fw-semibold">Termina completamente dopo il <code>return</code></td> <td>Sospende e riprende l'esecuzione</td> </tr> <tr> <td class="fw-semibold">Perde lo stato locale dopo la chiamata</td> <td>Mantiene lo stato tra le chiamate</td> </tr> <tr> <td class="fw-semibold">Calcola tutti i risultati subito</td> <td>Calcola i risultati quando servono</td> </tr> <tr> <td class="fw-semibold">Può richiedere molta memoria</td> <td>Usa poca memoria</td> </tr> <tr> <td class="fw-semibold">Può essere richiamata ripetutamente</td> <td>Si esaurisce dopo una sola iterazione completa</td> </tr> </tbody> </table> </div>
@@ -589,6 +629,8 @@ print(list(quadrati))
 <li>si deve gestire in modo sicuro l'apertura e la chiusura di una risorsa, tramite il pattern context manager.</li>
 </ul>
 <p>Grazie alla loro capacità di produrre valori su richiesta mantenendo lo stato interno, i generatori rappresentano uno degli strumenti più potenti di Python per scrivere codice efficiente, orientato all'elaborazione sequenziale e facilmente manutenibile.</p>
+
+
 
       </section>
 

@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;Pandas&quot;,
+    "headline": "Pandas",
     "url": "https://dino-996.github.io/blog/pandas-python/",
     
     "dateModified": "2026-07-31T14:17:01.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Pandas python&quot;
+        "name": "Pandas python"
       }
       
     ]
@@ -341,15 +341,20 @@
       
 
       <section class="content">
-          <h2 id="introduzione">Introduzione</h2>
+        
+        
+
+  <h2 id="introduzione">Introduzione</h2>
 <p>Pandas è una libreria open-source per Python che fornisce strutture dati e strumenti di analisi ad alte prestazioni. Nata come estensione di NumPy, ne eredita la potenza di calcolo vettorializzato, aggiungendo un'interfaccia intuitiva e flessibile per la manipolazione di dati strutturati. È lo standard <em>de facto</em> per il data science e l'analisi dati, supportando l'integrazione con librerie come SciPy per l'analisi statistica, Matplotlib per la visualizzazione e Scikit-learn per il machine learning.</p>
 <p>Per installare Pandas, è sufficiente utilizzare pip:</p>
 <pre><code class="language-bash">pip install pandas
-<p></code></pre></p>
+
+</code></pre>
 <p>L'importazione standard, insieme a NumPy, è:</p>
 <pre><code class="language-python">import numpy as np
 import pandas as pd
-<p></code></pre></p>
+
+</code></pre>
 <h2 id="strutture-dati-fondamentali">Strutture dati fondamentali</h2>
 <p>Pandas si basa su due strutture dati principali, pensate per gestire dati rispettivamente in una e due dimensioni, ed è proprio dalla loro comprensione che parte ogni analisi efficace.</p>
 <h3 id="la-series">La Series</h3>
@@ -357,7 +362,8 @@ import pandas as pd
 <pre><code class="language-python">serie1 = pd.Series(np.random.randn(4), index=['a', 'b', 'c', 'd'])
 dizionario = {&quot;b&quot;: 1, &quot;a&quot;: 0, &quot;c&quot;: 2}
 serie2 = pd.Series(dizionario)
-<p></code></pre></p>
+
+</code></pre>
 <h4 id="operare-con-le-series">Operare con le Series</h4>
 <p>Le Series sono estremamente flessibili e possono essere utilizzate come array NumPy o come dizionari Python. Questo duplice comportamento le rende uno strumento potente per lo sviluppatore.</p>
 <ul>
@@ -371,7 +377,8 @@ serie2 = pd.Series(dizionario)
     &quot;two&quot;: pd.Series([1.0, 2.0, 3.0, 4.0], index=[&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;])
 }
 df = pd.DataFrame(dati)
-<p></code></pre></p>
+
+</code></pre>
 <h2 id="operazioni-sui-dataframe">Operazioni sui DataFrame</h2>
 <p>La vera potenza di Pandas risiede nella facilità con cui si possono manipolare i dati in un DataFrame. Le operazioni di selezione, aggiunta e cancellazione di colonne seguono la sintassi dei dizionari.</p>
 <pre><code class="language-python">colonna_one = df[&quot;one&quot;]
@@ -379,7 +386,8 @@ colonna_one = df.one
 df[&quot;three&quot;] = df[&quot;one&quot;] * df[&quot;two&quot;]
 del df[&quot;three&quot;]
 df.pop(&quot;two&quot;)
-<p></code></pre></p>
+
+</code></pre>
 <h3 id="accesso-ai-dati-loc-vs-iloc">Accesso ai dati: <code>loc</code> vs <code>iloc</code></h3>
 <p>La selezione di righe e celle può essere effettuata tramite due metodi principali, che servono a scopi leggermente diversi. La chiarezza nell'uso di questi metodi è fondamentale per scrivere codice pulito e privo di errori.</p>
 <ul>
@@ -398,7 +406,8 @@ df.pop(&quot;two&quot;)
     print(f&quot;Indice: {index}, Valore colonna 'one': {row['one']}&quot;)
 for row in df.itertuples():
     print(f&quot;Indice: {row.Index}, Valore colonna 'one': {row.one}&quot;)
-<p></code></pre></p>
+
+</code></pre>
 <h2 id="gestione-dei-valori-mancanti">Gestione dei valori mancanti</h2>
 <p>Uno degli scenari più frequenti nell'analisi di dati reali è la presenza di valori mancanti, spesso rappresentati come <code>NaN</code>. Gestirli correttamente è un requisito di base per garantire l'affidabilità di qualsiasi pipeline di analisi.</p>
 <p>Pandas mette a disposizione un set di funzioni dedicate:</p>
@@ -410,7 +419,8 @@ for row in df.itertuples():
 <pre><code class="language-python">df[&quot;voti&quot;].isna()
 df.dropna(axis=0)
 df[&quot;voti&quot;] = df[&quot;voti&quot;].fillna(df[&quot;voti&quot;].mean())
-<p></code></pre></p>
+
+</code></pre>
 <p>Scegliere tra <code>dropna()</code> e <code>fillna()</code> non è mai una decisione puramente tecnica, ma dipende dal contesto del dominio, va sempre valutato se un valore mancante rappresenta un dato assente per errore o un'informazione essa stessa significativa.</p>
 <h2 id="un-caso-duso-esplorazione-del-dataset-titanic">Un caso d'uso: esplorazione del dataset Titanic</h2>
 <p>Un classico scenario di data science prevede il caricamento di un dataset, la sua esplorazione e la sua visualizzazione. Con Pandas, l'intero flusso di lavoro può essere gestito in un unico ambiente, senza la necessità di strumenti esterni come DBMS o fogli di calcolo.</p>
@@ -424,7 +434,8 @@ df[&quot;voti&quot;] = df[&quot;voti&quot;].fillna(df[&quot;voti&quot;].mean())
 <pre><code class="language-python">df1 = pd.DataFrame({'Nome': ['Mario', 'Luigi']}, index=['CF1', 'CF2'])
 df2 = pd.DataFrame({'Cognome': ['Rossi', 'Verdi']}, index=['CF1', 'CF3'])
 df3 = df1.join(df2, how='outer')
-<p></code></pre></p>
+
+</code></pre>
 <h4 id="merge"><code>merge()</code></h4>
 <p>È una versione più generale di <code>join</code>. È la scelta ideale quando la colonna su cui effettuare il join non è l'indice.</p>
 <ul>
@@ -434,16 +445,19 @@ df3 = df1.join(df2, how='outer')
 <pre><code class="language-python">df1 = pd.DataFrame({'Nome': ['Mario', 'Luigi'], 'Codice': ['CF1', 'CF2']})
 df2 = pd.DataFrame({'Cognome': ['Rossi', 'Verdi'], 'Codice': ['CF1', 'CF3']})
 df3 = df1.merge(df2, on='Codice', how='inner')
-<p></code></pre></p>
+
+</code></pre>
 <h4 id="concat"><code>concat()</code></h4>
 <p>Permette di concatenare più DataFrame, sia per righe (<code>axis=0</code>) che per colonne (<code>axis=1</code>). È utile per aggiungere nuovi dati o feature al dataset.</p>
 <pre><code class="language-python">df_righe = pd.concat([df1, df2], axis=0)
 df_colonne = pd.concat([df1, df2], axis=1)
-<p></code></pre></p>
+
+</code></pre>
 <h3 id="grouping-group-by">Grouping (GROUP BY)</h3>
 <p>L'operazione di raggruppamento, simile al GROUP BY di SQL, è fondamentale per l'aggregazione dei dati. Si utilizza la funzione <code>groupby()</code> a cui viene passata una lista di colonne su cui raggruppare.</p>
 <pre><code class="language-python">raggruppato = df.groupby(['colonna1', 'colonna2'])
-<p></code></pre></p>
+
+</code></pre>
 <p>Sul risultato, si possono applicare funzioni di aggregazione come <code>sum()</code>, <code>mean()</code>, <code>count()</code>, <code>std()</code>, e molte altre.</p>
 <h2 id="importazione-ed-esportazione-dei-dati">Importazione ed esportazione dei dati</h2>
 <p>Pandas supporta un'ampia gamma di formati di file per importare ed esportare dati, semplificando l'integrazione con diversi sistemi.</p>
@@ -463,7 +477,8 @@ df_colonne = pd.concat([df1, df2], axis=1)
 <pre><code class="language-python">import matplotlib.pyplot as plt
 df['colonna'].plot(kind='bar')
 plt.show()
-<p></code></pre></p>
+
+</code></pre>
 <p>La potenza di questo approccio risiede nella possibilità di specificare il tipo di grafico attraverso il parametro <code>kind</code>. Per visualizzazioni più avanzate, come i diagrammi di dispersione a matrice, è disponibile il modulo <code>pandas.plotting</code>.</p>
 <div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>kind</th> <th>Grafico</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold"><code>'bar'</code> / <code>'barh'</code></td> <td>Bar plot</td> </tr> <tr> <td class="fw-semibold"><code>'hist'</code></td> <td>Istogramma</td> </tr> <tr> <td class="fw-semibold"><code>'box'</code></td> <td>Boxplot</td> </tr> <tr> <td class="fw-semibold"><code>'scatter'</code></td> <td>Scatter plot</td> </tr> <tr> <td class="fw-semibold"><code>'pie'</code></td> <td>Grafico a torta</td> </tr> </tbody> </table> </div>
 <h2 id="vettorizzazione-il-cuore-dellefficienza">Vettorizzazione: il cuore dell'efficienza</h2>
@@ -473,7 +488,8 @@ plt.show()
 <pre><code class="language-python">serie = pd.Series([1, 2, 3, 4], index=['a', 'b', 'c', 'd'])
 print(serie * 2)
 print(serie[1:] + serie[:-1])
-<p></code></pre></p>
+
+</code></pre>
 <h3 id="vettorizzazione-su-dataframe">Vettorizzazione su DataFrame</h3>
 <p>Anche per i DataFrame è possibile applicare operazioni vettoriali. Il concetto di broadcast di NumPy permette di eseguire operazioni tra un DataFrame e un valore scalare, un array o un altro DataFrame di forma compatibile.</p>
 <p>L'asse di applicazione può essere controllato tramite il parametro <code>axis</code> in molte funzioni, <code>axis=0</code> (o <code>axis='index'</code>) applica l'operazione per ogni colonna ed è il comportamento predefinito, mentre <code>axis=1</code> (o <code>axis='columns'</code>) applica l'operazione per ogni riga.</p>
@@ -484,7 +500,8 @@ print(serie[1:] + serie[:-1])
     else:
         return &quot;Bocciato&quot;
 df[&quot;risultati&quot;] = df[&quot;voti&quot;].apply(valuta_voto)
-<p></code></pre></p>
+
+</code></pre>
 <h2 id="best-practice-chiarezza-architetturale-con-il-method-chaining">Best practice: chiarezza architetturale con il method chaining</h2>
 <p>Quando una trasformazione dei dati richiede più passaggi in sequenza (filtraggio, creazione di nuove colonne, raggruppamento), scrivere ogni passaggio come una riassegnazione separata rende il codice difficile da leggere e da manutenere. Il metodo <code>pipe()</code> permette di incapsulare ogni trasformazione in una funzione pura e di comporle in una catena leggibile dall'alto verso il basso, con evidenti benefici in termini di modularità e linearità logica del codice.</p>
 <pre><code class="language-python">def rimuovi_mancanti(dataframe):
@@ -496,27 +513,33 @@ df_finale = (
     .pipe(rimuovi_mancanti)
     .pipe(aggiungi_colonna_risultati)
 )
-<p></code></pre></p>
+
+</code></pre>
 <p>Ogni funzione della catena ha una singola responsabilità e può essere testata in isolamento, un principio di progettazione che si applica altrettanto bene al codice di analisi dati quanto a un qualsiasi altro sistema software.</p>
 <h2 id="copie-e-viste-unattenzione-alla-manutenibilita">Copie e viste: un'attenzione alla manutenibilità</h2>
 <p>La distinzione tra copie e viste in Pandas può creare comportamenti inattesi se non gestita correttamente. Comprendere questo concetto è fondamentale per evitare bug e garantire la manutenibilità del codice. Il principio &quot;explicit is better than implicit&quot; guida la gestione di questo aspetto.</p>
 <h3 id="scenario-1-creare-un-dataframe-indipendente">Scenario 1: creare un DataFrame indipendente</h3>
 <p>Quando si vuole lavorare su una copia del dato originale senza modificarlo, si utilizza il metodo <code>copy()</code>.</p>
 <pre><code class="language-python">df2 = df1.copy()
-<p></code></pre></p>
+
+</code></pre>
 <h3 id="scenario-2-aggiornare-un-dataframe-da-un-altro">Scenario 2: aggiornare un DataFrame da un altro</h3>
 <p>Se l'obiettivo è aggiornare i valori di un DataFrame (df1) con quelli di un altro (df2), il metodo <code>update()</code> è la soluzione più chiara e sicura. Anche in questo caso, è consigliabile creare una copia per l'elaborazione intermedia.</p>
 <pre><code class="language-python">df2 = df1.copy()
 df1.update(df2)
-<p></code></pre></p>
+
+</code></pre>
 <p>Questo approccio evita l'uso di catene di indicizzazione che potrebbero generare il famoso SettingWithCopyWarning, rendendo il codice più robusto e prevedibile.</p>
 <h2 id="ottimizzazione-delle-prestazioni-e-memoria">Ottimizzazione delle prestazioni e memoria</h2>
 <p>Oltre alla vettorizzazione, un'altra leva di ottimizzazione spesso sottovalutata riguarda la scelta dei tipi di dato. Colonne testuali con un numero limitato di valori distinti (es. categorie, stati, etichette) possono essere convertite al tipo <code>category</code> tramite <code>astype('category')</code>, riducendo sensibilmente l'occupazione di memoria e velocizzando operazioni come <code>groupby()</code> su dataset di grandi dimensioni.</p>
 <pre><code class="language-python">df[&quot;categoria&quot;] = df[&quot;categoria&quot;].astype(&quot;category&quot;)
-<p></code></pre></p>
+
+</code></pre>
 <p>Questa è una delle ottimizzazioni con il miglior rapporto tra sforzo di implementazione e beneficio ottenuto, particolarmente rilevante quando si lavora con dataset che non entrano comodamente in memoria.</p>
 <h2 id="conclusioni">Conclusioni</h2>
 <p>Pandas si conferma come uno strumento indispensabile per chiunque lavori con dati in Python. La sua curva di apprendimento è dolce, ma nasconde una potenza enorme che, se sfruttata correttamente, permette di scrivere codice efficiente, leggibile e manutenibile. L'adozione di best practice come l'uso delle operazioni vettoriali, la comprensione delle strutture dati, la corretta gestione di copie e viste, e un'attenzione mirata a prestazioni e sicurezza, sono fondamentali per trasformare un semplice script di analisi in un sistema robusto e scalabile. L'integrazione nativa con SQL, Excel e le librerie di visualizzazione lo rende un coltellino svizzero per il data scientist moderno.</p>
+
+
 
       </section>
 

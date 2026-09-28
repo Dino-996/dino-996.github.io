@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;La memoria virtuale&quot;,
+    "headline": "La memoria virtuale",
     "url": "https://dino-996.github.io/blog/memoria-virtuale/",
     
     "dateModified": "2026-07-25T17:25:40.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1784997357/sistemi_operativi_c5f0caf8fe.webp",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1784997357/sistemi_operativi_c5f0caf8fe.webp",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Memoria virtuale&quot;
+        "name": "Memoria virtuale"
       }
       
     ]
@@ -344,7 +344,10 @@
       
 
       <section class="content">
-          <h2 id="architettura-e-strategie-della-memoria-virtuale">Architettura e strategie della Memoria Virtuale</h2>
+        
+        
+
+  <h2 id="architettura-e-strategie-della-memoria-virtuale">Architettura e strategie della Memoria Virtuale</h2>
 <p>Nei moderni sistemi multiprogrammati, l'esecuzione simultanea di più processi richiede una gestione oculata delle risorse. Tuttavia, la RAM è per definizione una risorsa finita e spesso insufficiente a ospitare l'intero working set di ogni applicazione attiva. Qui entra in gioco la <strong>Memoria Virtuale</strong>, un'astrazione fondamentale che scollega la memoria logica vista dal programmatore dalla memoria fisica effettivamente disponibile.</p>
 <p>Questa architettura offre vantaggi determinanti:</p>
 <ul>
@@ -384,6 +387,8 @@
 <li><strong>LRU (Least Recently Used):</strong> Approssima l'algoritmo ottimale sostituendo la pagina non utilizzata da più tempo. È molto efficace ma richiede supporto hardware dedicato (contatori o stack) per non appesantire la CPU.</li>
 <li><strong>Seconda Chance (Clock):</strong> Un compromesso ingegnoso tra FIFO e LRU. Organizza le pagine in una lista circolare e utilizza un <strong>Reference Bit</strong>. Se il bit è 1, la pagina riceve una &quot;seconda possibilità&quot; e il bit viene azzerato; se è 0, la pagina viene sostituita.</li>
 </ol>
+
+
 
       </section>
 

@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;Input e Output in assembly x86_64&quot;,
+    "headline": "Input e Output in assembly x86_64",
     "url": "https://dino-996.github.io/blog/input-e-output-in-assembly-x86-64/",
     
     "dateModified": "2026-09-16T14:34:42.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Input e output in assembly x86 64&quot;
+        "name": "Input e output in assembly x86 64"
       }
       
     ]
@@ -341,7 +341,10 @@
       
 
       <section class="content">
-          <h2 id="la-chiamata-write-stampare-a-schermo">La chiamata write, stampare a schermo</h2>
+        
+        
+
+  <h2 id="la-chiamata-write-stampare-a-schermo">La chiamata write, stampare a schermo</h2>
 <p>Quando un programma deve mostrare del testo, non invia i caratteri uno alla volta: passa al kernel l'indirizzo di memoria del blocco da stampare, la sua lunghezza e il canale di output, in un'unica invocazione della syscall <code>write</code>.</p>
 <p>L'equivalente concettuale in linguaggio C è <code>write(file_descriptor, indirizzo_memoria, lunghezza)</code>. In assembly x86_64 su Linux, i parametri vanno caricati nei registri prima di eseguire l'istruzione <code>syscall</code>.</p>
 <div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Registro</th> <th>Ruolo nella write</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">rax</td> <td>ID della syscall, deve valere 1</td> </tr> <tr> <td class="fw-semibold">rdi</td> <td>File descriptor di destinazione: 0 stdin, 1 stdout, 2 stderr</td> </tr> <tr> <td class="fw-semibold">rsi</td> <td>Indirizzo di memoria da cui iniziare a leggere i caratteri</td> </tr> <tr> <td class="fw-semibold">rdx</td> <td>Numero esatto di byte da stampare</td> </tr> </tbody> </table> </div>
@@ -475,7 +478,8 @@ syscall
 mov rdi,42
 mov rax,60
 syscall
-<p></code></pre></p>
+
+</code></pre>
 <h2 id="costruire-un-percorso-file-manualmente-nello-stack">Costruire un percorso file manualmente nello stack</h2>
 <p>Quando l'indirizzo del file non arriva dagli argomenti da riga di comando, occorre posizionare manualmente i byte del percorso in un'area scrivibile come lo stack. Per la stringa <code>/flag</code> si applicano tre regole fondamentali.</p>
 <ul>
@@ -509,7 +513,8 @@ syscall
 mov rdi,42
 mov rax,60
 syscall
-<p></code></pre></p>
+
+</code></pre>
 <h2 id="stringhe-rip-relative-con-asciz-e-lea">Stringhe RIP-relative con asciz e lea</h2>
 <p>Scrivere stringhe byte per byte nello stack funziona, ma è lungo e aumenta il rischio di errori. L'assembler permette di posizionare dati statici direttamente nel binario, usando la direttiva <code>.asciz &quot;/flag&quot;</code>, che inserisce la sequenza di caratteri ASCII aggiungendo automaticamente il byte nullo finale. Per sicurezza, la stringa va posizionata dopo la syscall di <code>exit</code>, così il processo termina prima di raggiungere quei byte, evitando che la CPU tenti di eseguirli come istruzioni.</p>
 <h3 id="indirizzamento-rip-relative">Indirizzamento RIP-relative</h3>
@@ -541,7 +546,8 @@ mov rax,60
 syscall
 path:
 .asciz &quot;/flag&quot;
-<p></code></pre></p>
+
+</code></pre>
 <h2 id="riepilogo-delle-syscall-trattate">Riepilogo delle syscall trattate</h2>
 <div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Syscall</th> <th>Valore rax</th> <th>Funzione</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">read</td> <td>0</td> <td>Legge byte da un file descriptor in un buffer di memoria</td> </tr> <tr> <td class="fw-semibold">write</td> <td>1</td> <td>Scrive byte da un buffer di memoria verso un file descriptor</td> </tr> <tr> <td class="fw-semibold">open</td> <td>2</td> <td>Apre un file su disco e restituisce un nuovo file descriptor</td> </tr> <tr> <td class="fw-semibold">exit</td> <td>60</td> <td>Termina il processo restituendo un codice di stato</td> </tr> </tbody> </table> </div>
 <h2 id="errori-comuni-da-evitare">Errori comuni da evitare</h2>
@@ -550,6 +556,8 @@ path:
 <li><strong>Invertire l'ordine tra <code>mov rdx, rax</code> e <code>mov rax, 1</code></strong>: il valore restituito da <code>read</code> in <code>rax</code> va copiato in <code>rdx</code> prima di sovrascrivere <code>rax</code> con l'ID della syscall <code>write</code>, altrimenti il conteggio dei byte letti va perso.</li>
 <li><strong>Dimenticare il byte nullo di terminazione</strong>: quando un percorso file viene costruito manualmente nello stack, l'assenza del terminatore a 0 fa sì che <code>open</code> continui a leggere memoria oltre la stringa prevista, tentando di aprire un percorso corrotto o inesistente.</li>
 </ul>
+
+
 
       </section>
 

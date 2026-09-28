@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;Paginazione&quot;,
+    "headline": "Paginazione",
     "url": "https://dino-996.github.io/blog/paginazione/",
     
     "dateModified": "2026-07-25T17:23:57.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1784997357/sistemi_operativi_c5f0caf8fe.webp",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1784997357/sistemi_operativi_c5f0caf8fe.webp",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Paginazione&quot;
+        "name": "Paginazione"
       }
       
     ]
@@ -344,7 +344,10 @@
       
 
       <section class="content">
-          <h2 id="introduzione">Introduzione</h2>
+        
+        
+
+  <h2 id="introduzione">Introduzione</h2>
 <p>In questo articolo si descrive come la <strong>Memory Management Unit (MMU)</strong> converta gli indirizzi logici in fisici suddividendo la memoria in pagine e frame, supportata da strutture hardware come il <strong>TLB</strong> per accelerare le traduzioni. Vengono esaminate diverse configurazioni delle tabelle delle pagine, incluse quelle gerarchiche, invertite e basate su hash, insieme ai meccanismi di protezione e condivisione del codice. Approfondiamo inoltre il concetto di <strong>swapping</strong>, analizzando le differenze tra l'approccio standard e quello utilizzato nei sistemi mobili come <strong>iOS</strong> e <strong>Android</strong>, con esempi concreti di implementazione nelle architetture <strong>Intel IA-32</strong>, <strong>x86-64</strong> e <strong>ARMv8</strong>, evidenziandone le specifiche granularità e i livelli di traduzione.</p>
 <h2 id="concetti-fondamentali-e-meccanismo-di-traduzione">Concetti Fondamentali e Meccanismo di Traduzione</h2>
 <p>L'architettura della paginazione suddivide la memoria in blocchi di dimensione fissa:</p>
@@ -490,9 +493,10 @@ delle pagine e aumentare l'hit rate del TLB.</p>
 <p>Su Linux è possibile abilitarle tramite:</p>
 <pre><code class="language-bash"># Verifica disponibilità
 grep -i hugepages /proc/meminfo
-<h1 id="allocazione-di-512-huge-pages-da-2mb-1gb">Allocazione di 512 huge pages da 2MB (= 1GB)</h1>
-<p>echo 512 &gt; /proc/sys/vm/nr_hugepages<br>
-</code></pre></p>
+
+# Allocazione di 512 huge pages da 2MB (= 1GB)
+echo 512 &gt; /proc/sys/vm/nr_hugepages
+</code></pre>
 <p>Framework come <strong>Java HotSpot</strong> (<code>-XX:+UseHugePages</code>) e <strong>DPDK</strong> le sfruttano<br>
 attivamente per ridurre la latenza.</p>
 <h2 id="swapping-e-memoria-ausiliaria">Swapping e Memoria Ausiliaria</h2>
@@ -535,6 +539,8 @@ e possono ridurre le copie di dati tra kernel e userspace.</li>
 <li><strong>Profila i TLB miss</strong> con <code>perf stat -e dTLB-load-misses ./myapp</code> su Linux prima<br>
 di ottimizzare prematuramente.</li>
 </ul>
+
+
 
       </section>
 

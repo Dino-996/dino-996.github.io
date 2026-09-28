@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;Proxy Client con Tinyproxy&quot;,
+    "headline": "Proxy Client con Tinyproxy",
     "url": "https://dino-996.github.io/blog/proxy-client-con-tinyproxy/",
     
     "dateModified": "2026-07-25T17:29:20.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1784996184/tinyproxy_47f35dbdf7.png",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1784996184/tinyproxy_47f35dbdf7.png",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Proxy client con tinyproxy&quot;
+        "name": "Proxy client con tinyproxy"
       }
       
     ]
@@ -349,7 +349,10 @@
       
 
       <section class="content">
-          <h3 id="proxy-client-con-tinyproxy">Proxy client con tinyproxy</h3>
+        
+        
+
+  <h3 id="proxy-client-con-tinyproxy">Proxy client con tinyproxy</h3>
 <p>Questa guida descrive la configurazione di un proxy client locale su Linux (Ubuntu 24.04) in grado di forzare tutto il traffico TCP generato dal sistema attraverso un proxy HTTP trasparente. L'obiettivo è ottenere un controllo centralizzato del traffico in uscita, utile per scenari di filtraggio, logging, debugging applicativo o instradamento verso un proxy remoto.</p>
 <p>L'architettura si basa sulla combinazione di quattro componenti, ciascuno con un ruolo ben definito:</p>
 <pre><code>Applicazione → iptables (REDIRECT) → redsocks → tinyproxy → Internet
@@ -596,6 +599,8 @@ sudo ufw deny in on wlp0s20f3 to any port 12345
 <p>Il sistema restituisce l'errore &quot;Maximum number of connections reached&quot;. In questo caso la causa è quasi sempre un valore di <code>MaxClients</code> troppo basso in tinyproxy. La soluzione è aumentare il parametro (ad esempio a 1000) e riavviare il servizio.</p>
 <p>Il servizio dante non si avvia. La causa tipica è l'uso della direttiva obsoleta <code>method</code>, sostituita da <code>socksmethod</code> nelle versioni recenti di Dante. La soluzione è verificare la sintassi corretta in <code>/etc/danted.conf</code> e correggere la direttiva.</p>
 <p>Il traffico non viene completamente instradato attraverso il proxy nonostante le regole iptables siano attive. In questo caso la causa è quasi sempre il traffico UDP (DNS o QUIC/HTTP-3), che per progettazione non viene intercettato da questo setup. La soluzione consiste nell'applicare le misure descritte nella sezione dedicata alla gestione di DNS e UDP/QUIC.</p>
+
+
 
       </section>
 

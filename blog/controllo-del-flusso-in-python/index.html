@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;Controllo del flusso&quot;,
+    "headline": "Controllo del flusso",
     "url": "https://dino-996.github.io/blog/controllo-del-flusso-in-python/",
     
     "dateModified": "2026-07-31T13:55:39.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Controllo del flusso in python&quot;
+        "name": "Controllo del flusso in python"
       }
       
     ]
@@ -341,7 +341,10 @@
       
 
       <section class="content">
-          <h2 id="introduzione">Introduzione</h2>
+        
+        
+
+  <h2 id="introduzione">Introduzione</h2>
 <p>Nel contesto dello sviluppo software e dell'architettura del codice, le strutture iterative rappresentano uno dei pilastri fondamentali per determinare l'efficienza e la manutenibilità di un'applicazione. In Python, il controllo del flusso iterativo è gestito principalmente da due costrutti, il ciclo <code>while</code> e il ciclo <code>for</code>.</p>
 <p>Comprendere la differenza concettuale ed esecutiva tra iterazione definita e indefinita è essenziale per scrivere codice modulare, sicuro e performante.</p>
 <h2 id="introduzione-alla-logica-iterativa">Introduzione alla logica iterativa</h2>
@@ -356,19 +359,22 @@
 <pre><code class="language-python">condizione = True
 while condizione:
     condizione = False
-<p></code></pre></p>
+
+</code></pre>
 <p>Di seguito un esempio di conteggio progressivo:</p>
 <pre><code class="language-python">contatore = 0
 while contatore &lt; 5:
     print(contatore)
     contatore += 1
-<p></code></pre></p>
+
+</code></pre>
 <h3 id="prevenzione-dei-cicli-infiniti-ed-efficienza-delle-risorse">Prevenzione dei cicli infiniti ed efficienza delle risorse</h3>
 <p>Nei sistemi di produzione, un ciclo <code>while</code> privo di un'adeguata condizione di uscita o di uno stato di alterazione delle variabili di controllo può generare un blocco del thread di esecuzione o un consumo anomalo di CPU.</p>
 <p>Esempio di anti-pattern non sicuro:</p>
 <pre><code class="language-python">while True:
     print(&quot;Elaborazione in corso...&quot;)
-<p></code></pre></p>
+
+</code></pre>
 <p>Per garantire la sicurezza e la resilienza del software, è raccomandato implementare meccanismi di salvaguardia basati su limite di tentativi o timeout:</p>
 <pre><code class="language-python">tentativi_massimi = 5
 tentativo_attuale = 0
@@ -376,43 +382,50 @@ connessione_stabilita = False
 while not connessione_stabilita and tentativo_attuale &lt; tentativi_massimi:
     print(f&quot;Tentativo di connessione {tentativo_attuale + 1}...&quot;)
     tentativo_attuale += 1
-<p></code></pre></p>
+
+</code></pre>
 <h3 id="ottimizzazione-dei-cicli-while-con-il-walrus-operator">Ottimizzazione dei cicli while con il walrus operator</h3>
 <p>Un pattern moderno per rendere più compatte e leggibili le condizioni di uscita nei cicli <code>while</code> consiste nell'uso dell'operatore di assegnazione nel contesto di un'espressione (walrus operator), che permette di assegnare e valutare un valore nella stessa riga:</p>
 <pre><code class="language-python">dati_grezzi = iter([&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, None])
 while (elemento := next(dati_grezzi, None)) is not None:
     print(elemento)
-<p></code></pre></p>
+
+</code></pre>
 <p>Questo approccio riduce la duplicazione di codice tra l'inizializzazione della variabile e la sua valutazione all'interno della condizione.</p>
 <h2 id="il-ciclo-for-iterazione-su-sequenze-e-oggetti-iterabili">Il ciclo for, iterazione su sequenze e oggetti iterabili</h2>
 <p>Il ciclo <code>for</code> in Python si discosta dal modello basato su indice tradizionalmente presente in linguaggi come C o Java. Python utilizza un pattern basato su iteratori, accedendo direttamente ai valori forniti dall'oggetto iterabile.</p>
 <p>La sintassi di base è:</p>
 <pre><code class="language-python">for elemento in sequenza:
     pass
-<p></code></pre></p>
+
+</code></pre>
 <p>Esempio di iterazione su una lista di stringhe:</p>
 <pre><code class="language-python">frutti = [&quot;mela&quot;, &quot;banana&quot;, &quot;kiwi&quot;]
 for frutto in frutti:
     print(frutto)
-<p></code></pre></p>
+
+</code></pre>
 <h3 id="generazione-di-sequenze-numeriche-con-range">Generazione di sequenze numeriche con range()</h3>
 <p>Quando occorre eseguire un blocco di codice per un numero determinato di volte senza basarsi su una lista preesistente, si utilizza la funzione built-in <code>range()</code>.</p>
 <pre><code class="language-python">for numero in range(5):
     print(numero)
-<p></code></pre></p>
+
+</code></pre>
 <p>La funzione <code>range()</code> non alloca l'intera sequenza in memoria, ma genera i valori on-demand, garantendo un'ottima efficienza di memoria anche con intervalli di grandi dimensioni.</p>
 <h3 id="iterazione-idiomatica-con-enumerate-e-zip">Iterazione idiomatica con enumerate() e zip()</h3>
 <p>In contesti in cui è necessario accedere sia all'indice posizionale sia al valore dell'elemento, l'uso di <code>range(len(lista))</code> è considerato un anti-pattern. La soluzione idiomatica è l'impiego di <code>enumerate()</code>.</p>
 <pre><code class="language-python">nomi = [&quot;Anna&quot;, &quot;Luca&quot;, &quot;Marco&quot;]
 for indice, nome in enumerate(nomi):
     print(f&quot;Posizione {indice}, {nome}&quot;)
-<p></code></pre></p>
+
+</code></pre>
 <p>Per iterare contemporaneamente su più sequenze in modo parallelo e lineare, è possibile combinare <code>enumerate()</code> con <code>zip()</code>:</p>
 <pre><code class="language-python">nomi = [&quot;Anna&quot;, &quot;Luca&quot;, &quot;Marco&quot;]
 ruoli = [&quot;Developer&quot;, &quot;DevOps&quot;, &quot;Architect&quot;]
 for indice, (nome, ruolo) in enumerate(zip(nomi, ruoli)):
     print(f&quot;ID {indice}, {nome}, Ruolo, {ruolo}&quot;)
-<p></code></pre></p>
+
+</code></pre>
 <h2 id="controllo-del-flusso-break-continue-ed-else-nei-cicli">Controllo del flusso, break, continue ed else nei cicli</h2>
 <p>Python mette a disposizione tre costrutti per alterare l'esecuzione standard dei cicli.</p>
 <h3 id="interruzione-immediata-con-break">Interruzione immediata con break</h3>
@@ -421,35 +434,40 @@ for indice, (nome, ruolo) in enumerate(zip(nomi, ruoli)):
     if numero == 5:
         break
     print(numero)
-<p></code></pre></p>
+
+</code></pre>
 <h3 id="salto-delliterazione-con-continue">Salto dell'iterazione con continue</h3>
 <p>L'istruzione <code>continue</code> interrompe l'esecuzione del blocco corrente per l'iterazione in corso e passa immediatamente all'iterazione successiva.</p>
 <pre><code class="language-python">for numero in range(5):
     if numero == 2:
         continue
     print(numero)
-<p></code></pre></p>
+
+</code></pre>
 <h3 id="uso-avanzato-della-clausola-else">Uso avanzato della clausola else</h3>
 <p>Una caratteristica distintiva di Python è la possibilità di associare un blocco <code>else</code> a un ciclo. Il codice contenuto in <code>else</code> viene eseguito esclusivamente se il ciclo giunge a completamento naturale, ovvero senza incontrare alcuna istruzione <code>break</code>.</p>
 <pre><code class="language-python">for numero in range(3):
     print(numero)
 else:
     print(&quot;Ciclo completato con successo.&quot;)
-<p></code></pre></p>
+
+</code></pre>
 <p>Se il ciclo viene interrotto prematuramente tramite <code>break</code>, la clausola <code>else</code> viene ignorata:</p>
 <pre><code class="language-python">for numero in range(3):
     if numero == 1:
         break
 else:
     print(&quot;Questo messaggio non verrà stampato.&quot;)
-<p></code></pre></p>
+
+</code></pre>
 <p>Lo stesso meccanismo si applica identicamente al ciclo <code>while</code>, la clausola <code>else</code> viene eseguita solo se la condizione booleana diventa falsa senza che sia mai stata incontrata un'istruzione <code>break</code>:</p>
 <pre><code class="language-python">tentativi = 0
 while tentativi &lt; 3:
     tentativi += 1
 else:
     print(&quot;Condizione while esaurita senza interruzioni.&quot;)
-<p></code></pre></p>
+
+</code></pre>
 <h2 id="anti-pattern-comuni-e-ottimizzazione-delle-prestazioni">Anti-pattern comuni e ottimizzazione delle prestazioni</h2>
 <h3 id="modifica-di-una-sequenza-durante-literazione">Modifica di una sequenza durante l'iterazione</h3>
 <p>Modificare la dimensione o gli elementi di una lista mentre la si sta percorrendo con un ciclo <code>for</code> genera comportamenti indeterminati o salti negli indici.</p>
@@ -458,11 +476,13 @@ else:
 for n in numeri:
     if n % 2 == 0:
         numeri.remove(n)
-<p></code></pre></p>
+
+</code></pre>
 <p>Approccio corretto tramite filtraggio su una nuova struttura dati o tramite list comprehension:</p>
 <pre><code class="language-python">numeri = [1, 2, 3, 4, 5]
 numeri_pari_rimossi = [n for n in numeri if n % 2 != 0]
-<p></code></pre></p>
+
+</code></pre>
 <h3 id="comprehension-e-generatori-lalternativa-pythonica-ai-cicli-classici">Comprehension e generatori, l'alternativa pythonica ai cicli classici</h3>
 <p>Quando lo scopo del ciclo è trasformare o filtrare una sequenza, l'uso delle list comprehension o delle generator expressions migliora la leggibilità e le prestazioni esecutive.</p>
 <pre><code class="language-python">import sys
@@ -470,7 +490,8 @@ quadrati_lista = [x ** 2 for x in range(1000)]
 quadrati_generatore = (x ** 2 for x in range(1000))
 print(f&quot;Dimensione lista, {sys.getsizeof(quadrati_lista)} byte&quot;)
 print(f&quot;Dimensione generatore, {sys.getsizeof(quadrati_generatore)} byte&quot;)
-<p></code></pre></p>
+
+</code></pre>
 <p>L'uso dei generatori consente di elaborare flussi di dati di dimensioni arbitrarie riducendo l'impatto sulla memoria RAM dell'infrastruttura. Per generare sequenze infinite in modo lazy, senza dover gestire manualmente un contatore in un ciclo <code>while</code>, la libreria standard mette a disposizione anche il modulo <code>itertools</code>, con funzioni come <code>count()</code> per produrre progressioni numeriche illimitate da consumare con moderazione, tipicamente in combinazione con <code>break</code> o <code>islice()</code>.</p>
 <h2 id="tabella-comparativa-delle-strutture-iterative">Tabella comparativa delle strutture iterative</h2>
 <div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Caratteristica</th> <th>Ciclo for</th> <th>Ciclo while</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Tipo di iterazione</td> <td>Definita, basata su iterabile</td> <td>Indefinita, basata su condizione</td> </tr> <tr> <td class="fw-semibold">Rischio di loop infinito</td> <td>Minimo, termina con l'esaurimento della sequenza</td> <td>Presente, richiede clausole di salvaguardia</td> </tr> <tr> <td class="fw-semibold">Caso d'uso tipico</td> <td>Attraversamento di liste, tuple, dizionari, generatori</td> <td>Attesa di uno stato o di un evento esterno</td> </tr> <tr> <td class="fw-semibold">Supporto a break, continue, else</td> <td>Sì</td> <td>Sì</td> </tr> </tbody> </table> </div>
@@ -482,6 +503,8 @@ print(f&quot;Dimensione generatore, {sys.getsizeof(quadrati_generatore)} byte&qu
 <li><strong>Sfruttare il protocollo iteratore:</strong> evitare l'uso di indici numerici manuali quando è possibile accedere direttamente agli oggetti o utilizzare funzioni helper come <code>enumerate()</code> e <code>zip()</code>.</li>
 <li><strong>Adottare la valutazione pigra per dataset di grandi dimensioni:</strong> ricorrere ai generatori quando si processano flussi dati elaborati da I/O o database.</li>
 </ol>
+
+
 
       </section>
 

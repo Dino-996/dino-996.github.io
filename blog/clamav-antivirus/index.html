@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;ClamAV su Linux: guida completa a installazione, scansione e monitoraggio in tempo reale&quot;,
+    "headline": "ClamAV su Linux: guida completa a installazione, scansione e monitoraggio in tempo reale",
     "url": "https://dino-996.github.io/blog/clamav-antivirus/",
     
     "dateModified": "2026-08-10T08:38:47.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1784995193/Clam_AV_3be4655176.png",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1784995193/Clam_AV_3be4655176.png",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Clamav antivirus&quot;
+        "name": "Clamav antivirus"
       }
       
     ]
@@ -349,7 +349,10 @@
       
 
       <section class="content">
-          <h2 id="introduzione">Introduzione</h2>
+        
+        
+
+  <h2 id="introduzione">Introduzione</h2>
 <p>ClamAV è una soluzione antivirus open source pensata per ambienti Unix e Linux, ampiamente utilizzata per la scansione di file system, mail server e workstation. A differenza di molti antivirus desktop, ClamAV non integra una protezione in tempo reale &quot;out of the box&quot;: è progettato come un toolkit modulare, composto da più componenti indipendenti che collaborano tra loro.</p>
 <h2 id="architettura-e-componenti-principali">Architettura e componenti principali</h2>
 <p>ClamAV si basa su tre componenti fondamentali, ciascuno con una responsabilità specifica. Questa separazione dei compiti è coerente con il principio di modularità: ogni processo può essere aggiornato, monitorato o riavviato in modo indipendente.</p>
@@ -407,7 +410,8 @@ systemctl status clamav-daemon
 <pre><code class="language-bash">clamdscan /home /etc /var /tmp --infected --fdpass --log=scansione.txt
 </code></pre>
 <pre><code class="language-bash">clamdscan /percorso --infected --fdpass --quiet
-<p></code></pre></p>
+
+</code></pre>
 <pre><code class="language-bash">clamdscan /percorso --infected --fdpass --wait
 </code></pre>
 <p>Le opzioni più utilizzate di <code>clamdscan</code> sono riassunte nella tabella seguente:</p>
@@ -573,7 +577,8 @@ sudo apt-get install clamav clamav-daemon
 <p>Dopo l'installazione, è necessario riavviare il servizio ed eseguire l'aggiornamento delle firme virali:</p>
 <pre><code class="language-bash">sudo systemctl restart clamav-daemon
 sudo freshclam
-<p></code></pre></p>
+
+</code></pre>
 <h3 id="errore-permission-denied-sul-socket">Errore: Permission denied sul socket</h3>
 <pre><code class="language-text">ERROR: Could not connect to clamd on LocalSocket /var/run/clamav/clamd.ctl: Permission denied
 </code></pre>
@@ -584,7 +589,8 @@ sudo freshclam
 </code></pre>
 <p>Per un servizio web, ad esempio:</p>
 <pre><code class="language-bash">sudo usermod -aG clamav www-data
-<p></code></pre></p>
+
+</code></pre>
 <p>È importante disconnettersi e riconnettersi (oppure riavviare il servizio specifico) affinché le modifiche al gruppo abbiano effetto. È possibile verificare i gruppi attivi con il comando <code>groups</code>.</p>
 <p><strong>2. Correggere i permessi del socket</strong></p>
 <p>È necessario assicurarsi che il socket abbia i permessi corretti (660, o eventualmente 666 se strettamente necessario, anche se 660 con il gruppo corretto resta la soluzione più sicura). Nel file <code>/etc/clamav/clamd.conf</code> deve essere presente la riga:</p>
@@ -636,6 +642,7 @@ groups
 <div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>Errore</th> <th>Causa</th> <th>Soluzione</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">Can't find or parse configuration file /etc/clamav/clamd.conf</td> <td>Race condition verificatasi durante l'installazione</td> <td>Riavviare freshclam con sudo systemctl restart clamav-freshclam</td> </tr> <tr> <td class="fw-semibold">Status 203/EXEC</td> <td>Script non eseguibile o shebang errata</td> <td>Eseguire chmod +x script.sh e verificare la presenza di #!/bin/bash</td> </tr> <tr> <td class="fw-semibold">Unknown section 'Services'</td> <td>Nome di sezione errato nel file di unità systemd</td> <td>Correggere in [Service], al singolare</td> </tr> <tr> <td class="fw-semibold">Could not connect to clamd on LocalSocket: No such file or directory</td> <td>Il demone clamd non è in esecuzione o non ha creato il socket previsto</td> <td>Avviare clamav-daemon, ricreare manualmente il socket con i permessi corretti oppure eseguire dpkg-reconfigure clamav-daemon</td> </tr> <tr> <td class="fw-semibold">Could not connect to clamd on LocalSocket: Permission denied</td> <td>L'utente o il processo chiamante non appartiene al gruppo clamav, oppure SELinux/AppArmor blocca l'accesso</td> <td>Aggiungere l'utente al gruppo clamav con usermod -aG clamav, impostare LocalSocketMode 660 e verificare eventuali blocchi di SELinux/AppArmor</td> </tr> </tbody> </table> </div>
 <h2 id="file-e-percorsi-principali">File e percorsi principali</h2>
 <div class="table-responsive shadow-sm rounded mb-3"> <table class="table table-bordered table-striped table-hover align-middle mb-0"> <thead class="table-dark"> <tr> <th>File</th> <th>Ruolo</th> </tr> </thead> <tbody> <tr> <td class="fw-semibold">/etc/clamav/clamd.conf</td> <td>File di configurazione principale del demone clamd.</td> </tr> <tr> <td class="fw-semibold">/etc/clamav/freshclam.conf</td> <td>File di configurazione dell'aggiornatore freshclam.</td> </tr> <tr> <td class="fw-semibold">/var/run/clamav/clamd.ctl</td> <td>File socket Unix utilizzato dai client (clamdscan e altri) per comunicare con clamd.</td> </tr> <tr> <td class="fw-semibold">~/.local/bin/clamav-watch.sh</td> <td>Script eseguibile del watchdog basato su inotify.</td> </tr> <tr> <td class="fw-semibold">~/.config/systemd/user/clamav-watch.service</td> <td>Definizione del servizio systemd utente per il watchdog.</td> </tr> <tr> <td class="fw-semibold">/etc/systemd/system/clamav-fullscan.service</td> <td>Definizione del servizio systemd per la scansione completa pianificata.</td> </tr> <tr> <td class="fw-semibold">/etc/systemd/system/clamav-fullscan.timer</td> <td>Timer systemd che pianifica l'esecuzione notturna della scansione completa.</td> </tr> <tr> <td class="fw-semibold">/var/lib/clamav/</td> <td>Directory contenente il database delle firme virali.</td> </tr> <tr> <td class="fw-semibold">/var/log/clamav/</td> <td>Directory dei file di log generati da ClamAV.</td> </tr> </tbody> </table> </div>
+
 
       </section>
 

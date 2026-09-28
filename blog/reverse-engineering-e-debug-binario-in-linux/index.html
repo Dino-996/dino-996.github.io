@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;Reverse engineering e debug binario in Linux&quot;,
+    "headline": "Reverse engineering e debug binario in Linux",
     "url": "https://dino-996.github.io/blog/reverse-engineering-e-debug-binario-in-linux/",
     
     "dateModified": "2026-09-16T12:46:48.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Reverse engineering e debug binario in linux&quot;
+        "name": "Reverse engineering e debug binario in linux"
       }
       
     ]
@@ -341,7 +341,10 @@
       
 
       <section class="content">
-          <h2 id="analisi-statica-con-objdump">Analisi statica con objdump</h2>
+        
+        
+
+  <h2 id="analisi-statica-con-objdump">Analisi statica con objdump</h2>
 <h3 id="cose-il-disassemblaggio">Cos'è il disassemblaggio</h3>
 <p>Quando un software scritto in Assembly o C viene compilato, viene convertito in codice macchina, cioè sequenze di byte (opcode) interpretabili direttamente dalla CPU. Il disassemblaggio è il processo inverso, prende un file eseguibile binario e lo riconverte in istruzioni Assembly leggibili dall'essere umano. È la tecnica fondamentale del reverse engineering e del debugging per analizzare programmi di cui non si possiede il codice sorgente.</p>
 <h3 id="lo-strumento-objdump">Lo strumento objdump</h3>
@@ -425,7 +428,8 @@ Dump of assembler code for function _start:
 0x000000000040100e &lt;+14&gt;: mov rax,0x3c
 0x0000000000401015 &lt;+21&gt;: syscall
 End of assembler dump.
-<p></code></pre></p>
+
+</code></pre>
 <p>Alcuni elementi chiave dell'output:</p>
 <ul>
 <li><strong>Il simbolo <code>=&gt;</code> (instruction pointer)</strong>: indica l'esatta istruzione che la CPU sta per eseguire in quel momento, puntata dal registro <code>RIP</code> su architettura x86_64.</li>
@@ -623,6 +627,8 @@ syscall
 </ul>
 <pre><code class="language-text">(gdb) break *0x401000
 </code></pre>
+
+
 
       </section>
 

@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;Guida completa a Docker&quot;,
+    "headline": "Guida completa a Docker",
     "url": "https://dino-996.github.io/blog/post/",
     
     "dateModified": "2026-08-15T13:10:02.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1786799376/docker_d65228857a.jpg",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1786799376/docker_d65228857a.jpg",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Post&quot;
+        "name": "Post"
       }
       
     ]
@@ -349,7 +349,10 @@
       
 
       <section class="content">
-          <h2 id="cose-docker">Cos'è docker</h2>
+        
+        
+
+  <h2 id="cose-docker">Cos'è docker</h2>
 <p>Docker è una piattaforma di containerizzazione, permette di eseguire applicazioni in ambienti isolati (container) che includono tutto il necessario per funzionare: codice, runtime, librerie, dipendenze di sistema, senza dover installare nulla direttamente sulla macchina host.</p>
 <p>La differenza principale rispetto a una macchina virtuale è che i container condividono il kernel del sistema operativo host, risultando molto più leggeri e veloci da avviare.</p>
 <h2 id="concetti-fondamentali">Concetti fondamentali</h2>
@@ -444,14 +447,15 @@ COPY package*.json ./
 RUN npm ci
 COPY . .
 RUN npm run build
-<p>FROM node:22 AS runtime<br>
-WORKDIR /app<br>
-COPY --from=build /app/dist ./dist<br>
-COPY package*.json ./<br>
-RUN npm ci --omit=dev<br>
-EXPOSE 4200<br>
-CMD [&quot;node&quot;, &quot;dist/server.js&quot;]<br>
-</code></pre></p>
+
+FROM node:22 AS runtime
+WORKDIR /app
+COPY --from=build /app/dist ./dist
+COPY package*.json ./
+RUN npm ci --omit=dev
+EXPOSE 4200
+CMD [&quot;node&quot;, &quot;dist/server.js&quot;]
+</code></pre>
 <p>Lo stage <code>build</code> contiene tutte le dipendenze e i tool necessari alla compilazione, lo stage <code>runtime</code> eredita solo ciò che serve per far girare l'app, con un'immagine finale sensibilmente più piccola e con una superficie di attacco ridotta.</p>
 <div class="alert alert-info" role="alert"> Il comando <code>npm ci</code> installa le dipendenze esattamente come bloccate nel file di lock, a differenza di <code>npm install</code> che può aggiornarle. È la scelta preferibile in fase di build per garantire riproducibilità. </div>
 <h3 id="dockerignore">.dockerignore</h3>
@@ -567,6 +571,8 @@ memory=8GB
 processors=4
 </code></pre>
 <p>Dopo aver modificato il file, è sempre necessario eseguire <code>wsl --shutdown</code> seguito da un riavvio della distro perché le modifiche abbiano effetto.</p>
+
+
 
       </section>
 

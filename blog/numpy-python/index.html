@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;NumPy&quot;,
+    "headline": "NumPy",
     "url": "https://dino-996.github.io/blog/numpy-python/",
     
     "dateModified": "2026-07-31T14:13:20.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1785328585/Python_18387c4851.png",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Numpy python&quot;
+        "name": "Numpy python"
       }
       
     ]
@@ -341,7 +341,10 @@
       
 
       <section class="content">
-          <h2 id="introduzione">Introduzione</h2>
+        
+        
+
+  <h2 id="introduzione">Introduzione</h2>
 <p>NumPy (Numerical Python) è il pacchetto fondamentale per il data science e il calcolo scientifico in Python. Si tratta di una libreria open source che fornisce strutture dati ottimizzate e funzioni per la manipolazione di array multidimensionali, offrendo prestazioni paragonabili a quelle di MatLab. La sua importanza è tale che molte altre librerie popolari, come Pandas, SciPy, scikit-learn, TensorFlow e PyTorch, si basano su di essa per le loro operazioni numeriche.</p>
 <h2 id="perche-scegliere-numpy">Perché scegliere NumPy</h2>
 <ul>
@@ -376,7 +379,8 @@ ones = np.ones((2, 2))
 <p>Sequenze lineari:</p>
 <pre><code class="language-python">seq = np.arange(0, 10, 2)
 lin = np.linspace(0, 1, 5)
-<p></code></pre></p>
+
+</code></pre>
 <p><code>seq</code> produce l'array <code>[0 2 4 6 8]</code>, mentre <code>lin</code> restituisce 5 valori equidistanti tra 0 e 1.</p>
 <h3 id="proprieta-fondamentali">Proprietà fondamentali</h3>
 <p>Un ndarray espone diverse proprietà utili per conoscerne la struttura:</p>
@@ -394,7 +398,8 @@ print('shape:', a2D.shape)
 print('size:', a2D.size)
 print('dtype:', a2D.dtype)
 print('itemsize:', a2D.itemsize)
-<p></code></pre></p>
+
+</code></pre>
 <p>L'output restituisce <code>ndim = 2</code>, <code>shape = (2, 3)</code>, <code>size = 6</code>, <code>dtype = int64</code> e <code>itemsize = 8</code> byte per elemento sui sistemi 64-bit più diffusi come Linux e macOS. Su Windows il tipo intero di default può invece risultare <code>int32</code>: è quindi buona prassi non dare per scontato il <code>dtype</code> predefinito e, quando la portabilità del codice tra sistemi operativi diversi è importante, specificarlo sempre esplicitamente in fase di creazione dell'array.</p>
 <p>Per un array tridimensionale:</p>
 <pre><code class="language-python">a3D = np.array([[[1, 2, 3], [4, 5, 6]], [[7, 8, 9], [10, 11, 12]]])
@@ -591,15 +596,16 @@ prodotto = np.einsum('ij,jk-&gt;ik', a, b)
 <h3 id="numba-per-laccelerazione-dei-loop">Numba per l'accelerazione dei loop</h3>
 <p>Quando un algoritmo non si presta facilmente alla vettorizzazione, ad esempio per la presenza di dipendenze sequenziali tra un'iterazione e la successiva, Numba permette di compilare funzioni Python in codice macchina al primo utilizzo (compilazione <em>Just-In-Time</em>), avvicinando le prestazioni a quelle del C senza abbandonare la sintassi Python.</p>
 <pre><code class="language-python">from numba import jit
-<p>@jit(nopython=True)<br>
-def somma_cumulativa(arr):<br>
-risultato = np.zeros_like(arr)<br>
-acc = 0<br>
-for i in range(len(arr)):<br>
-acc += arr[i]<br>
-risultato[i] = acc<br>
-return risultato<br>
-</code></pre></p>
+
+@jit(nopython=True)
+def somma_cumulativa(arr):
+    risultato = np.zeros_like(arr)
+    acc = 0
+    for i in range(len(arr)):
+        acc += arr[i]
+        risultato[i] = acc
+    return risultato
+</code></pre>
 <p>L'opzione <code>nopython=True</code> forza Numba a compilare la funzione senza ricadere sull'interprete Python standard in caso di codice non supportato, garantendo il massimo guadagno prestazionale.</p>
 <h2 id="best-practice-per-un-uso-efficiente-di-numpy">Best practice per un uso efficiente di NumPy</h2>
 <p>Per ottenere il massimo dalle prestazioni e dalla chiarezza del codice, si consiglia di:</p>
@@ -613,6 +619,8 @@ return risultato<br>
 <li><strong>Prestare attenzione all'ordine di memorizzazione</strong> (<code>order='C'</code> o <code>order='F'</code>) quando si interfaccia NumPy con librerie esterne che si aspettano una convenzione specifica.</li>
 </ul>
 <p>NumPy è uno strumento potente e flessibile. Comprendere a fondo i meccanismi di memoria, vista e broadcast è fondamentale per scrivere codice performante e privo di effetti collaterali. Con queste basi, si è pronti ad affrontare con sicurezza l'intero ecosistema scientifico Python.</p>
+
+
 
       </section>
 

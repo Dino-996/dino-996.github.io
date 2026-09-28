@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;Rappresentazione dei dati e aritmetica binaria&quot;,
+    "headline": "Rappresentazione dei dati e aritmetica binaria",
     "url": "https://dino-996.github.io/blog/rappresentazione-dei-dati-e-aritmetica-binaria/",
     
     "dateModified": "2026-09-16T12:41:02.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1788173285/Assembly_bddd05552f.jpg",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Rappresentazione dei dati e aritmetica binaria&quot;
+        "name": "Rappresentazione dei dati e aritmetica binaria"
       }
       
     ]
@@ -341,11 +341,15 @@
       
 
       <section class="content">
-          <h2 id="rappresentazione-lineare-dello-stack-e-offset-relativi">Rappresentazione lineare dello stack e offset relativi</h2>
+        
+        
+
+  <h2 id="rappresentazione-lineare-dello-stack-e-offset-relativi">Rappresentazione lineare dello stack e offset relativi</h2>
 <p>Pensare agli indirizzi di memoria come a una linea numerica orizzontale semplifica il ragionamento sullo stack rispetto ai classici diagrammi verticali.</p>
 <pre><code class="language-text">Indirizzi minori &lt; ------------------------------------------------ &gt; Indirizzi maggiori
 ... --- [rsp - 0x10] --- [rsp - 0x08] --- [rsp] --- [rsp + 0x08] --- [rsp + 0x10] --- ...
-<p></code></pre></p>
+
+</code></pre>
 <ul>
 <li><strong>Sinistra</strong>: indirizzi numerici più piccoli, ad esempio <code>rsp - 8</code>.</li>
 <li><strong>Centro</strong>: il punto attuale indicato dallo stack pointer (<code>rsp</code>).</li>
@@ -534,6 +538,8 @@ Out[3]: -2147483647
 <li><strong>Caso B (8 bit)</strong>: dato il valore esadecimale <code>0x3f</code>, calcola binario, unsigned e signed.</li>
 <li><strong>Caso C (8 bit)</strong>: dato il valore decimale signed <code>-15</code>, calcola unsigned, binario ed esadecimale.</li>
 </ul>
+
+
 
       </section>
 

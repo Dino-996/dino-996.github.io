@@ -193,7 +193,7 @@
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": &quot;Comandi di base della shell&quot;,
+    "headline": "Comandi di base della shell",
     "url": "https://dino-996.github.io/blog/comandi-di-base/",
     
     "dateModified": "2026-07-25T17:26:51.000Z",
@@ -201,7 +201,7 @@
       "@type": "Person",
       "name": "Davide Sabia"
     },
-    "image": "https://dino-996.github.iohttps://res.cloudinary.com/dcro2pbqr/image/upload/v1784997128/gnu_linux_b4b3319008.webp",
+    "image": "https://res.cloudinary.com/dcro2pbqr/image/upload/v1784997128/gnu_linux_b4b3319008.webp",
     "publisher": {
       "@type": "Person",
       "name": "Davide Sabia"
@@ -220,21 +220,21 @@
       {
         "@type": "ListItem",
         "position": 1,
-        "name": &quot;Home&quot;,
+        "name": "Home",
         "item": "https://dino-996.github.io/"
       },
       
       {
         "@type": "ListItem",
         "position": 2,
-        "name": &quot;Blog&quot;,
+        "name": "Blog",
         "item": "https://dino-996.github.io/blog/"
       },
       
       {
         "@type": "ListItem",
         "position": 3,
-        "name": &quot;Comandi di base&quot;
+        "name": "Comandi di base"
       }
       
     ]
@@ -349,7 +349,10 @@
       
 
       <section class="content">
-          <h2 id="comandi-di-base-della-shell">Comandi di base della Shell</h2>
+        
+        
+
+  <h2 id="comandi-di-base-della-shell">Comandi di base della Shell</h2>
 <p>Lavorare dalla shell significa comunicare direttamente con il sistema operativo attraverso istruzioni testuali. Un <strong>comando</strong> può essere un <strong>programma esterno</strong> (come <code>ls</code>), una <strong>funzione interna</strong> della shell, o una combinazione di più comandi collegati tra loro.</p>
 <p>Quando digiti un comando, la shell lo interpreta, lo avvia e gestisce il suo input/output: il risultato può comparire a schermo, essere salvato su file o essere passato ad altri comandi tramite <strong>pipe</strong>. Conoscere questi strumenti, il loro significato, le possibilità e i limiti, è essenziale per lavorare in modo efficace e sicuro.</p>
 <h2 id="anatomia-del-terminale">Anatomia del terminale</h2>
@@ -641,13 +644,16 @@ $ man cp       # apre il manuale di cp
 <h3 id="esempi-pratici">Esempi pratici</h3>
 <pre><code class="language-bash"># Salva la lista dei file in un log
 $ ls -la &gt; lista_file.txt
-<h1 id="appende-nuovi-risultati-senza-sovrascrivere">Appende nuovi risultati senza sovrascrivere</h1>
-<p>$ ls ~/downloads &gt;&gt; lista_file.txt</p>
-<h1 id="filtra-solo-gli-errori-in-un-file-separato">Filtra solo gli errori in un file separato</h1>
-<p>$ make 2&gt; errori.log</p>
-<h1 id="concatena-due-file-e-cerca-una-stringa">Concatena due file e cerca una stringa</h1>
-<p>$ cat a.txt b.txt | grep &quot;TODO&quot;<br>
-</code></pre></p>
+
+# Appende nuovi risultati senza sovrascrivere
+$ ls ~/downloads &gt;&gt; lista_file.txt
+
+# Filtra solo gli errori in un file separato
+$ make 2&gt; errori.log
+
+# Concatena due file e cerca una stringa
+$ cat a.txt b.txt | grep &quot;TODO&quot;
+</code></pre>
 <p>La pipe (<code>|</code>) è uno degli strumenti più potenti della shell: permette di comporre programmi semplici in pipeline sofisticate, dove l'output di uno diventa l'input del successivo.</p>
 <h2 id="comandi-di-elaborazione-delloutput">Comandi di elaborazione dell'output</h2>
 <p>Questi comandi sono progettati per trasformare, filtrare e analizzare dati testuali. Lavorano spesso in combinazione tramite pipe, e il loro punto di forza è proprio la componibilità: incatenati insieme, permettono di estrarre esattamente le informazioni che servono da flussi di dati anche molto grandi.</p>
@@ -655,9 +661,10 @@ $ ls -la &gt; lista_file.txt
 <p><code>echo</code> scrive una stringa su <code>stdout</code>. Semplice, ma molto utile in script e pipeline.</p>
 <pre><code class="language-bash">$ echo &quot;Ciao mondo&quot;
 Ciao mondo
-<p>$ echo -n &quot;senza newline&quot;   # non va a capo alla fine<br>
-$ echo -e &quot;\e[36;1mTesto ciano grassetto\e[0m&quot;   # interpreta escape ANSI<br>
-</code></pre></p>
+
+$ echo -n &quot;senza newline&quot;   # non va a capo alla fine
+$ echo -e &quot;\e[36;1mTesto ciano grassetto\e[0m&quot;   # interpreta escape ANSI
+</code></pre>
 <table>
 <thead>
 <tr>
@@ -850,6 +857,8 @@ $ sort lista.txt | uniq -d       # mostra solo i valori duplicati
 <li><strong>Efficienza</strong>: <code>mv</code> è più veloce di <code>cp</code> + <code>rm</code> per spostamenti sullo stesso filesystem. Conoscere queste differenze evita operazioni inutili.</li>
 <li><strong>Sicurezza</strong>: Preferisci comandi che richiedono conferma (<code>rm -i</code>) per operazioni distruttive. In uno script, verifica sempre i percorsi prima di eseguire cancellazioni.</li>
 </ul>
+
+
 
       </section>
 
