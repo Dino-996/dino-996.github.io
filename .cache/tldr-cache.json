@@ -184,8 +184,8 @@
     "hash": "c5cfb46909d3"
   },
   "Guida ai comandi Linux per la diagnostica di sistema, rete e hardware": {
-    "tldr": "Questa guida raccoglie comandi Linux essenziali per la diagnostica di sistema, organizzati per area, evidenziando le differenze e gli equivalenti su macOS. Molti comandi da riga di comando standard sono compatibili tra Linux e macOS, mentre altri sono specifici di Linux e richiedono approcci alternativi su macOS.",
-    "hash": "26740440fc70"
+    "tldr": "Questo articolo presenta una raccolta di comandi Linux essenziali per la diagnostica di sistema, organizzati per aree tematiche, fornendo spiegazioni concise e alternative moderne. Molti di questi comandi sono compatibili anche con macOS tramite Terminale, mentre altri sono specifici per Linux a causa della dipendenza da sottosistemi come `/proc` o `iproute2`.",
+    "hash": "92be6dbd2a99"
   },
   "Guida ai livelli RAID": {
     "tldr": "Il RAID combina più dischi in unità logiche per migliorare la tolleranza ai guasti e/o le prestazioni, ma la scelta del livello appropriato richiede una comprensione approfondita delle cause di guasto, che vanno oltre la semplice ridondanza. La progettazione efficace dello storage implica anche il monitoraggio, la qualità dell'alimentazione e procedure di gestione dei guasti.",

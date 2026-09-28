@@ -54,6 +54,11 @@
   --gutter: 24px;
   --margin-mobile: 16px;
   --margin-desktop: 40px;
+
+  --border: #d0d0d0;
+  --text: #1a1c1c;
+  --border-subtle: #e0e0e0;
+  --surface-raised: #ffffff;
 }
 
 /* ========================================
@@ -1224,6 +1229,10 @@ p { margin: 0 0 1em; line-height: 1.6; }
   }
 
   .post-article-content {
+    /* Mobile/tablet only: flex items default to min-width: auto, which floors
+       the column at its min-content width (wide tables / code blocks) and makes
+       the article overflow the viewport. Desktop (>=1200px) is untouched. */
+    min-width: 0;
     margin-left: 0;
     max-width: 800px;
     margin-inline: auto;
@@ -1248,6 +1257,22 @@ p { margin: 0 0 1em; line-height: 1.6; }
 
   .post-hero-image {
     border-radius: 10px;
+  }
+
+  /* Tabelle larghe: senza questo sfondano il viewport su mobile (il wrapper
+     .table-responsive non ha overflow, quindi la tabella non è scrollabile). */
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Tabelle "nude" (senza wrapper .table-responsive, come quelle scritte a mano
+     nel markdown): stessa protezione, altrimenti sfondano il viewport. */
+  .content > table {
+    display: block;
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
   }
 }
 
@@ -2126,6 +2151,23 @@ code {
   .hide-mobile { display: none !important; }
 }
 
+/* Extra small mobile (≤480px) */
+@media (max-width: 480px) {
+  .card { padding: 16px; }
+  .card-body { padding: 16px; }
+  .sidebar-card { padding: 16px; }
+  .featured-article { gap: 12px; }
+  .font-headline-xl { font-size: clamp(1.5rem, 3.5vw, 2.25rem); }
+  .font-headline-lg { font-size: 1.5rem; }
+  /* Riga autore/data: i separatori "·" restavano orfani a fine riga quando il
+     testo va a capo. Su mobile li togliamo e compattiamo le righe. */
+  .post-header .post-meta { row-gap: 2px; }
+  .post-meta-dot { display: none; }
+  /* Barra di ricerca: l'input non scendeva sotto la sua larghezza intrinseca
+     e spingeva il pulsante "Cerca" fuori dal viewport. */
+  .search-bar input { min-width: 0; }
+}
+
 @media (min-width: 768px) {
   .hide-desktop { display: none !important; }
   .hamburger-btn.hide-desktop { display: none !important; }
@@ -2227,4 +2269,16 @@ code {
   font-size: 0.8125rem;
   color: var(--secondary, #6b7280);
   margin-top: auto;
+}
+
+/* ========================================
+   Responsive — related posts grid (mobile only)
+   ======================================== */
+@media (max-width: 480px) {
+  /* min(280px, 100%): a fixed 280px minimum column overflowed the viewport on
+     very narrow screens. Placed after the base rule on purpose (same
+     specificity → source order decides). Desktop is untouched. */
+  .related-posts-grid {
+    grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  }
 }

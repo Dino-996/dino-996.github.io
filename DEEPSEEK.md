@@ -26,6 +26,11 @@
 - Il tema può seguire `prefers-color-scheme` dell'OS **ma** supporta anche override manuale tramite toggle nel navbar + localStorage. — rif. [2026-08-29] (sostituisce la regola del 2026-07-26)
 - TL;DR ("In breve") va posizionato come primo elemento del contenuto dell'articolo (dentro `.post-layout`), non tra header e contenuto. — rif. [2026-07-26]
 - **E-E-A-T (pianificato, NON ancora applicato)**: contenuti GDPR/cybersecurity richiedono credenziali autore esplicite. La pagina "Chi sono" deve elencare certificazioni (ISO 27001, privacy officer, etc.) ed esperienza professionale concreta. Al momento elenca solo bio, temi, stack. — rif. [2026-07-26]
+- **Contenuto post già renderizzato**: `src/posts/post.njk` applica `markdownBlock` al body Strapi; nel layout `src/_layouts/post.njk` va `{{ content | safe }}`, mai di nuovo `| markdownBlock` (doppio render → code block spezzati). — rif. [2026-09-24]
+- **`| dump` in Nunjucks va sempre con `| safe`**: l'escape HTML di default trasforma le virgolette in `&quot;` e rende invalido il JSON-LD. — rif. [2026-09-24]
+- **Flex item che contiene markdown (tabelle/code)**: serve `min-width: 0`; il default `min-width: auto` tiene la colonna alla larghezza min-content e sfonda il viewport su mobile. — rif. [2026-09-24]
+- **Tabelle nel contenuto**: `.table-responsive` non esiste come framework (Bootstrap rimosso) → l'`overflow-x: auto` va dichiarato esplicitamente, e le tabelle senza wrapper protette con `.content > table`. — rif. [2026-09-24]
+- **Ordine di sorgente nelle media query**: a parità di specificità vince l'ultima regola del foglio, quindi gli override responsive vanno scritti DOPO la regola base (il `@media` da solo non basta). — rif. [2026-09-24]
 
 ---
 
@@ -506,3 +511,118 @@ Log disallineato dallo stato reale (font, robots, Bootstrap, duplicate/mislabele
 ### Verifica
 - 1026x812px (tablet): sidebar nascosta, toggle Indice visibile, contenuto centrato 800px.
 - >= 1200px: sidebar visibile, mobile ToC nascosto.
+
+---
+
+## [2026-09-23] Design system — token mancanti + breakpoint ≤480px
+
+### Problema
+- `:root` non dichiarava `--border`, `--text`, `--surface-raised`, ma il CSS li usava già: `.theme-toggle-btn` (`border: 1px solid var(--border)`, `color: var(--text)`) e `.theme-toggle-btn:hover` (`background: var(--surface-raised)`). In tema chiaro i `var()` risolvevano a vuoto → pulsante toggle tema senza bordo, senza colore e con hover senza sfondo.
+- Nessun breakpoint sotto `768px`: card, sidebar, featured article e titoli display restavano dimensionati per tablet su schermi piccoli.
+
+### Fatto
+- `src/assets/css/custom.css` (unico file toccato, +15 righe):
+  - aggiunte a `:root` le variabili mancanti `--border: #d0d0d0`, `--text: #1a1c1c`, `--border-subtle: #e0e0e0`, `--surface-raised: #ffffff`;
+  - aggiunto `@media (max-width: 480px)` con padding card 24→16px, gap featured 24→12px, clamp ridotti per `.font-headline-xl` / `.font-headline-lg`.
+- **Nessun** `theme-toggle.js` creato: la logica esiste già in `main.js` (`initThemeToggle()`).
+
+### Decisioni stabili e pattern da non riproporre
+- **Non rinominare l'id `theme-toggle`.** `main.js` riga 8 usa `getElementById('theme-toggle')`; rinominarlo in `theme-toggle-btn` disattiva il toggle tema. I CSS che usano la *classe* `.theme-toggle-btn` sono un'altra cosa e restano validi.
+- **Non creare `src/assets/js/theme-toggle.js`.** La logica tema è in `main.js`: `localStorage.theme`, fallback `prefers-color-scheme`, `data-bs-theme` su `<html>`, `window.__bsTheme` per Giscus.
+- **Non aggiungere loop tag a `src/sitemap.njk`.** Esiste già `src/tags/sitemap-tags.njk` → `/sitemap-tags.xml` (144 URL).
+- **`worker.js` non ha `ctx`** e `eslint.config.js` lo copre già con `globals.serviceworker` + `env`/`waitUntil`.
+- `lightningcss` riscrive `@media (max-width: 480px)` in `@media (width<=480px)`: differenza attesa, il sorgente si scrive in forma classica.
+
+### Verifica
+- `npm run lint` → 0 · `npm run build` → 0 (221 file) · `npm test` → 6/6 pass.
+- Su `dist/`: token `--border:#d0d0d0` presente nel CSS minificato; regole `@media (width<=480px)` presenti e integre; `id="theme-toggle"` ancora presente in `dist/index.html`; `sitemap-tags.xml` con 144 `<loc>`.
+- Report dettagliato: `~/Scrivania/Report modifiche.md`.
+
+---
+
+## [2026-09-24] Mobile — overflow orizzontale dell'articolo e delle tabelle
+
+### Problema
+- `.post-article-layout` è `display: flex` e `.post-article-content` non dichiarava `min-width`: valeva il default `min-width: auto`, che fissa il flex item alla larghezza min-content del contenuto (632px misurati su questo articolo). Con `html, body { overflow-x: hidden }` l'effetto non è uno scroll ma il **taglio del testo a destra**: `body.scrollWidth` 680 su viewport 390.
+- L'overflow era solo sui post (home, /blog/, /courses/, /about/, tag: puliti), e il difetto della colonna nascondeva un secondo problema: scansionando tutti i post dello sitemap, **32 su 53** avevano overflow residuo a 390px (fino a 755px su viewport 390) causato dalle tabelle del contenuto.
+
+### Fatto
+- `src/assets/css/custom.css`, tutte le regole in media query (desktop ≥1200px intatto):
+  - `@media (max-width: 1199px)` → `.post-article-content { min-width: 0 }`;
+  - `@media (max-width: 1199px)` → `.table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch }` e `.content > table { display: block; overflow-x: auto; max-width: 100% }`. Il secondo copre le 2 tabelle "nude" (figlie dirette di `.content`, senza wrapper) in `fondamenti-di-informatica` e `fondamenti-di-networking`;
+  - `@media (max-width: 480px)` → `.related-posts-grid { grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr)) }` (la colonna a 280px fissi sfondava a 320px); `.post-meta-dot { display: none }` + `.post-header .post-meta { row-gap: 2px }` (i separatori "·" restavano orfani a fine riga); `.search-bar input { min-width: 0 }` (l'input non scendeva sotto la larghezza intrinseca e spingeva il pulsante "Cerca" fuori schermo a 320px).
+- L'override `.related-posts-grid` è volutamente in fondo al file: la regola base è dichiarata più sotto nel foglio e a parità di specificità vince l'ordine di sorgente (la prima versione, messa prima, non si applicava).
+
+### File
+- `src/assets/css/custom.css` (unico file).
+
+### Verifica
+- Scansione di tutti i 53 post dello sitemap: **0 con overflow a 390px e a 360px**; a 320px restano 3 articoli con 9-31px di overflow dovuto al contenuto (formule KaTeX in `memoria-virtuale` e `stallo-dei-processi`, diagramma HTML a mano in `paginazione`).
+- Pagine non-post a 390 e 320px: tutte `body.scrollWidth` = viewport. `/blog/` a 320px: input 185px, pulsante entro il bordo.
+- Desktop ≥1200px invariato (misure su 4 post campione: `min-width` = `auto`, `.table-responsive` non scrollabile, separatori "·" visibili, tabelle `display: table`).
+
+### Lezione
+- Il responsive va verificato su **tutti** i post dello sitemap, non su un campione: un bug di sistema (colonna) può mascherare i difetti di contenuto (tabelle larghe).
+
+## [2026-09-24] Indice mobile — il click riportava la pagina in cima
+
+### Problema
+- Su mobile, cliccando una voce dell'indice la pagina partiva con lo smooth scroll e tornava subito in cima, rendendo inutilizzabile l'indice. Su desktop funzionava.
+- Causa: `setupScrollSpy()` in `main.js` chiama `activeItem.scrollIntoView({ block: 'nearest' })` per evidenziare la voce attiva. Su desktop la voce sta nella sidebar `position: fixed; overflow-y: auto` (quindi `scrollIntoView` muove solo la sidebar), su mobile la ToC è nel flusso della pagina e `scrollIntoView` faceva scorrere la **finestra**, annullando lo scroll appena avviato dal click.
+- Misura con strumentazione delle chiamate di scroll: `window.scrollTo({top: 7926})` dal click → la pagina arrivava a 2383 e ricadeva a 148 (cima).
+
+### Fatto
+- `src/assets/js/main.js`, `setupScrollSpy()`: l'auto-scroll della voce attiva avviene solo se la lista è dentro la sidebar desktop → `const scrollBox = listEl.closest('.toc-sidebar'); if (activeItem && scrollBox) { ... }`.
+
+### File
+- `src/assets/js/main.js`.
+
+### Verifica
+- Mobile 390px, click su 3 voci diverse: `scrollY` finale = target esatto (5932 / 10056 / 13631, pari all'offset atteso con `NAV_OFFSET = 90`), nessun ritorno in cima, nessuna chiamata `scrollIntoView` proveniente dalla lista mobile.
+- Desktop 1440×520 (viewport corto, sidebar scrollabile): cliccando l'ultima voce la sidebar scende a `scrollTop` 256, sulla prima risale a 66, la finestra arriva sempre al target → comportamento desktop invariato.
+
+## [2026-09-24] Doppio render markdown — code block spezzati in 13 articoli
+
+### Problema
+- In 13 articoli (78 blocchi di codice) l'HTML di `dist/` conteneva residui dentro il `<pre>`: `<pre><code class="language-asm">…<p></code></pre></p>`, che a runtime diventava un secondo pulsante "Copia" annidato.
+- Non era contenuto Strapi (body recuperato dall'API e verificato pulito, anche in `locale=it`) né una regola di markdown-it. Causa reale: `src/_layouts/post.njk` renderizzava il contenuto con `{{ content | markdownBlock | safe }}`, ma `content` era già l'HTML prodotto da `src/posts/post.njk` (`{{ post.content | markdownBlock | safe }}`) → **doppio render markdown**. Al secondo passaggio un blocco HTML che contiene una riga vuota viene interrotto sulla riga vuota, e il `</code></pre>` residuo finisce in un paragrafo: da lì `<p></code></pre></p>`. Colpiva esattamente i fence che terminano con una riga vuota (verificato: gli unici 3 su 9 in quell'articolo).
+
+### Fatto
+- `src/_layouts/post.njk` → `{{ content | safe }}`, con commento Nunjucks che spiega il perché.
+
+### File
+- `src/_layouts/post.njk`.
+
+### Verifica
+- Causa isolata con un transform temporaneo di dump del contenuto prima della catena dei transform (rimosso a fine diagnosi) + render offline del body con `markdownSyntaxHighlightOptions` della stessa versione del plugin: nessun artefatto → l'origine stava a valle del markdown.
+- Dopo il fix: 0 occorrenze di `<p></code></pre></p>` in tutto `dist/` (erano 78). Post assembly: 9 `<pre>` intatti, 0 `<p>` dentro `<pre>`, 0 wrapper annidati, 9 pulsanti Copia, `textContent` conserva gli a-capo (la copia resta corretta). `i-generatori-in-python`: 29 `<pre>` tutti corretti, tabelle e blocchi `.alert` intatti.
+
+### Lezione
+- Un filtro markdown applicato due volte non è idempotente: i blocchi HTML con righe vuote si spezzano. Verificare sempre quale livello renderizza il markdown (pagina vs layout).
+
+## [2026-09-24] Breadcrumb delle pagine statiche + JSON-LD non valido
+
+### Problema
+- `/about/`: il breadcrumb mostrava solo "Home", e marcata come pagina corrente (`aria-current="page"`), perché il filtro `breadcrumbs` di `eleventy.config.js` gestiva solo `/blog/`, `/courses/`, `/tags/` e per ogni altro URL restituiva `[Home]`. Non era un difetto solo mobile: HTML identico a 390px e a 1440px.
+- JSON-LD: `"image": "{{ site.url }}{{ image }}"` concatenava il dominio a un URL Cloudinary già assoluto → `https://dino-996.github.iohttps://res.cloudinary.com/...`. In più `| dump` senza `| safe` viene HTML-escapato da Nunjucks (`&quot;`): **tutti** i blocchi JSON-LD del sito erano JSON non valido, quindi illeggibili per i crawler.
+- Sulla home il breadcrumb era una "Home" solitaria, non cliccabile e marcata come corrente.
+
+### Fatto
+- `eleventy.config.js`: mappa `STATIC_PAGE_LABELS = { "/about/": "Chi sono" }` + ramo `else if (STATIC_PAGE_LABELS[url])` nel filtro; `if (!url || url === "/") return []` per non renderizzare il breadcrumb sulla home.
+- `src/_layouts/post.njk`: `"image": {{ image | absoluteImageUrl(site.url) | dump | safe }}` (riusa il filtro esistente) e `| safe` aggiunto ai tre `dump` del JSON-LD (headline, image, name del breadcrumb).
+
+### File
+- `eleventy.config.js`, `src/_layouts/post.njk`.
+
+### Verifica
+- `/about/` → "Home » Chi sono" con "Chi sono" corrente, identico a 390px e 1440px; home senza breadcrumb; scansione delle 220 pagine del build: 0 breadcrumb orfani; /blog/, /courses/, /courses/assembly/, /tags/assembly/ invariati.
+- JSON-LD: **107 blocchi validi su 107** (prima 0), con `image` = `https://res.cloudinary.com/dcro2pbqr/...`.
+- `npx eslint src/assets/js src/lib --max-warnings=0` OK; `npm run build` exit 0 (221 file).
+
+### Lezione
+- Un JSON-LD può sembrare corretto a occhio ma essere invalido: validarlo con un parser JSON dopo il build.
+
+### Stato al termine
+- Modifiche non committate (scelta dell'utente): `src/assets/css/custom.css`, `src/assets/js/main.js`, `eleventy.config.js`, `src/_layouts/post.njk`, `DEEPSEEK.md`.
+- Restano aperti: overflow a 320px in 3 articoli (formule KaTeX in `memoria-virtuale` e `stallo-dei-processi`, diagramma HTML in `paginazione`), E-E-A-T pagina "Chi sono". I residui HTML nei code block sono risolti alla radice (doppio render), non serve toccare i contenuti su Strapi.
+- Nota: la riga 5 di questo file dichiara che `DEEPSEEK.md` è in `.gitignore` e non versionato, ma il file risulta tracciato da git (`git status` lo mostra come modificato). Da verificare.

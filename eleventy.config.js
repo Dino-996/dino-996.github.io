@@ -185,8 +185,14 @@ export default function (eleventyConfig) {
         return arr[0];
     });
 
+    // Etichette per le pagine statiche di primo livello (breadcrumb)
+    const STATIC_PAGE_LABELS = {
+        "/about/": "Chi sono"
+    };
+
     eleventyConfig.addFilter("breadcrumbs", (url) => {
-        if (!url) return [{ label: "Home", url: "/" }];
+        // Home: nessun breadcrumb, una voce "Home" solitaria non ha senso
+        if (!url || url === "/") return [];
         const crumbs = [{ label: "Home", url: "/" }];
         if (url.startsWith("/blog/") && url !== "/blog/") {
             crumbs.push({ label: "Blog", url: "/blog/" });
@@ -209,6 +215,8 @@ export default function (eleventyConfig) {
                 const tagSlug = match[1].replace(/-/g, " ");
                 crumbs.push({ label: tagSlug.charAt(0).toUpperCase() + tagSlug.slice(1) });
             }
+        } else if (STATIC_PAGE_LABELS[url]) {
+            crumbs.push({ label: STATIC_PAGE_LABELS[url] });
         } else if (url === "/blog/" || url === "/courses/" || url === "/tags/") {
             // Listing pages - add section name only
             if (url === "/blog/") crumbs.push({ label: "Blog" });

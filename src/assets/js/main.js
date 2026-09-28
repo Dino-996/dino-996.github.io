@@ -325,7 +325,13 @@
                     link.classList.toggle('active', link.getAttribute('href') === `#${activeId}`);
                 });
                 const activeItem = listEl.querySelector(`.toc-item[data-target="${activeId}"]`);
-                if (activeItem) {
+                // Auto-scroll della voce attiva SOLO dentro la sidebar desktop, che è
+                // un contenitore scrollabile indipendente (position: fixed + overflow-y:
+                // auto). Su mobile la ToC sta nel flusso della pagina: scrollIntoView
+                // scrollerebbe la finestra, riportando la pagina in cima e annullando
+                // lo scroll appena avviato dal click sull'indice.
+                const scrollBox = listEl.closest('.toc-sidebar');
+                if (activeItem && scrollBox) {
                     activeItem.scrollIntoView({ block: 'nearest', behavior: prefersReducedMotion ? 'auto' : 'smooth' });
                 }
             }

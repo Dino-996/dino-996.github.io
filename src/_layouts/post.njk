@@ -14,7 +14,7 @@ layout: base.njk
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": {{ title | dump }},
+    "headline": {{ title | dump | safe }},
     "url": "{{ site.url }}{{ page.url }}",
     {% if date %}"datePublished": "{{ page.date | dateIso }}",{% endif %}
     {% if updatedAt %}"dateModified": "{{ updatedAt | dateIso }}",{% endif %}
@@ -22,7 +22,7 @@ layout: base.njk
       "@type": "Person",
       "name": "{{ author | default(site.author) }}"
     },
-    {% if image %}"image": "{{ site.url }}{{ image }}",{% endif %}
+    {% if image %}"image": {{ image | absoluteImageUrl(site.url) | dump | safe }},{% endif %}
     "publisher": {
       "@type": "Person",
       "name": "{{ site.author }}"
@@ -41,7 +41,7 @@ layout: base.njk
       {
         "@type": "ListItem",
         "position": {{ loop.index }},
-        "name": {{ crumb.label | dump }}{% if crumb.url %},
+        "name": {{ crumb.label | dump | safe }}{% if crumb.url %},
         "item": "{{ site.url }}{{ crumb.url }}"{% endif %}
       }{% if not loop.last %},{% endif %}
       {% endfor %}
@@ -135,7 +135,10 @@ layout: base.njk
       {% endif %}
 
       <section class="content">
-        {{ content | markdownBlock | safe }}
+        {# Il contenuto arriva già renderizzato da src/posts/post.njk (filtro markdownBlock):
+           NON va passato di nuovo per il markdown, altrimenti i blocchi di codice che
+           terminano con una riga vuota vengono spezzati in "<p></code></pre></p>". #}
+        {{ content | safe }}
       </section>
 
       <!-- Disclaimer AI -->
